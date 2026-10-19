@@ -1,0 +1,835 @@
+Online Coding Courses | Boot.dev
+Open main menu
+Courses
+All
+Backend
+DevOps
+Data Analyst
+Training
+Challenges
+Search
+Pricing
+Individuals
+Organizations
+Gifts
+Redeem
+Leaderboard
+Community
+Discord
+Guilds
+Blog
+Sound effects on
+Sign In
+Courses
+Backend
+DevOps
+Data Analyst
+Training
+Search
+Pricing
+Organizations
+Gifts
+Redeem
+Leaderboard
+Community
+Guilds
+Blog
+All Courses
+A catalog of all the online courses that Boot.dev offers
+Filter
+Incomplete
+Course
+95 lessons
+Learn AI Coding
+435
+enrolled
+20h
+20 hours
+new
+Released
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+105 lessons
+Learn Web Security in Go
+1,004
+enrolled
+30h
+30 hours
+new
+Released
+Sep 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+105 lessons
+Learn Web Security in TypeScript
+562
+enrolled
+30h
+30 hours
+new
+Released
+Sep 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+168 lessons
+Learn Python for Beginners
+(4.8)
+877,005
+enrolled
+30h
+30 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+66 lessons
+Learn Linux
+(4.7)
+136,823
+enrolled
+10h
+10 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+148 lessons
+Learn Go
+(4.8)
+124,928
+enrolled
+20h
+20 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+64 lessons
+Learn Git
+(4.8)
+67,375
+enrolled
+8h
+8 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+47 lessons
+Learn Object Oriented Programming in Python
+(4.7)
+61,398
+enrolled
+18h
+18 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+95 lessons
+Learn SQL
+(4.8)
+58,565
+enrolled
+30h
+30 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+13 lessons
+Build a BookBot in Python
+(4.7)
+54,884
+enrolled
+6h
+6 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+113 lessons
+Learn JavaScript
+(4.7)
+54,663
+enrolled
+25h
+25 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+127 lessons
+Learn Data Structures and Algorithms in Python
+(4.6)
+44,739
+enrolled
+32h
+32 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+68 lessons
+Learn Functional Programming in Python
+(4.5)
+41,364
+enrolled
+22h
+22 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+102 lessons
+Learn Memory Management in C
+(4.6)
+37,120
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+20 lessons
+Build Asteroids using Python and Pygame
+(4.5)
+33,174
+enrolled
+6h
+6 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+43 lessons
+Learn Docker
+(4.7)
+23,193
+enrolled
+18h
+18 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+20 lessons
+Build an AI Agent in Python
+(4.4)
+19,856
+enrolled
+12h
+12 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+53 lessons
+Learn HTTP Clients in TypeScript
+(4.8)
+17,916
+enrolled
+14h
+14 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+105 lessons
+Learn TypeScript
+(4.7)
+17,881
+enrolled
+20h
+20 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+51 lessons
+Learn Kubernetes
+(4.6)
+16,716
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+26 lessons
+Build a Static Site Generator in Python
+(4.6)
+16,357
+enrolled
+30h
+30 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+55 lessons
+Learn HTTP Clients in Go
+(4.8)
+14,937
+enrolled
+14h
+14 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Portfolio Project
+4 lessons
+First Personal Project
+(4.8)
+14,789
+enrolled
+20h
+20 hours
+Last updated
+Jun 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+52 lessons
+Learn How to Find a Programming Job
+(4.8)
+13,552
+enrolled
+12h
+12 hours
+Last updated
+Aug 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+51 lessons
+Learn HTTP Servers in Go
+(4.8)
+12,476
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+13 lessons
+Build a Pokedex in Go
+(4.8)
+10,001
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Portfolio Project
+3 lessons
+Capstone Project
+(4.9)
+9,685
+enrolled
+50h
+50 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+37 lessons
+Learn Pub/Sub in RabbitMQ and Go
+(4.6)
+7,477
+enrolled
+32h
+32 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+37 lessons
+Learn CI/CD with GitHub Actions, Docker and Go
+(4.7)
+7,050
+enrolled
+20h
+20 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+41 lessons
+Learn the HTTP Protocol in Go
+(4.8)
+6,900
+enrolled
+16h
+16 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+13 lessons
+Build a Maze Solver in Python
+(4.6)
+6,892
+enrolled
+10h
+10 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+18 lessons
+Build a Blog Aggregator in Go
+(4.7)
+6,267
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+64 lessons
+Learn Git 2
+(4.9)
+6,265
+enrolled
+12h
+12 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+78 lessons
+Learn Cryptography in Go
+(4.8)
+4,586
+enrolled
+16h
+16 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+75 lessons
+Learn Retrieval Augmented Generation
+(4.7)
+4,095
+enrolled
+40h
+40 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+63 lessons
+Learn Data Structures and Algorithms 2 in Python
+(4.5)
+4,040
+enrolled
+22h
+22 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+43 lessons
+Learn File Servers and CDNs with S3 and CloudFront
+(4.7)
+3,734
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+92 lessons
+Learn AWS
+(4.6)
+3,730
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+52 lessons
+Learn HTTP Servers in TypeScript
+(4.8)
+3,488
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+14 lessons
+Build a Web Scraper in TypeScript
+2,948
+enrolled
+6h
+6 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+105 lessons
+Learn Pandas
+(4.7)
+2,885
+enrolled
+32h
+32 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+70 lessons
+Learn Power BI
+(4.7)
+2,820
+enrolled
+12h
+12 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+52 lessons
+Learn HTTP Clients in Python
+(4.6)
+2,633
+enrolled
+14h
+14 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+13 lessons
+Build a Pokedex in TypeScript
+(4.7)
+2,413
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+73 lessons
+Learn Logging and Observability in Go
+(4.4)
+2,144
+enrolled
+16h
+16 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+37 lessons
+Learn Pub/Sub in RabbitMQ and TypeScript
+(4.4)
+1,988
+enrolled
+32h
+32 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+36 lessons
+Learn CI/CD with GitHub Actions, Docker and TypeScript
+(4.6)
+1,765
+enrolled
+20h
+20 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Portfolio Project
+4 lessons
+Second Personal Project
+1,701
+enrolled
+20h
+20 hours
+Last updated
+Jun 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+19 lessons
+Build a Blog Aggregator in TypeScript
+(4.6)
+1,645
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+13 lessons
+Build a Web Scraper in Go
+(4.6)
+1,535
+enrolled
+6h
+6 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Guided Project
+14 lessons
+Build a Web Scraper in Python
+(4.4)
+1,259
+enrolled
+6h
+6 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Incomplete
+Course
+43 lessons
+Learn File Servers and CDNs with S3 and CloudFront
+(4.7)
+1,090
+enrolled
+24h
+24 hours
+Last updated
+Oct 2026
+Open course
+Open course in new tab
+Copy course link
+Want to know which courses are coming out next? Check out our
+curriculum roadmap on GitHub
+.
+Courses FAQ
+A few quick answers before you choose your next course.
+What coding courses does Boot.dev offer?
+Boot.dev offers hands-on courses and projects across a variety of languages like Python, Go, C, JavaScript, and TypeScript. We also teach backend, devops and data analysis fundamentals like SQL, Linux, Git, Docker, Kubernetes, and DSA. Boot.dev courses go deep and don't skip the hard stuff.
+Are Boot.dev courses free?
+Which programming language should I learn first?
+What makes Boot.dev different from video courses?
+Can Boot.dev help me prepare for a developer job?
+Platform
+Learn to Code
+All Courses
+Training Grounds
+Backend Path (Python/Go)
+Backend Path (Python/TS)
+DevOps Path (Python/Go)
+Data Analyst Path (Python)
+Leaderboard
+Search Challenges
+Playground
+Boot.dev on X/Twitter
+Boot.dev on YouTube
+Boot.dev on LinkedIn
+Boot.dev on Instagram
+Boot.dev on TikTok
+Backend Banter Podcast
+Languages
+Python
+Go (Golang)
+TypeScript
+JavaScript
+SQL
+Subjects
+Linux
+Kubernetes
+Git
+Docker
+RabbitMQ
+Data Structures & Algorithms
+Object-Oriented Programming
+Cryptography
+Support
+Contact
+FAQ
+Return Policy
+Affiliate Terms
+Privacy Policy
+Terms of Service
+Pricing
+Pricing Plans
+Gift Codes
+Redeem Gift
+Org Plans
+For Schools
+For Business
+Expense a Purchase
+Community
+Community
+Guilds
+Lore
+Artists
+Blog
+Curriculum Roadmap
+Reviews
+Careers
+About
+© Boot.dev 2026
+Do Not Share My Information

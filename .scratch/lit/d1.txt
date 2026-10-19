@@ -1,0 +1,221 @@
+
+## Q: LLM simulated user usability testing synthetic user study
+ - LLM-Simulated Users for Rapid Usability Evaluation of Decision Support Tools
+   https://ieeexplore.ieee.org/document/11620802#1 | IEEE Xplore  authority: 4  date: 2026-07-27T16:00:00+00:00
+   # LLM-Simulated Users for Rapid Usability Evaluation of Decision Support Tools ... Recruiting participants for usability studies is a well-known bottleneck in iterative design, particularly when the target users are domain specialists who are expensive to recruit. Recent advances in large language models (LLMs) suggest they can simulate human-like responses to task-based evaluations, but the conditions under which su
+ - Beyond human proxies: The roles and usefulness of large language models in user research for mobility service development
+   https://www.sciencedirect.com/science/article/pii/S2590198226000825?fr=RR-2&ref=pdf_download&rr=a14344165f7fcd38#2 | ScienceDirect.com  authority: 4  date: 2026-02-25T16:00:00+00:00
+   for the ... of LLMs as ‘time- ... - ... and ... - ... the ... the ... of the ... the end-users as ... by the ... in a ... to ... within the ... , is ... , ... the ... be ... - ... than using conventional ... (effort). The LLM-created ... can also ... of representing the ... that the ... did not initially consider, ... the ... process (i.e., novelty).  After the ... have ... and
+ - UXAgent: An LLM-Agent-Based Usability Testing Framework for Web Design
+   https://ar5iv.labs.arxiv.org/html/2502.12561#1 | arXiv  authority: 4  date: None
+   It is crucial to conduct a systematic analysis comparing LLM-generated simulations with real human participants in order to further understand how UX researchers could benefit from using such agents. ... HTML) available on the webpage, while visual elements such as images and visual layout information are excluded during parsing. Incorporating Multimodal LLMs (MLLMs) to interpret and utilize both textual and visual i
+ - Beyond human proxies: The roles and usefulness of large language models in user research for mobility service development
+   https://cris.vtt.fi/en/publications/beyond-human-proxies-the-roles-and-usefulness-of-large-language-m/ | VTT's Research Information Portal  authority: 4  date: 2026-02-26T16:0
+   # Beyond human proxies: The roles and usefulness of large language models in user research for mobility service development  - Eetu Wallius* - , Esko Lehtonen  *Corresponding author for this work  Research output: Contribution to journal › Article › Scientific › peer-review ... ## Abstract  User research is an integral part of mobility service development. However, user research is resource-intensive, including the e
+ - AI as Synthetic Users in Human-Centred Design: A Systematic Review
+   https://xplorestaging.ieee.org/document/11131969 | ieee.org  authority: 4  date: 2025-09-01T16:00:00+00:00
+   # AI as Synthetic Users in Human-Centred Design: A Systematic Review  ## Abstract: In human-centred design (HCD), real users are the foundation of the design process, but ensuring their active involvement is often challenged by time, cost and resource c...Show More ... In human-centred design (HCD), real users are the foundation of the design process, but ensuring their active involvement is often challenged by time,
+
+## Q: SimUser simulating user behavior LLM agent evaluation
+ - SimUSER: Simulating User Behavior with Large Language Models for Recommender System Evaluation
+   https://aclanthology.cn/2025.acl-industry.5/ | 第十五届计算音系学、音位学和形态学研究研讨会论文集 - ACL Anthology  authority: 4  date: None
+   @inproceedings{bougie-watanabe-2025-simuser,     title = "{S}im{USER}: Simulating User Behavior with Large Language Models for Recommender System Evaluation",     author = "Bougie, Nicolas  and       Watanabe, Narimawa",     editor = "Rehm, Georg  and       Li, Yunyao",     booktitle = "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 6: Industry Track)",     month = jul
+ - SimUSER: Simulating User Behavior with Large Language Models for Recommender System Evaluation
+   https://aclanthology.org/2025.acl-industry.5/ | ACL Anthology  authority: 4  date: None
+   ##### Abstract Recommender systems play a central role in numerous real-life applications, yet evaluating their performance remains a significant challenge due to the gap between offline metrics and online behaviors. Given the scarcity and limits (e.g., privacy issues) of real user data, we introduce SimUSER, an agent framework that serves as believable and cost-effective human proxies. SimUSER first identifies self-
+ - Designers often find it challenging to accurately predict what information users expect to receive, or how specified usage scena...
+   https://dl.acm.org/doi/suppl/10.1145/3613904.3642481/suppl_file/3642481-vor.pdf?__cf_chl_tk=TBY18WqstMBN3zs2di4.GkA2kPO2iNS0YBpVlI | None  authority: 4  date: None
+   Moreover, SimUser performs well in the interface layout feedback which relies on visual observation. We suppose that the visual saliency model predicting attention allocation on interfaces helps SimUser to understand visual information.    ### 7.2 Reflect User Characteristics and Contextual Influence in LLM-Generated Usability Feedback    Besides simulating usage scenarios and conversations between an imaginary proto
+ - To achieve our design goal, we create SimUser, an LLM tool that can understand mobile applications and simulate different target...
+   https://dl.acm.org/doi/suppl/10.1145/3613904.3642481/suppl_file/3642481-vor.pdf?__cf_chl_tk=TBY18WqstMBN3zs2di4.GkA2kPO2iNS0YBpVlI | None  authority: 4  date: None
+   them into categorized groups. Each group comprises a single operation and its associated feedback, which can be either visual on the interface or multimodal on the device. The interaction logic between different interfaces constitutes the overall framework of  <center>Figure 4: Example of interface description generation. The description is divided into three parts: an overall visual description, a description of wid
+ - [PDF] SimUSER: Simulating User Behavior with Large Language Models for Recommender System Evaluation | Semantic Scholar - SimUSER: Simulating User Behavior with Large Language Models for Recommender System Evaluation
+   https://www.semanticscholar.org/paper/SimUSER%3A-Simulating-User-Behavior-with-Large-Models-Bougie-Watanabe/838deea0f022ec5c8b17a4 | Semantic Scholar  authority: 3  date: 2025-04-16T16:00:00+00:00
+   # SimUSER: Simulating User Behavior with Large Language Models for Recommender System Evaluation @inproceedings{Bougie2025SimUSERSU,   title={SimUSER: Simulating User Behavior with Large Language Models for Recommender System Evaluation},   author={Nicolas Bougie and Narimasa Watanabe},   booktitle={Annual Meeting of the Association for Computational Linguistics},   year={2025},   url={https://api.semanticscholar.org
+
+## Q: persona prompt simulated user difference novice expert LLM study
+ - Sparse Feature Analysis of Deep Layer Expansion: Cognitive Geometry and Steering Anatomy of Persona Prompts
+   https://zenodo.org/records/18643112 | Zenodo  authority: 4  date: 2026-02-14T16:00:00+00:00
+   Published February 15, 2026 | Version v7  # Sparse Feature Analysis of Deep Layer Expansion: Cognitive Geometry and Steering Anatomy of Persona Prompts  ## Description  Zhao (2026) demonstrated that expert-level prompts induce "Deep Layer Expansion"—a 60–100% increase in Effective Intrinsic Dimension (EID) at deep layers. This paper introduces two orthogonal measures—SAF (Sparse Active Features) and EID—to systematic
+ - Building Scaffolding Dialogue Data with LLM-Simulated Novices
+   https://export.arxiv.org/pdf/2508.04428#3#1 | None  authority: 4  date: None
+   SIMINSTRUCT includes a conversational UI that allows human experts to engage in multi-turn dialogues with LLM-simulated novices across a wide range of persona profiles at their own pace. ... Beyond supporting novice growth, such interactions benefit experts as well by promoting reflection and reinforcing instructional judgment. This dual impact aligns with the learning through teaching paradigm, which suggests that t
+ - Prompting for Teachability: Designing Novice Personas in LLMs for Learning by Teaching Contexts - Prompting for Teachability: Designing Novice Personas in LLMs for Learning by Teaching Contexts
+   https://experts.illinois.edu/en/publications/prompting-for-teachability-designing-novice-personas-in-llms-for-/#1 | Illinois Experts  authority: 3  date: 2026-05-31T16:00:00+00:00
+   # Prompting for Teachability: Designing Novice Personas in LLMs for Learning by Teaching Contexts  - Sydney Miller - , Nigel Bosch  Research output: Chapter in Book/Report/Conference proceeding › Conference contribution  ## Abstract  Learning by teaching (LbT) is a well-established instructional framework in which students deepen understanding by explaining material to a peer or tutee. Large Language Models (LLMs) cr
+ - Prompting for Policy: Forecasting Macroeconomic Scenarios with Synthetic LLM Personas | Proceedings of the 6th ACM International Conference on AI in Finance - Several features on this page require Premium Access
+   https://dl.acm.org/doi/full/10.1145/3768292.3770385#1 | ACM Digital Library  authority: 4  date: 2025-11-13T16:00:00+00:00
+   Our work extends these existing studies primarily through our rigorous focus on persona prompting and the deployment of a panel of more than 2,000 ”synthetic forecasters”, which enables systematic comparison against both expert human panels and realized macroeconomic outcomes. ... A related strand of research examines LLMs’ capacity to simulate human survey responses and expert judgment, similar to our comparison of 
+ - aied/content/en/articles/prompting-teachability-novice-personas-lbt-2026.md at main · edtechdev/aied
+   https://github.com/edtechdev/aied/blob/main/content/en/articles/prompting-teachability-novice-personas-lbt-2026.md#1 | GitHub  authority: 3  date: 2026-07-27T16:00:00+00:00
+   # prompting-teachability-novice-personas-lbt-2026.md ... title | Prompting for Teachability: Designing Novice Personas in LLMs for Learning by Teaching Contexts  ---|--- created | 2026-08-14T10:45:34-04:00  updated | 2026-09-19T10:03:37-04:00  type | article ... Synthesis: Miller and Bosch (2026) examine which [[prompt-engineering|prompting strategies]] most effectively elicit novice-like behavior from [[llm|LLMs]] s
+
+## Q: NASA-TLX raw TLX simplification six subscales usability
+ - Hands-free administration of subjective workload scales: Acceptability in a surgical training environment - Skip to main contentSkip to article
+   https://www.sciencedirect.com/science/article/abs/pii/S0003687010000803#1 | ScienceDirect.com  authority: 4  date: 2010-07-12T16:00:00+00:00
+   The weights applied to each subscale are participant-specific and are derived from paired-comparison procedures in which participants choose which member of each pair of subscales is the most critical to their overall perception of workload. An alternative, simplified method of administering and scoring the NASA-TLX, referred to as the NASA Raw Task Load Index (NASA-RTLX; Byers et al., 1989), uses the unweighted mean
+ - Stephen E. Strup - - Research articleAbstract onlyC
+   https://www.sciencedirect.com/author/7003872609/stephen-e-strup#2 | ScienceDirect.com  authority: 4  date: None
+   .M. ... , … S. Strup ... onomics • Volume 42, Issue 1 • ... 20 ... a visual– ... , ... and pencil. However, ... , for ... or ... the hands- ... – ... ) ... ) – in a ... - ... 90- ... of 3 tasks – ... , ... a ... -and- ... the ... ; the ... (hands-free) ... the ... the ... 2 ways – ...  ... , ... ) – using the ... . ... .
+ - of 10 tasks that were formulated as questions
+   http://www.diva-portal.org/smash/get/diva2:1233172/FULLTEXT01.pdf#3#2 | None  authority: 3  date: None
+   To estimate the overall workload for the current process of retrieving information as well as while using the the hi-fi prototype the ratings from the NASA TLX questionnaire were averaged. As seen in Figure 7 the average subjective workload for the current methods was higher compared to the Hi-fi prototype. A t-test was made and revealed a significant difference (t(12)=3.954, p<0.05) in overall workload. Figure 7 als
+ - NASA- TLX comparison
+   https://odr.chalmers.se/server/api/core/bitstreams/c68221bc-8a8a-4c7d-a5f8-b1b02ab1ef6b/content#9#5 | None  authority: 3  date: None
+   suggesting a small effect, though neither reached statistical significance ( \(p = 0.27\) and \(p = 0.14\) ). All remaining subscales showed negligible differences.    Table 5.5 and fig. 5.2 break scores down by task and group, where shaded columns indicate tool access. A notable difference is seen between the two groups: group 1 reported consistently higher workload across both tasks (average 25.8) compared to group
+ - NSTL国家科技图书文献中心 - 【期刊论文】Hands-free administration of subjective workload scales: Acceptability in a surgical training environment SCIE Web of Scie...
+   https://zz.nstl.gov.cn/paper_detail.html?doi=10.1016/j.apergo.2010.06.003#1 | 国家科技图书文献中心  authority: 4  date: None
+   ### 【期刊论文】Hands-free administration of subjective workload scales: Acceptability in a surgical training environment SCIE Web of Science核心 SSCI 社会科学引文索引 NSTL国家科技图书文献中心 ... 10.1016/j.apergo.2010.06.003 ... 【Method】 Sixty-four undergraduates performed fifteen 90-s trials of laparoscopic training tasks (five replications of 3 tasks - cannulation, ring transfer, and rope manipulation). Half of the participants provided wo
+
+## Q: System Usability Scale SUS 10 items AI chatbot product validity
+ - Empathic Prompting: Non-Verbal Context Integration for Multimodal LLM Conversations - To evaluate the user experience with the conversational agent, we employed a set of validated psychometric scales that target th...
+   https://ar5iv.labs.arxiv.org/html/2510.20743#4 | arXiv  authority: 4  date: None
+   Figure 9 reports instead the distribution of responses across the System Usability Scale (SUS), separated into positive (Figure 9(a)) and negative (Figure 9(b)) items.  For the positive items, responses clustered around relatively high values, indicating that participants generally perceived the system as easy to use, well integrated, and confidence-inducing. Items such as “I found the system simple to use” (SUSQ3), 
+ - Note
+   https://revistaseug.ugr.es/index.php/publicaciones/zh_Hans/article/download/36861/31589/180137#2#3#2 | None  authority: 3  date: None
+   Usability scores from the System Usability Scale (SUS) were analyzed descriptively. Participants reported a mean score of 74.2 (SD = 7.6, median = 75, 95% CI: 71.5- 76.9), indicating above- average usability according to established benchmarks ( \(\sim 68\) as average). These results suggest that the Florence chatbot was perceived as easy to use, accessible, and user- friendly. ... Table 2 shows the results of the Sy
+ - Usability of the “Be Yourself” IA-powered, chatbot-based website for the prevention of adolescent pregnancy - Instrument
+   https://www.redalyc.org/journal/1052/105285050002/#2 | Redalyc.org  authority: 3  date: None
+   Usability score. Results showed that, in the initial post-intervention assessment (n=74), most participants rated system usability as “Acceptable” (81.1%, 60 cases), while 18.9% (14 cases) rated it as “Good.” The median and mode were 2, with scores ranging from 2 to 3 on the scale and a mean of 2.19. After two months of follow-up (n=70), the median remained at 2.00, but some changes in distribution were observed: 92.
+ - Acceptability of a Conversational Agent–Led Digital Program for Anxiety: Mixed Methods Study of User Perspectives - Not known | 8 (3.9) | 2 (9.5) |  1 (6.3)
+   https://www.sciencedirect.com/org/science/article/pii/S2292949525002329#2 | ScienceDirect.com  authority: 4  date: 2025-11-03T16:00:00+00:00
+   The final sample for analysis included 203 participants who completed the SUS and the SUTAQ, and 190 participants who completed the UES. ... UES and SUTAQ subscale scores are reported in Figure 2, and average agreement or disagreement across scale items are reported in Tables 2 (UES and SUS) and 3 (SUTAQ). ... SUS (n=203)   Total | 1.4 | 5.3 | 9.7 | 44.6 | 39.0 ... - bSUS: System Usability Scale. ... #### Usability  
+ - Effektive UX-Evaluierung von Generativer AI - Human-AI-Teaming
+   https://human-ai-teaming.de/posts/effektive-ux-evaluierung-von-generativer-ai/#content | Human-AI-Teaming  authority: 3  date: 2024-05-09T16:00:00+00:00
+   Der System Usability Scale (SUS) ist der bekannteste Fragebigen aus der UX-Forschung. Er ist mit 10 Items schnell und einfach anwendbar und umfasst verschieden Aspekte der Usability („Ich empfinde das System als unnötig komplex“) und Erlernbarkeit („Ich musste eine Menge Dinge lernen, bevor ich mit dem System arbeiten konnte“). Der SUS lässt sich zur Evaluation von GenAI einsetzen, bleibt allerdings agnostisch. Es ex
+
+## Q: User Experience Questionnaire UEQ benchmark scales
+ - The quantitative data are obtained from a UEQ
+   https://link.springer.com/content/pdf/10.1007/978-3-031-05897-4_25.pdf#3#2 | None  authority: 4  date: None
+   The reliability analysis of the scales Attractiveness \((\alpha = .96)\) , Perspicuity \((\alpha = .93)\) , Efficiency \((\alpha = .93)\) Stimulation \((\alpha = .97)\) indicated an excellent internal consistency, the analysis of the scales Novelty \((\alpha = .88)\) and Dependability \((\alpha = .74)\) indicated a good internal consistency. The experience with The Star Wars Galaxy Explorer Guide book produced two ty
+ - Augmented Reality Books: A User Experience Evaluation - The quantitative data are obtained from a UEQ
+   https://rd.springer.com/chapter/10.1007/978-3-031-05897-4_25#2 | SpringerLink  authority: 4  date: 2022-06-15T16:00:00+00:00
+   First, we can observe the value of each UEQ item (see Fig. 8), where the average reveals a positive evaluation of the UX for each scale. The value of the Attractiveness scale is 2,000; Perspicuity 1,475; Efficiency 1.475; Dependability 1,325; Stimulation 1,613; and Novelty 1,438.  We obtained the other results about the UEQ benchmark (see Fig. 9). The diagram shows that the scale value of Attractiveness is in the exc
+ - Dataset UEQ for Paper named Bridging Traditional Craftsmanship and Digital Interaction through User-Centered Design_ Designing Intuitive Interfaces - Planned intervention: On Tuesday, October 6th, 07:00 UTC, Zenodo will be unavailable for 10-15 minutes to perform a storage clus...
+   https://zenodo.org/records/20055542#1 | Zenodo  authority: 4  date: 2026-05-05T16:00:00+00:00
+   Published May 6, 2026 | Version v2  Dataset Open  # Dataset UEQ for Paper named Bridging Traditional Craftsmanship and Digital Interaction through User-Centered Design_ Designing Intuitive Interfaces ... This including format for do questionnaire with UEQ Short Protocols ... ### Data Analysis tools UEQ.csv  Item | Q. Mean | UEQ. Mean | Std. Deviasi | Variance | No | Negative | Positive | Scale | 1 | 7 | 7 | 7 | 6 | 5
+ - Towards a more anthropomorphic interaction with robots in museum settings: An experimental study - The first usability study was based on the User Experience Questionnaire (UEQ) [58] to compare and evaluate the differences in t...
+   https://www.sciencedirect.com/science/article/pii/S0921889023002002?getft_integrator=wiley&pes=vor&utm_source=wiley#3 | ScienceDirect.com  authority: 4  date: 2023-10-18T16:00:00+00:00
+   anthropomorphism, animacy, likeability, perceived intelligence and perceived safety. ... #### User experience questionnaire.  During the first two days of the exhibition, the UEQ questionnaires collected after the interaction with the voice app and the robot were analyzed for validation, and each UEQ scale’s score was calculated through the UEQ Data Analysis Tool.17 Eighty-two (82) questionnaires concerning the Robot
+ - 5.2.2. User Experience Questionnaire-UEQ
+   https://www.mdpi.com/2227-7102/16/8/1272/pdf?version=1786348435&_x_output_type_b6db407c4_=embedded_pdf#6#3 | None  authority: 3  date: None
+   To answer the second research question—How do teachers perceive Empathy Quest in terms of user experience?—the results of the UEQ were analyzed. To analyze the results, the scores must be converted into a scale ranging from \(- 3\) to \(+3\) . The results of this conversion are shown in Figure 6. Overall, user experience ratings were consistently positive across all UEQ dimensions, with particularly high evaluations 
+
+## Q: Paas 1992 mental effort one item rating scale cognitive load measurement
+ - facteurs liés à la charge cognitive
+   https://theses.hal.science/tel-04750190v2/file/2023_SIGAYRET_arch.pdf#78#36 | None  authority: 4  date: None
+   mises en place avec succès pour évaluer la charge cognitive à l’aide d’un seul item, même si  183  cette échelle peut comporter, suivant les études, 5, 6, 7 ou 9 points (Leppink et al., 2013). ... (2013) proposent une échelle de mesures subjectives autorapportées qui  distingue les trois types de charge cognitive, permettant ainsi de les évaluer séparément, et qui  n’est donc plus fondée sur un seul item : la Cogniti
+ - Cognitive load rating scale: After each set in the training phase, participants were asked to rate their mental effort during th...
+   https://repository.isls.org/bitstream/1/8863/1/ICLS2022_727-734.pdf#2#2 | None  authority: 4  date: None
+   This also explains the lack of effect on the measures of Cognitive Load. Self-reported cognitive load was similar across conditions not because instruction had no effect but rather because students regulated (and limited) their effort. ... Van Gerven, P. W. M., Paas, F., Van Merrienboer, J. J. G., & Schmidt, H. G. (2002). Cognitive load theory and aging: Effects of worked examples on training efficiency. Learning and
+ - One of the first attempts to measure cognitive load in research and practice with subjective scales was made by Hart and Stavela...
+   https://d-nb.info/1298101212/34#40#22 | None  authority: 4  date: None
+   The GCL items consider this definition by focusing both on mental effort (Paas and van Merriënboer, 2020) as well as schema construction and automation, which is defined as the overall goal of learning (Moreno and Park, 2010).
+ - et al
+   https://digitalscholarship.unlv.edu/cgi/viewcontent.cgi?article=5095&context=thesesdissertations#19#6 | None  authority: 3  date: None
+   Subjective rating scales only provide a measure of cognitive load after  the event. As a result, they cannot be used to determine changes in cognitive load during  learning or problem solving. Furthermore, most objective measures cannot identify which  processes caused the amount of perceived cognitive load or which type of load produced a rating  specifically.  Subjective rating scale measurement has an advantage ov
+ - 60
+   https://core.ac.uk/download/216984509.pdf#27#9 | None  authority: 3  date: None
+   PaaS (1992) concluded that his study confirmed previous research into the worked  example effect, despite the lack of variability in mental effort scores. Given that his conclusions  were derived from a relatively small sample (13 in the conventional condition, 14 in the worked  example condition, and 15 in the completion condition), which was made smaller by some  63  missing data from four students who had to be ex
+
+## Q: LLM-as-a-judge bias position bias verbosity bias self-preference mitigation
+ - Who Judges the Judges? The Leniency Confound in LLM-as-Judge Evaluation of Cybersecurity Tasks - Who Judges the Judges? The Leniency Confound in LLM-as-Judge Evaluation of Cybersecurity Tasks
+   https://ieeexplore.ieee.org/document/11719568#1 | IEEE Xplore  authority: 4  date: 2026-10-01T16:00:00+00:00
+   # Who Judges the Judges? The Leniency Confound in LLM-as-Judge Evaluation of Cybersecurity Tasks ... Large language models (LLMs) increasingly score other LLMs’ outputs, including in security-sensitive settings. ... We present an all-open-weight audit on cybersecurity tasks in which eight models from five families, spanning 4B–120B total and 3.6B–72B active parameters, act as both solvers and judges in an N×N round-r
+ - Auditing and Debiasing LLM-as-a-Judge Evaluation with a Bias-Aware Panel
+   https://zenodo.org/records/21158214#1 | Zenodo  authority: 4  date: 2024-07-15T16:00:00+00:00
+   Published July 16, 2024 | Version v1  # Auditing and Debiasing LLM-as-a-Judge Evaluation with a Bias-Aware Panel  ## Description  Automatic evaluation by an LLM judge—asking one model to score another’s output—is now the default way to rank generative systems at scale, and it is quietly unreliable. Judges favor the answer shown first (position bias), the longer answer (verbosity bias), and answers from their own mode
+ - Auditing and Debiasing LLM-as-a-Judge Evaluation with a Bias-Aware Panel
+   https://mail.ijisae.org/index.php/IJISAE/article/view/8407 | Search  authority: 3  date: 2025-11-11T16:00:00+00:00
+   # Auditing and Debiasing LLM-as-a-Judge Evaluation with a Bias-Aware Panel ... - Veera Ravindra Divi  ## Keywords: large language models, LLM-as-a-judge, automatic evaluation, evaluation bias, position bias, verbosity bias, self-preference, calibration, benchmark  ## Abstract  Automatic evaluation by an LLM judge—asking one model to score another’s output—is now the default way to rank generative systems at scale, an
+ - LLM-Judge Bias Mitigation (2026): Detect, Measure, Fix
+   https://futureagi.com/blog/evaluating-llm-judge-bias-mitigation-2026/ | Future AGI  authority: 3  date: 2026-03-23T16:00:00+00:00
+   Zheng et al. ... Wang et al. ... As of May 2026 a defensible default is Claude Sonnet 4.5, GPT-5.1, and Gemini 2.5 Pro. ... Track judge-versus-human kappa as its own metric and alert on drift.  4. Anchor with a deterministic floor. If the response fails a JSON schema check, a refusal regex, or a closed-form contract, the judge does not run and the eval fails outright. Deterministic checks are 10,000 times cheaper tha
+ - AI-Agents-public/frameworks/shared-skills/skills/ai-evals/references/llm-judge-bias.md at c95ab14ef8cf13e778412c4510960b9da9ef7700 · vasilyu1983/AI-Agents-public - Skip to content
+   https://github.com/vasilyu1983/AI-Agents-public/blob/c95ab14ef8cf13e778412c4510960b9da9ef7700/frameworks/shared-skills/skills/ai-e | GitHub  authority: 3  date: 2025-11-13T16:00:00+00:00
+   # LLM-as-Judge Bias Taxonomy and Controls ... ## Why this matters  An LLM-as-judge produces a number that looks objective. It is not. The judge is a model with systematic, replicated biases. Untreated, these biases produce scores that correlate with surface features (length, order, style) instead of the quality you meant to measure — so the eval ships regressions while reporting green. Controlling judge bias is the s
+
+## Q: correlation between LLM simulated users and real users ratings study
+ - LLMs Reproduce Human Purchase Intent via Semantic Similarity Elicitation of Likert Ratings
+   https://ar5iv.labs.arxiv.org/html/2510.08338#1 | arXiv  authority: 4  date: 2026-08-09T16:00:00+00:00
+   - (10) Peiyao Li, Vineet Kumar, Donald Ngwe, and Mengjie Sun. Determining the validity of large language models for automated perceptual analysis. Marketing Science, 43(2):254–266, 2024. ... - (11) James Brand, Ayelet Israeli, and Donald Ngwe. Using LLMs for market research. Technical report, Harvard Business School Working Paper 23-062, 2024. - (12) Lisa P. Argyle, Ethan C. Busby, Nancy Fulda, Joshua Gubler, Caden R
+ - Probable but Not Valid: A Psychometric Audit of Decision Models as Synthetic Survey Respondents
+   https://libcat.scu.edu/EdsRecord/edsarx,edsarx.2610.14912?sid=22389034 | Santa Clara University  authority: 3  date: None
+   # Probable but Not Valid: A Psychometric Audit of Decision Models as Synthetic Survey Respondents ... Authors: | Lukauskas, Mantas; Šarkauskaitė, Viktorija  ---|--- Publication Year: | 2026  Subject Terms: | Artificial Intelligence Computers and Society ... I.2.7; J.4  More Details: | Language models are increasingly used to create synthetic survey samples, also called silicon samples. Decision models are a new class
+ - Lost in Simulation: LLM-Simulated Users are Unreliable Proxies for Human Users in Agentic Evaluations
+   https://aclanthology.org/2026.acl-long.2192/ | ACL Anthology  authority: 4  date: None
+   ##### Abstract Agentic benchmarks increasingly rely on LLM-simulated users to scalably evaluate agent performance, yet the robustness, validity, and fairness of this approach remain unexamined. Through a user study with participants across the United States, India, Kenya, and Nigeria, we investigate whether LLM-simulated users serve as reliable proxies for real human users in evaluating agents on τ-Bench retail tasks
+ - The Persona Fidelity Gap: Behaviorally Grounded LLM Personas Still Compress Real-User Preference Diversity
+   https://ICML.cc/virtual/2026/75683 | ICML 2025  authority: 4  date: None
+   # The Persona Fidelity Gap: Behaviorally Grounded LLM Personas Still Compress Real-User Preference Diversity  Rishav Kumar ⋅ Atul Dev ⋅ Shivank Garg  ### Abstract  Large language models (LLMs) increasingly stand in for diverse human users in preference data collection, recommender evaluation, alignment research, and social-science simulation. Whether LLM personas reproduce real preference distributions has not been m
+ - We evaluate both real and simulated users with different comparator sets
+   https://browse-export.arxiv.org/pdf/2610.19719#3#8#3 | None  authority: 4  date: None
+   <table><tr><td colspan="4">(a) Privileged hindsight</td><td colspan="4">(b) Individual adaptation</td></tr><tr><td>Variant</td><td>E-MAE ↓</td><td>E-OA ↑</td><td>P-SP ↑</td><td>Variant</td><td>Real ↑</td><td>Sim.-Q ↑</td><td>Sim.-Ctrl. ↑</td></tr><tr><td>w/o PHD</td><td>0.292</td><td>0.604</td><td>0.567</td><td>Population</td><td>0.680</td><td>0.537</td><td>0.592</td></tr><tr><td>w/o Jpriv</td><td>0.242</td><td>0.649
+
+## Q: Playwright MCP model context protocol browser agent
+ - Automate browsers with the Playwright Workspaces remote MCP server - Playwright Workspaces - Skip to main content Skip to Ask Learn chat experience
+   https://learn.microsoft.com/en-us/azure/app-testing/playwright-workspaces/how-to-playwright-workspaces-remote-mcp#1 | Learn Microsoft  authority: 4  date: 2026-09-10T16:00:00+00:00
+   This preview article uses workspace access-token authentication for clients that need a custom header. Access tokens are less secure and are disabled by default. Treat an access token like a password. Never commit it to source control, include it in a prompt, or write it to logs.  To create a workspace access token see Manage workspace access tokens.  ## Build the remote MCP endpoint  The endpoint is scoped to one wo
+ - Automatizza i browser con il server remoto MCP di Spazi di lavoro Playwright - Playwright Workspaces - Ignora e passa al contenuto principale Passare all'esperienza di chat di Ask Learn
+   https://learn.microsoft.com/it-it/AZURE/app-testing/playwright-cloud-browsers/how-to-playwright-workspaces-remote-mcp#1 | Learn Microsoft  authority: 4  date: 2026-09-10T16:00:00+00:00
+   - Copiare immediatamente il token. Non puoi recuperarne il valore in seguito.  Memorizza il token in un archivio segreto gestito o nella funzione di credenziali sicura fornita dal tuo client MCP. Revocalo e sostituiscilo se potrebbe essere stato esposto. Per creare un token di accesso allo spazio di lavoro, vedi Gestisci i token di accesso allo spazio di lavoro.  Attenzione  Tratta un token di accesso allo spazio di 
+ - Quickstart: Automatisera webbläsaruppgifter med Arbetsutrymmen för dramatiker fjärrservern MCP - Playwright Workspaces - Hoppa till huvudinnehåll Gå vidare till Fråga Lär-chattupplevelse
+   https://learn.microsoft.com/sv-se/azure/app-testing/playwright-workspaces/quickstart-automate-browser-tasks-remote-mcp#1 | Learn Microsoft  authority: 4  date: 2026-09-10T16:00:00+00:00
+   # Quickstart: Automatisera webbläsaruppgifter med Arbetsutrymmen för dramatiker fjärrservern MCP  Important  Arbetsutrymmen för dramatiker fjärrserver Model Context Protocol (MCP) är i förhandsvisning. Förhandsgranskningsfunktioner har inget service-nivåavtal och rekommenderas inte för produktionsarbetsbelastningar. Funktioner, begränsningar och tillgänglighet kan förändras.  I den här snabbstarten ansluter du en AI-
+ - playwright-mcp: Browser Automation via Accessibility Tree for LLMs | Model Context Protocol
+   https://model-context-protocol.com/blog/playwright-mcp-browser-automation-via-accessibility-tree-for-mcp-server-guide#1 | Model Context Protocol  authority: 3  date: 2026-09-05T16:00:00+00:00
+   playwright-mcpmcp-serverbrowser-automationllm-tools  # playwright-mcp: Browser Automation via Accessibility Tree for LLMs  September 6, 2026 ... Theplaywright-mcp MCP Server provides a direct pathway for LLMs to control web browsers, leveraging Playwright's accessibility tree. This approach offers a fast, lightweight, and deterministic method for browser automation, bypassing the typical need for vision models or pix
+ - @playwright/mcp
+   https://www.npmjs.com/package/@playwright/mcp/v/0.0.73-alpha-2026-05-02#1 | NPM  authority: 3  date: 2026-05-01T16:00:00+00:00
+   "mcpServers": ... Default is to allow all. ... npx @playwright/mcp@latest --port 8931 ... http://localhost:8931/mcp" ... Playwright MCP is not a security boundary. See MCP Security Best Practices for guidance on securing your deployment.  ## Docker  NOTE: The Docker implementation only supports headless chromium at the moment. ... docker", ... ["run", "-i", "--rm", "--init", "--pull=always", "mcr.microsoft.com/playwr
+
+## Q: browser-use Stagehand Playwright agent LLM browser automation comparison
+ - Where Intelligence Earns Its Keep in Browser Automation
+   https://current.tinyfish.ai/issue/21/foundations/article/11665/where-intelligence-earns-its-keep-in-browser-automation | My Best Work Is When Nothing Happens — A Conversation with the Person 
+   A browser automation workflow runs for the hundredth time. It logs in, searches, extracts results. On the first run, Stagehand v3 called a language model to figure out each interaction. On the hundredth run, it doesn't. The framework cached what it learned and replays it deterministically, like a Playwright script that wrote itself. AI only re-engages when something breaks. A layout shifts. A selector stops resolving
+ - Stagehand vs Browser Use for Production AI Agents
+   https://scavio.dev/blog/stagehand-vs-browser-use-production-agents?utm_source=chatgpt.com | Comparação de Níveis Gratuitos de API de Busca Maio de 2026  authority
+   # Stagehand vs Browser Use for Production AI Agents  Stagehand and Browser Use compared for production browser automation in AI agents: reliability under change, developer ergonomics, cost and the trade-offs each makes. ... Mar 19, 2026  Browser automation has become a core capability for AI agents. When an agent needs to fill out a form, navigate a multi-step checkout, or extract data from a page that requires inter
+ - invisible_playwright_mcp/docs/stagehand-vs-browser-use.md at v0.70.2 · feder-cr/invisible_playwright_mcp - Skip to content
+   https://github.com/feder-cr/invisible_playwright_mcp/blob/v0.70.2/docs/stagehand-vs-browser-use.md#1 | GitHub  authority: 3  date: 2026-09-28T16:00:00+00:00
+   title | Stagehand vs browser-use  ---|--- description | An SDK for building browser agents versus a framework that ships one: what act(), observe() and extract() buy you against Agent().run(), which languages each serves, and which features sit behind each vendor's cloud. ... # Stagehand vs browser-use  This comparison reads like a rivalry and mostly is not one. Both projects are MIT licensed, actively maintained, an
+ - ghost-hands - Playwright MCP | Playwright via MCP (23+ raw tools) | The calling model, unmediated | None | None built in | No | Web
+   https://pypi.org/project/ghost-hands/0.6.0/#2 | PyPI  authority: 4  date: 2026-10-07T16:00:00+00:00
+   Playwright MCP | Playwright via MCP (23+ raw tools) | The calling model, unmediated | None | None built in | No | Web  Stagehand | Playwright + AI primitives (act/observe/extract/agent) | Per-step LLM calls | None | Session logs | Action caching | Web (cloud browsers upsell)  Browser Use | Own browser agent loop | Full autonomous LLM loop | None | Run history | No | Web ... ### Capabilities, feature by feature  Surve
+ - ---
+   https://raw.githubusercontent.com/feder-cr/invisible_playwright_mcp/0b233c0d8c58a40aebe5e471fc59d8e92901c7e7/docs/stagehand-vs-bro | GitHub  authority: 3  date: None
+   Stagehand vs browser-use" description: "An SDK for building browser agents versus a framework that ships one: what act(), observe() and extract() buy you against Agent().run(), which languages each serves, and which features sit behind each vendor's cloud." parent: " ... # Stagehand vs browser-use  This comparison reads like a rivalry and mostly is not one. Both projects are MIT licensed, actively maintained, and des
+
+## Q: WebArena Mind2Web VisualWebArena benchmark evaluation task design
+ - AdaptAgent: Adapting Multimodal Web Agents with Few-Shot Learning from Human Demonstrations - Datasets: To evaluate the quick adaptation capabilities of our agents, we design experiments that require adaptation to unseen w...
+   https://ar5iv.labs.arxiv.org/html/2411.13451#2 | arXiv  authority: 4  date: None
+   For the proprietary model (i.e., GPT-4o), we use the prompting method proposed in SeeAct and add one ICL example from the website or domain to which the agent should adapt. This ICL example acts as the one-shot () human demonstration (denoted as 1-ICMD for 1 in-context multimodal demonstration). We adopted a one-shot setting for ICL given the trade-off between time and incremental accuracy improvements; ... The selec
+ - +| **WebArena**【25†L15-L35】 | - 完全可交互的、高度真实的网页环境（4 个领域：电商、论坛、协作开发、内容管理）<br>- 812 项长视野任务，评估功能正确性而非表面动作匹配<br>- 最佳 GPT‑4 智能体成功率仅 14...
+   https://huggingface.co/unsloth/DeepSeek-V3.2/commit/4a31dee8f861442c9aa770d4eef62e5fe2c6ec8e.diff?file=encoding%2Ftest_output_sear | Hugging Face  authority: 3  date: None
+   +| **WebArena**【25†L15-L35】 | - 完全可交互的、高度真实的网页环境（4 个领域：电商、论坛、协作开发、内容管理）<br>- 812 项长视野任务，评估功能正确性而非表面动作匹配<br>- 最佳 GPT‑4 智能体成功率仅 14.41%，远低于人类的 78.24% | 评估自主智能体在真实网页环境中的复杂任务执行能力 | “在电商网站中购买一双‘黑色运动鞋’，价格低于 $80，并将收货地址修改为纽约”【25†L86-L92】 | +| **Mind2Web**【19†L4-L14】 | - 首个面向通用网页智能体的数据集，任务来自真实网站<br>- 支持在线评估（Online‑Mind2Web），包含 300 个实时任务、136 个流行网站<br>- 强调多步指令跟随与复杂交互 | 评估智能体在任意网站上的通用任务完成能力 | “在 GitHub 上创建一个名为 ‘test‑repo’ 的公开仓库，并
+ - WebArena: A foundational, self- hosted benchmark involving functional e- commerce, forums, and GitLab instances
+   https://www.techrxiv.org/doi/pdf/10.36227/techrxiv.177222530.04005985/v1?__cf_chl_tk=t_JcaqtM6GHVortmgf.qv10efAOfW74Xz7VzBMcU7fo-1 | None  authority: 3  date: None
+   The emergence of "Verified" subsets for major benchmarks like SWE- bench and WebArena is a tacit admission that purely automated, un- audited benchmarks are prone to massive noise [18, 50].    Future evaluators must move away from rigid string_match(output, reference) logic towards semantic equivalence checks, potentially using a stronger LLM (Judge) to determine if the agent's unique solution satisfies the user inte
+ - 2508/2508.01858.md · huggingchat/papers-content - To evaluate GUI agents’capabilities in web interactions, benchmarks are broadly categorized into web browsing tasks and web unde...
+   https://huggingface.co/buckets/huggingchat/papers-content/tree/2508/2508.01858.md?code=true#2 | Hugging Face  authority: 3  date: 2026-03-11T16:00:00+00:00
+   We first collect multimodal metadata from 14 real-world websites (see Figure [2](https://arxiv.org/html/2508.01858v1#S3.F2 "Figure 2 ‣ 3.2 Web-CogKnowledge ‣ 3 Web-CogKnowledge Framework ‣ Web-CogReasoner: Towards Knowledge-Induced Cognitive Reasoning for Web Agents")) and then design Web-CogDataset with diverse set of web tasks for Web-Agent training in Section [3.3](https://arxiv.org/html/2508.01858v1#S3.SS3 "3.3 W
+ - Large Language Model-Brained GUI Agents: A Survey - Mind2Web [251] | Web | 2023 | Tests adaptability on real-world, dynamic websites across domains
+   https://ar5iv.labs.arxiv.org/html/2411.18279v1#13 | arXiv  authority: 4  date: 2024-11-26T16:00:00+00:00
+   Building upon the need for more realistic environments, Mind2Web[251] represents a significant advancement by enabling agents to handle real-world HTML environments rather than simplified simulations. Established after the advent of LLMs[144], it offers a large dataset of over 2,000 tasks spanning multiple domains, presenting challenges from basic actions to complex multi-page workflows. The benchmark emphasizes end-
+
+## Q: AgentBench LLM as agent benchmark
+ - AGENTBENCH: EVALUATING LLMS AS AGENTS
+   https://proceedings.iclr.cc/paper_files/paper/2024/file/e9df36b21ff4ee211a8b71ee8b7e9f57-Paper-Conference.pdf#1#1 | None  authority: 4  date: None
+   # AGENTBENCH: EVALUATING LLMS AS AGENTS    Xiao Liu \(^{1,\ast}\) , Hao \(\mathbf{Y}\mathbf{u}^{1,\ast}\) , Hanchen Zhang \(^{1,\ast}\) , Yifan \(\mathbf{X}\mathbf{u}^{1}\) , Xuanyu Lei \(^{1}\) , Hanyu Lai \(^{1}\) , Yu \(\mathbf{G}\mathbf{u}^{2,\dagger}\) , Hangliang Ding \(^{1}\) , Kaiwen Men \(^{1}\) , Kejuan Yang \(^{1}\) , Shudan Zhang \(^{1}\) , Xiang Deng \(^{2}\) , Aohan Zeng \(^{1}\) , Zhengxiao Du \(^{1}\)
+ - What Is AgentBench? The LLM Agent Benchmark Explained | Forkast Learn
+   https://forkast.news/glossary/agentbench/ | Forkast News  authority: 3  date: 2026-08-29T16:00:00+00:00
+   # AgentBench  AgentBench is a multi-dimensional benchmark that evaluates how effectively large language models function as autonomous agents across eight distinct interactive environments — spanning operating systems, databases, knowledge graphs, card games, puzzles, household tasks, web shopping, and web browsing. ... AgentBench is a benchmark designed to answer a question the AI industry keeps bumping into: when yo
+ - THUDM/AgentBench - Related Repos - THUDM / AgentBench
+   https://relatedrepos.com/gh/THUDM/AgentBench#1 | Related Repos  authority: 3  date: None
+   # THUDM / AgentBench  A Comprehensive Benchmark to Evaluate LLMs as Agents (ICLR'24)  ☆2,115Updated 3 weeks ago
+ - AgentBench: 大语言模型智能体多维度评估基准
+   https://raw.githubusercontent.com/Shiyao-Huang/awesome-agent-evolution/5099c476762bb7c673ed05ca4491a761665d9732/site/public/report | GitHub  authority: 3  date: None
+   # AgentBench: 大语言模型智能体多维度评估基准  ## 基本信息  | 字段 | 内容 |  | GitHub | https://github.com/THUDM/AgentBench | | Star | 3k+ | | 技术栈 | Python, Docker, Redis, YAML配置 | | 许可证 | Apache-2.0 | | 开发者 | THUDM (清华大学知识工程实验室) |  ## 项目简介  AgentBench是首个专为评估"LLM-as-Agent"能力而设计的综合性基准框架,发表于ICLR 2024。它涵盖8个不同环境,包括操作系统(OS)、数据库(DB)、知识图谱(KG)、数字卡牌游戏(DCG)、横向思维谜题(LTP)等5个全新领域,以及ALFWorld、WebShop、Mind2Web等3个已有数据集。2025年发布了基于AgentRL的AgentBench FC(Functio
+ - AgentBench: Evaluating LLMs as Agents
+   https://mlanthology.org/iclr/2024/liu2024iclr-agentbench/ | März, Maximilian  authority: 3  date: None
+   # AgentBench: Evaluating LLMs as Agents  ## Abstract  The potential of Large Language Model (LLM) as agents has been widely acknowledged recently. Thus, there is an urgent need to quantitatively evaluate LLMs as agents on challenging tasks in interactive environments. We present AgentBench, a multi-dimensional benchmark that consists of 8 distinct environments to assess LLM-as-Agent's reasoning and decision-making ab

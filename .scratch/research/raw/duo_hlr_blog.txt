@@ -1,0 +1,124 @@
+Measuring Lesson Recall On Duolingo
+SUBJECTS
+SUBJECTS
+Language
+Chess
+Math
+Music
+INSIDE DUOLINGO
+Announcements
+Design
+Engineering
+Product
+Life at Duolingo
+SITE LANGUAGE
+Deutsch
+English
+Español
+Français
+Português
+日本語
+한국어
+December 2, 2021
+Lucy Portnoff
+Two simple tricks for remembering what you’ve learned on Duolingo
+Our analysts reviewed learner behavior to see what leads to better lesson recall.
+December 2, 2021
+Lucy Portnoff
+At Duolingo, our goal is to help learners build strong, lasting language proficiency. We use proven teaching strategies and continually assess our teaching effectiveness to make sure that our content sticks in the brain. Recently, we looked at our Review Exercises to see how well learners remember material. Here are a few helpful tips for learners looking to improve their recall during lessons!
+How we design our Review Exercises
+Most lessons on Duolingo contain a series of exercises that teach our learners new words and concepts, but sometimes, we sneak in an extra exercise that comes from an earlier part of the course. This extra exercise is called a Review Exercise, and we use it to measure how well learners remember previous material. If a learner answers a Review Exercise correctly, we conclude they remember the material; if they answer it incorrectly, we conclude they have forgotten.
+A Review Exercise is randomly sampled from the Animals skill and appears in a lesson in the Places skill. How the learner answers the Review Exercise tells us whether they can remember what they learned in Animals.
+Review Exercises can appear in any skill, in any Duolingo course, and one learner could be given any number of them. Together, learners answer around
+300,000 Review Exercises
+every single day! All this data gives us insight into how much information is being retained as learners progress through their language learning journey.
+How can learners improve recall?
+Every learner completes a Duolingo course differently. Therefore, when learners answer a Review Exercise, they bring with them their own
+unique history
+of how much they’ve leveled up, how many Stories they’ve completed, and how consistently they study. Our Learning Assessment team sorts through all this data to discover if the learners who answer Review Exercises correctly have things in common. What study behaviors separate the learners who get Review Exercises right from those who get them wrong? We’ve identified two key habits:
+1. They “level up” for mastery
+Each Duolingo skill has a number of levels, where learners learn the same material in increasingly difficult contexts. For example, an easy level might have you match a new word with its picture, but a hard level might ask you to translate a sentence that contains the new word. Only the first, most basic level of each skill is required to move onto the next skill, and some learners never attempt the more challenging content.
+Our research shows that
+when learners study content at higher levels, they are more likely to remember it when it comes up in a Review Exercise later.
+We investigated the effect of completing the next level up from the most basic level using a statistical approach called “regression discontinuity design.” This approach compares two groups of learners: learners who completed the additional level, and learners who usually complete the additional level, but didn’t this time. It is important that the two groups usually exhibit the same behavior, because this means that any difference between the groups can be attributed to that one additional level. (Click
+here
+for more on our methodology.)
+The learners who completed the additional level of content were significantly more likely to answer the Review Exercise for that content correctly later. Although it can be tempting to skip forward, it’s worth spending the time to reach those higher levels—you’ll remember more in the long run.
+2. They “move forward” for reinforcement
+When learners decide to stop studying a certain skill, they can either choose to return to a previous skill or start the next skill. Some learners return to previous skills for review; others are eager to keep growing their vocabulary in the next skill. But how does that decision impact their memory of the current skill?
+Our analysis suggests that
+moving forward to the next skills in the course may help reinforce recently-learned concepts.
+The learners who answered Review Exercises correctly had completed more lessons in the next skills than the learners who answered them incorrectly. This suggests that the next skills use and build upon the concepts learned in the current skill.
+Meanwhile, no significant difference exists between correct and incorrect Review Exercises when it comes to studying previous skills. This makes sense: earlier skills cannot reinforce concepts that are taught after them!
+This graph shows how many lessons learners completed in “previous” and “next” skills. For previous skills, learners who answered Review Exercises correctly and incorrectly completed a similar number of lessons; for next skills, learners who answered correctly were more likely to complete more lessons.
+Our
+curriculum designers
+work hard to ensure that each course’s content progresses logically and effectively, and we’re excited to see the Review Exercise data support this approach.
+Learning that lasts
+Duolingo is more than a fun and free learning game. Our mission is to develop the best education in the world and make it universally available! We embed assessments throughout the app to monitor how well we’re teaching and to determine how we can help our learners build real proficiency. So don’t forget your daily lesson—every time you practice, we learn a little more!
+TAGS
+Research
+Learning
+Language
+Tips and Tricks
+Efficacy
+Brain
+Features
+SHARE ARTICLE
+RELATED ARTICLES
+RELATED ARTICLES
+About us
+Courses
+Mission
+Approach
+Efficacy
+Team
+Research
+Careers
+Brand guidelines
+Press
+Investors
+Contact us
+Products
+Duolingo
+Duolingo English Test
+Duolingo for Business
+Super Duolingo
+Store
+Apps
+Duolingo Apps
+Duolingo for Desktop
+Duolingo for Android
+Duolingo for iOS
+Help and support
+Duolingo FAQs
+Duolingo English Test FAQs
+Status
+Privacy and terms
+Community guidelines
+Terms
+Privacy
+Respecting your "do not sell my personal information" rights
+Social
+Blog
+Instagram
+Facebook
+YouTube
+TikTok
+LinkedIn
+X
+Site language:
+Deutsch
+English
+Español
+Français
+Português
+日本語
+한국어
+©2026 Duolingo. All rights reserved.
+About us
+Press
+Careers
+Help and support
+Privacy and terms
+©2026 Duolingo. All rights reserved.

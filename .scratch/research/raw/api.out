@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/Bo0TGtkNS9OWqHVXMg98wdPTjLQ</id>
+  <title>arXiv Query: search_query=all:spaced OR all:repetition&amp;id_list=&amp;start=0&amp;max_results=2</title>
+  <updated>2026-10-19T17:59:58Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:spaced+OR+all:repetition&amp;start=0&amp;max_results=2&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>2</opensearch:itemsPerPage>
+  <opensearch:totalResults>465595</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1803.08145v2</id>
+    <title>Circular repetition thresholds on some small alphabets: Last cases of Gorbunova's conjecture</title>
+    <updated>2018-05-29T14:36:29Z</updated>
+    <link href="https://arxiv.org/abs/1803.08145v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1803.08145v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>A word is called $β$-free if it has no factors of exponent greater than or equal to $β$. The repetition threshold $\mathrm{RT}(k)$ is the infimum of the set of all $β$ such that there are arbitrarily long $k$-ary $β$-free words (or equivalently, there are $k$-ary $β$-free words of every sufficiently large length, or even every length). These three equivalent definitions of the repetition threshold give rise to three natural definitions of a repetition threshold for circular words. The infimum of the set of all $β$ such that
+  - there are arbitrarily long $k$-ary $β$-free circular words is called the weak circular repetition threshold, denoted $\mathrm{CRT}_{\mathrm{W}}(k)$;
+  - there are $k$-ary $β$-free circular words of every sufficiently large length is called the intermediate circular repetition threshold, denoted $\mathrm{CRT}_{\mathrm{I}}(k)$;
+  - there are $k$-ary $β$-free circular words of every length is called the strong circular repetition threshold, denoted $\mathrm{CRT}_{\mathrm{S}}(k)$.
+  We prove that $\mathrm{CRT}_{\mathrm{S}}(4)=\tfrac{3}{2}$ and $\mathrm{CRT}_{\mathrm{S}}(5)=\tfrac{4}{3}$, confirming a conjecture of Gorbunova and providing the last unknown values of the strong circular repetition threshold. We also prove that $\mathrm{CRT}_{\mathrm{I}}(3)=\mathrm{CRT}_{\mathrm{W}}(3)=\mathrm{RT}(3)=\tfrac{7}{4}$.</summary>
+    <category term="math.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.FL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2018-03-21T21:43:53Z</published>
+    <arxiv:comment>27 pages (including a 6 page appendix). As promised in an earlier version, we have added a proof that the strong circular repetition threshold for five letters is 4/3, completing the last case of Gorbunova's conjecture</arxiv:comment>
+    <arxiv:primary_category term="math.CO"/>
+    <author>
+      <name>James D. Currie</name>
+    </author>
+    <author>
+      <name>Lucas Mol</name>
+    </author>
+    <author>
+      <name>Narad Rampersad</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.17347v1</id>
+    <title>Repetition as Reinforcement: Enhancing Sample Efficiency via Instant Episode Repetition in Reinforcement Learning</title>
+    <updated>2026-08-18T04:11:50Z</updated>
+    <link href="https://arxiv.org/abs/2608.17347v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.17347v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Repetition is a fundamental mechanism in human learning, where revisiting successful experiences strengthens memory, consolidates skills, and improves future performance. Motivated by this biological principle, we introduce Instant Episode Repetition (IER), a simple and novel mechanism that improves sample efficiency by immediately repeating action sequences from successful episodes during environment interaction. Unlike conventional approaches such as Experience Replay and Self-Imitation Learning (SIL), which passively reuse past experience during training updates, IER directly influences the data collection process. Upon identifying a high-reward episode, the agent repeats its action sequence for a fixed number of subsequent episodes, reinforcing valuable behaviors through renewed interaction with the environment. We integrate IER into state-of-the-art SAC and TD3 algorithms and evaluate its effectiveness on continuous-control benchmarks, including MuJoCo, the DeepMind Control Suite, and a real-world dynamic object translation task with a robotic manipulator. Experimental results demonstrate that this simple mechanism improves learning performance over standard and self-imitation-based baselines.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-18T04:11:50Z</published>
+    <arxiv:comment>23 pages, 12 figures. Accepted at RLC 2026; to appear in Reinforcement Learning Journal (RLJ) 2026. Code: https://github.com/UoA-CARES/instant-episode-repetition</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Hoda Yamani</name>
+    </author>
+    <author>
+      <name>Yuning Xing</name>
+    </author>
+    <author>
+      <name>Koen van Rijnsoever</name>
+    </author>
+    <author>
+      <name>Bruce A. MacDonald</name>
+    </author>
+    <author>
+      <name>Henry Williams</name>
+    </author>
+  </entry>
+</feed>

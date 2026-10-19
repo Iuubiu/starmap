@@ -1,0 +1,381 @@
+Repository search results · GitHub
+Skip to content
+Navigation Menu
+Sign in
+Appearance settings
+Platform
+AI CODE CREATION
+GitHub Copilot
+Write better code with AI
+GitHub Copilot app
+Direct agents from issue to merge
+MCP Registry
+Integrate external tools
+DEVELOPER WORKFLOWS
+Actions
+Automate any workflow
+Codespaces
+Instant dev environments
+Issues
+Plan and track work
+Code Review
+Manage code changes
+Code Quality
+Enforce quality at merge
+APPLICATION SECURITY
+GitHub Advanced Security
+Find and fix vulnerabilities
+Code security
+Secure your code as you build
+Secret protection
+Stop leaks before they start
+EXPLORE
+Why GitHub
+Documentation
+Blog
+Changelog
+Marketplace
+View all features
+Solutions
+BY COMPANY SIZE
+Enterprises
+Small and medium teams
+Startups
+Nonprofits
+BY USE CASE
+App Modernization
+DevSecOps
+DevOps
+CI/CD
+View all use cases
+BY INDUSTRY
+Healthcare
+Financial services
+Manufacturing
+Government
+View all industries
+View all solutions
+Resources
+EXPLORE BY TOPIC
+AI
+Software Development
+DevOps
+Security
+View all topics
+EXPLORE BY TYPE
+Customer stories
+Events & webinars
+Ebooks & reports
+Business insights
+GitHub Skills
+SUPPORT & SERVICES
+Documentation
+Customer support
+Community forum
+Trust center
+Partners
+View all resources
+Open Source
+COMMUNITY
+GitHub Sponsors
+Fund open source developers
+PROGRAMS
+Security Lab
+Maintainer Community
+GitHub Stars
+Archive Program
+REPOSITORIES
+Topics
+Trending
+Collections
+Enterprise
+ENTERPRISE SOLUTIONS
+Enterprise platform
+AI-powered developer platform
+AVAILABLE ADD-ONS
+GitHub Advanced Security
+Enterprise-grade security features
+Copilot for Business
+Enterprise-grade AI features
+Premium Support
+Enterprise-grade 24/7 support
+Pricing
+Search
+/
+Sign in
+Sign up
+Appearance settings
+You signed in with another tab or window.
+Reload
+to refresh your session.
+You signed out in another tab or window.
+Reload
+to refresh your session.
+You switched accounts on another tab or window.
+Reload
+to refresh your session.
+Dismiss alert
+repositories Search Results · adaptive quiz llm
+Filter by
+Code
+...
+(
+...
+)
+results
+Repositories
+86
+(
+86
+)
+results
+Issues
+results
+Pull requests
+results
+Discussions
+results
+Users
+results
+More
+Languages
+Python
+TypeScript
+JavaScript
+HTML
+Jupyter Notebook
+Java
+CSS
+ShaderLab
+More languages...
+Advanced
+Owner
+Size
+Number of followers
+Number of forks
+Number of stars
+Date created
+Date pushed
+Topic
+License
+Archived
+Public
+Private
+Advanced search
+Filter:
+Repositories
+86
+(
+86
+)
+86 results
+(
+232
+ms
+)
+86 results
+Sort by:
+Most stars
+Filter
+suncloudsmoon/
+quizzer
+Generate Duolingo-style
+quiz
+courses from PDFs with spaced repetition,
+adaptive
+difficulty, and tutor chat.
+python
+cli
+education
+pdf
+flashcards
+Python
+·
+20
+·
+Updated
+on Apr 6
+Star
+MedX1736/
+Quiz
+GPT
+QuizGPT is an interactive AI tutor that engages students with
+adaptive
+questions based on school materials, creating a fun chat experience.
+chatbot
+streamlit-webapp
+llm
+chatgpt-api
+Jupyter Notebook
+·
+5
+·
+Updated
+on Jul 3, 2023
+Star
+Ardiyanto24/English-Learning-Agent
+Build AI Agent for personal TOEFL ITP preparation app - Vocab,
+Quiz
+, Speaking, and TOEFL Simulator with
+adaptive
+learning and deep analytics
+multi-agent-systems
+ai-agents
+rag
+llm
+agentic-ai
+Python
+·
+4
+·
+Updated
+on Apr 17
+Star
+prachetagajbhiye-wq/u2u-internship-project
+AI-Powered Educational Learning Platform using RAG, Vector Databases,
+LLMs
+,
+Adaptive
+Learning,
+Quiz
+Generation, Flashcards, Study Plannin…
+react
+education
+machine-learning
+ai
+learning-platform
+Python
+·
+3
+·
+Updated
+on Jul 18
+Star
+karaberke/luminrag
+Multimodal Graph RAG tutor: ingests lecture video, audio, PDFs, and slides into FAISS and a knowledge graph, with
+adaptive
+retrieval and
+q…
+python
+networkx
+whisper
+faiss
+rag
+Python
+·
+3
+·
+Updated
+on Sep 18
+Star
+anupchavan/
+adaptive
+-practice
+An Obsidian plugin that turns your notes into
+adaptive
+,
+LLM
+-generated quizzes — tracks skill levels and adjusts difficulty over time.
+flashcards
+spaced-repetition
+adaptive-learning
+quiz
+obsidian
+TypeScript
+·
+2
+·
+Updated
+on Jul 23
+Star
+Akhileshkachhwaha26/notes-
+quiz
+-agent
+A full-stack RAG-based AI study platform — upload PDF notes and get cited doubt-solving,
+adaptive
+quizzes, spaced-repetition flashcards, …
+react
+python
+education
+tailwindcss
+rag
+JavaScript
+·
+2
+·
+Updated
+on Jul 21
+Star
+felixyustian/edusenseai
+An
+adaptive
+AI-powered education platform featuring an interactive Claude AI tutor, dynamic
+quiz
+generation, course management, real-time…
+react
+python
+nlp
+open-source
+education
+JavaScript
+·
+2
+·
+Updated
+on May 5
+Star
+MUKILVANNAN-M/ai-emotion-learning-system
+AI-based
+adaptive
+learning system using emotion detection and
+LLM
+quiz
+generation
+Python
+·
+1
+·
+Updated
+on Mar 21
+Star
+Swetha-Vaidyanathan/
+Quiz
+Assist
+AI-powered
+adaptive
+learning platform built with React, FastAPI, PostgreSQL, Redis, and
+LLMs
+that dynamically personalizes question diffi…
+TypeScript
+·
+1
+·
+Updated
+on Aug 10
+Star
+Previous
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Next
+Sponsor open source projects you depend on
+Contributors are working behind the scenes to make open source better for everyone—give them the help and recognition they deserve.
+Explore sponsorable projects
+ProTip!
+Press the
+/
+key to activate the search input again and adjust your query.
+Sponsor open source projects you depend on
+Contributors are working behind the scenes to make open source better for everyone—give them the help and recognition they deserve.
+Explore sponsorable projects
+ProTip!
+Press the
+/
+key to activate the search input again and adjust your query.
+You can’t perform that action at this time.

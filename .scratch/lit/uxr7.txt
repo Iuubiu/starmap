@@ -1,0 +1,32 @@
+
+
+########## QUERY: UMUX-Lite two-item usability questionnaire validity compared SUS
+  ERROR <HTTPError 402: 'Payment Required'>
+
+
+########## QUERY: System Usability Scale chatbot conversational agent validity study CUQ comparison
+  ERROR <HTTPError 402: 'Payment Required'>
+
+
+########## QUERY: NASA-TLX raw TLX six subscales definitions anchor pairs mental demand frustration
+  ERROR <HTTPError 402: 'Payment Required'>
+
+
+########## QUERY: Paas mental effort single item nine point scale cognitive load measurement
+  ERROR <HTTPError 402: 'Payment Required'>
+
+
+########## QUERY: LLM simulated user correlation with human usability ratings agreement study
+  ERROR <HTTPError 402: 'Payment Required'>
+
+
+########## QUERY: persona prompt template LLM role-play fidelity dimensions knowledge boundary misconception
+  ERROR <HTTPError 402: 'Payment Required'>
+
+
+########## QUERY: WebArena reward function task success evaluation agent trajectory state-based
+  ERROR <HTTPError 402: 'Payment Required'>
+
+
+########## QUERY: formative usability test think-aloud protocol concurrent verbalization limitation
+  ERROR <HTTPError 402: 'Payment Required'>

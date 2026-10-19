@@ -1,0 +1,249 @@
+Learn to Code | Boot.dev
+For Business
+For Schools
+Sign In & Skip Demo →
+Learn to code, but for real.
+Welcome to the most captivating, finger-flying, addictive way to master career-forging skills
+WRITE SOME CODE
+(it takes 2 minutes)
+Join 1,408,125 students from companies like
+Mediocrity doesn't cut it anymore
+The only way to become a great developer is to write a lot of code
+Avoid tutorial hell
+by writing a ton of code
+Stay motivated with
+a game-like curriculum
+Build portfolio projects
+to prove your skills
+Delve deeper
+into foundational concepts
+Learn flexibly online
+without interrupting your life
+For 1% the price of college
+to minimize your financial risk
+Pick a Learning Path
+Choose a Backend, DevOps, or Data Analyst roadmap designed to take you from beginner to job-ready
+Backend Path
+Learn Backend development with our curriculum packed with courses on API design, authentication, databases, and CDNs.
+Explore the Backend course roadmap
+DevOps Path
+Master DevOps engineering by following our courses on Linux, Docker, AWS, CI/CD, cloud deployments, and kubernetes.
+Explore the DevOps course roadmap
+Data Analyst Path
+Learn data analytics, but for real. Write Python and SQL, analyze real data with Pandas, and build hands-on portfolio projects.
+Explore the Data Analyst course roadmap
+Meet Boots, your programming mentor
+An AI assistant that uses the socratic method to deepen your understanding, not hand out answers
+Help! I don't get why my code makes the player's health go up when she's hit by the sword.
+*Adjusts wizard hat thoughtfully*
+Ah, it looks like you used the wrong operator! Which one do you think will subtract from her health (instead of adding to it) in your
+take_damage
+function?
+Join 1,408,125 students learning to code
+Connect directly with them and others in our flourishing online community
+61.6M
+lessons completed
+404K
+courses completed
+12.5B
+XP earned
+This course is easy to pickup and it covers all the basics! There will be a point you'll have to practice but once you get the hang of it it's really rewarding.
+(5/5)
+Maarten
+Belgium
+Learn Python for Beginners
+Cool start, I am curious to see how it scales
+(5/5)
+Miguel Amaral
+Portugal
+Learn Python for Beginners
+Really engaging and useful
+(5/5)
+Riccardo Fumagalli
+Germany
+Learn Python for Beginners
+I've tried to learn the basics a couple times with youtube. But this is it. The library of exercises provided are the key difference that documents or youtube don't provide. The reward system is a nice touch too.
+(5/5)
+griffMcTall
+Canada
+Learn Python for Beginners
+I've never step foot in the programming world and yet this has not stopped me from learning through this simple, concise and beginner-friendly course. Truly a great way to start in this world, tho I know that it's just the beginning
+(5/5)
+Andrea Pettinelli
+Italy
+Learn Python for Beginners
+amazing course
+(4/5)
+Zujaja K
+Pakistan
+Learn SQL
+I am a lube tech and less than a month ago I had no coding knowledge whatsoever and now I'm able to understand the basics of something I thought I was too stupid to learn for a long time. This material is worth it 100%. I wish they would put a journal feature that you can write your own notes on a course in but other than that I couldn't have asked for a better course.
+(5/5)
+Julian Martinez
+United States
+Learn Python for Beginners
+Great course for learning SQL!
+(5/5)
+Joshua Bauer
+Huntsville, Arkansas, US
+Learn SQL
+Awesome course. I use SQL a lot and it actually helped me learn more.
+(5/5)
+Pedro Santos
+Brazil
+Learn SQL
+← Prev
+Showing 1-9 of 7343
+Next →
+WRITE SOME CODE
+(it takes 2 minutes)
+or
+view more reviews
+A proven path to a programming career
+It takes most students about 12 months to complete an entire career path
+Learn in-demand backend and data technologies like Python, SQL, and Go
+Spend about 12 months if you're doing it part-time
+There's no risk, cancel anytime
+We don't tolerate unhappy students: ask for a refund within 30 days and it's yours
+Software developers in the US earn over $100,000 per year
+The following data is taken from the results of the 2025 Stack Overflow survey
+Cloud Engineer
+$189,000
+Backend Developer
+$175,000
+Site Reliability Engineer
+$165,000
+DevOps Engineer
+$165,000
+Data Engineer
+$150,000
+Frontend Developer
+$145,000
+Data Analyst
+$100,956
+Some folks look at
+the job data
+and assume that front-end positions are the only option for new learners. On the contrary, there is big demand for backend, data, and other software positions!
+If you like working with data, logic, servers, and solving hard problems, you might just enjoy the curriculum here on Boot.dev. And similar to the frontend, most backend and data positions don't require a specific degree from a university... but you do need to know your stuff!
+WRITE SOME CODE
+(it takes 2 minutes)
+Taught by the best
+Modern courses taught by engineers who worked at companies like Netflix, SourceGraph, and Reputation
+The Primeagen
+Lane Wagner
+TJ DeVries
+Sarah Schulte
+Learn Python
+179 Lessons
+Learn Go
+188 Lessons
+Learn JavaScript
+122 Lessons
+Learn TypeScript
+104 Lessons
+Learn Linux
+66 Lessons
+Learn SQL
+125 Lessons
+Learn Git
+75 Lessons
+Learn Docker
+43 Lessons
+Learn Kubernetes
+66 Lessons
+Learn DSA
+175 Lessons
+and many more...
+How do I learn to code?
+Our answer, from the team behind 1,408,125+ learners
+Pick one language (Python is our first choice) and spend most of your time writing code, not watching videos or generating AI slop. Follow a structured path, build real projects along the way, and practice daily.
+Pick one language and stick with it.
+Python is a great first language: the syntax is simple, and it's used everywhere from backend development to scripting, data, and AI.
+Follow a structured path.
+Random tutorials leave knowledge gaps. A linear curriculum removes the "what should I learn next?" problem entirely.
+Write code every day.
+Programming is a skill that takes real time to learn. Shortcuts are mostly a lie. Daily practice beats occasional binge-sessions.
+Build real projects.
+Projects force you to solve problems that no tutorial covers, and they become the portfolio that gets you interviews.
+Get unstuck fast.
+Every developer gets stuck. Lean on a community of humans or a (socratic) AI tutor to keep from stalling out.
+Go deep on one specialty.
+Once you have the fundamentals, specialize. Backend development, DevOps, Data Analysis, Full Stack, AI, etc. Pick one and go deep.
+Want the full step-by-step roadmap? Read our free guide:
+How to Learn to Code in 2026
+.
+WRITE SOME CODE
+(it takes 2 minutes)
+Frequently asked questions
+Got questions? We've got answers
+Can I sign up and try Boot.dev for free?
+Yes! It's free to create an account and start learning. You'll get all the immersive and interactive features for free for a few chapters. After that, if you still haven't paid for a membership, you'll be in read-only (content only) mode.
+How do I teach myself to code?
+Can I learn to code on my own?
+How long does it take to learn to code?
+Can I learn to code for free?
+Hasn't AI made learning to code obsolete?
+Should I include Boot.dev projects in my resume and portfolio?
+What is Boot.dev? A bootcamp? An online school?
+What makes Boot.dev different?
+WRITE SOME CODE
+(it takes 2 minutes)
+Platform
+Learn to Code
+All Courses
+Training Grounds
+Backend Path (Python/Go)
+Backend Path (Python/TS)
+DevOps Path (Python/Go)
+Data Analyst Path (Python)
+Leaderboard
+Search Challenges
+Playground
+Boot.dev on X/Twitter
+Boot.dev on YouTube
+Boot.dev on LinkedIn
+Boot.dev on Instagram
+Boot.dev on TikTok
+Backend Banter Podcast
+Languages
+Python
+Go (Golang)
+TypeScript
+JavaScript
+SQL
+Subjects
+Linux
+Kubernetes
+Git
+Docker
+RabbitMQ
+Data Structures & Algorithms
+Object-Oriented Programming
+Cryptography
+Support
+Contact
+FAQ
+Return Policy
+Affiliate Terms
+Privacy Policy
+Terms of Service
+Pricing
+Pricing Plans
+Gift Codes
+Redeem Gift
+Org Plans
+For Schools
+For Business
+Expense a Purchase
+Community
+Community
+Guilds
+Lore
+Artists
+Blog
+Curriculum Roadmap
+Reviews
+Careers
+About
+© Boot.dev 2026
+Do Not Share My Information

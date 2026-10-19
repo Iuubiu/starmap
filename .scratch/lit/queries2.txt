@@ -1,0 +1,61 @@
+Doignon Falmagne 1985 spaces for knowledge a new framework for the assessment of knowledge International Journal of Mathematical Psychology
+Pan Rickard 2018 transfer of test-enhanced learning meta-analytic review
+Rohrer Taylor 2006 effects of overlearning and distributed practice on retention of mathematics knowledge
+Murre Dros 2015 replicating the forgetting curve of Ebbinghaus
+Nesbit Adesope 2006 learning with concept and knowledge maps a meta-analysis
+Kestin Miller Klales Milbourne Ponti AI tutoring outperforms in-class active learning
+Kurdi Leo Parsia Meyer Sattler 2020 review of automatic question generation for educational purposes
+Gierl Haladyna 2013 automatic item generation
+Doignon Falmagne Cosyn Thiery 2005 spaces for the assessment of knowledge
+Aleks adaptive learning knowledge space assessment empirical evaluation
+Rohrer Taylor 2007 shuffling of mathematics problems improves learning
+Rohrer Dedrick Stershic 2015 interleaved practice improves mathematics learning
+Bjork Bjork 2011 desirable difficulties
+Van Gog Sweller 2015 not new but very old evidence for generation effect
+Fyfe Rittle-Johnson DeCaro 2012 problem solving practice and transfer
+Aleven Roll 2009 help seeking in interactive learning environments
+Roll Aleven McLaren Koedinger 2011 improving students help-seeking skills metacognitive feedback
+Graesser Person Huber 2020 question asking during tutoring and in the design of educational software
+Graesser Ozuru Sullins 2010 what is a good question
+King 2008 questioning the nature of questions
+Kulik Fletcher 2016 meta-analytic review intelligent tutoring systems effectiveness
+Ma Small 2017 examining effectiveness of intelligent tutoring systems meta-analysis
+Steenbergen-Hu Cooper 2013 meta-analysis of intelligent tutoring systems effects
+Xu 2019 a meta-analysis of intelligent tutoring systems
+Feng 2020 effectiveness of intelligent tutoring systems meta-analysis
+Ma Adesope Nesbit 2014 intelligent tutoring systems and learning outcomes a meta-analysis
+VanLehn 2006 the behavior of tutoring systems
+Chi VanLehn 2012 meta-analysis self-explanation tutoring
+Fonseca 2023 large language models in education systematic review
+Dijkstra 2023 generation of multiple choice questions by ChatGPT medical education
+Johnson 2024 AI-generated questions quality assessment medical
+Kurdi 2021 evaluating the quality of automatically generated questions
+Horbach 2018 automatic item generation validity
+Keller PSI personalized system of instruction evidence meta-analysis
+Keller 1974 PSI the 1960s personalized system of instruction
+Sidney-Bristol 2005 personalized system of instruction
+Kulik Kulik Cohen 1979 research on personalized system of instruction
+Kirschenbaum 1980 PSI what it is what it does
+Guskey 1985 implementing mastery learning
+Guskey 1990 cooperative mastery learning strategies
+Bloom 1971 mastery learning theory into practice
+Anderson 1976 mastery learning comparative analysis
+Arlin 1984 time variability in mastery learning
+Bandura 1997 self-efficacy the exercise of control
+Zimmerman 2002 becoming a self-regulated learner
+Wigfield Eccles 2000 expectancy value theory of achievement motivation
+Eccles Wigfield 2002 motivational beliefs values and goals
+Pekrun 2006 academic emotions from a social cognitive perspective
+Dweck 1998 self-theories their role in motivation personality and development
+Mueller Dweck 1998 praise for intelligence can undermine children's motivation and performance
+Hattie Gan 2011 instruction based on feedback
+Tulis 2016 effects of delayed feedback on learning
+Butler 1987 task-involving and ego-involving properties of evaluation
+Black Wiliam 1998 assessment and classroom learning
+Wiliam 2011 what is assessment for learning
+Bennett 2011 formative assessment a critical review
+Heitink 2016 a systematic review of prerequisites for implementing assessment for feedback in classroom practice
+Ketonen 2020 the role of feedback in classroom dialogue
+Van der Kleij 2015 effects of feedback in a computer-based learning environment
+Van der Kleij Feskens Eggen Timmers 2015 effects of feedback in a computer-based learning environment on students learning outcomes
+Attali van der Kleij 2017 effects of feedback elaboration and feedback timing

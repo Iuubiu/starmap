@@ -1,0 +1,170 @@
+
+## Q: LLM tutor failure modes answer leakage give away solution
+ - Benchmarking and Mitigating Answer Leakage in LLM Tutoring Under Persistent Student Pressure
+   https://dl.acm.org/doi/pdf/10.1145/3828792.3828794?download=true#1#2#1 | None  authority: 4  date: None
+   More broadly, hybrid tutoring systems such as MWPTutor embed an LLM inside a structured tutoring script to preserve stepwise pedagogy and reduce overly direct help    [6]. However, these systems typically do not provide a repeatable benchmark that stress- tests leakage robustness under sustained, escalating student extraction pressure.    A parallel line of work focuses on evaluating pedagogical behavior in education
+ - Tanja Käser
+   https://aclanthology.org/people/tanja-kaser/ | ACL Anthology  authority: 4  date: None
+   #### 2026  Large Language Models (LLMs) are increasingly used in education, yet their default helpfulness often conflicts with pedagogical principles. Prior work evaluates pedagogical quality via answer leakage–the disclosure of complete solutions instead of scaffolding–but typically assumes well-intentioned learners, leaving tutor robustness under student misuse largely unexplored. In this paper, we study scenarios 
+ - Benchmarking and Mitigating Answer Leakage in LLM Tutoring Under Persistent Student Pressure - Several features on this page require Premium Access
+   https://dl.acm.org/doi/10.1145/3828792.3828794#1 | ACM Digital Library  authority: 4  date: 2026-09-22T16:00:00+00:00
+   These concerns motivate operational definitions of “overhelping” and answer disclosure when LLMs are used in assessment-adjacent settings, including MCQ practice. ... In contrast to prior work, we provide (i) a reproducible benchmark targeting answer leakage in multi-turn MCQ tutoring under controlled, escalating extraction pressure and (ii) an evaluation of a deployable tutor-supervisor gating workflow across tutor-
+ - Strong Solvers, Leaky Tutors: Evaluating Answer Leakage in LLM Math Tutors | Proceedings of the 26th ACM/IEEE Joint Conference on Digital Libraries - Several features on this page require Premium Access
+   https://dl.acm.org/doi/10.1145/3805696.3846495#1 | ACM Digital Library  authority: 4  date: 2026-10-08T16:00:00+00:00
+   Four models, two general instruction-following models and two math-specialized models, are evaluated across 5,000 aligned problem–message cases per condition, constructed from 500 MATH benchmark problems paired with ten fixed student prompts that ask for, or attempt to confirm, the final answer. Three prompting strategies are compared: a plain assistant prompt, a basic tutoring prompt, and a two-step method that gene
+ - How to Build an AI Tutor with Open-Source LLMs - How to Build an AI Tutor with Open-Source LLMs
+   https://www.tencentcloud.com/techpedia/144942?lang=en#1 | Tencent Cloud  authority: 3  date: 2026-07-28T16:00:00+00:00
+   # How to Build an AI Tutor with Open-Source LLMs ... An AI tutor is not a chatbot that answers trivia — it is a Socratic loop that diagnoses gaps, asks the next right question, and checks understanding before moving on. Open-source LLMs like GLM, DeepSeek, and Qwen are strong enough to run that loop, and this guide shows the architecture, the tutor prompt, the difficulty-adaptation logic, and working code you can run
+
+## Q: LLM tutor benchmark MathDial Bridge pedagogical evaluation dimensions
+ - Shared Task: Pedagogical Ability Assessment of AI-powered Tutors @ BEA 2025
+   https://www.aclweb.org/portal/content/shared-task-pedagogical-ability-assessment-ai-powered-tutors-bea-2025 | Association for Computational Linguistics  authority: 4  date: 2025-03
+   # Shared Task: Pedagogical Ability Assessment of AI-powered Tutors @ BEA 2025  March 12, 2025 | BY Ekaterina Kochmar ... Recent advances in the development of Large Language Models (LLMs) provide our field with promising ways of building AI-based conversational tutors, which can generate human-sounding dialogues on the fly. The key question posed in previous research, however, remains: *How can we test whether state-
+ - This study examines the extent to which pedagogical patterns learned from semi- synthetic instructional dialogues can be transfe...
+   https://www.icetol.com/storage/legacy/2026/10/icetol2026_abstract_proceedings.pdf#56#79#56 | None  authority: 3  date: None
+   This study examines the extent to which pedagogical patterns learned from semi- synthetic instructional dialogues can be transferred to the task of evaluating teacher/tutor feedback provided in real teacher- student interactions. In this study, a "tutor response" is defined as an explanation, hint, guidance, or feedback provided by a teacher or tutoring system in response to a student's answer, error, or flawed reaso
+ - BEA 2025 Shared Task: Pedagogical Ability Assessment of AI-powered Tutors
+   https://list.elra.info/mailman3/hyperkitty/list/corpora@list.elra.info/thread/6XRLHMPQSJTAVZ7CIQGJFYUSAUKMCWI7/ | ELRA lists  authority: 3  date: 2025-03-18T16:00:00+00:00
+   ### BEA 2025 Shared Task: Pedagogical Ability Assessment of AI-powered Tutors  19 Mar 2025 19 Mar '25 ... The key question posed in previous research, however, remains: *How can we test whether state-of-the-art generative models are good AI teachers, capable of replying to a student in an educational dialogue?*  In this shared task, we will focus on educational dialogues between a student and a tutor in the mathemati
+ - [Corpora-List] BEA 2025 Shared Task: Pedagogical Ability Assessment of AI-powered Tutors
+   https://list.elra.info/mailman3/hyperkitty/list/corpora@list.elra.info/message/P3D6ISL5OZ7EU6PYBTHOCSSAHFAX4CXS/ | ELRA lists  authority: 3  date: 2025-03-13T16:00:00+00:00
+   # [Corpora-List] BEA 2025 Shared Task: Pedagogical Ability Assessment of AI-powered Tutors  14 Mar 2025 14 Mar '25 ... The key question posed in previous research, however, remains: *How can we test whether state-of-the-art generative models are good AI teachers, capable of replying to a student in an educational dialogue?*  In this shared task, we will focus on educational dialogues between a student and a tutor in 
+ - Pedagogical-Ability-Assessment-of-AI-powered-Tutors/README.md at main · umanshiva/Pedagogical-Ability-Assessment-of-AI-powered-Tutors - Skip to content
+   https://github.com/umanshiva/Pedagogical-Ability-Assessment-of-AI-powered-Tutors/blob/main/README.md#1 | GitHub  authority: 3  date: 2025-09-12T16:00:00+00:00
+   # Pedagogical Ability Assessment of AI-powered Tutors  This repository contains the implementation for assessing the pedagogical effectiveness of AI-powered tutors on a custom dataset of tutor–student dialogues. We fine-tune transformer-based models (BERT / RoBERTa) with advanced loss functions and explore multiple training strategies to classify tutor responses across four pedagogical dimensions:  - Mistake Identifi
+
+## Q: tutoring dialogue benchmark CIMA Socratic teaching evaluation
+ - Discerning Minds or Generic Tutors? Evaluating Instructional Guidance Capabilities in Socratic LLMs - Cognitive state editing
+   https://ar5iv.labs.arxiv.org/html/2508.06583#2 | arXiv  authority: 4  date: None
+   Dataset | Construction | #Samples | Evaluable | Language | Domain  ---|---|---|---|---|--- ... MathDial (Macina et al., 2023) | Teacher + LLM-student | 14,197 | NO | EN | Math  Bridge (Wang et al., 2023b) | Real data (student & teacher) | 550 | YES | EN | Math  SocraTeach (multi-turn) (Liu et al., 2024) | LLM-generated | 35,000 | NO | EN | Multi-subject  SocraticMath (Ding et al., 2024) | LLM-generated | 6,846 | YES 
+ - Rather than attempting direct turn-by-turn comparisons between human and LLM responses, we focus on analyzing aggregate behavior...
+   https://aaltodoc.aalto.fi/server/api/core/bitstreams/19a8b098-3703-4cff-8643-3784d33f0938/content#7#4 | None  authority: 3  date: None
+   The dataset’s emphasis on capturing multiple valid responses to the same student input allows us to study how both human tutors and LLMs handle the inherent flexibility of teaching interactions. Moreover, the controlled knowledge aspect creates a more direct comparison between human and ITs patterns, as both are working from explicit rather than internalized language knowledge.  Creating an Ensemble View  The multipl
+ - 1. Read the following dialogue in which a teacher explains a mathematical problem to a student
+   https://www.proceedings.com/content/079/079017-2721open.pdf#7#6 | None  authority: 3  date: None
+   ## Sample 3: ... ## I Broader Impacts    I Broader ImpactsIn this paper, we propose a large language model SocraticLM to achieve Socratic teaching, which is a crucial pedagogy in intelligent education and has a significant impact on our daily lives. On the one hand, as explained in Section 3.3 and 3.4, our SocraticLM can provide instructions to students with different cognitive states and various types of responses. 
+ - Automating Pedagogical Evaluation of LLM-based Conversational Agents
+   https://discovery.ucl.ac.uk/id/eprint/10212920/1/_CR_version__Automating_pedagogical_evaluation_of_AI_tutors_employing_Socratic_di | None  authority: 4  date: None
+   Grounded in learning sciences principles, this taxonomy provides a standardised approach to evaluating key aspects of the tutoring interaction and the AI's ability to effectively address student errors. Each dimension is evaluated using a three- tier labelling system (Yes, To some extent, No), allowing for nuanced assessment of the AI tutors' pedagogical abilities.    Automated technical metrics offer valuable quanti
+ - Surface plausibility is the weakest validation
+   https://browse-export.arxiv.org/pdf/2610.15692#3#7#3 | None  authority: 4  date: None
+   Finally, the current literature is concentrated in mathematics, programming, and other settings in which correctness and learning outcomes are comparatively easy to operationalize. The conclusions may not transfer directly to domains in which learning is open- ended, social, creative, multilingual, or difficult to assess with a single objective outcome. ... Jude A. Adenuga. 2026. Retrieval- augmented generation for p
+
+## Q: LLM tutor hallucination incorrect physics formula unit error detection
+ - Enhancing Large Language Models for Automated Homework Assessment in Undergraduate Circuit Analysis - Freq
+   https://ar5iv.labs.arxiv.org/html/2511.18221#2 | arXiv  authority: 4  date: None
+   | GPT-4o is overly confident that the answer is expected in milliwatts. In fact, the answer given in watts is also acceptable. ... | The student’s solution is incomplete. While they calculated the voltage across the resistors and the power absorbed by each resistor, they did not address the direction of current and adherence to the passive sign convention.    | The student’s solution should be considered complete sin
+ - Hallucination is true if the tutor states factually incorrect domain information (e
+   https://dl.acm.org/doi/pdf/10.1145/3828792.3828794?download=true#2#2#2 | None  authority: 4  date: None
+   Leakage, compliance, and hallucination labels are produced by an LLM judge rather than human annotation or multi- judge agreement. The judge flagged 2 hallucination- positive conversations ( \(0.2\%\) ) in our runs, but hallucination may still be underdetected under this protocol, particularly because the judge relies on a brief reference answer outline and internal domain knowledge rather than external verification.
+ - AI-Engineering-Curriculum/Science AI Engineering/AUDITORIA_MESES_4_5_6.md at main · joao-petreche-usp/AI-Engineering-Curriculum - - Citações fantasma: "Segundo ASHRAE 90.1-2027" (norma do futuro)
+   https://github.com/joao-petreche-usp/AI-Engineering-Curriculum/blob/main/Science%20AI%20Engineering/AUDITORIA_MESES_4_5_6.md#2 | GitHub  authority: 3  date: 2026-01-13T16:00:00+00:00
+   - Hallucination Detection Robusto: 5 tipos de violations detectadas
+ - Can large language models correctly interpret equations with errors? - LLMs were far more likely to hallucinate equations when students referenced an attachment, even though the model was not shown a...
+   https://journals.aps.org/prper/abstract/10.1103/v8f8-s11v#2 | Physical Review Journals  authority: 4  date: 2025-12-14T16:00:00+00:0
+   ### VI. ... We presented the two-step, neurosymbolic AlphaPhysics pipeline for physics grading. We performed systematic experiments using open-source models in the first step of this pipeline: Large language model (LLM) extraction and translation of student equations into a standardized format. The lists of equations extracted by LLMs from the typed student responses were compared to the ground truth lists.  We teste
+ - Challenging ChatGPT with Different Types of Physics Education Questions - Trigonometric errors
+   https://pubs.aip.org/aapt/pte/article/62/4/290/3279705/Challenging-ChatGPT-with-Different-Types-of?searchresult=1#2 | AIP.ORG  authority: 4  date: 2024-03-31T16:00:00+00:00
+   Trigonometric errors  Lack of understanding of some values given in the question  Wrong application of some physics concepts (i.e., not considering the friction)  Q4 | Very low (0/10) | Low variability in both form and content |   Wrong application of some physics concepts (i.e., not considering the Galilean relativity of movement)  Q5 | Low (3/10) | A lot of variability in both form and content |   Lack of accuracy 
+
+## Q: dimension analysis unit consistency check LLM numeric answer verification
+ - BioDimBench: Verifying Unit-Consistent Biomedical Mathematical Reasoning
+   https://ICML.cc/virtual/2026/82501 | ICML 2025  authority: 4  date: 2026-07-10T16:00:00+00:00
+   # BioDimBench: Verifying Unit-Consistent Biomedical Mathematical Reasoning  Mrinal Yalageri ⋅ Aarav Sinha  ### Abstract  Scientific agents increasingly perform biomedical calculations involving dosage, concentration, dilution, growth dynamics, and measurement conversion. In these domains, a mathematically plausible final number may still be invalid if it is attached to an incompatible unit. We introduce BioDimBench, 
+ - CN122594418A – Formula-based numerical reasoning question and answer implementation method, device and medium | Patsnap Eureka - [0034] Step Two: Verify Data Quality Using a Program
+   https://eureka.patsnap.com/patent/CN122594418A#2 | Patsnap Eureka  authority: 3  date: 2026-08-17T16:00:00+00:00
+   [0041] Example 2 illustrates the implementation of the present invention through a specific question-and-answer process.  [0042] Step 1:  [0043] The training dataset contains questions Q and answers A. Coarse-grained prompts P1 and fine-grained prompts P2 are constructed. The coarse-grained prompts aim to standardize the annotations in the original dataset to a relatively uniform natural language format, while the fi
+ - Nanbeige/CoSineVerifier-Tool-4B · Hugging Face
+   https://huggingface.co/Nanbeige/CoSineVerifier-Tool-4B#1 | Hugging Face  authority: 3  date: 2025-11-30T16:00:00+00:00
+   # CoSineVerifier: Tool-Augmented Answer Verification for Computation-Oriented Scientific Questions.  # 📖 Introduction  We present CoSineVerifier-Tool, a compact, tool-augmented verifier for Computation-Oriented ScIeNtific sEnario answer verification. It equips LLM reasoning with external tools—e.g., Python interpreter,—to accurately verify answers in computation-oriented scenarios such as algebraic equivalence and ph
+ - README.md · Nanbeige/CoSineVerifier-Tool-4B at d9b962cb9ccca582f0aa49478fe21aa9d9cc022e - license: mit
+   https://huggingface.co/Nanbeige/CoSineVerifier-Tool-4B/blob/d9b962cb9ccca582f0aa49478fe21aa9d9cc022e/README.md?code=true#1 | Hugging Face  authority: 3  date: 2025-10-23T16:00:00+00:00
+   # CoSineVerifier: Tool-Augmented Answer Verification for Computation-Oriented Scientific Questions.  # 📖 Introduction  We present **CoSineVerifier-Tool**, a compact, tool-augmented verifier for **C**omputation-**O**riented **S**c**I**e**N**tific s**E**nario answer verification. It equips LLM reasoning with external tools—e.g., Python interpreter,—to accurately verify answers in **computation-oriented scenarios** such
+ - license: mit
+   https://huggingface.co/Nanbeige/CoSineVerifier-Tool-4B/raw/cd49757b27943dc5c35b79b96ddeb06abd73d595/README.md#1 | Hugging Face  authority: 3  date: None
+   Our methods achieve state-of-the-art results on VerifyBench and SciBench. They also show clear improvements on RLVR tasks over other verification methods. ... # 🌟 Key Features:  - **Tool-augmented verification for computation-oriented scientific scenarios**:     CoSineVerifier-Tool evaluates multi-step reasoning in math and science where correctness depends on precise intermediate calculations. It also normalizes ans
+
+## Q: golden dataset unit test LLM domain accuracy physics evaluation
+ - The End of Determinism: Why Unit Tests Are Useless for AI
+   https://arizenai.com/end-of-determinism/#/portal/#/portal/#/portal/#/portal/#/portal/#/portal/#/portal/#/portal/#/portal/#/portal/ | Arizen  authority: 2  date: 2026-01-21T16:00:00+00:00
+   # The End of Determinism: Why Unit Tests Are Useless for AI Agents ... The Large Language Model is not a Turing machine. It is a probabilistic inference engine — a function that predicts the next token based on a statistical distribution derived from a massive corpus of human knowledge. The shift from Determinism to Probabilism is not a feature toggle. It is a change in the laws of physics for software.  TL;DR — Key 
+ - QTestBench: A Test Framework for Evaluating LLM-Generated Quantum Code
+   https://export.arxiv.org/pdf/2610.13811#1#4#1 | None  authority: 4  date: None
+   Legend: ... harness boilerplate is omitted. ... Pass despite wrong circuit</td></tr><tr><td>(B) Too strict: GPT-5.4 semantic (row 2)</td></tr><tr><td>Human reference passes the acceptance routine; strict allclose rejects numerically close outputs (Test=Fail, Checker=Correct).</td></tr><tr><td>1 out = ns["run"](&#x27;5&#x27;)</td></tr><tr><td>&#x27;0.672500000000004&#x27;</td></tr><tr><td>2 exp = &#x27;0.6735&#x27;</t
+ - ai-engineer-vault/chapters/04-evals-and-testing.md at main · ElMoorish/ai-engineer-vault - Skip to content
+   https://github.com/ElMoorish/ai-engineer-vault/blob/main/chapters/04-evals-and-testing.md#1 | GitHub  authority: 3  date: 2026-03-15T16:00:00+00:00
+   # Chapter 04: Evals & Testing ... - Traditional NLP metrics (BLEU, ROUGE) are useless for complex reasoning tasks. - "LLM-as-a-Judge" is the industry standard but requires strict bias mitigation (calibration). - Golden Datasets (ground truth) are the most valuable asset in your evaluation pipeline. - Evals must be integrated into CI/CD as automated regression tests.  ## What this chapter covers  In AI Engineering, "i
+ - LLM Evaluation
+   https://arunkumarpanchanana.github.io/Noob-to-AI-Expert/sessions/expert/15-llm-evaluation.html | arunkumarpanchanana.github.io  authority: 1  date: None
+   # LLM Evaluation  You can't improve what you can't measure. Build golden datasets, automated eval suites, and LLM-as-judge pipelines to systematically improve your AI apps.  ## Why Evaluation Matters  Without evals, you're flying blind. You can't safely upgrade models, change prompts, or add features without knowing if you've regressed. Evals are to AI apps what tests are to software.  👤  #### Human Eval  Highest qua
+ - LLM Evaluation
+   https://kube-dojo.github.io/ai-ml-engineering/advanced-genai/module-1.6-llm-evaluation/ | kube-dojo.github.io  authority: 1  date: None
+   The golden set became part of the development feedback loop, so it no longer measures generalization. The fix is to split development, ... , and held-out release sets ... the final gate, and refresh examples from reviewed production failures ... the ... forever ... Include capability results, private golden-set deltas, ... , ... , ... In Kubernetes, the ... run as a ... .
+
+## Q: scaffolding tutoring LLM over-questioning student frustration
+ - Designing Scaffolding Cards to Facilitate LLM-Based Socratic Instruction: An Exploratory Study of Response Strategies to Support...
+   https://dl.acm.org/doi/pdf/10.1145/3772318.3791696?__cf_chl_tk=twC5KX5dbrinuxBSRcIVnF0gtiw0Fak7Fpk17shDPb8-1781200192-1.0.1.1-gF6L | None  authority: 4  date: None
+   1) The research presents Scaffolding Cards as a novel design exemplar for  LLM- based Socratic instruction, demonstrating a set of structured response strategies identified in the first stage of the research, providing a practical and ready- to- use intervention to address learners' difficulties in generating substantive answers; 2) Through the mixed- method investigation using the Scaffolding Cards as a research pro
+ - IMPERIAL
+   https://icml.cc/media/icml-2026/Slides/75645.pdf#1#1 | None  authority: 4  date: None
+   # Rethinking Scaffolding in LLM Tutors  # The interactional mismatch between benchmarks and real-world deployments  Alexandra Neagu·Jeffrey T.H.Wong·Marcus Messer·Rhodri Nelson·Peter B.Johnson  AlignmentandvaluationmethodsforembeddingscaffoldingintLLMtutorestonanimplicitassumption:thatstudentswilltakeupthescaffoldingand engageintheconversationAcross940chatspanningAlutorbenchmarksandreal-worlddeploymentsweobservedthat
+ - Adaptive Scaffolding Needs Contingency: An AI Tutor That Escalates and Fades on What the Learner Does
+   https://export.arxiv.org/pdf/2609.22993#12#1 | None  authority: 4  date: None
+   We offer no hypothesis for RQ4. A warrant here means the evidence that makes fading safe. The question is answered inside Tutor C, from its record of the 551 occasions on which it faded support, 515 of which are coded, and scored against whether the fading held.    As an overview, this paper makes three contributions. (1) Design: preserved metacognitive demand as a design principle, and CoMeT, a tutor that escalates 
+ - Pedagogical framing and scaffolding: Early LLM tutors put pedagogy in the prompt
+   https://browse-export.arxiv.org/pdf/2610.15692#2#7#2 | None  authority: 4  date: None
+   ## 6 Evaluation and Reward (L3b)    L3b asks what is measured and what claim it can carry. A human rubric, an LLM judge, a simulated student's next turn, task success, and a delayed human assessment are not interchangeable evidence. We therefore keep pedagogical constructs separate from the strength of the evidence about learning. ... Solving and teaching do not move together on MathTutorBench (Macina et al., 2025), 
+ - The views expressed in this working paper are those of the authors and do not necessarily reflect the position of Technische Uni...
+   https://zenodo.org/records/22839432#1#4#1 | None  authority: 4  date: None
+   Nothing about the model, prompts, or content differs between arms in our experiment; only the schedule does.    The term de- scaffolding is borrowed directly from the tutoring literature [2] and is used here in a strict technical sense: the deliberate, scheduled removal of contingent support as a function of demonstrated competence, with the goal that terminal performance be achievable at \(\pmb {\sigma} = \pmb{0}\) 
+
+## Q: LLM grading consistency self-consistency same answer different score variance
+ - grader-variance - grader-variance
+   https://pypi.org/project/grader-variance/#1 | PyPI  authority: 4  date: 2026-08-22T16:00:00+00:00
+   What those papers explicitly decline to do — and what this project adds — is:  - Decompose the spread in a reported benchmark score into (a) which questions were sampled, (b) model sampling on a fixed question, and (c) grader re-scoring of a fixed completion. Miller's Adding Error Bars to Evals (arXiv:2411.00640) handles (a) and (b) and explicitly assumes scores are already computed — i.e. excludes (c). This adds (c)
+ - Optimizing Automated Essay Scoring Performance of Generative LLMs using Multi-objective Learning and Self-Consistency
+   https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003339100#1 | KCI  authority: 4  date: 2026-07-17T16:00:00+00:00
+   #### 다중 목적 학습과 Self-Consistency를 활용한 생성형 LLM의 자동 에세이 채점 성능 최적화 Optimizing Automated Essay Scoring Performance of Generative LLMs using Multi-objective Learning and Self-Consistency ... 대규모 글쓰기 평가에서 자동 에세이 채점(Automated Essay Scoring,AES)은 채점 효율을 높이지만, 생성형 LLM 기반 채점은 점수 토큰의 순서형학습이 어렵고 동일 입력에서도 출력이 달라지는 변동성으로 채점 정확도,신뢰도 문제가 발생할 수 있다. 본 연구는 추가 회귀 헤드 없이 단일 LLM이루브릭별 점수 토큰과 피드백 텍스트를 하나의 autoregressive 생성 경로에서 순차 생성하는 통합 학습ㆍ
+ - To evaluate the performance of automated essay scoring system we used two different evaluation frameworks: accuracy based evalua...
+   https://aclanthology.org/2026.aimecon-main.pdf#125#185#125 | None  authority: 4  date: None
+   With comparative grading, PCR rose to 67.03%, MAD decreased to 0.0837, and Avg SD decreased to 0.1648. Pairwise Pooled QWK increased from 0.7990 to 0.9129, reflecting substantially stronger agreement across repeated grading runs. On Distance Learning, comparative grading achieved a PCR of 65.32%, a MAD of 0.0838, an Avg SD of 0.1670, and a Pairwise Pooled QWK of 0.9324, compared to 35.65%, 0.1922, 0.3255, and 0.8462 
+ - Advanced Search
+   https://tkips.kips.or.kr/digital-library/107354 | TKIPS  authority: 3  date: 2026-05-30T16:00:00+00:00
+   ### Optimizing Automated Essay Scoring Performance of Generative LLMs using Multi-objective Learning and Self-Consistency  Vol. 15, No. 5, pp. 437-441, May 2026  10.3745/TKIPS.2026.15.5.437 ... In large-scale writing assessments, Automated Essay Scoring (AES) enhances scoring efficiency. However, due to the difficulty in learning ordinality among score tokens and the high variance of outputs for identical prompts, LL
+ - 让 LLM 来评判 | 技巧与提示 - 搜索
+   https://hub.baai.ac.cn/view/44768#1 | 智源社区  authority: 3  date: 2025-04-10T16:00:00+00:00
+   # 让 LLM 来评判 | 技巧与提示 ... ## LLM 评估模型已知偏差及缓解措施  - 缺乏内部一致性 ：同一 prompt 输入评估模型执行多次得到的结果可能不一样 (如果温度参数不设为 0)。 - 缓解措施：遵循 “自我一致性 (self-consistency)” 设置 prompt，输入模型执行多次并保留多数结果 - 自我偏好 ：LLM 评估模型更偏好自己的输出模式，因此会对模式相似的结果评分偏高。https://arxiv.org/abs/2404.13076 ... - 输入扰动不敏感 ：评估模型对扰动输入的辨识效果较差，难以提供一致的评分范围(更多实验结果可以参考llmjudge/README.md)。例如对于施加了相同程度噪声的文本，使用评估模型评估文本质量的评分无法反映噪声的程度。https://arxiv.org/abs/2406.13439https://twitter.com/aparnadhin
+
+## Q: persona chatbot learner level adaptation ignore learner state expert blind spot
+ - system - JP2025046689A - system - Google Patents
+   https://patents.google.com/patent/JP2025046689A/en#1 | Google Patents  authority: 4  date: 2023-09-20T16:00:00+00:00
+   # JP2025046689A - system - Google Patents system Download PDF ... To solve the problem of promoting self-learning of a learner by providing a learning support system that includes questions that are specialized in areas that the learner is weak in, support for approaches to answers, and an AI with a character that learns alongside the learner and keeps him/her motivated.SOLUTION: A learning support system includes me
+ - BEAGLE: Behavior-Enforced Agent for Grounded Learner Emulation - BKT Alignment.
+   https://ar5iv.labs.arxiv.org/html/2602.13280#8 | arXiv  authority: 4  date: None
+   ##### Tutor Conditions.  We evaluated five tutoring strategies spanning a range of sophistication. The ZPD Tutor uses BKT mastery estimates to select an appropriate scaffolding level and routes hints through different generation modes (Socratic, strategic, corrective, or specific) based on the student’s current error state Cohn et al. [2025]. The ML-based Tutor generates personalized hints informed by the student’s B
+ - \[\psi_{t}^{k} = [r_{t}^{k};1 - a_{t}^{k};1 - q_{t}^{k};c_{t - 1}^{k}]
+   https://fangmingliu.github.io/files/alignment-emnlp26.pdf#9#5 | None  authority: 2  date: None
+   Thus \(g_t^k = 0\) preserves the prior, while larger \(g_t^k\) moves the posterior toward evidence- supported values. For DEFER and IGNORE, the posterior remains unchanged, and deferred evidence is used only for current- turn discourse control. ... Algorithm 1 summarizes inference. Evidence is scored before routing; only evidence routed through COMMIT can revise the maintained belief. ... Table 5 lists the module int
+ - PersonaGPT: A Context-Aware Personalization Engine for Educational Chatbots Using Dynamic Learner Personas and Reflexive Dialogue
+   https://xplorestaging.ieee.org/document/11309801 | ieee.org  authority: 4  date: 2025-12-30T16:00:00+00:00
+   # PersonaGPT: A Context-Aware Personalization Engine for Educational Chatbots Using Dynamic Learner Personas and Reflexive Dialogue ... Artificial intelligence has transformed educational technology, with conversational agents becoming increasingly prominent in supporting student learning. ... While these chatbots offer accessibility and scalability, many still lack the capacity to personalize interactions based on t
+ - Showing 1-25 of 75 resultsfor "Index Terms":Personalized Dialogue Systems - Personalized task-oriented dialog agents can select responses according to the personalities of users
+   https://ieeexplore.ieee.org/search/searchresult.jsp?matchBoolean=true&queryText=%22Index%20Terms%22:Personalized%20Dialogue%20Syst | IEEE Xplore  authority: 4  date: None
+   Personalized task-oriented dialog agents can select responses according to the personalities of users. In this way, they facilitate understanding, and improve the efficiency of the conversation. Existing personalized agents generate matching functions according to human designed persona descriptions. This agent works well in the traditional scenario where sufficient samples are used, but can hardl...Show More  In thi
+
+## Q: synthetic user testing agent LLM judge closed loop evaluation pipeline open source
+ - morpheus-tester-agents - morpheus-tester-agents
+   https://pypi.org/project/morpheus-tester-agents/0.1.0/#files#1 | PyPI  authority: 4  date: 2026-07-02T16:00:00+00:00
+   # morpheus-tester-agents  Multi-agent autonomous AI evaluation framework. Simulates realistic and adversarial users against any AI agent, scores performance across 18 standardized dimensions using specialized judge agents, and detects regressions.  ## Architecture Morpheus (Orchestrator Agent) │ ├── Simulates users against the target agent │ ├── Delegates scoring to specialized Judge Agents: │   ├── Quality Judge   →
+ - @agentesting/agentest
+   https://www.npmjs.com/package/@agentesting/agentest?activeTab=code#1 | NPM  authority: 3  date: 2026-09-02T16:00:00+00:00
+   - Repeats the last value when exhausted (the third call onward returns the last item) - Resets automatically at the start of each conversation so every conversation gets a fresh sequence ... Throwing from a mock simulates a tool failure. The error message is injected back to the agent as a tool result: ... flaky_api: (args, ctx) => {       if (ctx.callIndex === 0) throw new Error('Connection timeout')       return { 
+ - @agentesting/agentest - npm Package Security Analysis - Sock...
+   https://socket.dev/npm/package/%40agentesting%2Fagentest#1 | Socket  authority: 3  date: 2026-03-28T16:00:00+00:00
+   Connection timeout" } as the tool result and can decide how to handle it. ... 'error' mode is recommended — it catches unexpected tool usage early. Switch to 'passthrough' if your agent uses many tools and you only want to mock a subset. ... Trajectory assertions let you verify that the agent called the right tools in the right order — without LLM evaluation. They're deterministic and fast. ... add_to_cart', args: { 
+ - sdialog - PyPI Package Security Analysis - Socket
+   https://socket.dev/pypi/package/sdialog/overview/0.4.10#1 | Socket  authority: 3  date: 2025-05-12T16:00:00+00:00
+   Synthetic Dialogue Generation and Analysis ... [!NOTE] ... # Let's make our simulated customer talk with the system dialog = simulated_customer.dialog_with(system) dialog.to_file("dialog_0.json")  ### 💾 Loading and saving dialogs  ## Import, export, and transform dialogs from JSON, text, CSV, or Hugging Face datasets.  Dialogs are rich objects with helper methods (filter, slice, transform, etc.) that can be easily ex
+ - b4user - B4User
+   https://pypi.org/project/b4user/#1 | PyPI  authority: 4  date: 2026-05-09T16:00:00+00:00
+   Set-Location F: ... b4user run `   --personas data/personas_sample.jsonl `   --service configs/service.yaml `   --domain-pack generic `   --n-personas 20 `   --questions-per-persona 2 ` ... --seed 42 ... b4user evaluate-concept ` ... --concept configs/agent_concept.yaml `   --domain-pack small_business_automation ` ... --questions-per-persona 3 ` ... b4user inspect-repo `   --repo F:\my_agent_service `   --output-dir

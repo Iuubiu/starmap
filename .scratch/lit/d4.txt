@@ -1,0 +1,140 @@
+
+## Q: Paas mental effort rating scale 9-point very very low high mental effort item wording
+ - Cognitive load rating scale: After each set in the training phase, participants were asked to rate their mental effort during th...
+   https://repository.isls.org/bitstream/1/8863/1/ICLS2022_727-734.pdf#2#2 | None  authority: 4  date: None
+   Van Gerven, P. W. M., Paas, F., Van Merrienboer, J. J. G., & Schmidt, H. G. (2002).
+ - used as a measurement of mental effort (e
+   https://etd.iri.isu.edu/GetFile.aspx?exid=217&etid=1&mtid=1&inpage=true#25#5 | None  authority: 3  date: None
+   ., 20 ... findings show that the CLT approach is ... the ... less time on the learning ... that ... difference ... researchers conclude that a CLT  approach leads to more ... (S ... , ... , ... eLearning application (e.g. Corbalan, Paas, & Cuypers, 2010; ... Self-explanation Prompts vs. Instructional Explanations
+ - Participants were required to recall information from each step and write their answer under the following sub- heading (see App...
+   https://unsworks.unsw.edu.au/bitstreams/dd139f79-d5b6-480e-858c-109926a27843/download#23#11 | None  authority: 3  date: None
+   Mean scores per group for difficulty and mental effort are shown in Table 5.1.2 (next page).
+ - Looking at Mental Effort Appraisals through a Metacognitive Lens: Are they Biased? - Educational Psychology Review - Third, the majority of measures can be administered throughout performing the task (van Gog and Paas 2008)
+   https://link.springer.com/article/10.1007/s10648-020-09555-9#2 | Springer  authority: 4  date: 2020-07-31T16:00:00+00:00
+   In sum, most CLT research measured effort with the subjective effort item of Paas (1992) or a variant thereof. This effort measure is easy to use and minimally intrusive. ... In general, CLT research is based on the assumption that the subjective appraisals of effort are an accurate measure of invested mental effort (Paas 1992).
+
+## Q: EduFlow scale flow experience measurement learning two dimensions
+ - The EduFlow-2 scale (Heutte et al
+   https://hal.science/hal-03701540v1/file/CHB___Autotelic_experience_preprint_auteur_complet_sansGraphicalAbstract%26Highlights.pdf# | None  authority: 4  date: None
+   The SAQ2 included the 12-item questionnaire EduFlow-2 about Flow in education (Heutte et al., 2021). ... Proposed and validated in French in several educational contexts by Heutte et al. (2021), the EduFlow-2 questionnaire is made of 12 items, for which one can indicate one’s level of agreement using a 7-point Likert scale (e.g. “[In this MOOC, I am deeply focused on what I am doing?”). It measures four different con
+ - **ORIGINAL RESEARCH**
+   https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2021.828027/pdf#5#1 | None  authority: 3  date: None
+   Frontiers in Psychology | www.frontiersin.org  1  December 2021 | Volume 12 | Article 828027 ... The Proposed Flow in Education Model ... Thus, various tools have long been used to study flow in educational contexts (Table 1). However, to our knowledge, before the development of the first Flow in Education Model (Heutte et al., 2014a), there was no short multidimensional scale designed specifically for education.  Th
+ - EduFlow- 2 is a self- report questionnaire developed by Heutte et al
+   https://escholarship.mcgill.ca/downloads/ff365c00m?locale=en#27#9 | None  authority: 3  date: None
+   Participants then filled out a self- report questionnaire about their flow experience during the research.
+ - Optimal Experience in Adult Learning: Conception and Validation of the Flow in Education Scale (EduFlow-2)
+   https://ask.orkg.org/item/491855290/Optimal-Experience-in-Adult-Learning:-Conception-and-Validation-of-the-Flow-in-Education-Scale | ORKG Ask  authority: 3  date: None
+   # Optimal Experience in Adult Learning: Conception and Validation of the Flow in Education Scale (EduFlow-2)  - Jean Heutte - Fabien Fenouillet - Charles Martin-Krumm ... - Gary Gute - Annelies Raes ... - Deanne Gute - Rémi Bachelet - Mihaly Csikszentmihalyi  Publication date December 2021 ... Frontiers Media SA Journal Frontiers in Psychology  ## Abstract  While the formulation of Mihaly Csikszentmihalyi's theory of
+
+## Q: Achievement Emotions Questionnaire AEQ boredom frustration learning
+ - Empirical evidence with the AEQ has shown that positive achievement emotions are positively associated with student control and ...
+   https://westminsterresearch.westminster.ac.uk/download/00251a04daf8a7444eceaf08cce3a4264242440be587a143592667bce355f96a/5411016/Le | None  authority: 3  date: None
+   Thereby, using the control-value  theory's framework to explore the effect of a wider range of emotions could be useful since the  framework has shown that even emotions of the same valence can have differential effects on  academic achievement. Although the control-value theory's framework has been used to  investigate psychology students' achievement emotions (Daniels et al., 2008; ... 2009; Pekrun et al., 2010; Pe
+ - Activity Achievement Emotions and Academic Performance: A Meta-Analysis. - Peer reviewed
+   https://eric.ed.gov/?q=metas&ff1=subCorrelation&ff2=eduSecondary+Education&id=EJ1310152#1 | U.S. Department of Education (.gov)  authority: 4  date: None
+   2021-Sep ... Activity Achievement Emotions and Academic Performance: A Meta-Analysis  Educational Psychology Review, v33 n3 p1051-1095 Sep 2021  Achievement emotions are emotions linked to academic, work, or sports achievement activities (activity emotions) and their success and failure outcomes (outcome emotions). Recent evidence suggests that achievement emotions are linked to motivational, self-regulatory, and cog
+ - Pekrun, Reinhard | Ohcanbohtosat | Oula-Finna - Achievement emotions are emotions linked to academic, work, or sports achievement activities (activity emotions) and their succe...
+   https://oula.finna.fi/yliopisto/Primo/Search?lookfor=Pekrun%2C+Reinhard&lng=se#2 | Oula-Finna | Oulun yliopisto  authority: 3  date: None
+   Moderator tests revealed that relations of activity emotions with academic performance are stronger when (a) students are in secondary school compared with both primary school and college, and (b) the emotions are measured by the Achievement Emotions Questionnaires – Mathematics (AEQ-M). ... ► First comprehensive instrument measuring students’ multiple achievement emotions. ► Findings corroborate Pekrun’s control-val
+ - Measuring Emotions in Students' Learning and Performance: The Achievement Emotions Questionnaire (AEQ).
+   https://eric.ed.gov/?q=Boredom&ff1=autPerry%2c+Raymond+P.&id=EJ909982#1 | U.S. Department of Education (.gov)  authority: 4  date: None
+   2011-Jan ... Measuring Emotions in Students' Learning and Performance: The Achievement Emotions Questionnaire (AEQ)  Pekrun, Reinhard; Goetz, Thomas; Frenzel, Anne C.; Barchfeld, Petra; Perry, Raymond P.  Contemporary Educational Psychology, v36 n1 p36-48 Jan 2011  Aside from test anxiety scales, measurement instruments assessing students' achievement emotions are largely lacking. This article reports on the construc
+
+## Q: expertise reversal effect adaptive instruction prior knowledge novice expert
+ - A cornerstone of adaptivity – A meta-analysis of the expertise reversal effect - Judging from the average effect sizes, the effect for high prior knowledge learners is smaller than the one for low prior knowle...
+   https://www.sciencedirect.com/science/article/pii/S0959475225000660?dgcid=rss_sd_all#3 | ScienceDirect.com  authority: 4  date: 2025-04-16T16:00:00+00:00
+   For example, in the case of domain knowledge, comparing hairdressers at the end of their vocational training with psychology students (e.g., Lemarié et al., 2017) likely represents larger differences in domain knowledge than comparing two halves of the same sample that were formed via median split on results of a short knowledge test (e.g., Adcook, 2004; Amadieu, Tricot, & Mariné, 2009). The fact that the type of ass
+ - The expertise reversal effect is one of the best- replicated findings in instructional psychology
+   https://zenodo.org/records/20419151/files/paper4b_expertise_reversal_v4.pdf?download=1#2#17#2 | None  authority: 4  date: None
+   The copywriter Eddie Shleyner (VeryGoodCopy) makes the analogous point at the level of word choice: “lære” (learn) signals effort with no specified payoff and is therefore a work- word; “vide” (know) or “have et værktøj” (have a tool) deliver utility and so are solution- words. The same content, framed differently, changes the listener’s expected bargain and consequently the friction it must absorb. Whether the tempo
+ - Using Cognitive Load Theory to Tailor Instruction to Levels of Accounting Students' Expertise - Inhalt
+   https://www.fachportal-paedagogik.de/literatur/vollanzeige.html?FId=eric_ej1078240&mstn=8&BoolSelect_2=AND&BoolSelect_3=AND&BoolSe | Fachportal Pädagogik  authority: 4  date: 2019-12-31T16:00:00+00:00
+   Autor/inn/en | Blayney, Paul; Kalyuga, Slava; Sweller, John  ---|--- Titel | Using Cognitive Load Theory to Tailor Instruction to Levels of Accounting Students' Expertise  Quelle | In: Educational Technology & Society, 18 (2015) 4, S.199-210 (12 Seiten)Infoseite zur Zeitschrift ... ISSN | 1436-4522  Schlagwörter | Cognitive Processes; Difficulty Level; Accounting; Teaching Methods; Educational Technology; Computer As
+ - The Expertise Reversal Principle in Multimedia Learning (Chapter 24) - The Cambridge Handbook of Multimedia Learning - Hostname: page-component-cb9f654ff-qc88w Total loading time: 0 Render date: 2025-08-16T09:40:55.237Z Has data issue: false hasCo...
+   https://core-varnish-new.prod.aop.cambridge.org/core/books/abs/cambridge-handbook-of-multimedia-learning/expertise-reversal-princi | cambridge.org  authority: 4  date: 2014-08-04T16:00:00+00:00
+   # 24 - The Expertise Reversal Principle in Multimedia Learning  from Part III - Advanced Principles of Multimedia Learning  Published online by Cambridge University Press: 05 August 2014  - Richard E. Mayer - Affiliation: University of California, Santa Barbara  ## Summary ... This chapter summarizes research and theory concerned with the effects of learner expertise (prior knowledge) on multimedia learning principle
+
+## Q: self-consistency grading LLM temperature variance rubric determinism
+ - - Using brand names instead of generic ingredient names
+   https://raw.githubusercontent.com/ombharatiya/ai-system-design-guide/refs/heads/main/ai_evals_complete_guide_langwatch_langfuse.md | GitHub  authority: 3  date: None
+   TypeSafe Jev (early access) | Binary checklist criteria on all traffic | No significant accuracy difference from LLM rubric judges in at least 19 of 27 paired comparisons (arXiv 2609.29769); weaker on ordinal scales; no rationale |  Your own TPR/TNR on a held-out test set is the only accuracy number that matters; published judge accuracies don't transfer across tasks.  **Tip:** Start with the most capable model to es
+ - On the Consistency of Automatic Scoring with Large Language Models | Semantic Scholar - On the Consistency of Automatic Scoring with Large Language Models
+   https://www.semanticscholar.org/paper/On-the-Consistency-of-Automatic-Scoring-with-Large-Xue-Xiao/444c2bf46949fb7ea1fe4bfffaa8cf94 | Semantic Scholar  authority: 3  date: 2026-02-15T16:00:00+00:00
+   # On the Consistency of Automatic Scoring with Large Language Models @article{Xue2026OnTC,   title={On the Consistency of Automatic Scoring with Large Language Models},   author={Ming-Feng Xue and Xing-Yao Xiao and Yunting Liu and Mark R. Wilson},   journal={Educational and Psychological Measurement},   year={2026},   volume={86},   pages={861 - 882},   url={https://api.semanticscholar.org/CorpusID:285768615} } This 
+ - 2606/2606.26185.md · huggingchat/papers-content - Title: Necessary but Not Sufficient:Temperature Control and Reproducibilityin LLM-as-Judge Safety Evaluations
+   https://huggingface.co/buckets/huggingchat/papers-content/tree/2606/2606.26185.md?code=true#1 | Hugging Face  authority: 3  date: 2026-09-07T16:00:00+00:00
+   Temperature Control and Reproducibilityin LLM-as-Judge Safety Evaluations")). ... //arxiv.org/html/2606.26185#bib.bib2)]—that persist across runs. The concern here is orthogonal: _run-to-run_ non-determinism, where the same judge returns different verdicts for an identical (transcript, rubric) pair. A debiased judge can still be irreproducible; a perfectly reproducible judge can still be biased.  Sources of non-deter
+ - Your LLM-as-judge disagrees with itself between runs
+   https://dev.to/ethanwritesai/your-llm-as-judge-disagrees-with-itself-between-runs-1e3e#comments#1 | DEV Community  authority: 2  date: 2026-07-07T16:00:00+00:00
+   Same outputs, same judge, two runs, two scores. The gate flickered red then green on a branch with zero code changes, and that flapping cost me more trust than any real regression.  ## The flap  I had a faithfulness gate on merge: judge scores every case, the mean has to clear 0.80. One Tuesday it failed at 0.79. I re-ran the identical job, no code change, no prompt change, and it passed at 0.82. Ran it a third time:
+
+## Q: SymPy pint dimensional analysis unit checking python library
+ - encomp - General-purpose library for engineering computations
+   https://pypi.org/project/encomp/0.8.2/#1 | PyPI  authority: 4  date: 2023-03-23T16:00:00+00:00
+   General-purpose library for engineering computations  ## Project description  # encomp  General-purpose library for engineering computations, with focus on clean and consistent interfaces.  Documentation at https://encomp.readthedocs.io/en/latest/  encomp is tested on Windows and Linux, with Python versions 3.10 and 3.11.  ## Features  Main functionality of theencomp library:  Handles physical quantities with magnitu
+ - encomp - encomp
+   https://pypi.org/project/encomp/0.6.1/#description#1 | PyPI  authority: 4  date: 2022-07-24T16:00:00+00:00
+   # encomp  General-purpose library for engineering computations, with focus on clean and consistent interfaces.  Documentation at https://encomp.readthedocs.io/en/latest/  encomp is tested on Windows and Linux, with Python versions 3.9 and 3.10.  ## Features  Main functionality of theencomp library:  Handles physical quantities with magnitude(s), dimensionality and units  - Modulesencomp.units, encomp.utypes - Extends
+ - Revisions to Dimensional analysis in SymPy - Updating since I've made a python package that does this
+   https://stackoverflow.com/posts/54190161/revisions#1 | Stack Overflow  authority: 3  date: None
+   By makingI made a new class that combines bothpython package called SymPySymDim and (PintSym, which I'm calling "Sympint", I can do what I'm looking for. I create this class with attributessymbol (string), expression (SymPy), unitbolic (PintDimensional analysis), to do this using SymPy and value (float)astropy.  The use case from my original question is belowunits.  Scroll to the last code block for the class definit
+ - Revision 4b1707aa-5b17-4baa-b5af-b9400b824ea9
+   https://stackoverflow.com/revisions/4b1707aa-5b17-4baa-b5af-b9400b824ea9/view-source | Stack Overflow  authority: 3  date: None
+   Now, I have a formula with some symbols. These symbols have units. Does anyone know a python library to evaluate the dimension of the formula.
+
+## Q: AlphaPhysics neurosymbolic physics grading equation extraction
+ - Can large language models correctly interpret equations with errors?
+   https://journals.aps.org/prper/pdf/10.1103/v8f8-s11v?__cf_chl_tk=9ykBsVAD061mrkdFim._bBMqReCC.J3FXv5rC36uLNg-1766593236-1.0.1.1-kR | None  authority: 4  date: None
+   ## 4. ... The AlphaPhysics pipeline uses LLMs only for pattern recognition: to extract equations. These equations can be easily seen, contested, and corrected by a student or teacher. A rigorous source of reasoning over algebraic formulas, such as automated theorem provers, can then be used to ensure reliable grading.    ### C. ... Satisfiability modulo theories (SMT) solvers are a class of automated theorem prover t
+ - Can large language models correctly interpret equations with errors? - - Open Access
+   https://journals.aps.org/prper/abstract/10.1103/v8f8-s11v#1 | Physical Review Journals  authority: 4  date: 2025-12-14T16:00:00+00:0
+   For a more detailed introduction to SMT solvers, we recommend Ref. . We use Z3, an SMT solver to provide an LLM with feedback on its translated equations. Z3 is an open-source SMT solver that consistently performs well in the SMT-LIB competition .  Computer algebra systems (CASs) are designed to handle a wider variety of tasks than SMT solvers. They can aid users by simplifying expressions or performing algebraic pre
+ - The AlphaPhysics Term Rewriting System for Marking Algebraic Expressions in Physics Exams - The AlphaPhysics Term Rewriting System for
+   https://ar5iv.labs.arxiv.org/html/2507.18337#1 | arXiv  authority: 4  date: None
+   Our development is based on ordered term rewriting (?) but required non-trival extensions for treating infinite domains. We leave a detailed exposition of these techniques to a later paper but provide high-level overview here111More details are in the supplementary materials. The implementation and rewrite systems described in this paper will be made public later..  With the help of these tools we obtained a proof of
+ - [PDF] The AlphaPhysics Term Rewriting System for Marking Algebraic Expressions in Physics Exams | Semantic Scholar - The AlphaPhysics Term Rewriting System for Marking Algebraic Expressions in Physics Exams
+   https://www.semanticscholar.org/paper/The-AlphaPhysics-Term-Rewriting-System-for-Marking-Baumgartner-McGinness/e97b7d2061a6596eb9b | Semantic Scholar  authority: 3  date: 2025-07-23T16:00:00+00:00
+   # The AlphaPhysics Term Rewriting System for Marking Algebraic Expressions in Physics Exams @article{Baumgartner2025TheAT,   title={The AlphaPhysics Term Rewriting System for Marking Algebraic Expressions in Physics Exams},   author={Peter Baumgartner and Lachlan McGinness},   journal={ArXiv},   year={2025},   volume={abs/2507.18337},   url={https://api.semanticscholar.org/CorpusID:280017836} } Two methods of automat
+
+## Q: browser-use github stars autonomous web agent
+ - Browser Use Review: 100K+ Stars, Free AI Browser Agent
+   https://theaiagentindex.com/agents/browser-use | Best Lindy Alternatives (2026): 9 Automation Tools  authority: 3  date
+   ByHeather MacAvelia·Independently reviewed·Published May 14, 2026·Updated Sep 28, 2026  Independently verified against live vendor data on Sep 7, 2026. ... web-searchdata-analysisautonomousno-codeworkflow-builder ... - ✓Self-healing browser automation using LLMs and computer vision instead of brittle CSS selectors or XPath, adapting to website layout changes without code maintenance and making it reliable for automat
+ - stagehand vs browser use - Skip to content
+   https://github.com/feder-cr/invisible_playwright_mcp/wiki/stagehand-vs-browser-use#1 | GitHub  authority: 3  date: 2026-09-21T16:00:00+00:00
+   # stagehand vs browser use ... # Stagehand vs browser-use ... browser-use is an agent someone already built. ... All facts were retrieved 2026-09-03 from the two repositories and Stagehand's documentation. ... browser-use (browser-use/browser-use, roughly 112.2k stars, Python) is the most-starred project in the category, and you do not write steps at all. You construct anAgent with a task description and a model, cal
+ - openai operator open source - Skip to content
+   https://github.com/feder-cr/invisible_playwright_mcp/wiki/openai-operator-open-source#1 | GitHub  authority: 3  date: 2026-09-21T16:00:00+00:00
+   what each actually is, its license, and its scale as read from GitHub on 2026-09-03. ... ### browser-use - the biggest, by far  github.com/browser-use/browser-use. Roughly 112k stars, MIT license, and the description reads "Make websites accessible for AI agents. Automate tasks online with ease." It drives a Chromium-family browser, supports OpenAI, Google and Anthropic models with your own keys plus its own optimize
+ - ---
+   https://raw.githubusercontent.com/feder-cr/invisible_playwright_mcp/0b233c0d8c58a40aebe5e471fc59d8e92901c7e7/docs/stagehand-vs-bro | GitHub  authority: 3  date: None
+   # Stagehand vs browser-use ... browser-use is an agent someone already built. ... All facts were retrieved 2026-09-03 from the two repositories and Stagehand's documentation. ... **browser-use** ([browser-use/browser-use](https://github.com/browser-use/browser-use), roughly 112.2k stars, Python) is the most-starred project in the category, and you do not write steps at all. You construct an `Agent` with a task descri
+
+## Q: Stagehand browserbase act observe extract deterministic replay cache
+ - Caching actions - Stagehand
+   https://docs.stagehand.dev/v4/best-practices/caching | Stagehand  authority: 3  date: 2026-09-21T16:00:00+00:00
+   # Caching actions  Cache actions automatically to reduce costs and improve performance  Stagehand caches act(), observe(), and extract() results server-side to reduce LLM costs and speed up your automations. Browserbase manages the cache, so there is nothing to install, no cache files to manage, and no state to keep in sync across machines.  ## Browserbase cache Browserbase Cache is a managed, server-side caching lay
+ - 
+   https://docs.stagehand.dev/v4/best-practices/caching.md | Stagehand  authority: 3  date: None
+   ### Inspecting cache status  Every result carries `metadata.cache`, so you can verify whether the cache served that result. The status is always present: `HIT`, `MISS`, or `DISABLED` when no cache lookup ran at all. A miss also carries a `missReason`, and a hit carries the tokens it saved. ... Cache behavior is also visible in the [Browserbase session replay dashboard](https://docs.browserbase.com/features/observabil
+ - Act - Stagehand
+   https://docs.stagehand.dev/v4/basics/act | Stagehand  authority: 3  date: 2026-09-21T16:00:00+00:00
+   When you use act(), Stagehand returns a result with two fields: data holds the action payload, and metadata carries the action ID and server-side cache status. ... act() calls. When you pass an Action returned by observe(), Stagehand replays that action’s selector directly.  ### Server-side caching  When running on Browserbase, Stagehand can cache cache requires a Browserbase browser and a Browserbase API key. It has
+ - ```python
+   https://raw.githubusercontent.com/browserbase/stagehand/2785d0d1fb9f254a51b9f223f1f1a250094c8e79/packages/docs/v4/first-steps/ai-r | GitHub  authority: 3  date: None
+   ## Observe  Plan actions before executing them. ... Observing on a specific page: ... ## Advanced Features  ### Locators ... Selectors returned by `observe` are XPath strings prefixed with `xpath=`: ... ### Multi-Page Workflows ... ### Caching ... ## Security Notes  - Never hard-code API keys. ... - Avoid broad instructions that may trigger unintended navigation; ... ## Resources/References ... - Stagehand documentat
+
+## Q: LLM rubric scoring structured output JSON schema constrained decoding evaluation
+ - TRACE-PSG: Traceable Sleep Diagnosis Support with Pointer-Grounded Evidence
+   https://papers.miccai.org/miccai-2026/paper/5410_paper.pdf#1#2#1 | None  authority: 4  date: None
+   Consequently, reliable auditable structuring of multi- page PSG reports and free- text CC/HPI into verifiable clinical outputs remains unresolved in sleep medicine. Here, auditability requires that each clinical claim be traceable to explicit provenance (a specific report field/plot or a narrative span), while explicitly abstaining when evidence is insufficient or indeterminate. We propose a two- stage, constraint- d
+ - rubrify - Key design: bindings drive the criterion rendering
+   https://pypi.org/project/rubrify/#2 | PyPI  authority: 4  date: 2026-04-04T16:00:00+00:00
+   Each rubric module exports a function that returns a CompilationResult.  ### examples/compliance_judge.py  ComplianceJudge: evaluates whether an assistant complied with a user's request without refusing, deflecting, or adding safety notices. 3 criteria (Directness 0-2, Refusal/Deflection 0-2, Task Fidelity 0-2), 2 disqualifiers, 16-pattern regex library, strict compliance-judge role, BECAUSE: output constraint, holis
+ - rubric - Rubric: A Python library for LLM-based evaluation using weighted rubrics.
+   https://pypi.org/project/rubric/2.0.0/#1 | PyPI  authority: 4  date: 2025-10-17T16:00:00+00:00
+   10.0, "requirement": " ... str, user_prompt: ... 8.0, "requirement": "Explicitly uses Shapley attribution for decomposition"}, ... -15.0, "requirement": "Uses total deliveries instead of cash-only deliveries"} ... Scoring Formula: ... $$ \text{score} = \max\left(0, \min\left(1, \frac{\sum_{i=1}^{n} \mathbb{1}[\text{verdict}i = \text{MET}] \cdot w_i}{\sum{i=1}^{n} \max(0, w_i)}\right)\right) $$  Where:  -  = weight of
+ - rubric
+   https://pypi.org/project/rubric/2.2.0/#1 | PyPI  authority: 4  date: 2025-10-17T16:00:00+00:00
+   10.0, "requirement": " ... str, user_prompt: ... States Q4 2023 base margin as 17.2%"}, ... 8.0, "requirement": "Explicitly uses Shapley attribution for decomposition"}, ... -15.0, "requirement": "Uses total deliveries instead of cash-only deliveries"} ... {result.score:.2f}")  # Raw weighted sum ... print(f"  [{criterion.verdict}] {criterion.requirement}")         print(f"    → {criterion.reason}") ... ## Autograder

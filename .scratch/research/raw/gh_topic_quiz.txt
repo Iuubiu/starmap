@@ -1,0 +1,638 @@
+quiz-game · GitHub Topics · GitHub
+Skip to content
+Navigation Menu
+Sign in
+Appearance settings
+Platform
+AI CODE CREATION
+GitHub Copilot
+Write better code with AI
+GitHub Copilot app
+Direct agents from issue to merge
+MCP Registry
+Integrate external tools
+DEVELOPER WORKFLOWS
+Actions
+Automate any workflow
+Codespaces
+Instant dev environments
+Issues
+Plan and track work
+Code Review
+Manage code changes
+Code Quality
+Enforce quality at merge
+APPLICATION SECURITY
+GitHub Advanced Security
+Find and fix vulnerabilities
+Code security
+Secure your code as you build
+Secret protection
+Stop leaks before they start
+EXPLORE
+Why GitHub
+Documentation
+Blog
+Changelog
+Marketplace
+View all features
+Solutions
+BY COMPANY SIZE
+Enterprises
+Small and medium teams
+Startups
+Nonprofits
+BY USE CASE
+App Modernization
+DevSecOps
+DevOps
+CI/CD
+View all use cases
+BY INDUSTRY
+Healthcare
+Financial services
+Manufacturing
+Government
+View all industries
+View all solutions
+Resources
+EXPLORE BY TOPIC
+AI
+Software Development
+DevOps
+Security
+View all topics
+EXPLORE BY TYPE
+Customer stories
+Events & webinars
+Ebooks & reports
+Business insights
+GitHub Skills
+SUPPORT & SERVICES
+Documentation
+Customer support
+Community forum
+Trust center
+Partners
+View all resources
+Open Source
+COMMUNITY
+GitHub Sponsors
+Fund open source developers
+PROGRAMS
+Security Lab
+Maintainer Community
+GitHub Stars
+Archive Program
+REPOSITORIES
+Topics
+Trending
+Collections
+Enterprise
+ENTERPRISE SOLUTIONS
+Enterprise platform
+AI-powered developer platform
+AVAILABLE ADD-ONS
+GitHub Advanced Security
+Enterprise-grade security features
+Copilot for Business
+Enterprise-grade AI features
+Premium Support
+Enterprise-grade 24/7 support
+Pricing
+Search
+/
+Sign in
+Sign up
+Appearance settings
+You signed in with another tab or window.
+Reload
+to refresh your session.
+You signed out in another tab or window.
+Reload
+to refresh your session.
+You switched accounts on another tab or window.
+Reload
+to refresh your session.
+Dismiss alert
+Explore
+Topics
+Trending
+Collections
+Events
+GitHub Sponsors
+#
+quiz-game
+Star
+Here are
+1,541 public repositories
+matching this topic...
+Language:
+All
+Filter by language
+All
+1,541
+JavaScript
+484
+Python
+229
+TypeScript
+129
+Java
+128
+HTML
+127
+C++
+52
+CSS
+50
+C#
+48
+Dart
+45
+Kotlin
+35
+Sort:
+Most stars
+Sort options
+Most stars
+Fewest stars
+Most forks
+Fewest forks
+Recently updated
+Least recently updated
+sarveshchavan7
+/
+Quiz-Game
+Star
+345
+Code
+Issues
+Pull requests
+Multiple choice questions answer game for android (Quiz game).
+game
+games
+for
+trivia
+game-development
+quiz
+quizzes
+quizapp
+quiz-example
+quiz-game
+quiz-maker
+androidgame
+quizgame
+Updated
+Jun 26, 2021
+Java
+akashgiricse
+/
+lets-quiz
+Star
+271
+Code
+Issues
+Pull requests
+A quiz website for organizing online quizzes and tests. It's build using Python/Django and Bootstrap4 frameworks. 🤖
+python
+open-source
+django
+opensource
+django-application
+django-framework
+python3
+question-answering
+quizzes
+quizapp
+quiz-game
+django-project
+quiz-app
+Updated
+Apr 10, 2026
+Python
+ilic5000
+/
+pabkvizgenerator
+Star
+128
+Code
+Issues
+Pull requests
+Anansi is a computer vision (cv2 and FFmpeg) + OCR (EasyOCR and tesseract) python-based crawler for finding and extracting questions and correct answers from video files of popular TV game shows in the Balkan region.
+python
+opencv
+computer-vision
+tesseract
+quiz-game
+quiz-app
+ocr-python
+easyocr
+Updated
+Sep 26, 2022
+Python
+CodeFoxLk
+/
+quizzle_public
+Star
+117
+Code
+Issues
+Pull requests
+flutter quiz app
+firebase
+quiz
+flutter
+quizapp
+quiz-game
+Updated
+Jun 16, 2022
+Dart
+colfin22
+/
+intro-quiz
+Star
+103
+Code
+Issues
+Pull requests
+Discussions
+Self-hosted "guess the intro" music quiz for family game night — plays your own Navidrome library on a cast TV or speaker, phones are the buzzers. Difficulty from your play counts + Last.fm. No cloud, no ads, MIT.
+docker
+chromecast
+self-hosted
+home-assistant
+subsonic
+quiz-game
+party-game
+music-quiz
+fastapi
+navidrome
+Updated
+Oct 14, 2026
+Python
+cosmoart
+/
+quiz-game
+Sponsor
+Star
+93
+Code
+Issues
+Pull requests
+🎯 Quiz/trivia game with AI generated questions, made with tailwind and the Cohere API in NextJS.
+nextjs
+trivia
+web-game
+quiz-game
+quiz-app
+trivia-game
+cohere
+Updated
+Feb 9, 2024
+JavaScript
+sarveshchavan7
+/
+Trivia-Knowledge
+Star
+93
+Code
+Issues
+Pull requests
+Trivia knowledge is a fun trivia game in which players have to guess the answers of questions by filling the answers boxes with correct letters.
+game
+games
+gaming
+knowledge
+trivia
+game-development
+android-application
+quizzes
+quizapp
+quiz-example
+trivia-quiz-game
+quiz-game
+game-dev
+quiz-maker
+trivia-game
+trivia-quiz
+trivia-challenge
+Updated
+Jul 14, 2019
+Java
+WeiChiaChang
+/
+js-pop-quiz
+Star
+92
+Code
+Issues
+Pull requests
+JavaScript Pop Quizzzzzz.
+javascript
+vue
+vue-router
+quiz
+javascript-game
+quiz-game
+popquiz
+Updated
+Jan 4, 2023
+JavaScript
+astrnox
+/
+TATAbox
+Star
+83
+Code
+Issues
+Pull requests
+Discussions
+Your Complete Biology Study Companion — From Gaokao to Competition Level;高中生生物学习平台-高考到竞赛全链路学习方案
+python
+html
+learning
+education
+sql
+biology
+learn
+educational
+quiz
+quizzes
+learning-by-doing
+quizapp
+highschool
+quiz-game
+html-css-js
+educational-project
+educational-software
+highschool-students
+highschool-project
+supabase
+Updated
+Oct 19, 2026
+JavaScript
+ssvas1997
+/
+Comp_Quiz_Android
+Star
+77
+Code
+Issues
+Pull requests
+Quiz App using Sqlite for quiz questions and Firebase for Leaderboard
+android
+firebase
+sqlite
+quiz
+quizzes
+vector-graphics
+quizapp
+firebase-realtime-database
+firebase-authentication
+quiz-game
+Updated
+Jul 24, 2018
+Java
+Jatin-8898
+/
+react-quiz-app
+Star
+74
+Code
+Issues
+Pull requests
+A Simple React Quiz App 💎
+react
+components
+babel
+webpack
+component
+material-design
+responsive
+material-ui
+bootstrap4
+quiz
+score
+quizapp
+quiz-game
+react-quiz-form
+react-quiz
+no-create-react-app
+Updated
+Sep 21, 2024
+JavaScript
+Richmond-Nunoo
+/
+Flutter-Riddles
+Star
+71
+Code
+Issues
+Pull requests
+An interactive Flutter quiz app covering widgets, state management, navigation, layouts, and UI concepts. Learn with flash cards and test your knowledge with quizzes..
+flutter
+quizapp
+quiz-game
+flutter-apps
+flutter-examples
+flutter-widget
+flutter-ui
+flutter-state-management
+flutter-quiz-app
+Updated
+Mar 13, 2024
+Dart
+swapnilrane24
+/
+Quiz
+Star
+62
+Code
+Issues
+Pull requests
+Simple quiz game mechanics with multiple types of questions [Text only, Video, Audio, Image].
+unity-tutorial
+free
+source-code
+quiz-game
+unity2d
+quiz-app
+Updated
+Jan 6, 2021
+C#
+ptkdev
+/
+quizquickanswer-telegram-game-bot
+Sponsor
+Star
+54
+Code
+Issues
+Pull requests
+Discussions
+🎮 Funny quiz game for telegram, play with friends on your group!
+game
+telegram
+telegram-bot
+telegraf
+quiz
+telegram-group
+quiz-game
+telegram-game
+grammy
+telegram-quiz-game
+quizquickanswer
+grammyjs
+quiz-game-telegram
+Updated
+Jul 9, 2023
+TypeScript
+Gdalik
+/
+EarQuiz_Frequencies
+Star
+53
+Code
+Issues
+Pull requests
+Discussions
+Software for technical ear training on equalization
+audio
+audio-player
+audio-editing
+ear-training
+audio-production
+quizapp
+audio-processing
+equalizer
+quiz-generator
+quiz-game
+audioplayer
+quiz-app
+eartraining
+quizgame
+equalization
+audio-engineering
+audio-generator
+ear-training-game
+Updated
+Feb 6, 2025
+Python
+dmtrbrl
+/
+hp-quiz
+Star
+49
+Code
+Issues
+Pull requests
+Harry Potter movies quiz. Experimenting with localStorage, SVG path animations and vue.observable
+svg
+vue
+svg-animations
+harry-potter
+localstorage
+quiz
+quiz-game
+vue-observable
+Updated
+Jul 13, 2022
+Vue
+sarveshchavan7
+/
+Math-game
+Star
+46
+Code
+Issues
+Pull requests
+Maths Quiz game for android.
+mathematics
+quiz
+quizapp
+quiz-example
+quiz-game
+quizz
+maths-quiz-game
+Updated
+Jan 12, 2017
+Java
+SaurabhSSB
+/
+kaun-banega-crorepati
+Star
+43
+Code
+Issues
+Pull requests
+The Kaun Banega Crorepati (KBC) Python program is a console-based quiz game where players answer multiple-choice questions to win virtual prize money. It features a 50-50 lifeline to eliminate two wrong options. Perfect for beginners, it demonstrates Python concepts like user input, lists, functions, and control flow.
+programming
+python3
+quiz
+console-game
+interactive-game
+quiz-game
+pythonprojects
+generalknowledge
+kaunbanegacrorepati
+multiplechoice-questions
+game-lifeline
+Updated
+Jan 6, 2025
+HouariZegai
+/
+quiz-app
+Star
+40
+Code
+Issues
+Pull requests
+Java Quiz - Desktop Application
+mysql
+game
+java
+javafx
+quiz
+quiz-game
+quiz-app
+Updated
+Jun 25, 2024
+Java
+bwojcicki
+/
+vexillologist
+Star
+38
+Code
+Issues
+Pull requests
+An educational world flags web game inspired by Duolingo
+javascript
+educational
+web-design
+vexillology
+quiz-game
+world-flags
+Updated
+Jul 26, 2024
+JavaScript
+Load more…
+Add this topic to your repo
+To associate your repository with the
+quiz-game
+topic, visit your repo's landing page and select "manage topics."
+Learn more
+Footer
+© 2026 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Community
+Docs
+Contact
+Manage cookies
+Do not share my personal information
+You can’t perform that action at this time.

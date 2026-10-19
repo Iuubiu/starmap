@@ -1,0 +1,125 @@
+{
+ "query": "Obsidian local graph depth hops show only notes linked to current note",
+ "results": [
+  {
+   "title": "GitHub - sunwookwak-polisci/Hop-Link-Viewer: Suggest indirectly linked notes up to N-hops from an anchor note (current note), prioritizing nodes not already directly linked to the anchor. Show a sidebar of clickable suggestions with hop numbers to explore nearby but unconnected notes and uncover missing links in your vault. · GitHub - GitHub - sunwookwak-polisci/Hop-Link-Viewer: Suggest indirectly linked notes up to N-hops from an anchor note (current note), pr...",
+   "site_name": "GitHub",
+   "site_icon": "https://cdn.deepseek.com/site-icons/github.com",
+   "authority": 3,
+   "rerank_score": 1.3504772186279297,
+   "date": "2026-08-28T16:00:00+00:00",
+   "url": "https://github.com/sunwookwak-polisci/Hop-Link-Viewer#1",
+   "summary": "# GitHub - sunwookwak-polisci/Hop-Link-Viewer: Suggest indirectly linked notes up to N-hops from an anchor note (current note), prioritizing nodes not already directly linked to the anchor. Show a sidebar of clickable suggestions with hop numbers to explore nearby but unconnected notes and uncover missing links in your vault.\n...\n# Hop-Link Viewer — Obsidian Plugin\n\nSuggest notes **up to N hops** from an anchor note, skipping notes already linked to it by default. Built for serendipitous discovery of missing links in your vault.\n\n## What it does\n\nHop-Link Viewer walks your vault’s link graph outward from an **anchor** and lists nearby notes that are **not yet connected** to it. It opens in the right sidebar by default, with commands for opening it below or beside the active note.\n\nA link counts in either direction: notes the anchor points to, and notes that point back. By default the sidebar skips those already-connected notes, so you see **missing** links instead of the same neighbors Obsidian already shows.\n\n### Example\n\nAnchor: **Project Alpha** , which links to **Jane Smith** and **Budget 2024**.\n\nDistance | Meaning | Shown by default?  \n---|---|---  \n**1-hop** | Direct neighbors — Jane, Budget (either direction) | No  \n**2-hop** | Linked from Jane or Budget, but not from Project Alpha — e.g. **Conference talk** , **Prior grant** | Yes  \n**3-hop** | One step further — e.g. a paper cited on Conference talk | Yes, up to your hop depth  \n\nEach suggestion is a clickable link with a hop number (2, 3, …). Turn on **Include direct links** to also list 1-hop neighbors; those show a **linked** badge instead of a hop number.\n\n### Viewer\n\nOpen it in the sidebar from the ribbon ( **Open Hop-Link Viewer** ) or the command palette ( **Hop-Link Viewer: Open viewer in sidebar** ). Each Obsidian window can have its own sidebar viewer and workspace pane viewer.\n\nUse **Open viewer below active note** or **Open viewer to right of active note** to open the plugin in a workspace pane in the current window. When that pane is linked to a Markdown tab with Obsidian’s **Link with tab** , its active-file anchor follows the linked tab. Unlinked viewers follow the active markdown note in the same window.\n\nThe viewer shows a hop-depth stepper (synced with Settings), the current anchor and its last-modified time, and up to your display cap of suggestions (default 10).\n\nClick or tap a suggestion to open it. On desktop, Ctrl/Cmd-click or middle-click opens a new tab. The list refreshes when you switch notes, open files, edit, or when link metadata updates. No query language or templates.\n\nTypical uses: spotting related notes while writing, finding “obvious in hindsight” links between clusters, or raising hop depth / shuffling sort order to wander nearby ideas.\n\n## Install\n\nRequires Obsidian 1.13.0 or newer.\n\n  1. Open **Settings → Community plugins**.\n  2. Turn off **Restricted mode** if it is on.\n  3. Click **Browse** , search for **Hop-Link Viewer** , then install and enable it.\n\n## Settings\n\nSetting | Default | Description  \n---|---|---  \n**Hop depth** | `3` | How far to walk from the anchor. Hop 1 appears only with **Include direct links**.  \n**Display cap** | `10` | Maximum suggestions after sorting  \n**Excluded folder paths** | _(empty)_ | One prefix per line. Hidden from the list only; those notes can still be the anchor, and the walk can still pass through them.  \n**Anchor mode** | `active-file` | Which note is “you are here”  \n**List order** | `walk-order` | Sort before applying the display cap  \n**Include direct links** | off | Show 1-hop neighbors with a `linked` badge  \n**Auto-open sidebar on startup** | off | Open the viewer in the sidebar when Obsidian starts  \n\n### Anchor mode\n\nThe **anchor** must be a markdown note. If none can be resolved, the viewer shows “No anchor note found.” (Updates to support other file types are planned.)\n\nMode | Behavior  \n---|---  \n`active-file` | Linked Markdown tab for a linked workspace viewer; otherwise, the active markdown note in the same window\n...\n### List order\n...\n## How it...",
+   "snippet": "Suggest indirectly linked notes up to N-hops from an anchor note (current note), prioritizing nodes not already directly linked to the anchor. ... The viewer shows a hop-depth stepper (synced with Settings), the current anchor and its last-modified time, and up to your display cap of suggestions (default 10).",
+   "content": ""
+  },
+  {
+   "title": "Clew - the Knowledge Explorer for Obsidian",
+   "site_name": "christian-luger-at.github.io",
+   "site_icon": "https://cdn.deepseek.com/site-icons/github.io",
+   "authority": 1,
+   "rerank_score": 1.289576292037964,
+   "date": "2026-08-09T16:00:00+00:00",
+   "url": "https://christian-luger-at.github.io/obsidian-clew/guide/focus",
+   "summary": "# Focus\n\nClick the Focus toolbar icon (the crosshair) to narrow the whole graph down to one note and its neighborhood - everything past a chosen number of hops away is hidden entirely, the same way Find path's result overrides the rest of the graph while it's showing.\n\n## Using it\n\n- Click the Focus icon to open the panel.\n- Pick a note.\n- Pick a hop depth - 1, 2, or 3.\n\nThe graph immediately shows just that note, its direct links (1 hop), their links in turn (2 hops), and so on out to the depth you picked - nothing else. Changing the hop depth while Focus is active updates the graph immediately, with no separate \"Apply\" step.\n\nFocus is exclusive with Find path's result, an enabled filter's hiding, and a Diagnostics highlight - only one of these overrides the graph's normal contents at a time.\n\n## Clearing it\n\nClick \"Clear\" in the Focus panel, or close the panel with the \"x\" - both remove the restriction and show the whole graph again.\n\n## When to use it\n\nThe Radial layout (see Layouts) answers a similar question - \"how does the rest of my vault relate to this one note?\" - by ringing every other note out by hop distance instead of hiding anything. Reach for Radial when you want the full picture with distance made visible, and for Focus when the vault is big enough that even that full picture is too much and you'd rather see only what's actually nearby.",
+   "snippet": "Pick a hop depth - 1, 2, or 3. The graph immediately shows just that note, its direct links (1 hop), their links in turn (2 hops), and so on out to the depth you picked - nothing else.",
+   "content": ""
+  },
+  {
+   "title": "Graph View | victor-software-house/obsidian-help | DeepWiki - Menu",
+   "site_name": "DeepWiki",
+   "site_icon": "https://cdn.deepseek.com/site-icons/deepwiki.com",
+   "authority": 2,
+   "rerank_score": 1.1960594654083252,
+   "date": "2026-02-15T16:00:00+00:00",
+   "url": "https://deepwiki.com/victor-software-house/obsidian-help/3.3-graph-view#1",
+   "summary": "Graph View is a core plugin that provides visual graph-based navigation of note relationships in an Obsidian vault.\n...\n### Local Graph View\n\nThe local graph displays notes connected to the active note within a configurable depth. Each depth level reveals notes connected to the notes at the previous level.\n\nThe depth slider in the local graph filter settings panel controls how many hops from the active note are displayed.\n...\n## Local Graph View\n\nLocal Graph View focuses on a specific note and its neighborhood within a configurable depth radius.\n\n### Depth Configuration\n\nThe depth slider controls how many link hops from the active note are displayed:\n\n- Depth 1: Shows only notes directly linked to/from the active note\n- Depth 2: Adds notes linked to/from depth 1 notes\n- Depth N: Recursively adds notes up to N hops away\n...\nLocal Graph View supports all [[#Settings and Configuration|global graph settings]]:\n\n- Filters\n- Groups\n- Display options\n- Force parameters\n\nAdditionally, it includes the depth slider unique to local graphs.\n\nAccess:\n\n- Command: \"Open local graph\"\n- Opens in new tab/pane\n- Dynamically updates when active note changes (if not pinned)",
+   "snippet": "The depth slider in the local graph filter settings panel controls how many hops from the active note are displayed. ... The depth slider controls how many link hops from the active note are displayed: - Depth 1: Shows only notes directly linked to/from the active note",
+   "content": ""
+  },
+  {
+   "title": "Graph View | obsidianmd/obsidian-help | DeepWiki - Loading",
+   "site_name": "DeepWiki",
+   "site_icon": "https://cdn.deepseek.com/site-icons/deepwiki.com",
+   "authority": 2,
+   "rerank_score": 1.14116370677948,
+   "date": "2026-07-28T16:00:00+00:00",
+   "url": "https://deepwiki.com/obsidianmd/obsidian-help/4.5-Bases-syntax#1",
+   "summary": "### Local Graph View\n\nThe local graph displays notes connected to the currently active note up to a specified depth level. It is opened via the Open local graph command en/Plugins/Graph view.md88\n\nDepth Control:\n\n- Controlled via a slider at the top of the local Graph Filter Settings panel en/Plugins/Graph view.md90\n- Each level of depth reveals notes connected to the notes from the previous depth en/Plugins/Graph view.md90",
+   "snippet": "Local Graph View The local graph displays notes connected to the currently active note up to a specified depth level. ... - Controlled via a slider at the top of the local Graph ... - Each level of depth reveals notes connected to the notes from the previous depth en/Plugins/Graph view.md90",
+   "content": ""
+  },
+  {
+   "title": "Hop-Link Viewer – Obsidian Plugin · Obsidian Stats",
+   "site_name": "Obsidian Stats",
+   "site_icon": "https://cdn.deepseek.com/site-icons/obsidianstats.com",
+   "authority": 2,
+   "rerank_score": 1.005401611328125,
+   "date": null,
+   "url": "https://www.obsidianstats.com/plugins/hop-link-viewer",
+   "summary": "## Description\n\nSuggest indirectly linked notes up to N-hops from an anchor note (current note), prioritizing nodes not already directly linked to the anchor. Show a sidebar of clickable suggestions with hop numbers to explore nearby but unconnected notes and uncover missing links in your vault.\n...\n## What’s new\n...\n- List and Chain display styles. List (default) is still the unique-note flat list. Chain nests walks so the same note can appear on more than one path (A → C → D and B → C → D). Switch from Settings → Hop-Link Viewer → Display style, the Display control in the viewer, or Hop-Link Viewer: Cycle display style.\n- Include direct links is now per style: off for List, on for Chain. Switching style uses that style’s own value. If you already had the old toggle on, List stays on. With Chain’s toggle off, 1-hop neighbors are hidden and the next shown hop becomes the root.\n- Display cap still limits unique notes in List. In Chain it limits first-level rows only; nested descendants are not capped, and children of omitted first-level rows are not promoted. New installs default to 15 (was 10). Existing saved caps are unchanged.\n- The anchor can now be a PDF opened as its own tab, as well as a markdown note.\n- Pop-out windows have no real sidebar. Open viewer in sidebar now splits to the right of the active note instead of inserting a nested viewer pane.\n...\n## Hop-Link Viewer — Obsidian Plugin\n\nHop-Link Viewer surfaces unlinked notes across your vault that are reachable through your existing connections. While Obsidian’s local graph view looks visually impressive, it can quickly become cluttered and unintuitive to refer to when writing your notes. Hop-Link Viewer provides a clean, text-first alternative. It shows notes that aren't yet linked to your current note, but are linked to notes that already are.\n\nWhat’s new in 1.2.0.\n\nYou can now see the hop walk as a nested Chain, or keep the unique-note List. Direct links stay off in List and on in Chain so the path is visible. A PDF opened as its own tab can be the anchor. In a pop-out window, Open viewer in sidebar splits to the right of the note. Full release notes.\n\n### What it does\n\nHop-Link Viewer starts from the note you are writing—the anchor—and walks outward through the links already in your vault. It lists nearby notes that are not yet connected to that anchor, but are connected to notes that already are.\n\nA connection counts in either direction, treating backlinks and outlinks the same. In List view, already-linked neighbors (1-hop) stay hidden by default, so you see missing links instead of repeating what backlinks and outlinks already show. In Chain view, those neighbors are shown by default so you can see the path. Each suggestion is a clickable title with a hop number (2, 3, …) on the right, or a linked badge for a direct neighbor.\n\n#### Example\n\nYou are writing Legislative Gatekeeping, which already links to Party Cartel Theory and the Korean National Assembly.\n\nDistance | Meaning | In List View | In Chain View \n---|---|---|---\n1-hop | Direct neighbors — Party Cartel Theory, Korean National Assembly | Hidden | Shown (linked) \n2-hop | Linked from those neighbors, but not from Legislative Gatekeeping — e.g. Cox and McCubbins, Bill Review Subcommittees | Shown | Shown \n3-hop | One step further — e.g. Meeting Frequency, Negotiated Procedural Control | Shown | Shown \n\nThose 2-hop and 3-hop notes are the missing links. They sit near the note you are writing, but you have not linked them to it yet. (You can raise hop depth to look farther—4, 5, 6 hops, and so on.)\n\nList view shows each of those notes once, with its hop number:\n\n- Cox and McCubbins — 2\n- Negative Agenda Control — 2\n- Bill Review Subcommittees — 2\n- Proportional Chair Allocation — 2\n- Electoral Cycles — 3\n- Meeting Frequency — 3\n- Negotiated Procedural Control — 3\n\n# Legislative Gatekeeping\nWhether a bill is discussed at committee ultimately decides its fate. Standing committees and their subcommittees hold that formal authority — gatekeeping.\nThis note is linked to Party Cartel Theory and the Korean National Assembly.\n\n## Up to — 3 + -hop missing links\n...\nChain view nests the same walk so you can see the path. Direct neighbors are included by default and become the roots:\n...\n## Up to — 3 +...",
+   "snippet": "Suggest indirectly linked notes up to N-hops from an anchor note (current note), prioritizing nodes not already directly linked to the anchor. ... Setting: Hop depth; Default: 3; What it does: How far to walk from the current note. Hop 1 appears only when that style includes direct links.",
+   "content": ""
+  },
+  {
+   "title": "Graph view",
+   "site_name": "oasisresearchlab.github.io",
+   "site_icon": "https://cdn.deepseek.com/site-icons/github.io",
+   "authority": 1,
+   "rerank_score": 0.9736568927764891,
+   "date": "2025-08-12T16:00:00+00:00",
+   "url": "https://oasisresearchlab.github.io/tools-for-synthesis/Technical-Primitives/Graph-view",
+   "summary": "# Graph view\n\nGraph views are visualized networks that show the connections between different note pages. The note-taking tool identifies these connections through links between note pages and represents them as nodes and edges. Some tools allow users to display 2nd- or nth-order links (e.g., notes indirectly connected to the current note by two or more degrees of separation). Obsidian, Roam Research, and Logseq all natively support displaying connections between note pages using a graph view.",
+   "snippet": "Some tools allow users to display 2nd- or nth-order links (e.g., notes indirectly connected to the current note by two or more degrees of separation). Obsidian, Roam Research, and Logseq all natively support displaying connections between note pages using a graph view.",
+   "content": ""
+  },
+  {
+   "title": "🌐 The Graph View — a built-in plugin",
+   "site_name": "eltonlabs.org",
+   "site_icon": "https://cdn.deepseek.com/site-icons/eltonlabs.org",
+   "authority": 1,
+   "rerank_score": 0.905252993106842,
+   "date": "2026-06-22T16:00:00+00:00",
+   "url": "https://eltonlabs.org/en/base/graph-view-obsidian",
+   "summary": "# 🌐 The Graph View — a built-in plugin\n...\nGraph view is a visual map of all your notes. It shows the links between files and helps you see how your vault is structured.\n...\n### 🔧 How to enable it\n\n- Go toSettings → Core plugins → Graph\n- Click the graph icon in the left sidebar\n- Or call it via the command palette CTRL + P\n- Choose the Graph function\n\nI also recommend assigning a hotkey — for me it’s ALT + 3, for example\n...\n### 📄 The local graph\n\nEach note can have its own graph — via the icon in the top-right corner.\n\nIt shows:\n\n- Only the connected notes\n- You can set the link depth (1–2 levels further)\n- Useful for focusing on a topic",
+   "snippet": "📄 The local graph Each note can have its own graph — via the icon in the top-right corner. It shows: - Only the connected notes - You can set the link depth (1–2 levels further) - Useful for focusing on a topic",
+   "content": ""
+  },
+  {
+   "title": "你们都说图谱没用，让我告诉你它应该怎么用 - 少数派",
+   "site_name": "少数派",
+   "site_icon": "https://cdn.deepseek.com/site-icons/sspai.com",
+   "authority": 2,
+   "rerank_score": 0.8860657811164856,
+   "date": "2026-07-31T16:00:00+00:00",
+   "url": "https://sspai.com/post/112973#1#1",
+   "summary": "# 你们都说图谱没用，让我告诉你它应该怎么用\n\n本文深度介绍了 Obsidian 软件中“知识图谱”的通常用法。\n...\n- Graph View 图谱视图（全局图谱）\n- Local Graph 局部图谱\n...\n### 局部图谱\n\n相信我——局部图谱绝对是个宝藏。 不像那个一大堆节点的全库图谱，局部图谱只显示当前笔记相关的节点。\n\n它是你的双链关系的可视化。\n它的信息是约束的、提炼的、易聚焦的。\n...\n比起几千个小圆点组成的花哨图形，「当前笔记和哪些笔记有链接」要有意义得多。\n\n使用图谱的重点就在于： 有选择地呈现那些真正能给你带来收益的信息。\n\n传统的两个链接面板当然也还是有用的，但是如果你想要更直观的视图，看看这个差异：\n\n左边是局部图谱，右边是入链/出链的面板，两者都描述「当前笔记的关联」\n\n#### 小技巧\n\n当你觉得局部图谱的内容实在太少时，你可以调节 Depth，尝试将它增加到 2 或者 3 ——但别太多，不然会陷入杂乱信息的泥淖。\n\n适当的层级可以让你获取到有限度的扩充信息量，并着眼于更大范围的「笔记之间交缠的关系」。\n\n此外，局部图谱是独立的标签页，你可以将它放在侧栏中。\n\n在我写一篇笔记（比如这篇文章）时，我会通过侧栏小窗口查看和它相关的笔记。\n\n需要时，鼠标移过去，缩放，查看，点击跳转相关笔记。\n\n在你写一篇笔记，同时需要依赖一些其他关联笔记来做参考或者引用的时候，你会发现这个小东西有多好用。",
+   "snippet": "不像那个一大堆节点的全库图谱，局部图谱只显示当前笔记相关的节点 ... 当你觉得局部图谱的内容实在太少时，你可以调节 Depth，尝试将它增加到 2 或者 3 ——但别太多，不然会陷入杂乱信息的泥淖。",
+   "content": ""
+  },
+  {
+   "title": "你们都说图谱没用，让我告诉你它应该怎么用 - 少数派 - 你们都说图谱没用，让我告诉你它应该怎么用",
+   "site_name": "少数派",
+   "site_icon": "https://cdn.deepseek.com/site-icons/sspai.com",
+   "authority": 2,
+   "rerank_score": 0.851311981678009,
+   "date": null,
+   "url": "https://pwa.sspai.com/post/112973#1",
+   "summary": "# 你们都说图谱没用，让我告诉你它应该怎么用\n\n本文深度介绍了 Obsidian 软件中“知识图谱”的通常用法。\n...\n- Graph View 图谱视图（全局图谱）\n- Local Graph 局部图谱\n...\n### 局部图谱\n\n相信我——局部图谱绝对是个宝藏。 不像那个一大堆节点的全库图谱，局部图谱只显示当前笔记相关的节点。\n\n它是你的双链关系的可视化。\n它的信息是约束的、提炼的、易聚焦的。\n...\n比起几千个小圆点组成的花哨图形，「当前笔记和哪些笔记有链接」要有意义得多。\n\n使用图谱的重点就在于： 有选择地呈现那些真正能给你带来收益的信息。\n\n传统的两个链接面板当然也还是有用的，但是如果你想要更直观的视图，看看这个差异：\n\n左边是局部图谱，右边是入链/出链的面板，两者都描述「当前笔记的关联」\n\n#### 小技巧\n\n当你觉得局部图谱的内容实在太少时，你可以调节 Depth，尝试将它增加到 2 或者 3 ——但别太多，不然会陷入杂乱信息的泥淖。\n\n适当的层级可以让你获取到有限度的扩充信息量，并着眼于更大范围的「笔记之间交缠的关系」。\n\n此外，局部图谱是独立的标签页，你可以将它放在侧栏中。\n\n在我写一篇笔记（比如这篇文章）时，我会通过侧栏小窗口查看和它相关的笔记。\n\n需要时，鼠标移过去，缩放，查看，点击跳转相关笔记。\n\n在你写一篇笔记，同时需要依赖一些其他关联笔记来做参考或者引用的时候，你会发现这个小东西有多好用。",
+   "snippet": "不像那个一大堆节点的全库图谱，局部图谱只显示当前笔记相关的节点 ... 当你觉得局部图谱的内容实在太少时，你可以调节 Depth，尝试将它增加到 2 或者 3 ——但别太多，不然会陷入杂乱信息的泥淖。",
+   "content": ""
+  },
+  {
+   "title": "find_connections - obsidian-brain - obsidian-brain",
+   "site_name": "Glama",
+   "site_icon": "https://cdn.deepseek.com/site-icons/glama.ai",
+   "authority": 2,
+   "rerank_score": 0.8433952927589417,
+   "date": "2026-06-10T16:00:00+00:00",
+   "url": "https://glama.ai/mcp/servers/sweir1/obsidian-brain/tools/find_connections#1",
+   "summary": "## obsidian-brain\n\n# find_connections\n\nDiscover notes linked to a given note up to three hops away, and optionally retrieve the full subgraph of all connections for deeper exploration.\n\n### Instructions\n\nFind notes linked to (from or to) a given note, up to N hops. Optionally return the full subgraph instead of a flat list. Response is wrapped as{data, context} where context.next_actions suggests follow-ups like clustering a dense neighbourhood via detect_themes or tracing a path to the furthest neighbour via find_path_between. Broken-wikilink stub neighbours are excluded by default; pass includeStubs: true to include them.\n\n### Input Schema\n\nTableJSON Schema\n\nName | Required | Description | Default \n---|---|---|---\nname | Yes | Starting note (path or fuzzy match). \ndepth | No | Number of hops to traverse. Default 1, max 3. \nreturnSubgraph | No | Return all edges in the neighborhood as a full subgraph instead of a flat list. \nincludeStubs | No | Default `false`. Set `true` to include broken-wikilink stub neighbours (`frontmatter._stub:",
+   "snippet": "Discover notes linked to a given note up to three hops away, and optionally retrieve the full subgraph of all connections for deeper exploration. ### Instructions Find notes linked to (from or to) a given note, up to N hops. ... depth | No | Number of hops to traverse.",
+   "content": ""
+  }
+ ]
+}

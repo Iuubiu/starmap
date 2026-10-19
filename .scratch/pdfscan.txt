@@ -1,0 +1,141 @@
+books    345 pages  avg=    0 chars/pg  01_核电子技术原理_王芝英_原子能1989.pdf
+books    201 pages  avg=    0 chars/pg  02_核电子学_王经瑾上_原子能1983.pdf
+books    840 pages  avg= 1664 chars/pg  03_Knoll_Radiation_Detection_and_Measurement_3rd_2000.pdf
+books    866 pages  avg= 3313 chars/pg  04_Knoll_Radiation_Detection_and_Measurement_4th_2010.pdf
+books    472 pages  avg=    0 chars/pg  05_核辐射测量原理_汤彬_哈工程.pdf
+books    490 pages  avg=    0 chars/pg  06_核辐射物理及探测学_陈伯显_张智_哈工程2011.pdf
+books    525 pages  avg=    0 chars/pg  07_核辐射探测器_丁洪林_哈工程2010.pdf
+books    595 pages  avg= 1343 chars/pg  08_Tsoulfanidis_Measurement_and_Detection_of_Radiation_4th.pdf
+books    677 pages  avg= 1604 chars/pg  09_Grupen_Particle_Detectors_2nd_2008.pdf
+books    763 pages  avg= 1984 chars/pg  10_Ahmed_Physics_and_Engineering_of_Radiation_Detection_2nd.pdf
+books    506 pages  avg= 2034 chars/pg  11_Spieler_Semiconductor_Detector_Systems_2005.pdf
+books    384 pages  avg= 2267 chars/pg  12_Leo_Techniques_for_Nuclear_and_Particle_Physics_Experiments_2nd.pdf
+books    520 pages  avg= 1909 chars/pg  13_Nakhostin_Signal_Processing_for_Radiation_Detectors_2018.pdf
+books    717 pages  avg= 1860 chars/pg  14_Rivetti_CMOS_FrontEnd_Electronics_for_Radiation_Sensors_2015.pdf
+books    351 pages  avg= 2138 chars/pg  15_Lutz_Semiconductor_Radiation_Detectors_2007.pdf
+books    412 pages  avg= 1990 chars/pg  16_Nicholson_Nuclear_Electronics_1974.pdf
+books    416 pages  avg= 4177 chars/pg  17_Gilmore_Practical_Gamma-ray_Spectrometry_2nd_2008.pdf
+books    483 pages  avg=    3 chars/pg  18_原子核物理实验方法_修订第3版_1997.pdf
+books    577 pages  avg=    0 chars/pg  19_核辐射探测器及其实验技术手册_汲长松_1990.pdf
+books    420 pages  avg= 2405 chars/pg  20_Debertin_Helmer_Gamma_and_XRay_Spectrometry_1988.pdf
+books    559 pages  avg=  847 chars/pg  21_电子技术基础_数字部分_康华光_第5版.pdf
+books    599 pages  avg=    0 chars/pg  22_电子技术基础_模拟部分_康华光_第5版.pdf
+books    507 pages  avg=    0 chars/pg  23_数字电子技术基础_阎石_第6版.pdf
+books    651 pages  avg=    0 chars/pg  24_模拟电子技术基础_童诗白_华成英_第5版.pdf
+books    331 pages  avg=    0 chars/pg  25_电路分析基础_李瀚荪_第5版_上册.pdf
+books    334 pages  avg=  913 chars/pg  26_原子及原子核物理_郭江_第2版_2023.pdf
+books    252 pages  avg=  964 chars/pg  27_原子及原子核物理_郭江_2014_旧版.pdf
+papers    21 pages  avg= 6409 chars/pg  10.1109_tns.2018.2840160_OpenAlexOA.pdf
+papers    81 pages  avg= 2794 chars/pg  Aad2008_Atlas.pdf
+papers   116 pages  avg= 2365 chars/pg  Abashian2002_Belle.pdf
+papers   142 pages  avg= 1866 chars/pg  Abazov2006_Upgraded.pdf
+papers    23 pages  avg= 5027 chars/pg  Abbasi2009_Icecube.pdf
+papers    17 pages  avg= 2907 chars/pg  Abe1988_Cdf.pdf
+papers    57 pages  avg= 4754 chars/pg  Ablikim2010_Design.pdf
+papers    20 pages  avg= 6526 chars/pg  Acerbi2019_Understanding.pdf
+papers    11 pages  avg= 2786 chars/pg  Adcox2003_Phenix.pdf
+papers    68 pages  avg= 3132 chars/pg  Adeva1990_Construction.pdf
+papers    54 pages  avg= 3051 chars/pg  Agostinelli2003_Geant.pdf
+papers    33 pages  avg= 5282 chars/pg  Akkoyun2012_Agata.pdf
+papers     9 pages  avg= 6502 chars/pg  Allison2006_Geant.pdf
+papers    48 pages  avg= 4644 chars/pg  Allison2016_Recent.pdf
+papers    52 pages  avg= 4461 chars/pg  Alme2010_Alice.pdf
+papers    28 pages  avg= 2720 chars/pg  Anderson2003_Star.pdf
+papers    36 pages  avg= 3692 chars/pg  Andreopoulos2010_Genie.pdf
+papers     5 pages  avg= 2245 chars/pg  Anghinolfi2004_Nino.pdf
+papers    17 pages  avg= 2344 chars/pg  Arnold2014_Mantid.pdf
+papers   119 pages  avg= 2899 chars/pg  Aubert2002_Babar.pdf
+papers     6 pages  avg= 4316 chars/pg  Baker1984_Clarification.pdf
+papers     7 pages  avg= 3320 chars/pg  Balian1977_Figure.pdf
+papers    16 pages  avg= 3643 chars/pg  Bar1995_Penelope.pdf
+papers    19 pages  avg= 4449 chars/pg  Barnaby2006_Total.pdf
+papers     7 pages  avg= 2909 chars/pg  Biagi1999_Monte.pdf
+papers    12 pages  avg= 3305 chars/pg  Bramblett1960_New.pdf
+papers    13 pages  avg= 3100 chars/pg  Brooks1959_Scintillation.pdf
+papers     6 pages  avg= 4226 chars/pg  Brun1997_Root.pdf
+papers     5 pages  avg= 2301 chars/pg  Buzhan2003_Silicon.pdf
+papers     5 pages  avg= 4144 chars/pg  Calin1996_Upset.pdf
+papers     4 pages  avg= 3333 chars/pg  Casey1986_Multicrystal.pdf
+papers     9 pages  avg= 4057 chars/pg  Cecil1979_Improved.pdf
+papers     6 pages  avg= 1320 chars/pg  Chang1978_Method.pdf
+papers     7 pages  avg= 2285 chars/pg  Charpak1968_Use.pdf
+papers    22 pages  avg= 4548 chars/pg  Charpak1970_Some.pdf
+papers     6 pages  avg= 3421 chars/pg  Cherry1997_Micropet.pdf
+papers    16 pages  avg= 2400 chars/pg  Collaboration2008_Alice.pdf
+papers    14 pages  avg= 2622 chars/pg  Collaboration2008_Atlas.pdf
+papers   362 pages  avg= 3333 chars/pg  Collaboration2008_Cms.pdf
+papers   218 pages  avg= 2527 chars/pg  Collaboration2008_Lhcb.pdf
+papers    82 pages  avg= 3302 chars/pg  Collaboration2014_Description.pdf
+papers    12 pages  avg= 2791 chars/pg  DAgostini1995_Multidimensional.pdf
+papers    20 pages  avg= 5711 chars/pg  Dodd2003_Basic.pdf
+papers    13 pages  avg= 5826 chars/pg  Dorenbos1995_Non.pdf
+papers   165 pages  avg= 1946 chars/pg  Evans2008_Lhc.pdf
+papers    24 pages  avg= 6168 chars/pg  FerletCavrois2013_Single.pdf
+papers     7 pages  avg= 4057 chars/pg  Frhwirth1987_Application.pdf
+papers    45 pages  avg= 2768 chars/pg  Fukuda2003_Super.pdf
+papers     7 pages  avg= 4082 chars/pg  Gatti1984_Semiconductor.pdf
+papers     7 pages  avg= 3575 chars/pg  Giomataris1996_Micromegas.pdf
+papers    16 pages  avg= 2708 chars/pg  Gordon1974_Tutorial.pdf
+papers    27 pages  avg= 1928 chars/pg  Goulding1972_Pulse.pdf
+papers     9 pages  avg= 4212 chars/pg  Hazucha2000_Impact.pdf
+papers    18 pages  avg= 3857 chars/pg  He2001_Review.pdf
+papers    10 pages  avg= 6038 chars/pg  Hooge1994_Noise.pdf
+papers     6 pages  avg= 3774 chars/pg  JianSong2006_High.pdf
+papers     9 pages  avg= 2344 chars/pg  Jordanov1994_Digital.pdf
+papers    17 pages  avg= 1698 chars/pg  Junk1999_Confidence.pdf
+papers    10 pages  avg= 4442 chars/pg  Kansy1996_Microcomputer.pdf
+papers    28 pages  avg= 3214 chars/pg  Kibdi2008_Evaluation.pdf
+papers     5 pages  avg= 4938 chars/pg  Kinahan1989_Analytic.pdf
+papers    48 pages  avg= 3406 chars/pg  Kubota1992_Cleo.pdf
+papers     4 pages  avg= 2719 chars/pg  Lange2001_Evtgen.pdf
+papers     8 pages  avg= 3319 chars/pg  Laval1983_Barium.pdf
+papers    10 pages  avg= 5582 chars/pg  Lecoq2016_Development.pdf
+papers     5 pages  avg= 4952 chars/pg  Llopart2002_Medipix.pdf
+papers    10 pages  avg= 3260 chars/pg  Llopart2007_Timepix.pdf
+papers     7 pages  avg= 5370 chars/pg  McLean1980_Framework.pdf
+papers    41 pages  avg= 3016 chars/pg  Mecking2003_Cebaf.pdf
+papers     4 pages  avg= 3362 chars/pg  Melcher1992_Cerium.pdf
+papers     8 pages  avg= 3528 chars/pg  Messenger1982_Collection.pdf
+papers    11 pages  avg= 4234 chars/pg  Mller1973_Dead.pdf
+papers     5 pages  avg= 5614 chars/pg  Moses2011_Fundamental.pdf
+papers     9 pages  avg= 3701 chars/pg  Oed1988_Position.pdf
+papers    17 pages  avg= 4733 chars/pg  Oldham2003_Total.pdf
+papers    20 pages  avg= 3668 chars/pg  Owens2004_Compound.pdf
+papers    16 pages  avg= 2876 chars/pg  Parker1997_Proposed.pdf
+papers     5 pages  avg= 4249 chars/pg  Pellegrini2014_Technology.pdf
+papers    27 pages  avg= 1764 chars/pg  Pivk2005_Lot.pdf
+papers    11 pages  avg= 1864 chars/pg  Poikela2014_Timepix.pdf
+papers    14 pages  avg= 3463 chars/pg  Radeka1974_Signal.pdf
+papers     9 pages  avg= 4992 chars/pg  Radford1995_Escl.pdf
+papers     6 pages  avg= 1769 chars/pg  Reiche1999_Genesis.pdf
+papers     9 pages  avg= 2649 chars/pg  Renker2006_Geiger.pdf
+papers    60 pages  avg= 1155 chars/pg  Routti1969_Photopeak.pdf
+papers     5 pages  avg= 4652 chars/pg  Sakai1987_Recent.pdf
+papers     4 pages  avg= 2806 chars/pg  Santonico1981_Development.pdf
+papers     4 pages  avg= 3356 chars/pg  Sauli1997_Gem.pdf
+papers    23 pages  avg= 4083 chars/pg  Sauli2016_Gas.pdf
+papers    17 pages  avg= 3768 chars/pg  Schwank2003_Radiation.pdf
+papers    23 pages  avg= 2248 chars/pg  Shepp1974_Fourier.pdf
+papers    18 pages  avg= 6649 chars/pg  Srour2003_Review.pdf
+papers     6 pages  avg= 3960 chars/pg  Strother1990_Measuring.pdf
+papers     8 pages  avg= 4492 chars/pg  Summers1993_Damage.pdf
+papers    10 pages  avg= 4738 chars/pg  Takahashi2001_Recent.pdf
+papers    13 pages  avg= 3046 chars/pg  Turchetta2001_Monolithic.pdf
+papers    11 pages  avg= 4932 chars/pg  Tylka1997_Creme.pdf
+papers     8 pages  avg= 4912 chars/pg  Watson2000_New.pdf
+papers    15 pages  avg= 2890 chars/pg  Xia2002_Heavy.pdf
+papers     6 pages  avg= 5322 chars/pg  Ziegler2010_Srim.pdf
+papers    14 pages  avg= 3236 chars/pg  vanEijk2001_Inorganic.pdf
+
+TOTAL 128 files; no-text-layer(<100 chars/pg): 11
+  SCANNED books/01_核电子技术原理_王芝英_原子能1989.pdf (avg 0)
+  SCANNED books/02_核电子学_王经瑾上_原子能1983.pdf (avg 0)
+  SCANNED books/05_核辐射测量原理_汤彬_哈工程.pdf (avg 0)
+  SCANNED books/06_核辐射物理及探测学_陈伯显_张智_哈工程2011.pdf (avg 0)
+  SCANNED books/07_核辐射探测器_丁洪林_哈工程2010.pdf (avg 0)
+  SCANNED books/18_原子核物理实验方法_修订第3版_1997.pdf (avg 3)
+  SCANNED books/19_核辐射探测器及其实验技术手册_汲长松_1990.pdf (avg 0)
+  SCANNED books/22_电子技术基础_模拟部分_康华光_第5版.pdf (avg 0)
+  SCANNED books/23_数字电子技术基础_阎石_第6版.pdf (avg 0)
+  SCANNED books/24_模拟电子技术基础_童诗白_华成英_第5版.pdf (avg 0)
+  SCANNED books/25_电路分析基础_李瀚荪_第5版_上册.pdf (avg 0)

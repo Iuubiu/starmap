@@ -1,0 +1,258 @@
+Research - Duolingo
+Duolingo Research
+Science powers our mission to make language education free
+and accessible to everyone.
+About Us
+Publications
+Data & Tools
+Our Team
+Careers
+About Us
+With more than 500 million learners, Duolingo has the world's
+largest collection of language-learning data at its
+fingertips. This allows us to build unique systems, uncover
+new insights about the nature of language and learning, and
+apply existing theories at scales never before seen. We are
+also committed to sharing
+publications
+and
+data
+with the broader research community.
+Publications
+Jump-Starting Item Parameters for Adaptive Language
+Tests
+A.D. McCarthy, K.P. Yancey, G.T. LaFlair, J. Egbert, M.
+Liao, and B. Settles
+EMNLP Proceedings, 2021
+Mining Process Data to Detect Aberrant Test Takers
+M. Liao, J. Patton, R. Yan, and H. Jiao
+Measurement: Interdisciplinary Research and
+Perspectives, 2021
+Methods for Language Learning Assessment at Scale:
+Duolingo Case Study
+L. Portnoff, E. Gustafson, J. Rollinson and K. Bicknell
+EDM Proceedings, 2021
+A Sleeping, Recovering Bandit Algorithm for
+Optimizing Recurring Notifications
+K.P. Yancey and B. Settles
+KDD Proceedings, 2020
+Exploring Neural Entity Representations for Semantic
+Information
+A. Runge and E. Hovy
+EMNLP Proceedings, 2020
+Simultaneous Translation and Paraphrase for Language
+Education
+S. Mayhew, K. Bicknell, C. Brust, B. McDowell, W.
+Monroe, and B. Settles
+ACL Proceedings, 2020 • Duolingo Shared Task
+Indigenous Language Teaching Policy in California/the
+U.S.: What’s Left Unsaid in Discourse/Funding
+E.A. Moline
+Issues in Applied Linguistics, 2020
+Predictors Of Second Language English Lexical
+Recognition: Further Insights From A Large Database Of
+Second Language Lexical Decision Times
+S. Skalicky, S.A. Crossley, and C.M. Berger
+The Mental Lexicon, 2020
+Ongoing Cognitive Processing Influences Precise
+Eye-Movement Targets in Reading
+K. Bicknell, R. Levy, and K. Rayner
+Psychological Science, 2020
+Machine Learning Driven Language Assessment
+B. Settles, G.T. LaFlair, and M. Hagiwara
+Transactions of the Association for Computational
+Linguistics, 2020
+Using LSTMs to Assess the Obligatoriness of
+Phonological Distinctive Features for Phonotactic
+Learning
+N. Mirea and K. Bicknell
+ACL Proceedings, 2019
+Learning from Omission
+B. McDowell and N. Goodman
+ACL Proceedings, 2019
+A Rational Model of Word Skipping in Reading: Ideal
+Integration of Visual and Linguistic Information
+Y. Duan and K. Bicknell
+CogSci Proceedings, 2019
+Observing the Emergence of Constructional Knowledge:
+Verb Patterns in German and Spanish Learners of
+English at Different Proficiency Levels
+U. Römer and C.M. Berger
+Studies in Second Language Acquisition, 2019
+Influence of Speaking Style Adaptations and Semantic
+Context on the Time Course of Word Recognition in
+Quiet and in Noise
+S.V.H. van der Feest, C.P. Blanco, and R. Smiljanica
+Journal of Phonetics, 2019
+Second Language Acquisition Modeling
+B. Settles, C. Brust, E. Gustafson, M. Hagiwara and N.
+Madnani
+NAACL-HLT Proceedings, 2018 • Duolingo Shared Task
+Learning Additional Languages As Hierarchical
+Probabilistic Inference: Insights from First Language
+Processing
+B. Pajak, A.B. Fine, D.F. Kleinschmidt, and T.F. Jaeger
+Language Learning, 2016
+A Trainable Spaced Repetition Model for Language
+Learning
+B. Settles and B. Meeder
+ACL Proceedings, 2016
+Difficulty in Learning Similar-Sounding Words: A
+Developmental Stage or a General Property of
+Learning?
+B. Pajak, S.C. Creel, and R. Levy
+Journal of Experimental Psychology, 2016
+Self-directed Learning Favors Local, Rather Than
+Global, Uncertainty
+D.B. Markant, B. Settles, and T.M. Gureckis
+Cognitive Science, 2016
+Mixture Modeling of Individual Learning Curves
+M. Streeter
+EDM Proceedings, 2015 • Best Paper Award
+Data & Tools
+2020 Notification Bandit Data
+Replication data for our KDD 2020 paper, "A Sleeping,
+Recovering Bandit Algorithm for Optimizing Recurring
+Notifications." Includes 200 million examples of Duolingo
+practice reminder push notifications sent to Duolingo
+users over a 35 day period, including which template was
+used, whether the user converted within 2 hours, and other
+metadata.
+Data
+2020 STAPLE Shared Task Data
+Data for the 2020 Shared Task on Simultaneous Translation
+And Paraphrase for Language Education (STAPLE). This
+corpus contains more than 3 million pairs of English
+sentences with multiple possible translations into
+Portuguese, Hungarian, Japanese, Korean, and Vietnamese.
+Data
+Website
+2018 SLAM Shared Task Data
+Data for the 2018 Shared Task on Second Language
+Acquisition Modeling (SLAM). This corpus contains 7
+million words produced by learners of English, Spanish,
+and French. It includes user demographics, morph-syntactic
+metadata, response times, and longitudinal errors for 6k+
+users over 30 days.
+Data
+Website
+Spaced Repetition Data
+Data used to develop our half-life regression (HLR) spaced
+repetition algorithm. This is a collection of 13 million
+user-word pairs for learners of several languages with a
+variety of language backgrounds. It includes practice
+recall rates, lag times between practices, and other
+morpho-lexical metadata.
+Data
+Code
+Our Team
+We are a diverse team of experts in AI and machine learning,
+data science, learning sciences, UX research, linguistics, and
+psychometrics. We work closely with product teams to build
+innovative features based on world-class research. We are
+growing, so check out our
+job openings below
+!
+André Horie
+AI + Machine Learning
+Bożena Pająk
+Learning + Curriculum
+Erin Gustafson
+Data Science + Analytics
+Cindy Berger
+Learning + Curriculum
+Angela DiCostanzo
+Learning + Curriculum
+Cindy Blanco
+Learning + Curriculum
+Lisa Bromberg
+Learning + Curriculum
+Klinton Bicknell
+AI + Machine Learning
+Will Monroe
+AI + Machine Learning
+Geoff LaFlair
+Assessment + Psychometrics
+Hope Wilson
+Learning + Curriculum
+Kevin Yancey
+AI + Machine Learning
+Xiangying Jiang
+Learning + Curriculum
+Jessica Becker
+Learning + Curriculum
+Stephen Mayhew
+AI + Machine Learning
+Meredith McDermott
+UX Research
+Andrew Runge
+AI + Machine Learning
+Connor Brem
+AI + Machine Learning
+Emily Moline
+Learning + Curriculum
+Elizabeth Strong
+Learning + Curriculum
+Cory Wheeler
+Learning + Curriculum
+Lauren Bilsky
+AI + Machine Learning
+Emma Gibson
+Learning + Curriculum
+James Leow
+Learning + Curriculum
+Danchen Yang
+Learning + Curriculum
+Isabel Deibel
+Learning + Curriculum
+Elizabeth Onstwedder
+Learning + Curriculum
+Kevin Lenzo
+AI + Machine Learning
+Mancy Liao
+Assessment + Psychometrics
+Nora Gordon
+Learning + Curriculum
+Sharon Wilkinson
+Learning + Curriculum
+Naveen Shankar
+Data Science + Analytics
+Antony Kunnan
+Assessment + Psychometrics
+Jackie Bialostozky
+Learning + Curriculum
+Lucy Portnoff
+Data Science + Analytics
+Ramsey Cardwell
+Assessment + Psychometrics
+Alina von Davier
+Assessment + Psychometrics
+Yigal Attali
+Assessment + Psychometrics
+Audrey Kittredge
+Learning + Curriculum
+Ben Reuveni
+Learning + Curriculum
+J.R. Lockwood
+Assessment + Psychometrics
+Rich Forest
+Learning + Curriculum
+Mark Lock
+Data Science + Analytics
+Will Belzak
+Assessment + Psychometrics
+Ready to work with us?
+AI + Machine Learning
+Develop ML-driven technologies for novel
+applications in language, learning, and assessment
+that are used by millions of people every day.
+Data Science + Analytics
+Support data-driven product decisions and generate
+insights to guide product development for millions
+of learners worldwide.
+Learning + Curriculum
+Help improve how millions of people learn languages
+on Duolingo.
+See all jobs
+Back to Top
+Back to Top

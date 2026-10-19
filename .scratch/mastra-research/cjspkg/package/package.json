@@ -1,0 +1,75 @@
+{
+  "name": "@mastra/client-js",
+  "version": "1.55.0",
+  "description": "The official TypeScript library for the Mastra Client API",
+  "author": "",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mastra-ai/mastra.git",
+    "directory": "client-sdks/client-js"
+  },
+  "bugs": {
+    "url": "https://github.com/mastra-ai/mastra/issues"
+  },
+  "homepage": "https://mastra.ai",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@ai-sdk/ui-utils": "^1.2.11",
+    "@lukeed/uuid": "^2.0.1",
+    "canonicalize": "^1.0.8",
+    "jose": "^6.2.11",
+    "json-schema": "^0.4.0",
+    "@mastra/core": "1.78.0",
+    "@mastra/schema-compat": "1.3.15"
+  },
+  "peerDependencies": {
+    "zod": "^3.25.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "@types/json-schema": "^7.0.15",
+    "@types/node": "22.20.1",
+    "@vitest/coverage-v8": "4.1.11",
+    "@vitest/ui": "4.1.11",
+    "eslint": "^10.7.0",
+    "tsdown": "0.22.9",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2",
+    "vitest": "4.1.11",
+    "zod": "^4.6.4",
+    "@internal/ai-sdk-v4": "0.0.91",
+    "@internal/lint": "0.0.144",
+    "@internal/ai-sdk-v5": "0.0.91",
+    "@internal/types-builder": "0.0.119"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "lint": "oxlint . && eslint .",
+    "lint:fix": "oxlint --fix . && eslint --fix .",
+    "generate:route-types": "pnpm --filter @mastra/server generate:route-types",
+    "build:lib": "tsdown --config tsdown.config.ts",
+    "dev": "pnpm generate:route-types && pnpm build:lib --watch",
+    "test": "vitest",
+    "test:unit": "vitest run"
+  }
+}

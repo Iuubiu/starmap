@@ -1,0 +1,622 @@
+spaced-repetition · GitHub Topics · GitHub
+Skip to content
+Navigation Menu
+Sign in
+Appearance settings
+Platform
+AI CODE CREATION
+GitHub Copilot
+Write better code with AI
+GitHub Copilot app
+Direct agents from issue to merge
+MCP Registry
+Integrate external tools
+DEVELOPER WORKFLOWS
+Actions
+Automate any workflow
+Codespaces
+Instant dev environments
+Issues
+Plan and track work
+Code Review
+Manage code changes
+Code Quality
+Enforce quality at merge
+APPLICATION SECURITY
+GitHub Advanced Security
+Find and fix vulnerabilities
+Code security
+Secure your code as you build
+Secret protection
+Stop leaks before they start
+EXPLORE
+Why GitHub
+Documentation
+Blog
+Changelog
+Marketplace
+View all features
+Solutions
+BY COMPANY SIZE
+Enterprises
+Small and medium teams
+Startups
+Nonprofits
+BY USE CASE
+App Modernization
+DevSecOps
+DevOps
+CI/CD
+View all use cases
+BY INDUSTRY
+Healthcare
+Financial services
+Manufacturing
+Government
+View all industries
+View all solutions
+Resources
+EXPLORE BY TOPIC
+AI
+Software Development
+DevOps
+Security
+View all topics
+EXPLORE BY TYPE
+Customer stories
+Events & webinars
+Ebooks & reports
+Business insights
+GitHub Skills
+SUPPORT & SERVICES
+Documentation
+Customer support
+Community forum
+Trust center
+Partners
+View all resources
+Open Source
+COMMUNITY
+GitHub Sponsors
+Fund open source developers
+PROGRAMS
+Security Lab
+Maintainer Community
+GitHub Stars
+Archive Program
+REPOSITORIES
+Topics
+Trending
+Collections
+Enterprise
+ENTERPRISE SOLUTIONS
+Enterprise platform
+AI-powered developer platform
+AVAILABLE ADD-ONS
+GitHub Advanced Security
+Enterprise-grade security features
+Copilot for Business
+Enterprise-grade AI features
+Premium Support
+Enterprise-grade 24/7 support
+Pricing
+Search
+/
+Sign in
+Sign up
+Appearance settings
+You signed in with another tab or window.
+Reload
+to refresh your session.
+You signed out in another tab or window.
+Reload
+to refresh your session.
+You switched accounts on another tab or window.
+Reload
+to refresh your session.
+Dismiss alert
+Explore
+Topics
+Trending
+Collections
+Events
+GitHub Sponsors
+#
+spaced-repetition
+Star
+Here are
+2,958 public repositories
+matching this topic...
+Language:
+All
+Filter by language
+All
+2,958
+TypeScript
+867
+Python
+695
+JavaScript
+477
+HTML
+189
+Rust
+108
+Go
+70
+Swift
+63
+Kotlin
+52
+Dart
+46
+Shell
+43
+Sort:
+Most stars
+Sort options
+Most stars
+Fewest stars
+Most forks
+Fewest forks
+Recently updated
+Least recently updated
+echo-loop
+/
+Echo-Loop
+Star
+4.2k
+Code
+Issues
+Pull requests
+Echo Loop 是一款科学、高效的 AI 英语听说训练 App，通过精听、跟读、盲听、复述和间隔复习，自动驱动学习者把每一段音频真正练懂、练熟、练到会说。
+education
+ai
+language-learning
+spaced-repetition
+flutter
+english-learning
+listening-practice
+speaking-practice
+Updated
+Oct 18, 2026
+Dart
+open-spaced-repetition
+/
+fsrs4anki
+Star
+4.1k
+Code
+Issues
+Pull requests
+A modern Anki custom scheduling based on Free Spaced Repetition Scheduler algorithm
+machine-learning
+reinforcement-learning
+deep-learning
+memory
+spaced-repetition
+srs
+anki
+optimal-control
+anki-addon
+spaced-repetition-algorithm
+intelligent-tutoring-system
+fsrs
+Updated
+Aug 14, 2026
+Jupyter Notebook
+kantord
+/
+LibreLingo
+Star
+2.6k
+Code
+Issues
+Pull requests
+Discussions
+🐢 🌎 📚 a community-owned language-learning platform
+python
+education
+flashcards
+language-learning
+svelte
+spaced-repetition
+agplv3
+hacktoberfest
+foreign-language
+second-language-acquisition
+hacktoberfest2022
+Updated
+Jun 19, 2026
+Python
+st3v3nmw
+/
+obsidian-spaced-repetition
+Star
+2.6k
+Code
+Issues
+Pull requests
+Discussions
+Fight the forgetting curve by reviewing flashcards & entire notes on Obsidian
+flashcards
+spaced-repetition
+srs
+obsidian
+spaced-repetition-system
+obsidian-plugin
+obsidian-md
+Updated
+Oct 5, 2026
+TypeScript
+oldwinter
+/
+knowledge-garden
+Star
+2.5k
+Code
+Issues
+Pull requests
+Discussions
+我的第二大脑 second brain，我的数字花园 digital garden，用obsidian双链笔记软件写作而成
+markdown
+canvas
+notes
+vscode
+spaced-repetition
+para
+focus
+knowledge-base
+obsidian
+base
+pkm
+moc
+anki-cards
+privacy-first
+digital-garden
+local-first
+logseq
+second-brain
+evergreen-notes
+tana
+Updated
+Sep 29, 2026
+TypeScript
+olmps
+/
+memo
+Star
+1.9k
+Code
+Issues
+Pull requests
+Discussions
+Memo is an open-source, programming-oriented spaced repetition software (SRS) written in Flutter.
+app
+spaced-repetition
+flutter
+Updated
+Jul 29, 2024
+Dart
+andymatuschak
+/
+orbit
+Star
+1.8k
+Code
+Issues
+Pull requests
+Experimental spaced repetition platform for exploring ideas in memory augmentation and programmable attention
+spaced-repetition
+research-platform
+memory-augmentation
+mnemonic-medium
+Updated
+Oct 16, 2026
+TypeScript
+nagisanzenin
+/
+engram
+Star
+1.5k
+Code
+Issues
+Pull requests
+Evidence-based learning engine — first-principles curricula, free-recall verification with receipts, FSRS-scheduled memory, and explorable artifacts. Learn anything; keep it.
+learning
+education
+spaced-repetition
+fsrs
+claude-code
+learning-science
+claude-code-plugin
+Updated
+Aug 27, 2026
+Python
+beltromatti
+/
+get-it
+Star
+1.1k
+Code
+Issues
+Pull requests
+Read it. See it. Get it. Built at GDG AI Hack Milan 2026 for "Learn Different" track.
+react
+visualization
+learning
+pdf
+threejs
+typescript
+ai
+hackathon
+flashcards
+nextjs
+edtech
+spaced-repetition
+knowledge-graph
+openai
+agents
+codex
+llm
+study-tools
+feynman-technique
+gdg-ai-hack-2026
+Updated
+Jun 29, 2026
+JavaScript
+Miaotofu01
+/
+Study-Mate
+Star
+1.1k
+Code
+Issues
+Pull requests
+你的AI学习搭档：定路线、讲知识、做项目，边学边做，学透一门科目
+education
+spaced-repetition
+self-study
+learning-agents
+self-directed-learning
+ai-tutor
+self-study-tools
+self-study-learning
+dsh-plugin
+Updated
+Oct 19, 2026
+JavaScript
+Ajatt-Tools
+/
+mpvacious
+Star
+892
+Code
+Issues
+Pull requests
+🍜 Adds mpv keybindings to create Anki cards from movies and TV shows.
+lua
+mpv
+flashcards
+language-learning
+spaced-repetition
+subtitles
+anki
+goldendict
+mpv-script
+subs2srs
+anki-cards
+ajatt
+rikaitan
+Updated
+Oct 18, 2026
+Lua
+thiswillbeyourgithub
+/
+AnkiAIUtils
+Star
+889
+Code
+Issues
+Pull requests
+AI-powered tools to enhance Anki flashcards with explanations, mnemonics, illustrations, and adaptive learning for medical school and beyond
+illustrations
+learning
+spaced-repetition
+medical
+openai
+summary
+anki
+mnemonics
+llm
+stable-diffusion
+dalle-2
+dalle-3
+Updated
+Jun 1, 2026
+Python
+trane-project
+/
+trane
+Star
+848
+Code
+Issues
+Pull requests
+Discussions
+A deliberate practice engine for mastering complex skills
+spaced-repetition
+hierarchical-learning
+mastery-based-learning
+Updated
+Sep 11, 2026
+Rust
+open-spaced-repetition
+/
+free-spaced-repetition-scheduler
+Star
+729
+Code
+Issues
+Pull requests
+Discussions
+A spaced repetition algorithm based on DSR model
+education
+flashcards
+spaced-repetition
+srs
+anki
+supermemo
+spaced-repetition-algorithm
+active-recall
+fsrs
+Updated
+Apr 21, 2026
+open-spaced-repetition
+/
+awesome-fsrs
+Star
+727
+Code
+Issues
+Pull requests
+A curated list of awesome FSRS implementations, papers and resources
+learning
+memory
+spaced-repetition
+awesome-list
+spaced-repetition-algorithm
+spaced-repetition-scheduler
+fsrs
+Updated
+Oct 17, 2026
+24kchengYe
+/
+human-skill-tree
+Star
+573
+Code
+Issues
+Pull requests
+Discussions
+🌳 AI-Powered Skill Tree for Lifelong Human Learning. 30+ skills from K-12 to career & social intelligence, built on cognitive science. | 人类养成记：AI 驱动的终身学习技能树
+education
+spaced-repetition
+gemini
+cognitive-science
+cursor
+copilot
+k12
+skill-tree
+lifelong-learning
+ai-learning
+ai-education
+social-intelligence
+chatgpt
+deepseek
+ai-tutor
+mcp-server
+agent-skills
+claude-code
+learning-science
+claude-skills
+Updated
+Mar 25, 2026
+TypeScript
+FreeLanguageTools
+/
+vocabsieve
+Star
+544
+Code
+Issues
+Pull requests
+Discussions
+Simple sentence mining tool for language learning
+python
+language-learning
+spaced-repetition
+epub
+anki
+sentence-mining
+Updated
+Aug 15, 2025
+Python
+open-spaced-repetition
+/
+py-fsrs
+Star
+513
+Code
+Issues
+Pull requests
+Discussions
+Python Package for FSRS Spaced Repetition
+spaced-repetition
+flashcard
+fsrs
+Updated
+Aug 9, 2026
+Python
+alyssaxuu
+/
+carden
+Sponsor
+Star
+490
+Code
+Issues
+Pull requests
+Flashcards with spaced repetition and gamification 🌱
+chrome-extension
+learning
+education
+algorithm
+knowledge
+flashcards
+spaced-repetition
+gamification
+anki
+Updated
+Jun 17, 2022
+JavaScript
+ChenChenyaqi
+/
+learn-anything
+Star
+484
+Code
+Issues
+Pull requests
+Learn Anything is an AI-powered recursive learning system — Socratic deep-dives and TDD-style exercises integrated directly into your coding assistant.
+cli
+learning
+ai
+tdd
+skills
+spaced-repetition
+codex
+socratic-method
+claude-code
+Updated
+Aug 29, 2026
+TypeScript
+Load more…
+Add this topic to your repo
+To associate your repository with the
+spaced-repetition
+topic, visit your repo's landing page and select "manage topics."
+Learn more
+Footer
+© 2026 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Community
+Docs
+Contact
+Manage cookies
+Do not share my personal information
+You can’t perform that action at this time.

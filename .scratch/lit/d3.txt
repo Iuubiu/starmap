@@ -1,0 +1,168 @@
+
+## Q: UXAgent LLM agent usability testing framework web design arxiv 2502.12561
+ - dblp: Qi He 0002 - - [i34]Yuxuan Lu, Bingsheng Yao, Hansu Gu, Jing Huang, Zheshen Jessie Wang, Laurence Li, Jiri Gesi, Qi He, Toby Jia-Jun Li, Daku...
+   https://dblp.dagstuhl.de/pid/51/6972-2.html#2 | dblp: computer science bibliography  authority: 4  date: 2026-09-24T16
+   - [i34]Yuxuan Lu, Bingsheng Yao, Hansu Gu, Jing Huang, Zheshen Jessie Wang, Laurence Li, Jiri Gesi, Qi He, Toby Jia-Jun Li, Dakuo Wang: UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design. CoRR abs/2502.12561 (2025)
+ - Paper page - UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design
+   https://huggingface.co/papers/2502.12561 | Hugging Face  authority: 3  date: 2025-02-27T16:00:00+00:00
+   arxiv:2502.12561  # UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design  Published on Feb 18 ... ## Abstract  UXAgent uses LLM-Agents to simulate user interactions for usability testing, providing qualitative, quantitative, and video feedback to UX researchers.  AI-generated summary  Usability testing is a fundamental yet challenging (e.g., inflexible to iterate the study design flaws and hard to r
+ - UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design
+   https://ub-wuppertal.digibib.net/search/eds/record/edsarx:edsarx.2502.12561?be-eds-facetfilter=1%2CContentProvider%3AarXiv&be-eds- | Digitale Bibliothek - DigiBib  authority: 3  date: None
+   # UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design  Lu, Yuxuan ; Yao, Bingsheng ; et al.  2025  Online Report  Usability testing is a fundamental yet challenging (e.g., inflexible to iterate the study design flaws and hard to recruit study participants) research method for user experience (UX) researchers to evaluate a web design. Recent advances in Large Language Model-simulated Agent (LLM-Agen
+ - Showing 1–5 of 5 results for author: Gesi, J
+   http://arxiv.org.ezproxy.obspm.fr/search/?searchtype=author&query=Gesi%2C+J | obspm.fr  authority: 3  date: 2020-02-23T16:00:00+00:00
+   Gesi, J  .  UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design  Abstract: Usability testing is a fundamental yet challenging (e.g., inflexible to iterate the study design flaws and hard to recruit study participants) research method for user experience (UX) researchers to evaluate a web design. Recent advances in Large Language Model-simulated Agent (LLM-Agent) research inspired us to design UXAge
+
+## Q: SimUser CHI 2024 LLM tool mobile application simulate users usability feedback
+ - SimUser: Generating Usability Feedback by Simulating Various Users Interacting with Mobile Applications
+   https://dl.acm.org/doi/suppl/10.1145/3613904.3642481/suppl_file/3642481-vor.pdf?__cf_chl_tk=TBY18WqstMBN3zs2di4.GkA2kPO2iNS0YBpVlI | None  authority: 4  date: None
+   Using LLMs to simulate the above process involves two main challenges. One is to empathize with specified users and portray their characteristics. Another is to simulate how human users perceive and interact with the mobile application in the user flow. ... Their LLM tool held the capability to execute more complex operations by extracting the static context of the GUI page and the dynamic context of the iterative te
+ - To achieve our design goal, we create SimUser, an LLM tool that can understand mobile applications and simulate different target...
+   https://dl.acm.org/doi/suppl/10.1145/3613904.3642481/suppl_file/3642481-vor.pdf?__cf_chl_tk=TBY18WqstMBN3zs2di4.GkA2kPO2iNS0YBpVlI | None  authority: 4  date: None
+   Each group comprises a single operation and its associated feedback, which can be either visual on the interface or multimodal on the device. The interaction logic between different interfaces constitutes the overall framework of  <center>Figure 4: Example of interface description generation. The description is divided into three parts: an overall visual description, a description of widgets segmented by area, and a 
+ - Designers often find it challenging to accurately predict what information users expect to receive, or how specified usage scena...
+   https://dl.acm.org/doi/suppl/10.1145/3613904.3642481/suppl_file/3642481-vor.pdf?__cf_chl_tk=TBY18WqstMBN3zs2di4.GkA2kPO2iNS0YBpVlI | None  authority: 4  date: None
+   Moreover, SimUser performs well in the interface layout feedback which relies on visual observation. We suppose that the visual saliency model predicting attention allocation on interfaces helps SimUser to understand visual information.    ### 7.2 Reflect User Characteristics and Contextual Influence in LLM-Generated Usability Feedback    Besides simulating usage scenarios and conversations between an imaginary proto
+ - 국립보건연구원 국립의과학지식센터
+   https://library.nih.go.kr/ncmiklib/search/Retrieve.do?dbid=edscma&an=edscma.3642481&highlight=AND&edsCnt=114&kwd= | 국립의과학지식센터  authority: 4  date: 2024-08-05T16:00:00+00:00
+   ## SimUser: Generating Usability Feedback by Simulating Various Users Interacting with Mobile Applications ... Proceedings of the 2024 CHI Conference on Human Factors in Computing Systems. :1-17 ... ACM Conferences ... Large language modelsUsability feedbackUser Simulation ... The conflict between the rapid iteration demand of prototyping and the time-consuming nature of user tests has led researchers to adopt AI met
+
+## Q: Brooke 1996 SUS system usability scale original paper scoring 0-100
+ - The system usability scale (SUS) questionnaire by Brooke [BROOKE], a standard tool for usability testing following ISO 9241/11, ...
+   https://wiki.hl7.org/w/images/wiki.hl7.org/0/00/Draft_guidelines_mhealth_apps_not_for_publication_DTao_Comments.docx#5#5 | None  authority: 4  date: None
+   [BROOKE] Brooke J. SUS: a “quick and dirty” usability scale. In: Jordan PW, Weerdmeester B, Thomas A, McClelland IL, editors. Usability evaluation in industry. London: Taylor & Francis; 1996:107-114.
+ - The standard usability scale [Brooke 1996] is a set of 10 questions with answers entered on a 5-point Likert scale; odd numbered...
+   https://core.ac.uk/download/210588970.pdf#16#6 | None  authority: 3  date: None
+   The standard ... [Brooke 1996] is a set of 10 ... with answers entered on a 5-point Likert scale; ... questions are phrased ... and even numbered questions are phrased negatively ( ... for a completed survey, this shows the full text of each question). The ... the scale ... a ... . ... the ... a ... 0-100. ...  ... the ... 1.
+ - We will apply a formative user study, which is usually characterized as a method to investigate the usability of interactive sys...
+   http://www.aal-europe.eu/wp-content/uploads/2020/01/GeTVivid_D23.pdf#11#4 | None  authority: 4  date: None
+   **Perceived safety** ... **Trust** ... **User satisfaction** ... **Curiosity** ... **Attitude toward using a technology**
+ - The QANECAP was designed by Sandra Freitas, et
+   https://ec.europa.eu/research/participants/documents/downloadPublic?documentIds=080166e5d581105a&appId=PPGMS#4#4 | None  authority: 4  date: None
+   The System Usability Scale (SUS) is a generic usability rating scale that consists of a 10- item questionnaire, scored on a 5- point Likert scale. The final score ranges from 0 to 100, where higher values indicate better usability. Since items are alternated by positive and negative, it is necessary to score even and odd items differently as defined by Brooke (Brooke, SUS- A quick and dirty usability scale, 1996):   
+
+## Q: UEQ-S short version 8 items two factor pragmatic hedonic
+ - UEQ-GR and UEQ-S-GR: Towards a Greek Adaptation of the User Experience Questionnaire and its Short Version
+   https://dl.acm.org/doi/pdf/10.1145/3749012.3749059?__cf_chl_tk=jVrCXZK4doN.oXlhQvATWoYrw_UZCTs9jnrjNuCJhcQ-1782408188-1.0.1.1-FLjB | None  authority: 4  date: None
+   From the user's point of view, a system can be perceived as pragmatic if it provides efficient and effective ways of achieving their goals, whereas a system can be perceived as hedonic if it provides stimulation, identification, and provokes memories [11]. A system can be perceived as either pragmatic, hedonic, both, or none [9, 11]. ... UEQ- S [28] is a short version of the UEQ questionnaire that consists of 8 items
+ - JavaScript disabled - UEQ-GR and UEQ-S-GR: Towards a Greek Adaptation of the User
+   https://dl.acm.org/doi/epdf/10.1145/3749012.3749059#1 | ACM Digital Library  authority: 4  date: None
+   UEQ-S [ 28 ] is a short version of the UEQ questionnaire  that consists of 8 items and measures the PQ and HQ of a product. ... There is initial evidence that UEQ-S is not  affected by age and gender, it is positively correlated with frequency  of use, and the PQ component is positively correlated with self-  reported knowledge [30]. ... the two publications related to the UEQ-S [ 28] and the bench-  mark for UEQ [ 2
+ - UEQ-GR and UEQ-S-GR: Towards a Greek Adaptation of the User Experience Questionnaire and its Short Version - Several features on this page require Premium Access
+   https://dl.acm.org/doi/full/10.1145/3749012.3749059#1 | ACM Digital Library  authority: 4  date: 2025-09-22T16:00:00+00:00
+   A system can be perceived as either pragmatic, hedonic, both, or none [9, 11]. ... UEQ-S [28] is a short version of the UEQ questionnaire that consists of 8 items and measures the PQ and HQ of a product. A benchmark dataset for the UEQ, based on 246 products and 9905 participants [29], allows one to assess how a product's UX compares to others in the dataset. There is initial evidence that UEQ-S is not affected by ag
+ - The UEQ- S contains eight 7- point Likert scale questions that yield three scales: Overall quality, Hedonic quality, and Pragmat...
+   https://dl.acm.org/doi/pdf/10.1145/3746269.3760420?download=true&__cf_chl_tk=kLylP8T5mvPiOEY00eWPiPN7FOc9ap4fCL4aAMJDJOs-178231240 | None  authority: 4  date: None
+   6.2.1 UEQ- S. The results of the UEQ- S questionnaire were analyzed using the tool provided by the authors [15]. This tool transforms the questionnaire responses from a 7- point Likert scale to values ranging from - 3 (most negative) to +3 (most positive). The mean values for Pragmatic, Hedonic, and Overall quality are presented in Table 2. ... Figure 2 presents the comparison of the UEQ- S results with this benchmar
+
+## Q: Playwright official docs agents MCP test generation Playwright Agents
+ - Fast and reliable end-to-end testing for modern web apps | Playwright .NET
+   https://playwright.dev/dotnet/ | Playwright  authority: 3  date: None
+   # Playwright enables reliable web automation for testing, scripting, and AI agents.  One API to drive Chromium, Firefox, and WebKit — in your tests, your scripts, and your agent workflows. Available for TypeScript, Python, .NET, and Java.  ### Playwright Test  Full-featured test runner with auto-waiting, assertions, tracing, and parallelism across Chromium, Firefox, and WebKit. npm init playwright@latest  ### Playwri
+ - AI-Agents-public/frameworks/shared-skills/skills/qa-testing-playwright/references/playwright-mcp.md at c95ab14ef8cf13e778412c4510960b9da9ef7700 · vasilyu1983/AI-Agents-public - Skip to content
+   https://github.com/vasilyu1983/AI-Agents-public/blob/c95ab14ef8cf13e778412c4510960b9da9ef7700/frameworks/shared-skills/skills/qa-t | GitHub  authority: 3  date: 2025-11-13T16:00:00+00:00
+   "mcpServers": ... npx", ... ["-y", "@playwright/mcp@latest"] ... ["-y", "@playwright/mcp@latest"], ... - Auto-healing that weakens assertions - Generating tests without understanding the flow - Skipping code review of AI-generated tests - Using MCP for security-sensitive test creation  ## Chrome DevTools MCP (Complementary)  Chrome DevTools MCP is a separate MCP server from Google that connects AI agents directly to 
+ - 智能体 | Playwright
+   https://playwright.net.cn/docs/test-agents | Playwright  authority: 3  date: None
+   # Playwright 测试智能体  ## 简介  Playwright 开箱即自带三个 Playwright 测试智能体：🎭 planner、🎭 generator 和 🎭 healer。  这些智能体可以独立使用、按顺序使用，或者作为智能体循环中的链式调用。按顺序使用它们将为你的产品生成测试覆盖率。  - 🎭 planner 探索应用并生成 Markdown 测试计划 - 🎭 generator 将 Markdown 计划转换为 Playwright 测试文件 - 🎭 healer 执行测试套件并自动修复失败的测试  ### 快速入门  首先使用init-agents 命令将 Playwright 测试智能体定义添加到你的项目中。每当更新 Playwright 时，都应重新生成这些定义，以获取最新的工具和说明。  - VS Code - Claude Code - Codex - OpenCode  npx playwri
+ - Generating End-to-End Tests with AI and Playwright MCP
+   https://www.browserstack.com/guide/playwright-ai-test-generator?utm_source=testguild&utm_medium=partnered&utm_campaigncode=701OW00 | BrowserStack  authority: 3  date: 2026-01-15T16:00:00+00:00
+   #### Multi-Step Scenarios Causing Blind Spots?  Automated scripts can miss edge paths. Test on real devices to ensure every interaction works flawlessly. ... - Intent-driven test creation: AI generates Playwright tests from goals such as validating a checkout or onboarding flow, so test logic reflects user behavior rather than the exact sequence of DOM interactions captured at one point in time.  - Lower maintenance 
+
+## Q: VisualWebArena evaluation reward function success rate
+ - evaluation/benchmarks/visualwebarena/get_success_rate.py · Backup-bdg/OpenHands at main
+   https://huggingface.co/spaces/Backup-bdg/OpenHands/blob/main/evaluation/benchmarks/visualwebarena/get_success_rate.py | Hugging Face  authority: 3  date: 2025-06-08T16:00:00+00:00
+   parser = argparse.ArgumentParser(description='Calculate average reward.')  parser.add_argument('output_path', type=str, help='path to output.jsonl') ... env_ids = [   id   for id in gym.envs.registry.keys()   if id.startswith('browsergym/visualwebarena')   ]   total_num = len(env_ids)   print('Total number of tasks: ', total_num)   total_reward = 0   total_cost = 0   actual_num = 0   with open(args.output_path, 'r') 
+ - Support for VisualWebArena evaluation in OpenHands by adityasoni9998 · Pull Request #4773 · OpenHands/OpenHands - Skip to content
+   https://github.com/OpenHands/OpenHands/pull/4773/files/187e248d6af69e81965023e235392c56614501c7#diff-09e171fe45674699679b688c585fc | GitHub  authority: 3  date: 2025-01-22T16:00:00+00:00
+   action = BrowseInteractiveAction(browser_actions=BROWSER_EVAL_GET_REWARDS_ACTION)  logger.info(action, extra={'msg_type': ' ... logger.info(f"{'-' * 50} END Runtime Completion Fn {'-' * 50}") ... 'rewards': json.loads(obs.content), ... {return_val}')  reward = max(return_val['rewards']) ... reward = -1.0 # kept -1 to identify instances for which evaluation failed. ... This agent has been evaluated on the VisualWebAre
+ - Navigation and ActionsMany tasks in VisualWebArena require navigating through multiple webpages, and executing actions to change...
+   https://aclanthology.org/2024.acl-long.50.pdf#6#2 | None  authority: 4  date: None
+   ### Human Performance  We measure the success rate of 7 college students on VisualWebArena tasks. Several of these students also assisted with task creation, and to avoid data leakage, we ensured that they were not assigned to the same tasks that they initially created. We sample one task per template, collecting a representative set of 230 tasks. We find that humans do well at these tasks, achieving an overall succe
+ - VisualWebArena: Evaluating Multimodal Agents on Realistic Visually Grounded Web Tasks - Many tasks in VisualWebArena require navigating through multiple webpages, and executing actions to change the underlying state ...
+   https://arxiv-org.ezproxy.obspm.fr/html/2401.13649v2#2 | Observatoire de Paris  authority: 3  date: 2024-06-05T16:00:00+00:00
+   Annotators also wrote the reward functions using the primitives described in Sec. 3.3. We collected a total of 314 unique templates (average of 2.9 tasks per template). While the majority of tasks can be solved, we also included a small subset (46 tasks, or 5.1%) which are unachievable. This subset tests the ability of agents to terminate early in the event where a task cannot be solved, which is essential in many re
+
+## Q: MathDial dataset teacher student dialogue math misconception
+ - 10 out of 12 participants teach mathematics, while the rest focus on natural sciences
+   https://aclanthology.org/anthology-files/pdf/bea/2025.bea-1.pdf#340#33 | None  authority: 4  date: None
+   The main finding from the Likert scale survey answers (see Fig. 2) is that the LLM students did not authentically represent real human emotions. Apart from that, LLM students generally were able to simulate the learning process. Namely, aspects like teaching strategies, students' reactions to feedback, and math confusion were rated as more realistic. According to teacher ratings, LLM students were for the most part f
+ - README.md · eth-nlped/mathdial at main
+   https://huggingface.co/datasets/eth-nlped/mathdial/blob/main/README.md?code=true | Hugging Face  authority: 3  date: 2025-02-25T16:00:00+00:00
+   - en  license: cc-by-4.0 ... - gsm8k ... - education ... - text-generation  pretty_name: MathDial  size_categories:  - 1K<n<10K  # Mathdial dataset  https://arxiv.org/abs/2305.14536  MathDial: A Dialogue Tutoring Dataset with Rich Pedagogical Properties Grounded in Math Reasoning Problems.  MathDial is grounded in math word problems as well as student confusions which provide a challenging testbed for creating faithf
+ - Training LLM-based Tutors to Improve Student Learning Outcomes in Dialogues - where and tmwt^{w}_{m} represent the preferred and unpreferred tutor utterances, respectively
+   https://ar5iv.labs.arxiv.org/html/2503.06424v1#2 | arXiv  authority: 4  date: None
+   Table 2 shows the results of tutor utterance generation on the MathDial test set, across all methods on the automated metrics. ... Table 3 shows an example dialogue context and tutor utterances from the human tutor, GPT-4o, and DPO. We see that the human tutor states that the student is not correct and prompts the student to try again, providing a subtle hint to focus on the cost of the dozen. However, this utterance
+ - ETH Zurich
+   https://www.research-collection.ethz.ch:443/bitstream/handle/20.500.11850/653486/2023.findings-emnlp.372.pdf?sequence=2&isAllowed= | None  authority: 4  date: None
+   when asked ChatGPT to tutor a student as a teacher, it directly **reveals the solution 66% of times and provides incorrect feedback 59% of times** (cf. ... To address these issues, we collect and present a dialogue tutoring dataset called \(\boxplus\)MathDial. The dataset has rich tutoring quality which we measure by **equitable tutoring**(Tanner, 2013): providing opportunities for the student to learn, think and exp
+
+## Q: SocraticLM五段式 teaching benchmark evaluation
+ - SocraticLM: Exploring Socratic Personalized Teaching with Large Language Models
+   https://www.proceedings.com/content/079/079017-2721open.pdf#7#1 | None  authority: 3  date: None
+   In addition, we contribute a novel evaluation system encompassing five pedagogical dimensions for assessing the teaching quality of LLMs, which to the best of our knowledge, is the first exploration in this field. Experimental results show that our dataset can enhance the pedagogical performances of LLMs and the teaching quality of our SocraticLM surpasses GPT4 by more than \(12\%\) . ... - We present SocraticLM, a l
+ - **Specialized tutoring models improve in pedagogy but do not retain the full solving abilities
+   https://export.arxiv.org/pdf/2502.18940#4#3 | None  authority: 4  date: None
+   In this work we propose MathTutorBench, a holistic benchmark for quick and cost-effective assessment of the educational capabilities of LLM  tutoring models. It fills a crucial gap in the literature, as it allows fast prototyping of models by using only lightweight automatic and learned metrics to evaluate pedagogy. The goal is to not replace human studies measuring learning outcomes, but rather to serve as a measure
+ - SocraticLM | Proceedings of the 38th International Conference on Neural Information Processing Systems - Several features on this page require Premium Access
+   https://dlnext.acm.org/doi/abs/10.5555/3737916.3740637#core-collateral-purchase-access#1 | ACM Digital Library  authority: 4  date: 2024-12-09T16:00:00+00:00
+   Published: 10 December 2024 Publication History ... Anaïs Tack and Chris Piech. The ai teacher test: Measuring the pedagogical ability of blender and gpt-3 in educational dialogues. ... #### Published In  December 2024  141586 pages  ISBN:9798331314385 ... - A. ... Curran Associates Inc.  Red Hook, NY, United States
+ - SocraticLM: Exploring Socratic Personalized Teaching with Large Language Models
+   https://slideslive.com/39025742/socraticlm-exploring-socratic-personalized-teaching-with-large-language-models?locale=en | SlidesLive  authority: 3  date: 2024-12-09T16:00:00+00:00
+   SocraticLM: Exploring Socratic Personalized Teaching with Large Language Models ... ## SocraticLM: ... Dec 10, 2024 ... Large language models (LLMs) are considered a crucial technology for advancing intelligent education since they exhibit the potential for an in-depth understanding of teaching scenarios and providing students with personalized guidance. Nonetheless, current LLM-based application in personalized teac
+
+## Q: rage clicks frustration detection web analytics proxy metric
+ - Rage Clicks: Detection, Root Causes & Revenue Impact
+   https://www.quantummetric.com/blog/rage-clicks-guide | Quantum Metric  authority: 3  date: 2026-10-01T16:00:00+00:00
+   What it shows: ... How to set it up in QM: ... In the session list, apply the rage click behavior filter, then narrow by page, element, or additional friction signals (U-turns, error occurrences, refresh loops) to isolate the sessions worth watching.  What it enables: Root cause confirmation. Watch five to ten sessions per rage click hotspot before writing a ticket; patterns emerge fast, and the replay evidence makes
+ - Pulse Analytics - Pulse Analytics
+   https://uk.wordpress.org/plugins/pulse-analytics/#1 | WordPress.org  authority: 3  date: 2026-04-29T16:00:00+00:00
+   # Pulse Analytics ... Pulse is a lightweight, privacy-first analytics platform that gives you valuable insights about your website visitors without compromising their privacy. ... - No cookies — fully GDPR, CCPA, and PECR compliant out of the box - Proxy mode — route analytics through your domain to bypass adblockers - Frustration tracking — detect rage clicks and dead clicks (optional) - Lightweight — under 5KB trac
+ - For exemplary purposes, a suspect session may be identified according to the teachings of U
+   https://patentimages.storage.googleapis.com/14/0b/82/92df6548555804/US10880358.pdf#8#5 | None  authority: 4  date: None
+   The expected conversion rate may be computed based upon a number of the one or more non-suspect sessions and a number of the one or more non-suspect sessions that included a conversion event. For example, the number of the one or more non-suspect sessions may be divided by the number of the one or more non-suspect sessions that included a conversion event. At 238, the set of one or more operations may further include
+ - Frustrated User Sessions, Datadog - Vortex IQ Help Centre
+   https://docs.vortexiq.ai/nerve-centre/kpi-cards/datadog/frustrated-user-sessions | Total Transactions, Worldpay - Vortex IQ Help Centre  authority: 2  da
+   A UK fashion brand on Shopify with Datadog RUM enabled across the storefront, PDP, cart, and checkout pages. Snapshot taken on 28 Apr 26 at 14:00 GMT for the trailing 7 days (21 Apr to 27 Apr). The card reads 4.6 percent on the dial; the alert at  Page type | Sessions | Frustrated sessions | Frustrated % | Top frustration signal  ---|---|---|---|--- Homepage | 142,800 | 4,140 | 2.9% | Page load p95 (4.2s)  Category /
+
+## Q: MT-Bench LLM judge human agreement rate 80% Cohen kappa
+ - eval: calibrate the LLM judge with Cohen's Kappa before tuning anything on it · Issue #518 · attevon-llc/OpenTranscribe - Skip to content
+   https://github.com/attevon-llc/OpenTranscribe/issues/518#1 | GitHub  authority: 3  date: 2026-08-19T16:00:00+00:00
+   - Judge's Verdict (arXiv:2510.09738) — correlation alone is insufficient: a judge can correlate perfectly while being systematically harsh or lenient. Uses Cohen's Kappa plus a z-score against the human-human kappa distribution.  ## Policy to adopt  - Report Cohen's Kappa, never raw agreement. - Calibrate against 50–100 hand-labelled answers before tuning anything on a judge score — otherwise you optimise the judge, 
+ - OpenTranscribe/docs-site/docs/developer-guide/rag-evaluation.md at master · attevon-llc/OpenTranscribe - (backend/venv-eval/bin/pip install -r backend/requirements-eval-judge
+   https://github.com/attevon-llc/OpenTranscribe/blob/master/docs-site/docs/developer-guide/rag-evaluation.md#10 | GitHub  authority: 3  date: 2025-05-18T16:00:00+00:00
+   coincidence ... is a conservative ... for ... can undercount a decline phrased unusually, never overcounts an explicit decline as a ... the point it exists to make is that no relevance metric can see this failure mode at all: a system that ...  ... scores identically, on nDCG/ROUGE alike, to one that fabricates a confident answer about ... that was ... .
+ - LLM Judge Reliability: Why Self-Agreement Misleads | LayerLens
+   https://layerlens.ai/blog/llm-judge-reliability-kappa-position-bias | LayerLens  authority: 3  date: 2026-08-26T16:00:00+00:00
+   ## What Reliable Judge Evaluation Requires  The research converges on a set of minimum requirements for trustworthy LLM-as-judge evaluation:  Kappa, not raw agreement. Report Cohen's kappa or Krippendorff's alpha. Raw percentages hide chance agreement. ... What is Cohen's kappa and why does it matter for LLM judges?  Cohen's kappa measures agreement between two raters (or a rater with itself across trials) after corr
+ - LLM as a Judge: When 90% Agreement Means Nothing | Heym
+   https://heym.run/blog/llm-as-a-judge | Heym  authority: 2  date: 2026-09-01T16:00:00+00:00
+   The part almost everyone skips is the last step: report a chance corrected agreement statistic rather than the raw percentage. Raw agreement counts the times you and the judge happened to say the same thing, including the times you both said it for no reason. ... How accurate are LLM judges compared to humans?  The commonly quoted figure is 80 to 90 percent agreement with human evaluators, and on its own that figure 
+
+## Q: keystroke dynamics frustration detection cognitive load online learning
+ - The cognitive- load analysis showed that mental demand in programming cannot be explained by exercise difficulty labels alone
+   https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1791&context=etd2023&_x_output_type_b6db407c4_=embedded_pdf#17#14 | None  authority: 3  date: None
+   i) Favor concise, state-sensitive, and more Socratic feedback. Several findings in this dissertation suggest that LLM feedback can become overly verbose, insufficiently targeted, or too focused on immediate correction. Future feedback policies should emphasize brevity, alignment with learner state, and questioning strategies that stimulate reasoning rather than simply provide direction. More Socratic forms of support
+ - TypeState: Detecting Cognitive Load from Privacy-Preserving Keystroke Micro-Rhythms
+   https://www.zenodo.org/records/19387975/files/TypeState_paper.pdf?download=1#2#1 | None  authority: 4  date: None
+   Suryani et al. [19] proposed user model designs for adaptive learning management systems based on cognitive load, employing micro- learning interventions when prolonged access duration and excessive navigation errors are detected. Stefanidi et al. [18] achieved real- time adaptation of context- aware intelligent user interfaces for enhanced situational awareness.  For real- time cognitive load control, systems typica
+ - 【会议论文】 The Effects of Typing Demand on Emotional Stress, Mouse and Keystroke Behaviours NSTL 国家科技图书文献中心
+   https://tedala.nstl.gov.cn/paper_detail.html?id=62c56da3155b2832e10e6b44a6132fad | 国家科技图书文献中心  authority: 4  date: None
+   ### 【会议论文】The Effects of Typing Demand on Emotional Stress, Mouse and Keystroke Behaviours NSTL国家科技图书文献中心 ... Past research found that cognitive effort is related to emotion, which negative emotion may influence task performance. To enhance learning experience, it is important to have an effective technique to measure user's emotional and motivational affects for designing an adaptive e-learning system, rather than u
+ - A Machine Learning Approach to Leverage Individual Keyboard and Mouse Interaction Behavior From Multiple Users in Real-World Learning Scenarios - As a result of this review, it can be seen that most research using mouse movement analysis in affective states detection rely o...
+   https://ieeexplore.ieee.org/document/8416736/citations?tabFilter=papers#citations#2 | IEEE Xplore  authority: 4  date: 2018-07-19T16:00:00+00:00
+   One of the goals of a good experimental design is to collect sufficient instances of all the classes, in order to avoid unbalanced datasets. There are experimental design issues that take part in the class balancing of the dataset, such as the elicititation method used, which should be tailored to the experimental subjects. To mitigate this problem data preprocessing techniques can be applied. Although the number of 
+
+## Q: tutoring answer leakage benchmark student pressure extraction compliance rate
+ - Benchmarking and Mitigating Answer Leakage in LLM Tutoring Under Persistent Student Pressure
+   https://dl.acm.org/doi/pdf/10.1145/3828792.3828794?download=true#1#2#1 | None  authority: 4  date: None
+   However, these systems typically do not provide a repeatable benchmark that stress- tests leakage robustness under sustained, escalating student extraction pressure.    A parallel line of work focuses on evaluating pedagogical behavior in educational dialogues and the difficulty of measuring whether a conversational agent "teaches" effectively. The Artificial Intelligence (AI) Teacher Test highlights that assessing t
+ - Abstract
+   https://dlnext.acm.org/doi/pdf/10.1145/3828792?download=true#41#3 | None  authority: 4  date: None
+   These concerns motivate operational definitions of "overhelping" and answer disclosure when LLMs are used in assessment- adjacent settings, including MCQ practice. ... In contrast to prior work, we provide (i) a reproducible benchmark targeting answer leakage in multi- turn MCQ tutoring under controlled, escalating extraction pressure and (ii) an evaluation of a deployable tutor- supervisor gating workflow across tut
+ - Benchmarking and Mitigating Answer Leakage in LLM Tutoring Under Persistent Student Pressure - Several features on this page require Premium Access
+   https://dl.acm.org/doi/10.1145/3828792.3828794#1 | ACM Digital Library  authority: 4  date: 2026-09-22T16:00:00+00:00
+   These concerns motivate operational definitions of “overhelping” and answer disclosure when LLMs are used in assessment-adjacent settings, including MCQ practice. ... In contrast to prior work, we provide (i) a reproducible benchmark targeting answer leakage in multi-turn MCQ tutoring under controlled, escalating extraction pressure and (ii) an evaluation of a deployable tutor-supervisor gating workflow across tutor-
+ - <table><tr><td>Technique</td><td>Definition</td><td>Example</td></tr><tr><td>Direct Request</td><td>Explicitly and forcefully as...
+   https://export.arxiv.org/pdf/2604.18660#10#2 | None  authority: 4  date: None
+   prompt refinement process for both \(J_{a}\) and \(J_{t}\) , measuring inter- rater agreement between two human annotators and the LLM using Cohen's kappa. Judge prompts were refined until high agreement with human judgments was achieved. Finally, we achieved average inter- rater agreements of 0.88 and 0.81 between human annotators and the LLM- based judge for student and tutor, respectively, on 30 annotated examples

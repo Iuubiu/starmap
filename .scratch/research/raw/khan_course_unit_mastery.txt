@@ -1,0 +1,116 @@
+What are Course and Unit Mastery? – Khan Academy Help Center
+Help Center
+Community
+Report a Problem
+Sign in
+Menu
+Help Center
+Community
+Report a Problem
+Sign in
+How can we help?
+Khan Academy Help Center
+Learners
+The Mastery System
+Follow
+What are Course and Unit Mastery?
+Updated
+August 25, 2026 21:28
+Follow
+Khan Academy's Mastery System helps you track your learning progress in a course. As you practice, your skill levels can change based on your performance, helping you see which skills you've learned and which ones you may want to continue practicing.
+Course Mastery
+Courses that have Mastery enabled show your
+Course Mastery percentage
+, which reflects your progress across all the skills in the course.
+Your mastery percentage shows the percentage of skills in the course that are currently at the Proficient or Mastered level. This calculation applies to learners using both Classic Khan Academy and Khan Academy Reimagined.
+Skills at the Proficient and Mastered levels both count toward your mastery percentage. Skills that are Not started, Attempted, or Familiar do not count toward the percentage.
+For example, if a course has 20 skills and you have reached Proficient or Mastered on 5 of them, your Course Mastery percentage is
+25%
+.
+To learn more about how this percentage works, see [How is my mastery percentage calculated?].
+Note:
+This new calculation is for all learners/students globally with the exception of Brazil and Peru.
+Unit Mastery
+In addition to your progress across an entire course, you can track your
+Unit Mastery
+for individual units.
+On a unit page, you can see your progress on each skill in the unit, including whether the skill is Not started, Attempted, Familiar, Proficient, or Mastered.
+How do I level up my skills?
+When you complete activities such as exercises, quizzes, unit tests, and course challenges, your skill levels can change based on your performance.
+After completing an activity, you'll see a summary showing which skills leveled up, leveled down, or remained at the same level. You may also see recommended lessons based on your performance.
+What are the different skill levels?
+As you practice a skill and answer related questions, you can move through different skill levels:
+Not started:
+You haven't started working on the skill yet.
+Attempted:
+You've started working on the skill.
+Familiar:
+You've demonstrated some understanding of the skill.
+Proficient:
+You've demonstrated proficiency in the skill.
+Mastered:
+You've demonstrated mastery of the skill.
+Your skill level can move up or down based on your performance as you continue practicing.
+Proficient and Mastered skills count toward your Course and Unit Mastery percentages.
+To learn more about how your mastery percentage is determined, see
+How is my mastery percentage calculated?
+Was this article helpful?
+4381 out of 5109 found this helpful
+Our mission is to provide a free, world-class education to anyone, anywhere.
+Khan Academy is a 501(c)(3) nonprofit organization.
+Donate
+or
+volunteer
+today!
+About
+News
+Impact
+Our team
+Our interns
+Our content specialists
+Our leadership
+Our supporters
+Our contributors
+Our finances
+Careers
+Internships
+Contact
+Help Center
+Support community
+Share your story
+Press
+Download our apps
+iOS app
+Android app
+Courses
+Math: Pre-K - 8th grade
+Math: Get ready courses
+Math: high school & college
+Test prep
+Science
+Computing
+Arts & humanities
+Economics
+Reading & language arts
+Life skills
+Language
+English (United States)
+Български
+Dansk
+Deutsch
+Español
+Français
+Magyar
+հայերեն
+ქართული
+Nederlands
+Português do Brasil
+Türkçe
+اردو (پاکستان)
+O’zbekcha
+Tiếng Việt
+© 2026 Khan Academy
+Terms of use
+Privacy notice
+Cookie notice
+Accessibility statement

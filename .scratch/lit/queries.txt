@@ -1,0 +1,63 @@
+Kulik Kulik 1988 timing of feedback and verbal learning
+Bloom 1984 the 2 sigma problem
+Lai Biggs 1994 who benefits from mastery learning
+Hattie Timperley 2007 the power of feedback
+Sailer Homner 2020 gamification of learning a meta-analysis
+Bisra 2018 inducing self-explanation meta-analysis
+Lachner 2022 learning by writing explanations meta-analysis
+Sweller Cooper 1985 the use of worked examples as a substitute for problem solving
+Chen Kalyuga Sweller 2010 the worked example effect and human cognition
+Karpicke Blunt 2011 retrieval practice produces more learning than elaborative studying
+Roediger Karpicke 2006 test-enhanced learning taking memory tests improves long-term retention
+Chi Bassok Lewis Reimann Glaser 1989 self-explanations how students study and use examples
+VanLehn 2011 the relative effectiveness of human tutoring intelligent tutoring systems
+Kulik Fletcher 2016 effectiveness of intelligent tutoring systems meta-analytic review
+Corbett Anderson 1994 knowledge tracing modeling the acquisition of procedural knowledge
+Doignon Falmagne 1985 spaces for knowledge a new framework for the assessment of knowledge
+Cepeda Pashler Vul Wixted Rohrer 2006 distributed practice in verbal recall tasks
+Cepeda 2008 spacing effects in learning a temporal ridgeline of optimal retention
+Roediger Butler 2011 the critical role of retrieval practice in long-term retention
+Carpenter 2012 using spacing to enhance diverse forms of learning
+Mayer Moreno 2003 nine ways to reduce cognitive load in multimedia learning
+Mayer 2020 five ways to increase the effectiveness of instructional video
+Guo Kim Rubin 2014 how video production affects student engagement
+Locke Latham 2002 building a practically useful theory of goal setting
+Kluger DeNisi 1996 effects of feedback interventions on performance
+Wisniewski 2020 the power of feedback revisited a synthesis of educational feedback research
+Shute 2008 focus on formative feedback
+Deci Koestner Ryan 1999 a meta-analytic review of experiments examining the effects of extrinsic rewards
+Csikszentmihalyi 2014 flow and the foundations of positive psychology
+Kirschner Sweller Clark 2006 why minimal guidance during instruction does not work
+Dunlosky 2013 improving students learning with effective learning techniques
+Graesser 1995 question asking during tutoring
+Koedinger Aleven Roll 2009 the knowledge-learning-instruction framework
+Falmagne Doignon 2011 learning spaces interdisciplinary applied mathematics
+Doignon 2005 spaces for the assessment of knowledge
+Bastani 2024 generative AI can harm learning
+Doughty 2024 comparative study of AI-generated and human-crafted multiple choice questions
+Fan 2024 beware of metacognitive laziness
+Yan 2024 practical and ethical challenges of large language models in education
+Kalyuga 2007 expertise reversal effect and its implications for learner-tailored instruction
+Paas 2003 implications of cognitive load theory for multimedia learning
+Ryan Deci 2000 self-determination theory and the facilitation of intrinsic motivation
+Guskey 2007 closing achievement gaps revisiting Benjamin Bloom's learning for mastery
+Keller 1968 good-bye teacher
+Block 1971 mastery learning current state
+Anderson 1995 learning and memory an integrated approach
+Karpicke 2009 metacognitive strategies in student learning
+Nakamura Csikszentmihalyi 2002 the concept of flow
+Sailer 2017 how gamification motivates
+Hanus Vlach 2019 gamification of learning a meta-analytic review
+Wouters 2013 a meta-analysis of the cognitive and motivational effects of serious games
+Deterding 2011 from game design elements to gamefulness
+Koedinger 2013 the knowledge-learning-instruction framework bridging the science of learning
+Maton 2020 on the robustness of adaptive comparative judgement
+Walker 1987 relative importance of domain knowledge and overall aptitude
+Sweller 1988 cognitive load during problem solving effects on learning
+Renkl 2002 worked examples and example elaboration
+Atkinson Derry Renkl Wortham 2000 learning from examples instructional principles
+Van Merrienboer Kirschner 2018 ten steps to complex learning
+Salden 2010 toward personalized adaptive learning
+Schunk 1990 goal setting and self-efficacy during self-regulated learning
+Hattie 2009 visible learning a synthesis of over 800 meta-analyses
+Immordino-Yang 2012 emotions learning and the brain

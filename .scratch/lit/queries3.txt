@@ -1,0 +1,43 @@
+Metcalfe 2017 learning from errors Annual Review of Psychology
+Rittle-Johnson Loehr Durkin 2017 promoting self-explanation to improve mathematics learning meta-analysis
+Graesser Ozuru Sullins 2010 what is a good question
+Graesser Person 1994 question asking during tutoring American Educational Research Journal
+Collins Brown Newman 1989 cognitive apprenticeship teaching the crafts of reading writing and mathematics
+Katz Allbritton Connelly 2003 Socratic tutoring
+Doughty 2024 ChatGPT versus human item writers multiple-choice questions physiology
+Mayer 2020 five ways instructional video
+Karpicke Roediger 2007 expanding retrieval practice promotes short-term retention
+Roediger Karpicke 2011 the critical role of retrieval practice
+Metcalfe Kornell 2007 principles of cognitive science in education
+Butler 2010 repeated testing produces superior transfer of learning relative to repeated studying
+Kornell Bjork 2008 learning concepts and categories is spacing the enemy of induction
+Sweller 2016 working memory resource depletion
+Hattie 2012 visible learning for teachers
+Pashler Bain Briscoe 2007 evidence-based principles for implementing the five key strategies of formative assessment
+Guskey 2010 lessons of mastery learning
+Kulik 1990 mastery testing
+Zimmerman Dibenedetto 2008 mastery learning and self-regulation
+Aleven 2016 example tracing tutors
+Harati Sujo-Montes Tu Armfield 2021 ALEKS adaptive system impact students perception self-regulation
+Craig Graesser 2013 AutoTutor and learning
+Nye Graesser Hu 2014 AutoTutor and family a review of 17 years of natural language tutoring
+Dzikovska 2014 instruction and tutorial dialogue
+Chi 2009 active-constructive-interactive framework
+Wylie Chi 2014 the ICAP framework
+Menekse 2013 differentiated overt learning activities ICAP
+Freeman 2014 active learning increases student performance in science engineering and mathematics
+Deslauriers 2019 measuring actual learning versus feeling of learning
+Kizilcec 2015 attention matters
+Szpunar 2013 interrupting a lecture with online quizzing
+Szpunar 2013 mind wandering and online learning
+Rohrer Dedrick Hartwig 2020 the scarcity of interleaved practice in mathematics textbooks
+Taylor Rohrer 2010 the effects of interleaved practice
+Birnbaum Kornell Bjork 2013 why interleaving enhances inductive learning
+Kang McDermott Roediger 2007 test format and corrective feedback modify the effect of testing on long-term retention
+Butler Karpicke Roediger 2007 the effect of type and timing of feedback on learning from multiple-choice tests
+Metcalfe Kornell Finn 2009 delayed versus immediate feedback and the virtue of knowing you were right
+Mullet Butler 2011 corrective feedback and test-retest
+Harks Klieme 2020 feedback
+Schunk DiBenedetto 2020 motivation and social cognitive theory
+Pekrun Linnenbrink-Garcia 2014 control-value theory
+Loewen 2019 effects of delayed versus immediate written corrective feedback

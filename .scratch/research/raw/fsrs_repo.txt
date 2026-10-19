@@ -1,0 +1,305 @@
+GitHub - open-spaced-repetition/free-spaced-repetition-scheduler: A spaced repetition algorithm based on DSR model · GitHub
+Skip to content
+Navigation Menu
+Sign in
+Appearance settings
+Platform
+AI CODE CREATION
+GitHub Copilot
+Write better code with AI
+GitHub Copilot app
+Direct agents from issue to merge
+MCP Registry
+Integrate external tools
+DEVELOPER WORKFLOWS
+Actions
+Automate any workflow
+Codespaces
+Instant dev environments
+Issues
+Plan and track work
+Code Review
+Manage code changes
+Code Quality
+Enforce quality at merge
+APPLICATION SECURITY
+GitHub Advanced Security
+Find and fix vulnerabilities
+Code security
+Secure your code as you build
+Secret protection
+Stop leaks before they start
+EXPLORE
+Why GitHub
+Documentation
+Blog
+Changelog
+Marketplace
+View all features
+Solutions
+BY COMPANY SIZE
+Enterprises
+Small and medium teams
+Startups
+Nonprofits
+BY USE CASE
+App Modernization
+DevSecOps
+DevOps
+CI/CD
+View all use cases
+BY INDUSTRY
+Healthcare
+Financial services
+Manufacturing
+Government
+View all industries
+View all solutions
+Resources
+EXPLORE BY TOPIC
+AI
+Software Development
+DevOps
+Security
+View all topics
+EXPLORE BY TYPE
+Customer stories
+Events & webinars
+Ebooks & reports
+Business insights
+GitHub Skills
+SUPPORT & SERVICES
+Documentation
+Customer support
+Community forum
+Trust center
+Partners
+View all resources
+Open Source
+COMMUNITY
+GitHub Sponsors
+Fund open source developers
+PROGRAMS
+Security Lab
+Maintainer Community
+GitHub Stars
+Archive Program
+REPOSITORIES
+Topics
+Trending
+Collections
+Enterprise
+ENTERPRISE SOLUTIONS
+Enterprise platform
+AI-powered developer platform
+AVAILABLE ADD-ONS
+GitHub Advanced Security
+Enterprise-grade security features
+Copilot for Business
+Enterprise-grade AI features
+Premium Support
+Enterprise-grade 24/7 support
+Pricing
+Search
+/
+Sign in
+Sign up
+Appearance settings
+You signed in with another tab or window.
+Reload
+to refresh your session.
+You signed out in another tab or window.
+Reload
+to refresh your session.
+You switched accounts on another tab or window.
+Reload
+to refresh your session.
+Dismiss alert
+open-spaced-repetition
+free-spaced-repetition-scheduler
+Repository navigation
+Code
+Issues
+Pull requests
+Discussions
+Actions
+Projects
+Security and quality
+Insights
+More
+items
+free-spaced-repetition-scheduler
+Public
+Sponsor
+Notifications
+You must be signed in to change notification settings
+Fork
+28
+(
+28
+)
+Star
+729
+(
+729
+)
+You must be signed in to star a repository
+About
+A spaced repetition algorithm based on DSR model
+github.com/open-spaced-repetition/awesome-fsrs/wiki/The-Algorithm
+Topics
+active-recall
+anki
+education
+flashcards
+fsrs
+spaced-repetition
+spaced-repetition-algorithm
+srs
+supermemo
+Resources
+Readme
+MIT license
+Activity
+Custom properties
+Stars
+729
+stars
+Watchers
+6
+watching
+Forks
+28
+forks
+Report repository
+main
+Branches
+Tags
+Go to file
+Code
+Open more actions menu
+Latest commit
+History
+53 Commits
+53 Commits
+Folders and files
+Name
+Name
+Last commit message
+Last commit date
+.gitignore
+.gitignore
+LICENSE
+LICENSE
+README.md
+README.md
+README_CN.md
+README_CN.md
+View all files
+Repository files navigation
+README
+MIT license
+More
+items
+Free Spaced Repetition Scheduling Algorithm
+中文介绍
+What does the 'Free' mean in the name?
+The algorithm (FSRS) supports reviewing in advance or delay. It's free for users to decide the time of review. And it will adapt to the user's memory.
+Meanwhile, spaced repetition is one essential technology to achieve free learning.
+FSRS runs entirely locally and has no risk under others' control.
+What is the principle of FSRS?
+FSRS springs from
+MaiMemo's DHP model
+(
+中文介绍
+), which is a variant of the
+DSR model
+proposed by
+Piotr Wozniak
+.
+The model considers three variables that affect memory: difficulty, stability, and retrievability.
+Stability refers to the storage strength of memory; the higher it is, the slower it is forgotten. Retrievability refers to memory's retrieval strength; the lower it is, the higher the probability that the memory will be forgotten.
+In the present model, the following memory laws are considered:
+The more complex the memorized material, the lower the stability increase.
+The higher the stability, the lower the stability increase (also known as
+stabilization decay
+)
+The lower the retrievability, the higher the stability increase (also known as
+stabilization curve
+)
+Can you briefly describe FSRS?
+The formula of memory on FSRS:
+The Algorithm
+Have a library of FSRS?
+Scheduler:
+TypeScipt module:
+ts-fsrs
+Golang module:
+go-fsrs
+Python package:
+py-fsrs
+Rust crate:
+rs-fsrs
+Clojure library:
+cljc-fsrs
+Dart package:
+dart-fsrs
+Ruby gem:
+rb-fsrs
+Swift package:
+swift-fsrs
+Android library:
+android-fsrs
+Elixir library:
+ex_fsrs
+Optimizer:
+Python package (stable):
+fsrs-optimizer
+RS crate (stable):
+fsrs-rs
+run fsrs-rs in the browser:
+fsrs-browser
+About
+A spaced repetition algorithm based on DSR model
+github.com/open-spaced-repetition/awesome-fsrs/wiki/The-Algorithm
+Topics
+active-recall
+anki
+education
+flashcards
+fsrs
+spaced-repetition
+spaced-repetition-algorithm
+srs
+supermemo
+Resources
+Readme
+MIT license
+Activity
+Custom properties
+Stars
+729
+stars
+Watchers
+6
+watching
+Forks
+28
+forks
+Report repository
+Sponsor this project
+Used by
+Contributors
+Footer
+© 2026 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Community
+Docs
+Contact
+Manage cookies
+Do not share my personal information
+You can’t perform that action at this time.

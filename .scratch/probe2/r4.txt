@@ -1,0 +1,252 @@
+
+
+########## QUERY: 伊利诺伊 NPRE 451 NPRE 402 课程 大三 大四 radiation detection instrumentation required
+
+[1] and Instrumentation
+  url: http://catalog.illinois.edu/archivedacademiccatalogs/2014-2015/undergraduate/engineer/departments/npre/npre.pdf?_x_tr_sch=http#2#2
+  site: None  authority: 4  date: None
+  summary: ## NPRE 451 NPRE Laboratory credit: ... Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications; micro computer data acquisition and experimental control.
+  snippet: 3 Hours. ... 2 OR 3 Hours. ... 3 undergraduate hours. 4 graduate hours. ... NPRE 446. ... NPRE 451 NPRE Laboratory credit: 3 Hours. Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications...
+
+[2] Class Schedule - Spring 2025
+  url: https://courses.illinois.edu/pdf/schedule/2025/spring/NPRE/451#1#1
+  site: None  authority: 3  date: None
+  summary: # Class Schedule - Spring 2025    ## Nuclear, Plasma, and Radiological Engineering    NPRE 451 NPRE Laboratory credit: 3 hours.    Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications; micro computer data acquisition and experimental control. 3 undergraduate hours. 3 graduate hours. Prerequisite: NPRE 445.
+  snippet: NPRE 451 NPRE Laboratory credit: 3 hours. Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications; micro computer data acquisition and experimental control. 3 undergraduate hours. ... NPRE 445.
+
+[3] NPRE - NUCLEAR, PLASMA, RADIOLOGICAL ENGINEERING
+  url: http://catalog.illinois.edu/archivedacademiccatalogs/2022-2023/courses-of-instruction/npre/npre.pdf?_x_tr_sch=http#1#1
+  site: None  authority: 4  date: None
+  summary: NPRE 451 NPRE Laboratory credit: ... (https:// courses.illinois.edu/schedule/terms/NPRE/451/) Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications; micro computer data acquisition and experimental control.
+  snippet: 3 Hours. (https ... 2 or 3 undergraduate hours. 2 or 3 graduate hours. ... NPRE 451 NPRE Laboratory credit: 3 Hours. (https:// courses.illinois.edu/schedule/terms/NPRE/451/) Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering...
+
+[4] The radiological, medical and instrumentation applications concentration encompasses the intersection of radiation technologies,...
+  url: https://illinois-public.courseleaf.com/pdf/University%20of%20Illinois%20Urbana-Champaign%202026-2027.pdf#926#528#937#275
+  site: None  authority: 3  date: None
+  summary: # Nuclear, Plasma, and Radiological Engineering Technical Core
+  snippet: <table><tr><td>Code</td><td>Title</td><td>Hours</td></tr><tr><td>Composition ... Composition</td><td>3</td><td></td></tr><tr><td>Humanities ... degree.)</td><td>4</td></tr><tr><td>MATH ... PRE 441</td><td>Radiation Protection</td><td>4</td></tr><tr><td>NPRE ... Design</td><td>3</td></tr><tr><td>NPRE 451</td><td>NPRE Laboratory</td><td>3</td></tr><tr><td>NPRE 455</td><td>Neutron Diffusion &amp ... 
+
+[5] Nuclear, Plasma & Radiological Engineering, BS
+  url: http://catalog.illinois.edu/archivedacademiccatalogs/2019-2020/undergraduate/engineering/nuclear-plasma-radiological-engineering-bs/nuclear-plasma-radiological-engineering-bs.pdf?_x_tr_sch=http#1#1
+  site: None  authority: 4  date: None
+  summary: Information listed in this catalog is current as of 02/2020 ... NPRE 451 NPRE Laboratory ... Professional Concentration Area elective\(^7\)  | Semester Hours    | 16 | |---|---| | Fourth Year    |    | | Professional Concentration Area electives\(^7\)   | 6    | | Second Semester    |    | | NPRE 441 Radiation Protection    | 4    | | NPRE 458 Design in NPRE    | 4    | | Semester Hours    | 14 |
+  snippet: Information listed in this catalog is current as of 02/2020 ... First Semester | Hours | ... NPRE 451 NPRE Laboratory NPRE 455 Neutron Diffusion Transport ... Semester Hours: NPRE 431 Materials in Nuclear Engrg; 16: 3 ... Semester Hours: NPRE 441 Radiation Protection; 16: 4
+
+[6] Continuation of NPRE 446. Quantum theory of ionization of matter by charged particles
+  url: http://illinois-public.courseleaf.com/archivedacademiccatalogs/2017-18.pdf#509#461
+  site: None  authority: 3  date: None
+  summary: 1 to 4 Hours.
+  snippet: NPRE 498 Special Topics credit: 1 to 4 Hours. Subject offerings of new and developing areas of knowledge in nuclear, plasma, and radiological engineering intended to augment the existing curriculum. ... May be repeated in the same or separate terms if topics vary. NPRE 501 Fundamentals of Nuclear Engrg credit: 4 Hours. ... credit or concurrent registration in NPRE 446. ... NPRE 521 Interact of Rad
+
+[7] NPRE Laboratory
+  url: https://nmlab.npre.illinois.edu/files/2024/01/NPRE451_SyllabusFall2023.pdf#1#1
+  site: None  authority: 3  date: None
+  summary: ## 1 Do we use radioactive sources in this course?  Yes, we do. We will use mostly low-activity check sources, therefore radiation dosimeters are not required. However, please take the general Laboratory Safety Training and the Radiation Safety Awareness Training courses at this link: https://www.drs.illinois.edu/ after enrolling, and before 8/31/22.
+  snippet: 1 Do we use radioactive sources in this course? Yes, we do. We will use mostly low-activity check sources, therefore radiation dosimeters are not required. However, please take the general Laboratory Safety Training and the Radiation Safety Awareness Training courses at this link...
+
+[8] Search Results | 2026-2027 Course Catalog
+  url: https://catalog.illinois.edu/search/?P=NPRE+451&_x_tr_sch=http
+  site: University of Illinois Urbana-Champaign  authority: 4  date: None
+  summary: ## Search Results for "NPRE 451"  ### NPRE 451 NPRE Laboratory credit: 3 Hours.  Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications; micro computer data acquisition and experimental control. 3 undergraduate hours. 3 graduate hours. Prerequisite: NPRE 445.
+  snippet: NPRE 451 NPRE Laboratory credit: 3 Hours. Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications; micro computer data acquisition and experimental control. 3 undergraduate hours. 3 graduate hours. Prerequisite...
+
+[9] Introduction to nuclear,plasma,and radiological engineering
+  url: http://illinois-public.courseleaf.com/archivedacademiccatalogs/2025-2026.pdf#918#857
+  site: None  authority: 3  date: None
+  summary: 3 Hours. ... ## NPRE 451 NPRE Laboratory credit: ... (https:// courses.illinois.edu/schedule/terms/NPRE/451/)    Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications; micro computer data acquisition and experimental control.
+  snippet: 3 Hours. (https ... 2 or 3 undergraduate hours. ... NPRE 445. ... NPRE 451 NPRE Laboratory credit: 3 Hours. (https:// courses.illinois.edu/schedule/terms/NPRE/451/) Radiation detection and instrumentation; radiation dosimetry and shielding; basic measurements in nuclear engineering; engineering applications...
+
+[10] 3. Proposed Laboratory Exercises Using the NPRE-PNF
+  url: https://www.nrc.gov/docs/ML1224/ML12248A228.pdf#4#2
+  site: None  authority: 4  date: None
+  summary: The transformation of NPRE 451 and the redeployment of NPRE 444 represent significant improvements in our undergraduate educational infrastructure in key target areasThe development of NPRE 451 and 444 will increase the skill and technical training of our students in areas critical to the U.S. nuclear industry, including health physics, fundamental concepts related to neutron transport, and nuclear analytical methods such as NAA, neutron imaging, and SNM interrogation. The proposed development takes advantage of the new PNF at Illinois. ... Students enrolled in the courses (all undergraduate students in NPRE 451 and the majority of undergraduate students in NPRE 444) will receive hands-on experience with the PNF and associated advanced instrumentation. The NPRE department has an up-todate collection of radiation detectors, including HPGe detectors, fast plastic detectors, thermal neutron detectors, and a neutron dosimeter. Additionally, the NPRE department has several sets of advanced signal processing channels, including two fast timing coincident counting channels with energy discrimination. Thus, the proposed development is made without sacrificing basic radiation detection and 
+  snippet: Students enrolled in the courses (all undergraduate students in NPRE 451 and the majority of undergraduate students in NPRE 444) will receive hands-on experience with the PNF and associated advanced instrumentation. The NPRE department has an up-todate collection of radiation detectors, including HPGe detectors, fast plastic detectors, thermal neutron detectors, and a neutron dosimeter. Additional
+
+
+########## QUERY: MIT nuclear science and engineering curriculum 22.01 22.06 radiation detection instrumentation junior year
+
+[1] NUCLEAR ENGINEERING
+  url: https://firstyear.mit.edu/wp-content/uploads/2025/02/Course-22-2025.pdf#1#1
+  site: None  authority: 3  date: None
+  summary: # NUCLEAR ENGINEERING ## Course 22 ... 22-ENG Bachelor of Science in Engineering ... 22.01 **Introduction to Nuclear Engineering and Ionizing Radiation**   Provides an introduction to nuclear science and its engineering applications.   Describes basic nuclear models, radioactivity, nuclear reactions and kinematics.   Covers the interaction of ionizing radiation with matter, with an emphasis on radiation detection, radiation shielding, and radiation effects on human health.   Presents energy systems based on fission and fusion nuclear reactions, as well as industrial and medical applications of nuclear science. ... Group design project involving integration of nuclear physics, particle transport, control, heat transfer, safety, instrumentation, materials, environmental impact, and economic optimization.
+  snippet: 22.01 **Introduction to Nuclear Engineering and Ionizing Radiation ... Describes basic nuclear models, radioactivity, nuclear reactions and kinematics. Covers the interaction of ionizing radiation with matter, with an emphasis on radiation detection, radiation shielding, and radiation effects on human health.
+
+[2] Provides an introduction to nuclear science and its engineering applications
+  url: https://catalog.mit.edu/archive/2020-2021/schools/engineering/nuclear-science-engineering/nuclear-science-engineering.pdf#5#3
+  site: None  authority: 4  date: None
+  summary: Prereq: ... ## 22.06 Engineering of Nuclear Systems    Prereq:2.005 U (Spring) 4- 0- 8 units    Using the basic principles of reactor physics, thermodynamics, fluid flow and heat transfer, students examine the engineering design of nuclear power plants. Emphasizes light- water reactor technology, thermal limits in nuclear fuels, thermal- hydraulic behavior of the coolant, nuclear safety and dynamic response of nuclear power plants. ... 22.01 or permission of instructor U (Spring) 4- 1- 7 units ... ## 22.09 Principles of Nuclear Radiation Measurement and Protection    Subject meets with 22.90 Prereq:22.01 U (Spring) 1- 5- 9 units.Institute LAB    Combines lectures, demonstrations, and experiments. Review of radiation protection procedures and regulations; theory and use of alpha, beta, gamma, and neutron detectors; applications in imaging and dosimetry; gamma- ray spectroscopy; design and operation of automated data acquisition experiments using virtual instruments. Meets with graduate subject 22.90, but homework assignments and examinations differ. Instruction and practice in written communication provided.
+  snippet: In person not required. ... 22.09 Principles of Nuclear Radiation Measurement and Protection ... 22.01 ... Review of radiation protection procedures and regulations; theory and use of alpha, beta, gamma, and neutron detectors; applications in imaging and dosimetry; gamma- ray spectroscopy...
+
+[3] NUCLEAR SCIENCE AND ENGINEERING (COURSE 22)
+  url: https://catalog.mit.edu/archive/2016-2017/subjects/22/22.pdf#3#1
+  site: None  authority: 4  date: None
+  summary: Prereq: ... U (Fall) 5-0-7 units. ... 2-0-4 units ... 3-0-9 units. ... 22.06 Engineering of Nuclear Systems ... Using the basic principles of reactor physics, thermodynamics, fluid flow and heat transfer, students examine the engineering design of nuclear power plants. Emphasizes light-water reactor technology, thermal limits in nuclear fuels, thermal-hydraulic behavior of the coolant, nuclear safety and dynamic response of nuclear power plants. ... A. Danagoulian ... 22.09 Principles of Nuclear Radiation Measurement and Protection Subject meets with 22.90 ... 2-6-4 units. Institute LAB  Combines lectures, demonstrations, and experiments. Review of radiation protection procedures and regulations; theory and use of alpha, beta, gamma, and neutron detectors; applications in imaging and dosimetry; gamma-ray spectroscopy; design and operation of automated data acquisition experiments using virtual instruments. Meets with graduate subject 22.90, but homework assignments and examinations differ. Instruction and practice in written communication provided. A. Danagoulian, G. Kohse
+  snippet: U (Fall) 5-0-7 units. REST ... 3-0-9 units. HASS-S ... A. Danagoulian ... 22.09 Principles of Nuclear Radiation Measurement and Protection ... Review of radiation protection procedures and regulations; theory and use of alpha, beta, gamma, and neutron detectors ... Can be repeated for credit.
+
+[4] <table><tr><td>PLUS Departmental Program</td><td>Units</td></tr><tr><td>Subject names below are followed by credit units, and by...
+  url: https://catalog.mit.edu/archive/2015-2016/archive/0506part_2.pdf#58#32
+  site: None  authority: 4  date: None
+  summary: The MIT Research Reactor in the Nuclear Reactor Laboratory operates at a power of 5 MW and is fueled with U- 235 in a compact light- water cooled core surrounded by a heavy- water reflector. This reactor provides a wide range of radiation- related research and teaching opportunities for the students and faculty of the department. ... The clinical trials of boron neutron capture therapy are being conducted in the newly renovated epithermal neutron beam. ... Within the Spatial Nuclear Magnetic Resonance Laboratory, the full gamut of spatial nuclear magnetic resonance (NMR) techniques can be undertaken in one setting. Topics explored in the laboratory include NMR microscopy; studies of porous, granular, and soft matter; ... coherent multi- body dynamics; ... low- energy neutrons for basic research into boron neutron capture therapy and other uses of the 10B(n,a) nuclear reaction. ... In the Whitaker College Biomedical Imaging and Computational Laboratory, a variety of radiation therapy and medical physics research projects are in progress. The laboratory houses computer workstations, which are used primarily for Monte Carlo simulation of different radiation types and for image process
+  snippet: Subject 22.101 Applied Nuclear Physics or its equivalent is required for all Master of Science degree candidates. ... fission nuclear technology, applied plasma physics ... Nuclear Engineer The program of study leading to the Nuclear Engineer's degree provides deeper knowledge of Nuclear Science and Engineering than is possible in the master's program and is intended to train students for creative
+
+[5] NUCLEAR SCIENCE AND ENGINEERING (COURSE 22)
+  url: https://mit-public.courseleaf.com/degree-charts/nuclear-science-engineering-course-22/nuclear-science-engineering-course-22.pdf#1#1
+  site: None  authority: 2  date: None
+  summary: NUCLEAR SCIENCE AND ENGINEERING (COURSE 22)  Department of Nuclear Science and Engineering (https://catalog.mit.edu/schools/engineering/nuclear-science-engineering/fundergraduatetext)  Bachelor of Science in Nuclear Science and Engineering ... | Basic Requirements | Units | ... | 22.01    | Introduction to Nuclear Engineering and Ionizing Radiation | 12    | ... | Required Core Subjects |    | ... | 22.06    | Engineering of Nuclear Systems    | 12    |
+  snippet: 22.01 | Introduction to Nuclear Engineering and Ionizing Radiation | 12 ... | 22.06 | Engineering of Nuclear Systems | 12 |
+
+[6] The department's undergraduate programs offer a strong foundation in science-based engineering, providing the skills and knowled...
+  url: https://facultygovernance.mit.edu/sites/default/files/meeting-enclosures/2019-04-17/Enclosure%20F%20-%20Proposal%20for%20SB%20in%20Course%2022-ENG.pdf#3#2
+  site: None  authority: 3  date: None
+  summary: 22.04 Social Problems of Nuclear Energy (required)   22.09 Principles of Nuclear Radiation Measurement and Protection (required)   22.ThU Undergraduate Thesis (optional)
+  snippet: We currently have 3 CI-M subjects, and students will choose at least two. ... 22.04 Social Problems of Nuclear Energy (required) 22.09 Principles of Nuclear Radiation Measurement and Protection (required) 22.ThU Undergraduate Thesis (optional)
+
+[7] Professor Emeritus of Nuclear Science and Engineering
+  url: https://mit-public.courseleaf.com/schools/engineering/nuclear-science-engineering/nuclear-science-engineering.pdf#6#3
+  site: None  authority: 2  date: None
+  summary: Prereq: ... U (Spring) 4-0-8 units. ... U (Fall) ... Not offered regularly; ... Prereg: ... 22.055 Radiation Biophysics Subject meets with 22.55[], HST: ... Provides a background in sources of radiation with an emphasis on terrestrial and space environments and on industrial production. Discusses experimental approaches to evaluating biological effects resulting from irradiation regimes differing in radiation type, dose and dose-rate. Effects at the molecular, cellular, organism, and population level are examined. Literature is reviewed identifying gaps in our understanding of the health effects of radiation, and responses of regulatory bodies to these gaps is discussed. ... 22.06 Engineering of Nuclear Systems Prereg: 2.005 ... Using the basic principles of reactor physics, thermodynamics, fluid flow and heat transfer, students examine the engineering design of nuclear power plants. Emphasizes light-water reactor technology, thermal limits in nuclear fuels, thermal-hydraulic behavior of the coolant, nuclear safety and dynamic response of nuclear power plants. ... 22.061 Fusion Energy Prereg: 22.01 or permission of instructor ... 4-1-7 units  Surveys the fundamental science and eng
+  snippet: U (Spring) ... 5-0-7 units. ... 3-0-9 units ... Students taking graduate version complete additional assignments. ... Prereg: 8.231 or 22.02 ... Includes project in second half of the term in which students design radiation instruments of their choice (e.g. Geiger radiation counters, or other types of sensors and instruments).
+
+[8] 22.006: Computer Models of Physical and Engineering Systems, reduction of physical and engineering systems to idealized computer...
+  url: https://dspace.mit.edu/bitstream/handle/1721.1/89766/863235500.pdf?sequence=1&isAllowed=y#17#19#17
+  site: None  authority: 4  date: None
+  summary: Principles of Nuclear Radiation Measurement and Protection, combines lectures, demonstrations, and experiments. Covers effects of radiation on persons, control of radiation exposure within applicable standards, theory and use of \(\alpha\) , \(\beta\) , and \(\gamma\) , and \(\eta\) detectors and spectrometers, use of isotopes, radiation shielding, and dosimetry. Includes demonstrations and experiments using the MIT research reactor accelerators, and power reactors. Meets with graduate subject 22.59, but assignments differ. ... NW12- 133 (22.09/59 Principles of Nuclear Radiation Measurement and Protection) laboratory combines lectures, demonstrations, and experiments. The course covers effects of radiation on persons; control of radiation exposure within applicable standards; theory and use of \(\alpha\) , \(\beta\) , \(\gamma\) , and \(\eta\) detectors and spectrometers; ... Demonstrations and experiments using the MIT research reactor, accelerators, and power reactors are also included.    The Undergraduate Plasma Laboratory (22.069) and the Graduate Plasma Laboratory (22.69) in NW13- 133A provide basic engineering and scientific principles associated with experimental plasma phy
+  snippet: theory and use of \(\alpha\) ... and \(\eta\) detectors and spectrometers, use of isotopes ... NW12- 133 (22.09/59 Principles of Nuclear Radiation Measurement and Protection) laboratory combines lectures, demonstrations, and experiments. The course
+
+[9] 第40卷第1期
+  url: http://gdjyyjxb.nudt.edu.cn/ch/reader/create_pdf.aspx?file_no=201701009&year_id=2017&quarter_id=1&falg=1#3#1
+  site: None  authority: 3  date: None
+  summary: 麻省理工学院核科学与工程专业本科教育模式分析 ... 料管理技术，等离子体物理和聚变，极端环境下 的材料，先进计算机模拟，辐射源、探测及控制， 核安全，核经济、管理与政策。 ... 如果是攻读双学位或者联合学位，那么两个专业方向的课程都要修满，而且两个专业不能是一个系的专业，必须由两个系联合授予，如核科学与工程系能够授予的双学位有核工程与物理（22&8F）、核工程与医学工程（22&2A）、核工程与材料工程（22&3A）等三个，其中的另外一个专业都是其他系的。核科学与工程专业的课程体系设置情况如下[11]：  1. 学院一般要求（General Institute Requirements, GIR）  GIR 是 MIT 所有专业的公共必修课程，由科学、人文、艺术和社科要求（HASS）、交流（包含在 HASS 中），科技限选课程（REST）、实验室和体育这六部分组成。除了必修的游泳和其他 4 门共 8 个学分的体育课外，学院一般要求共包含了 17 门课，具体情况如表 1 所示。 ... 表1 学院一般要求\[12\]  |    | 要求课程    | 课程数    | 备注    | |---|---|---|---| | 3    | 科技限选课程(REST)要求    | 2    | 可以在系学习计划中的8.03；18.03或18.034；22.01；22.02；22.071J(对应编号的课程名称请见表2)中选二门。 | | 4    | 实验室要求    | 1    | 12学分，可以由系学习计划中的22.09满足。 |
+  snippet: 要求课程: 科技限选课程(REST)要求; 课程数: 2; 备注: 可以在系学习计划中的8.03；18.03或18.034；22.01；22.02；22.071J(对应编号的课程名称请见表2)中选二门。
+
+[10] Subject meets with 22.52  Prereq: 8.231 or 22.02  U (Fall)  3- 0- 9 units
+  url: https://mit-public.courseleaf.com/archive/mit-subjects-24-25.pdf#211#176
+  site: None  authority: 2  date: None
+  summary: ## 22.09 Principles of Nuclear Radiation Measurement and Protection    Subject meets with 22.90  Prereq: 22.01  U (Fall)  1- 5- 9 units. ... Combines lectures, demonstrations, and experiments. Review of radiation protection procedures and regulations; theory and use of alpha, beta, gamma, and neutron detectors; applications in imaging and dosimetry; gamma- ray spectroscopy; design and operation of automated data acquisition experiments using virtual instruments. Meets with graduate subject 22.90, but homework assignments and examinations differ. Instruction and practice in written communication provided.  A. Danagoulian, G.
+  snippet: 22.09 Principles of Nuclear Radiation Measurement and Protection ... 22.01 U (Fall) 1- 5- 9 units. Institute LAB ... and regulations; theory and use of alpha, beta, gamma, and neutron detectors; applications in imaging and dosimetry...
+
+
+########## QUERY: 东华理工大学 核电子学 教学大纲 教材 汤彬 核辐射测量原理 学时
+
+[1] 核辐射测量原理-图书详情-在线书城-爱教材
+  url: https://caixuan.aijiaocai.com/shopfront/textbook/index?dealer_book_id=86306
+  site: 新华国采  authority: 3  date: None
+  summary: 图书详情 | 《核辐射测量原理》 试读 ... 汤彬等 著；  2011年8月  哈尔滨工程大学出版社 ... 《核辐射测量原理》着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。 ... 气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识； ... 本教材的建议课堂教学课时以45～60学时为宜，其中带“*”为可选课堂教学内容，另需要安排20～30学时的实验教学内容。  《核辐射测量原理》可作为高等学校核工程与核技术、核技术、辐射防护与环境工程等本科专业的试用教材和硕士研究生的教学参考书，也可供相关科研人员和工程技术人员参考。本教材由汤彬、葛良全等编著。
+  snippet: 《核辐射测量原理》 试读 ... 本教材的建议课堂教学课时以45～60学时为宜，其中带“*”为可选课堂教学内容，另需要安排20～30学时的实验教学内容。
+
+[2] 学习核辐射性质、辐射探测的基本方法
+  url: https://jdxy.ecut.edu.cn/c5/58/c1566a116056/page.htm?_x_output_type_b6db407c4_=embedded_pdf#3#3
+  site: None  authority: 3  date: None
+  summary: 学习核辐射性质、辐射探测的基本方法。掌握气体探测器的基本原理和常用气体探测器的结构及应用；掌握半导体探测器的基本原理和常用半导体探测器的结构性能及应用方法；掌握闪烁探测器的基本原理和常用闪烁探测器的结构性能及应用方法；学习核探测器信号调理电路设计方法，学习脉冲幅度甄别和能谱采集电路，掌握低功耗智能仪器的设计方法，通过实验，可选择自主完成基于MSP430单片机的伽玛辐射仪、四道伽玛能谱仪、1024道伽玛能谱仪的硬、软件 ... 3. 教学方式：集中授课 \(^+\) 综合实验。    4. 考核方式：课堂测试 \(^+\) 设计报告。    5. 预修课程：《信号与系统》、《电路分析》、《模拟电子技术》、《微弱信号检测与处理》    6. 教材及参考书目：    [1] 王英芝．核电子技术原理．原子能出版社，1989。    [2] 王经谨．核电子学．原子能出版社，1985。    [3] 赖万昌．核辐射探测器与核电子学．成都理工大学，2005。    [4] 陈伯显等．核辐射物理及探测学．哈尔滨工程大学出版社等五家出版社，2013年    [5] 李跃忠，管小明.2011. 核电子学与核智能仪器实验指导书. 东华理工大学自印.
+  snippet: 核辐射性质、辐射探测的基本方法。掌握气体探测器的基本原理和常用气体探测器的结构及应用 ... 6. 教材及参考书目 ... [2] 王经谨．核电子学．原子能出版社 ... [5] 李跃忠，管小明.2011. 核电子学与核智能仪器实验指导书. 东华理工大学自印.
+
+[3] | 气体探测器    | 电离和雪崩放大机制：电荷收集与脉冲信号形状；电离室，多丝正比室，漂移室，时间投影谱仪    | 6学时    |
+  url: http://jxzlglc.syist.edu.cn/uploads/file/20240402/20240402153544-2228.pdf#192#37
+  site: None  authority: 2  date: None
+  summary: | 气体探测器    | 电离和雪崩放大机制：电荷收集与脉冲信号形状；电离室，多丝正比室，漂移室，时间投影谱仪    | 6学时    | | 闪烁体探测器    | 闪烁体探测器的一般特征：发光机制，能量和时间分辨率；脉冲形状甄别；光电倍增管；切伦科夫探测器    | 8学时    |  半导体探测器    半导体探测器的一般特征；Si 探测器，DSSD 探测器；高纯锗探测器，反康谱仪    6 学时 脉冲信号处理与核电    信号在电缆中的传输；前置放大器，主放大器，ADC，TDC 原理；脉冲时间甄别方法    8 学时 子学  核物理实验中的符合    符合电路，偶然符合，延迟符合，快慢符合，核物理实验初步    6 学时 方法  带电粒子、gamma 及中    带电粒子粒子鉴别技术，常用带电粒子探测器；gamma 谱分析，gamma-gamma 谱的分析技术，gamma 探测器的最新进展    8 学时 子探测技术  数据获取系统    数据获取系统的构成；触发，CAMAC，VME 系统，在线显示；基于数字化插件的数据获取    6 学时  C.2.3 核物理专题实验举例  | 序号 | 实验名称（知识点）    | 参考学时 | |---|---|---| | 1    | NaI（TI）γ闪烁谱仪    | 6 学时 | | 2    | 符合法测量放射源活度    | 6 学时 | | 3    | 康普顿散射    | 6 学时 | | 4    | 卢瑟福散射    | 6 学时 | | 5    | 半导体α谱仪和α粒子能量损失    | 6 学时 | | 6    | 介质表面析出率测量（环境放射性测量实验）    | 6 学时 | | 7    | γ射线的吸收    | 6 学时 | | 8    | 位置灵敏塑料闪烁体谱仪    | 6 学时 | | 9    | CsI谱仪的能量分辨率研究（研究型实验）    | 6 学时 | | 10   | 背散射法测薄膜厚度和杂质浓度（小加速器实验）    | 6 学时 | | 11   | G-M计数器和核衰变统计规律    | 6 学时 | | 12   | β射线的吸收    | 6 学时 | | 13   | 用正比计数器测量X射线的吸收和特征谱    | 6 学时 | | 14   | 硅（锂）X射线谱仪    | 6 学时 | | 15   | 逆矩阵法解析γ谱    | 6 学时 | | 16   | 用多道时间谱仪测量正电子在物质中的湮灭寿命    | 6 学时 |  关于选修课程及专题实验设置、选修课程的知识单元和知识点等，各个学校可根据专业方向的特点自行确定。
+  snippet: C.2.3 核物理专题实验举例 ... 序号: 1; 实验名称（知识点）: NaI（TI）γ闪烁谱仪; 参考学时: 6 学时 ... 序号: 2; 实验名称（知识点）: 符合法测量放射源活度; 参考学时: 6 学时
+
+[4] 核辐射测量原理教学日历 - 搜文档
+  url: https://www.renrendoc.com/paper/203863470.html#1
+  site: 人人文库  authority: 2  date: 2022-03-11T16:00:00+00:00
+  summary: # 核辐射测量原理教学日历 ... 1、周数： 9 讲课： 50学时实验： 18学时共计： 68学时东 华 理 工 学 院教 学 日 历 课程 核辐射测量原理 系别 核工系 专业 核工程与核技术 辐射防护与环境工程 班级 1220401-3，1221601 20142015学年第一学期日/月至日/月周次讲 课 内 容 及 时 数练习内容及时数试验内容及时数其它作业或参考书说明二学时主要教学内容（教学内容以节为单位）课堂时数习题课、课堂讨论、测验等课堂时数课间实习或实验课堂时数1/91本学期教学、实验、考试等相关内容总体安排；§1辐射源基本概念和分类2作业：每一章一次作业。作业、考勤及课堂表现20%，实验20%，期末考试60  2、%。教材：核辐射测量原理，汤彬等，哈尔滨工程大学出版社；参考书：1、原子核物理实验方法.清华大学，复旦大学等三校合编，原子能出版社；2、Radiation Detection and Measurement, G F Knoll, John Wiley & Sons, New York, 1989.3、核辐射物理及探测学，清华大学工程物理系，2008 （内部使用）； 4、核辐射探测器，凌球，郭兰英等，原子能出版社；5、核辐射探测器与核电子学，赖万昌.成都理工大学03年5月（内部使用）。本次课着重讲述辐射源的常用单位和定义，以及四种常用粒子源（快电子源、重带电粒子源、电磁辐射源、中子源）  3、的分类，来源，特点等内容。布置本章作业。3/91§2 射线与物质的相互作用§2.1重带电粒子与物质的相互作用2本次课着重讲述重带电粒子与物质相互作用的特点，在物质的中能量损失规律，在物质中的射程，在薄吸收体中的能量损失情况以及裂变碎片的能量损失等内容。5/91§2.2快电子与物质的相互作用2本次课着重讲述快电子与物质相互作用的特点，在物质中的能量损失规律，在物质中的射程、吸收与散射，正电子与物质的相互作用以及带电粒子与物质相互作用小结等内容。8/92§2.3 射线与物质的相互作用2本次课着重讲述光电效应，康普顿效应，电子对效应的基本概念，反应截面以及次级  4、粒子的能量，角分布；射线在物质中的衰减规律等内容。10/92§2.4中子与物质的相互作用2本次课着重讲述中子与物质相互作用的特点以及几种相互作用方式等内容。 ... 12/92§3 概率论基础知识，放射性测量中的统计学2本次课着重讲述几种常用的统计模型，随机变量的运算和组合，核衰变数与探测器计数的涨落分布，计数统计误差的传递，电离过程的涨落与法诺分等内容。 ... 15/93习题及课堂讨论2本门课程的教学内容可划分为基础知识，探测仪器和常规测量方法三个部分，而前三章就是基础知识部分，尤其是射线与物质的相互作用，它是本门课程的基础，重点，同时也是学好本专业其他课程的基  5、础，重点；需要
+  snippet: 50学时实验： 18学时共计： 68学时东 华 理 工 学 院教 学 日 历 课程 核辐射测量原理 系别 核工系 专业 核工程与核技术 辐射防护与环境工程 班级 1220401-3 ... 核辐射测量原理，汤彬等，哈尔滨工程大学出版社；参考书...
+
+[5] 在学术交流中，应会从问题出发形成科学论据，评估证据，得出观点，并获得实验结论
+  url: https://jwc.fudan.edu.cn/_upload/article/files/d4/56/707002a8413b8a3cc690244c1118/16365b27-187d-4d83-87cc-1e1b97fe6230.pdf#25#15
+  site: None  authority: 3  date: None
+  summary: ## 13. ... <table><tr><td>课程代码</td><td colspan="6">TCPH130004</td></tr><tr><td>课程名称</td><td colspan="6">核电子学（混合式教学）</td></tr><tr><td>英文名称</td><td colspan="6">Nuclear Electronics</td></tr><tr><td>学 分 数</td><td>3</td><td>周学时</td><td>3</td><td>授课语言</td><td colspan="2">中文</td></tr><tr><td>课程性质</td><td colspan="6">核工程与核技术专业 专业核心课程</td></tr><tr><td>教学目的</td><td colspan="6">通过本课程的学习，希望学生掌握核辐射探测与测量实验中常用电子学仪器设备的原理，学会运用最先进的电子学手段对信号进行分析处理。通过本课程的学习使学生为从事核相关研究打下坚实的基础。结合核电子学知识体系、学科发展史和国内现状，培养学生科学严谨的探索精神、精益求精的工匠精神，激发学生勇于开拓的创新意识，坚定学生产业报国的使命感。</td></tr><tr><td>基本内容简介</td><td colspan="6">核电子学课程范围比较广泛，本课程主要讲解核辐射探测与测量相关的核电子学。包括基本概念，核电子学信号的特点与分析处理的方法，以及所采用的技术，并对与核电子学相关的最新技术发展进行跟踪介绍。</td></tr><tr><td colspan="7">基本要求：<br>本课程面向核物理、核工程与核技术专业二年级学生，为专业必修课程。<br>1. 要求预修模拟电子技术、数字电子技术。<br>2. 包含23学时的线上学习，要求具备上网学习条件并熟练使用网络，能够在规定时间内独立完成线上学习任务。<br>3. 包含25学时的线下学习（不包含线下答疑和考试），涉及线下讨论、个人汇报等，要求能够积极参与团体活动。</td></tr><tr><td colspan="7">教学内容安排（（按54学时共18周计，线上23学时，线下31学时，包括考前答疑和期末考试）。<br>线下讨论课具体时间安排：均按照课程表上的地点上课，学时为2学时<br>第一周（绪论），第三周（预备知识），第四周（前放），第六周（主放），第七周（时变和非线性电路），第九周（幅度分析），第十一周（时间分析），第十三周（数据获取系统），第十四周（实验），第十五周（实验），第十六周（实验）</td></tr></table>    和非线性电路），第九周（幅度分析），第十一周（时间分析），第十三周（数据获取系统），第十四周（实验），第十五周（实验），第十六周（实验）    第一章绪
+  snippet: 教学内容安排（共计18周 ... 第1周绪论3学时第2到第4周 实验一 书面报告9学时第5到第8周 实验二 口头报告12学时第9周 五一放假 3学时第10到12周 ... 书面报告9学时第13周到16周 实验四 口头报告12学时实验共五个单元 ... 学时为2学时<br>第一周（绪论）...
+
+[6] 出版教材
+  url: https://hgcjslab.ecut.edu.cn/7f/cd/c7493a98253/page.htm
+  site: 东华理工大学  authority: 3  date: 2021-11-17T16:00:00+00:00
+  summary: # 出版教材  1、《核辐射测量原理》 ... 7、《核辐射测量原理》实验讲义  8、《核技术应用》实验讲义  9、《核电子学与仪器》实验讲义  10、《蒙特卡洛方法及应用》实验讲义
+  snippet: 出版教材 1、《核辐射测量原理》 2、《计算物理学》 3、《近代物理实验》 4、《专业英语》 5、《辐射防护》讲义 ... 7、《核辐射测量原理》实验讲义 ... 9、《核电子学与仪器》实验讲义
+
+[7] <table><tr><td>知识点</td><td>内容</td><td>参考学时数</td></tr><tr><td>辐射与原子的相互作用</td><td>自发辐射和受激辐射、均匀加宽和非均匀加宽的线型函数、克拉默斯(Kramers)-克罗尼希(Kro...
+  url: https://jwc.ujs.edu.cn/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1347513739&wbfileid=3026023#93#25
+  site: None  authority: 3  date: None
+  summary: 注：专业实验的一些内容可以包含在相应的专业课程中，也可以单独设置实验课程。 ... ## 附录3 核物理专业课程体系    与应用物理学专业相同，核物理专业是物理学类的主要专业方向，其核心课程应与物理学专业的相同，其专业课程体系及知识点应满足下述建议。    ## 1 核物理专业课程体系建设 ... ## 2 核物理专业核心知识单元和知识点举例    2.1核物理与粒子物理导论课程知识单元    <table><tr><td>知识点</td><td>内容</td><td>参考学时数</td></tr><tr><td>核与粒子的基本性质</td><td>原子核的电荷、质量、半径、自旋、磁矩、电四极矩、宇称、统计性质、同位旋、夸克、轻子、胶子的物理性质</td><td>4</td></tr><tr><td>放射性与稳定性</td><td>核与粒子的不稳定性和衰变，放射性衰变的基本规律，放射性平衡与放射系；原子核的结合能与稳定性，原子核的液滴模型</td><td>4</td></tr><tr><td>粒子源与粒子的测量</td><td>射线与物质的相互作用，粒子探测原理，主要的粒子探测器种类和性能</td><td>2</td></tr><tr><td>强相互作用与核力</td><td>强相互作用的基本性质，氘核基态，核力的主要性质，核力的介子场理论简介</td><td>4</td></tr><tr><td>α衰变</td><td>α衰变的能量与实验规律，α衰变的基本理论，质子及重离子放射性</td><td>3</td></tr><tr><td>β衰变</td><td>β能谱的特点与中微子，β衰变的三种类型及衰变纲图，β衰变的费米理论，跃迁分类和选择定则，库里尼图，衰变常量和比较半衰期，轨道电子俘获，宇称不守恒问题</td><td>4</td></tr><tr><td>γ跃迁</td><td>γ辐射的多极性，γ跃迁概率，选择定则，内转换，同核异能态，穆斯堡尔效应</td><td>3</td></tr><tr><td>核结构模型</td><td>费米气体模型，壳层结构与幻数，平均场与壳模型，壳模型的应用，转动能级和振动能级，集体运动模型，形变核的基态性质，原子核的亚核子自由度</td><td>6</td></tr><tr><td>原子核反应</td><td>核反应分类，核反应运动学，核反应截面与产额，细致平衡原理，反应截面的分波分析，核反应机制，光学模型，复合核模型，直接核反应，重离子束与放射性束引起的核反应</td><td>6</td></tr><tr><td>原子核的裂变和聚变</td><td>中子引起的核反应，中子的吸收和输运，重核的裂变现象，裂变的基本理论，链式反应与裂变反应堆，聚变反应，受控核聚变</td><td>3</td></tr><tr><td>粒子物
+  snippet: <td>参考学时数</td> ... 激光介质中的饱和性质</td><td>4</td> ... 基本性质和典型参数</td><td>2</td> ... 频率上转换的基本原理</td><td>6 ... <table><tr><td>课程名称</td><td>学时数</td><td>课程性质</td><td>备注</td></tr><tr><td>物理化学</td><td>48</td><td>必修</td> ... <td>选修</td>
+
+[8] 核辐射来自测量原理 免费编辑 添加义项名
+  url: https://baike.so.com/doc/2294674-2427486.html
+  site: 360搜索  authority: 2  date: 2022-05-14T16:00:00+00:00
+  summary: 《核辐射测量原理》是2011年哈尔滨工程大学出版社出版的图书，作者是汤彬。 本教材着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。 ... 2011年8月1日 ... 9787566102034 ... ## 折叠 编辑本段 内容简介  本教材分为九章，主要内容包括:原子与原子核、沙否现坐从师达间放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识;重带电粒子和快电子、Y光子和x光子、中子等与物质相互作用的基础知识;核事件的统计分布，统计误差与数据甚检验，测量不确定度等数据处理的基础知识;气体、闪烁体、半导体宜等核辐射探测器的工作原理与射线探测过程，核电子植商高聚是广继政核学的基础知识;a和$等带电粒子的活度测量方法，d能谱与B最大能量的测定方法，d和p测量技术的典型应用;不同形体辐射源的l辐射场计算，l照射量率与Y能谱的测量方法，能量刻度和效率刻度及Y能谱数据处理方法，Y测量技术的典型应用;X荧光的定性与定量分析及其干扰因素校正，x荧光测量技术的典型应用;中子源和中子探测的基础知识，中子通量和中子能谱的测量方法，中子测量技术的典型应用;辐射效应和辐射防护的基础知识，环境辐射水平和辐射防护标准，外照射和内照射剂量的估算与测量等基础知识。  本教材的建议课堂教学课时以45~60学时为宜，其中带"*"为可选课堂教学内容，部陆几妒道龙宣呀另需要安排20~30学时的实验教学内容。
+  snippet: 本教材的建议课堂教学课时以45~60学时为宜，其中带"*"为可选课堂教学内容，部陆几妒道龙宣呀另需要安排20~30学时的实验教学内容。
+
+[9] 《核辐射测量原理》 - 汤彬 | 无名图书
+  url: https://www.book345.com/detail/9787566102034-%E6%A0%B8%E8%BE%90%E5%B0%84%E6%B5%8B%E9%87%8F%E5%8E%9F%E7%90%86
+  site: 无名图书  authority: 1  date: 2011-07-31T16:00:00+00:00
+  summary: # 核辐射测量原理 ... 2011-08-01  ISBN  9787566102034 ... 《核辐射测量原理》着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子、γ光子和X光子、中子等与物质相互作用的基础知识；核事件的统计分布，统计误差与数据检验，测量不确定度等数据处理的基础知识；气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识；α和β等带电粒子的活度测量方法，α能谱与β最大能量的测定方法，α和β测量技术的典型应用；不同形体辐射源的γ辐射场计算，γ照射量率与γ能谱的测量方法，能量刻度和效率刻度及γ能谱数据处理方法，γ测量技术的典型应用；X荧光的定性与定量分析及其干扰因素校正，X荧光测量技术的典型应用；中子源和中子探测的基础知识，中子通量和中子能谱的测量方法，中子测量技术的典型应用；辐射效应和辐射防护的基础知识，环境辐射水平和辐射防护标准，外照射和内照射剂量的估算与测量等基础知识。 本教材的建议课堂教学课时以45～60学时为宜，其中带“*”为可选课堂教学内容，另需要安排20～30学时的实验教学内容。 《核辐射测量原理》可作为高等学校核工程与核技术、核技术、辐射防护与环境工程等本科专业的试用教材和硕士研究生的教学参考书，也可供相关科研人员和工程技术人员参考。本教材由汤彬、葛良全等编著。
+  snippet: 核辐射测量原理 ... 本教材的建议课堂教学课时以45～60学时为宜，其中带“*”为可选课堂教学内容，另需要安排20～30学时的实验教学内容。 《核辐射测量原理》可作为高等学校核工程与核技术 ... 本教材由汤彬、葛良全等编著。
+
+[10] 汤彬 - | 汤彬
+  url: https://snse.ecut.edu.cn/87/f5/c3575a34805/page.psp#1
+  site: 东华理工大学  authority: 3  date: 2023-09-13T16:00:00+00:00
+  summary: | 汤彬    发布人：周勇 发布时间：2023-09-14 动态浏览次数:9921    一、导师简介  汤彬，男，1964年3月生，湖南岳阳人，教授，博士学位，博士和硕士研究生导师。 ... 主要研究方向为：核辐射测量与核地球物理、核电子学与核探测仪器、计算机网络与测控技术、软件工程与数值模拟。 ... 主讲本科生和研究生课程有：核辐射测量原理、核地球物理勘查、核辐射探测学、能谱测量与数据处理、核测井与数据处理、数值计算方法、计算机图形学、面向对象程序设计、C语言程序设计、Fortran语言程序设计、计算机网络原理、分布式数据库、地理信息系统等。 ... 三、公开出版的专著与教材  [1] 核辐射测量原理，哈尔滨工程大学出版社，2010.12；第1作者，国家“十一五”国防科技规划教材
+  snippet: 核辐射测量原理、核地球物理勘查、核辐射探测学、能谱测量与数据处理、核测井与数据处理、数值计算方法、计算机图形学、面向对象程序设计 ... Fortran语言程序设计、计算机网络原理、分布式数据库、地理信息系统等 ... [1] 核辐射测量原理，哈尔滨工程大学出版社，2010.12；第1作者...
+
+
+########## QUERY: 核工程与核技术 培养方案 核电子学 第6学期 第5学期 3学分 48学时 各高校
+
+[1] 核工程与核技术专业本科生培养方案
+  url: http://power.hit.edu.cn/_upload/article/files/4b/70/e1ad7dd34b4d9e24c033d265108e/fc4270da-d591-4fd5-ad90-907818ac1e56.pdf#2#1
+  site: None  authority: 3  date: None
+  summary: # 核工程与核技术专业本科生培养方案  ## 一、培养目标  面向世界科技前沿，面向国家重大需求，培养具有优良品德、执着信念和社会责任感，具备多维知识结构、创新思维和国际视野，具备组织协调和解决复杂工程问题能力，在核工程与核技术及相关领域引领未来发展的杰出人才。  ## 二、培养要求  本专业学生主要学习各种能量转换及有效利用的理论与技术，接受现代科学与工程的基本训练，掌握能源、热科学及动力系统基础理论，掌握计算机及控制技术等现代工具，具备从事核工程与核技术领域设备研究开发、设计制造和应用管理所必需的工程技术知识，具有应用所学知识提出、分析及解决核工程与核技术领域复杂工程问题的能力。本专业学生还应具有有效的沟通与交流能力，具备良好的职业道德和团队精神，对职业、社会、环境有责任感，树立节能减排的理念。  本专业毕业生应获得以下几方面的知识、能力和素质：  1. 工程知识：具有从事核工程与核技术领域工作所需的相关数学、自然科学知识，掌握能源生产、转化、利用与核动力系统研发的基本理论和基本技能，并能将所学知识用于解决复杂核工程与核技术领域工程问题。  2. 问题分析：具有运用所学的数学、自然科学和核工程与核技术专业科学理论和技术方法实施核工程与核技术领域的工程实践，并能够对具体的复杂核工程与核技术领域工程问题查找专业文献进行结果分析。  3. 设计/开发解决方案：具有综合运用所学知识设计（开发）解决复杂核工程与核技术领域工程问题的基本能力，具有设计核工程与核技术设备的能力，具有初步的创新能力，并能够在核工程与核技术设备设计方案中体现创新意识，考虑社会、健康、安全、法律、文化以及环境等因素。  4. 研究：掌握基本的创新方法，具有正确的追求创新的态度和意识，能够运用核工程与核技术专业科学理论对复杂核工程与核技术领域工程问题开展科学研究，能够设计实验、分析数据，并通过信息综合得到合理有效的结论。  5. 使用现代工具：具有工程制图、计算机辅助设计和应用计算机进行数据处理及分析的能力；掌握文献检索及运用现代信息技术获取相关信息的基本方法，能够通过专业资料数据库、期刊文献等渠道了解核工程与核技术领域的新理论和前沿技术进展。  6. 工程与社会：了解国家核工程与核技术专业相关的政策、法律法规、标准，能正确认识核工程与核技术专业对于社会经济发展的影响，理解核工程与核技术领域工程问题对社会、环境、健康以及文化的影响，并理解应承担的责任。  7. 环境和可持续发展：了解核工程与核技术专业的发展现状和趋势，理解环境保护和可持续发展的重要性；能够评价复杂核工程与核技术领域工程对环境、社会可持续发展的影响。  8. 职业规范：具有较好的人文社会科学素养、较强的社会责任感，具有严谨治学、求真务实、团结协作的品质以及良好工程职业道德和服务意识。  9. 个人和团队：具有一定的组织能力、较好
+  snippet: 核工程与核技术专业本科生培养方案 ... 数字电路与嵌入式系统... ... 工程热力学A、核工程热流基础II... ... 课程代码|课程名称|学分|学时|备注| ... 课程代码: 22ES22004; 课程名称: 数字电路与嵌入式系统; 学分: 3; 学时: 48
+
+[2] 核工程与核技术专业人才培养方案
+  url: https://nd.njit.edu.cn:443/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1657807825&wbfileid=F10B8F2D81E015E57A8082D37DA96ED4#2#1
+  site: None  authority: 3  date: None
+  summary: ## 核工程与核技术专业人才培养方案    专业代码：082201    英文名称：Nuclear Engineering and Technology    ## 1、培养目标    以立德树人为目标，培养德智体美劳全面和谐发展，基础扎实，富有较强的工程意识、实践能力和创新能力的核工程领域专业技术人才，胜任未来核工程与核技术专业工程师或研究继续深造的能力。    本专业毕业生毕业后5年左右能达到的目标：    (1)具备健康的身心和良好的人文科学素养，富有社会责任感，能够在核工程与核技术及相关领域的工程实践中理解并遵守工程职业道德和规范，履行责任。    (2)能够运用核工程专业知识与工程技能，具备独立发现、研究与解决核工程领域工程问题的能力，具有从事核电厂的运行、维护、检修、核辐射监测与防护、核电工程项目的安装与调试的工作能力。    (3)具备良好的社会科学知识和管理能力，具有良好职业道德与国际视野，在工作中具有社会责任感事业心、核安全文化与环保意识，能积极服务社会，能在多学科环境下和跨职能团队中工作，发挥专门技术人才的作用。    (4)具有自主学习和终身学习的意识，能够通过继续教育或其他终身学习途径，自我更新知识和提升能力。    ## 2、毕业要求    【毕业要求1】工程知识：掌握数学、自然科学、工程基础和能源动力工程专业知识，能将数学、自然科学、工程基础和核工程专业知识用于解决核工程领域复杂工程题。    【毕业要求2】问题分析：能够应用数学，自然科学和工程科学的基本原理，识别、表达、并通过文献研究分析核工程领域复杂工程问题，以获得有效结论。    【毕业要求3】设计开发解决方案：能够设计针对核工程领域复杂工程问题的解决方案设计满足特定需求的核动力系统、前元（部件）或工艺流程，并能够在设计环节中体现创新意识，考虑社会，健康、安全、法律、文化以及环境等因素。    【毕业要求4】研究：能够基于科学原理并采用科学方法对复杂核工程问题进行研究包括设计实验，分析与解释数据、并通过信息综合得到合理有效的结论。    【毕业要求5】使用现代工具：能够针对复杂核工程问题，开发、选择与使用恰当的技术、  资源，现代工程工具和信息技术工具，包括对复杂核工程问题的预测与模拟并能够理解其局限性。    【毕业要求6】工程与社会：能够基于核工程相关背景知识进行合理分析，评价专业工程实践和复杂工程问题解决方案对社会、健康，安全，法律以及文化的影响并理解应承担的责任。    【毕业要求7】环境和可持续发展：能够理解和评价针对复杂核工程问题的工程实践对环境、社会可持续发展的影响。    【毕业要求8】职业规范：具有人文社会科学素养、社会责任感，核安全文化理念，能够在核工程实践中理解并遵守工程职业道德和规范，履行责任。    【毕业要求9】个人和团队：能够在多学科背景下的团
+  snippet: 核工程与核技术专业人才培养方案 ... 胜任未来核工程与核技术专业工程师或研究继续深造的能力 ... 4、专业核心课程 传热学D、工程热力学D、工程流体力学D、核电厂系统与设备B、核电厂仪表与控制、核电站汽轮机原理B、核反应堆理论、核反应堆热工分析 ... 最低毕业学分 最低毕业学分（含创新创业知识与能力提升10学分）：174.5...
+
+[3] 上海交通大学核工程与核技术专业培养方案
+  url: https://nsse.sjtu.edu.cn/kindeditor/Upload/file/20200925/202009251608384653060.pdf#3#1
+  site: None  authority: 3  date: None
+  summary: # 上海交通大学核工程与核技术专业培养方案   2020 级  学科门类：工学    代码：08  类 别：核工程类    代码：0822  专业名称：核工程与核技术  代码：082201  ## 一、培养目标  上海交通大学核工程与核技术专业培养具有扎实的数学及自然科学与交叉  融合的学科基础、宽广的专业知识、较强的创新意识与能力、综合的实践和团队 合作能力、开阔的国际化视野和较强的国际竞争力的核工程与核技术高级人才。 学生毕业后能够胜任核工程及相关领域的科研、设计、项目管理、运行维护等工 作。  上述培养目标在综合我国社会经济发展需求、上海交通大学定位及核工程与  核技术专业特色的基础上建立，具体包括以下五个方面：  (1)具有扎实的数学及自然科学与交叉融合的学科基础，能够综合利用数学、  物理及化学等学科的基础理论及方法，解决核工程与核技术及相关领域的科学及  技术问题；  (2)具有宽广的专业知识，掌握本专业多个研究方向涉及的基础理论； (3)具有科学的思维方法、较强的创新意识、获取知识和继续学习的能力，  能够在核工程与核技术专业领域进一步从事科学研究和先进技术研发等工作；  (4)具有良好的综合的实践和团队合作能力，能够在不同职能团队中发挥特  定的作用并具备承担领导角色的潜力；  (5)具有开阔的国际化视野和较强的国际竞争力，能够适应不同地域和文化  差异带来的挑战，用全球视野和优秀的合作交流能力完成各类跨国家、地域和组  织的学术及社会协作任务。  ## 二、培养规范与要求 ... （二）专业毕业要求  核工程与核技术专业学生经过四年培养，需达到12 条毕业要求后方能授予学位，具体内容如下：  【毕业要求1】工程知识：具有数学、自然科学、工程基础和核工程与核技术专业知识，并用于解决核工程与核技术行业相关复杂工程问题。 1.1 掌握数学与自然科学知识。 1.2 掌握核工程与核技术行业相关的工程基础知识。 1.3 掌握核工程与核技术专业知识。 1.4 能够应用数学、自然科学知识、工程基础知识和核工程与核技术专业知识了解复杂工程问题。  【毕业要求2】问题分析：能够应用数学、自然科学和工程科学的基本原理，针对核工程和核技术行业相关的复杂工程问题进行识别、表达、并通过文献研究析以获得有效结论。 2.1 能够应用数学、自然科学和工程科学的基本原理，识别与判断复杂工程问题的关键环节。 2.2 能够基于科学原理和数学模型方法针对核工程与核技术行业相关的复杂工程问题进行表达。  2.3 运用基本原理，并通过文献研究，分析核工程与核技术行业相关的复杂工程问题中过程影响因素，并获得有效结论。 【毕业要求 3】设计/开发解决方案：能够设计针对核工程与核技术行业相关复杂工程问题的解决方案，设计满足特定需求的系统、单元（部件）或工艺流程，并能运用创新思维，并能体现创新
+  snippet: 上海交通大学核工程与核技术专业培养方案 ... 第七学期学生需完成6 个学分的交叉模块课程。 5.个性化模块课程 个性化教育课程是学生可任意选修的课程，全部修业期间需修满6 学分。学 ... 核工程与核技术专业学制4年，允许学生在取得规定学分后提前毕业，也允
+
+[4] 核工程与核技术专业培养方案（2021版）
+  url: https://jwc.neepu.edu.cn/__local/9/96/AD/835025139E3E6C98C8CC889617D_2D30E6B1_DBB45.pdf#3#1
+  site: None  authority: 3  date: None
+  summary: 核工程与核技术专业培养方案（2021版） ... 三、主干课程（Main Courses）： 工程力学，电工电子学，机械制图，工程热力学，工程流体力学，传热学，原子核物理，反应堆物理，核系统与设备，常规系统与设备，核电站控制原理，核电站安全，辐射防护，核反应堆热工分析，核电站调试与运行。 Engineering Mechanics, Electrotechnics & Electronics, Mechanical Drawing, Engineering Thermodynamics, Engineering Fluid Mechanics, Heat Transfer Theory, Nuclear Physics, Nuclear Reactor Physics, Nuclear Island Systems and Equipment, Conventional Island Systems and Equipment, Nuclear Power Station Control Principle, Nuclear Power Station Safety, Radiation Protection, Nuclear Reactor Thermodynamic Analysis, Nuclear Power Station Commission and Operation.  四、主要实践性教学环节（Main Practice Teaching Links）： 入学和心理健康教育，军事理论和军事训练，思想政治课，金工实习，专业认知，工程综合实践，专业实习，创新创业课程，反应堆物理课程设计，核反应堆热工分析课程设计，核岛系统与设备课程设计，常规岛系统与设备课程设计，核电机组运行仿真实习，核电站安全课程设计，核电站调试与运行课程设计，核科学与技术创新与实践，毕业设计，毕业教育。 ... 五、专业特色（Specialty Features）： 核工程与核技术专业以国家核电行业发展和人才需求为依据，以提高我国核能发电水平，实现核电厂安全为目标，面向核电站的各相关领域，包括核电站工程设计，安全分析，控制与运行管理等方面，为我国核电行业培养从事运行、设计、施工、管理、教育和研究开发方面工作的高素质应用型人才。重视专业基础，强化工程实践，注重综合素质培养，提高学生的实践动手能力和就业适应能力以及科学研究潜力。 ... 六、毕业合格标准（Graduation Qualification Standard）： 学制：4年，允许学生延期毕业，延期最多不得超过2年。 学位：学生平均学分绩点≥65，授予工学学士学位。 毕业合格标准：完成教学计划所要求的教学过程，毕业生获得的总学分应不少于180.5学分，其中理论教学不小于135.5学分，实践环节不少于41学分，课外培养不少
+  snippet: 工程力学，电工电子学，机械制图，工程热力学，工程流体力学，传热学，原子核物理，反应堆物理，核系统与设备，常规系统与设备，核电站控制原理，核电站安全，辐射防护，核反应堆热工分析，核电站调试与运行 ... 核电子学基础...
+
+[5] 2019版核工程与核技术(卓越)本科专业培养方案
+  url: https://jwc.usc.edu.cn/__local/2/DC/F5/849EA5C2E28134DC79016EBECF8_CB537FB9_61188.pdf#3#1
+  site: None  authority: 3  date: None
+  summary: ## 2019版核工程与核技术(卓越)本科专业培养方案 ... 核工程与核技术专业是国家一类特色专业、国家管理专业、国防紧缺特色专业、国家国防科工局重点建设专业和湖南省优秀重点专业，是教育部第二批“卓越工程师教育培养计划”专业，以及教育部首批“本科专业综合改革试点专业”。专业所依托的“核科学与技术”一级学科是湖南省优势特色重点学科。该学科拥有“核科学与技术”一级学科硕士点、一级学科博士点、一级学科博士后科研流动站。拥有“反应堆与核动力”、“核技术及应用”、“辐射防护与环境保护”三个国防特色学科，拥有“核能与核安全”国际科技合作基地、“氢湖南省重点实验室”、数字化反应堆湖南省工程技术研究中心、反应堆数值模拟与技术支持中核集团重点学科实验室、氢及其气载放射性中核集团重点学科实验室等学科与专业平台。 ... 本专业学生主要学习自然科学基础、原子核物理、核辐射探测技术、核电子技术、辐射剂量与防护以及核技术应用、反应堆工程的基础知识，接受良好的科学思维和科学实验的基本训练，掌握从事本专业领域的设计、研发、工程、生产、管理等方面工作的基本能力。 ... ## 四、主干学科    核科学与技术、物理学、动力工程及工程热物理。    ## 五、核心知识领域与专业核心课程    （一）核心知识领域：原子与原子核物理，反应堆物理计算、热工分析，核电子与核探测技术，工业、医学、农业、军事等领域的核技术应用及其相关仪器技术，核能与核技术应用中的辐射防护、环境保护与核安全。    （二）专业核心课程：原子核物理、反应堆物理分析、反应堆热工学、核电厂系统与设备、核辐射探测、核电子学、辐射剂量与防护、核技术应用、加速器原理及应用、放射化学。  ## 六、主要实践性教学环节与主要专业实验    （一）主要实践性教学环节：军事技能、金工实训、电工电子实训、电子辅助设计、核工程与核技术认识实习、生产实习、专业项目设计与实训、毕业实习、毕业设计（论文）。    （二）主要专业实验：核辐射探测与核电子学实验、核技术应用实验、辐射剂量与防护实验。    ## 七、学制与学位    学制：标准学制为4年，学习年限为3- 8年学业学分：学业学分172学分，第二课堂10学分授予学位：工学学士    ## 八、各类课程学分学时分配表    <table><tr><td>课程性质</td><td>课程属性</td><td>学分</td><td>占学分比列</td><td>教学学时</td><td>占课程学时比例</td></tr><tr><td>公共基础课平台</td><td>必修</td><td>33</td><td>19.19</td><td>592</td><td>26.81</td></tr><tr><td>公共基础课平台</td><td>选修</td><td>8</td><td>4.65</td><
+  snippet: 原子核物理、反应堆物理分析、反应堆热工学、核电厂系统与设备、核辐射探测、核电子学、辐射剂量与防护、核技术应用、加速器原理及应用、放射化学。
+
+[6] B2. 能胜任能源动力系统、反应堆工程、核技术及应用、优化分析与设计，以及技术改造的能力；
+  url: https://cte.cqu.edu.cn/__local/D/73/02/B828283414581B55D3642D76B2B_49137A16_7DDC6.pdf#4#3
+  site: None  authority: 3  date: None
+  summary: 动力工程学院    核工程与核技术专业本科培养方案 ... 五、专业核心课程 工程热力学、工程流体力学、传热学、热工过程自控原理及系统、核反应堆物理分析、核反应堆热工分析、核反应堆安全学、辐射测量与防护、机械设计基础、动力工程计算方法、电工电子学、核电厂水化学、核技术实验及方法、核电子学等。 ... 七、毕业学分要求及学分分布  | 课程类别    | 必修学分 | 选修学分 | 备注 | |---|---|---|---| | 专业基础课程 | 30.5    | 2    |    | ... 重庆大学 2014 级本科人才培养方案 ... 核工程与核技术专业课程设置一览表  | 课程代码 | 课程名称    | 总学分 | 总学时 | 排课学时 | 学时分配 | 推荐学期 | 知识贡献 | 能力贡献 | 素质贡献 | ... 要求:必修课程30.5学分,选修课程≥2学分  必修课程(30.5学分) ... EE20320  电工电子学(I-1)    3.5    56    56    56    3 ... 重庆大学2014级本科人才培养方案  课程代码    课程名称    总学分    总学时    排课学时    学时分配    推     理论教学    实验    实习    其他    推荐学期    知识贡献    能力贡献    素质贡献 ... EE20330  电工电子学(I-2)    2.0    32    32    32    4 EE22340  电工电子学实验    1.0    16    32    32    4 ... 要求：专业课程中，除必修课外，核工程方向学生必须学习选修课程中核工程方向模块课程，核技术方向学生必须学习选修课程中核技术方向模块课程。  必修课程(10学分) NU20000  原子核物理    3.0    48    48    48    4    A2,A3    B2    C4
+  snippet: 工程热力学、工程流体力学、传热学、热工过程自控原理及系统、核反应堆物理分析、核反应堆热工分析、核反应堆安全学、辐射测量与防护、机械设计基础、动力工程计算方法、电工电子学、核电厂水化学、核技术实验及方法、核电子学等。
+
+[7] 2024版核工程与核技术本科专业培养方案
+  url: https://hjxy.usc.edu.cn/info/1049/8934.htm#1
+  site: 南华大学-核科学技术学院  authority: 3  date: 2025-01-07T16:00:00+00:00
+  summary: 课程名称 ... （二）公共基础选修课平台 ... 公共基础选修课共计6学分，分2个模块。  限选：  公共艺术类选修课程（2学分，在影视鉴赏、音乐鉴赏、舞蹈鉴赏、书法鉴赏、戏剧鉴赏、戏曲鉴赏、美术鉴赏、古代名剧鉴赏等8门课程中选修2门）。 ... 每个学生要求跨学科修读其他学科门类通识课程4学分；其中工科类学生要求选修至少1学分经济管理类通识课。  6个学分在第五学期以前修完，第一、第三学期各修1学分，第二、第四、第五学期共修4学分。  （三）学科基础课平台必修课 ... 核工程与核技术系 ... （四）学科基础课平台选修课 ... （五）专业课平台必修课 ... 50300035230
+  snippet: 总学时 讲课 ... 限选 ... 6个学分在第五学期以前修完，第一、第三学期各修1学分，第二、第四、第五学期共修4学分 ... 核工程与核技术系 ... 48
+
+[8] 4. 在保证一些重要的基础课教学同时，适当减少课堂教学的学时，加强实验教学和实践教学，增加选修课的比重，因材施教，有的放矢，全面提高学生的素质和动手能力，让学生多参加社会实践活动，增强就业工作能力
+  url: http://edu.shandong.gov.cn/module/download/downfile.jsp?classid=0&filename=aba9c90c7a574fb6baea4b2c696c39ae.pdf#63#20
+  site: None  authority: 4  date: None
+  summary: ## 专业二十一：核工程与核技术    ## （一）培养目标与规格    核工程与核技术专业培养具备核工程、辐射防护与核安全、核电子学、核技术等专业基本知识和基本实践技能，能在核科学相关领域从事核工程、辐射监测与防护、核安全与应急、核电子仪器、核技术应用、核医学等方面的研究设计、实验、运行、维护和管理工作的高级应用型人才。    本专业培养学生具有扎实的物理与数学基础知识、熟练的实验实践技能、团结进取的工作作风、博学多识的科研兴趣、高尚自爱的道德情操、健康完善的生理心理体悟以及爱国、爱人的人文关怀精神。学生接受足够的专业实践训练，能够熟练掌握和初步运用核工程、辐射防护与核安全、核技术、放射医学等专业技术知识和相关技能解决实践问题；具备一定的核仪器、辐射防护与核安全、核技术、核医学等相关领域的科研与技术开发能力，可以胜任放射性管理工作；具备阅读专业外文文献和撰写专业学术论文的能力。    ## （二）培养能力    紧密围绕国家、区域重大战略需求和世界科技发展趋势，烟台大学于2009年开始建设“核工程与核技术”专业，并于2011年开始招收该专业本科生，2018年核装备与核工程学院与台海集团合作办学，产教深度融合发展，培养符合国家和山东省核事业发展要求的核工程类专业人才，能从事核工程及核技术方面的研究、设计、制造、运行、应用和管理的工程技术人才，从而为我国核电技术的发展提供必要的人才输出。    当前，本专业在校生319人，已毕业五届学生，每年招收本科生80人左右。本专业学制4年，学生需修满169学分才能毕业。除公共教育课程以外，本专业课程设置如下表所示：  <table><tr><td>学科基础课程</td><td>专业基础课程</td><td colspan="2">专业方向课程①</td><td>实践教学课程</td><td>综合素质教育课程</td></tr><tr><td>高等数学</td><td>原子核物理</td><td colspan="2">核安全与管理</td><td>专业认知实习</td><td>全校通选课</td></tr><tr><td>线性代数</td><td>量子力学基础</td><td colspan="2">核测量仪器</td><td>普通物理实验</td><td>中国传统文化</td></tr><tr><td>概率论与数理统计</td><td>核工程与核技术专业导论</td><td colspan="2">加速器原理</td><td>近代物理实验</td><td>大学生心理健康教育</td></tr><tr><td>原子物理学</td><td>反应堆物理分析</td><td colspan="2">核技术及应用</td><td>公益劳动</td><td>应用写作</td></tr><tr><td>普通物理(力、热、光、电磁)<
+  snippet: 核工程与核技术专业培养具备核工程、辐射防护与核安全、核电子学、核技术等专业基本知识和基本实践技能 ... 核安全与应急、核电子仪器、核技术应用、核医学等方面的研究设计 ... 维护和管理工作的高级应用型人才 ... 其中公共基础教育课程30学分（含实践12学分），学科基础教育课程44学分（实践2学分），专业教育课程54学分（含实践7.5学分），独立开课的实验实践教育课程28学分，综合素质教育课程13学分（含实践3学分），（包含全校通选课程6学分）。
+
+[9] 核工程与核技术
+  url: http://en.scut.edu.cn/eWebEditor/UploadFile/20171229010342156.pdf#2#1
+  site: None  authority: 3  date: None
+  summary: N63. 设计/开发解决方案：能设计针对核工程与核技术问题的解决方案，设计满足特定需求的系统、单元（部件）或工艺流程，并能在设计环节中体现创新意识，考虑社会、健康、安全、法律、文化以及环境等因素。 ... N64. 研究：能够基于科学原理并采用科学方法对核工程与核技术领域中的复杂工程问题进行研究，包括设计实验、分析与解释数据，并通过信息综合得到合理有效的结论，能够创造性地利用核工程与核技术基本原理解决实践和工业需求问题。 ... N65. 使用现代工具：能针对核工程与核技术领域的复杂工程问题，开发、选择与使用恰当的技术、资源、现代工程工具和信息技术工具，包括对复杂工程问题的预测与模拟，并能够理解其局限性。 ... N66. 工程与社会：能基于工程相关背景知识进行合理分析，评价专业工程实践和复杂工程问题解决方案对社会、健康、安全、法律以及文化的影响，并理解应承担的责任。 ... N67. 环境和可持续发展：能理解和评价针对核工程与核技术领域的工程实践对环境、社会可持续发展的影响。 ... 职业规范：具有人文社会科学素养、社会责任感，能够在工程实践中理解并遵守工程职业道德和规范，履行责任。 ... 个人和团队：能在多学科背景下的团队中承担个体、团队成员以及负责人的角色。 ... 沟通：能就工程与核技术领域的复杂工程问题与业界同行及社会公众进行有效沟通和交流，包括撰写报告和设计文稿、陈述发言、清晰表达或回应指令。并具备一定的国际视野，能够在全球化的跨文化背景和环境里保持清晰意识，能有效沟通和交流，有竞争力地、负责任地行使自己的职责。 ... N611. 项目管理：理解并掌握核工程与核技术领域中工程管理原理与经济决策方法，并能在多学科环境中应用。 ... 终身学习：能够胜任相关单位从事研究、规划、及技术改进、设计、施工和运行管理工作，具有自主学习和终身学习的意识，有不断学习和适应发展的能力。 ... 专业简介：  本专业是我校的新兴专业，自2008年开办以来，是我校的重点发展学科，并建有广东省能源高效清洁利用重点实验室以及核电仿真实验室，被评为广东省特色专业和国家特色专业。该专业立足华南，面向全国，与用人单位对接，可为中国广核集团订单式培养适合现代核工程与核技术发展需求的应用型高级专业人才。为突出学生的实践能力和应用能力，专业在中国广核集团设立了专业实习平台。为努力打造华南地区核电强校，我校对该专业实施卓越工程师人才培养模式，采取中小班教学，理论教学与实践紧密结合，培养学生的理论实践和创新设计能力。  毕业生除了具有计算机、电子、机械、英语等方面的基本技能外，能够熟练掌握核工程与核技术在工程领域的应用技能。毕业生就业领域涉及国防、能源、环保、医疗等政府机关及企事业单位。 ... 专业特色：  本专业依托广东作为核电强省的产业优势，结合我校浓厚的工科文化背景，实行产学
+  snippet: 原子核物理学、核反应堆物理分析、核反应堆热工水力分析、核电站系统设备与运行、核反应堆控制、核电厂安全、工程热力学、流体力学、传热学。
+
+[10] 各高校应建立持续改进机制，定期实施学生评教和专家评教，定期进行专业教学质量的分析讨论，针对教学质量存在的问题和薄弱环节，采取有效的纠正与预防措施，进行持续改进，不断提升教学质量
+  url: http://jwc.hitwh.edu.cn/_upload/article/files/7c/62/8fb47306440895b9bd8847dc2064/84227020-a82d-4bef-8bee-447ae5ddf070.pdf#174#87
+  site: None  authority: 3  date: None
+  summary: 附录 核工程类专业知识体系和核心课程体系建议  1 专业类知识体系  1.1 知识体系 1.1.1 通识类知识 ... 1.1.2 学科基础知识     核工程类的学科基础知识主要包括学科基础理论知识和工程技术基础知识。  普通高等学校本科专业类教学质量国家标准（上）  学科基础理论知识包括核物理、量子力学、流体力学、工程力学、电动力学、热力学与统计等；工程技术基础知识包括电子基础、电子学电路、信息技术基础、工程制图、金工实践等。 授课时，应讲授相关的专业发展历史和现状。 各高校可根据学校定位和专业特色进行微调。  1.1.3 专业知识 核工程类的专业知识包括本学科共同的专业基础知识和不同专业领域的专业知识。 从加强专业基础知识要求出发，核工程类各专业学生应具备共同的专业基础知识，例如核物理、辐射测量、辐射防护等。围绕核能与核技术的应用，核工程类的核心专业知识主要包括：反应堆物理、反应堆运行、反应堆控制、反应堆热工水力、聚变与等离子物理、核动力系统与设备、辐射探测器、核电子学、核数据获取与处理、生物辐射效应、辐射剂量学、辐射测量与分析、辐射环境监测与评价、核安全、反应堆安全、放射性废物处理与处置、核安全法规与监管、信号处理、加速器、微波技术、辐射成像、核医学、核燃料循环与核材料、同位素分离、离心机技术、级联技术、核化学、放射化学、核材料化学、核燃料工艺等。 核工程类各专业知识有区别，有重点又有密切联系，同时对应于不同的社会需求。学生应掌握融合贯通的学习方法，重点培养分析问题、解决问题的能力。应根据社会的具体需要、学校定位和专业特色，对学生提出科学研究、工程设计以及相关应用、运行、维护等不同的教学要求，还要开设各专业不同需求的选修课程。  1.2 主要实践性教学环节 为了理论联系实际，培养实践和创新能力，应建立满足教学需要的完备的实践教学体系，主要包括认识实习、课程实验、课程设计、生产实习、毕业设计（论文）以及各种科技创新、社会实践活动。 专业课程应包括一定数量的课程实验和课程设计，在学生完成验证性教学实验外，鼓励学生独立进行设计、制作、调试和运行，以培养学生科学作风和创新精神。 建立与相关科研和生产单位的联系，建立相对稳定的实习基地，安排低年级学生的认识实习和高年级学生的生产实习，鼓励学生认识和了解行业生产，参与生产实践活动。 在学生毕业前安排学生的毕业设计或综合论文。毕业设计（论文）选题应结合工程与科研实际，建立设计（论文）检查评价机制，落实教师有效指导，严格毕业设计（论文）答辩，以培养学生的工程意识、工作能力和协作精神。  2 专业类核心课程体系  2.1 课程体系构建原则 知识体系给出了本专业的知识框架，但专业知识需要通过课程体系来组织传授，课程体系构建也是学校定位和特色办学的体现。各高校可根据学校培养目标，按照知识体系要求构建课程体系以满足学校特色和
+  snippet: 核电子学、核数据获取与处理 ... 以下给出了核工程类课程体系的各类主要课程（学时）设置示例，各高校可根据自己的不同专业设置选择各自的核心课程构成，同时应保证满足不同类课程的设置比例（括号内数字为建议学时数） ... 辐射探测与实验（64）、核电子学（64）、信号与系统（64） ... 16学时计1学分...

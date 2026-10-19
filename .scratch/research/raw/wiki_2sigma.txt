@@ -1,0 +1,511 @@
+Bloom's 2 sigma problem - Wikipedia
+Jump to content
+Main menu
+Main menu
+move to sidebar
+hide
+Navigation
+Main page
+Contents
+Current events
+Random article
+About Wikipedia
+Contact us
+Contribute
+Help
+Learn to edit
+Community portal
+Recent changes
+Upload file
+Special pages
+Search
+Search
+Appearance
+Donate
+Create account
+Log in
+Personal tools
+Donate
+Create account
+Log in
+Contents
+move to sidebar
+hide
+(Top)
+1
+Mastery learning
+2
+Correlations
+3
+References
+4
+Further reading
+5
+External links
+Toggle the table of contents
+Bloom's 2 sigma problem
+1 language
+Português
+Edit links
+Article
+Talk
+English
+Read
+Edit
+View history
+Tools
+Tools
+move to sidebar
+hide
+Actions
+Read
+Edit
+View history
+General
+What links here
+Related changes
+Upload file
+Permanent link
+Page information
+Cite this page
+Get shortened URL
+Switch to legacy parser
+Print/export
+Download as PDF
+Printable version
+In other projects
+Wikidata item
+Appearance
+move to sidebar
+hide
+From Wikipedia, the free encyclopedia
+(Redirected from
+Bloom's 2 Sigma Problem
+)
+Educational phenomenon of greatly improved performance by tutored learners
+Bloom's 2 sigma problem
+refers to the educational phenomenon that the average student
+tutored
+one-to-one using
+mastery learning
+techniques performed two
+standard deviations
+better than students educated in a
+classroom
+environment. It was originally observed by
+educational psychologist
+Benjamin Bloom
+and reported in 1984 in the journal
+Educational Researcher
+.
+[
+1
+]
+[
+2
+]
+[
+3
+]
+Bloom's paper analyzed the dissertation results of University of Chicago PhD students Joanne Anania and Joseph Arthur Burke. As quoted by Bloom: "the average tutored student was above 98% of the students in the control class".
+[
+1
+]
+:
+4
+Additionally, the variation of the students' achievement changed: "about 90% of the tutored students ... attained the level of summative achievement reached by only the highest 20%" of the control class.
+[
+1
+]
+:
+4
+The phenomenon's associated problem, as described by Bloom, was to "find methods of group instruction as effective as one-to-one tutoring".
+[
+1
+]
+The phenomenon has also been used to illustrate that factors outside of a teachers' control influence student education outcomes, motivating research in alternative
+teaching methods
+,
+[
+4
+]
+in some cases reporting larger standard deviation improvements than those predicted by the phenomenon.
+[
+5
+]
+[
+6
+]
+The phenomenon has also motivated developments in
+human-computer interaction
+for education, including
+cognitive tutors
+[
+6
+]
+and
+learning management systems
+.
+[
+7
+]
+Mastery learning
+[
+edit
+]
+Main article:
+Mastery learning
+Mastery learning is an
+educational philosophy
+first proposed by Bloom in 1968
+[
+8
+]
+based on the premise that students must achieve a level of mastery (e.g., 90% on a knowledge test) in prerequisite knowledge before moving forward to learn subsequent information on a topic.
+[
+9
+]
+Mastery is determined with regular tests, and students who do not yet achieve mastery on the test are given additional educational support before another test. This cycle continues until the learner accomplishes mastery, and they may then move on to the next stage. Failure for a student to achieve mastery is viewed differently from conventional
+educational testing
+as due to instruction rather than lack of student ability. Another key element of mastery learning is that it requires attention to individual students as opposed to assessing group performance. There is good evidence to suggest the effectiveness of mastery learning for improving student educational outcomes.
+[
+9
+]
+Two of the three groups in the original study by Bloom conducted mastery learning, with one
+control group
+that did not.
+[
+1
+]
+Correlations
+[
+edit
+]
+Though Bloom concluded that one-to-one tutoring is "too costly for most societies to bear on a large scale", Bloom conjectured that a combination of two or three altered variables may result in a similar performance improvement. Bloom thus challenged researchers and teachers to "find methods of group instruction as effective as one-to-one tutoring".
+[
+1
+]
+:
+15
+Bloom's graduate students Joanne Anania and Arthur J. Burke conducted studies of the effect at different grade levels and in different schools, observing students with "great differences in cognitive achievement, attitudes, and academic self-concept".
+[
+1
+]
+:
+15
+Bloom classified alterable variables that may have, in combination, a 2 sigma effect as the following "objects of change process":
+Learner
+Instructional material
+Home environment or peer group
+Teacher
+Bloom and his graduate students considered and tested various combinations of these variables, focusing only on those variables that individually had a 0.5 or higher
+effect size
+. These included:
+Effect of selected alterable variables on student achievement
+[
+1
+]
+:
+6
+[
+10
+]
+Object of change process
+Alterable variable
+Effect size
+Percentile equivalent
+Teacher
+Tutorial instruction
+2.00
+98
+Teacher
+Reinforcement
+1.2
+Learner
+Feedback-corrective (
+mastery learning
+)
+1.00
+84
+Teacher
+Cues and explanations
+1.00
+Teacher, Learner
+Student classroom participation
+1.00
+Learner
+Student time on task
+1.00
+Learner
+Improved reading/study skills
+1.00
+Home environment / peer group
+Cooperative learning
+0.80
+79
+Teacher
+Homework
+(graded)
+0.80
+Teacher
+Classroom morale
+0.60
+73
+Learner
+Initial cognitive prerequisites
+0.60
+Home environment / peer group
+Home environment intervention
+0.50
+69
+References
+[
+edit
+]
+1
+2
+3
+4
+5
+6
+7
+8
+Bloom, Benjamin S (June–July 1984).
+"The 2 Sigma Problem: The Search for Methods of Group Instruction as Effective as One-to-One Tutoring"
+(PDF)
+.
+Educational Researcher
+.
+13
+(6):
+4–
+16.
+doi
+:
+10.3102/0013189x013006004
+.
+S2CID
+1714225
+. Retrieved
+9 June
+2018
+.
+↑
+Guskey, Thomas R (2005),
+Formative Classroom Assessment and Benjamin S. Bloom: Theory, Research, and Implications
+, p.
+12,
+ERIC
+ED490412
+↑
+Guskey, Thomas R. (2007),
+"All Our Children Learning: New Views on the Work of Benjamin S. Bloom"
+,
+Engaging Every Learner
+, Thousand Oaks, CA: Corwin Press, pp.
+101–
+118,
+doi
+:
+10.4135/9781483329383.n6
+,
+ISBN
+9781412938549
+, retrieved
+2022-04-27
+↑
+Wood, William B.; Tanner, Kimberly D. (March 2012).
+"The Role of the Lecturer as Tutor: Doing What Effective Tutors Do in a Large Lecture Class"
+.
+CBE: Life Sciences Education
+.
+11
+(1):
+3–
+9.
+doi
+:
+10.1187/cbe.11-12-0110
+.
+ISSN
+1931-7913
+.
+PMC
+3292071
+.
+PMID
+22383611
+.
+↑
+Deslauriers, Louis; Schelew, Ellen; Wieman, Carl (2011-05-13).
+"Improved Learning in a Large-Enrollment Physics Class"
+.
+Science
+.
+332
+(6031):
+862–
+864.
+Bibcode
+:
+2011Sci...332..862D
+.
+doi
+:
+10.1126/science.1201783
+.
+ISSN
+0036-8075
+.
+PMID
+21566198
+.
+S2CID
+42770370
+.
+1
+2
+Corbett, Albert (2001),
+"Cognitive Computer Tutors: Solving the Two-Sigma Problem"
+,
+User Modeling 2001
+, Lecture Notes in Computer Science, vol.
+2109, Berlin, Heidelberg: Springer Berlin Heidelberg, pp.
+137–
+147,
+doi
+:
+10.1007/3-540-44566-8_14
+,
+ISBN
+978-3-540-42325-6
+, retrieved
+2022-04-27
+↑
+Mott, Jon; Wiley, David (2013-01-03).
+"Open for Learning: The CMS and the Open Learning Network"
+.
+In Education
+.
+15
+(2).
+doi
+:
+10.37119/ojs2009.v15i2.53
+.
+ISSN
+1927-6117
+.
+↑
+Bloom, Benjamin S. (March 1973).
+"Recent developments in mastery learning"
+.
+Educational Psychologist
+.
+10
+(2):
+53–
+57.
+doi
+:
+10.1080/00461527309529091
+.
+ISSN
+0046-1520
+.
+1
+2
+Winget, Marshall; Persky, Adam M. (2022-01-13).
+"A Practical Review of Mastery Learning"
+.
+American Journal of Pharmaceutical Education
+.
+86
+(10): 8906.
+doi
+:
+10.5688/ajpe8906
+.
+ISSN
+0002-9459
+.
+PMC
+10159400
+.
+PMID
+35027359
+.
+S2CID
+245946166
+.
+↑
+Walberg, Herbert J (May 1984). "Improving the productivity of America's schools".
+Educational Leadership
+.
+41
+(8):
+19–
+27.
+Further reading
+[
+edit
+]
+Anania, Joanne (1981).
+The effects of quality of instruction on the cognitive and affective learning of students
+(Thesis). The University of Chicago.
+Burke, Arthur Joseph (August 1983).
+Students' potential for learning contrasted under tutorial and group approaches to instruction
+(Thesis).
+OCLC
+1194704545
+.
+ProQuest
+252076952
+.
+External links
+[
+edit
+]
+Bloom's 2 Sigma and Vockell's -2 Sigma
+Retrieved from "
+https://en.wikipedia.org/w/index.php?title=Bloom%27s_2_sigma_problem&oldid=1362032172
+"
+Categories
+:
+Educational psychology
+1984 introductions
+Hidden categories:
+Articles with short description
+Short description matches Wikidata
+This page was last edited on 1 July 2026, at 15:09
+(UTC)
+.
+Page was rendered with
+Parsoid
+.
+Text is available under the
+Creative Commons Attribution-ShareAlike 4.0 License
+;
+additional terms may apply. By using this site, you agree to the
+Terms of Use
+and
+Privacy Policy
+. Wikipedia® is a registered trademark of the
+Wikimedia Foundation, Inc.
+, a non-profit organization.
+Privacy policy
+About Wikipedia
+Disclaimers
+Contact Wikipedia
+Legal & safety contacts
+Code of Conduct
+Developers
+Statistics
+Cookie statement
+Mobile view
+Search
+Search
+Toggle the table of contents
+Bloom's 2 sigma problem
+1 language
+Add topic

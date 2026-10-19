@@ -1,0 +1,42 @@
+Black Wiliam 1998 assessment and classroom learning
+Ryan Deci 2000 self-determination theory and the facilitation of intrinsic motivation
+Wood Bruner Ross 1976 the role of tutoring in problem solving
+van de Pol Volman Beishuizen 2010 scaffolding in teacher-student interaction a decade of research
+Belland Walker Kim Lefler 2017 synthesizing results from empirical research on computer-based scaffolding in STEM education meta-analysis
+Adesope Trevisan Sundararajan 2017 rethinking the use of tests meta-analysis of practice testing
+Keller 1968 goodbye teacher
+Slavin 1987 mastery learning reconsidered
+Bahrick Hall 1991 lifetime maintenance of high school mathematics content
+Cooper Nye Charlton Lindsay Greathouse 1996 the effects of summer vacation on achievement test scores
+Hanus Fox 2015 assessing the effects of gamification in the classroom a longitudinal study
+Nesbit Adesope 2006 learning with concept and knowledge maps a meta-analysis
+Sweller Cooper 1985 the use of worked examples as a substitute for problem solving in learning algebra
+Chen Kalyuga Sweller 2015 the worked example effect the generation effect and element interactivity
+van Gog Sweller 2015 not new but nearly forgotten the testing effect decreases as complexity increases
+Schneider Beege Nebel Rey 2018 a meta-analysis of the signaling principle
+Adesope Nesbit 2012 verbal redundancy in multimedia learning a meta-analysis
+Kurdi Leo Parsia Sattler Al-Emari 2020 a systematic review of automatic question generation for educational purposes
+Doughty 2024 ChatGPT versus human item writers multiple choice questions
+Shernoff Csikszentmihalyi Shneider Shernoff 2003 student engagement in high school classrooms from the perspective of flow theory
+Kluger DeNisi 1996 the effects of feedback interventions on performance
+Butler Marsh Goode Roediger 2014 when additional retrieval practice is not helpful
+Karpicke Blunt Smith 2016 retrieval practice in the classroom
+Ebbinghaus forgetting curve replication Murre Dros
+Sweller van Merrienboer Paas 2019 cognitive architecture and instructional design 20 years later
+Koedinger Corbett Perfetti 2012 KLI framework
+VanLehn 2007 when are tutorial dialogues more effective than reading
+Graesser Chipman Haynes Olney 2005 AutoTutor the role of dialogue in learning
+Corbett Anderson 1994 knowledge tracing modeling the acquisition of procedural knowledge
+Doignon Falmagne 1985 spaces for the assessment of knowledge
+Falmagne Albert Villano Doignon Johannesen 2013 learning spaces
+Nabizadeh Goncalves Gama Jorge Leal 2020 personalization of learning paths
+Locke Latham 2006 new directions in goal-setting theory
+Amabile Kramer 2011 the progress principle
+Yeager Hanselman Walton 2014 self-affirmation
+Hattie 2009 visible learning
+Wiliam 2011 embedded formative assessment
+Sadler 1989 formative assessment and the design of instructional systems
+Nicol Macfarlane-Dick 2006 formative assessment and self-regulated learning
+Carless Boud 2018 the development of student feedback literacy
+Wisniewski Zierer Hattie 2020 the power of feedback revisited
+Lumsden Edwards Lawrence 2016 gamification of learning a systematic review

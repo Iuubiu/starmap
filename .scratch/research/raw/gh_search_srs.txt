@@ -1,0 +1,357 @@
+Repository search results · GitHub
+Skip to content
+Navigation Menu
+Sign in
+Appearance settings
+Platform
+AI CODE CREATION
+GitHub Copilot
+Write better code with AI
+GitHub Copilot app
+Direct agents from issue to merge
+MCP Registry
+Integrate external tools
+DEVELOPER WORKFLOWS
+Actions
+Automate any workflow
+Codespaces
+Instant dev environments
+Issues
+Plan and track work
+Code Review
+Manage code changes
+Code Quality
+Enforce quality at merge
+APPLICATION SECURITY
+GitHub Advanced Security
+Find and fix vulnerabilities
+Code security
+Secure your code as you build
+Secret protection
+Stop leaks before they start
+EXPLORE
+Why GitHub
+Documentation
+Blog
+Changelog
+Marketplace
+View all features
+Solutions
+BY COMPANY SIZE
+Enterprises
+Small and medium teams
+Startups
+Nonprofits
+BY USE CASE
+App Modernization
+DevSecOps
+DevOps
+CI/CD
+View all use cases
+BY INDUSTRY
+Healthcare
+Financial services
+Manufacturing
+Government
+View all industries
+View all solutions
+Resources
+EXPLORE BY TOPIC
+AI
+Software Development
+DevOps
+Security
+View all topics
+EXPLORE BY TYPE
+Customer stories
+Events & webinars
+Ebooks & reports
+Business insights
+GitHub Skills
+SUPPORT & SERVICES
+Documentation
+Customer support
+Community forum
+Trust center
+Partners
+View all resources
+Open Source
+COMMUNITY
+GitHub Sponsors
+Fund open source developers
+PROGRAMS
+Security Lab
+Maintainer Community
+GitHub Stars
+Archive Program
+REPOSITORIES
+Topics
+Trending
+Collections
+Enterprise
+ENTERPRISE SOLUTIONS
+Enterprise platform
+AI-powered developer platform
+AVAILABLE ADD-ONS
+GitHub Advanced Security
+Enterprise-grade security features
+Copilot for Business
+Enterprise-grade AI features
+Premium Support
+Enterprise-grade 24/7 support
+Pricing
+Search
+/
+Sign in
+Sign up
+Appearance settings
+You signed in with another tab or window.
+Reload
+to refresh your session.
+You signed out in another tab or window.
+Reload
+to refresh your session.
+You switched accounts on another tab or window.
+Reload
+to refresh your session.
+Dismiss alert
+repositories Search Results · spaced repetition
+Filter by
+Code
+...
+(
+...
+)
+results
+Repositories
+8.4k
+(
+8.4k
+)
+results
+Issues
+results
+Pull requests
+results
+Discussions
+results
+Users
+results
+More
+Languages
+TypeScript
+JavaScript
+Python
+HTML
+Java
+Go
+Dart
+Rust
+Swift
+Kotlin
+More languages...
+Advanced
+Owner
+Size
+Number of followers
+Number of forks
+Number of stars
+Date created
+Date pushed
+Topic
+License
+Archived
+Public
+Private
+Advanced search
+Filter:
+Repositories
+8.4k
+(
+8.4k
+)
+8.4k results
+(
+159
+ms
+)
+8.4k results
+Sort by:
+Most stars
+Filter
+ankitects/anki
+Anki is a smart
+spaced
+repetition
+flashcard program
+Rust
+·
+32.1k
+·
+Updated
+1 hour ago
+Star
+open-spaced-repetition/fsrs4anki
+A modern Anki custom scheduling based on Free
+Spaced
+Repetition
+Scheduler algorithm
+machine-learning
+reinforcement-learning
+deep-learning
+memory
+spaced-repetition
+Jupyter Notebook
+·
+4.1k
+·
+Updated
+on Aug 14
+Star
+st3v3nmw/obsidian-
+spaced
+-
+repetition
+Fight the forgetting curve by reviewing flashcards & entire notes on Obsidian
+flashcards
+spaced-repetition
+srs
+obsidian
+spaced-repetition-system
+TypeScript
+·
+2.6k
+·
+Updated
+13 days ago
+Star
+olmps/memo
+Memo is an open-source, programming-oriented
+spaced
+repetition
+software (SRS) written in Flutter.
+app
+spaced-repetition
+flutter
+Dart
+·
+1.9k
+·
+Updated
+on Jul 29, 2024
+Star
+andymatuschak/orbit
+Experimental
+spaced
+repetition
+platform for exploring ideas in memory augmentation and programmable attention
+spaced-repetition
+research-platform
+memory-augmentation
+mnemonic-medium
+TypeScript
+·
+1.8k
+·
+Updated
+2 days ago
+Star
+eudoxia0/hashcards
+A plain text-based
+spaced
+repetition
+system.
+Rust
+·
+1.2k
+·
+Updated
+17 hours ago
+Star
+open-spaced-repetition/free-
+spaced
+-
+repetition
+-scheduler
+A
+spaced
+repetition
+algorithm based on DSR model
+education
+flashcards
+spaced-repetition
+srs
+anki
+729
+·
+Updated
+on Apr 21
+Star
+S-Sigdel/vimhjkl
+learn vim from your terminal with
+spaced
+repetition
+Python
+·
+544
+·
+Updated
+on Jul 3
+Star
+ankimcp/anki-mcp-server
+A Model Context Protocol (MCP) server that enables AI assistants to interact with Anki, the
+spaced
+repetition
+flashcard application.
+ai
+anki
+anki-addon
+anki-flashcards
+ai-learning-tool
+TypeScript
+·
+521
+·
+Updated
+8 days ago
+Star
+open-spaced-repetition/py-fsrs
+Python Package for FSRS
+Spaced
+Repetition
+spaced-repetition
+flashcard
+fsrs
+Python
+·
+513
+·
+Updated
+on Aug 9
+Star
+Previous
+1
+2
+3
+4
+5
+6
+7
+…
+100
+Next
+Sponsor open source projects you depend on
+Contributors are working behind the scenes to make open source better for everyone—give them the help and recognition they deserve.
+Explore sponsorable projects
+ProTip!
+Press the
+/
+key to activate the search input again and adjust your query.
+Sponsor open source projects you depend on
+Contributors are working behind the scenes to make open source better for everyone—give them the help and recognition they deserve.
+Explore sponsorable projects
+ProTip!
+Press the
+/
+key to activate the search input again and adjust your query.
+You can’t perform that action at this time.

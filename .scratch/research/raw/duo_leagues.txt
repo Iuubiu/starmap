@@ -1,0 +1,129 @@
+How Duolingo Leaderboards and Leagues Work
+SUBJECTS
+SUBJECTS
+Language
+Chess
+Math
+Music
+INSIDE DUOLINGO
+Announcements
+Design
+Engineering
+Product
+Life at Duolingo
+SITE LANGUAGE
+Deutsch
+English
+Español
+Français
+Português
+日本語
+한국어
+May 3, 2023
+Duolingo Team
+How do Duolingo Leaderboards work?
+Who’s your competition each week on Duolingo? Learn more about our Leaderboards!
+May 3, 2023
+Duolingo Team
+Raise your hand if you’ll protect your place in the Diamond League
+at all costs?
+Whether you’re new to Duolingo or a seasoned learner, chances are you’ve spent some time on Leaderboards. This competitive feature of Duolingo monitors your progress each week against learners around the world—and you can climb up (or down) based on your study efforts!
+DOWNLOAD DUOLINGO FOR FREE
+Every Sunday (based on your timezone), a new weekly league begins. Read on for answers to your biggest questions about Leaderboards, from how we decide who’s in your league, to how to enter the coveted Diamond Tournament! 💎
+Why did Duolingo create Leaderboards?
+We first tested Leaderboards in 2018 and we found that a little competition worked for a *lot* of learners! It was an easy way for learners to benchmark their progress and success. The earlier versions of Leaderboards only had 5 leagues instead of the 10 we see today! Increasing the number of leagues meant that reaching the top (today, that’s Diamond!) was an even bigger achievement.
+Who am I matched with every week, and why?
+We try to keep things as fair as possible, so each week, you’re matched with people who have similar study habits to you and who are in a similar time zone. But you might be surprised to learn that your fellow learners on your leaderboard might not be studying the same language as you—the competition is across all of our courses!
+How does the Diamond Tournament work?
+We reward our most-engaged learners with
+another
+opportunity to compete. The top 10 learners in the Diamond league are eligible for entry into the Diamond Tournament (on iOS and Web, Android coming soon!). There are three phases to this competition: Quarterfinals, Semifinals, and Finals. Each round eliminates learners that don’t make the cut, and there are special rewards for learners who make it to each!
+It’s important to note that a tournament
+isn’t
+running every single week—look for a message at the top of your leaderboard that says
+“Top 10 qualify for the Tournament”
+to know if a tournament is starting that week! If you see a message saying,
+“The next Tournament is starting soon,”
+then there are no eligible tournaments to enter that week.
+The competition is too intense. Can I opt out?
+Yes! Leaderboards aren’t for everyone. You can disable Leaderboards via your Duolingo Web Settings
+here
+. You will need to toggle off “Make My Profile Public.”
+And yes, we keep an eye out for cheaters!
+Learners often suspect a fellow competitor of cheating when they have a ton of XP. The truth is, we rarely see cheating or XP abuse on Leaderboards—learners are just
+that
+engaged! We do monitor for irregular activity and if we notice illegitimate XP gains, that learner is removed from Leaderboards.
+A league of your own!
+Learning a new language takes a *really* long time, which is why we develop fun features (like Leaderboards!) to keep you engaged and motivated. Learn more about all of the fun, social activities we have on Duolingo, from
+Friends Quests
+to the beloved
+Streak
+!
+TAGS
+Design
+Product
+Announcements
+Language
+Math
+Music
+Duolingo 101
+Motivation
+Chess
+SHARE ARTICLE
+RELATED ARTICLES
+RELATED ARTICLES
+About us
+Courses
+Mission
+Approach
+Efficacy
+Team
+Research
+Careers
+Brand guidelines
+Press
+Investors
+Contact us
+Products
+Duolingo
+Duolingo English Test
+Duolingo for Business
+Super Duolingo
+Store
+Apps
+Duolingo Apps
+Duolingo for Desktop
+Duolingo for Android
+Duolingo for iOS
+Help and support
+Duolingo FAQs
+Duolingo English Test FAQs
+Status
+Privacy and terms
+Community guidelines
+Terms
+Privacy
+Respecting your "do not sell my personal information" rights
+Social
+Blog
+Instagram
+Facebook
+YouTube
+TikTok
+LinkedIn
+X
+Site language:
+Deutsch
+English
+Español
+Français
+Português
+日本語
+한국어
+©2026 Duolingo. All rights reserved.
+About us
+Press
+Careers
+Help and support
+Privacy and terms
+©2026 Duolingo. All rights reserved.

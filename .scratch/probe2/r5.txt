@@ -1,0 +1,126 @@
+
+
+########## QUERY: 核工程 专业 数字电子技术 教学大纲 选用教材 阎石 第六版 核技术 辐射防护
+
+[1] | 5.3 触发器 | L1 | L3 | 掌握不同类型触发器的逻辑功能和动作特点 | 4 |
+  url: https://zy.upln.cn/itemfiles/IM_KCJXDG/080703/IM_KCJXDG-13208-080703-1604287069-rcvow.pdf#52#23
+  site: None  authority: 3  date: None
+  summary: 7.教材以及其它教学资源  教材 1、《数字电子技术基础》（第六版），阎石主编，高等教育出版社，2018.12
+  snippet: 7.教材以及其它教学资源 教材 1、《数字电子技术基础》（第六版），阎石主编，高等教育出版社，2018.12 其它教学资源 1、《数字电子技术基础》，李震梅主编，高等教育出版社，2017.7
+
+[2] 第七章 脉冲波形的产生与整形（3学时，支撑课程目标1、2、3、4、5）
+  url: https://jwc.cnu.edu.cn/docs//2025-06/f415fa1c44414694969c06b83336752b.pdf#84#38
+  site: None  authority: 3  date: None
+  summary: ## 第七章 脉冲波形的产生与整形（3学时，支撑课程目标1、2、3、4、5）    7.1 概述7.2 施密特触发电路7.3 稳态电路7.4 多谐振荡电路7.5 555定时器及其应用    ## 第八章 数-模和模-数转换（3学时，支撑课程目标1、2、3、4、5）    8.1 概述8.2 D/A转换器的电路结构和工作原理8.3 D/A转换器的转换精度和转换速度8.4 A/D转换器的电路结构和工作原理8.5 A/D转换器的转换精度和转换速度 ... ## 七、教材、参考文献与其他教学资源    1. 选用教材阎石 主编，数字电子技术基础（第六版），高等教育出版社，2016.  ## 2.参考文献    (1) Thomas, L. Floyd 著, 余璆, 熊洁 译, 数字电子技术 (第11版), 电子工业出版社, 2019.    (2)杨聪锟 著, 数字电子技术基础 (第二版), 高等教育出版社, 2019.    3. ... 4. ... https://www.icourse163. org/course/HUST- 1001909001 ... 各院系应有教学大纲修订的制度。上课前须按规定完成修订，并经院系专业负责人、教学院长批准并报教务处备案后公布大纲。 ... 教学日历须按教学大纲编制，任课教师可以在总学时不变的前提下根据具体情况适当调整某些章节的教学时数；可以调整参考资料（不能调整教材）；
+  snippet: 见考试大纲。 ## 七、教材、参考文献与其他教学资源 1. 选用教材阎石 主编，数字电子技术基础（第六版），高等教育出版社，2016. ## 2.参考文献 ... □专业课程</td></tr><tr><td>适用专业</td><td ... colspan="2">丁瑞</td></tr><tr><td>学时学分</td><td>学分...
+
+[3] |4|触发器|基本触发器、同步触发器、边沿触发器； 触发器的功能分类及转换；触发器逻辑 功能表示方法及转换；触发器的电气特 性
+  url: https://eelab.pzhu.cn/__local/F/38/4B/8D786F7A0FFFC49857AC5785E48_E851B7CF_34B844.pdf?e=.pdf#21#12
+  site: None  authority: 2  date: None
+  summary: 五、建议教材及教学参考书 ... 2、教学参考书 ... [2]阎石.数字电子技术基础（第六版）．北京：高等教育出版社，2016年.
+  snippet: 五、建议教材及教学参考书 ... 2、教学参考书 [1]数字电子技术MOOC 导学案（活页式）. ... 交通大学出版社，2022 年. [2]阎石.数字电子技术基础（第六版）．北京：高等教育出版社，2016年. [3]康华光.电子技术基础（数字部分）（第六版）．北京...
+
+[4] | 三    | 第三章 门电路    | 了解 CMOS 和 TTL 门电路的组成和工作原理；掌握分立门组成最佳的数字电路；理解两种门电路差别
+  url: https://zy.upln.cn/itemfiles/IM_KCJXDG/080601/IM_KCJXDG-10153-080601-1604021695-rzcwr.pdf#23#23
+  site: None  authority: 3  date: None
+  summary: 七、建议教材及教学参考书 推荐教材：阎石. 数字电子技术基础. 高等教育出版社, 2010. 主要参考书： 1. 康华光. 电子技术基础（数字部分）（第六版）. 高等教育出版社, 2016. 2. 田培成. 数字电子技术基础（第三版）. 机械工业出版社, 2018. 3. 阎石,王红. 数字电子技术基础学习辅导与习题解答（第六版）.
+  snippet: 七、建议教材及教学参考书 推荐教材：阎石. 数字电子技术基础. 高等教育出版社, 2010. ... 3. 阎石,王红. 数字电子技术基础学习辅导与习题解答（第六版）. 高等教育出版社...
+
+[5] 主要内容：半导体二极管门电路、CMOS门电路、三极管门电路、不同类型数字集成电路间的接口
+  url: https://zy.upln.cn/itemfiles/IM_KCJXDG/080701/IM_KCJXDG-10154-080701-1604413340-brpan.pdf#20#12
+  site: None  authority: 3  date: None
+  summary: 八、课程教材及主要参考书  1、建议教材 阎石主编. 数字电子技术基础（第六版）.高等教育出版社，2016 年 4 月。  2、主要参考书 张宝荣主编. 数字电子技术基础（第二版）. 电子工业出版社，2015 年 2 月。
+  snippet: 八、课程教材及主要参考书 1、建议教材 阎石主编. 数字电子技术基础（第六版）.高等教育出版社，2016 年 4 月。 2、主要参考书 ... 数字电子技术基础（第二版）.
+
+[6] 在学术交流中，应会从问题出发形成科学论据，评估证据，得出观点，并获得实验结论
+  url: https://jwc.fudan.edu.cn/_upload/article/files/d4/56/707002a8413b8a3cc690244c1118/16365b27-187d-4d83-87cc-1e1b97fe6230.pdf#25#15
+  site: None  authority: 3  date: None
+  summary: 第1周绪论3学时第2到第4周 实验一 书面报告9学时第5到第8周 实验二 口头报告12学时第9周 五一放假 3学时第10到12周 实验三 书面报告9学时第13周到16周 实验四 口头报告12学时实验共五个单元，学生选其中四个循环，每个循环选择一个实验，每个实验做三周。 ... 测量玻璃的折射率温度系数数字温度计的设计和制作液体表面张力的研究第四循环光栅光谱仪的应用光栅光谱仪的设计  ## 13. 核电子学    <table><tr><td>课程代码</td><td colspan="6">TCPH130004</td></tr><tr><td>课程名称</td><td colspan="6">核电子学（混合式教学）</td></tr><tr><td>英文名称</td><td colspan="6">Nuclear Electronics</td></tr><tr><td>学 分 数</td><td>3</td><td>周学时</td><td>3</td><td>授课语言</td><td colspan="2">中文</td></tr><tr><td>课程性质</td><td colspan="6">核工程与核技术专业 专业核心课程</td></tr><tr><td>教学目的</td><td colspan="6">通过本课程的学习，希望学生掌握核辐射探测与测量实验中常用电子学仪器设备的原理，学会运用最先进的电子学手段对信号进行分析处理。通过本课程的学习使学生为从事核相关研究打下坚实的基础。结合核电子学知识体系、学科发展史和国内现状，培养学生科学严谨的探索精神、精益求精的工匠精神，激发学生勇于开拓的创新意识，坚定学生产业报国的使命感。</td></tr><tr><td>基本内容简介</td><td colspan="6">核电子学课程范围比较广泛，本课程主要讲解核辐射探测与测量相关的核电子学。包括基本概念，核电子学信号的特点与分析处理的方法，以及所采用的技术，并对与核电子学相关的最新技术发展进行跟踪介绍。</td></tr><tr><td colspan="7">基本要求：<br>本课程面向核物理、核工程与核技术专业二年级学生，为专业必修课程。<br>1. 要求预修模拟电子技术、数字电子技术。<br>2. 包含23学时的线上学习，要求具备上网学习条件并熟练使用网络，能够在规定时间内独立完成线上学习任务。<br>3. 包含25学时的线下学习（不包含线下答疑和考试），涉及线下讨论、个人汇报等，要求能够积极参与团体活动。</td></tr><tr><td colspan="7">教学内容安排（（按54学时共18周计，线上23学时，线下31学时，包括考前答疑和期末考试）。<br>线下讨论课具体时间安排：均按照课程表上的地点上课，学时为2学时<br>第一周（绪论），第
+  snippet: </td></tr><tr><td colspan="7">基本要求：<br>本课程面向核物理、核工程与核技术专业二年级学生，为专业必修课程。<br>1. 要求预修模拟电子技术、数字电子技术。<br>2. ... \(\S 2.4\) 模拟电子技术、数字电子技术相关知识（自行学习）。
+
+[7] <table><tr><td>教学章节</td><td>知识点</td><td>思政元素案例</td><td>培养目标</td><td>备注</td></tr><tr><td>第零章 绪论</td><td>电子技术发展史</td><td>关注电子技术领域的...
+  url: https://xindian.sdust.edu.cn/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1474887737&wbfileid=4688739#49#10
+  site: None  authority: 3  date: None
+  summary: ## 七、建议教材及主要参考资料  ## 1.建议教材    [1]阎石.数字电子技术基础（第六版）.北京：高等教育出版社，2016.    ## 2.主要参考资料    [1]阎石、王红．数字电子技术基础学习辅导与习题解答[M].北京：高等教育出版社，2016.    [2]康华光．电子技术基础（数字部分）（第六版）[M].北京：高等教育出版社，2016.    [3]余孟尝．数字电子技术简明教程[M].北京：高等教育出版社，2006.
+  snippet: 1.建议教材 [1]阎石.数字电子技术基础（第六版）.北京：高等教育出版社，2016. ## 2.主要参考资料 [1]阎石、王红．数字电子技术基础学习辅导与习题解答[M].北京：高等教育出版社...
+
+[8] 核电子学基础：《模拟电子技术基础》（第三版），阎石编高等教育出版，1999年《数字电子技术基础》（第五版），阎石，高等教育出版社，2006年核辐射测量方法：《原子核物理实验方法》，复旦大学/清华大学/北京大学编，原子能出版社，1997年地球化学概论：《地球...
+  url: https://ces.cdut.edu.cn/2016shuoshi.pdf#12#11
+  site: None  authority: 3  date: None
+  summary: 核电子学基础：《模拟电子技术基础》（第三版），阎石编高等教育出版，1999年《数字电子技术基础》（第五版），阎石，高等教育出版社，2006年核辐射测量方法：《原子核物理实验方法》，复旦大学/清华大学/北京大学编，原子能出版社，1997年地球化学概论：《地球化学》，高等教育出版社，2004年铀矿床学：《铀矿地质与勘查简明教程》李巨初，陈友良，张成江，地质出版社，2011年辐射物理：《辐射物理》丁富荣，班勇，夏宗璜，北京大学出版社，2004年 ... ## 082703核技术及应用：    原子与原子核物理：《原子及原子核物理》，郭江赵晓凤彭直兴，国防工业出版社，2010年核电子学基础：《模拟电子技术基础》（第三版），阎石编，高等教育出版，1999年《数字电子技术基础》（第五版），阎石，高等教育出版社，2004年 ... ## 082704辐射防护及环境保护    核辐射测量方法：《原子核物理实验方法》，复旦大学/清华大学/北京大学编，原子能出版社，1997年核电子学基础：《模拟电子技术基础》（第三版），阎石编，高等教育出版，1999年《数字电子技术基础》（第五版），阎石，高等教育出版社，2006年    辐射防护：《高等电离辐射防护教程》，夏益华陈凌，哈尔滨工程大学出版社，2010年
+  snippet: 核电子学基础：《模拟电子技术基础》（第三版），阎石编高等教育出版，1999年《数字电子技术基础》（第五版），阎石，高等教育出版社，2006年核辐射测量方法：《原子核物理实验方法》...
+
+[9] <table><tr><td>2</td><td>中规模组合逻辑器件的设计与测试</td><td>支持课程目标1,2<br>基本要求:<br>1.掌握中规模集成译码器的逻辑功能和使用方法
+  url: https://dxxy.jit.edu.cn/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1489735943&wbfileid=6A2E19C4819B078BF728E7C4FCE2E5A9#51#10
+  site: None  authority: 2  date: None
+  summary: ## 七、教材及主要参考书目： ... [1] 阎石.《数字电子技术基础（第六版）》.北京:高等教育出版社,2016.
+  snippet: 七、教材及主要参考书目： 教材 ... 参考书目： [1] 阎石.《数字电子技术基础（第六版）》.北京:高等教育出版社,2016. [2] 康华光.《电子技术基础数字部分（第六版）》.北京...
+
+[10] <table><tr><td>序号</td><td>知知<br>识单<br>元</td><td>教学内容</td><td>学时<br>配</td><td>基本要求</td><td>课课<br>程目<br>标</td><td>教学方法与手段</td></tr...
+  url: https://dqxy.ccut.edu.cn/info/1166/6555.htm?_x_output_type_b6db407c4_=embedded_pdf#93#7
+  site: None  authority: 3  date: None
+  summary: <br>U1-2不同数制之间的转换。<br>U1-3二进制算数运算。<br>U1-4几种常用的编码。<br>思政设计与融入点：以钱学森、高为炳、杨嘉<br>娜事迹引入思政点，引起学生的对本门课程学<br>习的自豪感以及热爱国家的情怀，教导学生要<br>科技报国。</td><td>4学时</td><td>掌握数制的定义及各种<br>数制之间的转换方法，掌<br>握BCD码、格雷码等编<br>码方法，了解编码的一般<br>原则。</td><td>课课<br>程目<br>标1</td><td>讲授法<br>案例教学法<br>多媒体课件<br>作业反馈</td></tr><tr><td>22</td><td>教学<br>单元<br>U2</td><td>U2-1逻辑代数的三种基本运算。<br>U2-2逻辑代数的基本公式和常用公式。<br>U2-3逻辑函数及其描述方法。<br>U2-4逻辑函数的化简方法。<br>思政设计与融入点：以我校校友张立宪教授的<br>自身奋斗事迹为例，引导学生树立正确的人生<br>观和价值观。</td><td>6学时</td><td>掌握逻辑代数的三种基<br>本运算、三项基本定理、<br>基本公式和常用公式；掌<br>握逻辑函数的四种表示<br>方法及其相互之间的转<br>换；掌握逻辑函数的公式<br>化简法和图形化简法；</td><td>课课<br>程目<br>标1</td><td>讲授法<br>案例教学法<br>多媒体课件<br>专题讨论<br>作业反馈</td></tr><tr><td>33</td><td>教学<br>单元<br>U3</td><td>U3-1半导体二极管门电路。<br>U3-2CMOS门电路。<br>U3-3TTL门电路。<br>思政设计与融入点：以马兴瑞教授、孙家栋院<br>士以及黄强教授事迹引入，指导学生要以未来<br>绿色科学视角促进新时代国家发展。</td><td>6学时</td><td>理解半导体二极管开关<br>状态下的等效电路和外<br>特性；理解半导体三极管<br>（包括双极型和MOS型）<br>开关状态下的等效电路<br>和外特性；掌握TTL电路<br>的外特性及其应用；熟练<br>掌握CMOS电路的外特<br>性及其应用</td><td>课课<br>程目<br>标2</td><td>讲授法<br>案例教学法<br>多媒体课件<br>专题讨论<br>作业反馈</td></tr><tr><td>44</td><td>教学<br>单元<br>U4</td><td>U4-1组合逻辑电路的分析方法。<br>U4-2组合逻辑电路的基本设计方法。<br>U4-3若干常用的组合逻辑电路模块。<br>U4-4层次化和模块化的设计方法。<br>思政设计与融入点：以王子才院士、柴天佑院<br>士和崔平远教授为自动化领
+  snippet: 七、教材与参考书目 **教材：** 《数字电子技术基础》（第六版），阎石主编．高等教育出版社，2016． # 参考书目： ［1］《数字电子技术基础》（第十版），T.L.弗洛伊德．电子工业出版社...
+
+
+########## QUERY: 核电子学 数字多道 分析器 FPGA DSP 单独设课 课程 核技术 实验
+
+[1] 备注：理论课
+  url: https://ciae2.kmu.edu.tw/attachments/article/1847/附件二-本科課程中英文簡介.pdf#490#126
+  site: None  authority: 3  date: None
+  summary: 备注：理论课  Course Code: ... Total Hours: 64 Course Name: ... Credit: 4 Course Description: ... Textbook/Teaching material: ... 总学时：64 ... 考核方式：考查 ... After experiments, students are able to operate typical instruments correctly, such as  oscilloscope and pulse generator. Besides, students are expected to be aware of several kinds of nuclear electronics, such as preamplifier, linear amplifier, single channel analyzer, time-to-digital convertor as well as programmable logic device, including their principle and key technical parameters. Nuclear electronics theory would be mastered more firmly by practice. ... Nuclear electronics experiment, Sichuan University, Institute of Nuclear Science and Engineering Technology; Nuclear Electronics , Wangjingjin , Fantiianmin, Tsinghua University.  课程号：202070030 ... 先修课程：原子核物理学 ... 课程简介：核分析技术是一门现代分析技术，它是核技术应用中的一个重要领域，是核物理理论、核射线测量等知识在材料元素、缺陷和结构分析中的具体应用。其主要特点是灵敏度高、准确度好、分辨率高、破坏性低、多元素同时分析等，因此常可用于一般非核分析技术难以完成、甚至无法完成的分析鉴定工作，它在现代工业、生命、材料研究以及文物考古分析中日益显示出不可替代的作用。通过该门课程的学习，使学生了解和掌握各种核分析技术的原理、实验分析技术和实际应用，为学生将来从事核技术应用工作和材料无损分析奠定理论基础和实验技术能力。  推荐教材或主要参考书：《核分析技术》，核分析技术译文集. 胡晓丹等. 原子能出版社.2008年1月 ... 先修课程：原子核物理、核分析技术，反应堆工程导论 ... 课程简介：课程由一系列的专题讲座组成，主要有两部分构成：1. 非动力核技术在
+  snippet: 备注：理论课 Course Code: 202068040 Total Hours: 64 ... 课程号：202069040 总学时：64 先修课程：模拟电子技术基础 ... 202073040 课程名称：核技术基础 ... 普通物理 面向对象：本科生 ... 考试 任课教师：邓爱红 ... 大学物理，原子核物理，辐射探测与测量，核电子学 面向对象 ... 核技术专题实验
+
+[2] 在学术交流中，应会从问题出发形成科学论据，评估证据，得出观点，并获得实验结论
+  url: https://jwc.fudan.edu.cn/_upload/article/files/d4/56/707002a8413b8a3cc690244c1118/16365b27-187d-4d83-87cc-1e1b97fe6230.pdf#25#15
+  site: None  authority: 3  date: None
+  summary: ## 13. ... <table><tr><td>课程代码</td><td colspan="6">TCPH130004</td></tr><tr><td>课程名称</td><td colspan="6">核电子学（混合式教学）</td></tr><tr><td>英文名称</td><td colspan="6">Nuclear Electronics</td></tr><tr><td>学 分 数</td><td>3</td><td>周学时</td><td>3</td><td>授课语言</td><td colspan="2">中文</td></tr><tr><td>课程性质</td><td colspan="6">核工程与核技术专业 专业核心课程</td></tr><tr><td>教学目的</td><td colspan="6">通过本课程的学习，希望学生掌握核辐射探测与测量实验中常用电子学仪器设备的原理，学会运用最先进的电子学手段对信号进行分析处理。通过本课程的学习使学生为从事核相关研究打下坚实的基础。结合核电子学知识体系、学科发展史和国内现状，培养学生科学严谨的探索精神、精益求精的工匠精神，激发学生勇于开拓的创新意识，坚定学生产业报国的使命感。</td></tr><tr><td>基本内容简介</td><td colspan="6">核电子学课程范围比较广泛，本课程主要讲解核辐射探测与测量相关的核电子学。包括基本概念，核电子学信号的特点与分析处理的方法，以及所采用的技术，并对与核电子学相关的最新技术发展进行跟踪介绍。</td></tr><tr><td colspan="7">基本要求：<br>本课程面向核物理、核工程与核技术专业二年级学生，为专业必修课程。<br>1. 要求预修模拟电子技术、数字电子技术。<br>2. 包含23学时的线上学习，要求具备上网学习条件并熟练使用网络，能够在规定时间内独立完成线上学习任务。<br>3. 包含25学时的线下学习（不包含线下答疑和考试），涉及线下讨论、个人汇报等，要求能够积极参与团体活动。</td></tr><tr><td colspan="7">教学内容安排（（按54学时共18周计，线上23学时，线下31学时，包括考前答疑和期末考试）。<br>线下讨论课具体时间安排：均按照课程表上的地点上课，学时为2学时<br>第一周（绪论），第三周（预备知识），第四周（前放），第六周（主放），第七周（时变和非线性电路），第九周（幅度分析），第十一周（时间分析），第十三周（数据获取系统），第十四周（实验），第十五周（实验），第十六周（实验）</td></tr></table> ... 第一章绪论（2学时：线下，老师主讲）（核电子学发展史，科学精神：学科交融、创新意识；大型集装箱检测，国家意识：产业报国； ... \(\S 1.1\)
+  snippet: 13. ... 要求预修模拟电子技术、数字电子技术。<br>2. ... 4学时，线上，视频+自测；2学时 ... \(\S 8.2\) 脉冲幅度多道分析器。 第九章 核电子学仪器中的标准（1学时 ... 核技术综合实验</td></tr><tr><td>教学方式</td><td
+
+[3] 目录
+  url: https://wap.cnki.net/touch/web/Dissertation/List/1017295486.nh.html
+  site: 手机知网  authority: 3  date: None
+  summary: 第一章 引言 1.1 核电子学的形成与发展 1.2 开设核电子学实验的意义 1.3 核电子学教学实验现状 1.4 本论文研究内容 第二章 实验安排和内容介绍 2.1 核电子学实验安排 2.2 主要实验介绍 2.2.1 传输线 2.2.2 快放大器性能测试 2.2.3 模数变换器(ADC)的特性测试 2.2.4 多道分析仪的使用和非线性测量 2.2.5 数字成形与模拟成形性能测试对比 2.2.6 时间定时性能测试 2.2.7 时间数字变换器(TDC)性能测试 2.3 本章小结 第三章 实验平台系统设计 3.1 基于FPGA的可重构技术路线 3.2 实验平台框架 3.3 硬件电路设计 3.3.1 信号输入电路 3.3.2 数字化 3.3.3 逻辑运算电路 3.3.4 输出控制电路 3.4 功能算法设计 3.4.1 功能算法介绍 3.4.2 数字成形算法 3.5 实验平台交互设计 3.5.1 软件设计需求与虚拟仪器 3.5.2 实验与软件交互设计 3.6 本章小结 第四章 教学应用 4.1 快放大器性能测试实验 4.2 多道分析仪使用和非线性测量实验 4.3 时间数字变换器(TDC)性能测试实验 4.4 本章小结 第五章 总结展望 5.1 工作总结 5.2 未来工作展望
+  snippet: 2.2.4 多道分析仪的使用和非线性测量 2.2.5 数字成形与模拟成形性能测试对比 ... 3.1 基于FPGA的可重构技术路线 ... 4.1 快放大器性能测试实验 4.2 多道分析仪使用和非线性测量实验 4.3 时间数字变换器(TDC)性能测试实验
+
+[4] Testi del Syllabus
+  url: https://moodle2.units.it/pluginfile.php/744944/mod_resource/content/4/Syllabus-LACD-2024-2025-Mod-LinguaInsegnamentoItaliano.pdf#1#1
+  site: None  authority: 3  date: None
+  summary: 2024/2025 ... 986SM - LABORATORIO ACQUISIZIONE E CONTROLLO DATI ... SM23 - FISICA ... FIS/01 ... B - Caratterizzante ... Secondo Semestre ... ### Contenuti (Dipl.Sup.)   - Cenni di logica booleana; logica nell'elettronica; segnali logici NIM, TTL, ECL   - Strumenti di trattamento dei segnali (Discr., coinc., CFTD, ...)   - Strumenti di acquisizione dei segnali: TAC, ADC, TDC   - Applicativi per analisi dati in ambiente C++: Root   - Applicativi per il controllo e l'acquisizione dati: ... - Sistemi elettronici d'acquisizione dati: VME   ### Testi di riferimento   W.R.Leo, TEchniques for Nuclear and Particle Physics Experiments, Spinger-Verlag   ### Obiettivi formativi   Nel corso, dopo una breve introduzione sulla logica booleana, sui segnali logici e sull'uso dell'oscilloscopio, ci si concentra sull'uso di elettronica modulare NIM e VME per il trattamento di segnali analogici e logici (ad esempio discriminatori, contatori, coincidenze, ritardi, ecc), l'acquisizione ed il controllo dei dati, sui software Labview per l'acquisizione e Root per l'analisi dati. Per mettere in pratica le conoscenze così acquisite, gli studenti costruiscono un setup sperimentale per misurare i tempi di vo
+  snippet: W.R.Leo, TEchniques for Nuclear and Particle Physics Experiments, Spinger-Verlag ... Nel corso, dopo una breve introduzione sulla logica booleana ... TAC, ADC, TDC<br/>- Applicativi per analisi dati in ambiente C++ ... TEchniques for
+
+[5] | 5   | 缓发伽马射线中子活化法分析    | 4    | (1)掌握缓发伽马射线中子活化分析技术的基本原理    | 综合性    | (4) ~(5) 选作一个 |
+  url: http://www.graduate.nuaa.edu.cn/_upload/article/files/69/3d/dc5cf35347c280abe33ec89e7e50/823557cb-96cc-48c8-bfca-4a26c1664e78.pdf#25#20
+  site: None  authority: 3  date: None
+  summary: 二、主要教材、参考书： ... 三、考核方式：考查  四、使用主要仪器设备说明：  | 序号 | 仪器设备名称    | 说明    | ... 南京航空航天大学研究生课程（70类）教学大纲  课程编号：7C060007 课程名称：核探测与核电子学实验 英文名称：Experiment of Nuclear Detection and Electronics  开课单位：材料科学与技术学院 课程总学时：16 适用专业：核技术及应用 预修课程：核辐射探测学、核电子学  课程总学分：1 开课学期：秋 ... 一、实验项目与内容：  | 序号 | 实验项目    | 学时 | 实验目的及主要内容    | 实验类型 | 备注 | |---|---|---|---|---|---| | 1   | γ能谱的测量    | 4    | (1)了解NaI闪烁体探测器的工作原理；(2)掌握各种NIM插件的工作原理和使用方法，包括高压电源、低压电源、线性放大器、单道脉冲幅度分析器、定标器等；(3)使用单道脉冲幅度分析器测量γ能谱；(4)使用一体化多道测量γ能谱；(5)对测得的γ能谱进行能量刻度，掌握核素识别方法；(6)测量探测器的能量分辨率。    | 综合性    |    | | 2   | 不同材料对γ射线吸收系数的测定 | 4    | (1)了解物质对γ射线吸收的基本原理；(2)掌握智能定标器的使用方法；(3)测定不同材料对γ射线的线性吸收系数；(4)掌握不同材料对γ射线屏蔽性能的评价方法。    | 综合性    |    | | 3   | 基本运算电路    | 2    | (1)掌握信号发生器和示波器的使用方法；(2)掌握核电子学器件供电电源和万用表的使用方法；(3)搭建并测试中基本运算电路，包括反相比例运算、同相比例运算、反相求和、同相求和、差分运算、微分、积分。    | 综合性    |    | | 4   | 前置放大器    | 2    | (1)了解电荷灵敏前置放大器的工作原理；(2)搭建电荷灵敏前置放大器电路；(3)测试前置放大器电路性能。    | 综合性    |    | | 5   | 线性放大器    | 2    | (1)了解线性放大器的工作原理；(2)搭建线性放大器电路；(3)测试线性放大器电路性能。    | 综合性    |    | | 6   | 单道脉冲幅度分析器    | 2    | (1)了解单道脉冲幅度分析器的工作原理；(2)搭建单道脉冲幅度分析器电路；(3)测试单道脉冲幅度分析器电路性能。    | 综合性    |    | ... 1. 《核辐射探测实验》讲义； 2. 《核电子学实验》讲义。 ... | 序号 | 仪器设备名称    | 说明    | |---|---|---| | 1   | 
+  snippet: 综合性 | (4) ~(5) 选作一个 | 二、主要教材、参考书 ... 三、考核方式：考查 四、使用主要仪器设备说明： | 序号 | 仪器设备名称 | 说明 | ... 核探测与核电子学实验
+
+[6] 目 录
+  url: https://oese.suda.edu.cn/_upload/article/files/f3/d8/9d109e7346949dea03e11c823b08/82bb577d-9aac-455f-af41-9aa439417fb1.pdf#5#1
+  site: None  authority: 3  date: None
+  summary: MPHY1012《核电子学与核探测方法》实验课程教学大纲 … ... 课程代码：MPHY1012    课程学分：2.5  课程名称（中/英）：核电子学与核探测方法/  Nuclear Electronics and Nuclear Experimental Methods  课程学时：54    实验学时：18  适用专业：放射医学（医学物理方向）  实验室名称：放射医学实验室  一、课程简介  本课程分三部分：医用电子学基础、常用核电子学仪器原理、常用核测量方法。医用电子学基础主要讲授基本晶体管放大电路、差分放大器和集成运算放大器及应用、稳压电源、数字组合逻辑电路、数字时序电路、脉冲产生与变换电路。核电子学仪器部分主要讲授放大器、单（多）道谱仪、定时甄别器、定标器；测量方法主要讲授：低水平放射性测量方法与仪器、符合测量方法与仪器、吸收剂量测量方法与仪器。通过本课程的学习掌握医用电子学基本电路的原理、分析和设计方法。熟悉常用核电子学仪器原理和功能。掌握核辐射测量的常用方法和技术。  二、实验项目及学时分配  | 序号 | 项目名称    | 实验类型   | 学时分配 | 每组人数 | 必修/选修 | |---|---|---|---|---|---| | 1    | 射极输出器    | 综合性    | 3    | 3    | 必修/必修 | | 2    | 高压电源    | 综合性    | 3    | 3    | 必修/必修 | | 3    | 单道脉冲幅度分析器 | 综合性    | 3    | 3    | 必修/必修 | | 4    | Naly计数器组装、测试 | 综合性、设计性 | 3    | 3    | 必修/必修 | | 5    | γ-γ符合测量“Co源活度” | 综合性、设计性 | 3    | 3    | 必修/必修 | | 6    | 吸收剂量测量    | 综合性、设计性 | 3    | 5    | 必修/必修 |  三、实验内容及教学要求  实验项目1：射极输出器  1.教学内容 学习万用表、信号发生器和示波器的使用；学习射极跟随器的工作原理和组成电路；测试射极跟随器电路的性能。 2.教学目标 （1）了解射极跟随器的工作原理和组成电路。 （2）熟悉射极跟随器电路的特性。 （3）掌握使用万用表、示波器方法和测试射极跟随器电路的性能指标的方法。  实验项目2：直流高压电源 ... 学习直流高压电源的工作原理、电路组成，倍压整流工作原理；测试直流高压电源 ... （1）了解直流高压电源的工作原理，倍压整流工作原理。 （2）熟悉直流高压电源的组成电路。 （3）掌握直流高压电源的性能和测量方法。  实验项目3：单道脉冲幅度分析器 ... 单道脉冲幅度分析器的工作原理、组成框图和实际电路；测试单道脉冲
+  snippet: MPHY1012《核电子学与核探测方法》实验课程教学大纲 ………1 ... 核电子学仪器部分主要讲授放大器、单（多）道谱仪、定时甄别器、定标器 ... 1.教学内容 ... 2.教学目标
+
+[7] 《核辐射探测器与核电子学》课程实验大纲
+  url: https://www.cdut.edu.cn/__local/8/4B/F2/D0C83AEA38CC6D7DDDFDED22B0D_5201A843_3D6F4.pdf?e=.pdf#1#1
+  site: None  authority: 3  date: None
+  summary: # 《核辐射探测器与核电子学》课程实验大纲    General Experiment Outline of Nuclear Detector and Nuclear Electronics    课程类别：专业必修课    课程学时：64课时    实验学时：24课时（其中，验证型实验4学时，设计性及综合性实验20学时）    适用专业：核工程与核技术本科专业    编写人员：赖万昌 ... 编写年月：2003年9月    修订年月：2006年11月    ## 三、 课程实验的地位、作用和目的    “核辐射探测器与核电子学”是“核工程与核技术”本科专业的主干专业课程之一，本实验课程是“核辐射探测器与核电子学”课程的重要组成部分，是“核工程与核技术”本科专业学生的必修课程。    本实验课程主要是让学生熟悉、掌握核辐射探测器的工作特点、工作过程、波形特征，掌握核电子学基本单元电路的调试方法、过程、步骤，掌握各项性能指标的测量、评价方法以及有关测量工具的使用。通过本实验课程的学习，使学生加深对理论课学习的理解，培养学生的动手能力，加强学生思考问题和解决问题的能力。并让学生获得一定的核辐射测量仪器的设计制作、安装调试、检查维护的能力，为学生从事本专业以及相关领域的科学技术工作奠定良好的基础。    本课程适用于核工程与核技术本科专业，总课时64，授课40，实验24课时。    实验内容分为8个实验（6个必需，2个选修），供主讲教师进行选择。    实验1：核辐射探测器的认识实验2：GM计数器的特征参数测试与分析实验3：闪烁计数器输出信号的测试与分析实验4：半导体探测器的能量分辨率测试与分析（选修）实验5：线性脉冲放大器的参数设计与测定实验6：单道脉冲幅度分析器参数的测试与分析实验7：脉冲峰值保持器的电路分析实验8：多道脉冲幅度分析器的电路分析（选修） ... 《核辐射探测器与核电子学》课程的总成绩由理论考试成绩、平时作业与实验课成绩等3部分组成。总成绩为百分制评分。 ... 理论考试成绩占： \(70\%\) 实验课成绩占： \(20\%\) ... 理论考试成绩通过闭卷考试方式评定。平时成绩由每次作业完成情况或课堂表现评定。  实验课成绩则根据实验报告完成情况和实验课上的表现为依据加以评定。    每次实验报告满分为10分。依据实验态度、纪律以及所提交实验报告的情况，按优（10分）、良（8分）、中（7分）、及格（6分）、不及格（5分）给以评分。    ## 五、 课程实验要求    <table><tr><td>序号</td><td>项目名称</td><td>实验课时</td><td>内容提要</td><td>教学要求<br>(了解观察、熟悉、掌握、熟练掌握及运用等)</td><td>实验类别</td><td>实验方式</td><td>适用专业</td><
+  snippet: 多道脉冲幅度分析器的电路分析（选修） ... </td><td>核工程与技术</td><td>必修 ... </td><td>设计性</td><td>在教师指导下独立完成,每人编写一份实验报告 ... </td><td>核工程与核技术</td><td>必修</td></tr><tr><td>8</td><td>多道脉冲幅度分析器的电路分析</td><td>4</td><td>认识多道脉冲幅度分析器的电路组成和工作过程。
+
+[8] <table><tr><td>Sr
+  url: http://hbni.ac.in/pdf/posop.pdf#662#605
+  site: None  authority: 3  date: None
+  summary: <table><tr><td>Sr. No.</td><td>Name of the Course</td><td>Course code</td></tr><tr><td>1</td><td>VivaVoce-I&amp;amp; VivaVoce-II</td><td>EN591</td></tr><tr><td>2</td><td>Practicals</td><td>EN592</td></tr><tr><td>3</td><td>MiniProject</td><td>EN593</td></tr></table> ... SVM</td></tr><tr><td>Data Mining Technologies</td></tr><tr><td>Understanding Reinforcement Learning and Dynamic Programming</td></tr><tr><td rowspan="4">Digital Signal Processing &amp;amp; Image Processing</td><td rowspan="4">EN706</td><td>Understanding Digital Signal Processing Techniques</td></tr><tr><td>Understanding Fourier Transforms, FFT, Digital Filters and Applications</td></tr><tr><td>Understanding Image Processing Techniques</td></tr><tr><td>Understanding Image Compression Techniques</td></tr><tr><td rowspan="2">Embedded Electronics Software</td><td rowspan="2">EN707</td><td>Understanding Digital System Design Flows and EDA/SE Tools</td></tr><tr><td>Understanding Real time System Task Models</td></tr></table> ... Machine Vision</td><td rowspan="4">EN710</td><td>Understanding techniques for<br>Image Processing and<br>Morphological Operations</td></tr><tr><td>Understanding Image Models<br>for Machine Vision</
+  snippet: LQR, Ricati Equation</td></tr><tr><td ... rowspan="4">EN706</td><td>Understanding Digital Signal Processing Techniques</td></tr><tr><td>Understanding Fourier Transforms, FFT, Digital Filters and Applications</td></tr><tr><td>Understanding ... Software</td><td rowspan="2">EN707</td><td>Understanding ... rowspan="4">Signal Conditioning ... Computer Based System Design I</td><td>EN612</td></tr><tr><t
+
+[9] |6 - 7|Амплитудный анализ Структура амплитудного анализатора
+  url: https://eis2.mephi.ru/programs/Program/File?fileId=8987e5a1-c874-40da-9d0c-d736398dee8c#3#2
+  site: None  authority: 3  date: None
+  summary: |6 - 7|Амплитудный анализ Структура амплитудного анализатора. Методы работы "по живому времени". Методы кодирования амплитуд импульсов (амплитудно-цифровые преобразователи)||Всего аудиторных часов||| ... |8|Временной анализ Методы временного анализа и временной селекции. Методы формирования точной временной отметки. Особенности формирования временной отметки для детекторов различных типов. Временное разрешение различных типов детекторов||Всего аудиторных часов||| ... |9-16|Второй раздел||8|8|8| |9 - 10|Методы совпадений и антисовпадений Основные параметры схем совпадений. Выбор оптимального разрешающего времени. Классификация и конструктивные особенности схем совпадений. Мажоритарные схемы совпадений. Особенности метода и схем совпадений.||Всего аудиторных часов||| ... |11|Методы кодирования временных интервалов Методы временного анализа. Метода аналогового преобразования и кодирования временных интервалов. Метод времени пролета. Методы время-координатной компенсации||Всего аудиторных часов||| ... |12|Многопараметровый анализ Особенности кодирования информации в||Всего аудиторных часов||| ... ||многодетекторных системах|Онлайн||| |---|---|---|---|---| |13|Дискриминация частиц по фо
+  snippet: 7|Амплитудный анализ Структура амплитудного анализатора. ... многодетекторных системах: Системы сбора информации в многодетекторных системах Системы сбора и обработки информации в многодетекторных системах. Триггер эксперимента; Онлайн: Всего аудиторных часов ... Недели: 12; Темы занятий / Содержание: Многопараметровый анализ Особенности кодирования информации в многодетекторных системах
+
+[10] Verifica e collaudo in laboratorio del progetto
+  url: http://www.fisica.unina.it/documents/12375590/13175418/2017-18+e+succ._Regolamento_LMF.pdf/1fd704ec-d339-435b-b051-53dec3853e38#18#15
+  site: None  authority: 3  date: None
+  summary: Esami propedeutici: ... Prerequisiti: ... Insegnamento: ... CFU: 8   Tipologia attività formativa: ... Obiettivi formativi: ... Programma sintetico: ... Reazioni nucleari: leggi di conservazione, cinematica e trasformazioni laboratorio-CM.   Teoria classica della diffusione. ... Per affrontare in modo adeguato questo corso lo studente deve possedere una preparazione adeguata di base (fisica classica ed analisi infinitesimale), una buona conoscenza dei fondamenti della meccanica quantistica e della fisica moderna. ... Esame orale. ... REAZIONI NUCLEARI ... FIS/01 FIS/04 ... Il corso intende fornire allo studente un quadro di base della teoria quantistica della diffusione e della sua applicazione al caso delle collisioni nucleo-nucleo. Sebbene questo non sia un corso di metodologia o tecniche sperimentali, si fa ampio riferimento agli esperimenti ed ai risultati delle misure. Lo studente alla fine del corso deve essere in grado di individuare le fasi sperimentali di una reazione nucleare, interpretarne i risultati e comprendere l'informazione contenuta nei grafici. ... Teoria quantistica e sviluppo in onde parziali: ampiezza di diffusione e sezione d'urto, sfasamenti, lunghezza di di
+  snippet: Esami propedeutici: Elettronica Digitale ... Obiettivi formativi ... Programma sintetico ... leggi di conservazione, cinematica e trasformazioni laboratorio-CM. ... Esame orale. ... Il corso intende fornire allo studente un quadro di base della teoria quantistica della diffusione e della sua applicazione al caso delle collisioni nucleo-nucleo.

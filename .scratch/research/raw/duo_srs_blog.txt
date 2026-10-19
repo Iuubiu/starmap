@@ -1,0 +1,157 @@
+What Is Spaced Repetition, and Why Is It Good for Learning?
+SUBJECTS
+SUBJECTS
+Language
+Chess
+Math
+Music
+INSIDE DUOLINGO
+Announcements
+Design
+Engineering
+Product
+Life at Duolingo
+SITE LANGUAGE
+Deutsch
+English
+Español
+Français
+Português
+日本語
+한국어
+December 26, 2023
+Elizabeth Onstwedder, M.S.
+Dear Duolingo: Why is spaced repetition so important for learning?
+Do we have to say it again?! 😉 Here’s why your brain needs repetition.
+December 26, 2023
+Elizabeth Onstwedder, M.S.
+Welcome to another week of Dear Duolingo, an advice column just for learners. Catch up on past installments
+here
+.
+Hi learners! I’m Elizabeth, and I’m taking over Dear Duolingo again this week—I previously
+shared tips for studying grammar
+. This week’s question is more general and covers grammar
+and
+vocabulary, and it’s one I think about a lot as I work on Duolingo’s practice lessons!
+Our question this week:
+Oh, One and Done, I think that’s a really common sentiment—I’ve definitely felt it before, too! Learning is all about building connections between what we already know and new information, which involves paying attention to that information and getting it into short-term and long-term memory. Keeping it in long-term memory is where
+spaced repetition
+comes in.
+We probably all know what regular repetition is, and spaced repetition is a special kind of repeating that takes advantage of how our brain builds connections (and how those connections get weaker).
+💡
+Spaced repetition is a way of reviewing information in a spaced out way to help you remember it better.
+What is spaced repetition and how does it work?
+Spaced repetition is inspired by the
+forgetting curve
+, which the psychologist Ebbinghaus came up with. He tested his memory on made-up syllables, and noticed that as more time passed,
+he forgot more and more of the syllables
+. This is pretty intuitive, like when you can remember a new phone number for a few minutes but forget it the next day.
+Research shows spaced repetition is beneficial for many kinds of content: new vocabulary words, grammar, math concepts, and motor skills, to name a few. So spaced repetition can help you no matter what you’re learning!
+Why is spaced repetition good for learning?
+Spaced repetition improves your
+long term memory
+. It’s easy to forget information if you haven’t used it in a while, but periodically reviewing it helps you make it stick. The interesting thing is that it doesn’t just matter
+how many times
+you review it—it also matters
+when
+you review it.
+For example, say you need to study for a Spanish test. Drilling each word 20 times the night before might get you through the test, but those words will likely fade fast afterwards! (Not that I’d know this from personal experience, of course… 😅) Instead, give spaced repetition a try, and practice each word 4 times a day for 5 days. You’ll still practice each word 20 times, but spacing it out over several days makes it more likely they’ll stick around longer. As you get to know the words better over time, they’ll stay in memory longer after each review, so you can include more and more space between your practice sessions. To get the biggest benefit, you should aim to practice things right before you’re about to forget them—that really helps fortify the connections between ideas in your brain.
+Because spaced repetition means learning information over time, it doesn’t necessarily result in better
+immediate
+learning! At first it might even feel like there’s no difference. But stick with it, and you’ll remember things better in the long term.
+Spaced repetition is built into your Duolingo lessons:
+At the end of a lesson, you’ll review any mistakes you made. We wait until the end of the lesson to take advantage of a little spaced repetition!
+In our language courses, the personalized practice lessons use spaced repetition (along with accuracy) to select which words and grammar you’ll review. So as you progress through your course, you’ll review information from throughout the learning path.
+We’ll be making even more improvements to how we use spaced repetition in the coming months, so stay tuned!
+How to use spaced repetition to make your learning stick
+Here are a few tips for applying spaced repetition to your own learning.
+Space out your learning…
+Instead of one bigger block of studying, break up your studying into multiple smaller chunks with some space between them.
+… and increase the spacing over time
+Remember, review newer information more frequently, and older information less frequently. For example, if you’re trying to memorize your favorite
+new Dua Lipa song
+, try listening to it every morning at first, then every other morning, then twice a week, and so on.
+Review harder concepts sooner
+As you practice, you’ll want to consider how well you know the concept, as well as when you last reviewed it. Review things you got wrong sooner, and you can wait a little longer to review concepts you got right.
+Keep it active!
+Spaced repetition works best when paired with
+active recall
+. This means practicing by trying to
+recall
+the information (retrieving it from your own memory), rather than doing something less active like re-reading or watching a video. To put this into practice (heh) you could answer some review questions and then check your answers. If you’re using flashcards, make sure you try to remember the answer yourself before peeking at the back. Or even better, have a friend test you! That way you won’t be able to cheat 😉 and it’ll be more fun, so you’ll be
+more motivated
+.
+We’ll say it again: Repetition is important!
+Spaced repetition is easy to incorporate into your own study plan, and in your Duolingo courses, you can leave that work to me!
+For more answers to your language and learning questions, get in touch with us by emailing
+dearduolingo@duolingo.com
+.
+TAGS
+Learning
+Dear Duolingo
+Language
+Math
+Music
+Duolingo 101
+Efficacy
+Brain
+Vocabulary
+Chess
+SHARE ARTICLE
+RELATED ARTICLES
+RELATED ARTICLES
+About us
+Courses
+Mission
+Approach
+Efficacy
+Team
+Research
+Careers
+Brand guidelines
+Press
+Investors
+Contact us
+Products
+Duolingo
+Duolingo English Test
+Duolingo for Business
+Super Duolingo
+Store
+Apps
+Duolingo Apps
+Duolingo for Desktop
+Duolingo for Android
+Duolingo for iOS
+Help and support
+Duolingo FAQs
+Duolingo English Test FAQs
+Status
+Privacy and terms
+Community guidelines
+Terms
+Privacy
+Respecting your "do not sell my personal information" rights
+Social
+Blog
+Instagram
+Facebook
+YouTube
+TikTok
+LinkedIn
+X
+Site language:
+Deutsch
+English
+Español
+Français
+Português
+日本語
+한국어
+©2026 Duolingo. All rights reserved.
+About us
+Press
+Careers
+Help and support
+Privacy and terms
+©2026 Duolingo. All rights reserved.

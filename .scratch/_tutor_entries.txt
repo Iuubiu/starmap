@@ -1,0 +1,321 @@
+matched: 24
+============================================================
+n: dsh-plugin-lookatstudy
+o: kaiji-z
+c: knowledge
+t: deepseek-harness / dsh-plugin / learning / spaced-repetition / tutor
+f: 导入学习仓库 / 概念掌握追踪 / 间隔重复复习 / 考试与星级评分 / 学习标签页界面
+d: dsh-plugin-lookatstudy 将任意 Markdown、文件夹或 GitHub 学习仓库转化为 DeepSeek Harness 中的 AI 导师课程，支持概念掌握追踪、间隔重复与考试模式。
+r: {"repo": "kaiji-z/dsh-plugin-lookatstudy", "npmPackage": "dsh-plugin-lookatstudy"}
+v: verified
+u: 2026-10-06T14:12:19Z
+a: 2026-08-22
+sg: 20
+fk: 3
+============================================================
+n: dsh-deeptutor
+o: tecfancy
+c: knowledge
+t: agent / deepseek-harness / deeptutor / dsh / dsh-plugin / llm / rag / tutoring
+f: 深度讲解 / 自测题生成 / 学习路径规划 / 知识库检索 / 笔记归档
+d: 为 DeepSeek Harness 接入 DeepTutor 辅导能力，提供深度讲解、自测题、学习路径规划、个人知识库检索（RAG）与笔记归档，让 agent 化身学习助手。
+r: {"repo": "tecfancy/dsh-deeptutor", "npmPackage": "dsh-deeptutor"}
+v: verified
+u: 2026-08-29T06:36:45Z
+a: 2026-08-15
+sg: 5
+fk: 2
+============================================================
+n: dsh-educoder
+o: isheng-eqi
+c: workflow
+t: automation / cordis / deepseek-harness / dsh / dsh-plugin / educoder
+f: 全量扫描未完成作业 / 选择题零 token 收割答案 / 代码题自动生成并评测 / 会话缓存与账号自检
+d: 头歌（EduCoder）作业自动化 DSH 插件，全量扫描账号内未完成作业并一次做完；选择题零 token，仅代码题调用模型。
+r: {"repo": "isheng-eqi/dsh-educoder", "npmPackage": "dsh-educoder"}
+v: verified
+u: 2026-10-09T07:51:43Z
+a: 2026-10-11
+sg: 4
+fk: 1
+============================================================
+n: dsh-edu
+o: 1vewton
+vr: v0.1.0
+c: tools
+t: dsh-plugin
+f: 可切换的会话教学模式 / 自动搜集权威资料源 / 课程笔记与测验记录落盘 / 测验判分并补讲错题 / 模块进度跨会话持久化
+d: 为 DeepSeek Harness 提供教育模式：DSH 插件会搜集权威资料、系统讲解知识点、写入课程笔记并用测验检验你的理解。
+r: {"repo": "1vewton/dsh-edu", "npmPackage": "dsh-edu-mode"}
+v: verified
+u: 2026-09-12T09:17:54Z
+a: 2026-09-13
+sg: 3
+fk: 0
+============================================================
+n: dsh-study-coach
+o: ame-choo
+vr: v0.1.0
+c: knowledge
+t: deepseek-harness / dsh / dsh-plugin
+f: 知识地图三层拆解 / 掌握度证据与错题记录 / 每日任务与番茄钟 / 八页网页面板看进度 / 21 个 study_* 工具
+d: DSH 学习教练插件，把一门课拆成知识地图，逐单元记录掌握度、排每日任务，并提供 /study 网页面板查看进度。
+r: {"repo": "ame-choo/dsh-study-coach", "npmPackage": "dsh-study-coach"}
+v: verified
+u: 2026-10-14T14:00:18Z
+a: 2026-10-02
+sg: 3
+fk: 1
+============================================================
+n: dsh-knj-scheduler
+o: yangdongzhen590
+c: tools
+t: dsh-plugin
+f: Cron 定时新建会话 / 注入提示词执行 / 分页执行历史 / 一键打开会话 / 防重入自动跳过
+d: DSH 定时任务调度插件，按 Cron 自动新建会话并注入提示词执行，支持分页历史与一键打开会话。
+r: {"repo": "yangdongzhen590/dsh-knj-scheduler", "npmPackage": "dsh-scheduler"}
+v: verified
+u: 2026-09-27T16:48:50Z
+a: 2026-08-27
+sg: 2
+fk: 0
+============================================================
+n: dsh-schedule-later
+o: adithyanraj03
+vr: v0.6.0
+c: tools
+t: deepseek-harness / dsh / dsh-plugin / reminder / schedule
+f: 消息框内定时发送按钮 / 跨会话待发消息侧栏面板 / 主机端按时投递，关页也生效 / 三个模型工具可自主排期 / schedule-later 技能指导排期
+d: 为 DSH 聊天加入定时发送：消息框内的日期时间选择器、跨会话待发面板，由主机进程按时投递，模型也可自行安排回访。
+r: {"repo": "adithyanraj03/dsh-schedule-later", "npmPackage": "dsh-schedule-later"}
+v: verified
+u: 2026-09-24T21:02:09Z
+a: 2026-09-27
+sg: 2
+fk: 0
+============================================================
+n: dsh-socrates
+o: cruciforms
+c: tools
+t: cordis / deep-research / deepseek-harness / dsh-plugin
+f: 调查前澄清提问 / 自适应多轮研究 / 交叉验证与引用审计 / 学术三源检索 / 模型分层降本
+d: dsh-socrates 是 DeepSeek Harness 的深度研究插件，采用苏格拉底式澄清、自适应多轮研究、交叉验证与引用闭环，产出带证据的报告。
+r: {"repo": "cruciforms/dsh-socrates", "npmPackage": "dsh-socrates"}
+v: verified
+u: 2026-08-20T15:10:27Z
+a: 2026-08-27
+sg: 2
+fk: 0
+============================================================
+n: dsh-trajectory-teacher
+o: xiaomodern
+c: tools
+t: dsh-plugin
+f: 轨迹转复盘报告 / 自动提炼决策点 / 识别踩坑与教训 / 总结可复用做法 / 支持脱敏与成本控制
+d: DSH plugin，将Agent执行轨迹自动转为结构化复盘报告，提炼决策点、踩坑与可复用做法，助力开发复盘。
+r: {"repo": "xiaomodern/dsh-trajectory-teacher", "npmPackage": "dsh-trajectory-teacher"}
+v: verified
+u: 2026-08-18T01:28:47Z
+a: 2026-08-27
+sg: 2
+fk: 0
+============================================================
+n: dsh-bundle-dedup-guard
+o: lstalu
+c: dev
+t: bundle / deepseek-harness / diagnose / dsh / dsh-plugin / duplicate / guard / loader / profile
+f: 检测重复加载器ID / 审计插件环境 / 预防启动崩溃 / 提供修复命令
+d: DSH plugin guard 在每次插件加载时捕获重复的 loader entry id，防止启动崩溃，并审计整个插件环境。
+r: {"repo": "lstalu/dsh-bundle-dedup-guard", "npmPackage": "dsh-bundle-dedup-guard"}
+v: verified
+u: 2026-08-21T14:42:27Z
+a: 2026-08-18
+sg: 1
+fk: 0
+============================================================
+n: dsh-diagnostic-tutor
+o: senmuuuuw
+vr: v0.1.0
+c: tools
+t: ai-education / ai-tutor / deepseek-harness / dsh-plugin / learning / typescript
+f: 诊断地图逐节点生成 / 侧边栏课程与对话同屏 / 聊天内答题并记录证据 / 导师决定并推送下一步
+d: 面向 DeepSeek Harness 的诊断式学习运行时插件，在右侧边栏生成诊断地图与课程，边学边测并给出下一步学习建议。
+r: {"repo": "senmuuuuw/dsh-diagnostic-tutor", "npmPackage": "dsh-diagnostic-tutor"}
+v: verified
+u: 2026-10-16T03:57:50Z
+a: 2026-09-27
+sg: 1
+fk: 0
+============================================================
+n: dsh-math-thinking-teacher
+o: ningbonb
+c: tools
+t: deepseek-harness / dsh-plugin
+f: 可选数学老师预设 / 诊断优先引导教学 / 题库选择或上传题目 / 记录学习笔记与提示 / 普通会话不受影响
+d: 为 DeepSeek Harness 提供可选的高中数学思维老师 Agent 预设，以诊断优先的引导式教学带学生逐步推理，普通会话能力不受影响。
+r: {"repo": "ningbonb/dsh-math-thinking-teacher", "npmPackage": "dsh-math-thinking-teacher"}
+v: verified
+u: 2026-09-07T09:06:10Z
+a: 2026-09-08
+sg: 1
+fk: 0
+============================================================
+n: dsh-schedule-tab
+o: stolyarovmn
+vr: v0.8.0
+c: tools
+t: deepseek-harness / deepseek-harness-plugin / dsh-plugin / reminders / schedule
+f: 全局汇总所有对话提醒 / 按文本、对话搜索筛选 / 按日期或对话分组 / 侧边栏未读提醒指示 / 点击跳回来源对话
+d: 为 DeepSeek Harness Web 端新增全局 Schedule 标签页，汇总所有对话的定时提醒，支持搜索、筛选与分组，点击即可跳回来源对话。
+r: {"repo": "stolyarovmn/dsh-schedule-tab", "npmPackage": "@stolyarovmn/dsh-client-ui-schedule-tab"}
+v: verified
+u: 2026-10-08T15:29:35Z
+a: 2026-09-27
+sg: 1
+fk: 0
+============================================================
+n: dsh-schedule-view
+o: lijian-ui
+c: tools
+t: deepseek / deepseek-api / deepseek-harness / deepseek-harness-plugin / dsh / dsh-plugin / dsh-plugin-desktop / dsh-plugins
+f: 7种调度类型 / 跨会话触发 / 多级通知 / 执行生命周期跟踪 / 零LLM工具
+d: DSH plugin 定时任务调度器：支持 cron 及多种周期，跨会话触发、多级通知，纯 UI 操作无需 LLM 工具。
+r: {"repo": "lijian-ui/dsh-schedule-view", "npmPackage": "@lijian-ui/dsh-schedule-view"}
+v: verified
+u: 2026-09-03T07:14:45Z
+a: 2026-08-27
+sg: 1
+fk: 0
+============================================================
+n: dsh-scheduled-send
+o: ottttto
+c: tools
+t: deepseek / deepseek-harness / dsh / dsh-plugin
+f: 输入框 ⏰ 定时按钮 / 到点以用户气泡投递 / 服务端调度，可关浏览器 / 侧边栏全库任务面板 / 重启后自动补发
+d: 为 DeepSeek Harness Web 提供定时发送：在输入框写好草稿并设定时间，到点由宿主进程以正常用户气泡投递到原会话，关掉浏览器也能照常发送。
+r: {"repo": "ottttto/dsh-scheduled-send", "npmPackage": "@ottttto/dsh-scheduled-send"}
+v: verified
+u: 2026-09-13T05:01:21Z
+a: 2026-09-09
+sg: 1
+fk: 0
+============================================================
+n: dsh-scheduled-tasks
+o: crazy-l118
+c: workflow
+t: dsh / dsh-plugin / dsh-plugins
+f: 四种重复方式定时执行 / 侧边栏任务管理面板 / 保留最近 20 次执行记录 / 中英文界面自动跟随 / 任务本地存储不上传
+d: 为 DeepSeek Harness 提供定时任务能力：在 Web 侧边栏新建任务并设定单次、每天、每周或固定间隔时间，到点自动把提示词交给正在运行的 dsh 执行。
+r: {"repo": "crazy-l118/dsh-scheduled-tasks", "npmPackage": "dsh-scheduled-tasks"}
+v: verified
+u: 2026-09-22T13:09:47Z
+a: 2026-09-27
+sg: 1
+fk: 0
+============================================================
+n: dsh-cron-scheduler
+o: alexzhou19871030
+c: workflow
+t: automation / cron / dsh / dsh-plugin / scheduler / workflow
+f: cron 表达式定时调度 / 定时调用工作流 / 定时投递提示词 / 主动任务建议确认 / 会话级持久化恢复
+d: dsh-cron-scheduler 是 DeepSeek Harness 的定时任务调度插件，支持 Linux crontab 风格表达式，可定时调用工作流或投递提示词，并具备主动任务建议确认流。
+r: {"repo": "alexzhou19871030/dsh-cron-scheduler", "npmPackage": "dsh-cron-scheduler"}
+v: verified
+u: 2026-08-22T18:36:12Z
+a: 2026-08-23
+sg: 0
+fk: 0
+============================================================
+n: dsh-learn-skills
+o: yiyunet
+c: dev
+t: agent-preset / agent-tools / ai-learning / ai-learning-tool / deepseek-harness / dsh-plugin / preset-editor / preset-manager / presets
+f: 输入区按钮与 /learn 命令双入口 / 七轮问答生成学习预设与骨架 / 候选产出与人工审核后入库 / 18 项只读体系体检与复用建议 / 变更批次可回滚
+d: 跑在 DeepSeek Harness 输入区的学习插件，把收集、提炼、关联、升级、沉淀、复用做成带交互引导与审核入库的运行时能力。
+r: {"repo": "yiyunet/dsh-learn-skills", "npmPackage": "@yiyunet/dsh-learn-skills"}
+v: verified
+u: 2026-10-17T10:59:49Z
+a: 2026-09-29
+sg: 0
+fk: 0
+============================================================
+n: dsh-learning-gap-check
+o: perrylink
+vr: v0.2.3
+c: dev
+t: check / cordis / deepseek / deepseek-harness / dsh / dsh-plugin / gap / learning
+f: 注册 learning_gap_check 校验工具 / 七条规则检查差距与行动计划 / 规则包可配置启停与阈值 / 纯数据插件，无网络与模型调用
+d: 为 DeepSeek Harness 提供学习能力差距台账校验工具，按版本化规则包检查差距算术、行动责任人与期限等字段是否闭合。
+r: {"repo": "perrylink/dsh-learning-gap-check", "npmPackage": "dsh-learning-gap-check"}
+v: verified
+u: 2026-10-15T01:35:09Z
+a: 2026-10-08
+sg: 0
+fk: 0
+============================================================
+n: dsh-plugin-education
+o: 863683348
+c: tools
+t: cordis / deepseek-harness / dsh-plugin / education / lesson-plan / plugin / teaching
+f: 教案骨架生成 / 测验题目校验 / 评分量规生成 / 闪卡转换 / 可读性分析
+d: DSH plugin 教育工具包，为 DeepSeek Harness 智能体提供教案骨架、测验校验、评分量规、闪卡与可读性分析。
+r: {"repo": "863683348/dsh-plugin-education", "npmPackage": "dsh-plugin-education"}
+v: verified
+u: 2026-09-11T03:26:19Z
+a: 2026-08-17
+sg: 0
+fk: 1
+============================================================
+n: dsh-project-based-learning
+o: kirisame1969
+c: tools
+t: agent-skill / ai-tutor / cordis / csharp / deepseek-harness / dsh / dsh-plugin / project-based-learning / skill / teaching / unity / unity-shader
+f: 可执行教学协议闭环 / 证据档案与阶段验收 / 零依赖校验器机械检查 / 领域包可整体替换 / 随包 Unity / C# 领域包
+d: 面向 DeepSeek Harness 的项目制学习教练插件，以可执行教学协议推进真实项目教学，教学法与学科领域包解耦，可整体替换学科。
+r: {"repo": "kirisame1969/dsh-project-based-learning", "npmPackage": "dsh-project-based-learning"}
+v: verified
+u: 2026-09-27T17:30:01Z
+a: 2026-09-13
+sg: 0
+fk: 0
+============================================================
+n: dsh-reduce-effects
+o: azazo1
+vr: v0.2.0
+c: tools
+t: accessibility / animation / deepseek / deepseek-harness / dsh / dsh-plugin / frontend / performance / plugin / reduced-motion / typescript / web-ui
+f: 分类开关特效，默认全开 / 总闸一键停用全部特效 / 关闭 JS 动效走即时路径 / 设置即时生效并写入 profile
+d: 为 DSH Web 前端提供特效开关设置页，按分类关闭动画、毛玻璃、阴影、渐变等效果，降低浏览器渲染负担。
+r: {"repo": "azazo1/dsh-reduce-effects", "npmPackage": "dsh-reduce-effects"}
+v: verified
+u: 2026-09-28T19:35:30Z
+a: 2026-09-24
+sg: 0
+fk: 0
+============================================================
+n: dsh-study-desk
+o: slow-stack
+vr: v0.2.0
+c: tools
+t: deepseek-harness / dsh-plugin / obsidian / pomodoro / spaced-repetition
+f: 三列待办墙可拖拽换列 / 按复习分钟点亮热力图 / SM-2 间隔重复复习队列 / 跨面板存活的番茄钟 / 模型可调 study_desk 工具
+d: 面向考研备考的 DSH 学习工作台插件，提供 Notion 式待办墙、按复习时长点亮的热力图、间隔重复复习队列与跨面板存活的番茄钟，数据存本机 JSON 并可导出 Markdown。
+r: {"repo": "slow-stack/dsh-study-desk", "npmPackage": "dsh-study-desk"}
+v: verified
+u: 2026-10-09T05:50:01Z
+a: 2026-10-09
+sg: 0
+fk: 0
+============================================================
+n: dsh-teaching-board
+o: arcaneorion
+c: tools
+t: dsh-plugin
+f: 沙箱 iframe 渲染板书 / 板面手写圈画与橡皮 / 内置截图回传对话 / stage_* 工具驱动板面 / 自带使用手册技能
+d: 把 agent 生成的 HTML 投影成 DSH 会话内的教学板书面板，支持在板面圈画、截图回传对话，让讲解与追问都在同一块板上完成。
+r: {"repo": "arcaneorion/dsh-teaching-board", "npmPackage": "@arcaneorion/dsh-teaching-board"}
+v: verified
+u: 2026-09-29T11:57:59Z
+a: 2026-09-15
+sg: 0
+fk: 0

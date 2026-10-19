@@ -1,0 +1,128 @@
+The Duolingo Streak Uses Habit Research to Keep You Motivated
+SUBJECTS
+SUBJECTS
+Language
+Chess
+Math
+Music
+INSIDE DUOLINGO
+Announcements
+Design
+Engineering
+Product
+Life at Duolingo
+SITE LANGUAGE
+Deutsch
+English
+Español
+Français
+Português
+日本語
+한국어
+January 31, 2022
+Osman Mansur
+The habit-building research behind your Duolingo streak
+Your streak is more than a cool stat—there’s research behind why it works!
+January 31, 2022
+Osman Mansur
+Whether you’ve just started learning on Duolingo or if you’ve been at it for years, you’re probably familiar with the
+streak
+: the feature that tracks the number of days in a row you’ve completed a lesson. Streaks are a big point of pride for our learners. Thousands of people share their Duolingo streaks on
+social media
+every day, and right now, there are over 6 million people on a streak of 7 days or more!
+At first glance, the streak seems like just another fun element in Duolingo’s gamified learning experience. But the streak is more than just a cool stat—it’s designed to keep you motivated towards your language learning goals, and our team utilizes habit-building research to continuously improve the experience.
+Consistency is key
+With any personal goal that takes time and effort (like, well, learning a new language) developing a consistent habit is the name of the game. As the
+research
+shows, if you repeat an action often enough in the same context, the act of doing it will start to feel automatic. With a steady habit, something as daunting as studying a new language can feel as natural to your daily routine as brushing your teeth.
+This is where the streak comes in on Duolingo. Your streak is a tangible, measurable number that holds you accountable to practicing every single day, even if it’s just for five minutes.
+Our data shows that the streak is highly motivating for new and veteran learners alike, but the reason it feels motivating can vary based on the current length of your streak. If you’re just getting started on Duolingo, extending your streak feels like a bigger accomplishment each day compared to when a seasoned learner with a longer streak extends theirs. This varying sense of achievement makes sense mathematically: A learner’s streak going from 2 to 3 days represents a
+50%
+increase in its length, whereas going from 200 to 201 days is merely an increase of
+0.5%!
+When your streak is new, seeing it tick up every day—from two, to three, to four days—is an exciting reminder that you’re building momentum and settling into a habit. Because of this, our team of designers, animators and engineers strives to make the act of extending your streak feel as satisfying as possible.
+We recently introduced a new animation on the screen shown after you extend your streak, including a particularly awesome animation on select milestone days (
+read more about it here
+). The results of this change were amazing: seeing these animations increased the likelihood a brand new learner was still using Duolingo 7 days later by
++1.7%!
+That might not seem like much, but at the rate new learners join Duolingo every day, it means thousands of more people stick around to learn a language thanks to the streak feeling more exciting than before.
+As you grow your streak to new heights, the novelty of extending your streak may begin to wear, so the feature begins to motivate you in a different way. This is when we tap into “loss aversion,” an internal bias in your brain that makes you particularly averse to losing something, like a learning streak. Even on your laziest days (we all have them!), you’ll be reminded to complete a lesson so as not to lose your hard-earned progress. Of course, losing your streak doesn’t mean you lose the knowledge you’ve gained along the way, but the magic of the streak is that the longer your streak grows (and the prouder you become of it), the more likely you’ll practice each day to protect that progress!
+But, we all need a little flexibility
+Though the streak can be a big motivator for learners, there’s another side: If you lose a day and break your streak, it can have the opposite effect, and actually feel quite
+de
+motivating. And the fear of losing a streak could prevent learners from even attempting one in the first place. Oh no!
+For many learners, keeping a long streak is difficult because life can get busy! Whether it’s taking care of family members, getting caught up with work, or just needing a day to unplug, everyone has valid reasons for occasionally missing a day or two of practice. Enter: streak flexibility.
+The Streak Freeze, which allows you to hit pause on your streak for a day, is designed to grant this type of flexibility when you need a day off. At first, this may seem like a dishonest way to maintain a streak, but having this type of leeway actually helps people stay persistent. Again, we look at the research: A
+study from University of Pennsylvania and UCLA
+demonstrates that offering people a little “slack” as they pursue their goals can actually be more motivating than having a rigid set of rules.
+At Duolingo, offering Streak Freezes keeps learners dedicated to learning even when they need to skip a day or two of practice. We recently doubled down on the Streak Freeze mechanic by allowing learners to equip up to two Freezes at a time. Instead of encouraging learners to take more days off, this change actually increased the relative number of active learners on Duolingo every day by
++0.38%
+. Again, this may not seem like a significant difference, but with millions of learners using Duolingo daily, it’s a notable improvement to the learner experience!
+Learners can equip up to two Streak Freezes at a time to protect their streak
+Keep at it!
+The streak is a fun and simple feature, but committing yourself to keeping one is also one of the best ways to stay on track of your learning goals. It’s no wonder that Duolingo learners who reach a streak of just 7 days are 3.6 times more likely to complete their course. So, what are you waiting for? Duo is waiting for you to practice today!
+TAGS
+Product
+Research
+Learning
+Duolingo 101
+Efficacy
+Motivation
+SHARE ARTICLE
+RELATED ARTICLES
+RELATED ARTICLES
+About us
+Courses
+Mission
+Approach
+Efficacy
+Team
+Research
+Careers
+Brand guidelines
+Press
+Investors
+Contact us
+Products
+Duolingo
+Duolingo English Test
+Duolingo for Business
+Super Duolingo
+Store
+Apps
+Duolingo Apps
+Duolingo for Desktop
+Duolingo for Android
+Duolingo for iOS
+Help and support
+Duolingo FAQs
+Duolingo English Test FAQs
+Status
+Privacy and terms
+Community guidelines
+Terms
+Privacy
+Respecting your "do not sell my personal information" rights
+Social
+Blog
+Instagram
+Facebook
+YouTube
+TikTok
+LinkedIn
+X
+Site language:
+Deutsch
+English
+Español
+Français
+Português
+日本語
+한국어
+©2026 Duolingo. All rights reserved.
+About us
+Press
+Careers
+Help and support
+Privacy and terms
+©2026 Duolingo. All rights reserved.

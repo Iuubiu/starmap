@@ -1,0 +1,189 @@
+
+
+########## QUERY: 哈尔滨工程大学 核工程与核技术 核电子学 教材 汤彬 核辐射测量原理 教学大纲
+
+[1] 全国大中专教材网络采选系统
+  url: https://caixuan.aijiaocai.com/textbook/details?textbook_id=362228
+  site: 新华国采  authority: 3  date: None
+  summary: 核辐射测量原理  定价：￥57.00  作者： 汤彬等  出版时间：2011年8月  出版社：哈尔滨工程大学出版社 ... - 9787566102034 ... - R144.1 - 核工程与核技术 - 研究生、本科  内容简介  《核辐射测量原理》着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子、γ光子和X光子、中子等与物质相互作用的基础知识；核事件的统计分布，统计误差与数据检验，测量不确定度等数据处理的基础知识；气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识；α和β等带电粒子的活度测量方法，α能谱与β最大能量的测定方法，α和β测量技术的典型应用；不同形体辐射源的γ辐射场计算，γ照射量率与γ能谱的测量方法，能量刻度和效率刻度及γ能谱数据处理方法，γ测量技术的典型应用；X荧光的定性与定量分析及其干扰因素校正，X荧光测量技术的典型应用；中子源和中子探测的基础知识，中子通量和中子能谱的测量方法，中子测量技术的典型应用；辐射效应和辐射防护的基础知识，环境辐射水平和辐射防护标准，外照射和内照射剂量的估算与测量等基础知识。  本教材的建议课堂教学课时以45～60学时为宜，其中带“*”为可选课堂教学内容，另需要安排20～30学时的实验教学内容。  《核辐射测量原理》可作为高等学校核工程与核技术、核技术、辐射防护与环境工程等本科专业的试用教材和硕士研究生的教学参考书，也可供相关科研人员和工程技术人员参考。本教材由汤彬、葛良全等编著。  目录  第1章 核辐射基础知识  1.1 原子与原子核  1.2 放射性衰变和衰变规律  1.3 原子核反应*  1.4 人工放射性核素与人工辐射源  1.5 核辐射测量中的常见物理量和常用单位  思考题和练习题  第2章 射线与物质的相互作用  2.1 重带电粒子与物质的相互作用  2.2 快电子与物质的相互作用  2.3 γ或X射线与物质的相互作用  2.4 中子与物质的相互作用  思考题与练习题  第3章 核辐射测量的统计误差和数据处理  3.1 基本概念  3.2 核衰变和核辐射测量的统计分布  3.3 核辐射测量中的统计误差与数据检验  3.4 测量不确定度理论及其应用实例 ... 第4章 核辐射探测器  4.1 概述  4.2 气体探测器  4.3 闪烁探测器  4.4 半导体探测器  4.5 其他探测器 ... 第5章 带电粒子测量方法  5.1 α，β射线样品的活度测量概述  5.2 α，β射线样品的活度测量方法  5.3 α能谱与β最大能量的确定  5.4 带电粒子测量的应用* 
+  snippet: 《核辐射测量原理》着重阐述核辐射测量的基本原理和方法 ... 同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核 ... 核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子 ... 气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识；α和β等带电粒子的活度测量方法...
+
+[2] 南京理工大学图书馆书目检索系统 Online Public Access Catalogue
+  url: http://202.119.83.14:8080/uopac/opac/item.php?marc_no=333845413968355330347574384d51597179664641673d3d
+  site: 202.119.83.14  authority: 3  date: None
+  summary: - 题名/责任者: - 核辐射测量原理/汤彬 ... [等] 编著  - 出版发行项: - 哈尔滨 [等]:哈尔滨工程大学 [等],2011  - ISBN及定价: - 978-7-5661-0203-4/CNY57.00  - 载体形态项: - 438页:图;23cm  - 丛编项: - 国防特色教材.核科学与技术  - 个人责任者: - 汤彬 编著  - 学科主题: - 辐射探测-教材  - 中图法分类号: - TL81  - 书目附注: - 有书目 (第436-438页)  - 提要文摘附注: - 本教材着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子、中子等与物质相互作用的基础知识；核事件的统计分布，统计误差与数据检验，测量不确定度等数据处理的基础知识；气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识；X荧光的定性与定量分析及其干扰因素校正，X荧光测量技术的典型应用；中子源和中子探测的基础知识，中子通量和中子能谱的测量方法，中子测量技术的典型应用；辐射效应和辐射防护的基础知识，环境辐射水平和辐射防护标准，外照射和内照射剂量的估算与测量等基础知识。
+  snippet: 核辐射测量原理/汤彬 ... ... 本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子 ... 气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识；X荧光的定性与定量分析及其干扰因素校正...
+
+[3] 核辐射测量原理-图书详情-在线书城-爱教材
+  url: https://caixuan.aijiaocai.com/shopfront/textbook/index?dealer_book_id=86306
+  site: 新华国采  authority: 3  date: None
+  summary: 图书详情 | 《核辐射测量原理》 试读  图书分类 一 〉工学 一 〉核科学与技术 ... 汤彬等 著；  2011年8月  哈尔滨工程大学出版社 ... - 哈尔滨工程大学出版社 - 9787566102034  - 109919 - 0047157302-2 ... - 核科学与技术 - 1227 - R144.1 - 核工程与核技术 - 研究生、本科 - 重版  内容简介：  《核辐射测量原理》着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子、γ光子和X光子、中子等与物质相互作用的基础知识；核事件的统计分布，统计误差与数据检验，测量不确定度等数据处理的基础知识；气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识；α和β等带电粒子的活度测量方法，α能谱与β最大能量的测定方法，α和β测量技术的典型应用；不同形体辐射源的γ辐射场计算，γ照射量率与γ能谱的测量方法，能量刻度和效率刻度及γ能谱数据处理方法，γ测量技术的典型应用；X荧光的定性与定量分析及其干扰因素校正，X荧光测量技术的典型应用；中子源和中子探测的基础知识，中子通量和中子能谱的测量方法，中子测量技术的典型应用；辐射效应和辐射防护的基础知识，环境辐射水平和辐射防护标准，外照射和内照射剂量的估算与测量等基础知识。  本教材的建议课堂教学课时以45～60学时为宜，其中带“*”为可选课堂教学内容，另需要安排20～30学时的实验教学内容。  《核辐射测量原理》可作为高等学校核工程与核技术、核技术、辐射防护与环境工程等本科专业的试用教材和硕士研究生的教学参考书，也可供相关科研人员和工程技术人员参考。本教材由汤彬、葛良全等编著。  目录  第1章 核辐射基础知识  1.1 原子与原子核  1.2 放射性衰变和衰变规律  1.3 原子核反应*  1.4 人工放射性核素与人工辐射源  1.5 核辐射测量中的常见物理量和常用单位  思考题和练习题  第2章 射线与物质的相互作用  2.1 重带电粒子与物质的相互作用  2.2 快电子与物质的相互作用  2.3 γ或X射线与物质的相互作用  2.4 中子与物质的相互作用  思考题与练习题  第3章 核辐射测量的统计误差和数据处理  3.1 基本概念  3.2 核衰变和核辐射测量的统计分布  3.3 核辐射测量中的统计误差与数据检验  3.4 测量不确定度理论及其应用实例 ... 第4章 核辐射探测器  4.1 概述  4.2 气体探测器  4.3 闪烁探测器  4.4 半导体探测器  4.5 其他探测器 ... 第5章 带电粒子测量方
+  snippet: 《核辐射测量原理》 试读 ... 本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子 ... 气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识...
+
+[4] 核辐射来自测量原理 免费编辑 添加义项名
+  url: https://baike.so.com/doc/2294674-2427486.html
+  site: 360搜索  authority: 2  date: 2022-05-14T16:00:00+00:00
+  summary: 2022-05-15 22:37: ... 《核辐射测量原理》是2011年哈尔滨工程大学出版社出版的图书，作者是汤彬。 本教材着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。  ## 基本信息  书名 ... 出版时间  2011年8月1日  页数  438 页  开本  16 开  装帧  平装  ISBN  9787566102034  字数  595000  ## 折叠 编辑本段 内容简介  本教材分为九章，主要内容包括:原子与原子核、沙否现坐从师达间放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识;重带电粒子和快电子、Y光子和x光子、中子等与物质相互作用的基础知识;核事件的统计分布，统计误差与数据甚检验，测量不确定度等数据处理的基础知识;气体、闪烁体、半导体宜等核辐射探测器的工作原理与射线探测过程，核电子植商高聚是广继政核学的基础知识;a和$等带电粒子的活度测量方法，d能谱与B最大能量的测定方法，d和p测量技术的典型应用;不同形体辐射源的l辐射场计算，l照射量率与Y能谱的测量方法，能量刻度和效率刻度及Y能谱数据处理方法，Y测量技术的典型应用;X荧光的定性与定量分析及其干扰因素校正，x荧光测量技术的典型应用;中子源和中子探测的基础知识，中子通量和中子能谱的测量方法，中子测量技术的典型应用;辐射效应和辐射防护的基础知识，环境辐射水平和辐射防护标准，外照射和内照射剂量的估算与测量等基础知识。  本教材的建议课堂教学课时以45~60学时为宜，其中带"*"为可选课堂教学内容，部陆几妒道龙宣呀另需要安排20~30学时的实验教学内容。  ## 折叠 编辑本段 图书目录  第1章核辐射基础知识  1.1原子与原子核  1.2放射性衰变和衰变规律  1.3原子核反应  1.玉审春5核辐射测量中的常见物理量和常用单位  思考题段况于却举七先和练习题  第2章射线与物质的相互作用  2.1重带电粒子与物质的相互作用  2.2快电子与物质的相互作用  2.3 Y或x射线与物质的相互作用  2.4中子与物质的相互作了但用  思考题与练习题  第3章核辐射测量的统计误差和数据处理  3.1基本概念
+  snippet: 《核辐射测量原理》是2011年哈尔滨工程大学出版社出版的图书，作者是汤彬 ... 本教材分为九章，主要内容包括:原子与原子核、沙否现坐从师达间放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识;重带电粒子和快电子...
+
+[5] 核辐射测量原理教学日历 - 搜文档
+  url: https://www.renrendoc.com/paper/203863470.html#1
+  site: 人人文库  authority: 2  date: 2022-03-11T16:00:00+00:00
+  summary: # 核辐射测量原理教学日历 ... 1、周数： 9 讲课： 50学时实验： 18学时共计： 68学时东 华 理 工 学 院教 学 日 历 课程 核辐射测量原理 系别 核工系 专业 核工程与核技术 辐射防护与环境工程 班级 1220401-3，1221601 20142015学年第一学期日/月至日/月周次讲 课 内 容 及 时 数练习内容及时数试验内容及时数其它作业或参考书说明二学时主要教学内容（教学内容以节为单位）课堂时数习题课、课堂讨论、测验等课堂时数课间实习或实验课堂时数1/91本学期教学、实验、考试等相关内容总体安排；§1辐射源基本概念和分类2作业：每一章一次作业。作业、考勤及课堂表现20%，实验20%，期末考试60  2、%。教材：核辐射测量原理，汤彬等，哈尔滨工程大学出版社；参考书：1、原子核物理实验方法.清华大学，复旦大学等三校合编，原子能出版社；2、Radiation Detection and Measurement, G F Knoll, John Wiley & Sons, New York, 1989.3、核辐射物理及探测学，清华大学工程物理系，2008 （内部使用）； 4、核辐射探测器，凌球，郭兰英等，原子能出版社；5、核辐射探测器与核电子学，赖万昌.成都理工大学03年5月（内部使用）。本次课着重讲述辐射源的常用单位和定义，以及四种常用粒子源（快电子源、重带电粒子源、电磁辐射源、中子源）  3、的分类，来源，特点等内容。布置本章作业。3/91§2 射线与物质的相互作用§2.1重带电粒子与物质的相互作用2本次课着重讲述重带电粒子与物质相互作用的特点，在物质的中能量损失规律，在物质中的射程，在薄吸收体中的能量损失情况以及裂变碎片的能量损失等内容。5/91§2.2快电子与物质的相互作用2本次课着重讲述快电子与物质相互作用的特点，在物质中的能量损失规律，在物质中的射程、吸收与散射，正电子与物质的相互作用以及带电粒子与物质相互作用小结等内容。8/92§2.3 射线与物质的相互作用2本次课着重讲述光电效应，康普顿效应，电子对效应的基本概念，反应截面以及次级  4、粒子的能量，角分布；射线在物质中的衰减规律等内容。10/92§2.4中子与物质的相互作用2本次课着重讲述中子与物质相互作用的特点以及几种相互作用方式等内容。 ... 12/92§3 概率论基础知识，放射性测量中的统计学2本次课着重讲述几种常用的统计模型，随机变量的运算和组合，核衰变数与探测器计数的涨落分布，计数统计误差的传递，电离过程的涨落与法诺分等内容。 ... 15/93习题及课堂讨论2本门课程的教学内容可划分为基础知识，探测仪器和常规测量方法三个部分，而前三章就是基础知识部分，尤其是射线与物质的相互作用，它是本门课程的基础，重点，同时也是学好本专业其他课程的基  5、础，重点；需要
+  snippet: 68学时东 华 理 工 学 院教 学 日 历 课程 核辐射测量原理 系别 核工系 专业 核工程与核技术 辐射防护与环境工程 班级 1220401-3 ... §1辐射源基本概念和分类2作业：每一章一次作业。作业 ... 教材：核辐射测量原理，汤彬等，哈尔滨工程大学出版社；参考书...
+
+[6] 核辐射测量原理 - 核辐射测量原理
+  url: https://5ujruf891gtrlwrf.302edu.com/books/detail/5b7a3e23-0f4f-45ef-9a73-a422cb64292f#1
+  site: 302edu  authority: 1  date: None
+  summary: 核辐射测量原理  # 核辐射测量原理  汤彬, 葛良全, 方方, 刘义保, 赖万昌, 周四春, 编著  出版社：哈尔滨工程大学出版社  年代：2011  定价：45.0  ## 书籍简介:  本教材着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识本。教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子、γ光子和X光子、中子等与物质相互作用的基础知识；核事件的统计分布、统计误差与数据检验等基础知识。  ## 书籍目录:  第1章 核辐射基础知识  1.1 原子与原子核  1.2 放射性衰变和衰变规律  1.3 原子核反应*  1.4 人工放射性核素与人工辐射源  1.5 核辐射测量中的常见物理量和常用单位  思考题和练习题  第2章 射线与物质的相互作用  2.1 重带电粒子与物质的相互作用  2.2 快电子与物质的相互作用  2.3 γ或X射线与物质的相互作用  2.4 中子与物质的相互作用  思考题与练习题  第3章 核辐射测量的统计误差和数据处理  3.1 基本概念  3.2 核衰变和核辐射测量的统计分布  3.3 核辐射测量中的统计误差与数据检验  3.4 测量不确定度理论及其应用实例 ... 第4章 核辐射探测器  4.1 概述  4.2 气体探测器  4.3 闪烁探测器  4.4 半导体探测器  4.5 其他探测器 ... 第5章 带电粒子测量方法  5.1 α，β射线样品的活度测量概述  5.2 α，β射线样品的活度测量方法  5.3 α能谱与β最大能量的确定  5.4 带电粒子测量的应用* ... 第6章 γ射线测量方法  6.1 概述  6.2 不同形状辐射体的γ辐射场计算  6.3 γ射线的照射量率与能量测量方法  6.4 γ射线能量刻度与探测效率刻度  6.5 低水平γ射线的测量条件与测量装置  6.6 谱数据的处理  6.7 γ射线测量方法的应用* ... 第7章 X射线荧光测量方法  7.1 X射线荧光法定性与定量分析原理  7.2 X射线荧光分析干扰因素及其校正  7.3 X荧光测量的应用* ... 第8章 中子测量方法  8.1 中子源  8.2 中子探测基本原理与方法  8.3 中子能谱测量方法  8.4 中子通量密度测量方法  8.5 中子测量的应用* ... 第9章 辐射效应与辐射防护概论  9.1 辐射防护中的常用物理量  9.2 辐射对人体的生物效应及其危险度分析  9.3 环境辐射水平及辐射防护基本原则与标准  9.4 外照射剂量计算与防护*  9.5 内照射剂量估算与防护*  9.6 辐射剂量测量原则 ... 附录Ⅰ 天然放射性系列的衰变图  附录Ⅱ 天然放射性
+  snippet: 教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子、γ光子和X光子、中子等与物质相互作用的基础知识；核事件的统计分布...
+
+[7] 核辐射测量原理（核科学与技术国防特色教材）
+  url: http://www.queshu.com/book/15788411/
+  site: 缺书网  authority: 2  date: None
+  summary: # 核辐射测量原理（核科学与技术国防特色教材）  作者：汤彬 等编著  出版：哈尔滨工程大学出版社 2011.8  页数：438  定价：57.00 元  ISBN-13：9787566102034  ISBN-10：7566102036 去豆瓣看看 ... 第1章 核辐射基础知识  1.1 原子与原子核  1.2 放射性衰变和衰变规律  1.3 原子核反应*  1.4 人工放射性核素与人工辐射源  1.5 核辐射测量中的常见物理量和常用单位  思考题和练习题  第2章 射线与物质的相互作用  2.1 重带电粒子与物质的相互作用  2.2 快电子与物质的相互作用  2.3 γ或X射线与物质的相互作用  2.4 中子与物质的相互作用 ... 第3章 核辐射测量的统计误差和数据处理  3.1 基本概念  3.2 核衰变和核辐射测量的统计分布  3.3 核辐射测量中的统计误差与数据检验  3.4 测量不确定度理论及其应用实例 ... 第4章 核辐射探测器  4.1 概述  4.2 气体探测器  4.3 闪烁探测器  4.4 半导体探测器  4.5 其他探测器 ... 第5章 带电粒子测量方法  5.1 α，β射线样品的活度测量概述  5.2 α，β射线样品的活度测量方法  5.3 α能谱与β最大能量的确定  5.4 带电粒子测量的应用* ... 第6章 γ射线测量方法  6.1 概述  6.2 不同形状辐射体的γ辐射场计算  6.3 γ射线的照射量率与能量测量方法  6.4 γ射线能量刻度与探测效率刻度  6.5 低水平γ射线的测量条件与测量装置  6.6 谱数据的处理  6.7 γ射线测量方法的应用* ... 第7章 X射线荧光测量方法  7.1 X射线荧光法定性与定量分析原理  7.2 X射线荧光分析干扰因素及其校正  7.3 X荧光测量的应用* ... 第8章 中子测量方法  8.1 中子源  8.2 中子探测基本原理与方法  8.3 中子能谱测量方法  8.4 中子通量密度测量方法  8.5 中子测量的应用* ... 第9章 辐射效应与辐射防护概论  9.1 辐射防护中的常用物理量  9.2 辐射对人体的生物效应及其危险度分析  9.3 环境辐射水平及辐射防护基本原则与标准  9.4 外照射剂量计算与防护*  9.5 内照射剂量估算与防护*  9.6 辐射剂量测量原则 ... 附录Ⅰ 天然放射性系列的衰变图  附录Ⅱ 天然放射性核素的射线谱  附录Ⅲ 核辐射测量中的常用物理量及单位 ... 目 录内容简介  《核科学与技术国防特色教材：核辐射测量原理》着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核
+  snippet: 《核科学与技术国防特色教材：核辐射测量原理》着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核...
+
+[8] 《电子技术基础》模拟部分（第六版），康华光，高等教育出版社，2014.《电子技术基础》数字部分（第六版），康华光，高等教育出版社，2014.传感器与检测技术：《传感器原理及应用》（第4版），吴建平，机械工业出版社，2022.电路分析：《电路分析基础（上、下...
+  url: https://gra.cdut.edu.cn/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=2082318371&wbfileid=18270135#2#4#2
+  site: None  authority: 3  date: None
+  summary: ## 081800地质资源与地质工程    核辐射测量方法：    《核辐射测量原理》（第二版），汤彬，哈尔滨工程大学出版社，2021. ... 核辐射测量方法：《核辐射测量原理》（第二版），汤彬，哈尔滨工程大学出版社，2021.《辐射物理》，丁富荣、班勇、夏宗璜，北京大学出版社，2004. ... ## 085702安全工程    核辐射测量方法：《核辐射测量原理》（第二版），汤彬，哈尔滨工程大学出版社，2021. ... ## 085803核能工程 ... 核辐射测量方法：《核辐射测量原理》（第二版），汤彬，哈尔滨工程大学出版社，2021.《辐射物理》，丁富荣、班勇、夏宗璜，北京大学出版社，2004.
+  snippet: 核辐射测量方法： 《核辐射测量原理》（第二版），汤彬，哈尔滨工程大学出版社，2021. ... 《核辐射测量原理》（第二版），汤彬，哈尔滨工程大学出版社，2021.《辐射物理》，丁富荣、班勇、夏宗璜，北京大学出版社，2004. 辐射物理...
+
+[9] 核辐射测量原理
+  url: https://book.douban.com/subject/6877451/
+  site: 豆瓣  authority: 2  date: 2011-07-31T16:00:00+00:00
+  summary: #  核辐射测量原理  ##  核辐射测量原理  作者: ... 出版社: 哈尔滨工程大学出版社    出版年: 2011-8   ISBN: 9787566102034   页数: 438   定价: 57.00元 ... ##  内容简介 · · · · · ·   《核辐射测量原理》着重阐述核辐射测量的基本原理和方法、数据处理和典型应用等基本内容，以及相关进展情况与最新成果，同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子、γ光子和X光子、中子等与物质相互作用的基础知识；核事件的统计分布，统计误差与数据检验，测量不确定度等数据处理的基础知识；气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识；α和β等带电粒子的活度测量方法，α能谱与β最大能量的测定方法，α和β测量技术的典型应用；不同形体辐射源的γ辐射场计算，γ照射量率与γ能谱的测量方法，能量刻度和效率刻度及γ能谱数据处理方法，γ测量技术的典型应用；X荧光的定性与定量分析及其干扰因素校正，X荧光测量技术的典型应用；中子源和中子探测的基础知识，中子通量和中子能谱的测量方法，中子测量技术的典型应用；辐射效应和辐射防护的基础知识，环境辐射水平和辐射防护标准，外照射和内照射剂量的估算与测量等基础知识。  本教材的建议课堂教学课时以45～60学时为宜，其中带“*”为可选课堂教学内容，另需要安排20～30学时的实验教学内容。  《核辐射测量原理》可作为高等学校核工程与核技术、核技术、辐射防护与环境工程等本科专业的试用教材和硕士研究生的教学参考书，也可供相关科研人员和工程技术人员参考。本教材由汤彬、葛良全等编著。
+  snippet: 同时介绍辐射防护和辐射剂量学的基础知识。本教材分为九章，主要内容包括：原子与原子核、放射性衰变规律、核反应概论、核辐射测量常见物理量及单位等基础知识；重带电粒子和快电子 ... 气体、闪烁体、半导体等核辐射探测器的工作原理与射线探测过程，核电子学的基础知识；α和β等带电粒子的活度测量方法...
+
+[10] 第1章放射性基本知识-20230623.ppt - 搜文档
+  url: https://www.renrendoc.com/paper/277254249.html#1
+  site: 人人文库  authority: 2  date: 2023-06-22T16:00:00+00:00
+  summary: # 第1章放射性基本知识 ... 核辐射测量方法授课专业核工程与核技术、核技术教学班号2011060201，0901课程代码 ... 编辑于星期六\8点49分核辐射测量方法第一章基础知识2教材与参考文献汤彬,葛良全,方方,刘义保赖万昌,周四春《核辐射测量原理》,哈尔滨工程大学出版社，201108葛良全,周四春《核辐射测量方法》，成都理工大学，2007方方,唐红等《放射性勘探简明教程》成都地质学院，1992刘庆成等，《核科学概论》，哈尔滨工程大学出版社,2005章晔,华荣洲,石柏慎《放射性方法勘查》原子能出版社,1990成都地质学院三系《放射性勘探方法》原子能出版社，1978GFKnoll.RadiationDetectionandMeasurement.1989CECrouthamel,AppliiedGamma-RaySpectrometry,1970NuclearGeophysicsAppliedRadiationIsotopesJournalAppliedRadiationandIsotopesRadioactiveMethods.Geophysics本文档共63页； ... 编辑于星期六\8点49分《核辐射测量方法》章节安排（24学时）第一章放射性测量基本知识  （4学时）第二章射线与物质相互作用（4学时）第三章核辐射测量单位与辐射防护（2学时）  第四章带电粒子测量方法（4学时）第五章γ射线测量方法（4学时）第六章X射线测量方法（2学时）第七章核辐射测量的统计误差和数据处理（4学时） ... 编辑于星期六\8点49分第一章放射性测量基本知识1.原子与原子核2.核衰变3.放射性系列4.天然放射性核素谱5.放射性衰变基本规律6.多个放射性核素的衰变与积累7.中子辐射4核辐射测量方法第一章基础知识本文档共63页； ... 编辑于星期六\8点49分地-空界面上伽玛射线的来源人工放射性7.2%大气核试验核工业与核技术应用核医学诊断陆地放射性80.0%铀系列核素钍系列核素钾-40其它核素宇宙射线12.8%电离成份10.5%中子2.3%从空间分布角度本文档共63页； ... 编辑于星期六\8点49分一些核辐射的特征:TypeofparticlesymbolCharge(relative)ApproximaterestmassRestmassneutronn011.008982Protonp111.007593Deuterond122.014187Tritont133.01645Alphaparticleα244.002777positronβ+e+11/18400.000549Electronsorbetaparticleβ-e--11/18400.000549µmesonμ±1210/18400.115∏Π±1276/18400.152Gammarayγneu
+  snippet: 编辑于星期六\8点49分核辐射测量方法第一章基础知识2教材与参考文献汤彬,葛良全,方方,刘义保赖万昌,周四春《核辐射测量原理》,哈尔滨工程大学出版社，201108葛良全...
+
+
+########## QUERY: Berkeley NUCENG 104 Radiation Detection and Nuclear Instrumentation Laboratory prerequisite junior fall units
+
+[1] NE 104 - Ready to apply
+  url: https://nuc.berkeley.edu/ne-104/#1
+  site: Berkeley Nuclear Engineering  authority: 4  date: None
+  summary: # NE 104 ... Radiation Detection and Nuclear Instrumentation Laboratory ... Course Prerequisite:  - Course in nuclear radiation and reactions: NE 101 or equivalent or consent of instructor - Recommended: Course in nuclear reactor theory (NE 150 or equivalent)  Prerequisite Knowledge and/or Skills:  - The course uses the following knowledge and skills from prerequisite and lower-division courses: - apply basic calculus, including the solution of first order differential equations. - do simple calculations using the radioactive decay law. - be familiar with nuclear decay processes (beta, alpha, gamma, and spontaneous fission decay), associated atomic processes (internal conversion, X-ray, Auger, internal bremsstrahlung), and the general characteristics of the radiations emitted (electrons and positrons, alpha particles, gamma rays and X-rays, fission fragments, neutrons). - be familiar with the mechanisms by which high-energy radiations interact with matter. Do simple calculations of stopping power and range. - Do simple chemistry and physics calculations involving atomic weights, Avogadro's number, the ideal gas law.
+  snippet: Course Prerequisite: - Course in nuclear radiation and reactions: NE 101 or equivalent or consent of instructor - Recommended: Course in nuclear reactor theory (NE 150 or equivalent) ... - The course uses the following knowledge and skills from prerequisite and lower-division courses: - apply basic calculus, including the solution of first order differential equations.
+
+[2] Grading/Final exam status: Letter grade
+  url: https://guide.berkeley.edu/archive/2018-19/undergraduate/degree-programs/electrical-engineering-computer-sciences-nuclear-joint-major/electrical-engineering-computer-sciences-nuclear-joint-major.pdf#8#7
+  site: None  authority: 4  date: None
+  summary: Grading/Final exam status: Letter grade. Final exam required.    Instructor: ... Prerequisites: ... Hours & Format    Fall and/or spring: 15 weeks - 3 hours of lecture and 1 hour of discussion ... : ... 0 ... material ... generation ... NUC ENG 101 (or similar background in nuclear physics), or consent of instructor
+  snippet: Prerequisites: PHYSICS 7C and NUC ENG 100 ... Fall and/or spring: 15 weeks - 3 hours of lecture and 1 hour of discussion per week ... NUC ENG 101 (or similar background in nuclear physics), or consent of instructor ... Read More \([+]\) Rules & Requirements Prerequisites: MATH 53, MATH 54, and NUC ENG 100 ## Hours & Format ... MATH 54, and ENGIN 7 ... NUC ENG 150 or consent of instructor
+
+[3] NUC ENG 100 Introduction to Nuclear Engineering 3 Units The class provides students with an overview of the contemporary nuclear...
+  url: https://guide.berkeley.edu/archive/2014-15/undergraduate/degree-programs/electrical-engineering-computer-sciences-nuclear-joint-major/index.pdf#5#5
+  site: None  authority: 4  date: None
+  summary: Prerequisites: ... NUC ENG 104 Radiation Detection and Nuclear Instrumentation Laboratory 4 Units ... 101 or equivalent or consent of instructor; 150 or equivalent recommended
+  snippet: Rules & Requirements Prerequisites: PHYSICS 7A and 7B ... Fall and/or spring ... Subject/Course Level: Nuclear Engineering/Undergraduate ... Instructor: Norman ... NUC ENG 104 Radiation Detection and Nuclear Instrumentation Laboratory 4 Units ... 101 or equivalent or consent of instructor; 150 or equivalent recommended
+
+[4] General Guidelines
+  url: https://guide.berkeley.edu/archive/2018-19/undergraduate/degree-programs/nuclear-engineering/nuclear-engineering.pdf#3#2
+  site: None  authority: 4  date: None
+  summary: # Students in the College of Engineering must complete no fewer than 120 semester units with the following provisions:  1. Completion of the requirements of one engineering major program (http://engineering.berkeley.edu/academics/undergraduate-programs) study.  2. A minimum overall grade point average of 2.00 (C average) and a minimum 2.00 grade point average in upper division technical coursework required of the major.  3. The final 30 units and two semesters must be completed in residence in the College of Engineering on the Berkeley campus.  4. All technical courses (math, science and engineering) that can fulfill requirements for the student's major must be taken on a letter graded basis (unless they are only offered P/NP).  5. Entering freshmen are allowed a maximum of eight semesters to complete their degree requirements. Entering junior transfers are allowed a maximum of four semesters to complete their degree requirements. (Note: junior transfers admitted missing three or more courses from the lower division curriculum are allowed five semesters.) Summer terms are optional and do not count toward the maximum. Students are responsible for planning and satisfactorily completi
+  snippet: Students in the College of Engineering must complete no fewer than 120 semester units with the following provisions ... programs) study. 2. A minimum overall grade point average of 2.00 (C average) and a minimum 2.00 ... 3. The final 30 units and two semesters must be completed in residence in the College of Engineering on the Berkeley campus. ... All technical courses (math, science and engineeri
+
+[5] 2025-26 Undergraduate Guide Nuclear Engineering - Berkeley Engineering
+  url: https://engineering.berkeley.edu/students/2025-26-undergraduate-guide-undergraduate-guide/2025-26-undergraduate-guide-degree-requirements/2025-26-undergraduate-guide-major-programs/2025-26-undergraduate-guide-nuclear-engineering/#1
+  site: Berkeley Engineering  authority: 4  date: 2026-05-19T16:00:00+00:00
+  summary: NUCENG 104 – Radiation Detection and Nuclear Instrumentation Laboratory | – | 4
+  snippet: Students must consult with and obtain approval from their faculty adviser no later than the fall semester of their junior year for their choices of technical elective courses. ... Statistics/Data Analysis Elective1 | ... NUCENG 104 – Radiation Detection and Nuclear Instrumentation Laboratory | – | 4
+
+[6] Nuclear Engineering - Fall and/or spring: 15 weeks - 1 hour of lecture, 1 hour of discussion, and 4 hours of laboratory per week
+  url: https://berkeleyguidearchive.github.io/2023-24/undergraduate/degree-programs/nuclear-engineering/#abouttheprogramtextcontainer#3
+  site: berkeleyguidearchive.github.io  authority: 2  date: None
+  summary: Upper division standing or consent of instructor ... Senior standing or consent of instructor
+  snippet: 15 weeks - 3 hours of lecture per week ... Upper division standing or consent of instructor ... Design in Nuclear Power Technology and Instrumentation ... Senior standing or consent of instructor ... Upper division technical GPA of 3.3, consent of instructor and faculty advisor Repeat rules ... Consent of instructor and major adviser
+
+[7] NUCLEAR ENGINEERING CURRICULUM FLOWCHART
+  url: https://nuc.berkeley.edu/wp-content/uploads/2026/06/NE-Flowchart-F25.pdf#1#1
+  site: None  authority: 4  date: None
+  summary: # NUCLEAR ENGINEERING CURRICULUM FLOWCHART ... <table><tr><td colspan="2">COURSE PREREQUISITES<br/>COURSE SEQUENCING MATTERS! ... MATH 54 (may be taken concurrently)</td></tr><tr><td colspan="2">Please note that the most current prerequisite information can always be found in the UC Berkeley Course Catalog: https://undergraduate.catalog.berkeley.edu/courses.</td></tr></table>
+  snippet: 40<br>4</td><td>NUCENG 104<br>4</td><td>TECH ... 107<br>SOCIOL 116</td><td>Students must complete 29 technical elective units which<br>must ... 17 units of upper division nuclear<br>engineering courses. ... 7C</td></tr><tr><td>NUCENG 104</td><td>NUCENG 101 or consent of instructor; NUCENG 150 recommended</td></tr><tr><td>NUCENG
+
+[8] Nuclear Engineering - Berkeley Engineering - Educating leaders
+  url: https://engineering.berkeley.edu/students/undergraduate-guide/degree-requirements/major-programs/nuclear-engineering/#1
+  site: Berkeley Engineering  authority: 4  date: 2017-03-20T16:00:00+00:00
+  summary: NUCENG 104 – Radiation Detection and Nuclear Instrumentation Laboratory | – | 4
+  snippet: units of upper division nuclear engineering courses. ... Students must consult with and obtain approval from their faculty adviser no later than the fall semester of their junior year for their choices of technical elective courses. ... Statistics/Data Analysis Elective1 | ... NUCENG 104 – Radiation Detection and Nuclear Instrumentation Laboratory | – | 4
+
+[9] Nuclear Engineering - Laboratory course in nuclear physics
+  url: https://berkeleyguidearchive.github.io/2021-22/undergraduate/degree-programs/nuclear-engineering/#3
+  site: berkeleyguidearchive.github.io  authority: 2  date: None
+  summary: Prerequisites: ... Kai Vetter, Professor. Nuclear physics, radiation detection, nuclear instrumentation, nuclear measurements, multi-sensor systems and data fusion, radiological resilience.
+  snippet: Prerequisites: NUC ENG 101 ... 15 weeks - 3 hours of lecture per week ... Upper division technical GPA of 3.3, consent of instructor and faculty advisor Repeat rules ... Consent of instructor and major adviser ... Kai Vetter, Professor. Nuclear physics, radiation detection, nuclear instrumentation, nuclear measurements, multi-sensor systems and data fusion, radiological resilience.
+
+[10] Materials Science and Engineering/Nuclear Engineering Joint Major - Laboratory course in nuclear physics
+  url: https://berkeleyguidearchive.github.io/2024-25/undergraduate/degree-programs/materials-science-engineering-nuclear-joint-major/#4
+  site: berkeleyguidearchive.github.io  authority: 2  date: None
+  summary: Upper division standing or consent of instructor ... Senior standing or consent of instructor
+  snippet: 15 weeks - 3 hours of lecture per week ... Upper division standing or consent of instructor ... Design in Nuclear Power Technology and Instrumentation ... Senior standing or consent of instructor ... Upper division technical GPA of 3.3, consent of instructor and faculty advisor Repeat rules ... Consent of instructor and major adviser
+
+
+########## QUERY: 核电子学 教材 王芝英 核电子技术原理 采用 高校 教学大纲 选用教材
+
+[1] 学习核辐射性质、辐射探测的基本方法
+  url: https://jdxy.ecut.edu.cn/c5/58/c1566a116056/page.htm?_x_output_type_b6db407c4_=embedded_pdf#3#3
+  site: None  authority: 3  date: None
+  summary: 6. 教材及参考书目：    [1] 王英芝．核电子技术原理．原子能出版社，1989。    [2] 王经谨．核电子学．原子能出版社，1985。    [3] 赖万昌．核辐射探测器与核电子学．成都理工大学，2005。 ... [5] 李跃忠，管小明.2011. 核电子学与核智能仪器实验指导书.
+  snippet: 6. 教材及参考书目： [1] 王英芝．核电子技术原理．原子能出版社，1989。 [2] 王经谨．核电子学．原子能出版社，1985 ... 核电子学与核智能仪器实验指导书.
+
+[2] Nuclear Electronics
+  url: https://fdjpkc.fudan.edu.cn/d201341/2013/0327/c13952a26444/page.htm
+  site: 复旦大学精品课程网站  authority: 3  date: 2017-03-15T16:00:00+00:00
+  summary: 课程教学大纲 ... 教材和教学参考资料：  作 者  教材名称  出版社  出版年月 ... 原子能出版社 ... 核电子学（下册） ... 1985年9月  王芝英等  核电子技术原理
+  snippet: 教材名称 出版社 ... 核电子学（上册） 原子能出版社 ... 核电子学（下册） 原子能出版社 1985年9月 王芝英等 核电子技术原理 原子能出版社 1989年6月 ... 核电子学基础（上册）
+
+[3] 2023年北京师范大学硕士研究生招生专业目录
+  url: https://yz.bnu.edu.cn/content/zyml/2023/sskm_kmdm-836.html
+  site: 北京师范大学研究生招生网  authority: 4  date: None
+  summary: 《核电子技术原理》王芝英主编，原子能出版社，1989年6月。
+  snippet: 《原子核物理实验方法》，复旦大学、清华大学、北京大学合编，原子能出版社，1997年。 《核电子技术原理》王芝英主编，原子能出版社，1989年6月。
+
+[4] 核电子学 - 复旦大学 - 学堂在线
+  url: https://next.xuetangx.com/course/fdu0822hdzx/23900658?channel=i...
+  site: 学堂在线  authority: 3  date: None
+  summary: 参考教材  1.王经瑾等 核电子学（上册）原子能出版社 1983年6月 2.王经瑾等 核电子学（下册） 原子能出版社 1985年9月 3.王芝英等 核电子技术原理 原子能出版社1989年6月 4.周志成 核电子学基础（上册）原子能出版社 1980年10月 5.唐兆荣等编译 核电子学概要 原子能出版社 1988年2月
+  snippet: 1.王经瑾等 核电子学（上册）原子能出版社 1983年6月 2.王经瑾等 核电子学（下册） 原子能出版社 1985年9月 3.王芝英等 核电子技术原理 原子能出版社1989年6月 4.周志成 核电子学基础（上册）原子能出版社 1980年10月 5.唐兆荣等编译 核电子学概要 原子能出版社 1988年2月
+
+[5] -核电子学基础.pptVIP
+  url: https://max.book118.com/html/2018/0525/168587566.shtm
+  site: 原创力文档  authority: 2  date: 2018-05-26T16:00:00+00:00
+  summary: 本堂课主要内容： 一、课程安排 二、核电子学特点及发展 三、主要教学内容 四、核电子学应用 五、信号与系统---信号 一、课程安排 教材 《核电子技术原理》王芝英等编.自印 参考书 《核电子学讲义》（2005年修改版）清华大学 《核电子学》王经谨等编.原子能版社 《核辐射探测器与核电子学》赖万昌编.成都理工大学 一、课程安排 有关先修课程 《核辐射测量原理》 《电路分析》 《模拟电子技术》 《数字电子技术》 《信号与系统》 一、课程安排 课程学时安排 课内学时(64)，实验(20)，另加习题课 课程考核方式（100分） 作业（10分） 希望能独立、认真、按时完成每次作业。
+  snippet: 课程安排 教材 《核电子技术原理》王芝英等编.自印 参考书 《核电子学讲义》（2005年修改版）清华大学 《核电子学》王经谨等编.原子能版社 《核辐射探测器与核电子学》赖万昌编.成都理工大学 一、课程安排
+
+[6] 核电子学第一课new.pptVIP
+  url: https://max.book118.com/html/2015/1223/31908604.shtm
+  site: 原创力文档  authority: 2  date: 2015-12-23T16:00:00+00:00
+  summary: 课程安排 教材 《核电子技术原理》王芝英等编.自印 参考书 《核电子学讲义》（2005年修改版）清 ... 核电子学》王经谨 等编.原子能版社 ... 探测器与核电子学》赖万昌编.成都理工 ... 、
+  snippet: 课程安排 教材 《核电子技术原理》王芝英等编.自印 参考书 《核电子学讲义》（2005年修改版）清华大学 《核电子学》王经谨 等编.原子能版社 《核辐射探测器与核电子学》赖万昌编.成都理工大学 一、课程安排
+
+[7] 覃国秀2010核电子学基础1.pptVIP
+  url: https://max.book118.com/html/2018/0404/160010325.shtm
+  site: 原创力文档  authority: 2  date: 2018-04-03T16:00:00+00:00
+  summary: 本堂课主要内容： 一、课程安排 二、核电子学特点及发展 三、主要教学内容 四、核电子学应用 五、信号与系统---信号 一、课程安排 教材 《核电子技术原理》王芝英等编.自印 参考书 《核电子学讲义》（2005年修改版）清华大学 《核电子学》王经谨等编.原子能版社 《核辐射探测器与核电子学》赖万昌编.成都理工大学 一、课程安排 有关先修课程 《核辐射测量原理》 《电路分析》 《模拟电子技术》 《数字电子技术》 《信号与系统》 一、课程安排 课程学时安排 课内学时(64)，实验(20)，另加习题课 课程考核方式（100分） 作业（10分） 希望能独立、认真、按时完成每次作业。
+  snippet: 课程安排 教材 《核电子技术原理》王芝英等编.自印 参考书 《核电子学讲义》（2005年修改版）清华大学 《核电子学》王经谨等编.原子能版社 《核辐射探测器与核电子学》赖万昌编.成都理工大学 一、课程安排
+
+[8] 备注：理论课
+  url: https://ciae2.kmu.edu.tw/attachments/article/1847/附件二-本科課程中英文簡介.pdf#490#126
+  site: None  authority: 3  date: None
+  summary: Textbook/Teaching material: ... Nuclear electronics experiment, Sichuan University, Institute of Nuclear Science and Engineering Technology; Nuclear Electronics , Wangjingjin , Fantiianmin, Tsinghua University. ... 先修课程：大学物理，原子核物理，辐射探测与测量，核电子学    面向对象：本科生 ... 先修课程：《原子核物理》、《核电子学》、《核辐射探测与测量》 面向对象：本科生 ... 先修课程：《原子核物理》、《核电子学》等；
+  snippet: Self-compiled ... 本科生 ... 大学物理，原子核物理，辐射探测与测量，核电子学 面向对象 ... 先修课程：《原子核物理》、《核电子学》、《核辐射探测与测量》 面向对象：本科生 ... 先修课程：《原子核物理》、《核电子学》等； 面向对象...
+
+[9] 核电子学第一课课件 - 搜文档
+  url: https://www.renrendoc.com/p-82235696.html#1
+  site: 人人文库  authority: 2  date: 2020-05-29T16:00:00+00:00
+  summary: 教材核电子技术原理王芝英等编.自印参考书核电子学讲义（2005年修改版）清华大学核电子学王经谨等编.原子能版社核辐射探测器与核电子学赖万昌编.成都理工
+  snippet: 教材核电子技术原理王芝英等编.自印参考书核电子学讲义（2005年修改版）清华大学核电子学王经谨等编.原子能版社核辐射探测器与核电子学赖万昌编.成都理工大学...
+
+[10] 1-1核电子学基础1.ppt - 搜文档
+  url: https://www.renrendoc.com/p-50216239.html#1
+  site: 人人文库  authority: 2  date: 2020-02-18T16:00:00+00:00
+  summary: 核电子学与核辐射仪器 覃国秀qinguoxiu198201 Tel工系2012 02 13 本堂课主要内容 一 课程安排二 核电子学特点及发展三 主要教学内容四 核电子学应用五 信号与系统 信号 一 课程安排 教材 核电子技术原理 王芝英等编 自印参考书 核电子学讲义 2005年修改版 清华大学 核电子学 王经谨等编 原子能版社 核辐射探测器与核电子学 赖万昌编 成都理工大学 一 课程安排 有关先修课程 核辐射测量原理 电路分析 模拟电子技术 数字电子技术 信号与系统 一 课程安排 课程学时安排课内学时 64 实验 20 另加习题课课程考核方式 100分 作业 10分 希望能独立 认真 按时完成每次作业 考试 60分 课堂考勤 上课 10分 实验 20分 一 课程安排 答疑和习题课可以在公共邮箱里提问可以到办公室 信工楼109 答疑在教学过程中穿插习题课不定期的对学生提问或讨论 一 课程安排 如何学好本门课程 专心 努力 做任何事情 只要肯专心 努力的去做 总会有收获 花必要的时间 上课 作业 实验与答疑 课后复习 掌握课程思路 抓住要点 问题的提出 遇到的矛盾 原理和概念 实施办法 举一反三 灵活应用 综合训练 拓展思维 二 核电子学特点及发展 核电子学 nuclearelectronics 核科学技术与电子科学技术相结合而形成的一门交叉学科 形成于50年代 其内容包括 核科学 高能物理和核技术中有关核辐射 和粒子 探测的电子技术 核爆炸和外层空间的辐射对电子系统的效应和抗辐射的加固技术 核技术应用中所需的电子技术 脉冲幅度 时间间隔 波形和径迹的精密测量和甄别技术 纳秒脉冲技术以及模数变换技术都是在核电子学中首先得到发展 二 核电子学特点及发展 核电子学的研究对象包括 各种辐射探测器及与之相应的电子电路或系统 针对核信号时间上的随机性 幅度上的统计性 波形的多样性以及信号采集需要加以选择等特点的各种精密的电子学测量技术 各种大型核电子系统 用于在核科学技术和高能物理实验中实时获取并处理大量核信息 并在实验过程中不间断地对整个系统的运行进行监测和控制 电子原材料 电子元件 器件和电子设备或系统在核辐射 核电磁场下的辐射效应和相应的抗辐射加固技术 核技术在工业 农业 军事 医学 生物研究等方面应用时所需的电子技术 二 核电子学特点及发展 核电子学研究信号的特点随机性信号弱 但跨度大 V 几十伏 速度快脉冲上升沿快10 10 10 12s平均计数率高时间间隔短级联辐射10 9 10 12s 二 核电子学特点及发展 CZTdetector GEMdetector 高密度读出探测器 二 核电子学特点及发展 如何更进一步降低噪声 二 核电子学特点及发展 用于谱仪的集成放大器 1989 时间幅度测量ASIC 2002 三 主要教学内容 核仪器系统 探测器 核电子学 数
+  snippet: 核电子学与核辐射仪器 覃国秀qinguoxiu198201 Tel工系2012 02 13 本堂课主要内容 一 课程安排二 核电子学特点及发展三 主要教学内容四 核电子学应用五 信号与系统 信号 一 课程安排 教材 核电子技术原理 王芝英等编 自印参考书 核电子学讲义 2005年修改版 清华大学 核电子学 王经谨等编 原子能版社 核辐射探测器与核电子学 赖万昌编 成都理工大学 一 课程安排 有关先修课程 核辐射测量原理 电路分析 模拟电子技术 数字电子技术 信号与系统 一 课程安排 课程学时安排课内学时 64 实验 20 另加习题课课程考核方式 100分 作业 10分 希望能独立 认真 按时完成每次作业 考试 60分 课堂考勤 上课 10分 实验 20分 一 课程安排 答疑和习题课可以在公共邮箱里提问可以到办公室 信工楼109 答疑在教学过程中穿插习题课不定期的对学生提问或讨论 一 课程安

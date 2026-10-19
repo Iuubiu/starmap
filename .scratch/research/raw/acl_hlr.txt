@@ -1,0 +1,257 @@
+A Trainable Spaced Repetition Model for Language Learning - ACL Anthology
+ACL Anthology
+About
+Announcements
+Communication channels
+Related work
+Copyright
+Credits
+Volunteer
+Development
+Feedback
+Using
+Author directory
+Citing papers
+Links in the Anthology
+Data access
+All FAQs
+Details
+Anthology identifiers
+Names
+ORCID iDs
+DOIs
+Verified authors
+Contributions
+Submissions
+Corrections
+Maintain author pages
+Attachments
+GitHub
+A Trainable Spaced Repetition Model for Language Learning
+Burr Settles
+,
+Brendan Meeder
+Correct Metadata for
+Use this form to create a GitHub issue with structured data describing the correction. You will need a GitHub account.
+Once you create that issue, the correction will be reviewed by a staff member.
+⚠️ Mobile Users: Submitting this form to create a new issue will only work with github.com, not the GitHub Mobile app.
+Important
+: The Anthology treat PDFs as authoritative. Please use this form only to correct data
+that is out of line with the PDF. See
+our corrections
+guidelines
+if you need to change the PDF.
+Title
+Adjust the title. Retain tags such as
+<fixed-case>.
+Authors
+Adjust author names and order to match the
+PDF.
+Add Author
+Abstract
+Correct abstract if needed. Retain XML formatting tags such as <tex-math>. You may use <b>...</b> for
+bold
+, <i>...</i> for
+italic
+, <u>...</u> for
+underline
+, <sc>...</sc> for
+small-caps
+, <tt>...<tt> for
+typewriter text
+, <url>...</url> for URLs, <a href=...> for hyperlinks, and <par/> for paragraph breaks.
+Verification against PDF
+Ensure that the new title/authors match the snapshot below. (If there
+is no snapshot or it is too small, consult
+the PDF
+.)
+Authors concatenated from the text boxes above:
+ALL author names match the snapshot above—including
+middle initials, hyphens, and accents.
+Create GitHub issue for staff review
+Anthology ID:
+P16-1174
+Volume:
+Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)
+Month:
+August
+Year:
+2016
+Address:
+Berlin, Germany
+Editors:
+Katrin Erk
+,
+Noah A. Smith
+Venue:
+ACL
+SIG:
+Publisher:
+Association for Computational Linguistics
+Note:
+Pages:
+1848–1858
+Language:
+URL:
+https://aclanthology.org/P16-1174/
+DOI:
+10.18653/v1/P16-1174
+Bibkey:
+settles-meeder-2016-trainable
+Cite (ACL):
+Burr Settles and Brendan Meeder. 2016.
+A Trainable Spaced Repetition Model for Language Learning
+. In
+Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)
+, pages 1848–1858, Berlin, Germany. Association for Computational Linguistics.
+Cite (Informal):
+A Trainable Spaced Repetition Model for Language Learning
+(Settles & Meeder, ACL 2016)
+Copy Citation:
+BibTeX
+Markdown
+MODS XML
+Endnote
+More
+options…
+PDF:
+https://aclanthology.org/P16-1174.pdf
+PDF
+Cite
+Search
+Fix data
+Export citation
+BibTeX
+MODS XML
+Endnote
+Preformatted
+@inproceedings{settles-meeder-2016-trainable,
+title = "A Trainable Spaced Repetition Model for Language Learning",
+author = "Settles, Burr  and
+Meeder, Brendan",
+editor = "Erk, Katrin  and
+Smith, Noah A.",
+booktitle = "Proceedings of the 54th Annual Meeting of the {A}ssociation for {C}omputational {L}inguistics (Volume 1: Long Papers)",
+month = aug,
+year = "2016",
+address = "Berlin, Germany",
+publisher = "Association for Computational Linguistics",
+url = "https://aclanthology.org/P16-1174/",
+doi = "10.18653/v1/P16-1174",
+pages = "1848--1858"
+}
+Download as
+File
+Copy to Clipboard
+<?xml version="1.0" encoding="UTF-8"?>
+<modsCollection xmlns="http://www.loc.gov/mods/v3">
+<mods ID="settles-meeder-2016-trainable">
+<titleInfo>
+<title>A Trainable Spaced Repetition Model for Language Learning</title>
+</titleInfo>
+<name type="personal">
+<namePart type="given">Burr</namePart>
+<namePart type="family">Settles</namePart>
+<role>
+<roleTerm authority="marcrelator" type="text">author</roleTerm>
+</role>
+</name>
+<name type="personal">
+<namePart type="given">Brendan</namePart>
+<namePart type="family">Meeder</namePart>
+<role>
+<roleTerm authority="marcrelator" type="text">author</roleTerm>
+</role>
+</name>
+<originInfo>
+<dateIssued>2016-08</dateIssued>
+</originInfo>
+<typeOfResource>text</typeOfResource>
+<relatedItem type="host">
+<titleInfo>
+<title>Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</title>
+</titleInfo>
+<name type="personal">
+<namePart type="given">Katrin</namePart>
+<namePart type="family">Erk</namePart>
+<role>
+<roleTerm authority="marcrelator" type="text">editor</roleTerm>
+</role>
+</name>
+<name type="personal">
+<namePart type="given">Noah</namePart>
+<namePart type="given">A</namePart>
+<namePart type="family">Smith</namePart>
+<role>
+<roleTerm authority="marcrelator" type="text">editor</roleTerm>
+</role>
+</name>
+<originInfo>
+<publisher>Association for Computational Linguistics</publisher>
+<place>
+<placeTerm type="text">Berlin, Germany</placeTerm>
+</place>
+</originInfo>
+<genre authority="marcgt">conference publication</genre>
+</relatedItem>
+<identifier type="citekey">settles-meeder-2016-trainable</identifier>
+<identifier type="doi">10.18653/v1/P16-1174</identifier>
+<location>
+<url>https://aclanthology.org/P16-1174/</url>
+</location>
+<part>
+<date>2016-08</date>
+<extent unit="page">
+<start>1848</start>
+<end>1858</end>
+</extent>
+</part>
+</mods>
+</modsCollection>
+Download as
+File
+Copy to Clipboard
+%0 Conference Proceedings
+%T A Trainable Spaced Repetition Model for Language Learning
+%A Settles, Burr
+%A Meeder, Brendan
+%Y Erk, Katrin
+%Y Smith, Noah A.
+%S Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)
+%D 2016
+%8 August
+%I Association for Computational Linguistics
+%C Berlin, Germany
+%F settles-meeder-2016-trainable
+%R 10.18653/v1/P16-1174
+%U https://aclanthology.org/P16-1174/
+%U https://doi.org/10.18653/v1/P16-1174
+%P 1848-1858
+Download as
+File
+Copy to Clipboard
+Markdown (Informal)
+[A Trainable Spaced Repetition Model for Language Learning](https://aclanthology.org/P16-1174/) (Settles & Meeder, ACL 2016)
+A Trainable Spaced Repetition Model for Language Learning
+(Settles & Meeder, ACL 2016)
+ACL
+Burr Settles and Brendan Meeder. 2016.
+A Trainable Spaced Repetition Model for Language Learning
+. In
+Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)
+, pages 1848–1858, Berlin, Germany. Association for Computational Linguistics.
+Copy Markdown to
+Clipboard
+Copy ACL to
+Clipboard
+ACL materials are Copyright © 1963–2026 ACL; other materials are copyrighted by their respective copyright holders. Materials prior to 2016 here are licensed under the
+Creative Commons Attribution-NonCommercial-ShareAlike 3.0 International License
+. Permission is granted to make copies for the purposes of teaching and research. Materials published in or after 2016 are licensed on a
+Creative Commons Attribution 4.0 International License
+.
+The ACL Anthology is managed and built by the
+ACL Anthology team
+of volunteers.
+Site last built on 19 October 2026 at 13:00 UTC with
+commit 0d4dd55
+.

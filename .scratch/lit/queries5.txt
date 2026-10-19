@@ -1,0 +1,38 @@
+Doughty ChatGPT versus human item writers physiology multiple choice
+Doughty 2024 assessing the accuracy of generative AI ChatGPT MCQ physiology item writing
+Mayer 2021 cognitive theory of multimedia learning Cambridge handbook
+Rowland 2014 the effect of testing versus restudy on retention meta-analysis
+Bahrick 1984 semantic memory content in permastore fifty years memory Spanish
+Canfield ALEKS developmental mathematics randomized
+Guskey 2007 mastery learning criterion 80 percent
+Sundararajan Adesope seductive details coherence principle
+pre-training principle meta-analysis multimedia learning prior knowledge
+Sweller 2019 cognitive load worked example guidance fading
+Karpicke Bauernschmidt 2011 spaced retrieval
+Roediger Putnam Smith 2011 the critical role of retrieval practice
+Sailer Homner 2020 gamification of learning a meta-analysis
+Landers Bauer Callan 2017 gamification of task performance goal setting
+Linnenbrink 2005 mastery versus performance goals
+Hulleman Harackiewicz 2009 promoting interest and performance in high school science classes
+Schiefele 1991 interest learning and motivation
+Wigfield Eccles 2000 expectancy value theory of achievement motivation
+Grassinger 2010 goal setting and achievement motivation
+Zimmerman 2002 becoming a self-regulated learner
+Panadero 2017 a review of self-regulated learning
+Boud David 2018 reconceptualising feedback in higher education
+Shute 2008 focus on formative feedback
+Hattie 1987 identifying the salient facets of a model of student learning
+Kulik Fletcher 2016 effectiveness of intelligent tutoring systems a meta-analytic review
+Ma Maas 2019 intelligent tutoring systems effectiveness meta-analysis
+Xu 2019 intelligent tutoring systems for math meta-analysis
+Steenbergen-Hu Cooper 2013 a meta-analysis of the effectiveness of intelligent tutoring systems on K12 mathematical learning
+Guo Kim Rubin 2014 how video production affects student engagement an empirical study of MOOC videos
+Ray Chaudhuri 2024 generative AI MCQ quality medical education
+Hurley 2024 ChatGPT MCQ quality nursing
+Tan 2024 large language models generate quality multiple choice questions
+Scarfe 2024 A study of the quality of AI-generated questions
+Bastani 2025 generative AI without guardrails can harm learning
+Kestin 2025 AI tutoring outperforms in-class active learning
+Fan 2024 beware of metacognitive laziness
+Bai 2024 ChatGPT as a tutor randomized controlled trial
+Wang 2025 LLM generated feedback formative assessment

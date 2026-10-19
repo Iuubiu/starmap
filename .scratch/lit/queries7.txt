@@ -1,0 +1,27 @@
+Doughty 2024 assessing the accuracy and quality of generative artificial intelligence produced multiple choice questions
+Tan 2024 ChatGPT-4 multiple choice questions medical education evaluation
+Hamari Koivisto Sarsa 2014 does gamification work a literature review of empirical studies on gamification
+Sailer Hense Mayr Mandl 2017 how gamification motivates an experimental study of the effects of specific game design elements
+Kulik Kulik Carmichael 1974 the Keller plan in science teaching
+Guskey 2007 closing achievement gaps revisiting Bloom learning for mastery
+Block Burns 1976 mastery learning
+Ginns Chandler 2010 the modality principle in multimedia learning
+Rey Beege Nebel Wirzberger 2019 a meta-analysis of the segmenting effect
+Sundararajan Adesope 2020 keep it coherent
+Chen 2020 knowledge graph learning path adaptive
+prerequisite knowledge components adaptive sequencing randomized experiment
+Lodge 2021 optimizing cognitive load to improve training
+Sweller 1988 cognitive load during problem solving effects on learning
+Karpicke Roediger 2007 expanding retrieval practice promotes short-term retention but equally spaced retrieval enhances long-term retention
+Kornell Bjork 2008 learning concepts and categories is spacing the enemy of induction
+Rohrer Taylor 2007 the shuffling of mathematics problems improves learning
+Taylor Rohrer 2010 the effects of interleaved practice
+Birnbaum Kornell Bjork 2013 why interleaving enhances inductive learning
+Metcalfe Kornell Finn 2009 delayed versus immediate feedback and the virtue of ignorance
+Hattie Biggs Purdie 1996 effects of learning skills interventions on student learning a meta-analysis
+Tricot Sweller 2014 domain-specific knowledge and why teaching generic skills does not work
+Goldin 2017 levels of programming abstraction
+Kizilcec 2016 self-regulated learning strategies predict learner behavior
+Reich 2020 learning analytics
+Kestin Miller Klales Milbourne 2025 AI tutoring outperforms active learning
+Fan Tang Le Shen 2024 beware of metacognitive laziness

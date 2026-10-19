@@ -1,0 +1,315 @@
+
+
+########## QUERY: 复旦大学 核电子学 TCPH130004 混合式教学 大纲 章节 学时 信号与噪声 前置放大器
+
+[1] 在学术交流中，应会从问题出发形成科学论据，评估证据，得出观点，并获得实验结论
+  url: https://jwc.fudan.edu.cn/_upload/article/files/d4/56/707002a8413b8a3cc690244c1118/16365b27-187d-4d83-87cc-1e1b97fe6230.pdf#25#15
+  site: None  authority: 3  date: None
+  summary: ## 13. ... 第三章 核电子学中的噪声和前置放大器（4学时：2学时，线上，视频+自测；2学时，线下，讨论）（噪声主要来源及解决办法，科学精神：分类分析、主要矛盾）    \(\S 3.1\) 核电子学中的噪声；    \(\S 3.2\) 前置放大器的作用与分类；电荷灵敏放大器；电压灵敏放大器；电流灵敏放大器。
+  snippet: colspan="6">TCPH130004</td></tr><tr><td>课程名称</td><td ... 4学时，线上，视频+自测；2学时 ... 第三章 核电子学中的噪声和前置放大器（4学时：2学时 ... 2学时，线下，讨论）（噪声主要来源及解决办法，科学精神 ... \(\S 3.1\) 核电子学中的噪声...
+
+[2] Nuclear Electronics
+  url: https://fdjpkc.fudan.edu.cn/d201341/2013/0327/c13952a26444/page.htm
+  site: 复旦大学精品课程网站  authority: 3  date: 2017-03-15T16:00:00+00:00
+  summary: 课程教学大纲 ... 2017-03-16 访问次数: ... TCPH130004 ... 教学进度安排：（51学时） ... 第二章 核电子学中的噪声和前置放大器（3学时）  核电子学中的噪声； 前置放大器的作用与分类；电荷灵敏放大器；电压灵敏放大器；电流灵敏放大器。
+  snippet: 第二章 核电子学中的噪声和前置放大器（3学时） 核电子学中的噪声； 前置放大器的作用与分类；电荷灵敏放大器；电压灵敏放大器；电流灵敏放大器。
+
+[3] <table><tr><td>周数</td><td>课时</td><td>授课内容</td></tr><tr><td>第1 周</td><td>第1 , 2 , 3 课时</td><td>绪论，电路变量和理想元件介绍：电流、电压和电阻，电容、电感、独立电源...
+  url: https://jwc.fudan.edu.cn/_upload/article/files/d4/56/707002a8413b8a3cc690244c1118/a37ab8ab-bee7-41d0-9acf-975ea4a904e4.pdf#16#7
+  site: None  authority: 3  date: None
+  summary: ## 5.2微电子科学与工程专业必修课程简介 ... <br>在前期线性电路分析和放大器分析课程的基础上，通过本课程的教学，使学生掌握一定量的基本线路、掌握电子学的基本分析方法和应用技巧，为电子学在科学研究和相关工作中的应用打下坚实的基础</td></tr><tr><td>基本内容简介</td><td colspan="5">（简要介绍课程教学内容）模拟电子学基础的基本内容包括课堂教学和仿真实验教学（数字逻辑基础实验）两个部分。课堂教学内容包括半导体器件、晶体管放大器、模拟集成电路、负反馈、信号处理与产生电路、直流稳压电源等。仿真实验教学包括线性电路、晶体管单级放大器、晶体管多级放大器、差动放大电路、负反馈放大电路、运算放大器及信号处理电路。 ... 负反馈放大器的稳定</td></tr><tr><td>第13 周</td><td>第1,2,3 课时</td><td>反馈的应用：正弦信号发生器、非正弦信号发生器；
+  snippet: <br>在前期线性电路分析和放大器分析课程的基础上 ... 课堂教学内容包括半导体器件、晶体管放大器、模拟集成电路、负反馈、信号处理与产生电路、直流稳压电源等 ... 3 课时</td><td>三极管放大器的交流小信号分析（共射...
+
+[4] <table><tr><td>教学内容安排（具体到每节课内容）：<br>本课程3 学分，每周3 学时，共计48 学时，教学内容如下：<br>第1 周 绪论，模拟电路概述，电路测试的重要性及其挑战<br>第2 周 模拟电路的测试技术的分类及基本流程<br>第...
+  url: https://jwc.fudan.edu.cn/_upload/article/files/d4/56/707002a8413b8a3cc690244c1118/7ce2563d-ca6d-43a1-8bc6-9c7910041950.pdf#7#5
+  site: None  authority: 3  date: None
+  summary: <table><tr><td>教学内容安排（具体到每节课内容）：<br>本课程3 学分，每周3 学时，共计48 学时，教学内容如下：<br>第1 周 绪论，模拟电路概述，电路测试的重要性及其挑战<br>第2 周 模拟电路的测试技术的分类及基本流程<br>第3 周 基于机器学习的模拟电路测试技术，自适应电路测试流程<br>第4 周 测试模型，测试成本模型<br>第5 周 RF 电路的测试基本原理，RF 电路的校准算法，缺陷导向的测试机理<br>第6 周 ADC 电路的测试基本原理，基本流程，动态测试方法<br>第7 周 神经形态电路的测试基本原理，测试架构与硬件测试方法<br>第8 周 测试性能参数评估，密度估计，极端条件测试<br>第9 周 测试用例模型，模拟拟合与分析<br>第10 周 误差诊断基本概念、流程和基本原理<br>第11 周 突变故障诊断技术和参数故障诊断技术<br>第12 周 设计合成技术<br>第13 周 集成电路测试和电路可测试性设计<br>第14 周 自修复技术，错误冗余技术和自愈合技术<br>第15 周 计算机辅助设计的测试技术<br>第16 周 课程设计／调研报告。
+  snippet: <td>教学内容安排（具体到每节课内容） ... <td>吴广健 半导体放大器：半导体放大器原理及增益特性、噪声特性和耦合特性</td></tr><tr><td>第9周</td><td>王建禄 光电探测器 ... 光电探测器噪声及图像传感器...
+
+[5] 《核电子学》教学大纲.docx
+  url: https://www.renrendoc.com/paper/269958191.html
+  site: 人人文库  authority: 2  date: 2023-06-01T16:00:00+00:00
+  summary: # 《核电子学》教学大纲 ... 《核电子学》教学大纲课程代码TCPH130004编写时间2022年2月课程名称核电子学英文名称NuclearElectronics学分数3周学时3*任课教师**开课院系核科学与技术系预修课程模拟电子基础、数字电子基础（理论、实验）课程性质：本科核工程与核技术专业基础课。 ... 第二章核电子学中的噪声和前置放大器（3学时）核电子学中的噪声；前置放大器的作用与分类；电荷灵敏放大器；电压灵敏放大器；电流灵敏放大器。
+  snippet: 第二章核电子学中的噪声和前置放大器（3学时）核电子学中的噪声；前置放大器的作用与分类；电荷灵敏放大器；电压灵敏放大器；电流灵敏放大器。
+
+[6] 核相关基础实验I
+  url: https://github.com/Xuanyiyiren/Fundamental-Laboratory-Experiment-in-Nuclear-Electronics/blob/main/%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%AE%9E%E9%AA%8C%E9%9B%B6.pdf#1#1
+  site: None  authority: 3  date: None
+  summary: # 核相关基础实验I ... # 课程实验内容：   - 实验零 硬件技能准备 ... - 实验三 电荷灵敏前置放大器
+  snippet: 课程实验内容： - 实验零 硬件技能准备 - 实验一 示波器、信号发生器与电源 - 实验二 传输线 - 实验三 电荷灵敏前置放大器 - 实验四 滤波与成形 - 实验五 线性脉冲放大器
+
+[7] | 气体探测器    | 电离和雪崩放大机制：电荷收集与脉冲信号形状；电离室，多丝正比室，漂移室，时间投影谱仪    | 6学时    |
+  url: http://jxzlglc.syist.edu.cn/uploads/file/20240402/20240402153544-2228.pdf#192#37
+  site: None  authority: 2  date: None
+  summary: 脉冲信号处理与核电    信号在电缆中的传输；前置放大器，主放大器，ADC，TDC 原理；脉冲时间甄别方法    8 学时
+  snippet: 切伦科夫探测器 | 8学时 ... 脉冲信号处理与核电 信号在电缆中的传输；前置放大器，主放大器，ADC，TDC 原理；脉冲时间甄别方法 8 学时
+
+[8] <table><tr><td>选课序号</td><td>课程名称</td><td>学分</td><td>教师</td><td>职称</td><td>人数</td><td>教室</td><td>时间</td><td>备注</td><td>考试时间</td><...
+  url: https://xxgk.fudan.edu.cn/_upload/article/files/5c/2b/1aba1191400b9f8961454661383c/9b887f59-2e58-4a81-801c-1b28038fff10.pdf#94#148#94
+  site: None  authority: 3  date: None
+  summary: 30-10:
+  snippet: 选课序号</td><td>课程名称</td><td>学分 ... 2.0 ... 2018-01-08<br>考试时间：08:30-10:30</td> ... 基础课程和专业课程 ... <tr><td>TCPH130034.01</td><td>信号处理与总线</td>
+
+[9] 备注：理论课
+  url: https://ciae2.kmu.edu.tw/attachments/article/1847/附件二-本科課程中英文簡介.pdf#490#126
+  site: None  authority: 3  date: None
+  summary: 先修课程：《原子核物理》、《核电子学》、《核辐射探测与测量》 面向对象：本科生
+  snippet: 64 学 分 ... 普通物理 面向对象：本科生 ... 考试 任课教师 ... 该课程共分为十章，着重介绍核技术的基本知识，其中第1至第4章讨论了核的基本性质 ... 推荐教材或主要参考书：《原子核物理》，杨福家、王炎森、陆福全著 复旦大学出版社，2002年2月第2版 ... 大学物理，原子核物理，辐射探测与测量，核电子学 面向对象：本科生 ... 64 学 分：4 先修课程：《原子核物理》、《核电子学》、《核辐射探测与测量》 面向对象：本科生 ... 本课程要求学生通过实验数据测量、实验数据处理，掌握射线与物质相互作用的基本规律（α、β、γ）；掌握常用探测器的性能及正确使用技术；熟悉常用仪器的使用 ... 核物理实验方法 ... 先修课程：《原子核物理》、《核电子学》等； 面向对象 ... 推荐教材或主要参考书：《原子核物理实验方法》，北京大学、清华大学、复旦大学合编，原子能出版社
+
+[10] 课程门户-章节详情 - 为了您更好的参与教学内容，建议您使用更快速的浏览器
+  url: https://mooc1.chaoxing.com/mooc-ans/nodedetailcontroller/visitnodedetail?courseId=211871266&knowledgeId=306195398#1
+  site: 超星慕课  authority: 3  date: None
+  summary: - 2 核电子学系统中的信号与噪声 ... - 3 前置放大器 - 3.1 前置放大器作用与分类 - 3.2 电压灵敏前置放大器工作原理 - 3.3 电荷灵敏前置放大器工作原理 - 3.4 电荷灵敏前置放大器主要性能指标 ... 知识单元EC1: ... 知识点： ... 重点与难点： ... 学习目标： ... 核电子学中的信号与噪声（核心） ... 噪声对核测量的影响  噪声的分类和噪声源  核电子学测量系统概述  核电子学常用电子设计软件概述 ... 1.重点：核电子学系统中噪声的来源与特征  2.难点：核电子学测量系统的构建与特征 ... 1. 掌握噪声对核测量的影响；  2. 掌握噪声的来源及其分类；  3. 了解核电子学测量系统；  4. 初步掌握电子设计、仿真软件的应用； ... 电荷灵敏前置放大器（核心） ... 电流灵敏前置放大器 ... 1.重点：前置放大器的主要作用与选取原则  2.难点：电荷灵敏前置放大器的工作原理 ... 1.了解前置放大器的作用与分类；  2.掌握电荷灵敏前置放大器的主要特性与电路分析；  3.了解电压灵敏前置放大器和电流灵敏前置放大器的结构及工作原理。
+  snippet: 3 前置放大器 - 3.1 前置放大器作用与分类 - 3.2 电压灵敏前置放大器工作原理 - 3.3 电荷灵敏前置放大器工作原理 ... 知识单元EC1: 前置放大器 ... 知识点 ... 重点与难点 ... 学习目标...
+
+
+########## QUERY: 核电子学 教学大纲 章节 绪论 探测器 信号与噪声 前置放大器 主放大 成形 单道 多道 定时
+
+[1] Nuclear Electronics
+  url: https://fdjpkc.fudan.edu.cn/d201341/2013/0327/c13952a26444/page.htm
+  site: 复旦大学精品课程网站  authority: 3  date: 2017-03-15T16:00:00+00:00
+  summary: 课程教学大纲 ... 2017-03-16 访问次数: ... 核电子学 ... 本科核工程与核技术专业基础课。 ... 核电子学课程范围比较广泛，本课程主要讲解核辐射探测与测量相关的核电子学。包括基本概念，核电子学信号的特点与分析处理的方法，以及所采用的技术，并对与核电子学相关的最新技术发展进行跟踪介绍。  通过本课程的学习，希望学生掌握核辐射探测与测量实验中常用电子学仪器设备的原理，学会运用最先进的电子学手段对信号进行分析处理。通过本课程的学习使学生为从事核相关研究打下坚实的基础。 ... 教学进度安排：（51学时）  第一章 引论和预备知识（6学时）  核电子学研究的对象、特点和应用领域；辐射探测器输出信号特点；同轴电缆的信号传输与信号分析、RC电路、模拟电子技术、数字电子技术相关知识。  第二章 核电子学中的噪声和前置放大器（3学时）  核电子学中的噪声； 前置放大器的作用与分类；电荷灵敏放大器；电压灵敏放大器；电流灵敏放大器。  第三章 脉冲放大器（6学时）  脉冲放大；滤波与成形；谱仪放大器；快放大器。  第四章 时变与非线性电路（3学时） ... 第五章 脉冲幅度分析（5学时）  脉冲幅度甄别器；单道脉冲幅度分析器；幅度-数字转换。  第六章 时间分析（7学时）  概述；定时方法；符合；时间-信息变换。  第七章 数据获取和处理（6学时）  计数设备；脉冲幅度多道分析器。
+  snippet: 第一章 引论和预备知识（6学时） ... 辐射探测器输出信号特点；同轴电缆的信号传输与信号分析 ... 第二章 核电子学中的噪声和前置放大器（3学时） ... 前置放大器的作用与分类；电荷灵敏放大器 ... 滤波与成形...
+
+[2] 备注：理论课
+  url: https://ciae2.kmu.edu.tw/attachments/article/1847/附件二-本科課程中英文簡介.pdf#490#126
+  site: None  authority: 3  date: None
+  summary: 先修课程：《原子核物理》、《核电子学》、《核辐射探测与测量》 面向对象：本科生 ... 课程简介：本课程要求学生通过实验数据测量、实验数据处理，掌握射线与物质相互作用的基本规律（α、β、γ）；掌握常用探测器的性能及正确使用技术；熟悉常用仪器的使用；掌握射线（α、β、γ）强度测量、能谱测量方法以及中子测量和剂量测量的基本实验技术和方法。 ... 课程简介：核工程与核技术是原子能科学技术的基础学科之一，辐射探测与测量是这一基础学科的重要方向，它的物理基础是射线与物质相互作用、核辐射的探测与测量技术和方法。 本课程重点是阐明研究射线与物质相互作用的基本规律；介绍气体探测器、闪烁探测器和半导体探  测器等几大类射线探测器的工作原理；介绍α、β、γ射线及中子的强度测量、能谱测量方法、符合测量技术。本课程重点要求弄清原理概念，掌握射线与物质相互作用的基本规律（α、β、γ、中子）；掌握常用探测器的工作原理、结构、性能及使用方法和条件；掌握物理量的基本测量原理和测量方法；对特殊探测器的情况有所了解。通过本课程的学习培养学生的分析问题和解决问题的能力，为学生今后从事与核技术、核测量有关的工作和科学研究奠定基础。
+  snippet: 本科生 ... 大学物理，原子核物理，辐射探测与测量，核电子学 面向对象 ... 先修课程：《原子核物理》、《核电子学》、《核辐射探测与测量》 面向对象：本科生 ... 本课程要求学生通过实验数据测量、实验数据处理，掌握射线与物质相互作用的基本规律（α、β、γ）；掌握常用探测器的性能及正确使用技术；熟悉常用仪器的使用；掌握射线（α ... γ）强度测量、能谱测量方法以及中子测量和剂量测量的基本实验技术和方法 ... 介绍气体探测器、闪烁探测器和半导体探 测器等几大类射线探测器的工作原理；介绍α ... 掌握常用探测器的工作原理、结构、性能及使用方法和条件；掌握物理量的基本测量原理和测量方法...
+
+[3] ●课件地址：
+  url: http://staff.ustc.edu.cn/~chenlian/NuclearElectronics/Chapter0.pdf#3#1
+  site: None  authority: 3  date: None
+  summary: # 核电子学研究对象 ... - > 利用核辐射探测器来传递核辐射信息，并将其转换成电信号，进而用电子学方法来获取和处理核信息     - > 研究对象：核辐射探测器给出的电信号 ... - 探测器：电离室、正比管、闪烁体...      - 电信号：电信号检出、前置放大、阻抗变换...      - 模拟处理：放大、成形、滤波... ... - 数据获取系统：数据处理、在线分析、数据存储... ... - 探测器 ... # 核电子学的基本技术 ... ✓ 模拟信号的成形、放大，模数变换，数据采集      - 噪声处理       ✓ 针对探测器输出信号特点，提高信噪比 ... ✓ 时间测量、定时分析、符合测量等 ... ✓ 脉冲形状甄别、飞行时间谱仪、径迹测量等 ... ✓ 从噪声和本底信息中提取有效的事例信息 ... # 核电子学系统的组成  - 核电子学系统的基本结构      - 电信号模拟调理电路       - ✓ 前置放大器、主放大器等 ... - ✓ 符合电路、触发判选电路等 ... - ✓ 幅度-数字变换器（ADC）、时间数字变换器（TDC）、位置数字编码等 ... - ✓ 专用硬件数据获取系统（如多道分析器）和基于计算机的数据获取系统等 ... 电信号调理电路    数据获取系统    | 探测单元 | 探测器信号    | 前端电子学    | 子事例信息    | 采集主系统 | 全事例信息    | 存储 | |---|---|---|---|---|---|---| ... |    | 触发数据    | 触发判选    |    |    |    |    | |    | 系统参考信号    | 触发处理    |    |    | 用户接口    |    |  ---  ## 事例选择电路 ... - 前端电子学系统       ✓ 实现滤波、成形处理、信号放大等功能 ... ✓ 一次作用产生一个结果，其结果的信息集合称为一个事例       ✓ 判选原则：必须与作用时间相关联、不去失好事例、尽可能剔除本底事例、尽可能减少死时间       ✓ 一般采用多级触发判选对原始事例进行甄别，产生事例的选通 ... - ✓ 将前端电路各部分信息按一定格式收集，组成事例信息集合       ✓ 对事例进行预处理、判选后，记录在永久媒体中
+  snippet: 探测器：电离室 ... 电信号检出、前置放大、阻抗变换... - 模拟处理：放大、成形 ... ✓ 模拟信号的成形、放大，模数变换，数据采集 - 噪声处理 ... - ✓ 前置放大器、主放大器等
+
+[4] 课程门户-章节详情 - 为了您更好的参与教学内容，建议您使用更快速的浏览器
+  url: https://mooc1.chaoxing.com/mooc-ans/nodedetailcontroller/visitnodedetail?courseId=211871266&knowledgeId=306195398#1
+  site: 超星慕课  authority: 3  date: None
+  summary: - 1 核电子学基础 ... - 2 核电子学系统中的信号与噪声 - 2.1 核辐射探测器工作原理 - 2.2 核辐射探测器输出信号 - 2.3 核电子学中的噪声 - 2.4 核电子学测量系统  - 3 前置放大器 - 3.1 前置放大器作用与分类 - 3.2 电压灵敏前置放大器工作原理 - 3.3 电荷灵敏前置放大器工作原理 - 3.4 电荷灵敏前置放大器主要性能指标  - 4 主放大器 - 4.1 谱仪放大器作用与框图 - 4.2 谱仪放大器的放大节 - 4.3 谱仪放大器中的滤波成形 - 4.3.1 谱仪放大器作用 - 4.3.2 最佳滤波器讨论 - 4.3.3 无源滤波成形电路 - 4.3.4 有源滤波成形电路  - 4.4 基线恢复器 - 4.5 堆积拒绝电路 - 4.6 其他主要放大器 ... - 5.2 单道脉冲幅度分析器 - 5.2.1 单道脉冲幅度分析器工作原理 - 5.2.2 单道脉冲幅度分析器技术指标 ... - 6 时间分析 - 6.1 定时方法 - 6.1.1 前沿定时 - 6.1.2 过零定时 - 6.1.3 恒比定时 - 6.1.4 幅度和上升时间补偿定时 - 6.1.5 定时比较方法 ... - 6.3 时间量变换方法 ... - 6.4 脉冲波形甄别 ... - 7.2.1 多道分析器基本原理 - 7.2.2 多道分析器主要指标 ... 知识领域1：核电子学基础（BE）  知识单元BE1：核电子学课程基础 ... 知识领域2：核电子学基本单元电路（EC）  知识单元EC1: ... 知识单元EC2: ... 知识单元EC3: ... 知识单元EC4: ... （三）知识单元的描述 ... 信号与系统基础  知识点：  核电子学与核仪器学习的内容和要求  信号与系统基础简介  核辐射探测器概述 ... 重点与难点：  1.重点：核电子学信号的特殊性  2.难点：核辐射探测器输出信号特征  学习目标：  1. 初步掌握核电子学与核仪器的学习内容和要求；  2. 熟悉学习核电子学对信号与系统的要求；  3. 了解核辐射探测器的基本性能及其输出电路；  4. 掌握电路分析的基本方法。 ... 核电子学中的信号与噪声（核心） ... 噪声对核测量的影响  噪声的分类和噪声源  核电子学测量系统概述  核电子学常用电子设计软件概述 ... 1.重点：核电子学系统中噪声的来源与特征  2.难点：核电子学测量系统的构建与特征 ... 1. 掌握噪声对核测量的影响；  2. 掌握噪声的来源及其分类；  3. 了解核电子学测量系统；  4. 初步掌握电子设计、仿真软件的应用； ... 电荷灵敏前置放大器（核心） ... 电流灵敏前置放大器 ... 1.重点：前置放大器的主要作用与选取原则  2.难点：电荷灵敏前置放大器的工作原理 ... 1.了
+  snippet: 2 核电子学系统中的信号与噪声 ... - 3 前置放大器 - 3.1 前置放大器作用与分类 - 3.2 电压灵敏前置放大器工作原理 ... - 4 主放大器 ... 知识单元EC1: 前置放大器 ... 重点与难点 ... 学习目标...
+
+[5] 在学术交流中，应会从问题出发形成科学论据，评估证据，得出观点，并获得实验结论
+  url: https://jwc.fudan.edu.cn/_upload/article/files/d4/56/707002a8413b8a3cc690244c1118/16365b27-187d-4d83-87cc-1e1b97fe6230.pdf#25#15
+  site: None  authority: 3  date: None
+  summary: ## 13. ... </td></tr><tr><td>基本内容简介</td><td colspan="6">核电子学课程范围比较广泛，本课程主要讲解核辐射探测与测量相关的核电子学。包括基本概念，核电子学信号的特点与分析处理的方法，以及所采用的技术，并对与核电子学相关的最新技术发展进行跟踪介绍。 ... </td></tr><tr><td colspan="7">教学内容安排（（按54学时共18周计，线上23学时，线下31学时，包括考前答疑和期末考试）。<br>线下讨论课具体时间安排：均按照课程表上的地点上课，学时为2学时<br>第一周（绪论），第三周（预备知识），第四周（前放），第六周（主放），第七周（时变和非线性电路），第九周（幅度分析），第十一周（时间分析），第十三周（数据获取系统），第十四周（实验），第十五周（实验），第十六周（实验）</td></tr></table> ... 第一章绪论（2学时：线下，老师主讲）（核电子学发展史，科学精神：学科交融、创新意识；大型集装箱检测，国家意识：产业报国；科学精神：学科交融、创新意识）    \(\S 1.1\) 核电子学研究的对象、特点和应用领域；    \(\S 1.2\) 辐射探测器输出信号特点； ... 第三章 核电子学中的噪声和前置放大器（4学时：2学时，线上，视频+自测；2学时，线下，讨论）（噪声主要来源及解决办法，科学精神：分类分析、主要矛盾）    \(\S 3.1\) 核电子学中的噪声；    \(\S 3.2\) 前置放大器的作用与分类；电荷灵敏放大器；电压灵敏放大器；电流灵敏放大器。 ... \(\S 4.1.3\) 滤波与成形； ... \(\S 7.2\) 定时方法；
+  snippet: 第一章绪论（2学时：线下，老师主讲）（核电子学发展史 ... \(\S 1.2\) 辐射探测器输出信号特点 ... 第三章 核电子学中的噪声和前置放大器（4学时：2学时...
+
+[6] In traditional analog acquisition, the output is a voltage step with height proportional to the charge Q, which is then shaped i...
+  url: https://eg-fr.uc.pt/bitstream/10316/107892/1/neutron_gamma_UC_ver2_posJuri.pdf#14#6
+  site: None  authority: 3  date: None
+  summary: Passive filters, employing inductors and capacitors, and active electronic filters, which add transistors (introducing binary logic and amplification), both still treat the signal analogically. Digital filtering uses only transistors and switched capacitors to modify the signal. There is a mathematical component of digital filtering, consisting of replicating or approximating the transfer function of analog filters in digital logic. Beyond providing an alternative method to filters, and the reliability of having a digital signal, the greatest asset of digital processing is the greater versatility in the types of filters that can be used. Transfer functions are no longer limited by electronic components. For example, a finite duration impulse response, a perfectly square wave, programmable filters, and error detection are possible only through digital processing. ... #### Event Detection  Whether an acquisition system is continuously acquiring data, or only registering only data where there is relevant information, there needs to be a way to detect when a particle has interacted with the detector. Because of this, a method to detect an event is a mandatory step for acquisition. The 
+  snippet: The role of creating a logic signal at the moment a pulse is detected is carried out by a time pick-off unit, also called a trigger. ... The NIM standard in 1969 first defined electronic components as modules such as a preamplifier, integral discriminator or the trigger units that were mentioned in earlier sections.
+
+[7] 选择要学习的班级
+  url: https://mooc1-1.chaoxing.com/course-ans/courseportal/mobile/protal?courseId=4cSOaT2qJ6RVzd6Rpfrn_Q%3D%3D&clazzId=0
+  site: 超星慕课  authority: 3  date: None
+  summary: 核电子学 ... 从知识角度，学习掌握前置放大器、脉冲放大器、基线恢复器、单道及多道脉冲幅度分析器等常用电路的结构和工作原理； ... 核辐射探测器产生信号的过程及等效电路 ... 探测器的选取原则  - 1.4 核辐射探测器信号读出电路及信号特征 ... 前置放大器  - 2.1 核电子学中的噪声  - 2.2 前置放大器的作用、分类  - 2.3 电压前置放大器  - 2.4 电荷灵敏前置放大器  - 2.5 电流灵敏前置放大器  - 2.6 前置放大器的特点与选择  - 2.7 电荷灵敏前置放大器典型案例 ... 谱仪放大器的作用与基本结构  - 3.3 微分成形与极零相消电路  - 3.4 放大节与积分滤波成形  - 3.5 数字化脉冲成形 ... 多道脉冲幅度分析器  - 5.1 多道脉冲幅度分析器的基本结构与工作原理  - 5.2 脉冲峰值保持器  - 5.3 AD转换器及性能指标  - 5.4 数字化多道脉冲幅度分析器的基本结构  - 5.5 数字化多道脉冲幅度分析器的典型案例 ... 定时甄别器
+  snippet: 从知识角度，学习掌握前置放大器、脉冲放大器、基线恢复器、单道及多道脉冲幅度分析器等常用电路的结构和工作原理 ... 核辐射探测器产生信号的过程及等效电路 ... 探测器的选取原则 ... 核辐射探测器信号读出电路及信号特征 ... 核电子学中的噪声 - 2.2 前置放大器的作用...
+
+[8] Les impulsions à traiter en électronique nucléaire ont une occurrence aléatoire, le phénomène de radioactivité étant statistique...
+  url: https://inis.iaea.org/records/ve925-sbg72/files/41072943.pdf?download=1#5#3
+  site: None  authority: 4  date: None
+  summary: ## II.2.3.1 Types des convertisseurs   - Les convertisseurs dites Flash, mais limités en précision. Leur rapidité les destine en particulier aux oscilloscopes numériques, qui se contentent de convertisseurs à 6 ou 8 bits.   - Les convertisseurs à approximations successives, moins rapides que les précédents, mais avec des possibilités en résolution bien supérieures (8 à 16 bits).   - les convertisseurs à comptage d'impulsion sont très précis, et sont aptes à filtrer des bruits importants. Cependant, ils sont très lents, donc destinés à faire des mesures de signaux stabilisés.   ## II.2.3.2 Caractéristiques des convertisseurs   - Plage de conversion : Le convertisseur délivre en sortie un nombre fini de codes numériques, correspondant à une gamme de tension analogique d'entrée bornée : c'est la plage de conversion (ou tension de plein échelle) du convertisseur.   - Résolution : Le signal numérisé sera d'autant plus riche en information que l'intervalle de tension qui sera codé par le même nombre binaire sera petit, et ceci à plage de conversion donnée. La résolution du convertisseur sera l'intervalle de tension d'entrée à laquelle correspondra un même nombre binaire.   - Dynamique : 
+  snippet: L’analyseur multicanaux permet une spectroscopie globale et rapide ... L’étage du convertisseur analogique numérique représente la première étape du traitement du signal issue du préamplificateur. Son but est de convertir une crête en un signal numérique traduisant l’amplitude de cette crête.
+
+[9] 《核电子学》教学大纲.docx
+  url: https://www.renrendoc.com/paper/269958191.html
+  site: 人人文库  authority: 2  date: 2023-06-01T16:00:00+00:00
+  summary: # 《核电子学》教学大纲 ... 《核电子学》教学大纲课程代码TCPH130004编写时间2022年2月课程名称核电子学英文名称NuclearElectronics学分数3周学时3*任课教师**开课院系核科学与技术系预修课程模拟电子基础、数字电子基础（理论、实验）课程性质：本科核工程与核技术专业基础课。教学目的：核电子学课程范围比较广泛，本课程主要讲解核辐射探测与测量相关的核电子学。包括基本概念，核电子学信号的特点与分析处理的方法，以及所采用的技术，并对与核电子学相关的最新技术发展进行跟踪介绍。通过本课程的学习，希望学生掌握核辐射探测与测量实验中常用电子学仪器设备的原理，学会运用最先进的电子学手段对信号进行分析处理。通过本课程的学习使学生为从事核相关研究打下坚实的基础。教材和教学参考资料：作者教材名称出版社出版年月讲义自编核电子学（上册）原子能出版社1983年6月教学进度安排：（51学时）第一章引论和预备知识（6学时）核电子学研究的对象、特点和应用领域；辐射探测器输出信号特点；同轴电缆的信号传输与信号分析、RC电路、模拟电子技术、数字电子技术相关知识。第二章核电子学中的噪声和前置放大器（3学时）核电子学中的噪声；前置放大器的作用与分类；电荷灵敏放大器；电压灵敏放大器；电流灵敏放大器。第三章脉冲放大器（6学时）脉冲放大；滤波与成形；谱仪放大器；快放大器。第四章时变与非线性电路（3学时）线性门；展宽器；堆积判弃；基线恢复。习题课（3学时）第五章脉冲幅度分析（5学时）脉冲幅度甄别器；单道脉冲幅度分析器；幅度-数字转换。第六章时间分析（7学时）概述；定时方法；符合；时间-信息变换。第七章数据获取和处理（6学时）计数设备；脉冲幅度多道分析器。
+  snippet: （51学时）第一章引论和预备知识（6学时）核电子学研究的对象、特点和应用领域；辐射探测器输出信号特点；同轴电缆的信号传输与信号分析 ... 第二章核电子学中的噪声和前置放大器（3学时）核电子学中的噪声；前置放大器的作用与分类...
+
+[10] 核动力工程全范围虚拟仿真实验教学中心 - 《核电子学》实验教学大纲
+  url: https://vnp.ncepu.edu.cn/syxm/hdzxl1/1eb7332913e1448faf2128dcf53669be.htm#1
+  site: 华北电力大学  authority: 3  date: 2026-04-15T16:00:00+00:00
+  summary: ## 《核电子学》实验教学大纲 ... 本项目将主要面向本科生，因此实验课程以认识并熟悉核辐射探测器的工作原理，信号发生过程，电子学信号的转化和读出（包括电荷的拾取过程、电荷与电流的转化过程、真假辐射的甄别、电子学噪声等），而课程最终考核的大作业将结合核技术应用的需求，列出综合性设计题目交由学生完成，以实现培养电力控制及核电子学设计人才的目标，使学生具备相关核电子学的入门水平，并期望通过有特色的实验环节，吸引学生自主的在该专业方向上进一步提高核电子学设计水平。 ... 三、实验内容及学时分配（黑体，小4号字）  实验一示波器与信号发生器原理及使用（基础性实验，0.5周学时）  学生掌握基本的示波器和信号发生器的使用方法，学会输出指定形状的周期信号及脉冲信号，学会幅度测量、时间测量以及对测量结果的统计分析。  实验二核电子学基础实验（基础性实验，0.5周学时）  学生掌握前置放大器、主放大器滤波成型、单道分析器、定标器及多道分析器一整套核电子学系统的连接及使用方法，可自主调整参数以获得准确可靠的测量结果。  实验三闪烁体探测器宇宙射线实验（综合性实验，0.5周学时）  基于闪烁体探测器测量宇宙射线，并统计宇宙射线的各项统计性参数。  实验四双探测器符合测量实验（综合性实验，0.5周学时）  使用闪烁体探测器作为符合测量通道，测量宇宙射线，并与无符合通道时的测量结果进行比较，了解符合测量的意义及目的。
+  snippet: 学生掌握前置放大器、主放大器滤波成型、单道分析器、定标器及多道分析器一整套核电子学系统的连接及使用方法，可自主调整参数以获得准确可靠的测量结果。
+
+
+########## QUERY: 核工程与核技术 培养方案 核电子学 第5学期 先修 核辐射探测 后续 核信息获取与处理
+
+[1] <table><tr><td rowspan="3">理，识别、表达核能开发与利用、核技术应用等领域复杂核工程技术问题，通过文献研究进行分析并获得有效结论
+  url: https://nd.swust.edu.cn/2019/0813/c1562a109678/page.htm?_x_output_type_b6db407c4_=embedded_pdf#13#2
+  site: None  authority: 3  date: None
+  summary: </td><td>核数据获取与处理、核电子学、辐射探测学、电工电子技术</td></tr><tr><td>3.2 针对设计方案中涉及的关键部件、系统设备等，能选择恰当的加工方法、工艺流程和加工设备，或开发新工艺和新技术； ... </td><td>核安全概论、核反应堆安全分析、辐射剂量与防护、核工程与核技术专业毕业设计（论文）、核反应堆物理分析、项目训练（D/CDIO）</td></tr><tr><td rowspan="3">4.研究：能够基于科学原理并采用科学方法对核能开发与利用、核技术应用领域内相关问题进行研究，运用实验和虚拟仿真等手段验证设计方案，分析与解释实验数据和仿真结果，并通过信息综合得到合理有效结论。 ... </td><td>大学物理实验、无机及分析化学实验、核工程与核技术专业通用软件、核技术实验、核工程实验</td></tr><tr><td>4.2 根据研究问题的特点，综合运用核物理、核技术实验手段，选择合适路线，设计并完成探索性实验，或采用虚拟仿真技术对相应问题进行研究；</td><td>核电子学、核技术实验、专业综合实验</td></tr><tr><td>4.3 能够用科学的方法分析与解释模拟结果或实验获取的数据，并通过信息综合分析得到合理有效的结论。</td><td>核工程与核技术专业毕业设计（论文）、原子物理与量子力学、核工程与核技术专业课程设计</td></tr><tr><td rowspan="3">5.使用现代工具：针对核能开发与利用、核技术应用等领域内复杂工程问题，能够选择、使用适当的仪器设备、软件、信息检索工具、专业数据库，进行模拟和预测；并能够理解上述工具应用的局限性，有针对性地采取相应的弥补措施。</td><td>5.1 了解常用的核仪器，信息检索工具，专业软件的使用原理和方法，并理解其局限性；</td><td>核电子学、大学计算机、计算机基本技能训练、专业程序设计基础、核数据获取与处理</td></tr><tr><td>5.2 能够选择和使用恰当的核仪器、核数据库、专业软件，对核能开发与利用、核技术应用等领域内复杂工程问题进行分析、计算与设计；</td><td>专业综合实验、核工程实验、核工程与核技术专业通用软件</td></tr><tr><td>5.3 针对核工程、核技术问题通过组合、选配、改进、二次开发等方式，使用核专业软件进行模拟与预测，并能够分析其局限性。</td><td>专业程序设计基础、核工程与核技术专业毕业设计（论文）</td></tr></table>
+  snippet: </td><td>核电子学、大学计算机、计算机基本技能训练、专业程序设计基础、核数据获取与处理</td></tr><tr><td>5.2 能够选择和使用恰当的核仪器、核数据库、专业软件 ... 核技术应用等领域内复杂工程问题进行分析、计算与设计...
+
+[2] 核工程与核技术专业人才培养方案
+  url: https://nd.njit.edu.cn:443/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1657807825&wbfileid=F10B8F2D81E015E57A8082D37DA96ED4#2#1
+  site: None  authority: 3  date: None
+  summary: ## 核工程与核技术专业人才培养方案    专业代码：082201    英文名称：Nuclear Engineering and Technology    ## 1、培养目标    以立德树人为目标，培养德智体美劳全面和谐发展，基础扎实，富有较强的工程意识、实践能力和创新能力的核工程领域专业技术人才，胜任未来核工程与核技术专业工程师或研究继续深造的能力。    本专业毕业生毕业后5年左右能达到的目标：    (1)具备健康的身心和良好的人文科学素养，富有社会责任感，能够在核工程与核技术及相关领域的工程实践中理解并遵守工程职业道德和规范，履行责任。    (2)能够运用核工程专业知识与工程技能，具备独立发现、研究与解决核工程领域工程问题的能力，具有从事核电厂的运行、维护、检修、核辐射监测与防护、核电工程项目的安装与调试的工作能力。    (3)具备良好的社会科学知识和管理能力，具有良好职业道德与国际视野，在工作中具有社会责任感事业心、核安全文化与环保意识，能积极服务社会，能在多学科环境下和跨职能团队中工作，发挥专门技术人才的作用。    (4)具有自主学习和终身学习的意识，能够通过继续教育或其他终身学习途径，自我更新知识和提升能力。    ## 2、毕业要求    【毕业要求1】工程知识：掌握数学、自然科学、工程基础和能源动力工程专业知识，能将数学、自然科学、工程基础和核工程专业知识用于解决核工程领域复杂工程题。    【毕业要求2】问题分析：能够应用数学，自然科学和工程科学的基本原理，识别、表达、并通过文献研究分析核工程领域复杂工程问题，以获得有效结论。    【毕业要求3】设计开发解决方案：能够设计针对核工程领域复杂工程问题的解决方案设计满足特定需求的核动力系统、前元（部件）或工艺流程，并能够在设计环节中体现创新意识，考虑社会，健康、安全、法律、文化以及环境等因素。    【毕业要求4】研究：能够基于科学原理并采用科学方法对复杂核工程问题进行研究包括设计实验，分析与解释数据、并通过信息综合得到合理有效的结论。    【毕业要求5】使用现代工具：能够针对复杂核工程问题，开发、选择与使用恰当的技术、  资源，现代工程工具和信息技术工具，包括对复杂核工程问题的预测与模拟并能够理解其局限性。    【毕业要求6】工程与社会：能够基于核工程相关背景知识进行合理分析，评价专业工程实践和复杂工程问题解决方案对社会、健康，安全，法律以及文化的影响并理解应承担的责任。    【毕业要求7】环境和可持续发展：能够理解和评价针对复杂核工程问题的工程实践对环境、社会可持续发展的影响。    【毕业要求8】职业规范：具有人文社会科学素养、社会责任感，核安全文化理念，能够在核工程实践中理解并遵守工程职业道德和规范，履行责任。    【毕业要求9】个人和团队：能够在多学科背景下的团
+  snippet: (2)能够运用核工程专业知识与工程技能，具备独立发现、研究与解决核工程领域工程问题的能力，具有从事核电厂的运行、维护、检修、核辐射监测与防护、核电工程项目的安装与调试的工作能力。
+
+[3] <table><tr><td>课程编号</td><td>课程名称</td><td>学分</td><td>备注</td></tr><tr><td colspan="4">课组一：</td></tr><tr><td>40320654</td><td>核电子学<...
+  url: https://cloud.tsinghua.edu.cn/seafhttp/files/7510a85f-b9ef-4467-b67b-e24ea3ac3bbc/2023%E7%BA%A7%E5%9F%B9%E5%85%BB%E6%96%B9%E6%A1%88.pdf#105#30
+  site: None  authority: 3  date: None
+  summary: </td><td>核电子学</td> ... <tr><td>40320612</td><td>核数据获取与处理</td><td>2学分</td> ... <tr><td>40320752</td><td>核数据获取与处理课程设计</td> ... <td>高等核电子学</td> ... <td> ... </td>
+  snippet: </td></tr><tr><td>40320654</td><td>核电子学</td><td>4学分</td><td></td></tr><tr><td>40320612</td><td>核数据获取与处理</td><td>2学分</td> ... 752</td><td>核数据获取与处理课程设计</td>
+
+[4] 核工程与核技术专业本科生培养方案
+  url: http://power.hit.edu.cn/_upload/article/files/4b/70/e1ad7dd34b4d9e24c033d265108e/fc4270da-d591-4fd5-ad90-907818ac1e56.pdf#2#1
+  site: None  authority: 3  date: None
+  summary: # 核工程与核技术专业本科生培养方案  ## 一、培养目标  面向世界科技前沿，面向国家重大需求，培养具有优良品德、执着信念和社会责任感，具备多维知识结构、创新思维和国际视野，具备组织协调和解决复杂工程问题能力，在核工程与核技术及相关领域引领未来发展的杰出人才。  ## 二、培养要求  本专业学生主要学习各种能量转换及有效利用的理论与技术，接受现代科学与工程的基本训练，掌握能源、热科学及动力系统基础理论，掌握计算机及控制技术等现代工具，具备从事核工程与核技术领域设备研究开发、设计制造和应用管理所必需的工程技术知识，具有应用所学知识提出、分析及解决核工程与核技术领域复杂工程问题的能力。本专业学生还应具有有效的沟通与交流能力，具备良好的职业道德和团队精神，对职业、社会、环境有责任感，树立节能减排的理念。  本专业毕业生应获得以下几方面的知识、能力和素质：  1. 工程知识：具有从事核工程与核技术领域工作所需的相关数学、自然科学知识，掌握能源生产、转化、利用与核动力系统研发的基本理论和基本技能，并能将所学知识用于解决复杂核工程与核技术领域工程问题。  2. 问题分析：具有运用所学的数学、自然科学和核工程与核技术专业科学理论和技术方法实施核工程与核技术领域的工程实践，并能够对具体的复杂核工程与核技术领域工程问题查找专业文献进行结果分析。  3. 设计/开发解决方案：具有综合运用所学知识设计（开发）解决复杂核工程与核技术领域工程问题的基本能力，具有设计核工程与核技术设备的能力，具有初步的创新能力，并能够在核工程与核技术设备设计方案中体现创新意识，考虑社会、健康、安全、法律、文化以及环境等因素。  4. 研究：掌握基本的创新方法，具有正确的追求创新的态度和意识，能够运用核工程与核技术专业科学理论对复杂核工程与核技术领域工程问题开展科学研究，能够设计实验、分析数据，并通过信息综合得到合理有效的结论。  5. 使用现代工具：具有工程制图、计算机辅助设计和应用计算机进行数据处理及分析的能力；掌握文献检索及运用现代信息技术获取相关信息的基本方法，能够通过专业资料数据库、期刊文献等渠道了解核工程与核技术领域的新理论和前沿技术进展。  6. 工程与社会：了解国家核工程与核技术专业相关的政策、法律法规、标准，能正确认识核工程与核技术专业对于社会经济发展的影响，理解核工程与核技术领域工程问题对社会、环境、健康以及文化的影响，并理解应承担的责任。  7. 环境和可持续发展：了解核工程与核技术专业的发展现状和趋势，理解环境保护和可持续发展的重要性；能够评价复杂核工程与核技术领域工程对环境、社会可持续发展的影响。  8. 职业规范：具有较好的人文社会科学素养、较强的社会责任感，具有严谨治学、求真务实、团结协作的品质以及良好工程职业道德和服务意识。  9. 个人和团队：具有一定的组织能力、较好
+  snippet: 应用核物理基础、核工程量子力学原理、核反应堆物理分析I、核反应堆热工水力学I、核反应堆安全分析I、核动力系统与设备I、辐射防护、聚变能源物理与工程 ... |课程代码|课程名称|学分|学时|备注|
+
+[5] 在学术交流中，应会从问题出发形成科学论据，评估证据，得出观点，并获得实验结论
+  url: https://jwc.fudan.edu.cn/_upload/article/files/d4/56/707002a8413b8a3cc690244c1118/16365b27-187d-4d83-87cc-1e1b97fe6230.pdf#25#15
+  site: None  authority: 3  date: None
+  summary: ## 13. ... <table><tr><td>课程代码</td><td colspan="6">TCPH130004</td></tr><tr><td>课程名称</td><td colspan="6">核电子学（混合式教学）</td></tr><tr><td>英文名称</td><td colspan="6">Nuclear Electronics</td></tr><tr><td>学 分 数</td><td>3</td><td>周学时</td><td>3</td><td>授课语言</td><td colspan="2">中文</td></tr><tr><td>课程性质</td><td colspan="6">核工程与核技术专业 专业核心课程</td></tr><tr><td>教学目的</td><td colspan="6">通过本课程的学习，希望学生掌握核辐射探测与测量实验中常用电子学仪器设备的原理，学会运用最先进的电子学手段对信号进行分析处理。通过本课程的学习使学生为从事核相关研究打下坚实的基础。结合核电子学知识体系、学科发展史和国内现状，培养学生科学严谨的探索精神、精益求精的工匠精神，激发学生勇于开拓的创新意识，坚定学生产业报国的使命感。</td></tr><tr><td>基本内容简介</td><td colspan="6">核电子学课程范围比较广泛，本课程主要讲解核辐射探测与测量相关的核电子学。包括基本概念，核电子学信号的特点与分析处理的方法，以及所采用的技术，并对与核电子学相关的最新技术发展进行跟踪介绍。</td></tr><tr><td colspan="7">基本要求：<br>本课程面向核物理、核工程与核技术专业二年级学生，为专业必修课程。<br>1. 要求预修模拟电子技术、数字电子技术。<br>2. 包含23学时的线上学习，要求具备上网学习条件并熟练使用网络，能够在规定时间内独立完成线上学习任务。<br>3. 包含25学时的线下学习（不包含线下答疑和考试），涉及线下讨论、个人汇报等，要求能够积极参与团体活动。</td></tr><tr><td colspan="7">教学内容安排（（按54学时共18周计，线上23学时，线下31学时，包括考前答疑和期末考试）。<br>线下讨论课具体时间安排：均按照课程表上的地点上课，学时为2学时<br>第一周（绪论），第三周（预备知识），第四周（前放），第六周（主放），第七周（时变和非线性电路），第九周（幅度分析），第十一周（时间分析），第十三周（数据获取系统），第十四周（实验），第十五周（实验），第十六周（实验）</td></tr></table>    和非线性电路），第九周（幅度分析），第十一周（时间分析），第十三周（数据获取系统），第十四周（实验），第十五周（实验），第十六周（实验）    第一章绪
+  snippet: 希望学生掌握核辐射探测与测量实验中常用电子学仪器设备的原理 ... </td></tr><tr><td>基本内容简介</td><td colspan="6">核电子学课程范围比较广泛，本课程主要讲解核辐射探测与测量相关的核电子学 ... 4学时，线上，视频+自测；2学时 ... 第八章 数据获取和处理（6学时：4学时...
+
+[6] 兰州大学核科学与技术学院核工程与核技术专业人才培养方案
+  url: https://snst.lzu.edu.cn/snstnew/upload/files/20241105/314c220dbaca49429c1f4b9713fd118b.pdf#1#1
+  site: None  authority: 3  date: None
+  summary: # 兰州大学核科学与技术学院核工程与核技术专业人才培养方案    （2019版） ... 核工程与核技术专业主要是培养能在核工程与核技术领域从事研究、设计、生产、应用与管理等的专门人才。 ... 本专业致力于培养核工程与核技术方面的技术型人才，学制四年。    1. 要求学生系统地掌握物理学和核物理学相关的基础理论知识、实验方法与技能，掌握数学、电子技术与计算机技术等工具，重点学习反应堆、加速器、核仪器仪表等与核工程与核技术相关的专业知识。 ... （2）能够针对基本的核物理过程、核辐射探测系统、电子电路建立合适的数学模型； ... 能够基于科学原理并采用科学方法对核工程与核技术应用、核辐射探测等问题进行研究，包括设计核技术应用实验、核辐射测量实验，分析与解释模拟计算数据、实际测量数据，并通过信息综合分析得到合理有效的结论。    （1）能够识别、表述和分析核工程与核技术应用、核辐射探测中的基本物理现象及其原理和实验测量手段；  （2）能够设计并开展核技术应用实验、核辐射测量实验；    （3）能够分析与解释模拟计算数据和实际测量数据，并通过信息综合分析得到合理有效的结论。 ... 针对核工程与核技术应用、核辐射测量问题，能够选择、使用合适的仪器、软件、信息检索工具、专业数据库，进行模拟和预测。 ... 四年。学校实行弹性学制，允许学生分阶段完成学业。但具有学籍的时间最长不超过八年，累计修业时间不超过六年。 ... 专业课是使学生掌握必要的专业基本理论、专业知识和专业技能，了解本专业的前沿科学技术和发展趋势，培养分析解决实际问题的能力。专业课分为专业核心课、专业限选课。    专业课包括专业核心课程、专业限选课程及专业大类选修课程三个子模块，共计43门课，总计98学分。其中专业核心课程子模块包括19门课程，合计46学分，所有课程均为必修课程；专业限选课包括“核工程与核技术导读”1门，1学分，该课程为必修课程；专业大类选修课程模块包括23门课程（包括“核工程与核技术前沿讲座”），合计52学分，在该子模块中本专业学生至少选修16学分，其中“数学物理方法”、“电动力学”、“量子力学”、“热力学统计物理学”、“核安全技术与法规”、“核工程与核技术前沿讲座”为指定选修课。    ## 1.专业核心课    专业核心课是本专业学生掌握和提高基础理论、基本知识和基本技能的必修课程。专业核心课共计19门，须修读46个学分。
+  snippet: 能够基于科学原理并采用科学方法对核工程与核技术应用、核辐射探测等问题进行研究，包括设计核技术应用实验、核辐射测量实验，分析与解释模拟计算数据、实际测量数据，并通过信息综合分析得到合理有效的结论 ... <td>3</td> ... <td>核电子学</td>
+
+[7] 2019 版核工程与核技术本科专业培养方案
+  url: https://jwc.usc.edu.cn/__local/D/CF/14/1D4F95D215741379BCDE994232E_A4EBDFA0_7C83F.pdf#4#1
+  site: None  authority: 3  date: None
+  summary: # 2019 版核工程与核技术本科专业培养方案 ... 本专业学生主要学习自然科学基础、原子核物理、核辐射探测技术、核电子技术、辐射剂量与防  护以及核技术应用、反应堆工程的基础知识，接受良好的科学思维和科学实验的基本训练, 掌握从事本  专业领域的设计、研发、工程、生产、管理等方面工作的基本能力。 ... 1-3：掌握核工程与核技术领域的专业知识，能将其应用于核信号的获取与处理，核技术及应用、核反应堆工程等复杂问题的分析、建模与求解。 ... 3-1：能够针对核信号获取与处理，核技术及应用、核反应堆工程复杂工程问题的设计解决方案，设计、优化满足特定需求的仪器设备或功能单元，在设计环节中体现创新意识；  3-2：了解核工程与核技术对社会、健康、安全、法律、文化以及环境的影响，能够从系统的角度权衡核信号的获取与处理，核技术及应用、核反应堆工程复杂问题所涉及的相关因素，优化设计，完成方案，体现创新意识。 ... 4-1：能够基于专业知识和科学原理，并采用科学方法对核信号获取与处理、核反应堆工程、核技 ... 5-3：能够针对具体的对象，开发或选用满足特定需求的现代工具，模拟和预测核信号获取与处 理、核反应堆工程、核技术及应用等专业问题，并能够分析其局限性。 ... 五、核心知识领域与专业核心课程  （一）核心知识领域：原子与原子核物理，反应堆物理计算、热工分析，核电子与核探测技术、工业、医学、农业、军事等领域的核技术应用及其相关仪器技术，核能与核技术应用中的辐射防护、环境保护与核安全。  （二）专业核心课程：原子核物理、反应堆物理分析、反应堆热工学、核电厂系统与设备、核辐射探测、核电子学、辐射剂量与防护、核技术应用、加速器原理及应用、放射化学。  六、主要实践性教学环节与主要专业实验  （一）主要实践性教学环节：军事技能、金工实训、电工电子实训、电子辅助设计、核工程与核技术认识实习、生产实习、核工程与核技术课程设计、核能与核技术虚拟仿真课程设计、毕业实习、毕业设计（论文）。  （二）主要专业实验：核辐射探测与核电子学实验、核技术应用实验、辐射剂量与防护实验。
+  snippet: 原子核物理、反应堆物理分析、反应堆热工学、核电厂系统与设备、核辐射探测、核电子学、辐射剂量与防护、核技术应用 ... 核辐射探测与核电子学实验、核技术应用实验、辐射剂量与防护实验。
+
+[8] | 50300010630    | 核聚变与等离子体 Introduction to Plasma Physics | 考试 | 2.5 | 40 | 40 | 0 | 0 | 5 | 核物理系    |    |
+  url: https://jwc.usc.edu.cn/__local/9/6F/92/01F7C5300F21F19179B008D85D5_F5DA7F2B_4191A.pdf#3#3
+  site: None  authority: 3  date: None
+  summary: | 50300003630    | 核电子学 C Nuclear Electronics C | 考试 | 3.5 | 56 | 56 | 0 | 0 | 6 | 核工程与核技术系    |    | | 50300003730    | 核辐射探测 C Radiation Detection C | 考试 | 3.5 | 56 | 56 | 0 | 0 | 6 | 核工程与核技术系    |    | ... 十一、双学位课程  | 课程编号 | 课程名称    | 考核 | 学分 | 总学时 | 讲课 | 实验 | 实践 | 学期 | 责任单位 | 备注 | ... | 50300003630   | 核电子学 C Nuclear Electronics C    | 考试    | 3.5    | 56    | 56    | 0    | 0    | 6    | 核工程与核技术系    | | 50300003730   | 核辐射探测 C Radiation Detection C    | 考试    | 3.5    | 56    | 56    | 0    | 0    | 6    | 核工程与核技术系    | ... 十二、学期开课门数统计表  | 学期    | 课程总门数 | 必修课门数 | 选修课门数 | 必修课学分 | 选修课学分 | ... | 第四学期 | 9    | 6    | 3    | 15.5 | 7.5 | |---|---|---|---|---|---| | 第五学期 | 9    | 3    | 6    | 9    | 13.5 | ... 十三、课程体系与培养要求的对应关系矩阵  | 课程体系    | 知识要求 | 能力要求 | 素质要求 | ... | 高等数学 A2 | H    | H    | H    | H    | H    | |---|---|---|---|---|---| ... | 核电子学 C | H    | H    | M    | H    | M    |  | 核物理毕业设计(论文) 1 | H    | H    | H    | H    | H    | H    | H    | H    | |---|---|---|---|---|---|---|---|---| | 核物理毕业设计(论文) 2 | H    | H    | H    | H    | H    | H    | H    | H    | | 核物理毕业实习    |    | H    | H    | M    | M    | H    | H    | H    | | 核物理生产实习    |    | H    | H    | M    | H 
+  snippet: 50300003730 | 核辐射探测 C Radiation Detection C | 考试 | 3.5 ... 第四学期: 第五学期; 9: 9; 6: 3; 3: 6; 15.5: 9; 7.5: 13.5 ... 核物理毕业设计(论文) 1: 核辐射探测与核电子学实验
+
+[9] | 50300004030 | 核辐射探测与核电子学实验 Experiments of Nuclear Radiation Detection and Nuclear Electronics | 考查   | 1.5   | 48   | 0    | 4...
+  url: https://hjxy.usc.edu.cn/__local/6/C3/B7/C69DD07619D19DB54DEA2D2CA88_8EA1BDD9_465EDB.pdf#20#8
+  site: None  authority: 3  date: None
+  summary: | 50300004030 | 核辐射探测与核电子学实验 Experiments of Nuclear Radiation Detection and Nuclear Electronics | 考查   | 1.5   | 48   | 0    | 48   | 0    | 6    | 核工程与核技术系 | ... （六）专业课平台选修课  | 课程编号 | 课程名称 | 考核 | 学分 | 总学时 | 讲课 | 实验 | 实践 | 学期 | 责任单位 | 备注 | ... | 50300006330 | 核数据采集与处理    | 考查 | 2   | 32 | 32 | 0   | 0   | 6   | 核工程与核技术系 | 限选 | | Nuclear Data Acquisition and Processing |    |    |    |    |    |    |    |    |    |    | ... （七）集中性实践教学环节 ... | 30500000110 | 金工与智能制造实训 B Metalworking and intelligent manufacturing training B | 考查 | 2 | 2 | 0 | 0 | 2 | 3 | 金工实训中心 | |---|---|---|---|---|---|---|---|---|---| | 50300028230 | 核物理实验数据处理实践 Practice for Nuclear Experimental Data Processing | 考查 | 1 | 1 | 0 | 0 | 1 | 5 | 核工程与核技术系 | ... 十、学期开课门数统计表  | 学期 | 课程总门数 | 必修课门数 | 选修课门数 | 必修课学分 | 选修课学分 | |---|---|---|---|---|---| | 第五学期 | 12    | 7    | 5    | 17.5   | 8    | ... | 核电子学    |    | L   | L   |    | L   | M   |    |    | L   | | 核辐射探测    |    | M   | M   |    | L   | M   |    |    | L   | ... | 核工程与核技术生产实习    |    |    |    | M   | L   | M   | H   | L   | M   | |---|---|---|---|---|---|---|---|---|---| | 核辐射探测与核电子学实验    |    |    | M   | H   | L   |    |    |    |    |
+  snippet: 核辐射探测与核电子学实验 Experiments of Nuclear Radiation Detection and Nuclear Electronics | 考查 | 1.5 ... | 课程编号 | 课程名称 | 考核 | 学分 | 总学时 | 讲课 | 实验 | 实践 | 学期 | 责任单位 | 备注 |
+
+[10] 5. 预修课程：《原子核物理》、《核辐射测量原理》
+  url: https://dkxy.ecut.edu.cn/_js/_portletPlugs/swfPlayer/pdfjs22228/web/viewer.html?file=/_upload/article/files/ad/db/c7227db94c4f93d9711c0283a799/8d511916-f84b-4562-9e8f-9afae42a1da5.pdf#38#33
+  site: None  authority: 3  date: None
+  summary: 5. 预修课程：《原子核物理》、《核辐射测量原理》    6. 教材及参考书目： ... 1. ... 2. ... 3. ... 4. ... 5. 预修课程：《原子核物理学》、《核辐射探测学》、《核电厂系统及设备》 ... ## 九、现代核电子学与仪器    1. 课程目标：掌握现代核电子学仪器的指标性能，了解在实际测量中遇到的问题及解决方案，并能根据需要开发部分软件。 ... (1)首先复习（2学时）：包括Si-Pin、CZT等几种重要的核辐射探测器；(2)核辐射仪器的概念、分类、功能、组成与结构（4学时），包括强度型和能谱型核辐射仪器；(3)放射性测量仪器的各功能模块电路（12学时）：包括幅度信息的获取和处理电路、时变与非线性电路、时间信息的获取和处理以及辅助电路等；(4)数字多道谱仪的基本原理与设计方法(6学时)：包括数字多道谱仪的基本原理、结构以及多道脉冲幅度分析的软件化方法；(5)γ(α、X)能谱仪软硬件设计(8学时)：包括γ、X多道能谱仪的共性分析、差异分析、软硬件兼容性设计，α能谱仪的软硬件设计；(6)嵌入式仪器、虚拟仪器及智能仪器的设计方法(8学时)：包括嵌入式仪器、虚拟仪器及智能仪器与核辐射仪器的结合，人工神经网络技术在智能核仪器中的应用等。 ... 5. 预修课程：《核辐射测量原理》、《科学计算与工具软件》 ... [2]许庭宝，杨衍明.1982.核探测器和核电子学.北京：原子能出版社 ... [5]谢一冈.2003.粒子探测器与数据获取.北京：科学出版社    ## 十、核能谱测量及数据处理    1. 课程目标：掌握能谱测量的基本原理与方法，以及核测量数据处理的基本原理与方法。 ... (1)首先复习（6学时）：射线与物质的相互作用、放射性能谱的概念、测量原理与单位、核辐射探测器等基本内容；    (2)X和 \(\gamma\) 射线的能谱及其测量方法（14学时），包括放射性样品的X- \(\gamma\) 射线的能谱测量、天然与人工辐射的能谱测量等，以及各种典型条件下的辐射场理论计算和测量方法；    (3)首先复习（6学时）：数据处理基础，包括核辐射测量的统计误差和数据处理的基本知识；    (4)能谱数据处理技术和放射性测量数据的多元统计分析（14学时），包括能谱测量仪器的刻度、能谱测量曲线的各种处理方法，元素的定性与定量解释方法，放射性测量数据的多元统计分析理论、方法和技术等；典型辐射源形成的X和 \(\gamma\) 能谱（射线场）的正反演计算方法。 ... 预修课程：《原子核物理》、《核辐射探测学》 ... [1]李承华.1988.辐射技术基础.北京：原子能出版社    [2]吴学超，冯正永.1988.核物理实验数据处理.北京：原子能出版社    [3]张家骅，徐君权.1981.放射性同位素X射线荧光分析.北京：原子
+  snippet: . 预修课程 ... 6. 教材及参考书目 ... 1. 课程目标：及时了解核科学与技术前沿 ... 2. 课程内容：进一步掌握原子核物理的基础知识和基本应用 ... 3. 教学方式：讲座。 4. 考核方式 ... 课堂讲授 ... 作业，实验报告。
+
+
+########## QUERY: digital logic design course nuclear engineering curriculum prerequisite sophomore required United States
+
+[1] Search Results
+  url: https://catalog.iastate.edu/search/?P=CPRE%202810
+  site: Iowa State University  authority: 3  date: None
+  summary: Prereq: Sophomore classification Number systems and representation. Boolean algebra and logic minimization. Combinational and sequential logic design. Arithmetic circuits and finite state machines. Use of programmable logic devices. Introduction to computer-aided schematic capture systems, simulation tools, and hardware description languages. Design of simple digital systems. (Typically Offered: Fall, Spring)
+  snippet: Prereq: Sophomore classification Number systems and representation. Boolean algebra and logic minimization. Combinational and sequential logic design. Arithmetic circuits and finite state machines. Use of programmable logic devices. Introduction to computer-aided schematic capture systems, simulation tools, and hardware description languages. Design of simple digital systems. (Typically Offered...
+
+[2] CET 235. DIGITAL ELECTRONICS DESIGN
+  url: https://jetty.klnpa.org/_flysystem/fedora/2024-02/cali_1023.pdf#39#70#39
+  site: None  authority: 3  date: None
+  summary: Extensive emphasis is placed on the analysis and synthesis of synchronous and asynchronous combinational networks which form digital computers. Pre requisite: MAT 195 Discrete Mathematical Structures for Computer Science with C- or better.
+  snippet: Pre requisite: MAT 195 Discrete Mathematical Structures for Computer Science with C- or better. ... CSC 124 Computer Programming I with C- or better and MAT 195 Discrete Mathematical Structures with C- or better. ... Sophomore standing. (3 crs.)
+
+[3] EECE- 212 Fundamental Digital Systems4 CreditsIntroduction to hardware building blocks used in digital computers and systems
+  url: https://cea.howard.edu/sites/cea.howard.edu/files/2026-08/ElectricalEngineering_Undergrad_Handbook%282026%29.pdf#3#3
+  site: None  authority: 3  date: None
+  summary: Course Offering: ... Prereqs. ... Prereq.: ... Prereqs.: ... ## EECE-463 Digital Electronics ... Bipolar and MOS field effect transistor characterization; characteristics and applications of TTL integrated circuits, design of memories, digital processors, special computer architecture, interfaces and A/D and D/A converters. ... PHYS- 014 and EECE- 309.
+  snippet: Prereq.: EECE- 203 ... Prereqs.: EECE- 209. ... SPRING. ... EECE- 333. Course Offering ... EECE-463 Digital Electronics ... digital processors, special computer architecture ... EECE-471 Design of Integrated Circuits ... EECE-481 Advanced Integrated Circuit Design ... a moderate- sized digital, analog ... (University of Connecticut) Hardware security, Digital circuit design, Integrated circuit VLS
+
+[4] Introduction of a Digital Logic Project in a First-Year Honors Engineering Course
+  url: https://monolith.asee.org/public/conferences/20/papers/6370/download#1#3#1
+  site: None  authority: 3  date: None
+  summary: What is the impact of introducing a digital logic project in a first-year honors engineering curriculum?” ... This paper describes the methods used to implement a digital logic design project in the first-year honors engineering curriculum and presents the quantitative and qualitative results obtained from the assessment of project objectives through project grades, exam results, and student survey responses. ... #### Historical Location of Boolean Algebra and Karnaugh Maps in Engineering Curriculum  Digital logic concepts have historically been taught to electrical and computer engineering students deep in the engineering curriculum. For example, the introductory logic design course at Santa Clara University has been taught at the end of the sophomore year or beginning of the junior year \(^1\). At Bucknell University, digital logic concepts have been taught at the beginning of the junior year \(^2\). And at Auburn University, students have learned about simple logic circuits, binary arithmetic, and adder circuits in laboratories during the sophomore year \(^3\).  This late placement of digital logic theory, after the calculus-based analog electronics courses, has been prevalent i
+  snippet: For example, the introductory logic design course at Santa Clara University has been taught at the end of the sophomore year or beginning of the junior year \(^1\). ... For example, the mechanical engineering department here at the University of Houston currently does not require a course that introduces the basics of digital logic design.
+
+[5] Search Results
+  url: https://www.academiccatalog.umd.edu/search/?P=ENEE244
+  site: University of Maryland Catalog  authority: 3  date: None
+  summary: ## ENEE244 Digital Logic Design (3 Credits) ... Prerequisite: Must have completed or be concurrently enrolled in CMSC132 or ENEE150; and permission of ENGR-Electrical & Computer Engineering department.  Restriction: Sophomore standing or higher; and must be in one of the following programs (Engineering: Computer; Engineering: Electrical).
+  snippet: ENEE244 Digital Logic Design (3 Credits) ... Prerequisite: Must have completed or be concurrently enrolled in CMSC132 or ENEE150 ... Restriction: Sophomore standing or higher; and must be in one of the following programs (Engineering: Computer; Engineering: Electrical).
+
+[6] Nuclear Engineering - South Carolina State University offers a program in Nuclear Engineering in agreement with the University o...
+  url: https://scsu.oudeve.com/_resources/pdfs/2016-2018-Undergraduate-Catalog.pdf#78#44
+  site: None  authority: 3  date: None
+  summary: # CURRICULUM LEADING TO THE DEGREE OF BACHELOR OF SCIENCE IN NUCLEAR ENGINEERING OFFERED JOINTLY BETWEEN SOUTH CAROLINA STATE UNIVERSITY AND UNIVERSITY OF WISCONSIN (139/140 Credits) ... First Semester - SC STATE Second Semester - SC STATE Credits E 150 English I 3 E 151 English II 3 M 158 Calculus I 4 M 168 Calculus II 4 UNIV 101 Intro to Comm 2 P 254/251 General Physics I 4 C 150/151 General Chemistry I 4 ET 150 Mech Draw & Basic CAD 3 ENGR/ET 170 Intro to Engr. 3 C 152/153 General Chemistry II 4 PEO 150/HED 151/MS 101 or Consent of Instructor 2 18    # SOPHOMORE First Semester - SC STATE Second Semester - SC STATE Credits    M 403 Differential Equations 3 NEEP 271 Engr. Prob. Solving I 3 ENGR 212 Statics 3 EET 230 Circuit Analysis 3 NE 397 Nuclear Energy 3 M 278 Calculus III 4 P 255/253 General Physics II 4 P 406 Intro to Modern Physics 3 Computing Elective 3 ENGR 213 Strength of Materials 3 NE 305 Intro to Nuclear Engr. 3 16 19    # JUNIOR First Semester - SC STATE Second Semester - SC STATE Credits    M 208 Introduction to Statistics 3 ENGR 425 Fluid Dynamics 3 ENGR 313 Dynamics 3 P 318 Radioisotope Lab 3 M 350 Applied Mathematics 3 ENGR 417 Mech. of Mat. Lab 3 ENGR 421 Thermo
+  snippet: FRESHMAN First Semester # Second Semester # Credits Credits ... CURRICULUM LEADING TO THE DEGREE OF BACHELOR OF SCIENCE IN NUCLEAR ENGINEERING OFFERED JOINTLY BETWEEN SOUTH CAROLINA STATE UNIVERSITY AND UNIVERSITY OF WISCONSIN (139/140 Credits)
+
+[7] AC 2011-895: DIGITAL LOGIC DESIGN: MEETING INDUSTRY’S NEEDS THROUGH UNIVERSITY & COMMUNITY COLLEGE COLLABORATION
+  url: https://monolith.asee.org/public/conferences/1/papers/895/download#1#1#1
+  site: None  authority: 3  date: None
+  summary: The course “Digital Design using VHDL” is three credit hours with two hours per week of recitation and three hours per week in the lab. The course will be open for sophomore or higher students and the pre-requisite is “Circuits I” and “Programming Languages”. ... The course will be open to senior students and the pre-requisite is “Digital Design using VHDL”.
+  snippet: The course “Digital Design using VHDL” ... The course will be open for sophomore or higher students and the pre-requisite is “Circuits I” and “Programming Languages”. ... The course will be open to senior students and the pre-requisite is “Digital Design using VHDL”.
+
+[8] 
+  url: https://students.uwrf.edu/custom/schedulelookup/course?subject=PHYS&catalogNumber=313
+  site: University of Wisconsin - River Falls  authority: 3  date: None
+  summary: Details: Lecture topics include: Boolean Algebra, number systems, data formats, combinatorial and sequential logic, Karnaugh Mapping, and timing diagrams. The laboratory investigates logic families, gates, counters, adders, decoders, shift registers, busses, and FPGA (Field Programmable Gate Array) programming and interfacing. Prerequisites: Physics 122 or 132 or consent of instructor. (Sp, alternate years)
+  snippet: Lecture topics include: Boolean Algebra ... The laboratory investigates logic families, gates, counters, adders, decoders, shift registers, busses, and FPGA (Field Programmable Gate Array) programming and interfacing. Prerequisites: Physics 122 or 132 or consent of instructor. (Sp, alternate years)
+
+[9] week semester course was offered during the fifth semester of the Automation and
+  url: https://scholarworks.uttyler.edu/cgi/viewcontent.cgi?article=1043&context=ee_grad#4#2
+  site: None  authority: 3  date: None
+  summary: Shayesteh _et al._ of the Indiana University Purdue University – Indianapolis, improved  their Introduction to Digital System Design course offered at sophomore level to include  the use of VHDL and FPGA boards [9]. The 4-Semester credit hour course is a required  course for the computer engineering and electrical engineering courses offered in the  university. In the course they use the Vivado software from Xilinx together with Nexys 3  FPGA board from Digilent. The course focuses on introducing the students to VHDL as  early as possible and make them get used to hardware description languages. ... number systems and logic minimization are all done in VHDL. ... technology is also introduced in this course and implemented using HDL. ... not include the use of the traditional bread board LED, TTL circuit construction. ... straight away to implementation in VHDL and FPGA. ... Vivado and Nexys3 FPGA board. ... were unable to grasp some of the complex aspects of VHDL and thus in the later chapters ... In general, there is a push toward changing the digital systems curriculum towards the  use of hardware descriptive languages. ... introduce them and how deep should they be covered [10].
+  snippet: their Introduction to Digital System Design course offered at sophomore level to include the use of VHDL and FPGA boards [9]. The 4-Semester credit hour course is a required course for the computer engineering and electrical engineering courses offered in the university. In the course they use the Vivado software from Xilinx together with Nexys 3 ... The course focuses on introducing the students 
+
+[10] Nuclear Engineering - Berkeley Engineering - Educating leaders
+  url: https://engineering.berkeley.edu/students/undergraduate-guide/degree-requirements/major-programs/nuclear-engineering/#1
+  site: Berkeley Engineering  authority: 4  date: 2017-03-20T16:00:00+00:00
+  summary: NUCENG 170A – Nuclear Design: Design in Nuclear Power Technology and Instrumentation | ... 2The Humanities/Social Sciences (H/SS) requirement includes two approved Reading & Composition (R&C) courses and four additional approved courses, with which a number of specific conditions must be satisfied. R&C courses must be taken for a letter grade (C- or better required). The first half (R&C Part A) must be completed by the end of the freshman year; the second half (R&C Part B) must be completed by no later than the end of the sophomore year. The remaining courses may be taken at any time during the program. See engineering.berkeley.edu/hss for complete details and a list of approved courses.  3Electronic Circuits Elective: Choose one course from ELENG 66, ENGIN 11, MECENG 100, or PHYSICS 111A.  4Statistics/Data Analysis Elective: Statistics/Data Analysis Elective: Choose one course from ENGIN 178 (recommended), DATA C8 + DATA C88S OR DATA 88 connector (must take both), DATA C100, DATA C140, EECS 126, INDENG 172, STAT 133, or STAT 134.  5Students must complete 29 technical elective units which must include at least 17 units of upper division nuclear engineering courses. The remaining 12
+  snippet: 3-4 ... NUCENG 170A – Nuclear Design: Design in Nuclear Power Technology and Instrumentation | ... 5Students must complete 29 technical elective units which must include at least 17 units of upper division nuclear engineering courses. ... PHYSICS 89, W89; STAT 20, 21.
+
+
+########## QUERY: 核电子学 与 数字电子技术 关系 模数转换 ADC 多道分析器 数字多道 FPGA 教学
+
+[1] 一种基于FPGA的数字核脉冲分析器设计
+  url: https://www.eepw.com.cn/article/247931.htm
+  site: 电子产品世界  authority: 3  date: 2014-06-05T16:00:00+00:00
+  summary: # 一种基于FPGA的数字核脉冲分析器设计  作者： 时间：2014-06-06 来源：网络 收藏  0 引言 本文引用地址：https://www.eepw.com.cn/article/247931.htm 多道脉冲幅度分析仪和射线能谱仪是核监测与和技术应用中常用的仪器。20世纪90年代国外就已经推出了基于高速核脉冲波形采样和数字滤波成型技术的新型多道能谱仪，使数字化成为脉冲能谱仪发展的重要方向。国内谱仪技术多年来一直停留在模拟技术水平上，数字化能谱测量技术仍处于方法研究阶段。为了满足不断增长的高性能能谱仪需求，迫切需要研制一种数字化γ能谱仪。通过核脉冲分析仪显示在显示器上的核能谱帮助人们了解核物质的放射性的程度。  1 数字多道分析仪的优势  国内很大一部分学者采用核谱仪模拟电路的方式实现脉冲堆积的处理。由于整个过程都是由模拟电路来实现，所以一直受到多种不利因素的困扰：模拟滤波成形电路有限的处理能力达不到最佳滤波的要求;模拟系统在高计数率下能量分辨率显着下降，脉冲通过率低;模拟电路固有的温漂和不易调整等特点，导致系统的稳定性、线性及对不同应用的适应性不高;在脉冲波形识别、电荷俘获效应校正等更复杂的应用场合模拟系统无法胜任。  相比来看，数字脉冲幅度分析系统的性能显着优于模拟脉冲分析器。数字分析器有以下几点优点：通过软件实现，提高了系统的稳定性与可靠性;可以利用数字信号处理方法针对输入噪声特点实现优化设计，达到最佳或准最佳滤波效果;处理速度快，反堆积能力强，相同能量分辨率下脉冲通过率更高;参数由程序控制，调整方便、简单。  2 总体设计  本方案设计了一种基于可编程门阵列的多道脉冲幅度分析器的硬件平台。图1即为总体设计框图，探测器输出的核脉冲信号经前端电路简单调理后，经单端转差分，由采样率为65 MHz的高速ADC 在FPGA 的控制下进行模/数转换，完成核脉冲的数字化，并通过数字核脉冲处理算法在FPGA内形成核能谱，核能谱数据可通过16 位并行接口传输至其他谱数据处理终端，也可通过LVDS/RS 485接口实现远程传输。特别需要注意的是，由于高速AD前置，调理电路应该满足宽带、高速，且电路参数能够动态调整的需要，以适应不同类型探测器输出的信号，从而更好地发挥数字化技术的优势。  3 具体硬件设计  3.1 前端电路  前端电路由单端转差分和高速ADC电路组成。差分电路由于其良好的抗共模干扰能力而应用广泛。由于调理电路输出的脉冲信号为单极性信号，若直接送入ADC,将损失一半的动态范围。设计中在运放中加入一个适当的偏置电压，将单极性信号转换成双极性信号后再送入ADC,以保证动态范围。将信号由单端转换成差分的同时，进行抗混叠滤波处理，完成带宽的调整 .  本设计使用AD9649 - 65 高速ADC 实现核脉冲的模/数转换，AD9649 为14 位并行输出的
+  snippet: 图1即为总体设计框图，探测器输出的核脉冲信号经前端电路简单调理后，经单端转差分，由采样率为65 MHz的高速ADC 在FPGA 的控制下进行模/数转换，完成核脉冲的数字化，并通过数字核脉冲处理算法在FPGA内形成核能谱，核能谱数据可通过16 位并行接口传输至其他谱数据处理终端...
+
+[2] 基于 DDR+LVDS 接口国产 ADC 和 FPGA 的数字多道脉冲分析器研制
+  url: https://here.cbpt.cnki.net/portal/journal/portal//client/paper/preview?cache=false&filePath=files%2Fhere%2Fhtmlfulltext%2Fpdf%2F%2F2025%2F05%2F%E5%9F%BA%E4%BA%8EDDR%2BLVDS%E6%8E%A5%E5%8F%A3%E5%9B%BD%E4%BA%A7ADC%E5%92%8CFPGA%E7%9A%84%E6%95%B0%E5%AD%97%E5%A4%9A%E9%81%93%E8%84%89%E5%86%B2%E5%88%86%E6%9E%90%E5%99%A8%E7%A0%94%E5%88%B6.pdf#1#1
+  site: None  authority: 4  date: None
+  summary: # 基于 DDR+LVDS 接口国产 ADC 和 FPGA 的数字多道脉冲分析器研制    郑秋鑫 \(^{1,2}\) ,胡创业 \(^{1,2,*}\) ,屈国普 \(^{1,2}\) ,靳惠泽 \(^{1,2}\)    (1. 南华大学核科学技术学院,湖南 衡阳 421001; 2. 先进核能技术设计与安全教育部重点实验室,湖南 衡阳 421001)    摘要: 在核辐射探测领域, 数字信号处理技术应用广泛。本论文设计了一种数字多道脉冲分析器, 硬件部分主要采用高速 ADC 芯片 ZGAD250S14 和 FPGA 芯片 PANGO-PGL22G; 软件部分基于 FPGA 开发平台 PSD 实现了梯形成形、基线估计、脉冲触发、脉冲堆积判断、幅值提取、统计成谱和 ADC 驱动模块等功能。通过 NaI 探测器对 Cs- 137 源能谱测试结果表明本文设计的数字多道实现了高精度和高速核脉冲信号数字化并能获取 \(\gamma\) 能谱, 且具有低成本与技术自主可控等优点, 可应用于核电站监测、环境保护和反恐应急等场景, 有广泛的应用价值。    关键词: 数字多道; ZGAD250S14; ... ## 0 引言    随着微电子和计算机技术的快速发展, 以数字化为基础的核信号处理技术得到了极大的进步[1- 2]。数字多道相对于模拟多道, 脉冲处理能力更强、精度更高、可靠性好、便于大规模集成, 因此其取代模拟多道成为现在的发展趋势[3- 4]。数字核信号处理一般有两种模式: 一种是利用数字信号处理芯片 (DSP、FPGA) 对采样后的核信号直接进行甄别核计数, 适用于高计数率、低延时要求、简单能谱分析场景, 但其精度有限, 能量分辨率受到噪声和基线漂移影响较大。另一种是利用数字滤波成形方法, 对    数字核信号进行相应的滤波成形处理后再提取脉冲幅度值[5]。本文采用数字滤波成形的设计方式, 先将 ADC 采样的原始信号进行梯形成形再进行幅值提取, 该方式具有结构简单、能谱分辨率高、系统自适应能力强、能提高探测器的有效测量计数率并减少部分脉冲堆积等特点, 在数字多道脉冲分析器中得到广泛应用[6]。    目前国内对于数字多道道脉冲幅度分析器设计所使用的核心器件 FPGA 和 ADC 芯片均采用外国产品[7- 10]。为了验证数字多道脉冲分析器中关键器件能否进行国产化替代, 本论文将使用国产设计平台和紫光 FPGA 以及微格高速 ADC 代替国外设计软件和进口芯片设计一种数字多道脉冲分析器, 实现对 NaI 探测器信号的能谱获取。    ## 1 数字多道的设计与实现    数字多道脉冲分析器主要由探测器、信号调制电路、ADC 采集模块、FPGA 控制模块等硬件部分构成, 整体设计方案如图 1 所示。探测器选用 NaI 探测器, 将探测器产生的负指数脉  
+  snippet: 数字多道相对于模拟多道, 脉冲处理能力更强 ... 因此其取代模拟多道成为现在的发展趋势[3- 4]。数字核信号处理一般有两种模式 ... 首先，将探测器采集到的核脉冲信号进行滤波、极零相消后经单端转差分送入ADC芯片进行模数转换。其次...
+
+[3] FPGA数字核脉冲分析器硬件设计解析 - FPGA数字核脉冲分析器硬件设计解析
+  url: https://www.eepw.com.cn/article/201610/308486.htm#1
+  site: 电子产品世界  authority: 3  date: 2016-10-28T16:00:00+00:00
+  summary: # FPGA数字核脉冲分析器硬件设计解析  作者： 时间：2016-10-29 来源：网络 收藏  国内谱仪技术多年来一直停留在模拟技术水平上，数字化能谱测量技术仍处于方法研究阶段。为了满足不断增长的高性能能谱仪需求，迫切需要研制一种数字化γ能谱仪。通过核脉冲分析仪显示在显示器上的核能谱帮助人们了解核物质的放射性的程度。 本文引用地址：https://www.eepw.com.cn/article/201610/308486.htm 1数字多道分析仪的优势  国内很大一部分学者采用核谱仪模拟电路的方式实现脉冲堆积的处理。由于整个过程都是由模拟电路来实现，所以一直受到多种不利因素的困扰：模拟滤波成形电路有限的处理能力达不到最佳滤波的要求;模拟系统在高计数率下能量分辨率显着下降，脉冲通过率低;模拟电路固有的温漂和不易调整等特点，导致系统的稳定性、线性及对不同应用的适应性不高;在脉冲波形识别、电荷俘获效应校正等更复杂的应用场合模拟系统无法胜任。  相比来看，数字脉冲幅度分析系统的性能显着优于模拟脉冲分析器。数字分析器有以下几点优点：通过软件实现，提高了系统的稳定性与可靠性;可以利用数字信号处理方法针对输入噪声特点实现优化设计，达到最佳或准最佳滤波效果;处理速度快，反堆积能力强，相同能量分辨率下脉冲通过率更高;参数由程序控制，调整方便、简单。  2总体设计  本方案设计了一种基于可编程门阵列的多道脉冲幅度分析器的硬件平台。图1即为总体设计框图，探测器输出的核脉冲信号经前端电路简单调理后，经单端转差分，由采样率为65 MHz的高速ADC在FPGA的控制下进行模/数转换，完成核脉冲的数字化，并通过数字核脉冲处理算法在FPGA内形成核能谱，核能谱数据可通过16位并行接口传输至其他谱数据处理终端，也可通过LVDS/RS 485接口实现远程传输。特别需要注意的是，由于高速AD前置，调理电路应该满足宽带、高速，且电路参数能够动态调整的需要，以适应不同类型探测器输出的信号，从而更好地发挥数字化技术的优势。  图1 总体设计框图  3具体硬件设计  3.1前端电路  前端电路由单端转差分和高速ADC电路组成。差分电路由于其良好的抗共模干扰能力而应用广泛。由于调理电路输出的脉冲信号为单极性信号，若直接送入ADC，将损失一半的动态范围。设计中在运放中加入一个适当的偏置电压，将单极性信号转换成双极性信号后再送入ADC，以保证动态范围。将信号由单端转换成差分的同时，进行抗混叠滤波处理，完成带宽的调整。  本设计使用AD9649 - 65高速ADC实现核脉冲的模/数转换，AD9649为14位并行输出的高速模/数转换器，具有功耗低、尺寸小、动态特性好等优点。当信号从探测器通过调理电路，过差分转单端电路后，以差分信号的形式进入ADC，在差分时钟的控制下，转换成14位数据，进入FPGA.该高速A/
+  snippet: 图1即为总体设计框图，探测器输出的核脉冲信号经前端电路简单调理后，经单端转差分，由采样率为65 MHz的高速ADC在FPGA的控制下进行模/数转换，完成核脉冲的数字化，并通过数字核脉冲处理算法在FPGA内形成核能谱 ... 本设计使用AD9649 - 65高速ADC实现核脉冲的模/数转换，AD9649为14位并行输出的高速模/数转换器...
+
+[4] Design of the Digital Multi-channel Analyzer Based on FPGA and USB2.0 - 基于FPGA与USB2.0的数字化多道的设计
+  url: https://newetds.lib.tsinghua.edu.cn/qh/paper/summary?dbCode=ETDQH&sysId=203507#1
+  site: 清华大学学位论文服务系统  authority: 3  date: 2012-05-31T16:00:00+00:00
+  summary: # 基于FPGA与USB2.0的数字化多道的设计  # Design of the Digital Multi-channel Analyzer Based on FPGA and USB2.0  作者：方飞 ... - 答辩日期 2012.06.01 - 导师 李政 - 学科名 核科学与技术 ... - 中文关键词 数字化多道,FPGA,USB2.0,能谱  - 英文关键词 Digital Multi-channel Analyzer,FPGA,USB2.0,Energy Spectrum  ## 摘要  多道脉冲幅度分析器是核数据获取与处理的基本设备，本文介绍一种基于FPGA与USB2.0技术的数字化多道方案的设计。此方案是为核数据获取与处理课程设计做的实验平台，整个系统由FPGA做主处理器，输入的核脉冲信号经过信号调理电路和AD转换之后进入FPGA处理，然后通过USB2.0接口将处理结果传送给上位机。在硬件电路设计方面，为了获得很高的脉冲通过率和处理速度，采用了高速并行处理的FPGA替代DSP、CPLD等，并且由于FPGA的硬件可编程特性简化了外围电路设计；为了提高能谱数据到计算机的传输速度，采用了USB2.0技术，使用Slave FIFO传输方式，简单高速，理论上可以达到60MB/s；为适应多种探测器，匹配多道中输入核信号与AD的输入阈值，采用了两级运放，第二级运放的放大倍数通过FPGA用I2C接口控制数字电位器来调节；由于USB2.0传输速率不足以提供12位40M的ADC的输出信号的实时显示，板上采用一片256Mbit的高速SDRAM来存储一段时间的输入核信号波形数据；为减少输入核信号所受噪声和保证系统稳定，电源分为数字电源和数字电源，地层分为输入电源地、数字地、模拟地三块，有效消除了对模拟电路部分的干扰。FPGA使用Verilog语言进行编程，分为逻辑控制模块和多道脉冲幅度分析算法模块。逻辑控制模块主要分为ADC接口模块、SDRAM接口模块、USB2.0接口模块、I2C接口模块、时钟管理模块等，在ADC、SDRAM、USB2.0三个模块中使用了异步FIFO来解决时序匹配的问题。多道脉冲幅度分析算法模块包括梯形滤波成形、幅度分析等，均在FPGA中完成。上位机程序包括USB2.0固件开发与驱动使用、多道应用程序两部分。USB2.0固件设置为Slave FIFO模式，驱动利用Cypress官方驱动。多道应用程序为简化编程采用了QT来实现界面，调用USB2.0的驱动，完成了输入信号的波形采集显示和多道能谱数据采集显示存储功能。最后对设计的数字化多道进行了输入脉冲幅度范围、道数道宽、微分非线性等性能指标测试，并使用NaI（Tl）探测器对137Cs放射源进行了实测，得到了137Cs的能谱图，另外实测设计中的USB2.0接口的传输速度有15.3MB/s。
+  snippet: 多道脉冲幅度分析器是核数据获取与处理的基本设备，本文介绍一种基于FPGA与USB2.0技术的数字化多道方案的设计。此方案是为核数据获取与处理课程设计做的实验平台，整个系统由FPGA做主处理器，输入的核脉冲信号经过信号调理电路和AD转换之后进入FPGA处理，然后通过USB2.0接口将处理结果传送给上位机。
+
+[5] 核信号处理 - 核科学技术中的电子学方法
+  url: https://baike.baidu.com/item/%E6%A0%B8%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/12597481#1
+  site: 百度百科  authority: 3  date: 2026-06-03T16:00:00+00:00
+  summary: 核科学技术中的电子学方法  # 核信号处理  核信号处理是核科学技术中用于提取核探测器输出信号信息的电子学方法，旨在优化信号质量、减少干扰并提高测量精度 [1]。其核心设备多道脉冲幅度分析器（多道分析器）作为核分析技术关键设备，主要应用于辐射粒子能谱分析 [2]。  该系统通过脉冲成形、基线恢复等技术提升信噪比，采用模-数转换对信号幅度分类存储，形成能谱数据。多道分析器包含放大器、贮存系统、显示系统等六大模块，常用4096道规格实现高精度幅度分析，并可扩展时间分析功能。关键技术如反堆积电路、线性门设计及道宽平滑技术，进一步减少信号堆积误差并保障长期测量稳定性 [2]。  中文名 ... 外文名 ... 别 名 ... 类 别 ... 对 象 ... 处 理 ... 用 途 ... ## 基本含义与工作原理  多道脉冲幅度分析器（Multi-Channel Analyzer, MCA）是辐射测量的关键电子学器件。其原理是将脉冲幅度范围平均分成多个等幅度间隔（道数），通过模数转换将模拟脉冲信号转换成数字量，并对落在各幅度间隔内的脉冲分别计数，最终得到脉冲幅度分布曲线（能谱曲线） [4] [7]。  现代数字多道脉冲幅度分析器主要由探测器、信号调理电路、数字信号处理系统、测量控制系统组成。信号调理包括放大器、极零相消电路；数字信号处理涉及高速ADC采样，以及在FPGA/DSP中执行滤波成形（如梯形成形、高斯成形）、基线恢复、堆积判弃、峰值提取等数字化算法 [6-7]。  其核心数字化算法旨在优化信号质量与测量精度，例如尖峰-平顶混合滤波成形算法可有效处理脉冲堆积问题 [6]。关键性能参数包括：道数（如256、512、1024、4096道等） [5] [10]、采样频率（最高可达65MHz）、积分非线性（如≤±0.02%）、脉冲通过率（≥200kcps）以及输入脉冲幅度范围（如0～±5V） [5]。  ## 发展历程  自20世纪50年代以来，多道脉冲幅度分析器发展迅速，已成为获取核能谱数据的通用仪器 [4]。  早期系统采用模拟电路和单道分析器，后发展为基于微控制器（如ARM LPC2134）的嵌入式系统，其控制核心为嵌入式系统，用于完成信号采集、模数转换、数据存储与分析显示等功能 [4]。  现代技术向数字化、智能化发展，核心处理器件从微控制器演进为高性能FPGA和DSP，实现了更复杂的数字信号处理算法（如数字滤波成形、基线恢复、堆积判弃等），采样频率和能量分辨率等性能指标得到显著提升 [5-7] [9]。例如，2023年，东华理工大学登记了“基于FPGA的多道脉冲幅度分析器系统”软件著作权（登记号2023SR0399000），体现了FPGA技术在该领域的持续应用与发展 [3]。  ## 系统组成与关键技术  一台完整的核地球物理仪器通常可分为核辐射探测器和嵌入
+  snippet: 最终得到脉冲幅度分布曲线（能谱曲线） [4] [7] ... 数字信号处理涉及高速ADC采样，以及在FPGA/DSP中执行滤波成形（如梯形成形、高斯成形）、基线恢复、堆积判弃、峰值提取等数字化算法 [6-7] ... 现代数字MCA系统则基于高性能数字信号处理器件 ... 并集成高速模数转换器（ADC） [5-6]。
+
+[6] 数字多道脉冲幅度分析器的硬件电路设计
+  url: https://d.wanfangdata.com.cn/periodical/hdzxytcjs201003013
+  site: 万方数据知识服务平台  authority: 3  date: 2009-12-31T16:00:00+00:00
+  summary: 数字多道脉冲幅度分析器的硬件电路设计 ... 摘要：介绍了基于高速ADC、DSP、FPGA等器件设计实现多道脉冲幅度分析器的硬件电路.该设计提高了仪器的性能,将得到广泛应用. ... 2010-06-28 （万方平台首次上网日期，不代表文献的发表时间）
+  snippet: 数字多道脉冲幅度分析器的硬件电路设计 ... 介绍了基于高速ADC、DSP、FPGA等器件设计实现多道脉冲幅度分析器的硬件电路.该设计提高了仪器的性能,将得到广泛应用.
+
+[7] 手持式单板500MHz采样率数字化多道设计
+  url: https://www.hjs.sinap.ac.cn/rc-pub/front/front-article/download/10023893/lowqualitypdf/%e6%89%8b%e6%8c%81%e5%bc%8f%e5%8d%95%e6%9d%bf500%20MHz%e9%87%87%e6%a0%b7%e7%8e%87%e6%95%b0%e5%ad%97%e5%8c%96%e5%a4%9a%e9%81%93%e8%ae%be%e8%ae%a1.pdf#2#1
+  site: None  authority: 3  date: None
+  summary: # 手持式单板500MHz采样率数字化多道设计    曾国强1欧阳晓平2喻明福1李强1魏世龙1胡传皓1杨剑1葛良全1    1（成都理工大学 地学核技术重点实验室 成都 610059）    2（西北核技术研究所 西安 710024）    摘要针对Cs2LiYC16:CE(CLYC)闪烁晶体、掺硼塑料闪烁体等中子/探测器的电流脉冲波形的甄别，需要高速数字化多道脉冲幅度分析器。采用直接耦合方式设计高速模拟前端电路，将高速模数转换器(Analog- to- DigitalConverter，ADC)配合现场可编程逻辑门阵列(Field- Programmable Gate Array，FPGA)芯片实现数字化设计，在FPGA内部实现了高速数字滤波、脉冲幅度提取、基线扣除、谱线存储与传输等功能。通过嵌入式的PowerPC内核，实现替代外部控制器的复杂时序功能，并挂接通用串行总线(Universal Serial Bus,USB)外设芯片实现与外部计算机的高速双向数据传输。本文还设计了低噪声、大电流的开关电源，最终实现了可脱机独立运行的手持式单板高速数字多道。通过实测数字多道的模拟前端电路大信号带宽达110MHz，小信号带宽达200MHz，实时采样率为500MHz，脉冲计数通过率大于 \(10^{7}\mathrm{s}^{- 1}\) ，线性度达0.9998，连接NaI(Tl)、掺硼塑料闪烁体、LaBr(Ge)等闪烁体探测器实测谱线合理，满足实际使用要求。    关键词数字多道，500MHz高速采样，中子/甄别，高计数率能谱，电流脉冲信号    中图分类号 TL82    DOI:10.11889/j.0253- 3219.2017. hjs.40.030401 ... 在粒子物理领域，通常需要采用高速数字化方法对探测器输出的电流脉冲信号进行实时波形分析，从而实现粒子的甄别；在核退役设施及高能物理实验中，通常需要进行高通量的粒子能量的测量，为此常规的模拟多道脉冲幅度分析器、百兆赫兹以下的数字多道脉冲幅度分析器都无法满足使用要求。电流脉冲信号通常宽度仅为几十纳秒甚至更短，为此需要设计直接耦合方式的高速模拟前端电路，否则电流脉冲波形会发生畸变，严重时发生信号反    弹，因此会影响脉冲波形甄别效果，也就使粒子甄别效果大幅度下降。实现高计数率的数字化多道，要求多道系统具有更高的采样率，从而能对比较窄的脉冲信号较为准确地提取脉冲的幅度，并保证有高的脉冲计数通过率。为此采用了如图1所示的硬件设计，通过最少的必要硬件配合各种数字信号处理方法，实现不同的测量功能和任务，大大提高了整个系统的灵活性、适应性、抗干扰性，获得优异的能量分辨率和数据传输速率。    <center>图1手持单板高速数字多道的硬件系统框图</center>    Fig.1 Block diagram 
+  snippet: 采用直接耦合方式设计高速模拟前端电路，将高速模数转换器(Analog- to- DigitalConverter，ADC)配合现场可编程逻辑门阵列(Field- Programmable Gate Array，FPGA)芯片实现数字化设计 ... 基线扣除、谱线存储与传输等功能。
+
+[8] （19）中华人民共和国国家知识产权局
+  url: https://patentimages.storage.googleapis.com/53/72/24/9518c0159d1828/CN208384130U.pdf#1#1
+  site: None  authority: 4  date: None
+  summary: （22）申请日2018.07.21 ... ## （54）实用新型名称    一种基于FPGA/STM32的数字多道谱仪 ... 本实用新型公开了一种基于FPGA/STM32的数字多道谱仪，包括NaI(T1)闪烁探测器、核模拟信号调理电路、模数转换ADC、FPGA、接口控制单元STM32和上位机；FPGA包括慢成形电路通道、信号恢复提取模块、自动增益调节模块、快成形电路通道、高通滤波与脉冲整形电路模块、快成形幅度提取模块、脉冲幅度计数幅度甄别模块、总计数修正模块；其特征在于：NaI(T1)闪烁探测器连接核模拟信号调理电路，核模拟信号调理电路连接模数转换ADC，模数转换ADC分别连接慢成形电路通道和快成形电路通道；本实用新型的优点：解决高计数率情况下脉冲漏计准确计算死时间问题，提高了计算速度，节约了计算时间。    1. 一种基于FPGA/STM32的数字多道谱仪，包括NaI(T1)闪烁探测器（1）、核模拟信号调理电路（2）、模数转换ADC（3）、FPGA（4）、接口控制单元STM32（5）和上位机（6）；FPGA（4）包括慢成形电路通道（7）、信号恢复提取模块（8）、自动增益调节模块（9）、快成形电路通道（10）、高通滤波与脉冲整形电路模块（11）、快成形幅度提取模块（12）、脉冲幅度计数幅度甄别模块（13）、总计数修正模块（14）；其特征在于：NaI(T1)闪烁探测器（1）连接核模拟信号调理电路（2），核模拟信号调理电路（2）连接模数转换ADC（3），模数转换ADC（3）分别连接慢成形电路通道（7）和快成形电路通道（10）；所述慢成形电路通道（7）连接信号恢复提取模块（8），信号恢复提取模块（8）连接自动增益调节模块（9）；所述快成形电路通道（10）连接高通滤波与脉冲整形电路模块（11），高通滤波与脉冲整形电路模块（11）连接快成形幅度提取模块（12）；自动增益调节模块（9）和快成形幅度提取模块（12）连接脉冲幅度计数幅度甄别模块（13），脉冲幅度计数幅度甄别模块（13）连接总计数修正模块（14）。2. 根据权利要求1所述的一种基于FPGA/STM32的数字多道谱仪，其特征在于：所述接口控制单元STM32（5）包括FLASH，SDRAM，通信控制接口，稳谱控制接口模块。3. 根据权利要求1所述的一种基于FPGA/STM32的数字多道谱仪，其特征在于：所述信号恢复提取模块（8）具有脉冲基线恢复、幅值提取、堆积识别、脉冲间隔判别的作用。4. 根据权利要求1所述的一种基于FPGA/STM32的数字多道谱仪，其特征在于：所述模数转换ADC（3）的高速并行输出数据采用FPGA（4）进行处理，采用FIFO（16）实现数字核信号的存储。5. 根据权利要求1所述的一种基于FPGA/STM32的数字多道谱仪，其特征在于：所述FPGA（4）和MCU之间的通讯利用SPI总线来实
+  snippet: 本实用新型公开了一种基于FPGA/STM32的数字多道谱仪，包括NaI(T1)闪烁探测器、核模拟信号调理电路、模数转换ADC、FPGA、接口控制单元STM32和上位机；FPGA包括慢成形电路通道...
+
+[9] 多道幅度分析器原理
+  url: http://wenku.so.com/d/cfb9b3808879c82c0325a75760ce2689#1#1
+  site: None  authority: 2  date: None
+  summary: ## 多道幅度分析器原理    在 \(\gamma\) 能谱测量中，线性脉冲放大器输出的脉冲幅度正比于入射射线的能量。分析脉冲的幅度就可以了解入射射线的能量，分析脉冲幅度的电路称为脉冲幅度分析器。其中，只测量一个幅度间隔内脉冲数的脉冲幅度分析器称为单道脉冲幅度分析器；可以同时测量多个幅度间隔内脉冲数的脉冲幅度分析器称为多道脉冲幅度分析器。    多道脉冲幅度分析器的原理框图，如图2.3所示。它的原理是利用A/D转换将被测量的脉冲幅度范围平均分成 \(2^{n}\) 个幅度间隔，从而把模拟脉冲信号转化成与其幅度对应的数字量，称之为“道址”。在存储器空间里开辟一个数据区，在该数据区中有 \(2^{n}\) 个计数器，每个计数器对应一个道址。控制器每收到一个道址，控制器便将该道址对应的计数器加1，经过一段时间的累积，得到了输入脉冲幅度的分布数据，即谱线数据。这里提到的幅度间隔的个数就是多道脉冲幅度分析器的道数，它由 \(n\) 值决定。    根据上述多道脉冲幅度分析器的原理，可以得出多道脉冲幅度分析器要做的具体工作一方面是把前向通道输出的模拟信号进行模一数转换，并将其转换结果进行处理、存储和显示。    一台完整的核地球物理仪器，常可分为两部分：核辐射探测器和嵌入式系统。多道脉冲幅度分析器是嵌入式系统的核心部分。多道脉冲幅度分析器一方面采集来自放大器的信号并进行模数转换，同时存储转换结果；另一方面将存储的转换结果进行数据分析，并直接显示谱线，或者通过计算机接口送给计算机进行数据处理和谱线显示。    <center>图2.3 多道脉冲幅度分析器框图</center>    多道脉冲幅度分析器的原理结构框图如图2- 2所示。脉冲信号在通过甄别电路和控制电路时，甄别电路给出脉冲的过峰值息，并启动A/D转换。A/D转换电路对脉冲信号峰值幅度进行模数转换，并将转换结果存储在片上Flash中，由微控制器进行相应的数据处理。    峰值检测电路    峰值检测电路根据实际需求可分为两种类型：数字型和模拟型。数字式峰值检测电路要以高速处理器为核心，结合高速ADC，在采样脉冲的控制下，对信号进行连续测量，得到原始测量数据，再通过一种算法，解算出脉冲峰值信息。比如我们一个脉冲是1us脉冲宽，那么我们至少在1us内进行大于10次以上的ADC转换值，然后再对这些值进行处理，得到一个最大值，认为这个值是峰值，接着这个值与我们设定的阈值进行比较，如果是大于闭值，那么我们认为是一个脉冲峰值，否则，认为是干扰噪声，我们丢弃这个数据。这就要求我们的CPU有足够的处理速度，ADC有足够快的转换速度。典型的方案是DSP处理器结合FPGA以及高速ADC。模拟型峰值检测电路相对就简单多了，只有在脉冲信号到来的时候，
+  snippet: 它的原理是利用A/D转换将被测量的脉冲幅度范围平均分成 \(2^{n}\) 个幅度间隔，从而把模拟脉冲信号转化成与其幅度对应的数字量，称之为“道址”。在存储器空间里开辟一个数据区 ... 多道脉冲幅度分析器一方面采集来自放大器的信号并进行模数转换，同时存储转换结果...
+
+[10] 基于FPGA技术的数字多道及PIPS半导体探测器的低成本α能谱测量系统研制
+  url: https://publish.cnki.net/journal/portal/here/client/paper/preview?cache=false&filePath=files%2fhere%2fhtmlfulltext%2fpdf%2f%2f2025%2f10%2f%e5%9f%ba%e4%ba%8eFPGA%e6%8a%80%e6%9c%af%e7%9a%84%e6%95%b0%e5%ad%97%e5%a4%9a%e9%81%93%e5%8f%8aPIPS%e5%8d%8a%e5%af%bc%e4%bd%93%e6%8e%a2%e6%b5%8b%e5%99%a8%e7%9a%84%e4%bd%8e%e6%9c%ac%e5%ba%95%ce%b1%e8%83%bd%e8%b0%b1%e6%b5%8b%e9%87%8f%e7%b3%bb%e7%bb%9f%e7%a0%94%e5%88%b6.pdf#1#1
+  site: None  authority: 4  date: None
+  summary: # 基于FPGA技术的数字多道及PIPS半导体探测器的低成本α能谱测量系统研制    张志雄，武文博，马骁，侯健强    （1. 中核控制系统工程有限公司，北京100037；2. 中核北方燃料元件有限公司，内蒙古014030）    摘要：针对传统α能谱测量系统存在的本底噪声高、能量分辨率受限等问题，研制了基于FPGA技术的数字多道分析模块与PIPS半导体探测器相结合的新一代α能谱测量系统。该系统设计基于FPGA的多参数数字多道处理架构，利用硬件描述语言实现高速脉冲幅度提取算法，开发了自适应基线恢复技术和波形动态甄别机制。实验数据表明，该系统能量分辨率最低可达到 \(16.293\mathrm{keV}@5.486\mathrm{MeV}\) （FWHM），支持8192道能谱分析，具备多探测器同步采集能力，为环境放射性监测、核安全保障、食品安全等领域的超低水平α核素分析提供了可靠的技术手段。    关键词：FPGA；数字多道；PIPS半导体探测器；α能谱测量系统；能量分辨率； ... ## 0 引言    α谱仪是利用能谱法测定、分析α粒子核素样品的精密设备，在核物理、地质检测、环境保护和工业等领域发挥着重要作用[1- 3]。随着探测器技术和化学分离方法的进步，其应用范围正进一步扩展至纳米材料辐射效应研究、深空探测等新兴领域。    传统的多道脉冲幅度分析器主要依赖于模拟电路实现信号处理功能，通常包括极零相消、信号放大、滤波成形、基线恢复、堆积判弃以及峰值保持等关键环节，最终通过模数转换（Analog to Digital Converter，ADC）和单片机完成幅度谱成型。这类基于模拟器件的系统存在明显局限性：一方面，不同模拟元件之间的差异    会导致性能不一致；另一方面，模拟电路对环境条件变化较为敏感，这些因素限制其在高精度、高计数率测量场景中的应用。随着核能谱测量学在各个领域越来越多的应用，对多道脉冲幅度分析器的速度、精度、稳定性和功耗等指标提出了更高的要求，模拟多道越来越难以适应时代的需求[4]。    近年来，随着可编程逻辑器件（Field Programmable Gate Array，FPGA）和高速ADC的快速发展，数字化测量技术得到了广泛应用。基于此技术的新一代多道脉冲幅度分析器已趋于成熟。该系统将探测器前置放大器输出信号进行初步处理，利用高速ADC完成数字化采样。得到的数字核脉冲序列送至FPGA中，经数字滤波、幅度提取、堆积判别和基线修正[5]，提高了系统的稳定性和精度，为复杂信号处理提供了灵活的解决方案。    我们在前期对模拟多道脉冲分析器及金硅面垒探测器的α能谱仪的研究基础上，研制了一套基于FPGA技术的数字多道分析模块及PIPS半导体探测器的低本底α能谱测量系统，  PIPS探测器具有抗干扰能力强、使用寿命长等特点，该系统在稳定
+  snippet: 传统的多道脉冲幅度分析器主要依赖于模拟电路实现信号处理功能，通常包括极零相消、信号放大、滤波成形、基线恢复、堆积判弃以及峰值保持等关键环节，最终通过模数转换（Analog to Digital Converter，ADC）和单片机完成幅度谱成型。

@@ -1,0 +1,475 @@
+Duolingo Path Meets Expectations for
+Proficiency Outcomes
+ Duolingo Research Report DRR-24-04
+April 26, 2024 ( 17 pages)
+https://www.duolingo.com/efficacy
+Xiangying Jiang, Elise Hopman, Ben Reuveni, Audrey Kittredge
+Abstract
+Thisstudyevaluatestheproficiencyoutcomes,appusagebehaviors,andlevelsofself-efficacyofDuolingolearnersafterDuolingo’s
+linear “path” home screen redesign in 2022 (Munson et al., 2022). At the completion of the beginner-level content (up to the
+end of A2) in Duolingo’s Spanish and French courses for English speakers, learners’ proficiency in reading, listening, writing,
+and speaking was assessed using the STAMP 4S Spanish and French tests by Avant Assessment. Learners in the Spanish course
+achievedanoverallproficiencylevelofIntermediateMidaccordingtotheACTFLscale,withreadingatIntermediateHigh,listening
+at Intermediate Mid, writing at Intermediate Low, and speaking approaching Intermediate Low. Learners in the French course
+achieved an overall proficiency level of Intermediate Low, with reading at Intermediate High, listening approaching Intermediate
+Mid,writingatIntermediateLow,andspeakingapproachingIntermediateLow. Furtheranalysesshowedthatlearnerswhoreported
+a higher level of self-efficacy (i.e., personal beliefs in one’s capabilities) as well as learners with higher average session accuracy
+hadbetterproficiencyoutcomes. Acomparisonwithpreviousfindingsindicatesthatthelinear“path”takeslongertocompleteand
+leadstobetterproficiencyoutcomesthanthe“tree”versionofthehomescreen. Overall,thesefindingsdemonstratethatDuolingo’s
+homescreenredesigneffectivelysupportslearnersinachievingexpectedproficiencyoutcomes.
+Keywords
+Duolingo efficacy, app-based language learning, mobile-assisted language learning, language proficiency, language learning, self-
+efficacy,learningbehavior
+1 Introduction
+TheDuolingolanguagelearningappunderwentamajorredesign
+in 2022, with the goal of providing better guidance to learners
+and increasing efficacy in the learning process. Although this
+change was motivated by scientific evidence and optimization
+of user experience, there is a need for research on the actual
+learning outcomes of learners in the redesigned version of the
+app’shomescreen. Thecurrentstudyevaluatedtheproficiency
+levels of participants in the Spanish and French courses for
+English speakers after the home screen redesign, when they
+reachedtheendofcontentalignedtotheA2leveloftheCommon
+European Framework of Reference (CEFR) for Languages
+(CouncilofEurope,2001 ). Belowweoutlinethemainchanges
+inthehomescreenredesign.
+1.1 Main Changes in the Home Screen Redesign
+1.1.1 Path Design The most notable change in the Duolingo
+redesign was the shift from a “tree” design on the home screen
+(left side of Figure1) to a linear “path” design (right side of
+Figure 1). In the tree design, learners could choose which
+content to complete next. In the linear path, learners complete
+content in the order it is presented. Based on internal research
+showingthatlearnerswerenotalwayssurehowtonavigatethe
+tree,thischangewasmadetoclarifytolearnerswhattheyshould
+donext. Tohelplearnersbetterunderstandthecoursedesign,the
+linear path is also divided into smaller “units,” each with a set of 
+learning objectives.
+Figure 1
+Duolingo’s Transition from the Original Tree to the Path
+1.1.2
+Content The home screen redesign did not change the
+alignment of Duolingo courses with the CEFR, and the lessons
+Corresponding author:
+Xiangying Jiang
+Duolingo, Inc. 5900 Penn Ave 
+Pittsburgh, PA 15206, USA
+Email: learning-sciences@duolingo.com
+© 2024 Duolingo, Inc. All rights Reserved.
+2 Duolingo
+Research Report DRR-24-04
+includesimilaractivitytypesasthoseintheoriginaltreedesign,
+targeting learning of vocabulary, grammar, reading, listening,
+writing, and speaking. However, there are three major changes
+tothecoursecontent:
+1. Short narratives with dialogue (“stories”) are part of the 
+obligatory path, whereas in the tree design they were on 
+a separate tab and optional. This gives learners exposure 
+to longer-form text to support reading comprehension.
+2. Lessons that focused solely on reviewing and practicing 
+previously learned material were added to the path. The 
+goal of this change was to ensure spaced repetition of 
+vocabulary and grammar, which is known to support 
+learning and long-term memory (Carpenter et al., 2022; 
+Kelley & Whatson, 2014; Latimier et al., 2021).
+3. The path contains more obligatory lessons at three 
+difficulty levels (low, medium, and high), whereas in 
+the tree only lessons at the low difficulty level were 
+obligatory. Lessons at the low difficulty level teach 
+new material on a topic with mostly recognition-based 
+exercises while lessons at the high difficulty level provide 
+more practice over the same material but with more recall-
+based productive exercises. This change was made to 
+support learners achieving a higher level of language 
+proficiency.
+1.1.3 Organization In addition to the content changes, the
+organization of the content within the course was altered.
+Lessonsthatcoveredsimilarcontentatthreedifficultylevelsare
+interleaved, to further support spaced repetition of vocabulary
+and grammar (Carpenter et al., 2022). Figure 2 shows the
+interleavingofstories,practicesessions,andlessonsatdifferent
+difficulty levels, in an example unit from the French course for
+Englishspeakers.
+For more information about the changes from the tree to the
+linearpath,seethis blogpost (Munsonetal.,2022).
+To summarize, the linear path aims to provide learners with
+better guidance on which content to complete next as well
+as more clearly communicate learning objectives of different
+units to learners. The path also aims to enhance learning by
+making scientifically and pedagogically motivated changes to
+thecontentanditsorganization. Thelargeamountofchangein
+thisredesignwarrantsre-evaluationofcourselearningoutcomes,
+whichwasthegoalofthepresentstudy.
+1.2 Review of Efficacy Studies on the Tree Design
+Sincethepresentstudywasintendedtobeare-evaluationofthe
+same courses at the same content section after the home screen
+redesign,webrieflyreviewpreviousefficacystudiesonthetree
+design. These studies measured the proficiency outcomes of
+Duolingo learners in its Spanish and French courses at the end
+of A2 in reading and listening (Jiang et al., 2020) and speaking
+(Jiang,Rollinson,Chen,etal.,2021).
+Figure 2
+An Example Unit from the French Course for English Speakers in the 
+Path during this Study
+Jiang
+et al. (2020) evaluated the reading and listening
+proficiency levels of Duolingo learners who had completed the
+beginner-levelcoursematerial(includingcontentinpre-A1,A1,
+anduptotheendofA2CEFRlevel)intheSpanishandFrench
+courses. Participants (N = 225) were learners of Spanish or
+Frenchwhoself-reportedhavinglittletonopriorproficiencyin
+the target language and using Duolingo as their only learning
+tool. Their language skills were assessed using the ACTFL
+reading and listening proficiency tests. Duolingo learners in
+thisstudywereatIntermediateLowinbothSpanishandFrench
+reading. In listening, the Spanish learners were at Novice
+Mid, while the French learners were at Novice High. These
+proficiency scores were comparable to the scores of university
+studentsaftertakingfoursemestersoflanguageclasses.
+Jiang, Rollinson, Chen, et al. (2021) measured the speaking
+proficiency of Duolingo learners who had completed the
+beginner-level course material (up to A2 CEFR level) in the
+SpanishandFrenchcourses. Participants(N =258)inthisstudy
+self-reported having little to no prior knowledge in the target
+languageandusingDuolingoastheonlylanguagelearningtool.
+Results of the Pearson Versant Spanish Test and French Test
+© 2024 Duolingo, Inc
+Duolingo
+Efficacy 3
+showed
+that66%ofSpanishlearnersand53%ofFrenchlearners
+reachedA2levelinspeakingontheCEFRscale.
+Given the substantial changes that the home screen redesign
+presents,wewantedtoassesstheefficacyofthepathdesignand
+establishwhetheritisindeedmorebeneficialforlearning.
+1.3 The Present Study
+The goal of the present study was to assess the proficiency
+levels of learners in the new Duolingo path when they reached
+the end of A2-level content in the Spanish and French courses
+for English speakers. Unlike previous studies that examined
+different language skills of Duolingo learners separately (Jiang
+et al., 2020; Jiang, Rollinson, Chen, et al., 2021), the current
+study evaluated learners’ proficiency in all four language skills
+(reading, listening, writing, and speaking). This was done
+through a comprehensive standardized test, which provided an
+overalllanguageproficiencyscoretogetherwithaseparatescore
+foreachskill.
+In addition, this study aimed to delve into the relationships
+between language proficiency results of participants and their
+patterns of app usage. It is crucial to identify which
+learning behaviors in the app are associated with better
+learning outcomes, but current research on this topic is scarce.
+Sudina and Plonsky (2023) examined learners’ frequency and
+intensity of exposure and in-app behavior over six months
+of learning Spanish or French on Duolingo, in relation to
+language improvement. Findings indicated a correlation
+between frequency of logins and learning outcomes, but not
+between learning outcomes and the total learning time or the
+overall number of sessions completed. Smith et al. ( 2024)
+foundthatsessionaccuracyratesignificantlypredictedreading,
+speaking, and overall language proficiency. There is a need for
+furtherresearchtoconfirmthesecorrelations,andtoexplorethe
+relationshipbetweenproficiencyandotherusagevariables.
+Thepresentstudyalsoaimedtoexploretherelationshipbetween
+participants’ self-efficacy and their proficiency. Self-efficacy
+refers to personal beliefs in one’s capabilities. It is a construct
+grounded in social cognitive theory, which emphasizes that
+individuals’ beliefs about themselves influence their actions
+(Bandura, 1997). In educational contexts, self-efficacy has
+beenfoundtoplayavitalroleinlearners’performance( Huang,
+2016;Zimmerman,2000): self-efficacycorrelatesstronglywith
+actual task performance and learning in a variety of domains
+(Honicke & Broadbent, 2016), with a unique effect that is not
+explainedbypriorperformancealone( Talsmaetal.,2018 ). Self-
+efficacy also correlates with behaviors that promote learning,
+such as goal-setting, persistence, and effort (Bandura, 1999;
+Carmichael & Taylor, 2005; Pajares, 1996; Raoofi et al.,
+2012; Schunk, 2003; Zimmerman, 2000). Existing research
+shows that language learning self-efficacy is also correlated
+with second language achievement (Goetze & Driver, 2022),
+and learners with high language learning self-efficacy tend to
+use more learning strategies (Graham, 2022; Raoofi et al.,
+2012; Wang & Sun, 2020). However, there is very limited
+research on self-efficacy in the context of mobile language
+learning (Babakhani & Tabatabaee-Yazdi, 2023; Rachels &
+Rockinson-Szapkiw, 2018). Rachels and Rockinson-Szapkiw
+(2018) found no significant self-efficacy differences between
+classroom instruction and learning on Duolingo, in a group
+of elementary school students learning Spanish for 12 weeks.
+However, Duolingo was designed for use by adult learners,
+and there is no prior research on adult Duolingo learners’ self-
+efficacy.
+This study was intended to be exploratory in nature. It was the
+first study in which we investigated the efficacy of Duolingo’s
+coursesafteritshomescreenredesign,andthefirststudywitha
+morecomprehensiveproficiencytesttargetingallfourlanguage
+skills. We also aimed to explore the role of multiple app
+usagevariablesandtheroleofself-efficacyinlanguagelearning.
+Specifically, the present study aimed to answer the following
+researchquestions:
+1. What proficiency levels do learners achieve at the
+completion of the beginner-level content (up to the end
+of A2) in the new path of Duolingo’s Spanish or French
+course for English speakers? How do their proficiency
+levels compare to those of learners assessed in previous
+studies?
+2. How do learners’ app usage variables (i.e., average
+session accuracy, time spent learning, and number of
+sessions completed) correlate with proficiency scores at
+thecompletionofthebeginner-levelcontent?
+3. What levels of self-efficacy do learners have at the
+completion of the beginner-level content? How do their
+levelsofself-efficacycorrelatewithproficiencyscores?
+2 Methods
+2.1 Participants
+The participants of the study were 165 Spanish and 92 French
+learners on Duolingo who studied these languages from the
+Englishuserinterface. Theselearnershadtomeetthefollowing
+selectioncriteriatobeincludedinthestudy.
+1. Prior proficiency. Duolingo’sstandardonboardingflow
+includes a prior proficiency question with four possible
+responses, and an optional placement test. In this
+study, we only included learners whose self-reported
+prior language proficiency was either “I don’t know the
+language”or“Iknowbasicwordsandphrases.” Learners
+who selected one of the other two responses (“I can
+understand simple conversations” or “I am intermediate
+oradvanced”)werenotincludedinthestudy. Thiswasto
+ensurethatthebeginner-levelDuolingocontentwasatthe
+rightlevel for participants. For the same reason, we also
+© 2024 Duolingo, Inc
+4 Duolingo Research Report DRR-24-04
+required that learners who took the placement test were
+placed within the first 20% of the beginner-level course
+content.
+2. Location. Learners’ IP address was not in countries or
+regions where Spanish or French is an official or widely
+spoken language (full list in Appendix A). By doing so,
+we excluded learners who were immersed in the target
+culturewhilelearningthelanguage.
+3. Course content completed. Learnersreachedtheendof
+theA2content(Section4)intheSpanishorFrenchcourse
+during the data collection window (April-November,
+2023). If they started learning Spanish or French on
+the earlier “tree” version of the Duolingo home screen,
+no more than 20% of the beginner-level course content
+could be completed in that version. Thus, these learners
+completed at least 80% of the beginner-level course
+content (including content in pre-A1, A1, and up to the
+endofA2CEFRlevel)inthepath.
+4. Age. Learnerswere18yearsofageorolder,asconfirmed
+in a background questionnaire (detailed below). Among
+thesurveyrespondents,thosewhoreportedthatwereless
+than18yearsoldwereexcludedfromparticipation.
+5. Use of other learning materials. Learners did not
+take classes or use other apps or programs to study
+the language while they were using Duolingo, as self-
+reportedinthebackgroundquestionnaire.
+6. Equipment. Learners had to have access to a
+webcam-enabled,internet-connectedcomputerfortesting
+(because of external proficiency test requirements), as
+confirmedinthebackgroundquestionnaire.
+2.2 Instruments
+2.2.1 The Background Questionnaire The background ques-
+tionnaire (Appendix B) was designed for four purposes. First,
+it collected information on participants’ language background,
+reasonsforlearningthelanguage,highestlevelofeducation,and
+age group (Questions 1-4). The response data on participants’
+home language, reasons for learning the language, education,
+and age is summarized in Appendix C. Second, it included two
+questions that asked participants to rate their current and prior
+language knowledge on a 0-10 scale (Questions 5-6). Third,
+it included three additional questions to confirm eligibility for
+participation in the study (Questions 7-9). Specifically, these
+questionsverifiedwhetherpotentialparticipantstookclassesor
+used other apps/programs during the time they used Duolingo,
+andwhethertheyhadtherightequipmenttotakeanonlinetest.
+Those who said they took classes or used other apps/programs
+wereexcludedfromparticipation, aswerethosewithouttheap-
+propriateequipmentfortesting(seeParticipantssectionabove).
+Thefinalpurposeofthequestionnairewastocollectdataonpar-
+ticipants’ self-efficacy at the completion of A2 in the language
+theywerelearning(Question10). Thefullquestionnairecanbe
+foundinAppendixB.
+In this study, self-efficacy was defined as personal beliefs that
+individualshaveabouttheircapabilitiestocompleteaparticular
+task successfully (Bandura, 1997; Graham, 2022; Mills et al.,
+2006). Self-efficacy is not dependent on one’s actual abilities.
+Rather, it is what individuals believe can be accomplished with
+their current skill set (Mills et al., 2006; Raoofi et al., 2012).
+Furthermore,self-efficacyistask-specific,forexample,alearner
+might believe that they canwrite an email in Spanish (i.e., a
+task).
+A total of six statements were written to evaluate participants’
+self-efficacy. The tasks in the statements were tied to A2
+CEFR level expectations on speaking, conversation, reading
+and writing skills (see the statements in Question 10 of
+AppendixB).Eachstatementwasratedona6-pointLikert-type
+scale (1-strongly disagree, 2-disagree, 3-somewhat disagree,
+4-somewhat agree, 5-agree, 6-strongly agree). The internal
+consistency(Cronbach’salpha)ofthe6-itemsurveywas.90. A
+participant’sself-efficacywascalculatedastheiraveragerating
+across the 6 items. Average ratings below 3 were considered
+“disagree”andaverageratingsabove4wereconsidered“agree,”
+while average ratings between 3 and 4 (somewhat disagree and
+somewhatagree)wereconsideredneutral.
+2.2.2 Proficiency Test: STAMP 4S Spanish and French Tests
+The STAMP 4S Spanish and French tests were used to assess
+participants’SpanishorFrenchproficiencyinthisstudy. These
+tests are commercial standardized proficiency tests provided
+by Avant Assessment. The term STAMP is an acronym
+for Standards-Based Measurement of Proficiency, while 4S
+represents the four skills assessed: reading, listening, writing,
+and speaking. The STAMP 4S test is an online, computer-
+adaptiveevaluationoflanguageproficiency. Proficiencyscores
+are presented as STAMP levels ranging from 1 to 9, which are
+alignedtotheproficiencyscaleoftheAmericanCouncilonthe
+Teaching of Foreign Languages (ACTFL). Test-takers can also
+receive a score of 0 or their responses can be marked as Not
+Ratable (NR) in case of technical difficulties with e.g., audio
+recordings for the speaking section. As illustrated in Figure3,
+the STAMP scale of 1-9 aligns with nine ACTFL sublevels in
+three broad categories: Novice (Low, Mid, High), Intermediate
+(Low, Mid, High), and Advanced (Low, Mid, High) (Avant
+Assessment,2024). AvantAssessmentdoesnotprovideadirect
+alignment between STAMP levels and CEFR levels. However,
+we can indirectly use ACTFL’s alignment to CEFR (ACTFL,
+n.d.). According to this, for an A2-level proficiency, learners
+needtoscoreatIntermediateMidinreceptiveskills(i.e.,reading
+and listening) and Intermediate Low in productive skills (i.e.,
+writingandspeaking).
+For the STAMP 4S test, individual STAMP level ratings were
+assigned for reading, listening, writing, and speaking skills,
+as well as overall proficiency, which was calculated as the
+average of the four skill ratings. If a participant received NR
+on speaking or writing, we calculated their overall proficiency
+© 2024 Duolingo, Inc
+Duolingo Efficacy 5
+Figure 3
+The Alignment of the STAMP Levels with ACTFL Proficiency Scale (and A2 CEFR Level)
+Note: ThemaintablewasrecreatedwithpermissionfromSantos(2022,p. 2).
+as the average of the other three skill ratings. Scaled scores for
+readingandlisteningwerealsoavailable(see AvantAssessment,
+2023). However,preliminaryanalysesrevealedlittledifference
+betweenthescaledscoresandtherating-basedscoresonreading
+and listening in answering the research questions. To maintain
+consistencyacrossallskillsandoverallproficiency,wechoseto
+reportonlytheSTAMPlevelratingsinthesubsequentanalyses.
+2.3 Procedure
+An email soliciting participation was sent to all Duolingo
+learners in the course who pre-qualified for study participation
+(criteria 1-3 listed in the Participants section above). Learners
+aged 18 and above interested in participating completed a
+background questionnaire that allowed us to verify eligibility
+and collect additional information. Among the survey
+respondents, those who reported that they were less than 18
+yearsoldwereexcludedfromparticipation. Thosewhoreported
+thattheyhadtakenclassesorusedotherapps/programstolearn
+the target language during the time they used Duolingo were
+ineligible to participate. Those who reported not having access
+totherighttestingequipmentwerealsoineligibletoparticipate.
+Eligible participants were notified and invited to take the
+STAMP 4S Spanish or French Test paid for by Duolingo. Data
+werecollectedbetweenApril25,2023andNovember24,2023
+during 28 testing windows on a rolling basis (with two weeks
+skippedduetounforeseencircumstances),eachlastingoneweek
+(from initial call for participation to taking the test). Remote
+human proctors from Avant Assessment were present for each
+scheduled testing session. Each participant received $100 and
+their score report after taking the test. Table1 shows the full
+datacollectionfunnel.
+2.4 Analyses
+The main part of the first research question, on proficiency
+outcomes, was answered with descriptive statistics. In
+Table 1
+Data Collection Funnel
+Spanish French
+Studyinvitationssent
+3153 1701
+Surveyresponded 862 446
+Eligible 505 272
+Testcompleted* 165 92
+*Note: Dueto
+technicalproblems,asmallnumberofparticipants
+did not complete all four skills during their assessment. The
+numbersreportedherecountparticipantswhocompletedatleast
+oneskillinthetest. SeeTable 2fornumbersperskill.
+addition to descriptive statistics, regression analyses were
+conducted to examine the relationships between self-efficacy
+and proficiency outcomes, and then between app usage
+behaviorsandproficiencyoutcomes. Intheregressionanalyses,
+proficiencyscoreswereregressedonlearnervariables(i.e.,self-
+efficacy)andappusagevariables(i.e.,averagesessionaccuracy,
+time spent learning, and number of sessions). Full details for
+thesepre-plannedanalyseswereincludedinappendices.
+3 Results
+3.1 Proficiency Outcomes at the Completion of A2
+Participants’ proficiency scores are summarized in Table2,
+which presents means and standard deviations (SDs) of overall
+proficiencyscoresandproficiencyscoresforseparatelanguage
+skills(reading,listening,writing,andspeaking). Figure 4shows
+participants’averageproficiencyscoresinbothcourses.
+In the Spanish course, participants had an average overall
+proficiencyofIntermediateMid( M =5.29)ontheACTFLscale
+after completing the beginner-level content on Duolingo. The
+average proficiency levels for each of the four language skills
+varied, with reading at Intermediate High (M = 6.90), listening
+at Intermediate Mid (M = 5.77), writing at Intermediate Low
+© 2024 Duolingo, Inc
+6 Duolingo
+Research Report DRR-24-04
+Table 2
+Means and Standard Deviations (SDs) of Participants’ Proficiency Scores in both Courses
+Spanish French
+n Mean
+(SD) ACTFLscale n Mean( SD) ACTFLscale
+Overall
+proficiency 159 5.29(1.01) Intermediate Mid 90 4.94(0.96) Intermediate Low
+Reading 165 6.90(1.17) Intermediate High 92 6.47(1.07) Intermediate High
+Listening 163 5.77(1.49) Intermediate Mid 91 4.95(1.64) Intermediate Low
+Writing 162 4.48(1.12) Intermediate Low 90 4.33(1.18) Intermediate Low
+Speaking 158 3.93(1.27) Novice High 90 3.93(1.09) Novice High
+Note: One participant received NR (Not Ratable) in speaking and another participant received NR in writing. Overall
+proficiencyscoresforthesetwoparticipantswerecalculatedastheaverageoftheotherthreeskillratings. Eightother
+participantsdidnotcompleteallfourskilltests,andfortheseeightparticipantswedidnotcomputeanoverallproficiency
+score. The remaining 247 participants completed all four skill tests, and their overall proficiency score was computed
+astheaverageofthefourskilltests.
+Figure 4
+Average Proficiency Scores in STAMP Level and ACTFL Scale, with Standard Errors
+(M =
+4.48), and speaking at Novice High (M = 3.93). In the
+French course, the average overall proficiency of participants
+was at Intermediate Low (M = 4.94), although approaching
+Intermediate Mid. The average proficiency levels for each of
+thefourlanguageskillsalsovaried,withreadingatIntermediate
+High (M = 6.47), listening and writing at Intermediate Low (M
+=4.95;M=4.33),andspeakingatNoviceHigh( M =3.93).
+Figure 5 shows the distribution of participants’ overall
+proficiencyscoresinbothcourses. Asshowninthefigure,only
+a small number of participants scored in the Novice range (n =
+11Frenchlearners; n=13Spanishlearners). Bothdistributions
+passed Kolmogorov-Smirnov tests for normality (p > .1 n.s.).
+SeeAppendixDforthedistributionofscoresinallfourskills.
+3.1.1 Comparisons between the Tree and the Path As men-
+tioned in the Introduction section of this report, two previous
+studies (Jiang et al., 2020; Jiang, Rollinson, Chen, et al., 2021)
+assessed the proficiency outcomes of Duolingo learners in the
+same Spanish and French courses at the end of A2. Since
+the current study was intended to be a re-evaluation, some
+comparisons,eveniftentative,werewarranted.
+Jiang et al. (2020) assessed Duolingo learners’ reading and
+listeningproficiencyatthecompletionofA2inthetwocourses
+when the home screen was in the tree design. The ACTFL
+readingandlisteningproficiencytestswereusedinthetreestudy,
+whilethecurrentstudyassessedallfourskillswiththeSTAMP
+4S test. Although different tests were used in the two studies,
+both tests followed the same ACTFL proficiency scale in score
+interpretation, which enabled tentative comparisons between
+learners’readingandlisteningproficiencyscoresinthetreeand
+path versions of the home screen. Table3, Table4, and Figure
+6show the reading and listening scores of Duolingo learners at
+thecompletionofA2intheSpanishandFrenchcourses.
+Regression analyses confirmed that for both reading and
+listening proficiency, scores for participants using the path
+© 2024 Duolingo, Inc

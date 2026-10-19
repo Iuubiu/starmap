@@ -1,0 +1,366 @@
+Repository search results · GitHub
+Skip to content
+Navigation Menu
+Sign in
+Appearance settings
+Platform
+AI CODE CREATION
+GitHub Copilot
+Write better code with AI
+GitHub Copilot app
+Direct agents from issue to merge
+MCP Registry
+Integrate external tools
+DEVELOPER WORKFLOWS
+Actions
+Automate any workflow
+Codespaces
+Instant dev environments
+Issues
+Plan and track work
+Code Review
+Manage code changes
+Code Quality
+Enforce quality at merge
+APPLICATION SECURITY
+GitHub Advanced Security
+Find and fix vulnerabilities
+Code security
+Secure your code as you build
+Secret protection
+Stop leaks before they start
+EXPLORE
+Why GitHub
+Documentation
+Blog
+Changelog
+Marketplace
+View all features
+Solutions
+BY COMPANY SIZE
+Enterprises
+Small and medium teams
+Startups
+Nonprofits
+BY USE CASE
+App Modernization
+DevSecOps
+DevOps
+CI/CD
+View all use cases
+BY INDUSTRY
+Healthcare
+Financial services
+Manufacturing
+Government
+View all industries
+View all solutions
+Resources
+EXPLORE BY TOPIC
+AI
+Software Development
+DevOps
+Security
+View all topics
+EXPLORE BY TYPE
+Customer stories
+Events & webinars
+Ebooks & reports
+Business insights
+GitHub Skills
+SUPPORT & SERVICES
+Documentation
+Customer support
+Community forum
+Trust center
+Partners
+View all resources
+Open Source
+COMMUNITY
+GitHub Sponsors
+Fund open source developers
+PROGRAMS
+Security Lab
+Maintainer Community
+GitHub Stars
+Archive Program
+REPOSITORIES
+Topics
+Trending
+Collections
+Enterprise
+ENTERPRISE SOLUTIONS
+Enterprise platform
+AI-powered developer platform
+AVAILABLE ADD-ONS
+GitHub Advanced Security
+Enterprise-grade security features
+Copilot for Business
+Enterprise-grade AI features
+Premium Support
+Enterprise-grade 24/7 support
+Pricing
+Search
+/
+Sign in
+Sign up
+Appearance settings
+You signed in with another tab or window.
+Reload
+to refresh your session.
+You signed out in another tab or window.
+Reload
+to refresh your session.
+You switched accounts on another tab or window.
+Reload
+to refresh your session.
+Dismiss alert
+repositories Search Results · gamified learning quiz
+Filter by
+Code
+...
+(
+...
+)
+results
+Repositories
+214
+(
+214
+)
+results
+Issues
+results
+Pull requests
+results
+Discussions
+results
+Users
+results
+More
+Languages
+JavaScript
+HTML
+TypeScript
+Python
+Dart
+Java
+C#
+CSS
+ShaderLab
+Kotlin
+More languages...
+Advanced
+Owner
+Size
+Number of followers
+Number of forks
+Number of stars
+Date created
+Date pushed
+Topic
+License
+Archived
+Public
+Private
+Advanced search
+Filter:
+Repositories
+214
+(
+214
+)
+214 results
+(
+173
+ms
+)
+214 results
+Sort by:
+Most stars
+Filter
+sophie4869/systemDesingo
+Gamified
+system design interview prep — quick drills, LLM mock design & schema judges, spaced review, and a leaderboard.
+learning
+distributed-systems
+pwa
+quiz
+interview-preparation
+HTML
+·
+5
+·
+Updated
+on Sep 4
+Star
+sherlyn-samuel/MENTA-RAY
+A Flutter-based
+gamified
+educational app for children featuring Mathematical
+Quizzing
+and Indian Sign Language (ISL)
+learning
+with LLM (G…
+Dart
+·
+5
+·
+Updated
+on Sep 7
+Star
+memgonzales/linquiztics
+Language
+learning
+web application that allows users to create their own quizzes and to answer those made by the community of users. Featu…
+nodejs
+javascript
+website
+web-development
+mongodb
+JavaScript
+·
+4
+·
+Updated
+on Dec 22, 2022
+Star
+Nithish876/
+GamifiedLearning
+-app-React-Native
+This is a fun and interactive
+Gamified
+Quiz
+App built with React Native and Expo Router, designed to make
+learning
+enjoyable. The app foc…
+TypeScript
+·
+3
+·
+Updated
+on Dec 23, 2024
+Star
+imtiaz0307/
+Quiz
+Flow
+The ultimate developer
+quiz
+app built with React Native & Expo. 📱 Features
+gamified
+learning
+, offline mode, and real-time analytics. ⚡ Po…
+javascript
+android
+open-source
+education
+firebase
+TypeScript
+·
+3
+·
+Updated
+on Dec 24, 2025
+Star
+iqbaleff214/ngebanjar
+Ngebanjar is designed to facilitate effective and enjoyable
+learning
+of the Banjar language. The primary goal is to empower users, from b…
+language-learning
+svelte
+webapp
+quiz
+interactive-media
+TypeScript
+·
+3
+·
+Updated
+on Mar 18, 2025
+Star
+thesajidalam/QuestLearn
+QuestLearn is a
+gamified
+learning
+platform where every lesson is a quest, every
+quiz
+is a boss battle, and knowledge is the ultimate loot.
+JavaScript
+·
+3
+·
+Updated
+on Aug 28
+Star
+toprak1919/pathlearn
+Duolingo-style
+quiz
+generator: turn any document into a
+gamified
+learning
+path with paths, episodes, XP, streaks, and combos. Built with …
+TypeScript
+·
+2
+·
+Updated
+on Sep 13
+Star
+felixyustian/edusenseai
+An adaptive AI-powered education platform featuring an interactive Claude AI tutor, dynamic
+quiz
+generation, course management, real-time
+l…
+react
+python
+nlp
+open-source
+education
+JavaScript
+·
+2
+·
+Updated
+on May 5
+Star
+Simpcyclassy/
+gamified
+-
+learning
+-app-mobile
+A
+quiz
+app built with react native
+TypeScript
+·
+1
+·
+Updated
+on Jan 26, 2023
+Star
+Previous
+1
+2
+3
+4
+5
+6
+7
+…
+22
+Next
+Sponsor open source projects you depend on
+Contributors are working behind the scenes to make open source better for everyone—give them the help and recognition they deserve.
+Explore sponsorable projects
+ProTip!
+Press the
+/
+key to activate the search input again and adjust your query.
+Sponsor open source projects you depend on
+Contributors are working behind the scenes to make open source better for everyone—give them the help and recognition they deserve.
+Explore sponsorable projects
+ProTip!
+Press the
+/
+key to activate the search input again and adjust your query.
+You can’t perform that action at this time.

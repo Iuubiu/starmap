@@ -1,0 +1,84 @@
+
+## Q: Chatbot Usability Questionnaire CUQ Holmes 2019 16 items
+ - level of loss obtained fell from epochs 0 to 200 at 0.95 and there were fluctuations and increases from epochs 200 to 800 at 0.9...
+   https://dlnext.acm.org/doi/pdf/10.1145/3568231.3568235?download=true&__cf_chl_tk=fJ7A_KuCDl1SLq1jIuSaPNwxBkQUHfVJWWgNJ.nQwes-17845 | None  authority: 4  date: None
+   ### 4.5 Chatbot Usability Questionnaire (CUQ)    This test is carried out to determine user experience after using the chatbot. This test was conducted on parents of children who have health problems who are in the Maternal and Child Health Unit (KIA) at the Ngumpakdalem Bojonegoro Health Center. In this step, the examiner creates a questionnaire using the Google Form application which contains 16 questions [Holmes e
+ - Chatbot Usability Questionnaire
+   https://www.ulster.ac.uk/__data/assets/pdf_file/0009/478809/Chatbot-Usability-Questionnaire.pdf#1#1 | None  authority: 3  date: None
+   # Chatbot Usability Questionnaire ... The CUQ consists of sixteen balanced questions related to different aspects of chatbot usability. Eight of these relate to positive aspects of chatbot usability, and eight relate to negative aspects. Scores are calculated out of 100. ... **How to use the CUQ**  All sixteen questions are scored using a five-point Likert-type scale. Odd-numbered questions relate to positive aspects
+ - Questionario sull'Usabilità dei Chatbot (CUQ-IT)
+   https://public-pages-files-2025.frontiersin.org/articles/1860473/file/data_sheet_1.pdf/1860473_data-sheet_1/2#1#1 | None  authority: 3  date: None
+   # Questionario sull'Usabilità dei Chatbot (CUQ-IT)   Grazie per aver scaricato la versione italiana del *Chatbot Usability Questionnaire*, uno strumento appositamente sviluppato per misurare l'usabilità dei chatbot.   ## Si prega di leggere attentamente queste istruzioni prima di utilizzare il questionario.   Il CUQ è composto da 16 domande strutturate in modo bilanciato, relative a diversi aspetti dell'usabilità dei
+ - Development and feasibility testing of a conversational chatbot supporting genetic education and testing for hereditary cancer - Journal of Community Genetics - The user and usability testing interview guides incorporated both open-ended and structured questions, covering participants’ he...
+   https://link.springer.com/article/10.1007/s12687-026-00873-z#2 | Springer  authority: 4  date: 2026-06-21T16:00:00+00:00
+   ### CUQ score  The average CUQ score for the user testers was 75 (IQR = 25), and 81.3 (IQR = 17.2) for usability participants, exceeding the acceptability benchmark of 68.
+
+## Q: SUS system usability scale limitations for conversational AI supplement trust
+ - aSUS: System Usability Scale
+   https://humanfactors.jmir.org/2026/1/e102911/PDF#12#4 | None  authority: 3  date: None
+   Consequently, the observed differences in SUS scores may have been influenced by factors beyond the interaction modality itself. ... the SUS assesses perceived usability rather than objective performance or long- term acceptance, and therefore high SUS scores do not necessarily translate into sustained engagement or continued use. ... Despite the use of extensive search strategies to locate relevant studies, some art
+ - Usability and acceptability of an LLM-Enabled collaborative care app for home-based depression support: A multi-stakeholder mixed-methods study - The findings also have implications for how LLM-enabled mental health tools should be evaluated
+   https://journals.sagepub.com/doi/10.1177/20552076261495459#4 | Sage Journals  authority: 3  date: 2026-10-07T16:00:00+00:00
+   This study evaluated CloudEcho, an LLM-enabled collaborative support tool for home-based depression care, through SUS assessment and semi-structured interviews with patients, family caregivers, and clinical experts. Patients and caregivers valued CloudEcho’s accessible interaction and its potential to support everyday communication, whereas clinical experts placed greater emphasis on emotional safety, privacy protect
+ - EvAlignUX: Advancing UX Evaluation through LLM-Supported Metrics Exploration
+   https://par.nsf.gov/biblio/10639538/media/xml#5 | National Science Foundation (.gov)  authority: 4  date: None
+   , ... the ... -4o, none of the ... metrics explicitly ... the ... et ... Emotion Awareness ... and ... , ... measured in the ... In contrast, none of the metrics recommended by the baseline model address the evaluation of the varied emotional states of the user ... the ... the system ... measuring Perceived Intelligence ... how users perceive ... s ability to generate coherent motions, which the baseline model does n
+ - Usability and User Experience Assessment of Health Care Conversational Agents Using Validated Subjective Instruments: Systematic Review and Comparative Analysis
+   https://www.sciencedirect.com/org/science/article/pii/S2292949526001859#1 | ScienceDirect.com  authority: 4  date: 2026-08-03T16:00:00+00:00
+   subjective ... - Usability assessment instruments ... (2) SUS [31 ... (1) UEQ and SUS [86,105,117,145,174,175,191]; (2) SUS and USE [119]; and (3) CUQ and SUS [146
+
+## Q: tau-bench user simulator LLM agent tool use evaluation
+ - τ -bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains - -bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domainsτ\tau
+   https://ar5iv.labs.arxiv.org/html/2406.12045#1 | arXiv  authority: 4  date: None
+   However, all these works only contain a single-step user interaction, where the human interacting with the agent provides an initial instruction containing all the required information. In contrast, our benchmark focuses on a more realistic setting where the agent has to interact with human users to gather information and authorization.  Task-oriented dialogue. Task-oriented dialogue has been a long-standing challeng
+ - Tau-bench Leaderboard
+   https://llm-stats.com/benchmarks/tau-bench?format=csv#1 | LLM Stats  authority: 3  date: 2026-05-06T16:00:00+00:00
+   # Tau-bench ... Interactive timeline showing model performance evolution on Tau-bench  State-of-the-art frontier ... ## Tau-bench Leaderboard  6 models  Context | Cost | License ... 1 | 196B | 66K | $0.10 / $0.40  2 Zhipu AI  | 358B | 203K | $0.40 / $1.75  3 | 309B | — | — ... | 30B | — | —  5 MiniMax  | 230B | 1.0M | $0.30 / $1.20 ... ## What is Tau-bench?  τ-bench: A benchmark for tool-agent-user interaction in rea
+ - Tau bench
+   https://thudm.github.io/slime/_examples_synced/tau-bench/README.html | GitHub Pages  authority: 3  date: 2026-10-11T16:00:00+00:00
+   # Tau bench ... This example shows slime training in an agentic multi-turn tool use environment.  ## Environment Setup#  Use thezhuzilin/slime:latest image and initialize the environment required for Search-R1: cd /root/ git clone https://github.com/THUDM/slime.git cd slime pip install -e . --no-deps # for tau bench  cd /root/ git clone https://github.com/JD-ETH/tau-bench.git cd tau-bench git checkout feature/litellm
+ - v0.3 (#2) · David-beakr/agent-harness-seed at bb080af - + [arXiv:2406.12045](https://arxiv
+   https://huggingface.co/datasets/David-beakr/agent-harness-seed/commit/bb080af6fa7aeb6714660651047f4cc5fd9174a7#2 | Hugging Face  authority: 3  date: 2026-05-28T16:00:00+00:00
+   + treats as first-class but that matter for Beakr's harness — destructive ... + actions under ambiguity, and structured output for downstream consumers. ... + ### Methodology deviations from the anchor papers ... + Three deliberate differences: ... + 1. **Scale.** tau-bench has hundreds of tasks across two domains ... + (airline, retail); BFCL has 2,000+ question-function-answer pairs ... + across Python, Java, JavaS
+
+## Q: NASA-TLX Hart 2006 20 years later six subscales 21-point
+ - Researchers using NASA- TLX in HMD studies should pay particular attention to the frustration subscale, as it appears to capture...
+   http://kaikunze.de/papers/pdf/lee2026nasa.pdf#10#7 | None  authority: 3  date: None
+   Despite this consideration, we recommend retaining the original 21- option (0- 100) scale for NASA- TLX to preserve the measurement precision intended by the original design, as the original printed and computerized implementations of NASA- TLX already provide this granularity, thereby establishing it as the standard approach. Modern input technology, such as mice and touchscreens, makes  implementing this scale stra
+ - for the valuation of cognitive load in the scope of the user study
+   https://repositum.tuwien.at/bitstream/20.500.12708/188209/1/Wedral%20Aaron%20-%202023%20-%20Cognitive%20Load%20of%20Pervasive%20Te | None  authority: 3  date: None
+   3. CASE STUDY: ... | Part. | Mental D. | Physical D. | Temporal D. | Performance | Effort | Frustration | Total Score | |---|---|---|---|---|---|---|---| | T01    | 32,5    | 7,5    | 7,5    | -    | 7,5    | 87,5    | -    | | T02    | 35    | 15    | 30    | 40    | 25    | 35    | 30    | | T03    | 77,5    | 37,5    | 32,5    | 32,5    | 52,5    | 32,5    | 44,167   | | T04    | 17,5    | 2,5    | 12,5    | 17,5 
+ - Subjective Measures
+   https://eprints.nottingham.ac.uk/72286/1/thesis_corrections.pdf#6#3 | None  authority: 3  date: None
+   Sub ... Subjective measures are another popular method for ... as they are low-cost and easy to administer. Some ... believe that ... measures provide the most ... reaction of ... [110]. ... are ... underlying ... and the available ... 164; 204]. ... for ... Load Index (NASA-TLX) [110] is ... [ ... of six ... ' ... '. ... , ... , ... . ... example, ... 2.1. MENTAL WORK
+ - Outline
+   https://ntrs.nasa.gov/api/citations/20160008388/downloads/20160008388.pdf#2#1 | None  authority: 4  date: None
+   NASA-TLX Bias  Almost any of these (or a scale 1 - 100) gives you a pretty good idea of overall workload experienced by the operator  NOT really diagnostic – I know of no system design ever modified because of too high “physical workload”  Individual differences “weightings” reduce variance – but mathematically have to !!  No one knows what the “own performance” scale means – maybe Sandy  Have effectively become the 
+
+## Q: playwright mcp accessibility tree snapshot deterministic vs vision browser agent
+ - playwright-mcp: Browser Automation via Accessibility Tree for LLMs | Model Context Protocol
+   https://model-context-protocol.com/blog/playwright-mcp-browser-automation-via-accessibility-tree-for-mcp-server-guide-179145014860 | Model Context Protocol  authority: 3  date: 2026-10-07T16:00:00+00:00
+   # playwright-mcp: Browser Automation via Accessibility Tree for LLMs  October 8, 2026 ... Theplaywright-mcp MCP Server provides a direct pathway for LLMs to interact with web pages, leveraging Playwright's accessibility tree for fast, lightweight, and deterministic browser automation. This approach bypasses the need for vision models, offering a structured data interface for agents.  ## Structured Interaction with We
+ - Microsoft Playwright MCP: Tutorial for Beginners - Microsoft Playwright MCP: Tutorial for Beginners
+   https://huggingface.co/blog/lynn-mikami/microsoft-playwright-mcp?trk=article-ssr-frontend-pulse_little-text-block#1 | Hugging Face  authority: 3  date: 2025-03-27T16:00:00+00:00
+   npx", ... - Directly: ... ### Enabling Vision Mode  To switch from the default Snapshot Mode to Vision Mode (using screenshots and coordinates), add the--vision flag: ... npx @playwright/mcp@latest --vision ... Remember that Vision Mode requires the controlling agent to work effectively with coordinates based on screenshots.{ ... ## Using Playwright MCP Tools  Once the server is running and connected to an agent, the
+ - Playwright MCP for Test Automation | Testing Resources
+   https://testingbot.com/resources/articles/playwright-mcp | TestingBot  authority: 3  date: 2026-08-30T16:00:00+00:00
+   # Playwright MCP: what it does and where it fits  What Playwright MCP does, how driving the accessibility tree differs from screenshot agents, and where it fits in a real test workflow.  By Jochen D.  Playwright MCP is a Model Context Protocol server from Microsoft that lets an AI agent drive a real browser. Instead of describing what you want and pasting the resulting code into your project, the agent navigates, cli
+ - playwright-mcp MCP Server — Setup, Tools & FAQ - playwright-mcp
+   https://model-context-protocol.com/servers/playwright-llm-accessibility-tree-browser-automation#1 | Model Context Protocol  authority: 3  date: 2025-03-20T16:00:00+00:00
+   # playwright-mcp  This repository hosts Playwright MCP, a server enabling LLMs to interact with web pages using Playwright's accessibility tree, offering fast, lightweight, and deterministic browser automation. It bypasses the need for vision models. ... ## Playwright MCP  Playwright MCP is a Model Context Protocol server leveraging Playwright for browser automation. It enables LLMs to interact with web pages using s
+
+## Q: rubric based LLM evaluation educational dialogue inter-rater kappa human agreement
+ - Automated Evaluation of Student-Chatbot Interactions in Climate Education Using Large Language Models - Automated Evaluation of Student-Chatbot Interactions in Climate Education Using Large Language Models
+   https://research.itu.edu.tr/en/publications/automated-evaluation-ofstudent-chatbot-interactions-inclimate-edu/#1 | İTÜ | İstanbul Teknik Üniversitesi  authority: 3  date: None
+   # Automated Evaluation of Student-Chatbot Interactions in Climate Education Using Large Language Models  - Eceay Çeltik* - , Bora Şenceylan - , İbrahim Delen - , Gökhan İnce  *Corresponding author for this work  - Istanbul Technical University - Bogazici University  Research output: Chapter in Book/Report/Conference proceeding › Conference contribution › peer-review  ## Abstract  This study presents an automated eval
+ - Automated Evaluation of Student-Chatbot Interactions in Climate Education Using Large Language Models
+   https://www.mendeley.com/catalogue/9dc5cfa9-ec7d-31d0-9f22-fdd1c69a4df7/ | Mendeley  authority: 3  date: None
+   # Automated Evaluation of Student-Chatbot Interactions in Climate Education Using Large Language Models  Lecture Notes in Computer Science (2027) 16585 LNAI 469-478 ... This study presents an automated evaluation system for assessing middle school students’ climate-related conversations with educational chatbots using large language models (LLMs). A two-dimensional rubric evaluating content sophistication (0–3) and d
+ - Evaluating generative AI chatbots for large-scale assessment data: comparing LLM-as-a-judge and human ratings - Large-scale Assessments in Education
+   https://link.springer.com/article/10.1186/s40536-026-00287-w?fromPaywallRec=true#2#1 | Springer  authority: 4  date: 2026-03-11T16:00:00+00:00
+   ### RQ 1. ... ### RQ 2. ... ### RQ 3. ... . ... of- ... rubric ... . ... demonstrated agreement levels comparable ... rat ... evaluation ... - ... Ask ... These ... particularly ... queries ... contextual understanding ... .  In addition, at the time of ... , GPT-4o and related LLM techniques had limited capability for processing statistical figures and numeric tables. As a ... design ... retrieval and ... of ... -
+ - Semantic Similarity is Not Enough for Comparing LLM and Human Rater Rationales
+   https://aclanthology.org/2026.aimecon-main.52.pdf#1#1#1 | None  authority: 4  date: None
+   Note. ... We found that rationale pairs with the LLM rationale in German showed significantly lower similarity scores than English rationale pairs, controlling for rationale length differences and LLM fixed effects, with standard errors clustered by observation unit \(b = - 0.121\) , \(SE = 0.009\) , \(p < .001\) . Specifically, these rationale pairs with German were associated with similarity scores that were approx

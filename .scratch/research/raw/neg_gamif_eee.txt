@@ -1,0 +1,206 @@
+Beyond Points and Badges: How Mobile-Based Gamification Drives Multidimensional Engagement to Improve Learning Outcomes in Engineering Education
+| International Journal of Online and Biomedical Engineering (iJOE)
+Skip to main content
+Skip to main navigation menu
+Skip to site footer
+Open Menu
+Current
+Archives
+For Authors
+Ethical Guidelines
+Submissions
+FAQ
+About
+About the Journal
+Editorial Team
+Publisher
+Privacy Statement
+Contact
+Search
+Register
+Login
+Home
+/
+Archives
+/
+Vol. 22 No. 10 (2026)
+/
+Papers
+Beyond Points and Badges: How Mobile-Based Gamification Drives Multidimensional Engagement to Improve Learning Outcomes in Engineering Education
+Authors
+Jonni Mardizal
+Universitas Negeri Padang, Padang, Indonesia
+https://orcid.org/0000-0003-3298-5847
+Doni Tri Putra Yanto
+Universitas Negeri Padang, Padang, Indonesia
+https://orcid.org/0000-0002-8319-3607
+Herlin Setyawan
+Universitas Negeri Padang, Padang, Indonesia
+Stefanos Balaskas
+Democritus University of Thrace, Komotini, Greece
+Soha Rawas
+Beirut Arab University, Beirut, Lebanon
+Firas Tayseer Ayasrah
+Al Ain University, Al Ain, United Arab Emirates
+DOI:
+https://doi.org/10.3991/ijoe.v22i10.61757
+Keywords:
+Quality Education, 											mobile-based gamification, 											learning engagement, 											learning outcomes, 											engineering education
+Abstract
+Gamification and mobile-based learning have become popular innovative approaches in education. However, empirical evidence regarding their effectiveness in engineering education, particularly in electrical engineering, remains fragmented, with a critical gap in understanding the mediating mechanisms through which gamification drives outcomes in this uniquely demanding context. This study examines the impact of mobile-based gamification (MobGam) on learning engagement (LE) and learning outcomes (LO) among electrical engineering students. Research data were collected through standardized questionnaires from 121 students and analyzed using Partial Least Squares Structural Equation Modeling (PLS-SEM). The results demonstrate that the Usage Intensity of MobGam (UI) has a positive and significant effect on all dimensions of students’ LE, namely Behavioral Engagement (BE), Cognitive Engagement (CE), and Emotional Engagement (EE). UI also positively associated with LO, as measured by perceived learning effectiveness (PLE) and perceived academic performance (PAP). Moreover, LE mediates the relationship between UI and LO. Crucially, EE emerged as the strongest mediating pathway, underscoring the paramount importance of affective factors in overcoming the cognitive demands of engineering coursework. Specifically, EE showed the most substantial mediating effect on PLE (β = 0.326) and PAP (β = 0.314). These findings extend beyond electrical engineering education by providing evidence that emotionally resonant gamification is associated with higher persistence and more positive perceived LO, particularly in contexts with high cognitive load. This study offers a theoretically grounded, empirically validated model that redefines the success of educational gamification in electrical engineering education, shifting focus from mere usage to the cultivation of deep, emotionally resonant engagement.
+References
+[1] D. T. P. Yanto, G. Ganefri, S. Sukardi, R. Kurani, and J. P. Yanto, “Examining The Practicality of Mobile-Based Gamification Assessment in Electrical Machine Course: A Study in Industrial Electrical Engineering,” Journal of Applied Engineering and Technological Science, vol. 5, no. 1, pp. 349–360, 2023, doi:
+https://doi.org/10.37385/jaets.v5i1.2803
+.
+[2] M. J. Suárez-López, A. M. Blanco-Marigorta, and A. J. Gutiérrez-Trashorras, “Gamification in thermal engineering: Does it encourage motivation and learning?,” Education for Chemical Engineers, vol. 45, pp. 41–51, Oct. 2023, doi:
+https://doi.org/10.1016/J.ECE.2023.07.006
+.
+[3] F. Gini, S. Bassanelli, F. Bonetti, R. H. Mogavi, A. Bucchiarione, and A. Marconi, “The role and scope of gamification in education: A scientometric literature review,” Acta Psychol (Amst), vol. 259, p. 105418, Sep. 2025, doi:
+https://doi.org/10.1016/J.ACTPSY.2025.105418
+.
+[4] E. Ratinho and C. Martins, “The role of gamified learning strategies in student’s motivation in high school and higher education: A systematic review,” Heliyon, vol. 9, no. 8, p. e19033, Aug. 2023, doi:
+https://doi.org/10.1016/J.HELIYON.2023.E19033
+.
+[5] Y. Xiao and K. F. Hew, “Personalized gamification versus one-size-fits-all gamification in fully online learning: Effects on student motivational, behavioral and cognitive outcomes,” Learn Individ Differ, vol. 113, p. 102470, Jul. 2024, doi:
+https://doi.org/10.1016/J.LINDIF.2024.102470
+.
+[6] M. Sailer and L. Homner, “The Gamification of Learning: a Meta-analysis,” Educ Psychol Rev, vol. 32, no. 1, pp. 77–112, Mar. 2020, doi:
+https://doi.org/10.1007/S10648-019-09498-W/TABLES/7
+.
+[7] R. Khodabandelou, P. Roghanian, H. Gheysari, and A. Amoozegar, “A systematic review of gamification in organizational learning,” The Learning Organization, vol. 30, no. 2, pp. 251–272, Mar. 2023, doi:
+https://doi.org/10.1108/TLO-05-2022-0057
+.
+[8] E. S. Rivera and C. L. P. Garden, “Gamification for student engagement: a framework,” J Furth High Educ, vol. 45, no. 7, pp. 999–1012, Aug. 2021, doi:
+https://doi.org/10.1080/0309877X.2021.1875201
+.
+[9] F. Anderle, A. Cattoni, P. Venuti, and A. Pasqualotto, “Exploring the impact and acceptability of gamified tools to address educational needs in decoding and writing skills: A pilot study,” Res Dev Disabil, vol. 160, p. 104967, May 2025, doi:
+https://doi.org/10.1016/J.RIDD.2025.104967
+.
+[10] A. U. Zafar, M. Shahzad, K. Shahzad, A. Appolloni, and I. Elgammal, “Gamification and sustainable development: Role of gamified learning in sustainable purchasing,” Technol Forecast Soc Change, vol. 198, p. 122968, Jan. 2024, doi:
+https://doi.org/10.1016/J.TECHFORE.2023.122968
+.
+[11] B. Nguyen-Viet and B. Nguyen-Viet, “Gamification in Vietnamese education: Assessing psychological need satisfaction, intrinsic motivation, and learning effectiveness,” Learn Motiv, vol. 89, p. 102101, Feb. 2025, doi:
+https://doi.org/10.1016/J.LMOT.2025.102101
+.
+[12] Y. K. Seo, C. M. Kang, K. H. Kim, and I. S. Jeong, “Effects of gamification on academic motivation and confidence of undergraduate nursing students: A systematic review and meta-analysis,” Nurse Educ Today, vol. 143, no. September, 2024, doi:
+https://doi.org/10.1016/j.nedt.2024.106388
+.
+[13] S. J. Chang, G. M. Kim, and J. A. Kim, “The effects of flipped learning and gamification on nursing students’ patient safety education: A mixed method study,” Heliyon, vol. 10, no. 8, p. e29538, Apr. 2024, doi:
+https://doi.org/10.1016/J.HELIYON.2024.E29538
+.
+[14] J. Díaz-Ramírez, “Gamification in engineering education – An empirical assessment on learning and game performance,” Heliyon, vol. 6, no. 9, p. e04972, Sep. 2020, doi:
+https://doi.org/10.1016/J.HELIYON.2020.E04972
+.
+[15] W. A. Dai, W. Xu, and Q. W. Xing, “Gamified learning impact: a meta-analysis of game element combinations on students’ learning outcomes,” Educational Technology Research and Development, 2025, doi:
+https://doi.org/10.1007/S11423-025-10493-Y
+.
+[16] W. Li, J. Y. Huang, C. Y. Liu, J. C. R. Tseng, and S. P. Wang, “A study on the relationship between student’ learning engagements and higher-order thinking skills in programming learning,” Think Skills Creat, vol. 49, p. 101369, Sep. 2023, doi:
+https://doi.org/10.1016/J.TSC.2023.101369
+.
+[17] L. M. Jeno, K. Egelandsdal, and J.-A. Grytnes, “A qualitative investigation of psychological need-satisfying experiences of a mobile learning application: A Self-Determination Theory approach,” Computers and Education Open, vol. 3, p. 100108, Dec. 2022, doi:
+https://doi.org/10.1016/J.CAEO.2022.100108
+.
+[18] R. M. Ryan and E. L. Deci, “Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being,” American Psychologist, vol. 55, no. 1, pp. 68–78, 2000, doi:
+https://doi.org/10.1037/0003-066X.55.1.68
+.
+[19] J. Piaget, The Psychology of the Child. Basic Book, 1972.
+[20] X. M. Wang, X. T. Huang, Y. H. Han, and Q. N. Hu, “Promoting students’ creative self-efficacy, critical thinking and learning performance: An online interactive peer assessment approach guided by constructivist theory in maker activities,” Think Skills Creat, vol. 52, p. 101548, Jun. 2024, doi:
+https://doi.org/10.1016/J.TSC.2024.101548
+.
+[21] S. Liu et al., “Game principle: enhancing learner engagement with gamification to improve learning outcomes,” Journal of Workplace Learning, vol. 35, no. 5, pp. 450–462, May 2023, doi:
+https://doi.org/10.1108/JWL-11-2022-0160
+.
+[22] B. Nguyen-Viet, C. Nguyen-Duy, and B. Nguyen-Viet, “How does gamification affect learning effectiveness? The mediating roles of engagement, satisfaction, and intrinsic motivation,” Interactive Learning Environments, vol. 33, no. 3, pp. 2635–2653, 2025, doi:
+https://doi.org/10.1080/10494820.2024.2414356
+.
+[23] N. A. Kuadey, C. Ankora, F. Tahiru, L. Bensah, C. C. M. Agbesi, and S. O. Bolatimi, “Using machine learning algorithms to examine the impact of technostress creators on student learning burnout and perceived academic performance,” International Journal of Information Technology (Singapore), vol. 16, no. 4, pp. 2467–2482, Apr. 2024, doi:
+https://doi.org/10.1007/S41870-023-01655-3/METRICS
+.
+[24] B. Nguyen-Viet and B. Nguyen-Viet, “The synergy of immersion and basic psychological needs satisfaction: Exploring gamification’s impact on student engagement and learning outcomes,” Acta Psychol (Amst), vol. 252, Feb. 2025, doi:
+https://doi.org/10.1016/J.ACTPSY.2024.104660
+.
+[25] R. Smiderle, S. J. Rigo, L. B. Marques, J. A. Peçanha de Miranda Coelho, and P. A. Jaques, “The impact of gamification on students’ learning, engagement and behavior based on their personality traits,” Smart Learning Environments, vol. 7, no. 1, pp. 1–11, Dec. 2020, doi:
+https://doi.org/10.1186/S40561-019-0098-X/FIGURES/2
+.
+[26] D. T. P. Yanto, Ganefri, Sukardi, J. P. Yanto, R. Kurani, and Muslim, “Engineering Students’ Acceptance of Augmented Reality Technology Integrated with E-Worksheet in The Laboratory Learning,” International Journal of Online and Biomedical Engineering (iJOE), vol. 20, no. 03, pp. 39–54, Feb. 2024, doi:
+https://doi.org/10.3991/ijoe.v20i03.46101
+.
+[27] V. Venkatesh, R. H. Smith, M. G. Morris, G. B. Davis, and F. D. Davis, “User Acceptance of Information Technology: Toward A Unified View,” MIS Q, vol. 27, no. 3, pp. 425–478, 2003, Accessed: Nov. 28, 2024. [Online]. Available:
+https://www.jstor.org/stable/30036540?origin=JSTOR-pdf
+[28] G. Avşar, C. Ozan, and E. Aydin, “The effect of reinforcement using the Gimkit game on learning the subject in nursing students,” Nurse Educ Pract, vol. 68, Mar. 2023, doi:
+https://doi.org/10.1016/j.nepr.2023.103595
+.
+[29] D. T. P. Yanto et al., “Exploring Student Acceptance of Virtual Laboratory in Learning: The Role of Perceived Relevance and Information Technology Experience,” International Journal of Information and Education Technology, vol. 15, no. 3, pp. 478–487, 2025, doi:
+https://doi.org/10.18178/ijiet.2025.15.3.2259
+.
+[30] D. T. P. Yanto, Sukardi, M. Kabatiah, H. Zaswita, and O. Candra, “Analysis of Factors Affecting Vocational Students’ Intentions to Use a Virtual Laboratory Based on the Technology Acceptance Model,” International Journal of Interactive Mobile Technologies, vol. 17, no. 12, pp. 94–111, Jun. 2023, doi:
+https://doi.org/10.3991/ijim.v17i12.38627
+.
+[31] D. T. P. Yanto et al., “The Affecting Factors of Students’ Attitudes Toward the Use of a Virtual Laboratory: A Study in Industrial Electrical Engineering,” International Journal of Online and Biomedical Engineering (iJOE), vol. 19, no. 13, pp. 4–16, Sep. 2023, doi:
+https://doi.org/10.3991/ijoe.v19i13.41219
+.
+[32] J. F. . Hair, G. T. M. . Hult, C. M. . Ringle, and Marko. Sarstedt, A primer on partial least squares structural equation modeling (PLS-SEM), Second. Los Angeles: Sage, 2017.
+[33] J. Hair and A. Alamer, “Partial Least Squares Structural Equation Modeling (PLS-SEM) in second language and education research: Guidelines using an applied example,” Research Methods in Applied Linguistics, vol. 1, no. 3, p. 100027, Dec. 2022, doi:
+https://doi.org/10.1016/J.RMAL.2022.100027
+.
+[34] G. Dash and J. Paul, “CB-SEM vs PLS-SEM methods for research in social sciences and technology forecasting,” Technol Forecast Soc Change, vol. 173, p. 121092, Dec. 2021, doi:
+https://doi.org/10.1016/J.TECHFORE.2021.121092
+.
+[35] Z. Zainuddin, S. K. W. Chu, M. Shujahat, and C. J. Perera, “The impact of gamification on learning and instruction: A systematic review of empirical evidence,” Educ Res Rev, vol. 30, p. 100326, Jun. 2020, doi:
+https://doi.org/10.1016/J.EDUREV.2020.100326
+.
+[36] H. Zhang and F. Li, “The multidimensional influence structure of college students’ online gamified learning engagement: a hybrid design based on QCA-SEM,” Heliyon, p. e36485, Sep. 2024, doi:
+https://doi.org/10.1016/j.heliyon.2024.e36485
+.
+Downloads
+PDF
+Published
+2026-10-16
+How to Cite
+Mardizal, J., Yanto, D. T. P., Setyawan, H., Balaskas, S., Rawas, S., & Ayasrah, F. T. (2026). Beyond Points and Badges: How Mobile-Based Gamification Drives Multidimensional Engagement to Improve Learning Outcomes in Engineering Education.
+International Journal of Online and Biomedical Engineering (iJOE)
+,
+22
+(10), pp. 4–21. https://doi.org/10.3991/ijoe.v22i10.61757
+More Citation Formats
+ACM
+ACS
+APA
+ABNT
+Chicago
+Harvard
+IEEE
+MLA
+Turabian
+Vancouver
+Download Citation
+Endnote/Zotero/Mendeley (RIS)
+BibTeX
+Issue
+Vol. 22 No. 10 (2026)
+Section
+Papers
+License
+Copyright (c) 2026 Jonni Mardizal, Doni Tri Putra Yanto, Herlin Setyawan, Stefanos Balaskas, Soha Rawas, Firas Tayseer Ayasrah
+This work is licensed under a
+Creative Commons Attribution 4.0 International License
+.
+Rankings
+Clarivate Analytics
+2024 Journal Impact Factor: 1.4
+Scopus (Q2)
+General Engineering:
+Biomedical Engineering:
+Other journals
+Your article doesn't fit this journal's scope? Have a look at our other journals:
+https://online-journals.org
+International Journal of Online and Biomedical Engineering (iJOE)
+– eISSN: 2626-8493
+Indexed
+in Elsevier Scopus, Clarivate Analytics ESCI, dblp, EBSCO, and Scilit.
+Long-term archiving
+is assured by Portico.
+Plagiarism check
+by iThenticate.
+Published
+under CC-BY.

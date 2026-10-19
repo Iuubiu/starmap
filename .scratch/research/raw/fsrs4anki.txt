@@ -1,0 +1,415 @@
+GitHub - open-spaced-repetition/fsrs4anki: A modern Anki custom scheduling based on Free Spaced Repetition Scheduler algorithm · GitHub
+Skip to content
+Navigation Menu
+Sign in
+Appearance settings
+Platform
+AI CODE CREATION
+GitHub Copilot
+Write better code with AI
+GitHub Copilot app
+Direct agents from issue to merge
+MCP Registry
+Integrate external tools
+DEVELOPER WORKFLOWS
+Actions
+Automate any workflow
+Codespaces
+Instant dev environments
+Issues
+Plan and track work
+Code Review
+Manage code changes
+Code Quality
+Enforce quality at merge
+APPLICATION SECURITY
+GitHub Advanced Security
+Find and fix vulnerabilities
+Code security
+Secure your code as you build
+Secret protection
+Stop leaks before they start
+EXPLORE
+Why GitHub
+Documentation
+Blog
+Changelog
+Marketplace
+View all features
+Solutions
+BY COMPANY SIZE
+Enterprises
+Small and medium teams
+Startups
+Nonprofits
+BY USE CASE
+App Modernization
+DevSecOps
+DevOps
+CI/CD
+View all use cases
+BY INDUSTRY
+Healthcare
+Financial services
+Manufacturing
+Government
+View all industries
+View all solutions
+Resources
+EXPLORE BY TOPIC
+AI
+Software Development
+DevOps
+Security
+View all topics
+EXPLORE BY TYPE
+Customer stories
+Events & webinars
+Ebooks & reports
+Business insights
+GitHub Skills
+SUPPORT & SERVICES
+Documentation
+Customer support
+Community forum
+Trust center
+Partners
+View all resources
+Open Source
+COMMUNITY
+GitHub Sponsors
+Fund open source developers
+PROGRAMS
+Security Lab
+Maintainer Community
+GitHub Stars
+Archive Program
+REPOSITORIES
+Topics
+Trending
+Collections
+Enterprise
+ENTERPRISE SOLUTIONS
+Enterprise platform
+AI-powered developer platform
+AVAILABLE ADD-ONS
+GitHub Advanced Security
+Enterprise-grade security features
+Copilot for Business
+Enterprise-grade AI features
+Premium Support
+Enterprise-grade 24/7 support
+Pricing
+Search
+/
+Sign in
+Sign up
+Appearance settings
+You signed in with another tab or window.
+Reload
+to refresh your session.
+You signed out in another tab or window.
+Reload
+to refresh your session.
+You switched accounts on another tab or window.
+Reload
+to refresh your session.
+Dismiss alert
+open-spaced-repetition
+fsrs4anki
+Repository navigation
+Code
+Issues
+8
+(
+8
+)
+Pull requests
+Actions
+Wiki
+Security and quality
+Insights
+More
+items
+fsrs4anki
+Public
+Sponsor
+Notifications
+You must be signed in to change notification settings
+Fork
+163
+(
+163
+)
+Star
+4.1k
+(
+4.1k
+)
+You must be signed in to star a repository
+About
+A modern Anki custom scheduling based on Free Spaced Repetition Scheduler algorithm
+github.com/open-spaced-repetition/fsrs4anki/wiki
+Topics
+anki
+anki-addon
+deep-learning
+fsrs
+intelligent-tutoring-system
+machine-learning
+memory
+optimal-control
+reinforcement-learning
+spaced-repetition
+spaced-repetition-algorithm
+srs
+Resources
+Readme
+MIT license
+Cite this repository
+Activity
+Custom properties
+Stars
+4.1k
+stars
+Watchers
+30
+watching
+Forks
+163
+forks
+Report repository
+main
+Branches
+Tags
+Go to file
+Code
+Open more actions menu
+Latest commit
+History
+482 Commits
+482 Commits
+Folders and files
+Name
+Name
+Last commit message
+Last commit date
+.github/
+ISSUE_TEMPLATE
+.github/
+ISSUE_TEMPLATE
+archive
+archive
+docs
+docs
+.all-contributorsrc
+.all-contributorsrc
+.gitignore
+.gitignore
+CITATION.cff
+CITATION.cff
+LICENSE
+LICENSE
+README.md
+README.md
+fsrs4anki_optimizer.ipynb
+fsrs4anki_optimizer.ipynb
+fsrs4anki_scheduler.js
+fsrs4anki_scheduler.js
+fsrs4anki_scheduler_qt5.js
+fsrs4anki_scheduler_qt5.js
+fsrs4anki_simulator.ipynb
+fsrs4anki_simulator.ipynb
+View all files
+Repository files navigation
+README
+MIT license
+More
+items
+FSRS4Anki
+✨ A modern spaced-repetition scheduler for Anki based on the
+Free Spaced Repetition Scheduler algorithm
+✨
+Table of contents
+Introduction
+How to Get Started?
+Add-on Compatibility
+Contribute
+Contributors
+Developer Resources
+Stargazers Over Time
+Acknowledgements
+Introduction
+FSRS4Anki (Free Spaced Repetition Scheduler for Anki) consists of two main parts: the scheduler and the optimizer.
+The scheduler replaces Anki's built-in scheduler and schedules the cards according to the FSRS algorithm.
+The optimizer uses machine learning to learn your memory patterns and finds parameters that best fit your review history. For details about the working of the optimizer, please read
+the mechanism of optimization
+.
+Research on
+the FSRS algorithm
+follows the path pioneered by Maimemo: data-driven, balancing interpretability and verifiability. See also:
+Maimemo: A Stochastic Shortest Path Algorithm for Optimizing Spaced Repetition Scheduling
+(free access) [
+中文版
+], and
+Maimemo: Optimizing Spaced Repetition Schedule by Capturing the Dynamics of Memory
+(Google Scholar) [
+中文版
+].
+FSRS Helper is an Anki add-on that complements the FSRS4Anki Scheduler. You can read about it here:
+https://github.com/open-spaced-repetition/fsrs4anki-helper
+How to Get Started?
+If you are using Anki 23.10 or newer, refer to this section of
+the Anki manual
+.
+If you are using an older version of Anki, refer to
+this tutorial
+.
+Note that setting up FSRS is much easier in Anki 23.10 or newer.
+Add-on Compatibility
+Some add-ons can cause conflicts with FSRS. As a general rule of thumb, if an add-on affects a card's intervals, it shouldn't be used with FSRS.
+Add-on
+Compatible?
+Comment
+Review Heatmap
+Yes ✅
+Doesn't affect anything FSRS-related.
+Advanced Browser
+Yes ✅
+Please use the latest version.
+Advanced Review Bottom Bar
+Yes ✅
+Please use the latest version.
+The KING of Button Add-ons
+Yes ✅
+Please use the latest version.
+Pass/Fail
+Yes ✅
+Pass
+is the equivalent of
+Good
+,
+Fail
+is the equivalent of
+Again.
+AJT Card Management
+Yes ✅
+Compatible with Anki 23.12 and newer.
+Incremental Reading v4.11.3 (unofficial clone)
+Unsure ❓
+If you are using the standalone version of FSRS, it shows the interval given by Anki's built-in scheduler, not the custom scheduler. This add-on is technically compatible with built-in FSRS, but FSRS was not designed for incremental reading, and FSRS settings do not apply to IR cards because they work in a different way compared to other card types.
+Delay siblings
+No ❌
+Delay siblings will modify the intervals given by FSRS. However, the FSRS Helper add-on has a similar feature that works better with FSRS. Please use the FSRS Helper add-on instead.
+Auto Ease Factor
+No ❌
+The Ease Factor is no longer relevant when FSRS is enabled, therefore you won't benefit from using this add-on.
+autoLapseNewInterval
+No ❌
+The
+New Interval
+setting is no longer relevant when FSRS is enabled, therefore you won't benefit from using this add-on.
+Straight Reward
+No ❌
+The Ease Factor is no longer relevant when FSRS is enabled, therefore you won't benefit from using this add-on.
+Let me know via
+issues
+if you want me to check compatibility between FSRS and some add-on.
+Contribute
+You can contribute to FSRS4Anki by beta testing, submitting code, or sharing your data. If you want to share your data with me, please fill out this form:
+https://forms.gle/KaojsBbhMCytaA7h8
+Contributors
+Expertium
+⚠️
+📖
+🔣
+🤔
+🐛
+user1823
+⚠️
+📖
+🔣
+🤔
+🐛
+Christos Longros
+🔣
+🖋
+Developer Resources
+If you're a developer considering using the FSRS algorithm in your own projects, we've curated some valuable resources for you. Check out the
+Awesome FSRS
+repository, where you'll find:
+FSRS implementations in various programming languages
+Related papers and research
+Example applications using FSRS
+Other algorithms and resources related to spaced repetition systems
+This carefully curated list will help you better understand FSRS and choose the right implementation for your project. We encourage you to explore these resources and consider contributing to the FSRS ecosystem.
+Research Resources
+For those new to spaced repetition algorithms, we recommend starting with our comprehensive guide:
+Spaced Repetition Algorithm: A Three-Day Journey from Novice to Expert
+Dive deeper into the academic foundations of FSRS and spaced repetition through our curated collection of
+Datasets, Code & Research Papers
+Explore our extensive collection of
+Research Notebooks
+documenting detailed analyses and experiments with FSRS and spaced repetition algorithms
+Stargazers Over Time
+Acknowledgements
+A special thanks to
+墨墨背单词 (MaiMemo)
+for their support of FSRS development by allowing its research engineer,
+Jarrett Ye
+, to dedicate part of his working hours to this open-source project. This greatly helps in the continuous improvement and maintenance of FSRS for the benefit of the entire community.
+We would also like to extend our sincere gratitude to
+Damien Elmes
+of
+Ankitects
+for his invaluable technical support, and to the AnkiWeb users for the review history dataset. Without their collective contribution, FSRS would not have achieved its current level of popularity and influence.
+About
+A modern Anki custom scheduling based on Free Spaced Repetition Scheduler algorithm
+github.com/open-spaced-repetition/fsrs4anki/wiki
+Topics
+anki
+anki-addon
+deep-learning
+fsrs
+intelligent-tutoring-system
+machine-learning
+memory
+optimal-control
+reinforcement-learning
+spaced-repetition
+spaced-repetition-algorithm
+srs
+Resources
+Readme
+MIT license
+Cite this repository
+Activity
+Custom properties
+Stars
+4.1k
+stars
+Watchers
+30
+watching
+Forks
+163
+forks
+Report repository
+Releases
+Sponsor this project
+Used by
+Contributors
+Languages
+Footer
+© 2026 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Community
+Docs
+Contact
+Manage cookies
+Do not share my personal information
+You can’t perform that action at this time.

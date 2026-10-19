@@ -1,0 +1,16 @@
+
+## Q: UMUX-Lite two-item usability questionnaire validity compared SUS
+
+## Q: System Usability Scale chatbot conversational agent validity study CUQ comparison
+
+## Q: NASA-TLX raw TLX six subscales definitions anchor pairs mental demand frustration
+
+## Q: Paas mental effort single item nine point scale cognitive load measurement
+
+## Q: LLM simulated user correlation with human usability ratings agreement study
+
+## Q: persona prompt template LLM role-play fidelity dimensions knowledge boundary misconception
+
+## Q: WebArena reward function task success evaluation agent trajectory state-based
+
+## Q: formative usability test think-aloud protocol concurrent verbalization limitation

@@ -1,0 +1,32 @@
+
+
+########## Q: Bayesian Knowledge Tracing BKT vs deep knowledge tracing DKT comparison replication
+FAILED 402 {"error":{"message":"Insufficient Balance (request_id: bb87ce2a-03f5-4e6f-8f90-74d5aa17a2fc)","type":"insufficient_balance_error","param":null,"code":"invalid_request_error"}}
+
+
+########## Q: Cognitive Tutor model tracing knowledge tracing BKT student model representation
+FAILED 402 {"error":{"message":"Insufficient Balance (request_id: 5d8b64e4-9123-42d3-b264-e8ae653a8ca0)","type":"insufficient_balance_error","param":null,"code":"invalid_request_error"}}
+
+
+########## Q: SimStudent teachable agent Learning by Teaching algebra equation solving evaluation
+FAILED 402 {"error":{"message":"Insufficient Balance (request_id: f2375711-81d3-4d16-a0ec-9670876e8bbb)","type":"insufficient_balance_error","param":null,"code":"invalid_request_error"}}
+
+
+########## Q: teachable agent Betty's Brain self-regulated learning Metacognition
+FAILED 402 {"error":{"message":"Insufficient Balance (request_id: 13b4b3f5-9043-4750-873d-ca3f752d233a)","type":"insufficient_balance_error","param":null,"code":"invalid_request_error"}}
+
+
+########## Q: AutoTutor student model simulated tutee dialogue expectation misconception
+FAILED 402 {"error":{"message":"Insufficient Balance (request_id: 48bfa803-d798-4a85-aa3f-0101410dc859)","type":"insufficient_balance_error","param":null,"code":"invalid_request_error"}}
+
+
+########## Q: CTAT Cognitive Tutor Authoring Tools example tracing SimStudent authoring
+FAILED 402 {"error":{"message":"Insufficient Balance (request_id: caa3afae-ec0f-49d5-8060-34524c189a72)","type":"insufficient_balance_error","param":null,"code":"invalid_request_error"}}
+
+
+########## Q: SimStudent computational model of learning by tutoring Matsuda Cohen Koedinger
+FAILED 402 {"error":{"message":"Insufficient Balance (request_id: ee3fcc0f-3bad-463a-b406-bb199d0ffe41)","type":"insufficient_balance_error","param":null,"code":"invalid_request_error"}}
+
+
+########## Q: vanLehn SimStudent learning by teaching effect size classroom study
+FAILED 402 {"error":{"message":"Insufficient Balance (request_id: 2f411266-9b1b-408d-8ae0-e184adb255f4)","type":"insufficient_balance_error","param":null,"code":"invalid_request_error"}}

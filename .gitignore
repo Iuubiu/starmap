@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+coverage/
+*.log
+.env
+.env.local
+data/
+.DS_Store
+*.tsbuildinfo
+.vitest/
+test-results/
+playwright-report/
+.scratch/pgcheck/
