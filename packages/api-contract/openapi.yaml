@@ -1,0 +1,237 @@
+# 由 packages/api-contract/scripts/gen-openapi.mjs 生成，请勿手改。
+# 改契约请改 packages/api-contract/src/index.ts 的 Zod schema，然后 pnpm contract:gen。
+"components":
+  "schemas":
+    "ApiError":
+      "additionalProperties": false
+      "properties":
+        "code":
+          "enum":
+            - "NOT_FOUND"
+            - "VALIDATION_FAILED"
+            - "CONFLICT"
+            - "UPSTREAM_UNAVAILABLE"
+            - "INTERNAL"
+          "type": "string"
+        "details": {}
+        "message":
+          "type": "string"
+      "required":
+        - "code"
+        - "message"
+      "type": "object"
+    "HealthResponse":
+      "additionalProperties": false
+      "properties":
+        "dbNow":
+          "type": "string"
+        "status":
+          "const": "ok"
+          "type": "string"
+        "version":
+          "type": "string"
+      "required":
+        - "status"
+        - "dbNow"
+        - "version"
+      "type": "object"
+    "NodeDetailResponse":
+      "additionalProperties": false
+      "properties":
+        "levels":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "itemCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "kind":
+                "enum":
+                  - "teach"
+                  - "quiz"
+                  - "mixed"
+                "type": "string"
+              "levelId":
+                "type": "string"
+              "microKpId":
+                "type": "string"
+              "title":
+                "type": "string"
+            "required":
+              - "levelId"
+              - "microKpId"
+              - "title"
+              - "itemCount"
+              - "kind"
+            "type": "object"
+          "type": "array"
+        "node":
+          "additionalProperties": false
+          "properties":
+            "depth":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "microKpId":
+              "type": "string"
+            "name":
+              "type": "string"
+            "percent":
+              "anyOf":
+                - "maximum": 1
+                  "minimum": 0
+                  "type": "number"
+                - "type": "null"
+            "state":
+              "enum":
+                - "mastered"
+                - "proficient"
+                - "familiar"
+                - "attempted"
+                - "unseen"
+              "type": "string"
+          "required":
+            - "microKpId"
+            - "name"
+            - "state"
+            - "percent"
+            - "depth"
+          "type": "object"
+        "reasons":
+          "items":
+            "type": "string"
+          "type": "array"
+      "required":
+        - "node"
+        - "levels"
+        - "reasons"
+      "type": "object"
+    "NodeListResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "depth":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "microKpId":
+                "type": "string"
+              "name":
+                "type": "string"
+              "percent":
+                "anyOf":
+                  - "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                  - "type": "null"
+              "state":
+                "enum":
+                  - "mastered"
+                  - "proficient"
+                  - "familiar"
+                  - "attempted"
+                  - "unseen"
+                "type": "string"
+            "required":
+              - "microKpId"
+              - "name"
+              - "state"
+              - "percent"
+              - "depth"
+            "type": "object"
+          "type": "array"
+        "nextCursor":
+          "type":
+            - "string"
+            - "null"
+      "required":
+        - "items"
+        - "nextCursor"
+      "type": "object"
+"info":
+  "description": "核电子学学习工作站。契约唯一真源：本文件由 packages/api-contract 的 Zod schema 生成，请勿手改。"
+  "title": "StarMap API"
+  "version": "1.0.0"
+"openapi": "3.1.0"
+"paths":
+  "/api/v1/health":
+    "get":
+      "operationId": "getHealth"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/HealthResponse"
+          "description": "服务正常"
+      "summary": "健康检查"
+  "/api/v1/nodes":
+    "get":
+      "operationId": "listNodes"
+      "parameters":
+        - "in": "query"
+          "name": "limit"
+          "schema":
+            "maximum": 200
+            "minimum": 1
+            "type": "integer"
+        - "in": "query"
+          "name": "cursor"
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/NodeListResponse"
+          "description": "节点列表"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "查询参数不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "列出知识点节点及其掌握状态"
+  "/api/v1/nodes/{microKpId}":
+    "get":
+      "operationId": "getNode"
+      "parameters":
+        - "in": "path"
+          "name": "microKpId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/NodeDetailResponse"
+          "description": "节点详情"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "节点不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "单个知识点详情与可用关卡"
+"servers":
+  - "description": "本地开发"
+    "url": "http://127.0.0.1:3001"

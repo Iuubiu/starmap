@@ -1,0 +1,26 @@
+# 本机已装 PostgreSQL 18.6 并以服务形式运行（127.0.0.1:5432），
+# 所以默认直接连本机，不需要容器。
+#
+# 若在没有本地 Postgres 的机器上开发，用 `--profile container` 起这个服务：
+#   docker compose --profile container up -d
+services:
+  postgres:
+    profiles: ['container']
+    image: postgres:18-alpine
+    container_name: starmap-pg
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: starmap
+    ports:
+      - '5432:5432'
+    volumes:
+      - starmap-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d starmap']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  starmap-pgdata:

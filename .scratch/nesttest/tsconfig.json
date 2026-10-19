@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES2023", "module": "nodenext", "moduleResolution": "nodenext",
+    "experimentalDecorators": true, "emitDecoratorMetadata": true,
+    "strict": true, "outDir": "dist", "skipLibCheck": true,
+    "verbatimModuleSyntax": false, "esModuleInterop": true
+  },
+  "include": ["*.ts"]
+}

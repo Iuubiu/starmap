@@ -1,0 +1,17 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+onlyBuiltDependencies:
+  - "@swc/core"
+  - esbuild
+  - tsx
+
+allowBuilds:
+  '@swc/core': set this to true or false
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@tanstack/query-core@5.104.5'
+  - '@tanstack/react-query@5.104.5'
+  - dependency-cruiser@18.7.0
