@@ -73,6 +73,14 @@ export type ImportResult = {
   answers: number;
   edges: number;
   removedChunks: number;
+  /**
+   * 因为找不到所属章而被跳过的节点 id。
+   *
+   * 正常情况下应该是空数组。非空意味着目录里某棵子树接不到任何 depth==1 的祖先，
+   * 那些节点在库里不存在，挂在它们下面的 chunk 会变成 orphan。导入不会因此失败
+   * （部分坏目录仍值得导入），但调用方必须把这个数组打出来 —— 静默跳过才是真问题。
+   */
+  skippedNodes: string[];
 };
 
 /** 该书的元数据。目录里没有这些，而 `sources.title` 要给人看。 */
@@ -119,6 +127,19 @@ export async function importContent(
   // 模块划分：目录里没有「模块」这一层，用章（depth 1）当模块名最贴近教学结构
   // （spec OQ6：学科 → 模块 → 知识点 → 微知识点，四层）。
   const chapters = toc.nodes.filter((n) => n.depth === 1);
+
+  // 没有任何章节点 = 目录解析坏了，不是「这本没分章」。
+  //
+  // 不早退的话后果是：下面 `chapterOf` 永远是 undefined，`:continue` 掉全部节点，
+  // 导入照常 COMMIT、照常打印「导入完成」，只是这条链上一个知识点都没进库。
+  // 已实测踩过（analog-electronics-kanghuaguang-5e 的 77 个节节点全挂在缺失的
+  // 章下）。宁可在这里炸，也不要在图谱里显示一本空书。
+  if (chapters.length === 0) {
+    throw new Error(
+      `目录里没有任何 depth==1 的章节点，导入会静默产出 0 个知识点：${sourceId}。` +
+        `先修 tools/ingest 的建树逻辑（nodes_from_flat），不要跳过导入。`,
+    );
+  }
 
   const client = new Client({
     connectionString: DATABASE_URL,
@@ -191,10 +212,17 @@ export async function importContent(
     // ---- 知识点树 ----
     // 必须先插父后插子（FK 自引用），目录本身是前序，按 depth 排序即可。
     const ordered = [...toc.nodes].sort((a, b) => a.depth - b.depth);
+    // 数真正写进去的条数，而不是 `toc.nodes.length`。两者本该相等，但 `:continue`
+    // 那条早退路径会让它们悄悄分叉 —— 而返回值是唯一会被人和脚本看到的数字。
+    let insertedNodes = 0;
+    const skipped: string[] = [];
     for (const n of ordered) {
       const chapterOf =
         n.depth === 1 ? n.microKpId : findChapterId(toc.nodes, n.microKpId) ?? chapters[0]?.microKpId;
-      if (!chapterOf) continue;
+      if (!chapterOf) {
+        skipped.push(n.microKpId);
+        continue;
+      }
       const moduleId = `mod-${sourceId}-${chapterOf}`;
       await client.query(
         `INSERT INTO knowledge_points
@@ -217,6 +245,7 @@ export async function importContent(
           sourceId,
         ],
       );
+      insertedNodes += 1;
     }
 
     // ---- chunk ----
@@ -299,11 +328,12 @@ export async function importContent(
     await client.query('COMMIT');
 
     return {
-      nodes: toc.nodes.length,
+      nodes: insertedNodes,
       chunks: chunks.length,
       answers,
       edges: edges.length,
       removedChunks,
+      skippedNodes: skipped,
     };
   } catch (err) {
     await client.query('ROLLBACK');
@@ -337,6 +367,14 @@ if (isMain) {
         `导入完成：知识点 ${r.nodes}、chunk ${r.chunks}、答案块 ${r.answers}、` +
           `先修边 ${r.edges}、清理旧 chunk ${r.removedChunks}（${digest}）`,
       );
+      if (r.skippedNodes.length > 0) {
+        // 打出来而不是只留在返回值里：这条命令行是人对「导入成功」的唯一判据。
+        console.warn(
+          `⚠ 有 ${r.skippedNodes.length} 个节点找不到所属章，已跳过（其下 chunk 会成为 orphan）：\n  ` +
+            r.skippedNodes.slice(0, 20).join('\n  ') +
+            (r.skippedNodes.length > 20 ? `\n  …还有 ${r.skippedNodes.length - 20} 个` : ''),
+        );
+      }
       process.exit(0);
     })
     .catch((err: unknown) => {
