@@ -172,7 +172,9 @@
 
 .graph-roster-item {
   display: grid;
-  grid-template-columns: 14px minmax(0, 1fr) auto;
+  /* 形状 / 名字 / 推荐徽标 / 状态 / 百分比。推荐那列平时是空的，用 auto 让它
+     在有徽标时自己占位，不会挤压名字的省略号宽度。 */
+  grid-template-columns: 14px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -194,6 +196,24 @@
 .graph-roster-item[data-focus='true'] {
   background-color: #eef4ff;
   font-weight: 600;
+}
+
+/*
+ * 「推荐」徽标（票 13 验收第 5 条）。
+ *
+ * 用文字而不是一颗彩色圆点：票 03 已经确立「颜色不是唯一通道」，推荐标记
+ * 同样不能只靠颜色。文案只有两个字，宽度可控，不会把长知识点名挤掉。
+ */
+.graph-roster-rec {
+  display: inline-block;
+  padding: 0 5px;
+  border-radius: 4px;
+  background-color: #fff1d6;
+  border: 1px solid #e8a33d;
+  color: #7a4a02;
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
 }
 
 .graph-roster-glyph {

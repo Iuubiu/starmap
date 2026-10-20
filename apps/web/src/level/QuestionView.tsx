@@ -33,6 +33,7 @@ import {
 } from '@fluentui/react-components';
 import type { LevelItem } from './flow';
 import type { Feedback } from './flow';
+import type { SubmissionStatus } from './attempts';
 import { plainText } from './markdown';
 
 const useStyles = makeStyles({
@@ -108,6 +109,21 @@ const useStyles = makeStyles({
     fontSize: tokens.fontSizeBase200,
     color: tokens.colorNeutralForeground3,
   },
+  /**
+   * 记账状态行。**三态都要有像素**，尤其 `failed` —— 悄悄吞掉失败等于告诉学习者
+   * 「你的作答进档案了」，而掌握度其实没动。
+   */
+  recordLine: {
+    fontSize: tokens.fontSizeBase200,
+    color: tokens.colorNeutralForeground3,
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  recordFailed: {
+    fontSize: tokens.fontSizeBase200,
+    color: tokens.colorPaletteDarkOrangeForeground1,
+  },
 });
 
 export interface QuestionViewProps {
@@ -122,6 +138,13 @@ export interface QuestionViewProps {
   onSubmit: (choice: number | string, meta: AnswerMeta) => void;
   /** 这一段不改变掌握度时显示的说明（深究分支）。 */
   nonScoring?: boolean;
+  /**
+   * 这条作答的记账状态（票 05）。`undefined` = 还没提交。
+   *
+   * 与 `submitted` 分开：反馈是**本地**事实（已答、对错已定），记账是**远端**事实
+   * （后端收没收下）。两者在失败时不是同一件事，合成一个状态就只能挑一个说谎。
+   */
+  recording?: SubmissionStatus;
 }
 
 /** 一次作答的过程量。两者都不影响对错，只影响证据的权重。 */
@@ -137,7 +160,13 @@ export interface AnswerMeta {
   latencyMs: number | null;
 }
 
-export function QuestionView({ item, submitted, onSubmit, nonScoring }: QuestionViewProps) {
+export function QuestionView({
+  item,
+  submitted,
+  onSubmit,
+  nonScoring,
+  recording,
+}: QuestionViewProps) {
   const styles = useStyles();
   const [draftChoice, setDraftChoice] = useState<string>('');
   const [draftText, setDraftText] = useState('');
@@ -286,6 +315,20 @@ export function QuestionView({ item, submitted, onSubmit, nonScoring }: Question
 
       {submitted && submitted.feedback.sourceRef !== null && (
         <Text className={styles.source}>溯源：{submitted.feedback.sourceRef}</Text>
+      )}
+
+      {/**
+       * 记账状态。只有 `recorded` 与 `failed` 两种落定态才值得一行字：
+       * `pending` 通常只存在几十毫秒，为它闪一句「正在记账」反而像卡住了。
+       * 失败必须显示 —— 这是本页唯一会告诉学习者「掌握度这次没更新」的地方。
+       */}
+      {recording?.kind === 'recorded' && (
+        <Text className={styles.recordLine}>已记入学习档案（第 {recording.record.attemptNo} 次）</Text>
+      )}
+      {recording?.kind === 'failed' && (
+        <Text className={styles.recordFailed}>
+          这条作答没能记进档案：{recording.message}。掌握度这次不会更新。
+        </Text>
       )}
     </Card>
   );

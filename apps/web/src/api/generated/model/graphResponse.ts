@@ -11,4 +11,5 @@ import type { GraphResponseNodesItem } from './graphResponseNodesItem.js';
 export interface GraphResponse {
   edges: GraphResponseEdgesItem[];
   nodes: GraphResponseNodesItem[];
+  recommendedIds: string[];
 }

@@ -21,6 +21,7 @@ import * as queries from '../api/queries';
 vi.mock('../api/queries', () => ({
   useNodeDetail: vi.fn(),
   useMastery: vi.fn(),
+  useNodeUnlock: vi.fn(),
   useNodeList: vi.fn(),
   useHealth: vi.fn(),
 }));
@@ -90,14 +91,28 @@ const mockMastery = (overrides: Record<string, unknown> = {}) => {
   } as never);
 };
 
+/** 默认已解锁：多数用例不关心锁，只关心掌握度与关卡列表。 */
+const mockUnlock = (overrides: Record<string, unknown> = {}) => {
+  vi.mocked(queries.useNodeUnlock).mockReturnValue({
+    isPending: false,
+    isError: false,
+    payload: { microKpId: 'kp-bool', unlocked: true, blockers: [] },
+    ...overrides,
+  } as never);
+};
+
 /** 常规页面：节点与掌握度都取到，数值自洽。 */
 const mockDetail = () => {
   mockNode();
   mockMastery();
+  mockUnlock();
 };
 
 describe('NodeDetailPage', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockUnlock();
+  });
 
   it('双字段都显示具体百分比：历史最高不衰减、当前熟练度会衰减', () => {
     mockDetail();
@@ -231,5 +246,108 @@ describe('NodeDetailPage', () => {
     } as never);
     renderPage();
     expect(screen.getByText(/网络断了/)).toBeInTheDocument();
+  });
+
+  // -------------------------------------------------------------------------
+  // 票 06：解锁提示（能看出「为什么还没解锁」）
+  // -------------------------------------------------------------------------
+
+  it('未解锁时讲清被哪几道门挡着、各差几题，而不是只说「进不去」', () => {
+    mockDetail();
+    mockUnlock({
+      payload: {
+        microKpId: 'kp-demorgan',
+        unlocked: false,
+        blockers: [
+          {
+            prerequisiteId: 'kp-bool',
+            prerequisiteName: '布尔代数基本运算',
+            levelId: 'lv-bool-laws',
+            levelTitle: '逻辑代数基本律：吸收律与德摩根律',
+            gateMode: 'exit',
+            lastVerdict: 'failed',
+            shortfall: 2,
+            lastAttemptedItemIds: ['i-probe', 'i-quiz'],
+          },
+        ],
+      },
+    });
+    renderPage('kp-demorgan');
+
+    expect(screen.getByText('这个知识点还没解锁')).toBeInTheDocument();
+    // 先修知识点名字会同时出现在障碍行与「去考」按钮上 —— 两处都该有。
+    expect(screen.getAllByText(/布尔代数基本运算/).length).toBeGreaterThan(0);
+    // 门控类型、还差几道都要说清楚
+    expect(screen.getByText(/章末出口/)).toBeInTheDocument();
+    expect(screen.getByText(/最近一次还差 2 道题/)).toBeInTheDocument();
+    // 给一个能直接去的下一步动作，而不是让学习者自己找路
+    expect(
+      screen.getByRole('button', { name: /去考「布尔代数基本运算」的出口测试/ }),
+    ).toBeInTheDocument();
+  });
+
+  it('从没考过先修门时说「还没考过」，而不是「还差 0 道」', () => {
+    mockDetail();
+    mockUnlock({
+      payload: {
+        microKpId: 'kp-demorgan',
+        unlocked: false,
+        blockers: [
+          {
+            prerequisiteId: 'kp-bool',
+            prerequisiteName: '布尔代数基本运算',
+            levelId: 'lv-bool-laws',
+            levelTitle: '逻辑代数基本律',
+            gateMode: 'prereq',
+            lastVerdict: null,
+            shortfall: null,
+            lastAttemptedItemIds: [],
+          },
+        ],
+      },
+    });
+    renderPage('kp-demorgan');
+
+    expect(screen.getByText(/还没考过它的出口测试/)).toBeInTheDocument();
+    expect(screen.getByText(/高入度先修/)).toBeInTheDocument();
+  });
+
+  it('已解锁时不显示任何解锁障碍', () => {
+    mockDetail();
+    renderPage();
+    expect(screen.queryByText('这个知识点还没解锁')).not.toBeInTheDocument();
+  });
+
+  it('已解锁时每张关卡都有可点的入口（否则详情页是个死胡同）', () => {
+    mockDetail();
+    renderPage();
+    const entry = screen.getByRole('button', { name: '开始' });
+    expect(entry).toBeEnabled();
+  });
+
+  it('未解锁时入口禁用，但原因写在障碍卡里而不是只靠一个灰按钮', () => {
+    mockDetail();
+    mockUnlock({
+      payload: {
+        microKpId: 'kp-demorgan',
+        unlocked: false,
+        blockers: [
+          {
+            prerequisiteId: 'kp-bool',
+            prerequisiteName: '布尔代数基本运算',
+            levelId: 'lv-bool-laws',
+            levelTitle: '逻辑代数基本律',
+            gateMode: 'exit',
+            lastVerdict: 'failed',
+            shortfall: 1,
+            lastAttemptedItemIds: [],
+          },
+        ],
+      },
+    });
+    renderPage('kp-demorgan');
+
+    expect(screen.getByRole('button', { name: '未解锁' })).toBeDisabled();
+    expect(screen.getByText(/最近一次还差 1 道题/)).toBeInTheDocument();
   });
 });

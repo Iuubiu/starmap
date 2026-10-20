@@ -245,16 +245,21 @@ export function useSkillSystemPreview() {
 /**
  * 开关一个 skill。
  *
- * 成功后必须同时失效两个 key：列表的 `enabled` 字段，以及 system message
- * 预览。只失效列表的话，页面上「已禁用」和预览里「它还在」会同时成立 ——
- * 那正好是这个功能最不能出的错。
+ * 成功后必须同时处理三个 key：列表的 `enabled` 字段、system message 预览，
+ * 以及按名字取的那份详情。只失效列表的话，页面上「已禁用」和预览里
+ * 「它还在」会同时成立 —— 那正好是这个功能最不能出的错；只失效列表而不
+ * 管详情，则左边写着「已禁用」、右边正文卡还挂着「启用中」。
+ *
+ * 详情不失效而是直接写入：响应体就是最新的详情，省一次往返，也省掉
+ * 「请求已发出、新数据还没回来」那一帧的相反结论。
  */
 export function useToggleSkill() {
   const queryClient = useQueryClient();
   return useMutation<SkillDetailResponse, Error, { name: string; enabled: boolean }>({
     mutationFn: async ({ name, enabled }) =>
       (await toggleSkill(name, { enabled })).data as SkillDetailResponse,
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
+      queryClient.setQueryData(agentKeys.skill(variables.name), data);
       void queryClient.invalidateQueries({ queryKey: agentKeys.skills() });
       void queryClient.invalidateQueries({ queryKey: agentKeys.systemPreview() });
     },

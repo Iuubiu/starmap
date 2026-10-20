@@ -26,10 +26,34 @@ export class ApiClientError extends Error {
 /** 空字符串 = 同源。开发时走 Vite 代理，生产同域名部署时不需要改代码。 */
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
 
+/**
+ * 合并请求头。
+ *
+ * **必须用 `Headers` 实例，不能用对象字面量。** 对象字面量的键区分大小写，
+ * `{ 'content-type': 'application/json', ...{'Content-Type': 'application/json'} }`
+ * 得到的是**两个键**；`fetch` 把它们按 HTTP 语义归一化成同一个头，值拼成
+ * `application/json, application/json`。Express 的 body-parser 按 media type
+ * 精确匹配 `application/json`，匹配失败就**静默跳过解析**，`req.body` 是
+ * `undefined`，控制器收到 400「请求体不合法」。
+ *
+ * 这不是理论风险：Orval 生成的每个写操作都会自己带一个 `Content-Type`，
+ * 于是所有 POST/PATCH 在浏览器里都必然 400，而 MSW 在 fetch 层拦截、
+ * 根本不经过 body-parser，单测全绿。真链路才发现。
+ *
+ * `Headers` 的键大小写不敏感，`set` 前用 `has` 判断即可避免重复。
+ */
+export const mergeHeaders = (provided: RequestInit['headers']): Headers => {
+  const headers = new Headers(provided);
+  if (!headers.has('content-type')) {
+    headers.set('content-type', 'application/json');
+  }
+  return headers;
+};
+
 export const customFetch = async <T>(url: string, options: RequestInit = {}): Promise<T> => {
   const res = await fetch(`${API_BASE_URL}${url}`, {
     ...options,
-    headers: { 'content-type': 'application/json', ...options.headers },
+    headers: mergeHeaders(options.headers),
   });
 
   if (!res.ok) {

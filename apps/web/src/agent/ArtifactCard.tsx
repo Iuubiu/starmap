@@ -36,6 +36,7 @@ import {
 import type { ReactNode } from 'react';
 import type { AgentTurnResponseArtifact } from '../api/generated/model';
 import { InlineRich } from '../level/markdown';
+import { masteryLabel } from '../mastery/labels';
 
 const useStyles = makeStyles({
   card: {
@@ -112,16 +113,16 @@ const useStyles = makeStyles({
   },
 });
 
-/** 掌握度状态的中文说法。放在这里而不是各处复制，避免页面上两种叫法。 */
-export const MASTERY_STATE_LABEL: Record<string, string> = {
-  unseen: '未学习',
-  attempted: '试过',
-  unfamiliar: '刚接触',
-  familiar: '已熟悉',
-  proficient: '已熟练',
-  mastered: '已掌握',
-};
-
+/**
+ * 掌握度状态词表已移到 `../mastery/labels`（前端唯一一份，类型 `Record<MasteryState,
+ * string>`）。
+ *
+ * 原来这里导出一份 `MASTERY_STATE_LABEL`，注释写着「放在这里而不是各处复制，
+ * 避免页面上两种叫法」—— 但事实上别处又各自复制了四份，而且这一份把 `attempted`
+ * 写成了「试过」，与其余几份的「刚接触」不一致；还多写了一个契约里不存在的
+ * `unfamiliar` 死键。想靠「大家都来 import 我这里」阻止分叉，不如让它就在一个
+ * 明确叫 `mastery/` 的地方，并靠 `Record<MasteryState, string>` 让漏写变成编译错误。
+ */
 const STEP_KIND_LABEL: Record<string, string> = {
   guide: '引导',
   detail: '详解',
@@ -220,7 +221,7 @@ function GraphFocusCard({
               </Badge>
               <Text>{neighbor.name}</Text>
               <Caption1>
-                {MASTERY_STATE_LABEL[neighbor.state] ?? neighbor.state}
+                {masteryLabel(neighbor.state)}
               </Caption1>
             </div>
           ))}
@@ -243,7 +244,7 @@ function ProgressChangeCard({
       <div className={styles.factGrid}>
         <Fact label="之前掌握度" value={percent(before.achieved)} />
         <Fact label="当前掌握度" value={percent(after.achieved)} />
-        <Fact label="当前状态" value={MASTERY_STATE_LABEL[after.state] ?? after.state} />
+        <Fact label="当前状态" value={masteryLabel(after.state)} />
         <Fact label="作答证据" value={`${artifact.evidenceCount} 条`} />
       </div>
     </CardShell>

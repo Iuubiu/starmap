@@ -13,8 +13,9 @@ import {
   Divider,
 } from '@fluentui/react-components';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { useMastery, useNodeDetail } from '../api/queries';
+import { useMastery, useNodeDetail, useNodeUnlock } from '../api/queries';
 import { MasteryMeter } from '../level/MasteryMeter';
+import { masteryLabel } from '../mastery/labels';
 
 const useStyles = makeStyles({
   page: {
@@ -52,16 +53,29 @@ const useStyles = makeStyles({
   kindBadge: {
     whiteSpace: 'nowrap',
   },
+  unlockCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  blockerLinks: {
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap',
+  },
+  levelActions: {
+    display: 'flex',
+    gap: '8px',
+    alignItems: 'center',
+  },
 });
 
-const STATE_LABEL: Record<string, string> = {
-  unseen: '未学习',
-  unfamiliar: '刚接触',
-  familiar: '已熟悉',
-  proficient: '已熟练',
-  mastered: '已掌握',
-};
-
+/**
+ * 状态词表已移到 `../mastery/labels`（前端唯一一份）。这里原来那份的表里
+ * **缺 `attempted`**，却多了一个契约里根本不存在的 `unfamiliar` —— 于是后端真发
+ * `attempted` 时，页面上直接显示英文原值 `attempted`。这类缺陷只在恰好遇到那个
+ * 状态时出现，所以把它收进 `Record<MasteryState, string>` 让 typecheck 提醒。
+ */
 const KIND_LABEL: Record<string, string> = {
   teach: '教学关卡',
   quiz: '题目关卡',
@@ -120,6 +134,14 @@ export function NodeDetailPage() {
    */
   const mastery = useMastery(microKpId ?? node.payload?.node.microKpId);
 
+  /**
+   * 这个知识点解锁了没有（票 06 验收 3：前端要能看出「为什么还没解锁」）。
+   *
+   * 单独一个接口而不是塞进节点详情：解锁状态会在「通过门控」那一刻变，而节点详情
+   * 是静态内容。两者生命周期不同，合在一起就要么缓存了旧锁、要么每次翻页都重拉内容。
+   */
+  const unlock = useNodeUnlock(microKpId ?? node.payload?.node.microKpId);
+
   if (node.isPending) return <div className={styles.page}><Spinner label="加载知识点…" /></div>;
 
   if (node.isError || !node.payload) {
@@ -139,6 +161,15 @@ export function NodeDetailPage() {
 
   const { node: kp, levels, reasons } = node.payload;
 
+  /**
+   * 锁着就不让进关（票 06）。
+   *
+   * 判定用 `unlocked === false` 而不是 `!unlocked`：接口还没回来时 `payload`
+   * 是 `undefined`，那是「还不知道」而不是「锁着」。把未知当锁着会让页面在
+   * 首帧短暂禁用所有按钮，然后突然放开 —— 那种闪烁会让人以为自己看错了。
+   */
+  const locked = unlock.payload?.unlocked === false;
+
   return (
     <div className={styles.page}>
       <div className={styles.heading}>
@@ -146,7 +177,7 @@ export function NodeDetailPage() {
           {kp.name}
         </Text>
         <Body1>
-          层级深度 {kp.depth} · 当前状态 {STATE_LABEL[kp.state] ?? kp.state}
+          层级深度 {kp.depth} · 当前状态 {masteryLabel(kp.state)}
         </Body1>
       </div>
 
@@ -174,6 +205,54 @@ export function NodeDetailPage() {
       <Divider />
       <Text weight="semibold">可用关卡</Text>
 
+      {/*
+        未解锁时先讲清「被哪几道门挡着、各差几题」（票 06 验收 3）。
+        这段要放在关卡列表**之前**：若只把每张关卡卡片的按钮置灰，学习者会先
+        点一遍全部关卡、看到一片「进不去」，才知道自己少做了什么。
+      */}
+      {unlock.payload && !unlock.payload.unlocked && (
+        <Card className={styles.unlockCard}>
+          <CardHeader
+            header={<Text weight="semibold">这个知识点还没解锁</Text>}
+            action={
+              <Badge appearance="tint" color="warning" className={styles.kindBadge}>
+                先修门未通过
+              </Badge>
+            }
+          />
+          <Body1>先学完并通过下面这几道先修门，这里才会开放：</Body1>
+          <div className={styles.reasons}>
+            {unlock.payload.blockers.map((blocker) => (
+              <Body1 key={blocker.prerequisiteId}>
+                ·「{blocker.prerequisiteName}」
+                {blocker.levelTitle ? `《${blocker.levelTitle}》` : ''}
+                {blocker.gateMode === 'exit' ? '（章末出口）' : '（高入度先修）'}
+                {blocker.lastVerdict === null
+                  ? '：还没考过它的出口测试'
+                  : blocker.lastVerdict === 'passed'
+                    ? '：最近一次已达标，等待解锁记上'
+                    : `：最近一次还差 ${blocker.shortfall ?? 0} 道题`}
+              </Body1>
+            ))}
+          </div>
+          {unlock.payload.blockers.some((blocker) => blocker.levelId !== null) && (
+            <div className={styles.blockerLinks}>
+              {unlock.payload.blockers
+                .filter((blocker) => blocker.levelId !== null)
+                .map((blocker) => (
+                  <Button
+                    key={blocker.prerequisiteId}
+                    appearance="secondary"
+                    onClick={() => navigate(`/level/${blocker.levelId}`)}
+                  >
+                    去考「{blocker.prerequisiteName}」的出口测试
+                  </Button>
+                ))}
+            </div>
+          )}
+        </Card>
+      )}
+
       {levels.length === 0 ? (
         <MessageBar>
           <MessageBarBody>这个知识点还没有关卡。运行内容入库（票 02）后会生成。</MessageBarBody>
@@ -190,9 +269,23 @@ export function NodeDetailPage() {
                   </Body1>
                 }
                 action={
-                  <Badge appearance="outline" className={styles.kindBadge}>
-                    {KIND_LABEL[level.kind] ?? level.kind}
-                  </Badge>
+                  <div className={styles.levelActions}>
+                    <Badge appearance="outline" className={styles.kindBadge}>
+                      {KIND_LABEL[level.kind] ?? level.kind}
+                    </Badge>
+                    {/*
+                      入口按钮只在已解锁时可点。**不是靠禁用按钮表达「为什么」** ——
+                      原因写在上面的障碍卡里（有段落、有还差几题、有直达链接），
+                      一个灰按钮说不出任何理由。
+                    */}
+                    <Button
+                      appearance="primary"
+                      disabled={locked}
+                      onClick={() => navigate(`/level/${encodeURIComponent(level.levelId)}`)}
+                    >
+                      {locked ? '未解锁' : '开始'}
+                    </Button>
+                  </div>
                 }
               />
             </Card>

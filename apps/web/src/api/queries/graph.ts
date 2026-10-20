@@ -3,12 +3,24 @@
  *
  * 归属泳道：graph-dev。加 hook 就往这里加，不要改 `queries/index.ts`。
  */
-import { useGetGraph, useGetNode, useListNodes } from '../generated/default/default';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  getGetRecommendationsQueryKey,
+  getGetGraphQueryKey,
+  redirectRecommendation,
+  useGetGraph,
+  useGetNode,
+  useGetRecommendations,
+  useListNodes,
+} from '../generated/default/default';
 import type {
   GraphResponse,
   ListNodesParams,
   NodeDetailResponse,
   NodeListResponse,
+  RecommendationListResponse,
+  RedirectRequest,
+  RedirectResponse,
 } from '../generated/model';
 
 export function useNodeList(params?: ListNodesParams) {
@@ -36,4 +48,52 @@ export function useNodeDetail(microKpId: string | undefined) {
 export function useGraph() {
   const query = useGetGraph({ query: { staleTime: 60_000 } });
   return { ...query, payload: query.data?.data as GraphResponse | undefined };
+}
+
+/**
+ * 今日推荐与今日学习摘要。
+ *
+ * 缓存策略与 `useGraph()` 一致（60 秒）：看板与图谱是同一批推荐的两个视图，
+ * 一个刷新另一个不刷新会让用户在两页之间看到不同的推荐。真正的失效由
+ * 作答结算与改道成功触发（`invalidateQueries`），而不是靠时间猜。
+ *
+ * **不在这里拼中文**：`reason` 是结构化事实（`{kind, facts}`），中文由
+ * `apps/web/src/board/reason.ts` 渲染 —— 那样数字能被加粗、先修节点能做成
+ * 链接，且改措辞不用动后端。
+ */
+export function useRecommendations() {
+  const query = useGetRecommendations({ query: { staleTime: 60_000 } });
+  return { ...query, payload: query.data?.data as RecommendationListResponse | undefined };
+}
+
+/**
+ * 改道：拒绝当前推荐并选别的节点。
+ *
+ * ## 为什么不直接用生成的 `useRedirectRecommendation`
+ *
+ * `orval.config.mjs` 只开了 `useQuery`，所以生成器对 POST 也产出 useQuery hook
+ * —— 组件一挂载就 POST 一次，于是「打开看板」等于「默默拒绝了一条推荐」。
+ * 这与 `queries/levels.ts` / `queries/agent.ts` 处理的问题同一个，解法也是同一个：
+ * 只拿生成的普通异步函数（method 与 body 都已正确），外面套 `useMutation`。
+ *
+ * ## 为什么成功后要失效两个 key
+ *
+ * 改道改变的是「推荐」，而图谱响应里也带 `recommendedIds`（票 13 验收第 5 条
+ * 要求两处一致）。只失效推荐、不失效图谱，切到地图页会看到旧的那批被标为
+ * 「推荐」，而看板已经换了——那正是「两处矛盾」。
+ */
+export function useRedirectRecommendation() {
+  const queryClient = useQueryClient();
+  return useMutation<RedirectResponse, Error, RedirectRequest>({
+    mutationFn: async (request) => {
+      const response = await redirectRecommendation(request);
+      return response.data as RedirectResponse;
+    },
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: getGetRecommendationsQueryKey() }),
+        queryClient.invalidateQueries({ queryKey: getGetGraphQueryKey() }),
+      ]);
+    },
+  });
 }

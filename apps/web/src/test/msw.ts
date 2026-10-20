@@ -129,6 +129,139 @@ export const handlers = [
     });
   }),
 
+  /**
+   * 知识点解锁状态（票 06）。
+   *
+   * 默认「已解锁」：绝大多数页面用例不关心锁，只关心掌握度与关卡列表。要测
+   * 「为什么还没解锁」的用例用 `server.use(...)` 覆盖这一条，不要改默认值 ——
+   * 默认改成未解锁会让所有详情页用例同时冒出一张障碍卡，断言全乱。
+   */
+  http.get('*/api/v1/nodes/:id/unlock', ({ params }) => {
+    if (params.id === 'kp-missing') {
+      return HttpResponse.json({ code: 'NOT_FOUND', message: '知识点不存在' }, { status: 404 });
+    }
+    return HttpResponse.json({
+      microKpId: params.id,
+      unlocked: true,
+      blockers: [],
+    });
+  }),
+
+  /**
+   * 知识图谱（票 03 / 票 13）。
+   *
+   * 三个节点覆盖三种不同的读数路径，缺一个就测不到对应的显示规则：
+   * - `kp-bool`：有证据，percent 有值（在学 / 显示百分比）；
+   * - `kp-kmap`：证据不足，percent 是 **null**（必须显示「证据不足」，不是 0%）；
+   * - `kp-review`：到了复验期（`reviewDueAt` 在过去），前端纯函数应判成「需复验」。
+   *
+   * `recommendedIds` 与下面的 `/recommendations` 首条一致：两处指向同一批，
+   * 正是票 13 验收第 5 条要的形状；若谁改了其中一边，地图徽标会立刻对不上。
+   */
+  http.get('*/api/v1/graph', () =>
+    HttpResponse.json({
+      nodes: [
+        {
+          microKpId: 'kp-bool',
+          name: '布尔代数基本运算',
+          state: 'familiar',
+          percent: 0.66,
+          depth: 1,
+          moduleId: 'm-digital',
+          moduleName: '数字逻辑',
+          moduleOrdinal: 1,
+          ordinal: 1,
+          reviewDueAt: null,
+        },
+        {
+          microKpId: 'kp-kmap',
+          name: '卡诺图化简',
+          state: 'unseen',
+          percent: null,
+          depth: 1,
+          moduleId: 'm-digital',
+          moduleName: '数字逻辑',
+          moduleOrdinal: 1,
+          ordinal: 2,
+          reviewDueAt: null,
+        },
+        {
+          microKpId: 'kp-review',
+          name: '组合逻辑竞争冒险',
+          state: 'proficient',
+          percent: 0.82,
+          depth: 1,
+          moduleId: 'm-digital',
+          moduleName: '数字逻辑',
+          moduleOrdinal: 1,
+          ordinal: 3,
+          // 已经过期：`toDisplayStatus(node, new Date())` 会把它判成 review
+          reviewDueAt: '2026-01-02T00:00:00.000Z',
+        },
+      ],
+      edges: [
+        { from: 'kp-bool', to: 'kp-kmap', kind: 'prereq' },
+        { from: 'kp-kmap', to: 'kp-review', kind: 'prereq' },
+      ],
+      recommendedIds: ['kp-bool'],
+    }),
+  ),
+
+  /**
+   * 今日推荐 + 摘要（票 13）。
+   *
+   * 默认给 `blocked_by_prereq` —— 验收第 2 条点名的就是这一种（「你在 A 卡住，
+   * A 依赖 B，B 你只有 32%」）。facts 里的数字是**原值**（0.32），不是 "32%"：
+   * 拼中文是前端 `board/reason.ts` 的事。
+   *
+   * 其它 kind 的渲染由 `board/reason.test.ts` 逐条覆盖，不必在这里堆五份数据。
+   */
+  http.get('*/api/v1/recommendations', () =>
+    HttpResponse.json({
+      generatedAt: '2026-10-20T04:00:00.000Z',
+      recommendations: [
+        {
+          microKpId: 'kp-bool',
+          name: '布尔代数基本运算',
+          moduleName: '数字逻辑',
+          reason: {
+            kind: 'blocked_by_prereq',
+            facts: [
+              { type: 'current', value: 0.66 },
+              { type: 'attempts', value: 12 },
+              { type: 'unblocks', microKpId: 'kp-kmap', name: '卡诺图化简', current: 0.32 },
+            ],
+          },
+        },
+      ],
+      summary: {
+        available: true,
+        answered: 7,
+        knowledgePoints: 2,
+        newlyMastered: 1,
+      },
+    }),
+  ),
+
+  /**
+   * 改道（票 13 验收第 3 条）。
+   *
+   * 这里只回 `{ok:true}` 并且**不改上面的推荐列表**：真实服务端的「记住」表现
+   * 为下次查询里那条不再出现（由 api 集成测试断言，那里有库）。组件测试要验证
+   * 的是「请求发对了、成功后界面收起了选择器」，把列表也一起模拟会在测试里
+   * 重建一遍服务端行为，反而测不出前端有没有真的失效缓存。
+   */
+  http.post('*/api/v1/recommendations/redirect', async ({ request }) => {
+    const body = (await request.json()) as { recommended?: string; chosen?: string };
+    if (!body.recommended || !body.chosen) {
+      return HttpResponse.json(
+        { code: 'VALIDATION_FAILED', message: '请求体不合法' },
+        { status: 400 },
+      );
+    }
+    return HttpResponse.json({ ok: true });
+  }),
+
   // -------------------------------------------------------------------------
   // 票 08：结构化回合
   // -------------------------------------------------------------------------

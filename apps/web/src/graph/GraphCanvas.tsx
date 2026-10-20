@@ -180,7 +180,9 @@ export function GraphCanvas({
   const highlightRef = useRef<string | null>(null);
   highlightRef.current = highlighted;
   const ratioRef = useRef(1);
-  ratioRef.current = ratio;
+  // 不写成 `ratioRef.current = ratio`：ratio 是节流后上报的**���值**，而 ref 要的是
+  // 相机此刻的真实值（reducer 在 refresh 时同步读它）。两者的写入点都在下面
+  // 的 report()/handleCamera 里，这里不再用渲染期赋值把它们混在一起。
   const displayRef = useRef(display);
   displayRef.current = display;
 
@@ -270,28 +272,74 @@ export function GraphCanvas({
     }, LAYOUT_BUDGET_MS);
 
     let lastReport = 0;
+    let reportTimer: number | null = null;
     /**
      * 上报真实状态：相机 ratio + sigma 当前实际画出的标签数。
      *
      * `getNodeDisplayedLabels()` 是 sigma 在密度抽样与阈值判定**之后**的结果，
      * 所以它才是「标签到底显示了没有」的真源；自己另外维护一个布尔值只能证明
      * 「我以为我隐藏了」。票 03 第 6 条的 e2e 就断言这个数。
+     *
+     * 节流必须**补尾部**：相机动画的最后一帧往往落在窗口中间，如果直接丢掉，
+     * `data-camera-ratio` 就会永远停在中间值（实测：缩小再放大后卡在 1.078，
+     * 而真实 ratio 已经是 1）。之前没暴露是因为每一帧都 refresh，`afterRender`
+     * 会顺便把尾部补上；现在 refresh 只在跨阈值时发生，这个漏洞就漏出来了。
      */
-    const report = (): void => {
+    const reportNow = (): void => {
       if (cancelled) return;
-      const now = performance.now();
-      if (now - lastReport < REPORT_THROTTLE_MS) return;
-      lastReport = now;
       const nextRatio = camera.getState().ratio;
+      ratioRef.current = nextRatio;
       setRatio((previous) => (Math.abs(previous - nextRatio) < 0.001 ? previous : nextRatio));
       const count = created.getNodeDisplayedLabels().size;
       setDisplayedLabels((previous) => (previous === count ? previous : count));
       onRatioChange?.(nextRatio);
     };
+    const report = (): void => {
+      if (cancelled) return;
+      const now = performance.now();
+      const elapsed = now - lastReport;
+      if (elapsed >= REPORT_THROTTLE_MS) {
+        if (reportTimer !== null) {
+          window.clearTimeout(reportTimer);
+          reportTimer = null;
+        }
+        lastReport = now;
+        reportNow();
+        return;
+      }
+      if (reportTimer !== null) return;
+      reportTimer = window.setTimeout(() => {
+        reportTimer = null;
+        lastReport = performance.now();
+        reportNow();
+      }, REPORT_THROTTLE_MS - elapsed);
+    };
 
+    /**
+     * 只在**跨过标签阈值**时刷新显示数据。
+     *
+     * `refresh()` 会让 sigma 重新跑每个节点的 reducer 并重算显示集合（1789
+     * 个节点实测 40–80ms，2000 节点更久）。而相机动画每帧都发 `updated`：
+     * 滚一格滚轮就是几十帧，逐帧刷新等于把主线程占满 —— e2e 里表现为
+     * `mouse.wheel` / `expect.poll` 超时，用户侧表现为「滚轮拖手」，正是
+     * 票 03 第 1 条要禁止的那种卡。
+     *
+     * 关键观察：`labelVisibility` 只取决于「ratio 是否越过 LABEL_HIDE_RATIO」
+     * 这一个布尔量（见 label-threshold.ts）。同一侧内的 ratio 变化不改变任何
+     * 节点的显示数据，重算纯属浪费。所以这里记住上次的判定，翻面才刷新一次
+     * —— 一次手势最多两次刷新。
+     */
+    let labelsShown = shouldShowLabels(camera.getState().ratio);
     const handleCamera = (): void => {
-      // reducers 改了 labelVisibility，必须让 sigma 重算显示数据
-      created.refresh({ skipIndexation: true });
+      const nextRatio = camera.getState().ratio;
+      // 先写 ref 再 refresh：reducer 在 refresh 过程中同步读它，写晚了就会
+      // 用旧 ratio 算出旧判定，「刷新了但标签没换」。
+      ratioRef.current = nextRatio;
+      const nextShows = shouldShowLabels(nextRatio);
+      if (nextShows !== labelsShown) {
+        labelsShown = nextShows;
+        created.refresh({ skipIndexation: true });
+      }
       report();
     };
     camera.on('updated', handleCamera);
@@ -311,6 +359,9 @@ export function GraphCanvas({
     return () => {
       cancelled = true;
       window.clearTimeout(budgetTimer);
+      // 尾部补发计时器必须清：它会在组件卸载后调 setState（React 会警告，
+      // 而建-拆画布在切视图时是常态，不是异常路径）。
+      if (reportTimer !== null) window.clearTimeout(reportTimer);
       camera.removeAllListeners();
       created.removeAllListeners();
       created.kill();
@@ -337,6 +388,12 @@ export function GraphCanvas({
       animate(state: { x: number; y: number }, options?: { duration?: number }): Promise<void>;
     };
     void camera.animate({ x: attributes.x, y: attributes.y }, { duration: 350 });
+    /**
+     * 焦点换了必须刷一次：`shouldShowNodeLabel` 给焦点开了「永远显示标签」的例外，
+     * 尺寸也乘了 1.4。以前这些是靠相机逐帧 refresh 顺带兑现的，现在 refresh 只在
+     * 跨阈值时发生，所以得在这里显式补一下（一次，不是每帧）。
+     */
+    sigma.refresh({ skipIndexation: true });
     // 只依赖焦点自身：节点集变化由上面的 effect 重建画布时自然带着坐标走
   }, [focusId]);
 

@@ -18,6 +18,30 @@
  */
 import { expect, test } from '@playwright/test';
 
+/**
+ * 页面就绪预算：`/map` 每次都要拉回 1789 个叶节点（466 KB）再交给 sigma
+ * 建 WebGL 画布，本机无 GPU 走 SwiftShader，实测冷加载 5.7 秒起。
+ *
+ * 为什么不是 15 秒：单独跑一条用例时 15 秒够用，但 `graph.spec.ts` +
+ * `smoke.spec.ts` 连跑 40 条、持续 5–6 分钟之后，机器负载会把冷加载推到
+ * 20 秒以上，于是红在「`.graph-canvas` not found」——报错看起来像画布没
+ * 渲染出来，实际上只是还没到。这类红与票 03 的任何验收条款都无关，只会
+ * 训练人忽略红色。所以统一用 60 秒预算：它不会掩盖真实的功能缺陷（真坏
+ * 了是永远不出现，不是 60 秒后才出现），只是不再把机器慢当成产品坏。
+ *
+ * 单条用例内部那些「动作之后等状态翻面」的 `expect.poll` 仍是 10 秒 ——
+ * 那些等的是渲染管线的下一帧，不该跟着页面加载一起放宽。
+ */
+const READY = 60_000;
+
+/**
+ * 单条用例的总预算。Playwright 默认 30 秒，比上面的 `READY` 还短 ——
+ * 不抬这一层，`toBeVisible({ timeout: READY })` 会先被用例的 30 秒砍掉，
+ * 上面那段注释就成了空话。这里不能只靠 `test.slow()`：slow 只给被标记
+ * 的那几条，而慢加载是每条 `/map` 用例共有的。
+ */
+test.describe.configure({ timeout: 120_000 });
+
 /** 画布容器的定位器。`data-node-count` 等真实状态都挂在它上面。 */
 const canvas = (page: import('@playwright/test').Page) => page.locator('.graph-canvas');
 
@@ -27,14 +51,29 @@ const rosterItems = (page: import('@playwright/test').Page) => page.locator('.gr
 test.describe('图谱画布真实渲染', () => {
   test('画布渲染真实节点，数量与清单一致', async ({ page }) => {
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
 
     // 默认全图：画布上的节点数应当等于后端返回的叶节点总数
     const drawn = Number(await canvas(page).getAttribute('data-node-count'));
     expect(drawn).toBeGreaterThan(100);
 
-    const rosterCount = await rosterItems(page).count();
-    expect(rosterCount).toBe(drawn);
+    /**
+     * 清单是分批渲染的（首批 400 条），这不是缺陷而是首屏预算。
+     *
+     * 2000 个按钮 ≈ 14000 个 DOM 节点，一次性挂载实测是 3.6s 的单个长任务，
+     * 比同步力导向还糟 —— 恰好撞在票 03 第 1 条「拖动缩放仍可交互」上。所以
+     * `NodeRoster` 默认只挂头 400 条，其余用「继续显示」按批放出。
+     *
+     * 这条用例要验的是「画布上的每一个点都能在清单里找到」，不是「首屏挂了
+     * 多少条」。所以先把剩下的展开再数 —— 分批是性能手段，等价替代的完整性
+     * 不能因此打折。数据只有 167 个叶节点时首批就装下了，这条分支不触发；
+     * 真实库涨到 1789 个之后才走展开路径。
+     */
+    const more = page.getByRole('button', { name: /继续显示/ });
+    if ((await more.count()) > 0) {
+      await more.click();
+    }
+    await expect(rosterItems(page)).toHaveCount(drawn);
   });
 
   test('WebGL 不可用时有可读的降级文案，而不是白屏', async ({ page }) => {
@@ -52,7 +91,7 @@ test.describe('图谱画布真实渲染', () => {
     });
     await page.goto('/map');
     // 降级：画布区给出说明，但节点清单仍然可用（这是可访问替代的价值）
-    await expect(page.locator('.graph-canvas-broken')).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator('.graph-canvas-broken')).toBeVisible({ timeout: READY });
     await expect(page.locator('.graph-canvas-broken')).toContainText('WebGL2');
     await expect(rosterItems(page).first()).toBeVisible();
   });
@@ -61,7 +100,7 @@ test.describe('图谱画布真实渲染', () => {
 test.describe('票 03 第 1 条：物理模拟不阻塞主线程', () => {
   test('力导向布局跑在 Worker 里', async ({ page }) => {
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
     // 真实浏览器里一定是 worker：Blob URL 的 Worker 在 Chromium 上总能起来
     await expect(canvas(page)).toHaveAttribute('data-layout-source', 'worker');
   });
@@ -96,7 +135,17 @@ test.describe('票 03 第 1 条：物理模拟不阻塞主线程', () => {
         to: `kp-${i + 1}`,
         kind: 'prereq',
       }));
-      await route.fulfill({ json: { nodes, edges } });
+      await route.fulfill({
+        json: {
+          nodes,
+          edges,
+          // 契约里 `recommendedIds` 是必填（票 13 验收第 5 条）。这里桩数据不
+          // 假装有推荐：空数组的语义是「此刻没有可推荐的节点」，不是「功能没
+          // 接通」。少了这个字段前端不会崩（可选链兜底），但桩数据不完整的
+          // 话，将来真的加上「推荐徽标必须出现」的断言时会莫名其妙地红。
+          recommendedIds: [],
+        },
+      });
     });
 
     // 在任何脚本之前埋长任务观察器：布局若在主线程跑，必然产生 >50ms 的块
@@ -168,7 +217,7 @@ test.describe('票 03 第 1 条：物理模拟不阻塞主线程', () => {
 
   test('2000 节点下拖动与缩放仍可交互', async ({ page }) => {
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
 
     const box = await canvas(page).boundingBox();
     expect(box).not.toBeNull();
@@ -196,7 +245,7 @@ test.describe('票 03 第 1 条：物理模拟不阻塞主线程', () => {
 test.describe('票 03 第 2 条：两跳邻域与逐层展开', () => {
   test('有焦点时默认两跳，+1 / −1 / 回全图三个按钮都在', async ({ page }) => {
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
 
     // 选一个焦点：用选择器（这是真实用户的路径，不依赖某个特定节点在不在）
     await page.getByLabel('选择焦点知识点').selectOption({ index: 1 });
@@ -217,7 +266,7 @@ test.describe('票 03 第 2 条：两跳邻域与逐层展开', () => {
 
   test('+1 跳不会变小，−1 跳不会变大', async ({ page }) => {
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
     await page.getByLabel('选择焦点知识点').selectOption({ index: 1 });
 
     const readCount = async (): Promise<number> =>
@@ -269,7 +318,7 @@ test.describe('票 03 第 2 条：两跳邻域与逐层展开', () => {
 
   test('回全图后节点数等于总节点数', async ({ page }) => {
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
     /*
      * 图例给出的是**每一类**的「视野内/全图」，总数要把四类加起来。
      *
@@ -293,7 +342,7 @@ test.describe('票 03 第 2 条：两跳邻域与逐层展开', () => {
 
   test('跳数写进 URL，可分享可刷新', async ({ page }) => {
     await page.goto('/map?focus=kp-bool&hops=1');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
     await expect(page.getByLabel('选择焦点知识点')).toHaveValue('kp-bool');
     // 刷新后位置不丢
     await page.reload();
@@ -306,7 +355,7 @@ test.describe('票 03 第 3、7 条：四状态可辨 + 非颜色第二编码', 
   test('图例同时给出四种形状、四种文字与计数', async ({ page }) => {
     await page.goto('/map');
     const legend = page.locator('.graph-legend');
-    await expect(legend).toBeVisible({ timeout: 15_000 });
+    await expect(legend).toBeVisible({ timeout: READY });
 
     // 四类文案逐一在场（票 03 第 3 条要的是「可辨」，首先是能读到）
     for (const label of ['未学', '在学', '已掌握', '需复验']) {
@@ -327,7 +376,7 @@ test.describe('票 03 第 3、7 条：四状态可辨 + 非颜色第二编码', 
 
   test('节点清单里每个节点都带 data-shape（形状与状态一一对应）', async ({ page }) => {
     await page.goto('/map');
-    await expect(rosterItems(page).first()).toBeVisible({ timeout: 15_000 });
+    await expect(rosterItems(page).first()).toBeVisible({ timeout: READY });
 
     const shapes = await rosterItems(page).evaluateAll((items) =>
       items.map((item) => ({
@@ -357,7 +406,7 @@ test.describe('票 03 第 3、7 条：四状态可辨 + 非颜色第二编码', 
 test.describe('票 03 第 4 条：点击进入关卡 + 返回保持焦点', () => {
   test('点画布清单里的节点进入详情页', async ({ page }) => {
     await page.goto('/map');
-    await expect(rosterItems(page).first()).toBeVisible({ timeout: 15_000 });
+    await expect(rosterItems(page).first()).toBeVisible({ timeout: READY });
 
     const first = rosterItems(page).first();
     const label = await first.getAttribute('aria-label');
@@ -373,7 +422,7 @@ test.describe('票 03 第 4 条：点击进入关卡 + 返回保持焦点', () =
   test('从详情页返回地图时焦点保持原位', async ({ page }) => {
     // 先进一个有确定焦点的地址
     await page.goto('/map?focus=kp-bool&hops=2');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
 
     await rosterItems(page).filter({ hasText: '布尔代数基本运算' }).first().click();
     await expect(page).toHaveURL(/\/map\/kp-bool/);
@@ -389,7 +438,7 @@ test.describe('票 03 第 4 条：点击进入关卡 + 返回保持焦点', () =
   test('直接打开详情页（无来源 state）时返回仍以该节点为焦点', async ({ page }) => {
     await page.goto('/map/kp-bool');
     await expect(page.getByRole('heading', { name: '布尔代数基本运算' })).toBeVisible({
-      timeout: 15_000,
+      timeout: READY,
     });
     await page.getByRole('button', { name: '返回地图' }).click();
     await expect(page).toHaveURL(/focus=kp-bool/);
@@ -399,7 +448,7 @@ test.describe('票 03 第 4 条：点击进入关卡 + 返回保持焦点', () =
 test.describe('票 03 第 5 条：线性主线视图可切换且位置不丢', () => {
   test('切到主线再切回来，焦点与跳数都不变', async ({ page }) => {
     await page.goto('/map?focus=kp-bool&hops=2');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
     const before = Number(await canvas(page).getAttribute('data-node-count'));
 
     await page.getByRole('button', { name: '线性主线' }).click();
@@ -419,14 +468,14 @@ test.describe('票 03 第 5 条：线性主线视图可切换且位置不丢', (
 
   test('主线视图按模块分组，顺序稳定可复现', async ({ page }) => {
     await page.goto('/map?view=mainline');
-    await expect(page.locator('[data-mainline]')).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator('[data-mainline]')).toBeVisible({ timeout: READY });
 
     const first = await page
       .locator('[data-mainline] [data-module-id]')
       .evaluateAll((sections) => sections.map((s) => s.getAttribute('data-module-id')));
 
     await page.reload();
-    await expect(page.locator('[data-mainline]')).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator('[data-mainline]')).toBeVisible({ timeout: READY });
     const second = await page
       .locator('[data-mainline] [data-module-id]')
       .evaluateAll((sections) => sections.map((s) => s.getAttribute('data-module-id')));
@@ -437,7 +486,7 @@ test.describe('票 03 第 5 条：线性主线视图可切换且位置不丢', (
 
   test('主线视图也能点进关卡', async ({ page }) => {
     await page.goto('/map?view=mainline');
-    await expect(page.locator('[data-mainline]')).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator('[data-mainline]')).toBeVisible({ timeout: READY });
     const row = page.locator('[data-mainline] button[data-node-id]').first();
     const label = await row.getAttribute('aria-label');
     const name = (label ?? '').split('，')[0];
@@ -449,8 +498,17 @@ test.describe('票 03 第 5 条：线性主线视图可切换且位置不丢', (
 
 test.describe('票 03 第 6 条：缩放低于阈值时只画点不画标签', () => {
   test('缩小后标签消失，放大后回来', async ({ page }) => {
+    /**
+     * 这条用例光等页面就花掉一大半预算：`/map` 要拉回 1789 个叶节点
+     * （466 KB）再交给 sigma 建 WebGL 画布，本机无 GPU 走 SwiftShader，
+     * 实测 `goto` → 画布可见就要 6–11 秒；之后还有三次 `expect.poll`
+     * （各上限 10 秒）+ 12 次 `mouse.wheel`。预算是文件级的 120 秒
+     * （见顶部 `test.describe.configure`），这里不再单独 `test.slow()`：
+     * 全文件每一条 `/map` 用例都要等同样的冷加载，那是共有成本，
+     * 不是这一条特别慢。
+     */
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
 
     // 初始（ratio = 1）标签是显示的，且 sigma 真的画了标签
     await expect(canvas(page)).toHaveAttribute('data-labels-visible', 'true');
@@ -478,8 +536,15 @@ test.describe('票 03 第 6 条：缩放低于阈值时只画点不画标签', (
      * 这个数字是渲染管线在密度抽样与阈值判定之后的结果。允许保留 1 个
      * ——焦点节点永远带标签（它是方位参照，见 `label-threshold.ts`）。
      */
-    const displayed = Number(await canvas(page).getAttribute('data-labels-displayed'));
-    expect(displayed).toBeLessThanOrEqual(1);
+    // 必须 poll，不能读一次：`data-labels-visible` 跟着相机 ratio 立刻翻，
+    // 而 `data-labels-displayed` 要等 sigma 在下一帧重算显示集合（且上报
+    // 侧有 100ms 节流）。一次读到的常常还是缩小前的 18，断言会红在
+    // 「标签其实已经没了」的时刻 —— 那是测试读得太早，不是产品没隐藏。
+    await expect
+      .poll(async () => Number(await canvas(page).getAttribute('data-labels-displayed')), {
+        timeout: 10_000,
+      })
+      .toBeLessThanOrEqual(1);
 
     // 放大回来，标签应当恢复
     for (let i = 0; i < 7; i += 1) await page.mouse.wheel(0, -260);
@@ -489,31 +554,34 @@ test.describe('票 03 第 6 条：缩放低于阈值时只画点不画标签', (
   });
 
   test('键盘也能缩放（滚轮对键盘用户不可用）', async ({ page }) => {
+    /**
+     * 与上一条同样的成本结构：`/map` 冷加载就要 6–11 秒（1789 个叶节点、
+     * 466 KB 响应、SwiftShader 软渲染），再加上连点三次缩放按钮（每次让
+     * sigma 重算相机并刷新渲染，实测 0.3–0.6 秒）。预算走文件级 120 秒。
+     */
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
-    const before = Number(await canvas(page).getAttribute('data-camera-ratio'));
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
+
+    const ratio = async () => Number(await canvas(page).getAttribute('data-camera-ratio'));
+    const before = await ratio();
 
     await page.getByRole('button', { name: '缩小图谱' }).click();
-    await expect
-      .poll(async () => Number(await canvas(page).getAttribute('data-camera-ratio')), {
-        timeout: 10_000,
-      })
-      .toBeGreaterThan(before);
+    // 必须等 ratio 真的落地再点下一个：点击只是把相机切到动画，立刻连点
+    // 第二、第三个会让三个动画叠在一起，`toBe(1)` 读到中间值。
+    await expect.poll(ratio, { timeout: 10_000 }).toBeGreaterThan(before);
 
     await page.getByRole('button', { name: '放大图谱' }).click();
+    await expect.poll(ratio, { timeout: 10_000 }).toBe(before);
+
     await page.getByRole('button', { name: '复位图谱视野' }).click();
-    await expect
-      .poll(async () => Number(await canvas(page).getAttribute('data-camera-ratio')), {
-        timeout: 10_000,
-      })
-      .toBe(1);
+    await expect.poll(ratio, { timeout: 10_000 }).toBe(1);
   });
 });
 
 test.describe('票 03 第 7 条：全键盘可达', () => {
   test('Tab 能逐个走到节点清单里的按钮', async ({ page }) => {
     await page.goto('/map');
-    await expect(rosterItems(page).first()).toBeVisible({ timeout: 15_000 });
+    await expect(rosterItems(page).first()).toBeVisible({ timeout: READY });
 
     // 清点可聚焦的清单项
     const total = await rosterItems(page).count();
@@ -534,7 +602,7 @@ test.describe('票 03 第 7 条：全键盘可达', () => {
 
   test('清单项的焦点环可见（深色背景下不能丢失焦点指示）', async ({ page }) => {
     await page.goto('/map');
-    await expect(rosterItems(page).first()).toBeVisible({ timeout: 15_000 });
+    await expect(rosterItems(page).first()).toBeVisible({ timeout: READY });
     await rosterItems(page).first().focus();
     // :focus-visible 的描边由 graph.css 给；这里断言它确实生效了
     const outline = await rosterItems(page)
@@ -545,7 +613,7 @@ test.describe('票 03 第 7 条：全键盘可达', () => {
 
   test('Enter 从清单项进入关卡', async ({ page }) => {
     await page.goto('/map');
-    await expect(rosterItems(page).first()).toBeVisible({ timeout: 15_000 });
+    await expect(rosterItems(page).first()).toBeVisible({ timeout: READY });
 
     const first = rosterItems(page).first();
     const label = await first.getAttribute('aria-label');
@@ -558,7 +626,7 @@ test.describe('票 03 第 7 条：全键盘可达', () => {
 
   test('画布容器对读屏隐藏，等价信息由清单与 aria-live 承担', async ({ page }) => {
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
 
     // WebGL 层是 aria-hidden：里面没有可读内容，不该被读屏扫到
     await expect(page.locator('.graph-canvas-webgl')).toHaveAttribute('aria-hidden', 'true');
@@ -571,7 +639,7 @@ test.describe('票 03 第 7 条：全键盘可达', () => {
 
   test('缩放入口可用键盘操作', async ({ page }) => {
     await page.goto('/map');
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
     const zoomIn = page.getByRole('button', { name: '放大图谱' });
     await zoomIn.focus();
     await expect(zoomIn).toBeFocused();
@@ -580,35 +648,47 @@ test.describe('票 03 第 7 条：全键盘可达', () => {
 });
 
 test.describe('图谱与看板的导航一致性', () => {
-  test('从看板点进详情，再返回地图时落到该节点为焦点的视图', async ({ page }) => {
-    // 看板在 `/board`：票 08 之后 `/` 是智能体主页，知识点列表搬走了
-    await page.goto('/board');
-    const card = page.getByRole('button', { name: /未学习|已熟悉|已掌握/ }).first();
-    await expect(card).toBeVisible({ timeout: 15_000 });
-    const label = await card.getAttribute('aria-label');
+  test('从地图点进详情，再返回地图时落到该节点为焦点的视图', async ({ page }) => {
+    // 票 13 落地后 `/board` 是「今日推荐 + 摘要 + 常用指令」，不再是知识点卡片
+    // 网格（那个职责在票 01 时属于 `/board`，后来搬到 `/map`）。所以这条用例
+    // 从地图起步 —— 它要验的本来就是「从地图进详情、从详情回地图」这条往返
+    // 路径，`/board` 只是当时恰好有个能点的节点列表。
+    await page.goto('/map');
+    await expect(rosterItems(page).first()).toBeVisible({ timeout: READY });
+    // 五态词表全列，别只写三个：正则漏掉某个状态时的症状是「那种状态的节点
+    // 一个都匹配不到」，看起来像界面空了，实际只是正则少写了一个词。
+    //
+    // 必须把查找范围收进清单（`aria-label="当前视野内的微知识点"`）里。不收
+    // 范围的话 `.first()` 命中的是**图例的筛选按钮**（可访问名形如「已掌握
+    // 0/0」）—— 它名字里也有状态词、也确实可见，点它是「按状态过滤」而不是
+    // 「打开这个知识点」，于是用例永远停在 `/map`，报出来的却是「URL 不对」。
+    const roster = page.getByRole('list', { name: '当前视野内的微知识点' });
+    const item = roster.getByRole('button', { name: /未学习|刚接触|已熟悉|已熟练|已掌握/ }).first();
+    await expect(item).toBeVisible({ timeout: READY });
+    const label = await item.getAttribute('aria-label');
     const name = (label ?? '').split('，')[0];
 
-    await card.click();
+    await item.click();
     await expect(page).toHaveURL(/\/map\/.+/);
     await expect(page.getByRole('heading', { name })).toBeVisible();
 
     await page.getByRole('button', { name: '返回地图' }).click();
     await expect(page).toHaveURL(/focus=/);
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
   });
 
   test('顶栏切到知识地图后画布就绪', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('tab', { name: '知识地图' }).click();
     await expect(page).toHaveURL(/\/map/);
-    await expect(canvas(page)).toBeVisible({ timeout: 15_000 });
+    await expect(canvas(page)).toBeVisible({ timeout: READY });
   });
 });
 
 test.describe('无障碍名沿用既有格式（不弄坏 smoke.spec.ts）', () => {
   test('清单项的可访问名是「名称，状态，百分比/证据不足」', async ({ page }) => {
     await page.goto('/map');
-    await expect(rosterItems(page).first()).toBeVisible({ timeout: 15_000 });
+    await expect(rosterItems(page).first()).toBeVisible({ timeout: READY });
 
     const labels = await rosterItems(page).evaluateAll((items) =>
       items.slice(0, 20).map((item) => item.getAttribute('aria-label') ?? ''),
@@ -623,9 +703,32 @@ test.describe('无障碍名沿用既有格式（不弄坏 smoke.spec.ts）', () 
     }
   });
 
-  test('页面上有可见的状态文字「已熟悉」（smoke.spec.ts 依赖）', async ({ page }) => {
+  test('清单上看得见的状态文字只能来自五态词表', async ({ page }) => {
     await page.goto('/map');
-    // 真实数据里 kp-bool 就是 familiar；清单里会同时出现四类词
-    await expect(page.getByText('已熟悉').first()).toBeVisible({ timeout: 15_000 });
+    await expect(rosterItems(page).first()).toBeVisible({ timeout: READY });
+
+    // 这条原来是 `getByText('已熟悉').toBeVisible()`，注释写着「真实数据里 kp-bool
+    // 就是 familiar」。它断言的其实不是界面行为，而是「库里恰好有一个 familiar
+    // 节点」—— 那个 familiar 来自 seed.sql 手写的一行掌握度快照，而它声称的 10
+    // 次作答在 `app.attempts` 里一条都没有（伪造的证据，已随迁移 0005 与 seed
+    // 一并删除）。删掉假数据后这条就红了，说明它钉的是数据。
+    //
+    // 换成只看渲染规则的断言：清单每一条都渲染了状态文字，且两层词都在各自的
+    // 词表里。词表漏翻（露出 `familiar` 这类英文原值）或多出一个契约里不存在的
+    // 词时才会红。
+    //
+    // 注意是**两层**词：括号外是四类显示桶（未学/在学/已掌握/需复验，票 03 的
+    // 画布分类），括号里是五档引擎状态（`FINE_LABEL`）。写成一层会混淆这两件事。
+    const BUCKET_LABEL = ['未学', '在学', '已掌握', '需复验'];
+    const FINE_LABEL = ['未学习', '刚接触', '已熟悉', '已熟练', '已掌握'];
+    const states = await rosterItems(page).evaluateAll((items) =>
+      items.slice(0, 30).map((item) => item.querySelector('.graph-roster-state')?.textContent ?? ''),
+    );
+    expect(states.length).toBeGreaterThan(0);
+    for (const text of states) {
+      const [outer = '', inner = ''] = text.split('（');
+      expect(BUCKET_LABEL).toContain(outer);
+      expect(FINE_LABEL).toContain(inner.replace('）', ''));
+    }
   });
 });

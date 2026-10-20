@@ -30,6 +30,7 @@
  * | `levels.ts` | level-dev | 关卡相关（空壳，待填） |
  * | `agent.ts` | agent-dev | 智能体回合相关（空壳，待填） |
  * | `market.ts` | authoring-dev | 关卡市场相关（空壳，待填） |
+ * | `placement.ts` | agent-dev | 票 11 初始定级（自评 → 答题 → 结果 → 复核） |
  */
 export * from './system.js';
 export * from './graph.js';
@@ -37,3 +38,4 @@ export * from './levels.js';
 export * from './content.js';
 export * from './agent.js';
 export * from './market.js';
+export * from './placement.js';

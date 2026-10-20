@@ -27,6 +27,22 @@
  * 条，其余用「继续显示」按钮按批展开：全部节点仍然可达（等价替代的完整性不
  * 打折），但首屏 DOM 成本有上限。167 个真实叶节点全部落在首批内，行为与不分
  * 批完全一致。
+ *
+ * ## 推荐标记（票 13 验收第 5 条）
+ *
+ * 看板推荐的节点在地图上也要能认出来，否则「两处指向同一批」只对得上接口、
+ * 对不上眼睛。标记分两条通道：
+ *
+ * - 视觉：名字后面一个「推荐」小徽标（`.graph-roster-rec`）；
+ * - 语义：`data-recommended="true"` 供测试与样式钩取，另有 `aria-describedby`
+ *   指向一段隐藏说明「系统推荐」——读屏用户听到的是完整的「名称，状态，66%，
+ *   系统推荐」。
+ *
+ * **推荐标记绝不进 `aria-label`。** 那个字符串的格式（`名称，状态，百分比`）
+ * 是票 02 定下的接口，`smoke.spec.ts` 靠 `split('，')[0]` 取节点名，
+ * `graph.spec.ts` 有多处按位置断言第 2 段是状态词。往里塞第三个语义会让那些
+ * 断言按位置取到「推荐」而不是状态。加 `aria-describedby` 是同样的信息、
+ * 零破坏。
  */
 import { useState } from 'react';
 import type { GraphNode } from '../api/generated/model';
@@ -48,6 +64,14 @@ export interface NodeRosterProps {
   focusId: string | null;
   /** 打开某个微知识点的详情页 */
   onOpen: (microKpId: string) => void;
+  /**
+   * 此刻被推荐的节点 id（来自 `/api/v1/graph` 的 `recommendedIds`）。
+   *
+   * 由调用方从图谱响应里传进来，而不是本组件自己去调推荐接口：地图页手上
+   * 已经有一份带 `recommendedIds` 的响应，再发一次请求就可能拿到另一批
+   * ——「同一时刻指向同一批」正是要避免的东西。
+   */
+  recommendedIds?: readonly string[];
 }
 
 /**
@@ -59,11 +83,17 @@ export interface NodeRosterProps {
  */
 const ROSTER_PAGE = 400;
 
-export function NodeRoster({ nodes, focusId, onOpen }: NodeRosterProps): React.JSX.Element {
+export function NodeRoster({
+  nodes,
+  focusId,
+  onOpen,
+  recommendedIds,
+}: NodeRosterProps): React.JSX.Element {
   // 语义顺序：模块 → 树深 → 模块内序。与线性主线视图一致，见上方注释。
   const ordered = orderMainline(nodes);
   const now = new Date();
   const [limit, setLimit] = useState(ROSTER_PAGE);
+  const recommended = new Set(recommendedIds ?? []);
 
   const shown = ordered.length > limit ? ordered.slice(0, limit) : ordered;
   const remaining = ordered.length - shown.length;
@@ -75,6 +105,8 @@ export function NodeRoster({ nodes, focusId, onOpen }: NodeRosterProps): React.J
         {shown.map((node) => {
           const status = toDisplayStatus(node, now);
           const isFocus = node.microKpId === focusId;
+          const isRecommended = recommended.has(node.microKpId);
+          const noteId = isRecommended ? `roster-rec-${node.microKpId}` : undefined;
           return (
             <li key={node.microKpId}>
               <button
@@ -84,10 +116,14 @@ export function NodeRoster({ nodes, focusId, onOpen }: NodeRosterProps): React.J
                 data-status={status}
                 data-shape={STATUS_SHAPE[status]}
                 data-focus={isFocus ? 'true' : undefined}
+                data-recommended={isRecommended ? 'true' : undefined}
                 // 可访问名沿用票 02 定下的形状：名称，五档状态，百分比/证据不足。
                 // smoke.spec.ts 靠 split('，')[0] 取节点名，改格式会连带改测试。
                 aria-label={nodeAccessibleLabel(node)}
                 aria-current={isFocus ? 'true' : undefined}
+                // 「推荐」走 aria-describedby 而不是塞进 aria-label：追加说明
+                // 不改变可访问名，按位置解析标签的既有断言因此不受影响。
+                aria-describedby={noteId}
                 onClick={() => onOpen(node.microKpId)}
               >
                 <span
@@ -97,12 +133,22 @@ export function NodeRoster({ nodes, focusId, onOpen }: NodeRosterProps): React.J
                   aria-hidden="true"
                 />
                 <span className="graph-roster-name">{node.name}</span>
+                {isRecommended && (
+                  <span className="graph-roster-rec" aria-hidden="true">
+                    推荐
+                  </span>
+                )}
                 <span className="graph-roster-state">
                   {STATUS_LABEL[status]}
                   <span className="graph-roster-fine">（{FINE_LABEL[node.state]}）</span>
                 </span>
                 <span className="graph-roster-percent">{formatPercent(node.percent)}</span>
               </button>
+              {isRecommended && (
+                <span id={noteId} hidden>
+                  系统推荐
+                </span>
+              )}
             </li>
           );
         })}

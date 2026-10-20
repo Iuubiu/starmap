@@ -30,6 +30,8 @@ import type {
   AttemptSubmitResponse,
   ContentStatsResponse,
   DebugRetrievalParams,
+  GateHistoryResponse,
+  GateResponse,
   GenerationRun,
   GenerationRunListResponse,
   GenerationRunRequest,
@@ -49,17 +51,32 @@ import type {
   NodeDetailResponse,
   NodeListResponse,
   NodeSourcesResponse,
+  PlacementAnswerRequest,
+  PlacementAnswerResponse,
+  PlacementRejudgeResponse,
+  PlacementResultResponse,
+  PlacementSessionResponse,
+  PlacementStartRequest,
+  PlacementStatusResponse,
   ProbeMetricsResponse,
   ProbeReplyRequest,
   ProbeSessionResponse,
   ProbeStartRequest,
   ProbeTurnResponse,
+  RecommendationListResponse,
+  RedirectRequest,
+  RedirectResponse,
+  RejudgePlacementBody,
   RetrievalBandsResponse,
   RetrievalDebugResponse,
+  SelfAssessmentFormResponse,
+  SelfAssessmentSubmitRequest,
+  SelfAssessmentSubmitResponse,
   SkillDetailResponse,
   SkillListResponse,
   SkillSystemPreviewResponse,
-  SkillToggleRequest
+  SkillToggleRequest,
+  UnlockState
 } from '../model';
 
 import { customFetch } from '../../fetcher.js';
@@ -2436,6 +2453,11 @@ export type getLevelResponse404 = {
   status: 404
 }
 
+export type getLevelResponse409 = {
+  data: ApiError
+  status: 409
+}
+
 export type getLevelResponse500 = {
   data: ApiError
   status: 500
@@ -2444,7 +2466,7 @@ export type getLevelResponse500 = {
 export type getLevelResponseSuccess = (getLevelResponse200) & {
   headers: Headers;
 };
-export type getLevelResponseError = (getLevelResponse404 | getLevelResponse500) & {
+export type getLevelResponseError = (getLevelResponse404 | getLevelResponse409 | getLevelResponse500) & {
   headers: Headers;
 };
 
@@ -2460,6 +2482,8 @@ export const getGetLevelUrl = (levelId: string,) => {
 
 /**
  * 返回关卡的完整规范。播放器靠它一次性拿到卡片、七段步骤与全部题目：每题的选项、正确答案与**预写反馈**都在里面，作答后不需要再请求后端、也不需要等模型生成解释。
+ *
+ * 这个知识点若还被上游的先修门挡着，返回 409 而不是 200：拦的是**入口**，不是一个知识点的存在性。想知道被哪道门挡着，读 `details`（形状同 UnlockState）或直接调 `GET /nodes/{microKpId}/unlock`。
  * @summary 关卡详情（含完整 level.spec）
  */
 export const getLevel = async (levelId: string, options?: Parameters<typeof customFetch>[1]): Promise<getLevelResponse> => {
@@ -2540,6 +2564,261 @@ export function useGetLevel<TData = Awaited<ReturnType<typeof getLevel>>, TError
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetLevelQueryOptions(levelId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type evaluateGateResponse200 = {
+  data: GateResponse
+  status: 200
+}
+
+export type evaluateGateResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type evaluateGateResponse409 = {
+  data: ApiError
+  status: 409
+}
+
+export type evaluateGateResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type evaluateGateResponseSuccess = (evaluateGateResponse200) & {
+  headers: Headers;
+};
+export type evaluateGateResponseError = (evaluateGateResponse404 | evaluateGateResponse409 | evaluateGateResponse500) & {
+  headers: Headers;
+};
+
+export type evaluateGateResponse = (evaluateGateResponseSuccess | evaluateGateResponseError)
+
+export const getEvaluateGateUrl = (levelId: string,) => {
+
+
+
+
+  return `/api/v1/levels/${levelId}/gate`
+}
+
+/**
+ * 读 `attempts` 里本关卡范围内已有的作答，用**二项下界**判定：章末出口 n=8、≥7 对；高入度先修 n=10、≥9 对。题量不足时返回 `verdict=undetermined`，不当作通过也不当作失败。判定结果写入学习日志（可回看每次用了哪几题）；通过时解锁该知识点的下游先修节点，解锁状态落库，刷新不丢。
+ * @summary 评一次出口门控（通过则解锁下游节点）
+ */
+export const evaluateGate = async (levelId: string, options?: Parameters<typeof customFetch>[1]): Promise<evaluateGateResponse> => {
+
+  return customFetch<evaluateGateResponse>(getEvaluateGateUrl(levelId),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+
+export const getEvaluateGateQueryKey = (levelId: string,) => {
+    return [
+    'POST', `/api/v1/levels/${levelId}/gate`
+    ] as const;
+    }
+
+
+export const getEvaluateGateQueryOptions = <TData = Awaited<ReturnType<typeof evaluateGate>>, TError = ApiError>(levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof evaluateGate>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getEvaluateGateQueryKey(levelId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof evaluateGate>>> = ({ signal }) => evaluateGate(levelId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: levelId !== null && levelId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof evaluateGate>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type EvaluateGateQueryResult = NonNullable<Awaited<ReturnType<typeof evaluateGate>>>
+export type EvaluateGateQueryError = ApiError
+
+
+export function useEvaluateGate<TData = Awaited<ReturnType<typeof evaluateGate>>, TError = ApiError>(
+ levelId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof evaluateGate>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof evaluateGate>>,
+          TError,
+          Awaited<ReturnType<typeof evaluateGate>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useEvaluateGate<TData = Awaited<ReturnType<typeof evaluateGate>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof evaluateGate>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof evaluateGate>>,
+          TError,
+          Awaited<ReturnType<typeof evaluateGate>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useEvaluateGate<TData = Awaited<ReturnType<typeof evaluateGate>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof evaluateGate>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 评一次出口门控（通过则解锁下游节点）
+ */
+
+export function useEvaluateGate<TData = Awaited<ReturnType<typeof evaluateGate>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof evaluateGate>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getEvaluateGateQueryOptions(levelId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getGateHistoryResponse200 = {
+  data: GateHistoryResponse
+  status: 200
+}
+
+export type getGateHistoryResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getGateHistoryResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getGateHistoryResponseSuccess = (getGateHistoryResponse200) & {
+  headers: Headers;
+};
+export type getGateHistoryResponseError = (getGateHistoryResponse404 | getGateHistoryResponse500) & {
+  headers: Headers;
+};
+
+export type getGateHistoryResponse = (getGateHistoryResponseSuccess | getGateHistoryResponseError)
+
+export const getGetGateHistoryUrl = (levelId: string,) => {
+
+
+
+
+  return `/api/v1/levels/${levelId}/gate/history`
+}
+
+/**
+ * 按时间倒序返回最多 20 条判定记录，每条带当时的规则、答对数、用的是哪几题。只读：不再写任何日志，也不会因为看了一次历史而多出一条判定。
+ * @summary 这张关卡的门控判定历史
+ */
+export const getGateHistory = async (levelId: string, options?: Parameters<typeof customFetch>[1]): Promise<getGateHistoryResponse> => {
+
+  return customFetch<getGateHistoryResponse>(getGetGateHistoryUrl(levelId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetGateHistoryQueryKey = (levelId: string,) => {
+    return [
+    `/api/v1/levels/${levelId}/gate/history`
+    ] as const;
+    }
+
+
+export const getGetGateHistoryQueryOptions = <TData = Awaited<ReturnType<typeof getGateHistory>>, TError = ApiError>(levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetGateHistoryQueryKey(levelId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGateHistory>>> = ({ signal }) => getGateHistory(levelId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: levelId !== null && levelId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGateHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetGateHistoryQueryResult = NonNullable<Awaited<ReturnType<typeof getGateHistory>>>
+export type GetGateHistoryQueryError = ApiError
+
+
+export function useGetGateHistory<TData = Awaited<ReturnType<typeof getGateHistory>>, TError = ApiError>(
+ levelId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateHistory>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGateHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getGateHistory>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetGateHistory<TData = Awaited<ReturnType<typeof getGateHistory>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateHistory>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGateHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getGateHistory>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetGateHistory<TData = Awaited<ReturnType<typeof getGateHistory>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 这张关卡的门控判定历史
+ */
+
+export function useGetGateHistory<TData = Awaited<ReturnType<typeof getGateHistory>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGateHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetGateHistoryQueryOptions(levelId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -3964,6 +4243,1463 @@ export function useGetNodeSources<TData = Awaited<ReturnType<typeof getNodeSourc
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetNodeSourcesQueryOptions(microKpId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getNodeUnlockResponse200 = {
+  data: UnlockState
+  status: 200
+}
+
+export type getNodeUnlockResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getNodeUnlockResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getNodeUnlockResponseSuccess = (getNodeUnlockResponse200) & {
+  headers: Headers;
+};
+export type getNodeUnlockResponseError = (getNodeUnlockResponse404 | getNodeUnlockResponse500) & {
+  headers: Headers;
+};
+
+export type getNodeUnlockResponse = (getNodeUnlockResponseSuccess | getNodeUnlockResponseError)
+
+export const getGetNodeUnlockUrl = (microKpId: string,) => {
+
+
+
+
+  return `/api/v1/nodes/${microKpId}/unlock`
+}
+
+/**
+ * `unlocked=false` 时 `blockers` 列出每一道挡路的门控：哪个先修知识点、哪张关卡、最近一次判定还差几题。没有任何门控挡路时 `blockers` 为空数组。
+ * @summary 节点的解锁状态与阻碍它的先修门
+ */
+export const getNodeUnlock = async (microKpId: string, options?: Parameters<typeof customFetch>[1]): Promise<getNodeUnlockResponse> => {
+
+  return customFetch<getNodeUnlockResponse>(getGetNodeUnlockUrl(microKpId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetNodeUnlockQueryKey = (microKpId: string,) => {
+    return [
+    `/api/v1/nodes/${microKpId}/unlock`
+    ] as const;
+    }
+
+
+export const getGetNodeUnlockQueryOptions = <TData = Awaited<ReturnType<typeof getNodeUnlock>>, TError = ApiError>(microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeUnlock>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetNodeUnlockQueryKey(microKpId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNodeUnlock>>> = ({ signal }) => getNodeUnlock(microKpId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: microKpId !== null && microKpId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getNodeUnlock>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetNodeUnlockQueryResult = NonNullable<Awaited<ReturnType<typeof getNodeUnlock>>>
+export type GetNodeUnlockQueryError = ApiError
+
+
+export function useGetNodeUnlock<TData = Awaited<ReturnType<typeof getNodeUnlock>>, TError = ApiError>(
+ microKpId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeUnlock>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNodeUnlock>>,
+          TError,
+          Awaited<ReturnType<typeof getNodeUnlock>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetNodeUnlock<TData = Awaited<ReturnType<typeof getNodeUnlock>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeUnlock>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNodeUnlock>>,
+          TError,
+          Awaited<ReturnType<typeof getNodeUnlock>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetNodeUnlock<TData = Awaited<ReturnType<typeof getNodeUnlock>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeUnlock>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 节点的解锁状态与阻碍它的先修门
+ */
+
+export function useGetNodeUnlock<TData = Awaited<ReturnType<typeof getNodeUnlock>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeUnlock>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetNodeUnlockQueryOptions(microKpId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getPlacementStatusResponse200 = {
+  data: PlacementStatusResponse
+  status: 200
+}
+
+export type getPlacementStatusResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getPlacementStatusResponseSuccess = (getPlacementStatusResponse200) & {
+  headers: Headers;
+};
+export type getPlacementStatusResponseError = (getPlacementStatusResponse500) & {
+  headers: Headers;
+};
+
+export type getPlacementStatusResponse = (getPlacementStatusResponseSuccess | getPlacementStatusResponseError)
+
+export const getGetPlacementStatusUrl = () => {
+
+
+
+
+  return `/api/v1/placement`
+}
+
+/**
+ * 没有定级记录时返回 `status: "none"` 与 `tier: null` —— 新用户没定过级是正常状态，不是 404。
+ * @summary 当前定级状态
+ */
+export const getPlacementStatus = async ( options?: Parameters<typeof customFetch>[1]): Promise<getPlacementStatusResponse> => {
+
+  return customFetch<getPlacementStatusResponse>(getGetPlacementStatusUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPlacementStatusQueryKey = () => {
+    return [
+    `/api/v1/placement`
+    ] as const;
+    }
+
+
+export const getGetPlacementStatusQueryOptions = <TData = Awaited<ReturnType<typeof getPlacementStatus>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPlacementStatusQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPlacementStatus>>> = ({ signal }) => getPlacementStatus({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPlacementStatus>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPlacementStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getPlacementStatus>>>
+export type GetPlacementStatusQueryError = ApiError
+
+
+export function useGetPlacementStatus<TData = Awaited<ReturnType<typeof getPlacementStatus>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementStatus>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPlacementStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getPlacementStatus>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPlacementStatus<TData = Awaited<ReturnType<typeof getPlacementStatus>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementStatus>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPlacementStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getPlacementStatus>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPlacementStatus<TData = Awaited<ReturnType<typeof getPlacementStatus>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 当前定级状态
+ */
+
+export function useGetPlacementStatus<TData = Awaited<ReturnType<typeof getPlacementStatus>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPlacementStatusQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type rejudgePlacementResponse200 = {
+  data: PlacementRejudgeResponse
+  status: 200
+}
+
+export type rejudgePlacementResponse409 = {
+  data: ApiError
+  status: 409
+}
+
+export type rejudgePlacementResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type rejudgePlacementResponseSuccess = (rejudgePlacementResponse200) & {
+  headers: Headers;
+};
+export type rejudgePlacementResponseError = (rejudgePlacementResponse409 | rejudgePlacementResponse500) & {
+  headers: Headers;
+};
+
+export type rejudgePlacementResponse = (rejudgePlacementResponseSuccess | rejudgePlacementResponseError)
+
+export const getRejudgePlacementUrl = () => {
+
+
+
+
+  return `/api/v1/placement/rejudge`
+}
+
+/**
+ * 达到门槛（学满 3 个知识点）后调用。返回重判前后的档位与依据（学完的知识点数、平均首轮正确率）。未达门槛时 409。
+ * @summary 用学习证据重判档位
+ */
+export const rejudgePlacement = async (rejudgePlacementBody?: RejudgePlacementBody, options?: Parameters<typeof customFetch>[1]): Promise<rejudgePlacementResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<rejudgePlacementResponse>(getRejudgePlacementUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(rejudgePlacementBody)
+  }
+);}
+
+
+
+
+
+export const getRejudgePlacementQueryKey = (rejudgePlacementBody?: RejudgePlacementBody,) => {
+    return [
+    'POST', `/api/v1/placement/rejudge`, rejudgePlacementBody
+    ] as const;
+    }
+
+
+export const getRejudgePlacementQueryOptions = <TData = Awaited<ReturnType<typeof rejudgePlacement>>, TError = ApiError>(rejudgePlacementBody?: RejudgePlacementBody, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof rejudgePlacement>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getRejudgePlacementQueryKey(rejudgePlacementBody);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof rejudgePlacement>>> = ({ signal }) => rejudgePlacement(rejudgePlacementBody, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof rejudgePlacement>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type RejudgePlacementQueryResult = NonNullable<Awaited<ReturnType<typeof rejudgePlacement>>>
+export type RejudgePlacementQueryError = ApiError
+
+
+export function useRejudgePlacement<TData = Awaited<ReturnType<typeof rejudgePlacement>>, TError = ApiError>(
+ rejudgePlacementBody: undefined |  RejudgePlacementBody, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof rejudgePlacement>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof rejudgePlacement>>,
+          TError,
+          Awaited<ReturnType<typeof rejudgePlacement>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useRejudgePlacement<TData = Awaited<ReturnType<typeof rejudgePlacement>>, TError = ApiError>(
+ rejudgePlacementBody?: RejudgePlacementBody, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof rejudgePlacement>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof rejudgePlacement>>,
+          TError,
+          Awaited<ReturnType<typeof rejudgePlacement>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useRejudgePlacement<TData = Awaited<ReturnType<typeof rejudgePlacement>>, TError = ApiError>(
+ rejudgePlacementBody?: RejudgePlacementBody, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof rejudgePlacement>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 用学习证据重判档位
+ */
+
+export function useRejudgePlacement<TData = Awaited<ReturnType<typeof rejudgePlacement>>, TError = ApiError>(
+ rejudgePlacementBody?: RejudgePlacementBody, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof rejudgePlacement>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getRejudgePlacementQueryOptions(rejudgePlacementBody,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getSelfAssessmentFormResponse200 = {
+  data: SelfAssessmentFormResponse
+  status: 200
+}
+
+export type getSelfAssessmentFormResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getSelfAssessmentFormResponseSuccess = (getSelfAssessmentFormResponse200) & {
+  headers: Headers;
+};
+export type getSelfAssessmentFormResponseError = (getSelfAssessmentFormResponse500) & {
+  headers: Headers;
+};
+
+export type getSelfAssessmentFormResponse = (getSelfAssessmentFormResponseSuccess | getSelfAssessmentFormResponseError)
+
+export const getGetSelfAssessmentFormUrl = () => {
+
+
+
+
+  return `/api/v1/placement/self-assessment`
+}
+
+/**
+ * 返回四道**行为频率**题，用于给起手先验做一次小幅平移（最多 ±0.4 logit）。不问「你觉得自己什么水平」：自评分与实测能力的相关性不稳定，而让学习者给自己打分还会引入一层社交期望偏差。
+ * @summary 行为自评问卷（4 题）
+ */
+export const getSelfAssessmentForm = async ( options?: Parameters<typeof customFetch>[1]): Promise<getSelfAssessmentFormResponse> => {
+
+  return customFetch<getSelfAssessmentFormResponse>(getGetSelfAssessmentFormUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetSelfAssessmentFormQueryKey = () => {
+    return [
+    `/api/v1/placement/self-assessment`
+    ] as const;
+    }
+
+
+export const getGetSelfAssessmentFormQueryOptions = <TData = Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSelfAssessmentFormQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSelfAssessmentForm>>> = ({ signal }) => getSelfAssessmentForm({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetSelfAssessmentFormQueryResult = NonNullable<Awaited<ReturnType<typeof getSelfAssessmentForm>>>
+export type GetSelfAssessmentFormQueryError = ApiError
+
+
+export function useGetSelfAssessmentForm<TData = Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSelfAssessmentForm>>,
+          TError,
+          Awaited<ReturnType<typeof getSelfAssessmentForm>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSelfAssessmentForm<TData = Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSelfAssessmentForm>>,
+          TError,
+          Awaited<ReturnType<typeof getSelfAssessmentForm>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSelfAssessmentForm<TData = Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 行为自评问卷（4 题）
+ */
+
+export function useGetSelfAssessmentForm<TData = Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSelfAssessmentForm>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetSelfAssessmentFormQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type submitSelfAssessmentResponse200 = {
+  data: SelfAssessmentSubmitResponse
+  status: 200
+}
+
+export type submitSelfAssessmentResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type submitSelfAssessmentResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type submitSelfAssessmentResponseSuccess = (submitSelfAssessmentResponse200) & {
+  headers: Headers;
+};
+export type submitSelfAssessmentResponseError = (submitSelfAssessmentResponse400 | submitSelfAssessmentResponse500) & {
+  headers: Headers;
+};
+
+export type submitSelfAssessmentResponse = (submitSelfAssessmentResponseSuccess | submitSelfAssessmentResponseError)
+
+export const getSubmitSelfAssessmentUrl = () => {
+
+
+
+
+  return `/api/v1/placement/self-assessment`
+}
+
+/**
+ * 只回先验（三档概率与平移量），**不直接给档位**。档位必须由随后的定级题决定：自评只能把起点挪一点，不能替代测量。
+ * @summary 提交行为自评，得到起手先验
+ */
+export const submitSelfAssessment = async (selfAssessmentSubmitRequest: SelfAssessmentSubmitRequest, options?: Parameters<typeof customFetch>[1]): Promise<submitSelfAssessmentResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<submitSelfAssessmentResponse>(getSubmitSelfAssessmentUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(selfAssessmentSubmitRequest)
+  }
+);}
+
+
+
+
+
+export const getSubmitSelfAssessmentQueryKey = (selfAssessmentSubmitRequest?: SelfAssessmentSubmitRequest,) => {
+    return [
+    'POST', `/api/v1/placement/self-assessment`, selfAssessmentSubmitRequest
+    ] as const;
+    }
+
+
+export const getSubmitSelfAssessmentQueryOptions = <TData = Awaited<ReturnType<typeof submitSelfAssessment>>, TError = ApiError>(selfAssessmentSubmitRequest: SelfAssessmentSubmitRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitSelfAssessment>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSubmitSelfAssessmentQueryKey(selfAssessmentSubmitRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof submitSelfAssessment>>> = ({ signal }) => submitSelfAssessment(selfAssessmentSubmitRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof submitSelfAssessment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type SubmitSelfAssessmentQueryResult = NonNullable<Awaited<ReturnType<typeof submitSelfAssessment>>>
+export type SubmitSelfAssessmentQueryError = ApiError
+
+
+export function useSubmitSelfAssessment<TData = Awaited<ReturnType<typeof submitSelfAssessment>>, TError = ApiError>(
+ selfAssessmentSubmitRequest: SelfAssessmentSubmitRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitSelfAssessment>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof submitSelfAssessment>>,
+          TError,
+          Awaited<ReturnType<typeof submitSelfAssessment>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSubmitSelfAssessment<TData = Awaited<ReturnType<typeof submitSelfAssessment>>, TError = ApiError>(
+ selfAssessmentSubmitRequest: SelfAssessmentSubmitRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitSelfAssessment>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof submitSelfAssessment>>,
+          TError,
+          Awaited<ReturnType<typeof submitSelfAssessment>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSubmitSelfAssessment<TData = Awaited<ReturnType<typeof submitSelfAssessment>>, TError = ApiError>(
+ selfAssessmentSubmitRequest: SelfAssessmentSubmitRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitSelfAssessment>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 提交行为自评，得到起手先验
+ */
+
+export function useSubmitSelfAssessment<TData = Awaited<ReturnType<typeof submitSelfAssessment>>, TError = ApiError>(
+ selfAssessmentSubmitRequest: SelfAssessmentSubmitRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitSelfAssessment>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getSubmitSelfAssessmentQueryOptions(selfAssessmentSubmitRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type startPlacementResponse200 = {
+  data: PlacementSessionResponse
+  status: 200
+}
+
+export type startPlacementResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type startPlacementResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type startPlacementResponseSuccess = (startPlacementResponse200) & {
+  headers: Headers;
+};
+export type startPlacementResponseError = (startPlacementResponse400 | startPlacementResponse500) & {
+  headers: Headers;
+};
+
+export type startPlacementResponse = (startPlacementResponseSuccess | startPlacementResponseError)
+
+export const getStartPlacementUrl = () => {
+
+
+
+
+  return `/api/v1/placement/sessions`
+}
+
+/**
+ * 题池只取「即将要学的知识点」里已有关卡的题。题池不足 8 题时仍然开始，但结果会被标记为低置信度（题池的大小在 `remainingItems` 里可见）。
+ * @summary 开始一次定级，返回第一道题
+ */
+export const startPlacement = async (placementStartRequest: PlacementStartRequest, options?: Parameters<typeof customFetch>[1]): Promise<startPlacementResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<startPlacementResponse>(getStartPlacementUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(placementStartRequest)
+  }
+);}
+
+
+
+
+
+export const getStartPlacementQueryKey = (placementStartRequest?: PlacementStartRequest,) => {
+    return [
+    'POST', `/api/v1/placement/sessions`, placementStartRequest
+    ] as const;
+    }
+
+
+export const getStartPlacementQueryOptions = <TData = Awaited<ReturnType<typeof startPlacement>>, TError = ApiError>(placementStartRequest: PlacementStartRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startPlacement>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getStartPlacementQueryKey(placementStartRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof startPlacement>>> = ({ signal }) => startPlacement(placementStartRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof startPlacement>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type StartPlacementQueryResult = NonNullable<Awaited<ReturnType<typeof startPlacement>>>
+export type StartPlacementQueryError = ApiError
+
+
+export function useStartPlacement<TData = Awaited<ReturnType<typeof startPlacement>>, TError = ApiError>(
+ placementStartRequest: PlacementStartRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof startPlacement>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof startPlacement>>,
+          TError,
+          Awaited<ReturnType<typeof startPlacement>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStartPlacement<TData = Awaited<ReturnType<typeof startPlacement>>, TError = ApiError>(
+ placementStartRequest: PlacementStartRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startPlacement>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof startPlacement>>,
+          TError,
+          Awaited<ReturnType<typeof startPlacement>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStartPlacement<TData = Awaited<ReturnType<typeof startPlacement>>, TError = ApiError>(
+ placementStartRequest: PlacementStartRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startPlacement>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 开始一次定级，返回第一道题
+ */
+
+export function useStartPlacement<TData = Awaited<ReturnType<typeof startPlacement>>, TError = ApiError>(
+ placementStartRequest: PlacementStartRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startPlacement>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getStartPlacementQueryOptions(placementStartRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getPlacementSessionResponse200 = {
+  data: PlacementSessionResponse
+  status: 200
+}
+
+export type getPlacementSessionResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getPlacementSessionResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getPlacementSessionResponseSuccess = (getPlacementSessionResponse200) & {
+  headers: Headers;
+};
+export type getPlacementSessionResponseError = (getPlacementSessionResponse404 | getPlacementSessionResponse500) & {
+  headers: Headers;
+};
+
+export type getPlacementSessionResponse = (getPlacementSessionResponseSuccess | getPlacementSessionResponseError)
+
+export const getGetPlacementSessionUrl = (sessionId: string,) => {
+
+
+
+
+  return `/api/v1/placement/sessions/${sessionId}`
+}
+
+/**
+ * 刷新页面后靠它恢复：服务端持有作答历史，前端不需要自己存。`item` 为 null 表示这次定级已经结束。
+ * @summary 读取定级会话当前状态
+ */
+export const getPlacementSession = async (sessionId: string, options?: Parameters<typeof customFetch>[1]): Promise<getPlacementSessionResponse> => {
+
+  return customFetch<getPlacementSessionResponse>(getGetPlacementSessionUrl(sessionId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPlacementSessionQueryKey = (sessionId: string,) => {
+    return [
+    `/api/v1/placement/sessions/${sessionId}`
+    ] as const;
+    }
+
+
+export const getGetPlacementSessionQueryOptions = <TData = Awaited<ReturnType<typeof getPlacementSession>>, TError = ApiError>(sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPlacementSessionQueryKey(sessionId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPlacementSession>>> = ({ signal }) => getPlacementSession(sessionId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: sessionId !== null && sessionId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPlacementSession>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPlacementSessionQueryResult = NonNullable<Awaited<ReturnType<typeof getPlacementSession>>>
+export type GetPlacementSessionQueryError = ApiError
+
+
+export function useGetPlacementSession<TData = Awaited<ReturnType<typeof getPlacementSession>>, TError = ApiError>(
+ sessionId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementSession>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPlacementSession>>,
+          TError,
+          Awaited<ReturnType<typeof getPlacementSession>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPlacementSession<TData = Awaited<ReturnType<typeof getPlacementSession>>, TError = ApiError>(
+ sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementSession>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPlacementSession>>,
+          TError,
+          Awaited<ReturnType<typeof getPlacementSession>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPlacementSession<TData = Awaited<ReturnType<typeof getPlacementSession>>, TError = ApiError>(
+ sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 读取定级会话当前状态
+ */
+
+export function useGetPlacementSession<TData = Awaited<ReturnType<typeof getPlacementSession>>, TError = ApiError>(
+ sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPlacementSessionQueryOptions(sessionId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type submitPlacementAnswerResponse200 = {
+  data: PlacementAnswerResponse
+  status: 200
+}
+
+export type submitPlacementAnswerResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type submitPlacementAnswerResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type submitPlacementAnswerResponse422 = {
+  data: ApiError
+  status: 422
+}
+
+export type submitPlacementAnswerResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type submitPlacementAnswerResponseSuccess = (submitPlacementAnswerResponse200) & {
+  headers: Headers;
+};
+export type submitPlacementAnswerResponseError = (submitPlacementAnswerResponse400 | submitPlacementAnswerResponse404 | submitPlacementAnswerResponse422 | submitPlacementAnswerResponse500) & {
+  headers: Headers;
+};
+
+export type submitPlacementAnswerResponse = (submitPlacementAnswerResponseSuccess | submitPlacementAnswerResponseError)
+
+export const getSubmitPlacementAnswerUrl = (sessionId: string,) => {
+
+
+
+
+  return `/api/v1/placement/sessions/${sessionId}/answers`
+}
+
+/**
+ * 判定并回带**正确答案与解析**（票 11 验收 4：学习者要能判断系统有没有把自己判错）。定级的作答**不写 `app.attempts`** —— 它不是练习，不产生掌握度记录。
+ * @summary 提交一道定级题的作答
+ */
+export const submitPlacementAnswer = async (sessionId: string,
+    placementAnswerRequest: PlacementAnswerRequest, options?: Parameters<typeof customFetch>[1]): Promise<submitPlacementAnswerResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<submitPlacementAnswerResponse>(getSubmitPlacementAnswerUrl(sessionId),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(placementAnswerRequest)
+  }
+);}
+
+
+
+
+
+export const getSubmitPlacementAnswerQueryKey = (sessionId: string,
+    placementAnswerRequest?: PlacementAnswerRequest,) => {
+    return [
+    'POST', `/api/v1/placement/sessions/${sessionId}/answers`, placementAnswerRequest
+    ] as const;
+    }
+
+
+export const getSubmitPlacementAnswerQueryOptions = <TData = Awaited<ReturnType<typeof submitPlacementAnswer>>, TError = ApiError>(sessionId: string,
+    placementAnswerRequest: PlacementAnswerRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitPlacementAnswer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSubmitPlacementAnswerQueryKey(sessionId,placementAnswerRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof submitPlacementAnswer>>> = ({ signal }) => submitPlacementAnswer(sessionId,placementAnswerRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: sessionId !== null && sessionId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof submitPlacementAnswer>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type SubmitPlacementAnswerQueryResult = NonNullable<Awaited<ReturnType<typeof submitPlacementAnswer>>>
+export type SubmitPlacementAnswerQueryError = ApiError
+
+
+export function useSubmitPlacementAnswer<TData = Awaited<ReturnType<typeof submitPlacementAnswer>>, TError = ApiError>(
+ sessionId: string,
+    placementAnswerRequest: PlacementAnswerRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitPlacementAnswer>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof submitPlacementAnswer>>,
+          TError,
+          Awaited<ReturnType<typeof submitPlacementAnswer>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSubmitPlacementAnswer<TData = Awaited<ReturnType<typeof submitPlacementAnswer>>, TError = ApiError>(
+ sessionId: string,
+    placementAnswerRequest: PlacementAnswerRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitPlacementAnswer>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof submitPlacementAnswer>>,
+          TError,
+          Awaited<ReturnType<typeof submitPlacementAnswer>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSubmitPlacementAnswer<TData = Awaited<ReturnType<typeof submitPlacementAnswer>>, TError = ApiError>(
+ sessionId: string,
+    placementAnswerRequest: PlacementAnswerRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitPlacementAnswer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 提交一道定级题的作答
+ */
+
+export function useSubmitPlacementAnswer<TData = Awaited<ReturnType<typeof submitPlacementAnswer>>, TError = ApiError>(
+ sessionId: string,
+    placementAnswerRequest: PlacementAnswerRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitPlacementAnswer>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getSubmitPlacementAnswerQueryOptions(sessionId,placementAnswerRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getPlacementResultResponse200 = {
+  data: PlacementResultResponse
+  status: 200
+}
+
+export type getPlacementResultResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getPlacementResultResponse409 = {
+  data: ApiError
+  status: 409
+}
+
+export type getPlacementResultResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getPlacementResultResponseSuccess = (getPlacementResultResponse200) & {
+  headers: Headers;
+};
+export type getPlacementResultResponseError = (getPlacementResultResponse404 | getPlacementResultResponse409 | getPlacementResultResponse500) & {
+  headers: Headers;
+};
+
+export type getPlacementResultResponse = (getPlacementResultResponseSuccess | getPlacementResultResponseError)
+
+export const getGetPlacementResultUrl = (sessionId: string,) => {
+
+
+
+
+  return `/api/v1/placement/sessions/${sessionId}/result`
+}
+
+/**
+ * 包含逐题复核表与中文说明。结果状态永远是 `provisional`：学满若干知识点后会自动重判并可升降级（票 11 验收 5）。
+ * @summary 定级结果（档位、置信度与逐题复核）
+ */
+export const getPlacementResult = async (sessionId: string, options?: Parameters<typeof customFetch>[1]): Promise<getPlacementResultResponse> => {
+
+  return customFetch<getPlacementResultResponse>(getGetPlacementResultUrl(sessionId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPlacementResultQueryKey = (sessionId: string,) => {
+    return [
+    `/api/v1/placement/sessions/${sessionId}/result`
+    ] as const;
+    }
+
+
+export const getGetPlacementResultQueryOptions = <TData = Awaited<ReturnType<typeof getPlacementResult>>, TError = ApiError>(sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementResult>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPlacementResultQueryKey(sessionId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPlacementResult>>> = ({ signal }) => getPlacementResult(sessionId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: sessionId !== null && sessionId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPlacementResult>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPlacementResultQueryResult = NonNullable<Awaited<ReturnType<typeof getPlacementResult>>>
+export type GetPlacementResultQueryError = ApiError
+
+
+export function useGetPlacementResult<TData = Awaited<ReturnType<typeof getPlacementResult>>, TError = ApiError>(
+ sessionId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementResult>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPlacementResult>>,
+          TError,
+          Awaited<ReturnType<typeof getPlacementResult>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPlacementResult<TData = Awaited<ReturnType<typeof getPlacementResult>>, TError = ApiError>(
+ sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementResult>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPlacementResult>>,
+          TError,
+          Awaited<ReturnType<typeof getPlacementResult>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPlacementResult<TData = Awaited<ReturnType<typeof getPlacementResult>>, TError = ApiError>(
+ sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementResult>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 定级结果（档位、置信度与逐题复核）
+ */
+
+export function useGetPlacementResult<TData = Awaited<ReturnType<typeof getPlacementResult>>, TError = ApiError>(
+ sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlacementResult>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPlacementResultQueryOptions(sessionId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getRecommendationsResponse200 = {
+  data: RecommendationListResponse
+  status: 200
+}
+
+export type getRecommendationsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getRecommendationsResponseSuccess = (getRecommendationsResponse200) & {
+  headers: Headers;
+};
+export type getRecommendationsResponseError = (getRecommendationsResponse500) & {
+  headers: Headers;
+};
+
+export type getRecommendationsResponse = (getRecommendationsResponseSuccess | getRecommendationsResponseError)
+
+export const getGetRecommendationsUrl = () => {
+
+
+
+
+  return `/api/v1/recommendations`
+}
+
+/**
+ * 推荐由 `@starmap/engine` 的纯函数 `recommend()` 算出，与 `GET /api/v1/graph` 在同一个请求里用同一时刻调用同一个函数，所以两处的 `recommendedIds` 必然一致。理由以结构化事实返回（不是拼好的中文句子），由前端渲染成可点、可加粗的表述。
+ * @summary 今日推荐（带结构化理由）与今日学习摘要
+ */
+export const getRecommendations = async ( options?: Parameters<typeof customFetch>[1]): Promise<getRecommendationsResponse> => {
+
+  return customFetch<getRecommendationsResponse>(getGetRecommendationsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetRecommendationsQueryKey = () => {
+    return [
+    `/api/v1/recommendations`
+    ] as const;
+    }
+
+
+export const getGetRecommendationsQueryOptions = <TData = Awaited<ReturnType<typeof getRecommendations>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetRecommendationsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRecommendations>>> = ({ signal }) => getRecommendations({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRecommendations>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetRecommendationsQueryResult = NonNullable<Awaited<ReturnType<typeof getRecommendations>>>
+export type GetRecommendationsQueryError = ApiError
+
+
+export function useGetRecommendations<TData = Awaited<ReturnType<typeof getRecommendations>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRecommendations>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRecommendations>>,
+          TError,
+          Awaited<ReturnType<typeof getRecommendations>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRecommendations<TData = Awaited<ReturnType<typeof getRecommendations>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRecommendations>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRecommendations>>,
+          TError,
+          Awaited<ReturnType<typeof getRecommendations>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRecommendations<TData = Awaited<ReturnType<typeof getRecommendations>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 今日推荐（带结构化理由）与今日学习摘要
+ */
+
+export function useGetRecommendations<TData = Awaited<ReturnType<typeof getRecommendations>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetRecommendationsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type redirectRecommendationResponse200 = {
+  data: RedirectResponse
+  status: 200
+}
+
+export type redirectRecommendationResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type redirectRecommendationResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type redirectRecommendationResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type redirectRecommendationResponseSuccess = (redirectRecommendationResponse200) & {
+  headers: Headers;
+};
+export type redirectRecommendationResponseError = (redirectRecommendationResponse400 | redirectRecommendationResponse404 | redirectRecommendationResponse500) & {
+  headers: Headers;
+};
+
+export type redirectRecommendationResponse = (redirectRecommendationResponseSuccess | redirectRecommendationResponseError)
+
+export const getRedirectRecommendationUrl = () => {
+
+
+
+
+  return `/api/v1/recommendations/redirect`
+}
+
+/**
+ * 把「谁拒绝了谁」记进 `learning_log`（`event = recommendation_redirect`）。被拒绝的节点从此不再被推荐，直到它产生晚于拒绝时刻的新作答证据 —— 因为只有状态变了，拒绝的理由才过期。
+ * @summary 拒绝当前推荐并改道到另一个微知识点
+ */
+export const redirectRecommendation = async (redirectRequest: RedirectRequest, options?: Parameters<typeof customFetch>[1]): Promise<redirectRecommendationResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<redirectRecommendationResponse>(getRedirectRecommendationUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(redirectRequest)
+  }
+);}
+
+
+
+
+
+export const getRedirectRecommendationQueryKey = (redirectRequest?: RedirectRequest,) => {
+    return [
+    'POST', `/api/v1/recommendations/redirect`, redirectRequest
+    ] as const;
+    }
+
+
+export const getRedirectRecommendationQueryOptions = <TData = Awaited<ReturnType<typeof redirectRecommendation>>, TError = ApiError>(redirectRequest: RedirectRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof redirectRecommendation>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getRedirectRecommendationQueryKey(redirectRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof redirectRecommendation>>> = ({ signal }) => redirectRecommendation(redirectRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof redirectRecommendation>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type RedirectRecommendationQueryResult = NonNullable<Awaited<ReturnType<typeof redirectRecommendation>>>
+export type RedirectRecommendationQueryError = ApiError
+
+
+export function useRedirectRecommendation<TData = Awaited<ReturnType<typeof redirectRecommendation>>, TError = ApiError>(
+ redirectRequest: RedirectRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof redirectRecommendation>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof redirectRecommendation>>,
+          TError,
+          Awaited<ReturnType<typeof redirectRecommendation>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useRedirectRecommendation<TData = Awaited<ReturnType<typeof redirectRecommendation>>, TError = ApiError>(
+ redirectRequest: RedirectRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof redirectRecommendation>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof redirectRecommendation>>,
+          TError,
+          Awaited<ReturnType<typeof redirectRecommendation>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useRedirectRecommendation<TData = Awaited<ReturnType<typeof redirectRecommendation>>, TError = ApiError>(
+ redirectRequest: RedirectRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof redirectRecommendation>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 拒绝当前推荐并改道到另一个微知识点
+ */
+
+export function useRedirectRecommendation<TData = Awaited<ReturnType<typeof redirectRecommendation>>, TError = ApiError>(
+ redirectRequest: RedirectRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof redirectRecommendation>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getRedirectRecommendationQueryOptions(redirectRequest,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

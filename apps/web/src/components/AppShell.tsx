@@ -59,7 +59,9 @@ export function AppShell() {
     ? '/map'
     : location.pathname.startsWith('/market')
       ? '/market'
-      : location.pathname.startsWith('/database')
+      : location.pathname.startsWith('/placement')
+        ? '/placement'
+        : location.pathname.startsWith('/database')
         ? '/database'
         : location.pathname.startsWith('/skills')
           ? '/skills'
@@ -78,6 +80,7 @@ export function AppShell() {
           }}
         >
           <Tab value="/">学习</Tab>
+          <Tab value="/placement">定级</Tab>
           <Tab value="/board">看板</Tab>
           <Tab value="/map">知识地图</Tab>
           <Tab value="/market">关卡市场</Tab>

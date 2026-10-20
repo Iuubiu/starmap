@@ -19,6 +19,7 @@
  */
 import { Badge, Text, makeStyles, tokens } from '@fluentui/react-components';
 import type { MasteryView } from '../api/queries';
+import { masteryLabel } from '../mastery/labels';
 
 /**
  * 与 `packages/engine/src/mastery.ts` 的 `MASTERY_MIN_ATTEMPTS` / `MASTERY_MIN_VARIANTS`
@@ -75,17 +76,11 @@ const useStyles = makeStyles({
   },
 });
 
-/** 与契约和数据库 CHECK 同一套五态，中文措辞与页面其余处保持一致。 */
-const STATE_LABEL: Record<string, string> = {
-  unseen: '未学习',
-  attempted: '刚接触',
-  // 历史遗留：早期页面用的是 unfamiliar，读同一个状态。留着是为了不把
-  // 别人已经渲染的地方显示成英文枚举值。
-  unfamiliar: '刚接触',
-  familiar: '已熟悉',
-  proficient: '已熟练',
-  mastered: '已掌握',
-};
+/**
+ * 状态词表已移到 `../mastery/labels`（前端唯一一份，类型是
+ * `Record<MasteryState, string>`）。这里原来那份多写了一个 `unfamiliar` 死键 ——
+ * 契约五态里没有它，后端从不发这个值，留着只会让下一个人以为它是有效的第六态。
+ */
 
 function percent(value: number | null): string {
   return value === null ? '证据不足' : `${Math.round(value * 100)}%`;
@@ -123,7 +118,7 @@ export function MasteryMeter({ view }: MasteryMeterProps) {
           <div className={styles.meter}>
             <span className={styles.meterLabel}>当前状态</span>
             <Badge appearance="outline" style={{ whiteSpace: 'nowrap' }}>
-              {STATE_LABEL[view.state] ?? view.state}
+              {masteryLabel(view.state)}
             </Badge>
           </div>
         </div>
@@ -149,7 +144,7 @@ export function MasteryMeter({ view }: MasteryMeterProps) {
         </div>
         <div className={styles.meter}>
           <span className={styles.meterLabel}>状态</span>
-          <span className={styles.stage}>{STATE_LABEL[view.state] ?? view.state}</span>
+          <span className={styles.stage}>{masteryLabel(view.state)}</span>
         </div>
       </div>
       <Text className={styles.hint}>

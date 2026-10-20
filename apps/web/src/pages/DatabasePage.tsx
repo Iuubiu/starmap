@@ -70,6 +70,15 @@ const useStyles = makeStyles({
     // 文字溢出按钮外，与下一个按钮的字叠在一起（截图里实测到）。
     // 三个属性缺一不可：height auto 解掉固定高、lineHeight 让行距正常、
     // padding 给换行后的行留出呼吸空间。
+    //
+    // 第四个属性（flexShrink: 0）是后补的，也是上面三条真正生效的前提：
+    // 父容器 nodeList 是 flex column + maxHeight 480 + overflowY auto，
+    // 而 flex 子项的默认 flex-shrink 是 1 —— 容器高度受限时，浏览器会先把
+    // 每个子项**压缩到各自的 minHeight**，压不动的才溢出滚动。于是 `height:
+    // auto` 算出来的自然高度被无视，两行的知识点名在 32px 的盒子里被
+    // `overflow: hidden` 裁掉（实测 200 个按钮里有 11 个中招，都是长名字）。
+    // 加上 flexShrink: 0 后，子项保持自然高度、由容器滚动条接管。
+    flexShrink: 0,
     height: 'auto',
     minHeight: '32px',
     paddingTop: '6px',

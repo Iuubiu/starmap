@@ -232,6 +232,19 @@ export function MapPage() {
   );
 
   /**
+   * 此刻被推荐的节点（票 13 验收第 5 条）。
+   *
+   * 来源是**图谱响应自带的** `recommendedIds`，不是另外调一次推荐接口。两处
+   * 各查一次的话，两次之间只要有人作答，地图标的和看板推的就不是同一批 ——
+   * 而验收第 5 条要的恰恰是「同一时刻指向同一批」。服务端已经把推荐算在图谱
+   * 响应里了，这里只做投影。
+   */
+  const recommended = useMemo(
+    () => new Set(graph.payload?.recommendedIds ?? []),
+    [graph.payload],
+  );
+
+  /**
    * 写回 URL。
    *
    * `replace: true` 是刻意的：调跳数/切视图是**同一个位置上的观察方式变化**，
@@ -404,6 +417,9 @@ export function MapPage() {
                   {section.nodes.map((node) => {
                     const status = toDisplayStatus(node, new Date());
                     const isFocus = node.microKpId === view.focus;
+                    // 与 NodeRoster 同一套标记：推荐要在两条渲染路径上都出现，
+                    // 否则切到线性主线视图推荐就消失了（票 13 验收第 5 条）。
+                    const isRecommended = recommended.has(node.microKpId);
                     return (
                       <button
                         key={node.microKpId}
@@ -412,12 +428,18 @@ export function MapPage() {
                         data-node-id={node.microKpId}
                         data-status={status}
                         data-focus={isFocus ? 'true' : undefined}
+                        data-recommended={isRecommended ? 'true' : undefined}
                         aria-label={nodeAccessibleLabel(node)}
                         aria-current={isFocus ? 'true' : undefined}
                         onClick={() => openNode(node.microKpId)}
                       >
                         <ShapeMark shape={STATUS_SHAPE[status]} color={STATUS_COLOR[status]} />
                         <span className={styles.rowName}>{node.name}</span>
+                        {isRecommended && (
+                          <span className="graph-roster-rec" aria-hidden="true">
+                            推荐
+                          </span>
+                        )}
                         <span className={styles.rowMeta}>
                           <span>{STATUS_LABEL[status]}</span>
                           <span>{formatPercent(node.percent)}</span>
@@ -435,6 +457,7 @@ export function MapPage() {
             <NodeRoster
               nodes={visible.nodes}
               focusId={visible.focusVisible ? view.focus : null}
+              recommendedIds={graph.payload?.recommendedIds}
               onOpen={(microKpId) => {
                 // 记下回来时的落点：详情页读 location.state 后再拼出地址
                 navigate(`/map/${microKpId}`, { state: { returnHref: returnHref(microKpId) } });

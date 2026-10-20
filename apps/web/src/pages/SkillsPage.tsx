@@ -303,7 +303,7 @@ function SkillRow({
       className={className}
       role="button"
       tabIndex={0}
-      aria-label={`${item.name}，${item.enabled ? '启用' : '禁用'}，${item.description}`}
+      aria-label={skillRowLabel(item)}
       onClick={onSelect}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -314,9 +314,21 @@ function SkillRow({
     >
       <div className={styles.rowHeader}>
         <Text className={styles.name}>{item.name}</Text>
-        <Badge appearance="outline" size="small">
-          v{item.version}
-        </Badge>
+        <div className={styles.metaRow}>
+          {/*
+           * 禁用必须有一处**文字**标记。只把行底色改灰是靠颜色传递信息：
+           * 色觉障碍、低对比度屏幕、打印出来都会丢掉这条状态；而「这个 skill
+           * 现在没装进智能体」正是这一页最重要的信息，不能只存在于色差里。
+           */}
+          {!item.enabled && (
+            <Badge appearance="tint" size="small" color="warning">
+              已禁用
+            </Badge>
+          )}
+          <Badge appearance="outline" size="small">
+            v{item.version}
+          </Badge>
+        </div>
       </div>
       <Text size={200}>{item.description}</Text>
       {item.triggerScenarios.length > 0 && (
@@ -389,7 +401,7 @@ function SkillDetailPanel({ name }: { name: string | undefined }) {
   if (!detail) return null;
 
   return (
-    <div className={styles.detail}>
+    <div className={styles.detail} role="region" aria-label={`${detail.name} 详情`}>
       <div className={styles.metaRow}>
         <Text className={styles.name} as="h2">
           {detail.name}
@@ -503,7 +515,15 @@ function SystemPreview() {
       <Caption1 className={styles.subtle}>
         这是下一轮对话真正会发给模型的文本。禁用的 skill 在这里一个字符都不出现。
       </Caption1>
-      <div className={styles.preview}>{payload.systemMessage}</div>
+      {/*
+       * 给原文一个可寻址的区域名。它是一块可滚动、会被逐字阅读的长文本，
+       * 屏幕阅读器需要知道「这是预览原文」，否则读到这里只是一段无名文字。
+       * 同时，页面上别处（详情区）也会出现 skill 正文，只有把断言限定在
+       * 这一块里，「预览里没有它」才说得清是预览的事。
+       */}
+      <div className={styles.preview} role="region" aria-label="system message 原文">
+        {payload.systemMessage}
+      </div>
     </Card>
   );
 }
@@ -513,7 +533,14 @@ function formatSize(bytes: number): string {
   return `${(bytes / 1024).toFixed(1)} KB`;
 }
 
-/** 便于测试与将来复用：把一行 skill 的 aria-label 说出来。 */
+/**
+ * 一行 skill 的无障碍名字。
+ *
+ * 必须由渲染处调用，否则测试断言的字符串与实际 `aria-label` 会各写一份、
+ * 慢慢漂移 —— 那种漂移的症状是「测试全绿，但屏幕阅读器读到的不是这个」。
+ * 这一行在视觉上只有「名字 + 描述 + 一个开关」，开关是颜色与位置；
+ * 对读屏用户，这句话是唯一完整的描述，所以它必须和屏幕上的字一致。
+ */
 export function skillRowLabel(item: SkillListResponseItemsItem): string {
-  return `${item.name}：${item.enabled ? '启用' : '禁用'}`;
+  return `${item.name}，${item.enabled ? '启用' : '禁用'}，${item.description}`;
 }

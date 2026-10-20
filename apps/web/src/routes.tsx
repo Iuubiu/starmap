@@ -10,6 +10,7 @@ import { MarketAuthorPage } from './pages/MarketAuthorPage';
 import { GenerationPage } from './pages/GenerationPage';
 import { HomePage } from './pages/HomePage';
 import { SkillsPage } from './pages/SkillsPage';
+import { PlacementPage } from './pages/PlacementPage';
 
 /**
  * 路由表 —— **新增页面只改这一个文件**。
@@ -39,6 +40,7 @@ export const appRoutes: RouteObject[] = [
       // 那是「先有数据、后有智能体」阶段的临时形状；票 08 落地后必须换回来，
       // 否则最常用的入口是陈列架而不是工作台。
       { index: true, element: <HomePage /> },
+      { path: 'placement', element: <PlacementPage /> },
       { path: 'board', element: <DashboardPage /> },
       { path: 'map', element: <MapPage /> },
       { path: 'map/:microKpId', element: <NodeDetailPage /> },
