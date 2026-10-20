@@ -104,5 +104,6 @@ export type AgentTurnResponseArtifact = {
   microKpId: string;
   probeId: string;
   question: string;
+  rationale: string;
   title: string;
 } | null;

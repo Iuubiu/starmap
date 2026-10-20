@@ -4,15 +4,41 @@
  * 归属泳道：graph-dev。本文件与该泳道的 `src/domains/graph.ts` 配对：
  * 加 schema 去那边，加路由来这边。两处都只 append。
  */
-import { NodeDetailResponseSchema, NodeListResponseSchema } from '../../dist/index.js';
+import {
+  GraphEdgeSchema,
+  GraphNodeSchema,
+  GraphResponseSchema,
+  NodeDetailResponseSchema,
+  NodeListResponseSchema,
+} from '../../dist/index.js';
 import { jsonResponse, jsonSchema, pathParam } from './_shared.mjs';
 
 export const components = {
   NodeListResponse: jsonSchema(NodeListResponseSchema),
   NodeDetailResponse: jsonSchema(NodeDetailResponseSchema),
+  // GraphNode / GraphEdge 单独声明为组件（而不只内联在 GraphResponse 里）：
+  // 一是让生成的前端类型有独立名字（`GraphNode` 会被 MapPage 直接引用），
+  // 二是 emit-openapi 的「死 schema」检查要求每个契约 schema 要么进 components
+  // 要么在 openapi.yaml 里以内联形态出现——进 components 是更明确的那条路。
+  GraphNode: jsonSchema(GraphNodeSchema),
+  GraphEdge: jsonSchema(GraphEdgeSchema),
+  GraphResponse: jsonSchema(GraphResponseSchema),
 };
 
 export const paths = {
+  '/api/v1/graph': {
+    get: {
+      operationId: 'getGraph',
+      summary: '整张知识图谱：全部微知识点、先修边与掌握状态',
+      description:
+        '一次返回全部叶节点（微知识点）与其先修边，供知识地图画布做本地布局与两跳邻域裁剪。' +
+        '不分页：力导向布局需要完整图，缺一半节点会让布局跳变。',
+      responses: {
+        '200': jsonResponse('整张图谱', 'GraphResponse'),
+        '500': jsonResponse('服务内部错误', 'ApiError'),
+      },
+    },
+  },
   '/api/v1/nodes': {
     get: {
       operationId: 'listNodes',

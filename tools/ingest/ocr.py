@@ -78,6 +78,10 @@ _MODEL_FILES = (
 # ---------------------------------------------------------------------------
 # 引擎
 # ---------------------------------------------------------------------------
+class OcrSessionError(RuntimeError):
+    """OCR 引擎起不来（缺包 / 缺模型 / 显卡不可用）。带上怎么修的信息再抛。"""
+
+
 class OVSession:
     """把 OpenVINO 的 `CompiledModel` 伪装成 RapidOCR 的 `OrtInferSession`。
 
@@ -120,17 +124,34 @@ class OcrEngine:
         import sys
 
         site = Path(site)
+        if not site.is_dir():
+            raise OcrSessionError(
+                f'找不到 rapidocr_onnxruntime 安装目录：{site}\n'
+                '  这是本机 scoop Python 的位置，换机器时用 --rapidocr-site 指定，'
+                '或 pip install rapidocr_onnxruntime'
+            )
         if str(site) not in sys.path:
             sys.path.insert(0, str(site))
-        from rapidocr_onnxruntime import RapidOCR
+        try:
+            from rapidocr_onnxruntime import RapidOCR
+        except ImportError as exc:  # pragma: no cover - 依赖缺失才走
+            raise OcrSessionError(
+                f'导入 rapidocr_onnxruntime 失败（{site}）：{exc}\n'
+                '  pip install rapidocr_onnxruntime'
+            ) from exc
 
         self._engine = RapidOCR(**rapidocr_kwargs)
         models = site / 'models'
-        # 字典必须走 onnxruntime 读 metadata，OpenVINO 的 rt_info 只暴露 framework
         meta = self._engine.text_recognizer.session.session.get_modelmeta().custom_metadata_map
         for attr, fname in _MODEL_FILES:
             module = getattr(self._engine, attr)
-            module.session = OVSession(str(models / fname), device, meta)
+            try:
+                module.session = OVSession(str(models / fname), device, meta)
+            except Exception as exc:  # pragma: no cover - 取决于本机 OpenVINO
+                raise OcrSessionError(
+                    f'OpenVINO 编译 {fname} 到 {device} 失败：{exc}\n'
+                    '  pip install openvino==2026.4.1；GPU 不可用时用 --device CPU'
+                ) from exc
         self.device = device
         self.calls = 0
 
@@ -281,8 +302,9 @@ def _split_table_cells(text: str) -> list[str]:
     return [c for c in re.split(r'\s{2,}', text.strip()) if c]
 
 
-def _looks_like_table_line(line: OcrLine) -> bool:
-    cells = _split_table_cells(line.text)
+def _looks_like_table_line(line: "OcrLine | str") -> bool:
+    """一行像不像表格行：≥3 列且多数列很短（正文句被空格切开时列会很长）。"""
+    cells = _split_table_cells(line if isinstance(line, str) else line.text)
     if len(cells) < 3:
         return False
     short = sum(1 for c in cells if len(c) <= 8)
@@ -763,6 +785,33 @@ def parse_toc_ocr(lines: list[OcrLine], *, denoise: bool = False) -> list[tuple[
         num, title = _title_of(i)
         if title:
             out.append((title_line[i], num, title, numbers[j][2]))
+
+    # 第三遍：章标题行**右边根本没有页码**时（书上把章号印成大字、页码省略，
+    # 或者页码被认成 `工`/`.` 这种噪声）就借下一条的页码。印刷目录的惯例是
+    # 「章的起始页 = 它第一节的起始页」，所以下一个条目的页码就是章标题的
+    # 页码。不借的话章标题会被整条丢掉 → `_assign_nums` 看不到任何 `第X章`，
+    # 后面所有小节都挂不上章（实测王芝英 p10 就这样只编出 22 条号，而书上
+    # 有 6 章）。
+    #
+    # 借页码必须**在排好阅读顺序之后**做：`out` 里现在还是「按 y 距离排序」
+    # 的配对顺序，拿它当「下一条」会借到后面很远的页码（实测 `绪论` 借到了
+    # 44）。多页场景下顺序错了会连锁借错，所以这里先按行号排好再借。
+    matched = {e[0]: e[3] for e in out}
+    rows: list[tuple[int, str, str, int]] = []
+    for i, (_, _t) in enumerate(titles):
+        num, title = _title_of(i)
+        if not title:
+            continue
+        rows.append((title_line[i], num, title, matched.get(title_line[i], 0)))
+    rows.sort(key=lambda e: e[0])
+    for k in range(len(rows) - 1):
+        line_no, num, title, page = rows[k]
+        if page:
+            continue
+        nxt = next((e[3] for e in rows[k + 1 :] if e[3]), 0)
+        if nxt:
+            rows[k] = (line_no, num, title, nxt)
+    out = [r for r in rows if r[3]]
     # 按**目录上的阅读顺序**（= 原始行号）排序，之后才能用「页码单调」去噪
     out.sort(key=lambda e: e[0])
     entries = [(num, title, page) for _, num, title, page in out]
@@ -870,23 +919,57 @@ def toc_band_lines(
 
 
 def parse_toc_pages(
-    pages: list, *, engine: "OcrEngine | None" = None, doc=None, dpi: int = OCR_DPI
+    pages: list,
+    *,
+    engine: "OcrEngine | None" = None,
+    doc=None,
+    dpi: int = OCR_DPI,
+    max_page: int | None = None,
 ) -> list[tuple[str, str, int]]:
     """多页目录 → 整本书的条目表。逐页配对，再串层级、最后跨页去噪。
 
     实测王芝英目录 4 页（PDF p.10–13，OCR 出 267 行）→ 61 条章节级条目，
     与书上印的 61 条逐条对得上。给了 `engine` + `doc` 时会额外走一遍
     `toc_band_lines` 补页码（见那里的表）。
+
+    `max_page` 是全书印刷页数上限。OCR 会把 `189` 读成 `681`，这类超过全书
+    页数的页号一定是错的；给了上限就修掉（见 `_clamp_pages`）—— 错误页号比
+    缺页号更坏，`assign` 按 `printedPage` 区间挂 chunk，一个 681 会让整章
+    无归属。
     """
     entries: list[tuple[str, str, int]] = []
     for p in pages:
         lines = list(p.lines)
         if engine is not None and doc is not None:
-            band, x0 = toc_band_lines(engine, doc, p.page, dpi=dpi, text_score=_TOC_BAND_SCORE)
-            lines = _merge_toc_band(lines, band, x0)
+            try:
+                band, x0 = toc_band_lines(engine, doc, p.page, dpi=dpi, text_score=_TOC_BAND_SCORE)
+            except Exception:
+                band = []
+            if band:
+                lines = _merge_toc_band(lines, band, x0)
         entries.extend(parse_toc_ocr(lines))
     entries = _toc_denoise(entries)
+    if max_page:
+        entries = _clamp_pages(entries, max_page)
     return _assign_nums(entries)
+
+
+def _clamp_pages(entries: list[tuple[str, str, int]], max_page: int) -> list[tuple[str, str, int]]:
+    """把超过全书页数的页号当误认，用前后条目的单调性补一个合理值。
+
+    实测王芝英 p12 把 `第五章 时间分析 …… 189` 认成 `681`（`1`→`6`），而这本
+    书只有 345 页。这类跑飞的页号必须修掉：`assign` 按 `printedPage` 区间把
+    chunk 挂到知识点上，681 会让第五章往后整段无归属。
+    """
+    out = list(entries)
+    for i, (num, title, page) in enumerate(out):
+        if page <= max_page:
+            continue
+        prev = next((p for _, _, p in reversed(out[:i]) if p <= max_page), None)
+        nxt = next((p for _, _, p in out[i + 1 :] if p <= max_page), None)
+        fixed = prev if prev is not None else (nxt if nxt is not None else max_page)
+        out[i] = (num, title, fixed)
+    return out
 
 
 def _merge_toc_band(lines: list[OcrLine], band: list[OcrLine], x0: float) -> list[OcrLine]:

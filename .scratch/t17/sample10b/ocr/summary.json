@@ -1,0 +1,12 @@
+{
+  "pageCount": 14,
+  "okPages": 10,
+  "reviewPages": 4,
+  "blankPages": 0,
+  "meanConfidence": 0.8562,
+  "threshold": 0.85,
+  "totalChars": 9986,
+  "totalSeconds": 47.8,
+  "secondsPerPage": 3.41,
+  "blankPageIndexes": []
+}

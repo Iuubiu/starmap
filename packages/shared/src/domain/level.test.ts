@@ -220,6 +220,18 @@ describe('错误信息是字段级的，不是一句「校验失败」', () => {
     expect(formatIssuePath([])).toBe('');
   });
 
+  it('Zod 自己抛的英文提示会被翻成中文（写关卡的人是中文作者）', () => {
+    const spec = baseSpec();
+    spec.items[0].explainWrong = '';
+    const issues = issuesOf(spec);
+    const hit = issues.find((i) => i.path === 'items.0.explainWrong');
+    expect(hit).toBeDefined();
+    // 中文在前，Zod 原文留在括号里备查（原文更精确，不该被丢掉）
+    expect(hit!.message).toMatch(/[\u4e00-\u9fa5]/);
+    expect(hit!.message).toContain('至少要 1 个字符');
+    expect(hit!.message).toContain('原文：');
+  });
+
   it('prettyIssuePath 把点号路径渲染成下标形式', () => {
     expect(prettyIssuePath('steps.2.itemIds.0')).toBe('steps[2].itemIds[0]');
     expect(prettyIssuePath('meta.title')).toBe('meta.title');

@@ -108,7 +108,14 @@ def _ocr_range(
     return pages
 
 
-def _toc_from_pages(engine: OcrEngine, doc, pages: list[OcrPage], *, dpi: int = OCR_DPI) -> list:
+def _toc_from_pages(
+    engine: OcrEngine,
+    doc,
+    pages: list[OcrPage],
+    *,
+    dpi: int = OCR_DPI,
+    max_page: int | None = None,
+) -> list:
     """OCR 出来的目录页 → 知识点森林。
 
     三件事都必须做对：
@@ -118,8 +125,10 @@ def _toc_from_pages(engine: OcrEngine, doc, pages: list[OcrPage], *, dpi: int = 
        不同页同高度的行配到一起（实测 4 页拼一起只配出 7 条，页码全乱）；
     3. 页码要**单独扫一遍右侧竖带**（`toc_band_lines`）—— 整页识别会漏掉
        1–2 位的印刷页码，实测王芝英 p10 的 1/2/5/8/10 全丢。
+
+    `max_page` 传全书页数，用来修掉 `189`→`681` 这种跑飞的页号。
     """
-    entries = parse_toc_pages(pages, engine=engine, doc=doc, dpi=dpi)
+    entries = parse_toc_pages(pages, engine=engine, doc=doc, dpi=dpi, max_page=max_page)
     return build_tree(entries)
 
 
@@ -203,7 +212,11 @@ def main() -> int:
     nodes: list[dict] = []
     if toc_indexes:
         tree = _toc_from_pages(
-            engine, doc, [by_index[i] for i in toc_indexes if i in by_index], dpi=args.dpi
+            engine,
+            doc,
+            [by_index[i] for i in toc_indexes if i in by_index],
+            dpi=args.dpi,
+            max_page=doc.page_count,
         )
         flat = flatten(tree)
         nodes = [

@@ -75,6 +75,7 @@ export const paths = {
         // 表达同一件事，会让「保存成功」这件事有两套前端分支，而它能提供的信息
         // 已经由 created 提供了。
         '200': jsonResponse('已保存（created=false 表示覆盖了同 id 的旧版本）', 'MarketSaveLevelResponse'),
+        '400': err('请求体语法错误：spec 缺失或不是对象'),
         '422': err('关卡规范校验不通过，details 里是字段级错误列表'),
         '409': err('关卡 id 与已有系统关卡冲突'),
         '500': err('服务内部错误'),
@@ -94,8 +95,8 @@ export const paths = {
       },
       responses: {
         '200': jsonResponse('草稿（可能还不合法，字段级缺项在 issues 里）', 'MarketDraftResponse'),
+        '400': err('请求体语法错误：microKpId 缺失或不是字符串'),
         '404': err('知识点不存在'),
-        '422': err('请求参数不合法'),
         '500': err('服务内部错误'),
       },
     },

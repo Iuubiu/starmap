@@ -12,6 +12,7 @@ data/
 test-results/
 playwright-report/
 .scratch/pgcheck/
+.scratch/probe/
 
 # Python
 __pycache__/
@@ -23,3 +24,6 @@ __pycache__/
 # 各泳道的一次性探针与产物
 apps/api/.probe/
 
+
+# 教材与论文原件（134 个 PDF / 1.14 GiB）。已在历史中，需 filter-repo 才能移除，
+# 见 README「已知问题」。新增大文件一律走这里，不要再 git add 资源库/。

@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
@@ -60,16 +60,34 @@ const REFERENCE_PREVIEW_LINES = 6;
 /**
  * 默认扫描目录。
  *
- * 优先级：`STARMAP_SKILLS_DIR` 环境变量 → 相对本模块位置的 `../../mastra/skills`。
+ * 优先级：`STARMAP_SKILLS_DIR` 环境变量 → 包根下的候选目录（第一个存在的）。
  *
- * 后者在两种运行方式下都指向 `apps/api/mastra/skills`：
- * - `tsx src/main.ts` 时本文件在 `src/skills/`，`../../` 就是包根；
- * - `node dist/main.js` 时本文件在 `dist/skills/`，`../../` 同样是包根。
- * 这样不依赖 `process.cwd()`（测试、IDE、CI 的 cwd 各不相同）。
+ * 候选顺序是 `src/mastra/skills` 再 `mastra/skills`：
+ * - 前者是 ADR-0007 的位置（Mastra 资产在 `src/mastra/`），也是仓库里的实际位置；
+ * - 后者留给「只发布了编译产物」的部署形态。
+ *
+ * 相对路径一律从**包根**算，不从 `process.cwd()` 算——测试、IDE、`pnpm --filter`
+ * 的 cwd 各不相同，用 cwd 会让同一个 skill 在不同入口下时有时无。
  */
 export function defaultSkillsDir(): string {
   const override = process.env.STARMAP_SKILLS_DIR;
   if (override && override.trim().length > 0) return resolve(override);
+
+  // 从本模块位置往上找带 package.json 的目录（src/skills 与 dist/skills 都能落到包根）
+  let dir = dirname(fileURLToPath(import.meta.url));
+  for (let i = 0; i < 4; i += 1) {
+    if (existsSync(join(dir, 'package.json'))) {
+      for (const candidate of ['src/mastra/skills', 'mastra/skills']) {
+        const full = join(dir, candidate);
+        if (existsSync(full)) return full;
+      }
+      return join(dir, 'src/mastra/skills');
+    }
+    dir = dirname(dir);
+  }
+
+  // 找不到包根就退回相对 import.meta.url 的老路径：宁可指错也不抛错，
+  // 扫描层对「目录不存在」的处理是返回空列表而不是 500。
   return fileURLToPath(new URL('../../mastra/skills', import.meta.url));
 }
 

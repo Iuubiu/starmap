@@ -22,6 +22,7 @@ import {
   tokens,
 } from '@fluentui/react-components';
 import { useContentStats, useNodeList, useNodeSources } from '../api/queries';
+import { RetrievalDebugger } from './RetrievalDebugger';
 
 const useStyles = makeStyles({
   page: {
@@ -297,6 +298,13 @@ export function DatabasePage() {
           </Card>
         </div>
       )}
+
+      <Divider />
+
+      {/* 检索调试器挂在来源追溯之后：两块的输入都是「当前知识点」，
+          放在同一页可以直接对着看——左边是它出自哪几页，右边是这些页里的
+          切片在检索时进不进上下文。 */}
+      <RetrievalDebugger microKpId={activeId} />
     </div>
   );
 }

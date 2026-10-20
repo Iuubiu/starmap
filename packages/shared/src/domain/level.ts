@@ -412,8 +412,48 @@ export function validateLevelSpec(input: unknown): ValidateLevelSpecResult {
     ok: false,
     issues: parsed.error.issues.map((issue) => ({
       path: formatIssuePath(issue.path),
-      message: issue.message,
+      // 跨字段规则的文案是我们自己写的中文（code 为 custom），原样用；
+      // Zod 内置校验的文案是英文，前面补一句中文，原文留在括号里备查。
+      message: issue.code === 'custom' ? issue.message : `${describeZodIssue(issue)}（原文：${issue.message}）`,
       code: issue.code,
     })),
   };
+}
+
+/**
+ * Zod 内置文案是英文的（`Too small: expected string to have >=1 characters`）。
+ *
+ * 写关卡的是中文作者，D10 也要求全中文，所以在这一层把最常见的几种错误翻过来，
+ * 再拼上原文 —— 保留原文不是偷懒：Zod 的表述精确（`>=1 characters`、`received
+ * 'string'`），翻译容易丢细节，两者并置既好读又不失真。
+ *
+ * 只翻 Zod **内置**的几类（类型不符、长度、枚举、必填）。跨字段规则的中文文案
+ * 是我们在 superRefine 里自己写的，不走这里。
+ */
+function describeZodIssue(issue: z.core.$ZodIssue): string {
+  const where = issue.path.length > 0 ? formatIssuePath(issue.path) : '根';
+
+  if (issue.code === 'invalid_type') {
+    const expected = 'expected' in issue ? String(issue.expected) : '其他类型';
+    return `字段 ${where} 应当是 ${expected} 类型。`;
+  }
+  if (issue.code === 'too_small') {
+    if ('minimum' in issue && typeof issue.minimum === 'number') {
+      return `字段 ${where} 至少要 ${issue.minimum}${'origin' in issue && issue.origin === 'string' ? ' 个字符' : ''}。`;
+    }
+    return `字段 ${where} 的内容太短。`;
+  }
+  if (issue.code === 'too_big') {
+    if ('maximum' in issue && typeof issue.maximum === 'number') {
+      return `字段 ${where} 最多 ${issue.maximum}${'origin' in issue && issue.origin === 'string' ? ' 个字符' : ''}。`;
+    }
+    return `字段 ${where} 的内容太长。`;
+  }
+  if (issue.code === 'invalid_value') {
+    return `字段 ${where} 的取值不在允许范围内。`;
+  }
+  if (issue.code === 'invalid_union') {
+    return `字段 ${where} 不符合任何一种允许的形态（例如答案既要能是选项下标、也要能是填空文本）。`;
+  }
+  return `字段 ${where} 不合法。`;
 }

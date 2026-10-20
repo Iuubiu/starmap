@@ -428,6 +428,8 @@
                       "type": "string"
                     "question":
                       "type": "string"
+                    "rationale":
+                      "type": "string"
                     "title":
                       "type": "string"
                   "required":
@@ -443,6 +445,7 @@
                     - "inputKind"
                     - "choices"
                     - "actions"
+                    - "rationale"
                   "type": "object"
             - "type": "null"
         "createdAt":
@@ -633,6 +636,159 @@
         - "knowledgePoints"
         - "chunks"
         - "answers"
+        - "edges"
+      "type": "object"
+    "GraphEdge":
+      "additionalProperties": false
+      "properties":
+        "from":
+          "type": "string"
+        "kind":
+          "enum":
+            - "prereq"
+            - "related"
+            - "part_of"
+          "type": "string"
+        "to":
+          "type": "string"
+      "required":
+        - "from"
+        - "to"
+        - "kind"
+      "type": "object"
+    "GraphNode":
+      "additionalProperties": false
+      "properties":
+        "depth":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "microKpId":
+          "type": "string"
+        "moduleId":
+          "type": "string"
+        "moduleName":
+          "type": "string"
+        "moduleOrdinal":
+          "maximum": 9007199254740991
+          "minimum": -9007199254740991
+          "type": "integer"
+        "name":
+          "type": "string"
+        "ordinal":
+          "maximum": 9007199254740991
+          "minimum": -9007199254740991
+          "type": "integer"
+        "percent":
+          "anyOf":
+            - "maximum": 1
+              "minimum": 0
+              "type": "number"
+            - "type": "null"
+        "reviewDueAt":
+          "type":
+            - "string"
+            - "null"
+        "state":
+          "enum":
+            - "mastered"
+            - "proficient"
+            - "familiar"
+            - "attempted"
+            - "unseen"
+          "type": "string"
+      "required":
+        - "microKpId"
+        - "name"
+        - "state"
+        - "percent"
+        - "depth"
+        - "moduleId"
+        - "moduleName"
+        - "moduleOrdinal"
+        - "ordinal"
+        - "reviewDueAt"
+      "type": "object"
+    "GraphResponse":
+      "additionalProperties": false
+      "properties":
+        "edges":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "from":
+                "type": "string"
+              "kind":
+                "enum":
+                  - "prereq"
+                  - "related"
+                  - "part_of"
+                "type": "string"
+              "to":
+                "type": "string"
+            "required":
+              - "from"
+              - "to"
+              - "kind"
+            "type": "object"
+          "type": "array"
+        "nodes":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "depth":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "microKpId":
+                "type": "string"
+              "moduleId":
+                "type": "string"
+              "moduleName":
+                "type": "string"
+              "moduleOrdinal":
+                "maximum": 9007199254740991
+                "minimum": -9007199254740991
+                "type": "integer"
+              "name":
+                "type": "string"
+              "ordinal":
+                "maximum": 9007199254740991
+                "minimum": -9007199254740991
+                "type": "integer"
+              "percent":
+                "anyOf":
+                  - "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                  - "type": "null"
+              "reviewDueAt":
+                "type":
+                  - "string"
+                  - "null"
+              "state":
+                "enum":
+                  - "mastered"
+                  - "proficient"
+                  - "familiar"
+                  - "attempted"
+                  - "unseen"
+                "type": "string"
+            "required":
+              - "microKpId"
+              - "name"
+              - "state"
+              - "percent"
+              - "depth"
+              - "moduleId"
+              - "moduleName"
+              - "moduleOrdinal"
+              - "ordinal"
+              - "reviewDueAt"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "nodes"
         - "edges"
       "type": "object"
     "HealthResponse":
@@ -2353,8 +2509,8 @@
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ProbeTurnResponse"
-          "description": "第一轮追问"
+                "$ref": "#/components/schemas/ProbeSessionResponse"
+          "description": "新会话（尚未提问）"
         "400":
           "content":
             "application/json":
@@ -2373,7 +2529,7 @@
               "schema":
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
-      "summary": "开始一次苏格拉底追问"
+      "summary": "开始一次苏格拉底追问，返回新会话的初始阶梯状态"
   "/api/v1/agent/probes/metrics":
     "get":
       "operationId": "getProbeMetrics"
@@ -2725,6 +2881,35 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "模型上游不可用"
       "summary": "提交一句话，产出一张结构化产物卡"
+  "/api/v1/agent/turns/{turnId}":
+    "get":
+      "operationId": "getAgentTurn"
+      "parameters":
+        - "in": "path"
+          "name": "turnId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/AgentTurnResponse"
+          "description": "那一轮的完整响应"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "回合不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "回看某一轮：取出当时那张卡，原样重放（不重新调模型）"
   "/api/v1/agent/turns/{turnId}/evidence":
     "get":
       "operationId": "getAgentTurnEvidence"
@@ -2771,6 +2956,24 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "内容库统计：来源、知识点、chunk、答案块、先修边"
+  "/api/v1/graph":
+    "get":
+      "description": "一次返回全部叶节点（微知识点）与其先修边，供知识地图画布做本地布局与两跳邻域裁剪。不分页：力导向布局需要完整图，缺一半节点会让布局跳变。"
+      "operationId": "getGraph"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/GraphResponse"
+          "description": "整张图谱"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "整张知识图谱：全部微知识点、先修边与掌握状态"
   "/api/v1/health":
     "get":
       "operationId": "getHealth"
@@ -2828,18 +3031,18 @@
               "schema":
                 "$ref": "#/components/schemas/MarketDraftResponse"
           "description": "草稿（可能还不合法，字段级缺项在 issues 里）"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体语法错误：microKpId 缺失或不是字符串"
         "404":
           "content":
             "application/json":
               "schema":
                 "$ref": "#/components/schemas/ApiError"
           "description": "知识点不存在"
-        "422":
-          "content":
-            "application/json":
-              "schema":
-                "$ref": "#/components/schemas/ApiError"
-          "description": "请求参数不合法"
         "500":
           "content":
             "application/json":
@@ -2879,6 +3082,12 @@
               "schema":
                 "$ref": "#/components/schemas/MarketSaveLevelResponse"
           "description": "已保存（created=false 表示覆盖了同 id 的旧版本）"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体语法错误：spec 缺失或不是对象"
         "409":
           "content":
             "application/json":

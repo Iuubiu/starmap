@@ -1,0 +1,34 @@
+"""续：确认剩余几本书的目录页范围（18/19/22 尾/25/23/24 尾）。"""
+import re
+import sys
+
+import pymupdf
+
+sys.path.insert(0, 'tools/ingest')
+from ocr import OcrEngine, render_page
+
+TARGETS = [
+    ('18', '资源库/books/18_原子核物理实验方法_修订第3版_1997.pdf', 6, 24),
+    ('19', '资源库/books/19_核辐射探测器及其实验技术手册_汲长松_1990.pdf', 6, 26),
+    ('22', '资源库/books/22_电子技术基础_模拟部分_康华光_第5版.pdf', 13, 24),
+    ('23', '资源库/books/23_数字电子技术基础_阎石_第6版.pdf', 14, 24),
+    ('24', '资源库/books/24_模拟电子技术基础_童诗白_华成英_第5版.pdf', 10, 22),
+    ('25', '资源库/books/25_电路分析基础_李瀚荪_第5版_上册.pdf', 8, 20),
+]
+
+eng = OcrEngine()
+for sid, pdf, a, b in TARGETS:
+    doc = pymupdf.open(pdf)
+    print(f'=== {sid} {doc.page_count}p ===', flush=True)
+    for i in range(a, min(b, doc.page_count)):
+        img = render_page(doc, i, 120)
+        lines = eng.lines(img)
+        txt = ''.join(l.text for l in lines)
+        nums = sum(
+            1
+            for l in lines
+            if re.fullmatch(r'[\s.·•●\-—–+*⋯…]*\d{1,4}[\s.·•●]*', l.text.strip())
+            and l.x1 > img.shape[1] * 0.7
+        )
+        dots = txt.count('…') + txt.count('⋯')
+        print(f'  p{i:3d} lines={len(lines):3d} nums={nums:3d} dots={dots:3d} {txt[:56]!r}', flush=True)

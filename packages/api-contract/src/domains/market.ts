@@ -42,6 +42,9 @@ export const MarketLevelOriginSchema = z.enum(['preset', 'saved']);
 /** 关卡作者，与 `level.spec.json` 的 `meta.author` 同集合 */
 export const MarketLevelAuthorSchema = z.enum(['system', 'teacher', 'self', 'ai']);
 
+export type MarketLevelOrigin = z.infer<typeof MarketLevelOriginSchema>;
+export type MarketLevelAuthor = z.infer<typeof MarketLevelAuthorSchema>;
+
 /**
  * 市场卡片。字段是 `level.spec.json` 里能被列表页用上的那一层摘要，
  * 加上市场登记信息。
@@ -93,6 +96,8 @@ export const MarketDraftItemSchema = z.object({
   misconceptionTags: z.array(z.string()),
 });
 
+export type MarketDraftItem = z.infer<typeof MarketDraftItemSchema>;
+
 /**
  * 草稿的来源说明。
  *
@@ -111,6 +116,8 @@ export const MarketDraftLearningSchema = z.object({
   /** 打包时参考了哪些已有关卡 */
   sourceLevelIds: z.array(z.string()),
 });
+
+export type MarketDraftLearning = z.infer<typeof MarketDraftLearningSchema>;
 
 /** POST /api/v1/market/drafts 的响应 */
 export const MarketDraftResponseSchema = z.object({

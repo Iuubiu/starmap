@@ -247,6 +247,10 @@ Mastra 的表由适配器自动建与管理，**不手写 DDL**，且 schema 本
 
 **测试隔离**：每个集成测试建 `app_test_<random>` schema，跑完 `DROP SCHEMA ... CASCADE`，测试进程的 `search_path` 指向它。不用事务回滚代替隔离——回滚盖不住 DDL 与序列行为。不需要 Mastra 的测试根本不该建 `mastra_test_*`（见 §5 推论）。
 
+**迁移是运行期的隐形前置**：`pnpm db:migrate` 必须在起服务之前跑过。新迁移落地后忘记跑，症状不是 typecheck 红、也不是测试红，而是**服务正常启动、特定接口 500**（如 `relation "skill_switches" does not exist`）。这类失败绕过了全部静态检查，只能靠跑一次真接口发现。拉取含新迁移的代码后第一件事是 `pnpm db:migrate`。
+
+这与测试侧的 `test-schema.ts` 是两条独立路径：测试自己建 `app_test_*` schema 并执行全部迁移，**不碰**开发库；也因此测试能绿而开发库仍缺表。两条路径都要各自跑。
+
 ---
 
 ## 8. 一次作答的数据流
@@ -321,10 +325,10 @@ Mastra 的表由适配器自动建与管理，**不手写 DDL**，且 schema 本
 | 领域 | 契约 schema | OpenAPI 片段 | 前端 hook | 后端控制器 |
 |---|---|---|---|---|
 | graph | `api-contract/src/domains/graph.ts` | `scripts/paths/graph.mjs` | `api/queries/graph.ts` | `nodes/` |
-| levels | `domains/levels.ts` | `paths/levels.mjs` | `queries/levels.ts` | 待建 |
+| levels | `api-contract/src/domains/levels.ts` | `scripts/paths/levels.mjs` | `api/queries/levels.ts` | `levels/` |
 | content | `domains/content.ts` | `paths/content.mjs` | `queries/content.ts` | `content/` |
-| agent | `domains/agent.ts` | `paths/agent.mjs` | `queries/agent.ts` | 待建 |
-| market | `domains/market.ts` | `paths/market.mjs` | `queries/market.ts` | 待建 |
+| agent | `domains/agent.ts` | `paths/agent.mjs` | `queries/agent.ts` | `agent/`、`retrieval/`、`probe/`、`skills/` |
+| market | `domains/market.ts` | `paths/market.mjs` | `queries/market.ts` | `market/` |
 | 共享面 | `domains/common.ts`、`domains/system.ts` | `paths/common.mjs`、`system.mjs` | `queries/system.ts` | `app.module.ts`、`domains.ts` |
 
 **接口没变，只是搬了位置**：`index.ts`、`queries/index.ts` 都退化成纯 re-export，导出名一个没动，Orval 生成的前端类型名因此不变。证据是重构后 `openapi.yaml` 的 diff 只有头部注释两行——契约正文逐字节相同。
@@ -336,5 +340,16 @@ Mastra 的表由适配器自动建与管理，**不手写 DDL**，且 schema 本
 3. **`routes.tsx` 是唯一的路由表，但顶栏标签不在里面**。让 `AppShell` 从 `routes.tsx` 读导航会形成循环 import，`no-circular` 规则会直接判违规。页面清单在 `routes.tsx`，标签文案在 `AppShell`，两者的一致性由「新页面通常是加进已有四个标签之一」这个事实保证——目前六个页面里只有三个不在顶栏（详情页、关卡页各一支）。
 
 新增页面 = 改 `routes.tsx` 一处；新增领域 = 四列各加一个文件 + 在三个 `index`/`domains.ts` 里加一行 re-export。**这四个「一行」的位置仍由 integrator 拥有**，避免多人同时改同一段。
+
+### 契约链的顺序不能调换
+
+`pnpm contract:gen` 是 **build → gen → emit**，不是 emit → gen：
+
+- `contract:emit`（`apps/api/scripts/emit-openapi.mjs`）拿**磁盘上的 `openapi.yaml`** 与契约源码交叉比对，报「死 schema」与「组件无来源」；
+- `gen`（`packages/api-contract/scripts/gen-client.mjs`）才**写** `openapi.yaml` 与前端客户端。
+
+先校验再生成，意味着任何改变组件的契约修改都会死锁：emit 报不一致 → 退出 → gen 没机会执行 → yaml 永远停在旧版 → 下次 emit 报同样的错。**这是一个不可能自行恢复的红**。校验必须放在生成之后，当验收用；`contract:check` 的语义也正是如此（快照 → 跑 gen → 再快照比对）。
+
+`gen-client.mjs` 内部第一步也是 `tsc`，理由同样是顺序：三段生成代码都在 import `dist/index.js`，而 `dist/` 在 `.gitignore` 里（`.gitignore:2`）。干净检出时它不存在会直接崩；更危险的是「改了 `src/domains/*.ts` 忘了 build」，此时不崩，而是拿旧 dist 生成一份**与源码不一致但检查通过**的契约——这种绿没有人会去复查。
 
 ---

@@ -29,6 +29,7 @@ import type {
   ContentStatsResponse,
   DebugRetrievalParams,
   GetRetrievalBandsParams,
+  GraphResponse,
   HealthResponse,
   LevelDetailResponse,
   ListAgentTurnsParams,
@@ -78,7 +79,7 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
 };
 
 export type startProbeResponse200 = {
-  data: ProbeTurnResponse
+  data: ProbeSessionResponse
   status: 200
 }
 
@@ -115,7 +116,7 @@ export const getStartProbeUrl = () => {
 }
 
 /**
- * @summary 开始一次苏格拉底追问
+ * @summary 开始一次苏格拉底追问，返回新会话的初始阶梯状态
  */
 export const startProbe = async (probeStartRequest: ProbeStartRequest, options?: Parameters<typeof customFetch>[1]): Promise<startProbeResponse> => {
 
@@ -200,7 +201,7 @@ export function useStartProbe<TData = Awaited<ReturnType<typeof startProbe>>, TE
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary 开始一次苏格拉底追问
+ * @summary 开始一次苏格拉底追问，返回新会话的初始阶梯状态
  */
 
 export function useStartProbe<TData = Awaited<ReturnType<typeof startProbe>>, TError = ApiError>(
@@ -1671,6 +1672,130 @@ export function useCreateAgentTurn<TData = Awaited<ReturnType<typeof createAgent
 
 
 
+export type getAgentTurnResponse200 = {
+  data: AgentTurnResponse
+  status: 200
+}
+
+export type getAgentTurnResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getAgentTurnResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getAgentTurnResponseSuccess = (getAgentTurnResponse200) & {
+  headers: Headers;
+};
+export type getAgentTurnResponseError = (getAgentTurnResponse404 | getAgentTurnResponse500) & {
+  headers: Headers;
+};
+
+export type getAgentTurnResponse = (getAgentTurnResponseSuccess | getAgentTurnResponseError)
+
+export const getGetAgentTurnUrl = (turnId: string,) => {
+
+
+
+
+  return `/api/v1/agent/turns/${turnId}`
+}
+
+/**
+ * @summary 回看某一轮：取出当时那张卡，原样重放（不重新调模型）
+ */
+export const getAgentTurn = async (turnId: string, options?: Parameters<typeof customFetch>[1]): Promise<getAgentTurnResponse> => {
+
+  return customFetch<getAgentTurnResponse>(getGetAgentTurnUrl(turnId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetAgentTurnQueryKey = (turnId: string,) => {
+    return [
+    `/api/v1/agent/turns/${turnId}`
+    ] as const;
+    }
+
+
+export const getGetAgentTurnQueryOptions = <TData = Awaited<ReturnType<typeof getAgentTurn>>, TError = ApiError>(turnId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurn>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAgentTurnQueryKey(turnId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAgentTurn>>> = ({ signal }) => getAgentTurn(turnId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: turnId !== null && turnId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAgentTurn>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAgentTurnQueryResult = NonNullable<Awaited<ReturnType<typeof getAgentTurn>>>
+export type GetAgentTurnQueryError = ApiError
+
+
+export function useGetAgentTurn<TData = Awaited<ReturnType<typeof getAgentTurn>>, TError = ApiError>(
+ turnId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurn>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAgentTurn>>,
+          TError,
+          Awaited<ReturnType<typeof getAgentTurn>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAgentTurn<TData = Awaited<ReturnType<typeof getAgentTurn>>, TError = ApiError>(
+ turnId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurn>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAgentTurn>>,
+          TError,
+          Awaited<ReturnType<typeof getAgentTurn>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAgentTurn<TData = Awaited<ReturnType<typeof getAgentTurn>>, TError = ApiError>(
+ turnId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurn>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 回看某一轮：取出当时那张卡，原样重放（不重新调模型）
+ */
+
+export function useGetAgentTurn<TData = Awaited<ReturnType<typeof getAgentTurn>>, TError = ApiError>(
+ turnId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurn>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAgentTurnQueryOptions(turnId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 export type getAgentTurnEvidenceResponse200 = {
   data: AgentTurnEvidenceResponse
   status: 200
@@ -1903,6 +2028,126 @@ export function useGetContentStats<TData = Awaited<ReturnType<typeof getContentS
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetContentStatsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getGraphResponse200 = {
+  data: GraphResponse
+  status: 200
+}
+
+export type getGraphResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getGraphResponseSuccess = (getGraphResponse200) & {
+  headers: Headers;
+};
+export type getGraphResponseError = (getGraphResponse500) & {
+  headers: Headers;
+};
+
+export type getGraphResponse = (getGraphResponseSuccess | getGraphResponseError)
+
+export const getGetGraphUrl = () => {
+
+
+
+
+  return `/api/v1/graph`
+}
+
+/**
+ * 一次返回全部叶节点（微知识点）与其先修边，供知识地图画布做本地布局与两跳邻域裁剪。不分页：力导向布局需要完整图，缺一半节点会让布局跳变。
+ * @summary 整张知识图谱：全部微知识点、先修边与掌握状态
+ */
+export const getGraph = async ( options?: Parameters<typeof customFetch>[1]): Promise<getGraphResponse> => {
+
+  return customFetch<getGraphResponse>(getGetGraphUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetGraphQueryKey = () => {
+    return [
+    `/api/v1/graph`
+    ] as const;
+    }
+
+
+export const getGetGraphQueryOptions = <TData = Awaited<ReturnType<typeof getGraph>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraph>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetGraphQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGraph>>> = ({ signal }) => getGraph({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGraph>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetGraphQueryResult = NonNullable<Awaited<ReturnType<typeof getGraph>>>
+export type GetGraphQueryError = ApiError
+
+
+export function useGetGraph<TData = Awaited<ReturnType<typeof getGraph>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraph>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGraph>>,
+          TError,
+          Awaited<ReturnType<typeof getGraph>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetGraph<TData = Awaited<ReturnType<typeof getGraph>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraph>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGraph>>,
+          TError,
+          Awaited<ReturnType<typeof getGraph>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetGraph<TData = Awaited<ReturnType<typeof getGraph>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraph>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 整张知识图谱：全部微知识点、先修边与掌握状态
+ */
+
+export function useGetGraph<TData = Awaited<ReturnType<typeof getGraph>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraph>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetGraphQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -2156,14 +2401,14 @@ export type createMarketDraftResponse200 = {
   status: 200
 }
 
+export type createMarketDraftResponse400 = {
+  data: ApiError
+  status: 400
+}
+
 export type createMarketDraftResponse404 = {
   data: ApiError
   status: 404
-}
-
-export type createMarketDraftResponse422 = {
-  data: ApiError
-  status: 422
 }
 
 export type createMarketDraftResponse500 = {
@@ -2174,7 +2419,7 @@ export type createMarketDraftResponse500 = {
 export type createMarketDraftResponseSuccess = (createMarketDraftResponse200) & {
   headers: Headers;
 };
-export type createMarketDraftResponseError = (createMarketDraftResponse404 | createMarketDraftResponse422 | createMarketDraftResponse500) & {
+export type createMarketDraftResponseError = (createMarketDraftResponse400 | createMarketDraftResponse404 | createMarketDraftResponse500) & {
   headers: Headers;
 };
 
@@ -2418,6 +2663,11 @@ export type saveMarketLevelResponse200 = {
   status: 200
 }
 
+export type saveMarketLevelResponse400 = {
+  data: ApiError
+  status: 400
+}
+
 export type saveMarketLevelResponse409 = {
   data: ApiError
   status: 409
@@ -2436,7 +2686,7 @@ export type saveMarketLevelResponse500 = {
 export type saveMarketLevelResponseSuccess = (saveMarketLevelResponse200) & {
   headers: Headers;
 };
-export type saveMarketLevelResponseError = (saveMarketLevelResponse409 | saveMarketLevelResponse422 | saveMarketLevelResponse500) & {
+export type saveMarketLevelResponseError = (saveMarketLevelResponse400 | saveMarketLevelResponse409 | saveMarketLevelResponse422 | saveMarketLevelResponse500) & {
   headers: Headers;
 };
 

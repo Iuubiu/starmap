@@ -5,6 +5,8 @@ import { MapPage } from './pages/MapPage';
 import { NodeDetailPage } from './pages/NodeDetailPage';
 import { DatabasePage } from './pages/DatabasePage';
 import { LevelPage } from './pages/LevelPage';
+import { MarketPage } from './pages/MarketPage';
+import { MarketAuthorPage } from './pages/MarketAuthorPage';
 import { SkillsPage } from './pages/PlaceholderPages';
 
 /**
@@ -35,6 +37,8 @@ export const appRoutes: RouteObject[] = [
       { path: 'map/:microKpId', element: <NodeDetailPage /> },
       { path: 'level/:levelId', element: <LevelPage /> },
       { path: 'database', element: <DatabasePage /> },
+      { path: 'market', element: <MarketPage /> },
+      { path: 'market/author/:microKpId', element: <MarketAuthorPage /> },
       { path: 'skills', element: <SkillsPage /> },
     ],
   },

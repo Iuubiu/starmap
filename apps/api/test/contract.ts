@@ -20,7 +20,15 @@ export function loadOpenApi(): Record<string, unknown> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Validator = (body: unknown) => any;
 
-function validatorFor(path: string, method: 'get', status: number): Validator {
+/**
+ * 支持的 HTTP 方法。
+ *
+ * 只列**有响应体**的方法：DELETE 在契约里通常返回 204（无 body），
+ * 硬塞进来会让调用方以为需要校验一个不存在的响应。
+ */
+export type ContractMethod = 'get' | 'post' | 'patch' | 'put';
+
+function validatorFor(path: string, method: ContractMethod, status: number): Validator {
   const spec = loadOpenApi() as {
     paths: Record<string, Record<string, { responses: Record<string, unknown> }>>;
   };
@@ -35,12 +43,16 @@ function validatorFor(path: string, method: 'get', status: number): Validator {
 
 export function assertMatchesContract(
   path: string,
-  method: 'get',
+  method: ContractMethod,
   status: number,
   body: unknown,
 ): void {
   const errors = validatorFor(path, method, status)(body);
   if (errors) {
-    throw new Error(`响应不符合 openapi.yaml: ${JSON.stringify(errors, null, 2)}`);
+    // 把「哪个字段不对」写进错误消息：contract 断言失败最常见的原因是
+    // 后端加了字段但没跑 contract:gen，光看一句「不符合」查不出来。
+    throw new Error(
+      `响应不符合 openapi.yaml（${method.toUpperCase()} ${path} → ${status}）: ${JSON.stringify(errors, null, 2)}`,
+    );
   }
 }

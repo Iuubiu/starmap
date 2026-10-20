@@ -1,6 +1,12 @@
 import { NodesController } from './nodes/nodes.controller.js';
+import { GraphController } from './graph/graph.controller.js';
 import { ContentController } from './content/content.controller.js';
 import { LevelsController } from './levels/levels.controller.js';
+import { AgentTurnsController } from './agent/agent-turns.controller.js';
+import { RetrievalController } from './retrieval/retrieval.controller.js';
+import { ProbeController } from './probe/probe.controller.js';
+import { SkillsController } from './skills/skills.controller.js';
+import { MarketController } from './market/market.controller.js';
 
 /**
  * 全部领域控制器的汇总表。
@@ -18,10 +24,29 @@ import { LevelsController } from './levels/levels.controller.js';
  * | 控制器 | 泳道 |
  * | --- | --- |
  * | `NodesController` | graph-dev |
+ * | `GraphController` | graph-dev |
  * | `ContentController` | content-dev |
  * | `LevelsController` | level-dev |
+ * | `AgentTurnsController` | agent-dev |
+ * | `RetrievalController` | agent-dev |
+ * | `ProbeController` | agent-dev |
+ * | `SkillsController` | agent-dev |
+ * | `MarketController` | authoring-dev |
  *
  * 新控制器落地后在下面加一行即可，本文件由 integrator 维护（冲突多时
  * 找我加，别自己改 `app.module.ts`）。
+ *
+ * 加了控制器别忘了它的 Service：控制器归 AppModule，注入的服务也必须在
+ * AppModule 的 providers 里，否则 Nest 启动时解析依赖会失败。
  */
-export const domainControllers = [NodesController, ContentController, LevelsController];
+export const domainControllers = [
+  NodesController,
+  GraphController,
+  ContentController,
+  LevelsController,
+  AgentTurnsController,
+  RetrievalController,
+  ProbeController,
+  SkillsController,
+  MarketController,
+];

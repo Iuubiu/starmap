@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "check:boundaries": "depcruise apps packages --config .dependency-cruiser.cjs",
-    "contract:gen": "pnpm --filter @starmap/api contract:emit && pnpm --filter @starmap/api-contract gen",
+    "contract:gen": "pnpm --filter @starmap/api-contract build && pnpm --filter @starmap/api-contract gen && pnpm --filter @starmap/api contract:emit",
     "contract:check": "node scripts/contract-check.mjs",
     "db:migrate": "pnpm --filter @starmap/api db:migrate",
     "db:rollback": "pnpm --filter @starmap/api db:rollback",

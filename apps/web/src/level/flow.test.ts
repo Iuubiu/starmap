@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import type { LevelSpec } from '../api/generated/model';
 import {
   advance,
@@ -139,16 +141,25 @@ const walkTo = (spec: LevelSpec, kind: string, correct: boolean): FlowState => {
     const step = currentStep(spec, state);
     if (!step) return state;
     if (step.kind === kind) return state;
-    for (const itemId of step.itemIds) {
-      const target = spec.items.find((entry) => entry.id === itemId);
-      if (!target) throw new Error(`fixture 缺题 ${itemId}`);
-      const wanted = target.answer;
-      const choice = correct ? wanted : typeof wanted === 'number' ? (wanted + 1) % 3 : 'wrong';
-      state = submitAnswer(spec, state, itemId, choice).state;
-    }
+    state = walkThroughStep(spec, state, correct);
     state = advance(spec, state);
   }
   throw new Error('推进次数超限，状态机疑似卡住');
+};
+
+/** 把当前段所有题答完（默认全对），不推进。 */
+const walkThroughStep = (spec: LevelSpec, state: FlowState, correct = true): FlowState => {
+  const step = currentStep(spec, state);
+  if (!step) return state;
+  let next = state;
+  for (const itemId of step.itemIds) {
+    const target = spec.items.find((entry) => entry.id === itemId);
+    if (!target) throw new Error(`fixture 缺题 ${itemId}`);
+    const wanted = target.answer;
+    const choice = correct ? wanted : typeof wanted === 'number' ? (wanted + 1) % 3 : 'wrong';
+    next = submitAnswer(spec, next, itemId, choice).state;
+  }
+  return next;
 };
 
 describe('七段流程', () => {
@@ -372,9 +383,8 @@ describe('进度条与提示', () => {
  * 只测真文件会因为断言难写而漏掉分支规则。
  */
 describe('真实手写关卡（content/levels/lv-bool-laws.spec.json）', () => {
-  const specPath = fileURLToPath(
-    new URL('../../../../content/levels/lv-bool-laws.spec.json', import.meta.url),
-  );
+  // jsdom 环境下 `import.meta.url` 不是 file: 协议，用 vitest 的 cwd（= apps/web）定位。
+  const specPath = resolve(process.cwd(), '..', '..', 'content', 'levels', 'lv-bool-laws.spec.json');
   const realSpec = JSON.parse(readFileSync(specPath, 'utf8')) as LevelSpec;
 
   it('七段齐全且顺序就是需求 17 的那条链路', () => {
@@ -408,7 +418,13 @@ describe('真实手写关卡（content/levels/lv-bool-laws.spec.json）', () => 
     expect(currentStep(realSpec, state)?.kind).toBe('reteach');
     state = advance(realSpec, state);
     expect(currentStep(realSpec, state)?.kind).toBe('quiz');
+
+    // 判定段答完 → 小结段（最后一关的 kind 仍然是 summary，不是 finished）
     state = walkThroughStep(realSpec, state);
+    state = advance(realSpec, state);
+    expect(currentStep(realSpec, state)?.kind).toBe('summary');
+    expect(state.finished).toBe(false);
+
     state = advance(realSpec, state);
     expect(state.finished).toBe(true);
   });

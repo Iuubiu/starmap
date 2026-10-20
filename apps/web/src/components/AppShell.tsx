@@ -57,11 +57,13 @@ export function AppShell() {
 
   const selected = location.pathname.startsWith('/map')
     ? '/map'
-    : location.pathname.startsWith('/database')
-      ? '/database'
-      : location.pathname.startsWith('/skills')
-        ? '/skills'
-        : '/';
+    : location.pathname.startsWith('/market')
+      ? '/market'
+      : location.pathname.startsWith('/database')
+        ? '/database'
+        : location.pathname.startsWith('/skills')
+          ? '/skills'
+          : '/';
 
   return (
     <div className={styles.root}>
@@ -75,6 +77,7 @@ export function AppShell() {
         >
           <Tab value="/">看板</Tab>
           <Tab value="/map">知识地图</Tab>
+          <Tab value="/market">关卡市场</Tab>
           <Tab value="/database">数据库</Tab>
           <Tab value="/skills">技能库</Tab>
         </TabList>

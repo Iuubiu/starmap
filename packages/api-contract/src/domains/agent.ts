@@ -116,6 +116,13 @@ export const ProbeFormArtifactSchema = z.object({
   inputKind: z.enum(['free_text', 'choice']),
   choices: z.array(z.string()),
   actions: z.array(AgentCardActionSchema),
+  /**
+   * 为什么给它这道追问。
+   *
+   * 四张卡都要能回答「我为什么看到这个」，所以 `rationale` 不只在另外三种卡
+   * 上有。追问卡尤其需要：学生被反问一步时最想知道的是「你为什么问我这个」。
+   */
+  rationale: z.string(),
 });
 
 /**

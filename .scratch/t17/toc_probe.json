@@ -1,0 +1,239 @@
+{
+ "02-nuclear-electronics-wangjingjin-1983": {
+  "pages": [
+   [
+    7,
+    3,
+    89,
+    22
+   ],
+   [
+    9,
+    3,
+    99,
+    35
+   ]
+  ],
+  "seconds": 50.2,
+  "pageCount": 201
+ },
+ "05-nuclear-radiation-measurement-tangbin": {
+  "pages": [
+   [
+    9,
+    3,
+    78,
+    29
+   ],
+   [
+    10,
+    5,
+    28,
+    10
+   ]
+  ],
+  "seconds": 58.1,
+  "pageCount": 472
+ },
+ "06-nuclear-radiation-physics-chenboxian": {
+  "pages": [],
+  "seconds": 77.4,
+  "pageCount": 490
+ },
+ "07-radiation-detectors-dinghonglin-2010": {
+  "pages": [
+   [
+    6,
+    5,
+    76,
+    22
+   ],
+   [
+    7,
+    3,
+    77,
+    31
+   ],
+   [
+    8,
+    3,
+    96,
+    32
+   ],
+   [
+    9,
+    3,
+    47,
+    19
+   ]
+  ],
+  "seconds": 63.6,
+  "pageCount": 525
+ },
+ "18-nuclear-physics-experiment-methods-1997": {
+  "pages": [],
+  "seconds": 73.5,
+  "pageCount": 483
+ },
+ "19-radiation-detector-handbook-jichangsong-1990": {
+  "pages": [],
+  "seconds": 87.3,
+  "pageCount": 577
+ },
+ "22-analog-electronics-kanghuaguang-5e": {
+  "pages": [
+   [
+    10,
+    5,
+    56,
+    15
+   ],
+   [
+    16,
+    5,
+    59,
+    21
+   ]
+  ],
+  "seconds": 88.9,
+  "pageCount": 599
+ },
+ "23-digital-electronics-yanshi-6e": {
+  "pages": [
+   [
+    10,
+    3,
+    28,
+    0
+   ],
+   [
+    12,
+    3,
+    16,
+    0
+   ],
+   [
+    16,
+    5,
+    74,
+    20
+   ],
+   [
+    17,
+    5,
+    109,
+    37
+   ],
+   [
+    18,
+    5,
+    106,
+    36
+   ],
+   [
+    19,
+    5,
+    105,
+    36
+   ],
+   [
+    20,
+    5,
+    110,
+    37
+   ],
+   [
+    21,
+    5,
+    22,
+    8
+   ]
+  ],
+  "seconds": 53.4,
+  "pageCount": 507
+ },
+ "24-analog-electronics-tongshibai-5e": {
+  "pages": [
+   [
+    9,
+    3,
+    29,
+    0
+   ],
+   [
+    11,
+    5,
+    90,
+    32
+   ],
+   [
+    12,
+    5,
+    98,
+    35
+   ],
+   [
+    13,
+    5,
+    85,
+    32
+   ],
+   [
+    14,
+    5,
+    92,
+    33
+   ],
+   [
+    15,
+    5,
+    88,
+    32
+   ],
+   [
+    16,
+    5,
+    90,
+    33
+   ],
+   [
+    17,
+    5,
+    93,
+    33
+   ],
+   [
+    18,
+    5,
+    93,
+    33
+   ],
+   [
+    19,
+    5,
+    92,
+    33
+   ]
+  ],
+  "seconds": 89.9,
+  "pageCount": 651
+ },
+ "25-circuit-analysis-lihansun-5e-vol1": {
+  "pages": [
+   [
+    8,
+    3,
+    25,
+    0
+   ],
+   [
+    12,
+    3,
+    36,
+    0
+   ]
+  ],
+  "seconds": 64.1,
+  "pageCount": 331
+ }
+}
