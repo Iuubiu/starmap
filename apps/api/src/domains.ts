@@ -1,3 +1,6 @@
+import { AttemptsController } from './attempts/attempts.controller.js';
+import { MasteryController } from './mastery/mastery.controller.js';
+import { GenerationController } from './generation/generation.controller.js';
 import { NodesController } from './nodes/nodes.controller.js';
 import { GraphController } from './graph/graph.controller.js';
 import { ContentController } from './content/content.controller.js';
@@ -27,11 +30,14 @@ import { MarketController } from './market/market.controller.js';
  * | `GraphController` | graph-dev |
  * | `ContentController` | content-dev |
  * | `LevelsController` | level-dev |
+ * | `AttemptsController` | level-dev |
+ * | `MasteryController` | level-dev |
  * | `AgentTurnsController` | agent-dev |
  * | `RetrievalController` | agent-dev |
  * | `ProbeController` | agent-dev |
  * | `SkillsController` | agent-dev |
  * | `MarketController` | authoring-dev |
+ * | `GenerationController` | authoring-dev |
  *
  * 新控制器落地后在下面加一行即可，本文件由 integrator 维护（冲突多时
  * 找我加，别自己改 `app.module.ts`）。
@@ -44,9 +50,12 @@ export const domainControllers = [
   GraphController,
   ContentController,
   LevelsController,
+  AttemptsController,
+  MasteryController,
   AgentTurnsController,
   RetrievalController,
   ProbeController,
   SkillsController,
   MarketController,
+  GenerationController,
 ];

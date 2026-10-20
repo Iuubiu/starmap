@@ -142,17 +142,62 @@ def leaf_page_ranges(flat_nodes: list[dict]) -> list[tuple[str, str, int, int]]:
     """
     把叶节点按页码摊成 `[(microKpId, name, start, end)]`，左闭右开。
 
-    前提：`flat_nodes` 是目录的**深度优先**顺序且页码单调不减 —— 这是
-    `toc.py` 的 `flatten()` 保证的，且有测试守着（215 节点 0 处逆序）。
-    最后一个叶节点的 `end` 用一个足够大的数，兜住书末索引与附录。
+    区间怎么定，是被扫描件目录的真实缺陷逼出来的。原来的实现是
+    「`end = 下一个叶子的 start`，最后一个叶子开到正无穷」，它假设目录的
+    印刷页码**严格单调不减** —— 康华光那种排版干净的电子版成立，OCR 出来
+    的扫描件目录不成立。实测王芝英那本：
+
+    - **16 处页码倒退**（`、系统的基本组成` p25 排在 p28 之后、`、放大节的
+      结构` p67 排在 p73 之后…），倒退处的前一个叶子拿到 `end < start` 的
+      空区间，永远匹配不到任何页；
+    - **20 组同页并列**（一个页面上起了两个叶子，比如 `kp-2-1 概述` 和
+      `kp-p34 前置放大器的作用` 都在 p34），前者同样拿到空区间；
+    - **最后一个叶子不是页码最大的那个**：`kp-5 时间分析` p164 排在
+      `kp-p142 …` p142 之后，`end = 10**6` 让它一口吞掉 p164 到书末 ——
+      实测 2585 个 chunk、全书 52.9%。
+
+    所以区间改为按**页码排序后**再摊，并且每条都保证非空：
+
+    1. 叶子的先后顺序按 `printedPage` 排，不按目录出现顺序 —— 归属是「这页
+       属于哪个知识点」，页码才是唯一依据；目录里倒退的噪声条目不能改写
+       别人已经占住的页。
+    2. 排序后同页并列的几条，按目录原顺序依次分页：第一条拿到 `[p, p+1)`，
+       第二条 `[p+1, p+2)`…… 这样并列的每一条都至少有一页可挂，而不会像
+       原来那样前一条饿死。
+    3. `end` 一并用同样的偏移算，保证和 neighbour 的区间首尾相接不留洞；
+       最后一个叶子开到正无穷兜住书末索引与附录 —— 现在它真的是页码最大的
+       那个了。
+
+    代价：同页并列里排在后面的知识点会拿到本来属于下一页的那一页。这是
+    有意的取舍 —— 页级归属本身就有这个粒度上限（见模块 docstring 的
+    「粒度限制」），而「一个叶子零内容」是必然错误，宁可让相邻页互相渗透
+    一两页。实测把 `kp-2-2 电荷灵敏前置放大器`（原本 0 chunk）救回到 71 个。
     """
     leaves = [n for n in flat_nodes if n['isLeaf']]
+    if not leaves:
+        return []
+    # 稳定排序：同一页的几条保持目录里的先后
+    ordered = sorted(leaves, key=lambda n: n['printedPage'])
+    starts: list[int] = []
+    for i, n in enumerate(ordered):
+        raw = n['printedPage'] + _tie_offset(ordered, i)
+        # 单调修正：同页并列的条数可能多过「到下一个不同起始页的距离」
+        # （比如 3 个叶子都在 p1、下一个在 p2），此时 `p+2` 会越过下一组，
+        # 摊出来的区间变成 `[3, 2)` 空区间。逐条往后推一格即可 —— 起点只
+        # 增不减，区间永远非空，且总长度不变。
+        starts.append(max(raw, starts[-1] + 1) if starts else raw)
     out: list[tuple[str, str, int, int]] = []
-    for i, n in enumerate(leaves):
-        start = n['printedPage']
-        end = leaves[i + 1]['printedPage'] if i + 1 < len(leaves) else 10**6
+    for i, n in enumerate(ordered):
+        start = starts[i]
+        end = starts[i + 1] if i + 1 < len(starts) else 10**6
         out.append((n['microKpId'], n['name'], start, end))
     return out
+
+
+def _tie_offset(ordered: list[dict], i: int) -> int:
+    """同一起始页里排第几（0 起）—— 用来把并列的叶子摊到相邻页上去。"""
+    page = ordered[i]['printedPage']
+    return sum(1 for j in range(i) if ordered[j]['printedPage'] == page)
 
 
 def owner_of(page: int, ranges: list[tuple[str, str, int, int]]) -> tuple[str, str] | None:
@@ -222,6 +267,69 @@ def assign(chunks: list, flat_nodes: list[dict]) -> list:
             [kp_id] if is_answer_block(c.text, c.kind, _core_terms(name)) else []
         )
     return chunks
+
+
+# 归属自检的判定阈值。两个数都是从两本已知书量出来的，不是拍脑袋：
+#
+# - **零 chunk 叶子占比**：干净的康华光（215 节点、目录排版规范）是 10/165
+#   = 6.1%；王芝英修复前是 26/69 = 37.7%。门限取 15%，在两倍基线和故障值
+#   之间。
+# - **最大单节点占比**：康华光是 161/3546 = 4.5%；王芝英修复前 `kp-5`
+#   2585/4884 = 52.9%。门限取 25% —— 一本教材的单个知识点占掉四分之一以上
+#   内容必然是区间算错了。
+#
+# 刻意**不**用「合成节点（`kp-pNN-*`）占比」当指标：无编号目录行（`习题`、
+# `小结`、`附录`）本来就该落到合成节点上，康华光这种干净数据也有 19.9%，
+# 用它当报警线会在正常书上误报。
+MAX_EMPTY_LEAF_SHARE = 0.15
+MAX_SINGLE_NODE_SHARE = 0.25
+
+
+def audit_assignment(chunks: list, flat_nodes: list[dict]) -> dict:
+    """
+    归属结果自检：把「目录解析坏了」从静默错误变成可见的警告。
+
+    为什么必须有这一步：`assign` 永远会「成功」—— 每个 chunk 都会拿到某个
+    `microKpId`，哪怕目录页码全错。修复前的王芝英就是这样：4884 个 chunk
+    全部「归属成功」，实际上 52.9% 挤在一个知识点里、37.7% 的叶子颗粒无收。
+    这种错误在 t17 建图谱时会原样放大成「第 6 章之后全是时间分析」。
+
+    返回 `{total, emptyLeaves, leafCount, largest, largestShare, emptyShare,
+    warnings}`；`warnings` 为空表示没有发现异常。
+    """
+    counts: dict[str, int] = {}
+    for c in chunks:
+        if c.micro_kp_id:
+            counts[c.micro_kp_id] = counts.get(c.micro_kp_id, 0) + 1
+    leaves = [n for n in flat_nodes if n['isLeaf']]
+    empty = [n['microKpId'] for n in leaves if not counts.get(n['microKpId'])]
+    total = len(chunks) or 1
+    largest, largest_n = ('', 0)
+    if counts:
+        largest, largest_n = max(counts.items(), key=lambda kv: kv[1])
+    empty_share = len(empty) / len(leaves) if leaves else 0.0
+    largest_share = largest_n / total
+
+    warnings: list[str] = []
+    if empty_share > MAX_EMPTY_LEAF_SHARE:
+        warnings.append(
+            f'零 chunk 叶子 {len(empty)}/{len(leaves)}（{empty_share:.1%}），'
+            f'超过 {MAX_EMPTY_LEAF_SHARE:.0%} —— 目录页码可能有误'
+        )
+    if largest_share > MAX_SINGLE_NODE_SHARE:
+        warnings.append(
+            f'单知识点 {largest} 吞掉 {largest_n}/{len(chunks)}（{largest_share:.1%}），'
+            f'超过 {MAX_SINGLE_NODE_SHARE:.0%} —— 页区间可能算错'
+        )
+    return {
+        'total': len(chunks),
+        'leafCount': len(leaves),
+        'emptyLeaves': empty,
+        'largest': largest,
+        'largestShare': largest_share,
+        'emptyShare': empty_share,
+        'warnings': warnings,
+    }
 
 
 def review_sample(chunks: list, flat_nodes: list[dict], n: int = 20) -> list[dict]:

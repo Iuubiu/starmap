@@ -402,7 +402,21 @@ export const ProbeTurnResponseSchema = z.object({
   /** 本轮要展示给学生的那句话；退出追问时为 null */
   question: z.string().nullable(),
   ladder: ProbeLadderSnapshotSchema,
+  /**
+   * 对**模型这一轮原始措辞**的越界判定，不是兜底后的。
+   *
+   * 若判的是兜底后问句，`passed` 永远为 true、metrics 的越界率恒等于 0，
+   * 票 10 要求的「泄露最终数值／公式的回复占比可测量」就形同虚设。
+   */
   judge: ProbeJudgeVerdictSchema,
+  /**
+   * 本轮是否发生了「越界 → 退回骨架问句」。
+   *
+   * 不能靠 `judge.passed === false` 反推：那说明的是「模型越界了」，
+   * 而这一位说明的是「你看到的那句话不是模型写的」。两者在排查时
+   * 指向完全不同的地方。
+   */
+  fallbackApplied: z.boolean(),
   createdAt: z.string(),
 });
 

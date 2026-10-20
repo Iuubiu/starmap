@@ -158,6 +158,16 @@ export function HomePage() {
 
   const [sessionId, setSessionId] = useState<string>(() => currentSessionId());
   const [utterance, setUtterance] = useState('');
+  /*
+   * 最后一次**真正发出去**的那句话。
+   *
+   * 不能拿 `utterance` 当重试的素材：提交成功后输入框会被清空（这是对的，
+   * 否则学生得手动删），于是「再试一次」在那一刻读到的是空串。早先的实现
+   * 用 `text.trim() || '再试一次'` 兜底，结果真的把「再试一次」这四个字当成
+   * 学习者的话发了出去 —— 学生得到一个基于不存在的问题的卡，而且日志里
+   * 记着一句他从没说过的话。
+   */
+  const [lastSent, setLastSent] = useState('');
   const [activeTurnId, setActiveTurnId] = useState<string | null>(null);
   const [showEvidence, setShowEvidence] = useState(false);
 
@@ -186,8 +196,13 @@ export function HomePage() {
   const onRetry = () => {
     // 「再试一次」重发的是**同一句话**：降级轮和一次不满意的卡都该能重来一次，
     // 而不是逼学生把话重新打一遍（重打往往会改措辞，那就不是同一轮了）。
-    const text = shown?.turnId === submitted?.turnId ? utterance : lastUtterance(shown, history.payload);
-    const target = text.trim() || '再试一次';
+    //
+    // 三个来源按可信度排序：刚提交的那句（`lastSent`）→ 日志里那一轮的原话
+    // → 输入框里现有的内容。绝不用占位文本兜底：发一句学生没说过的话，
+    // 比让他重打一遍更糟。
+    const recalled = lastUtterance(shown, history.payload);
+    const target = (lastSent || recalled || utterance).trim();
+    if (!target) return;
     setShowEvidence(false);
     submit.mutate({ utterance: target, microKpId: currentKpId(shown), tier: 'P1' });
   };
@@ -197,6 +212,7 @@ export function HomePage() {
     if (!text || submit.isPending) return;
     setActiveTurnId(null);
     setShowEvidence(false);
+    setLastSent(text);
     submit.mutate(
       { utterance: text, microKpId: currentKpId(shown), tier: 'P1' },
       { onSuccess: () => setUtterance('') },
@@ -218,6 +234,7 @@ export function HomePage() {
     setShowEvidence(false);
     submit.reset();
     setUtterance('');
+    setLastSent('');
   };
 
   const logItems = history.payload?.items ?? [];

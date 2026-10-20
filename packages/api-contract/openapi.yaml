@@ -530,6 +530,193 @@
         - "code"
         - "message"
       "type": "object"
+    "AttemptRecord":
+      "additionalProperties": false
+      "properties":
+        "attemptId":
+          "type": "string"
+        "attemptNo":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "correct":
+          "type": "boolean"
+        "countsTowardMastery":
+          "type": "boolean"
+        "createdAt":
+          "type": "string"
+        "itemId":
+          "type": "string"
+        "knowledgeKind":
+          "enum":
+            - "fact"
+            - "concept"
+            - "comprehensive"
+          "type": "string"
+        "levelId":
+          "type":
+            - "string"
+            - "null"
+        "microKpId":
+          "type": "string"
+        "variantGroup":
+          "type": "string"
+      "required":
+        - "attemptId"
+        - "itemId"
+        - "levelId"
+        - "microKpId"
+        - "variantGroup"
+        - "correct"
+        - "attemptNo"
+        - "countsTowardMastery"
+        - "knowledgeKind"
+        - "createdAt"
+      "type": "object"
+    "AttemptSubmitRequest":
+      "additionalProperties": false
+      "properties":
+        "answer":
+          "anyOf":
+            - "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            - "type": "string"
+        "hintsUsed":
+          "maximum": 4
+          "minimum": 0
+          "type": "integer"
+        "itemId":
+          "minLength": 1
+          "type": "string"
+        "latencyMs":
+          "anyOf":
+            - "maximum": 21600000
+              "minimum": 0
+              "type": "integer"
+            - "type": "null"
+        "stepId":
+          "minLength": 1
+          "type": "string"
+      "required":
+        - "itemId"
+        - "answer"
+      "type": "object"
+    "AttemptSubmitResponse":
+      "additionalProperties": false
+      "properties":
+        "attempt":
+          "additionalProperties": false
+          "properties":
+            "attemptId":
+              "type": "string"
+            "attemptNo":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "correct":
+              "type": "boolean"
+            "countsTowardMastery":
+              "type": "boolean"
+            "createdAt":
+              "type": "string"
+            "itemId":
+              "type": "string"
+            "knowledgeKind":
+              "enum":
+                - "fact"
+                - "concept"
+                - "comprehensive"
+              "type": "string"
+            "levelId":
+              "type":
+                - "string"
+                - "null"
+            "microKpId":
+              "type": "string"
+            "variantGroup":
+              "type": "string"
+          "required":
+            - "attemptId"
+            - "itemId"
+            - "levelId"
+            - "microKpId"
+            - "variantGroup"
+            - "correct"
+            - "attemptNo"
+            - "countsTowardMastery"
+            - "knowledgeKind"
+            - "createdAt"
+          "type": "object"
+        "mastery":
+          "additionalProperties": false
+          "properties":
+            "achieved":
+              "anyOf":
+                - "maximum": 1
+                  "minimum": 0
+                  "type": "number"
+                - "type": "null"
+            "aggregatedLeafCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "attemptCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "current":
+              "anyOf":
+                - "maximum": 1
+                  "minimum": 0
+                  "type": "number"
+                - "type": "null"
+            "evidenceSufficient":
+              "type": "boolean"
+            "halfLifeDays":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "isLeaf":
+              "type": "boolean"
+            "lastEvidenceAt":
+              "type":
+                - "string"
+                - "null"
+            "microKpId":
+              "type": "string"
+            "name":
+              "type": "string"
+            "state":
+              "enum":
+                - "mastered"
+                - "proficient"
+                - "familiar"
+                - "attempted"
+                - "unseen"
+              "type": "string"
+            "variantCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "microKpId"
+            - "name"
+            - "isLeaf"
+            - "state"
+            - "achieved"
+            - "current"
+            - "attemptCount"
+            - "variantCount"
+            - "evidenceSufficient"
+            - "halfLifeDays"
+            - "lastEvidenceAt"
+            - "aggregatedLeafCount"
+          "type": "object"
+      "required":
+        - "attempt"
+        - "mastery"
+      "type": "object"
     "ContentStatsResponse":
       "additionalProperties": false
       "properties":
@@ -637,6 +824,325 @@
         - "chunks"
         - "answers"
         - "edges"
+      "type": "object"
+    "GenerationFailureKind":
+      "enum":
+        - "llm_error"
+        - "not_json"
+        - "schema_invalid"
+        - "missing_field"
+        - "language_not_compliant"
+        - "ungrounded_source"
+        - "practice_violation"
+        - "db_error"
+      "type": "string"
+    "GenerationFailureSummary":
+      "additionalProperties": false
+      "properties":
+        "count":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "kind":
+          "enum":
+            - "llm_error"
+            - "not_json"
+            - "schema_invalid"
+            - "missing_field"
+            - "language_not_compliant"
+            - "ungrounded_source"
+            - "practice_violation"
+            - "db_error"
+          "type": "string"
+        "sample":
+          "type": "string"
+      "required":
+        - "kind"
+        - "count"
+        - "sample"
+      "type": "object"
+    "GenerationRun":
+      "additionalProperties": false
+      "properties":
+        "concurrency":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "createdAt":
+          "type": "string"
+        "failedCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "failures":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "count":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+              "kind":
+                "enum":
+                  - "llm_error"
+                  - "not_json"
+                  - "schema_invalid"
+                  - "missing_field"
+                  - "language_not_compliant"
+                  - "ungrounded_source"
+                  - "practice_violation"
+                  - "db_error"
+                "type": "string"
+              "sample":
+                "type": "string"
+            "required":
+              - "kind"
+              - "count"
+              - "sample"
+            "type": "object"
+          "type": "array"
+        "finishedAt":
+          "type":
+            - "string"
+            - "null"
+        "requestedCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "runId":
+          "type": "string"
+        "succeededCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "tasks":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "attempts":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "durationMs":
+                "anyOf":
+                  - "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                  - "type": "null"
+              "failureDetail": {}
+              "failureKind":
+                "anyOf":
+                  - "enum":
+                      - "llm_error"
+                      - "not_json"
+                      - "schema_invalid"
+                      - "missing_field"
+                      - "language_not_compliant"
+                      - "ungrounded_source"
+                      - "practice_violation"
+                      - "db_error"
+                    "type": "string"
+                  - "type": "null"
+              "failureMessage":
+                "type":
+                  - "string"
+                  - "null"
+              "itemCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "levelId":
+                "type":
+                  - "string"
+                  - "null"
+              "levelTitle":
+                "type":
+                  - "string"
+                  - "null"
+              "microKpId":
+                "type": "string"
+              "microKpName":
+                "type": "string"
+              "status":
+                "enum":
+                  - "pending"
+                  - "running"
+                  - "succeeded"
+                  - "failed"
+                "type": "string"
+              "taskId":
+                "type": "string"
+            "required":
+              - "taskId"
+              - "microKpId"
+              - "microKpName"
+              - "status"
+              - "failureKind"
+              - "failureMessage"
+              - "failureDetail"
+              - "levelId"
+              - "levelTitle"
+              - "itemCount"
+              - "attempts"
+              - "durationMs"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "runId"
+        - "requestedCount"
+        - "succeededCount"
+        - "failedCount"
+        - "concurrency"
+        - "tasks"
+        - "failures"
+        - "createdAt"
+        - "finishedAt"
+      "type": "object"
+    "GenerationRunListResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "createdAt":
+                "type": "string"
+              "failedCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "finishedAt":
+                "type":
+                  - "string"
+                  - "null"
+              "requestedCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "runId":
+                "type": "string"
+              "status":
+                "enum":
+                  - "pending"
+                  - "running"
+                  - "succeeded"
+                  - "partial"
+                  - "failed"
+                "type": "string"
+              "succeededCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+            "required":
+              - "runId"
+              - "status"
+              - "requestedCount"
+              - "succeededCount"
+              - "failedCount"
+              - "createdAt"
+              - "finishedAt"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "items"
+      "type": "object"
+    "GenerationRunRequest":
+      "additionalProperties": false
+      "properties":
+        "concurrency":
+          "maximum": 8
+          "minimum": 1
+          "type": "integer"
+        "limit":
+          "maximum": 50
+          "minimum": 1
+          "type": "integer"
+        "microKpIds":
+          "items":
+            "minLength": 1
+            "type": "string"
+          "maxItems": 50
+          "type": "array"
+        "wait":
+          "type": "boolean"
+      "type": "object"
+    "GenerationRunStatus":
+      "enum":
+        - "pending"
+        - "running"
+        - "succeeded"
+        - "partial"
+        - "failed"
+      "type": "string"
+    "GenerationTask":
+      "additionalProperties": false
+      "properties":
+        "attempts":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "durationMs":
+          "anyOf":
+            - "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            - "type": "null"
+        "failureDetail": {}
+        "failureKind":
+          "anyOf":
+            - "enum":
+                - "llm_error"
+                - "not_json"
+                - "schema_invalid"
+                - "missing_field"
+                - "language_not_compliant"
+                - "ungrounded_source"
+                - "practice_violation"
+                - "db_error"
+              "type": "string"
+            - "type": "null"
+        "failureMessage":
+          "type":
+            - "string"
+            - "null"
+        "itemCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "levelId":
+          "type":
+            - "string"
+            - "null"
+        "levelTitle":
+          "type":
+            - "string"
+            - "null"
+        "microKpId":
+          "type": "string"
+        "microKpName":
+          "type": "string"
+        "status":
+          "enum":
+            - "pending"
+            - "running"
+            - "succeeded"
+            - "failed"
+          "type": "string"
+        "taskId":
+          "type": "string"
+      "required":
+        - "taskId"
+        - "microKpId"
+        - "microKpName"
+        - "status"
+        - "failureKind"
+        - "failureMessage"
+        - "failureDetail"
+        - "levelId"
+        - "levelTitle"
+        - "itemCount"
+        - "attempts"
+        - "durationMs"
       "type": "object"
     "GraphEdge":
       "additionalProperties": false
@@ -1786,6 +2292,71 @@
         - "message"
         - "code"
       "type": "object"
+    "MasteryView":
+      "additionalProperties": false
+      "properties":
+        "achieved":
+          "anyOf":
+            - "maximum": 1
+              "minimum": 0
+              "type": "number"
+            - "type": "null"
+        "aggregatedLeafCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "attemptCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "current":
+          "anyOf":
+            - "maximum": 1
+              "minimum": 0
+              "type": "number"
+            - "type": "null"
+        "evidenceSufficient":
+          "type": "boolean"
+        "halfLifeDays":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "isLeaf":
+          "type": "boolean"
+        "lastEvidenceAt":
+          "type":
+            - "string"
+            - "null"
+        "microKpId":
+          "type": "string"
+        "name":
+          "type": "string"
+        "state":
+          "enum":
+            - "mastered"
+            - "proficient"
+            - "familiar"
+            - "attempted"
+            - "unseen"
+          "type": "string"
+        "variantCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+      "required":
+        - "microKpId"
+        - "name"
+        - "isLeaf"
+        - "state"
+        - "achieved"
+        - "current"
+        - "attemptCount"
+        - "variantCount"
+        - "evidenceSufficient"
+        - "halfLifeDays"
+        - "lastEvidenceAt"
+        - "aggregatedLeafCount"
+      "type": "object"
     "NodeDetailResponse":
       "additionalProperties": false
       "properties":
@@ -2094,6 +2665,8 @@
             - "null"
         "createdAt":
           "type": "string"
+        "fallbackApplied":
+          "type": "boolean"
         "judge":
           "additionalProperties": false
           "properties":
@@ -2189,6 +2762,7 @@
         - "question"
         - "ladder"
         - "judge"
+        - "fallbackApplied"
         - "createdAt"
       "type": "object"
     "RetrievalBandsResponse":
@@ -2939,6 +3513,48 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "「看依据」：本轮用到了哪些切片，哪些被门控排除"
+  "/api/v1/attempts":
+    "post":
+      "description": "对错由后端比对 `level_items.answer` 判定，请求体不接受客户端自报的 `correct`。写入作答、重算该微知识点掌握度、更新掌握度行在**同一个事务**里完成：半步失败会留下「证据记了但掌握度没动」的不一致状态。"
+      "operationId": "submitAttempt"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/AttemptSubmitRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/AttemptSubmitResponse"
+          "description": "作答已记录，附带重算后的掌握度"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体不成形（缺字段、类型不对）"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "题目不存在"
+        "422":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "作答不合法（选项下标越界、答案类型与题目不符）"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "记录一次作答并重算掌握度"
   "/api/v1/content/stats":
     "get":
       "operationId": "getContentStats"
@@ -3050,6 +3666,86 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "把一个知识点的学习过程（涉及的题、错因、讲解片段）打包成关卡草稿"
+  "/api/v1/market/generations":
+    "get":
+      "operationId": "listGenerationRuns"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/GenerationRunListResponse"
+          "description": "最近的运行列表"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "最近的批量生成运行（只给头部计数，不带每条明细）"
+    "post":
+      "operationId": "startGenerationRun"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/GenerationRunRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/GenerationRun"
+          "description": "运行已创建。wait=false 时 status 通常是 running，任务明细已建齐"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体不合法：既没给 microKpIds 也没给 limit，或并发度越界"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "给出的知识点 id 有不存在或其所在教材片段缺失"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "按知识点批量生成关卡（后台跑，立刻返回 runId 供轮询进度）"
+  "/api/v1/market/generations/{runId}":
+    "get":
+      "operationId": "getGenerationRun"
+      "parameters":
+        - "in": "path"
+          "name": "runId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/GenerationRun"
+          "description": "运行详情"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "运行不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "一次批量生成的完整视图：逐条结果、失败原因汇总、进度"
   "/api/v1/market/levels":
     "get":
       "operationId": "listMarketLevels"
@@ -3136,6 +3832,36 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "市场的单个关卡（含完整 level.spec，供编辑/重新开始）"
+  "/api/v1/mastery/{microKpId}":
+    "get":
+      "description": "证据不足（<3 个变式或 <8 次作答）时 `achieved` 与 `current` 都是 null，调用方应显示「证据不足」而不是 0% —— 「不知道」和「零分」是两件事。"
+      "operationId": "getMastery"
+      "parameters":
+        - "in": "path"
+          "name": "microKpId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/MasteryView"
+          "description": "掌握度"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "知识点不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "知识点掌握度（双字段：achieved 不衰减、current 会衰减）"
   "/api/v1/nodes":
     "get":
       "operationId": "listNodes"

@@ -307,6 +307,12 @@ export function MarketPage() {
             <Button appearance="primary" onClick={() => goAuthor(draftMicroKpId)}>
               开始打包
             </Button>
+            {/* 批量生成与「打包一段学习过程」是两条不同的路：前者从教材直接出题、
+                产物是 AI 关卡（只进练习池）；后者把**你自己**做过的题打包成关卡。
+                所以入口并排放在这里，而不是塞进上面那个 Card 里。 */}
+            <Button appearance="secondary" onClick={() => navigate('/market/generate')}>
+              AI 批量生成
+            </Button>
           </div>
           {authorError && (
             <MessageBar intent="warning">

@@ -14,6 +14,13 @@
  * visibility）。路由命名也按这个说：`/market/levels` 是「入库」，不是「发布」。
  */
 import {
+  GenerationFailureKindSchema,
+  GenerationFailureSummarySchema,
+  GenerationRunListResponseSchema,
+  GenerationRunRequestSchema,
+  GenerationRunSchema,
+  GenerationRunStatusSchema,
+  GenerationTaskSchema,
   MarketDraftItemSchema,
   MarketDraftLearningSchema,
   MarketDraftRequestSchema,
@@ -46,6 +53,14 @@ export const components = {
   MarketSaveLevelRequest: jsonSchema(MarketSaveLevelRequestSchema),
   MarketSaveLevelResponse: jsonSchema(MarketSaveLevelResponseSchema),
   MarketLevelDetailResponse: jsonSchema(MarketLevelDetailResponseSchema),
+  // 票 16：批量生成
+  GenerationRunStatus: jsonSchema(GenerationRunStatusSchema),
+  GenerationFailureKind: jsonSchema(GenerationFailureKindSchema),
+  GenerationTask: jsonSchema(GenerationTaskSchema),
+  GenerationFailureSummary: jsonSchema(GenerationFailureSummarySchema),
+  GenerationRun: jsonSchema(GenerationRunSchema),
+  GenerationRunRequest: jsonSchema(GenerationRunRequestSchema),
+  GenerationRunListResponse: jsonSchema(GenerationRunListResponseSchema),
 };
 
 /** 错误体统一走 `ApiError`（common 领域已定义，这里只引用不重定义） */
@@ -110,6 +125,50 @@ export const paths = {
       responses: {
         '200': jsonResponse('关卡详情', 'MarketLevelDetailResponse'),
         '404': err('关卡不存在'),
+        '500': err('服务内部错误'),
+      },
+    },
+  },
+
+  // ── 票 16：AI 批量生成 ──────────────────────────────────────────────────
+  '/api/v1/market/generations': {
+    post: {
+      operationId: 'startGenerationRun',
+      summary: '按知识点批量生成关卡（后台跑，立刻返回 runId 供轮询进度）',
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': { schema: { $ref: '#/components/schemas/GenerationRunRequest' } },
+        },
+      },
+      responses: {
+        '200': jsonResponse(
+          '运行已创建。wait=false 时 status 通常是 running，任务明细已建齐',
+          'GenerationRun',
+        ),
+        '400': err('请求体不合法：既没给 microKpIds 也没给 limit，或并发度越界'),
+        '404': err('给出的知识点 id 有不存在或其所在教材片段缺失'),
+        '500': err('服务内部错误'),
+      },
+    },
+    get: {
+      operationId: 'listGenerationRuns',
+      summary: '最近的批量生成运行（只给头部计数，不带每条明细）',
+      responses: {
+        '200': jsonResponse('最近的运行列表', 'GenerationRunListResponse'),
+        '500': err('服务内部错误'),
+      },
+    },
+  },
+
+  '/api/v1/market/generations/{runId}': {
+    get: {
+      operationId: 'getGenerationRun',
+      summary: '一次批量生成的完整视图：逐条结果、失败原因汇总、进度',
+      parameters: [pathParam('runId')],
+      responses: {
+        '200': jsonResponse('运行详情', 'GenerationRun'),
+        '404': err('运行不存在'),
         '500': err('服务内部错误'),
       },
     },

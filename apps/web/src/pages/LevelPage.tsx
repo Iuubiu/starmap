@@ -207,7 +207,7 @@ function LevelPlayer({ spec, levelKind, flow, setFlow, onExit }: LevelPlayerProp
     <div className={styles.page}>
       <header className={styles.heading}>
         <div className={styles.titleRow}>
-          <Text className={styles.title}>{spec.meta.title}</Text>
+          <Text className={styles.title} as="h1">{spec.meta.title}</Text>
           <Badge appearance="tint" color="brand" style={{ whiteSpace: 'nowrap' }}>
             {KIND_LABEL[levelKind] ?? levelKind}
           </Badge>

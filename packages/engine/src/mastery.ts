@@ -130,3 +130,193 @@ export function currentFromEvidence(
 ): number {
   return decay(achieved, elapsedDays, HALF_LIFE_DAYS[kind]);
 }
+
+// ---------------------------------------------------------------------------
+// 证据回放：作答记录 → 两个百分比
+// ---------------------------------------------------------------------------
+
+/**
+ * 一条作答证据。字段刻意只留回放必需的东西 —— 不含 `created_at` 之外的时间、
+ * 不含数据库自增 id，这样同一串事件无论从哪里取出都得出同一个结果。
+ *
+ * `variantGroup` 是**去重键**：同一微知识点内平行题共用一组（spec L247），
+ * 所以「做了三道平行题」只算覆盖了一个变式，不增加变式数（ADR-0004）。
+ */
+export interface EvidenceEvent {
+  itemId: string;
+  variantGroup: string;
+  kind: KnowledgeKind;
+  correct: boolean;
+  /** 作答时刻，ISO 8601。回放按它排序，并在它之上算衰减 */
+  at: string;
+}
+
+/** 掌握度五态。与 `app.mastery.state` 的 CHECK 约束逐字一致 */
+export type MasteryState = 'mastered' | 'proficient' | 'familiar' | 'attempted' | 'unseen';
+
+export interface MasterySnapshot {
+  /** 历史最高后验。不衰减，管解锁 */
+  achieved: number;
+  /** 当前后验按半衰期衰减后的值。管推荐与检索门控 */
+  current: number;
+  /** 五态标签。`attempted` 同时覆盖「刚做了一次」和「做了很多次但证据还不够」 */
+  state: MasteryState;
+  attemptCount: number;
+  /** 按 `variantGroup` 去重后的变式数 */
+  variantCount: number;
+  /** ≥3 变式且 ≥8 次作答。false 时调用方**不得**输出百分比 */
+  evidenceSufficient: boolean;
+  /** 回放结束时的裸后验，只用于诊断与测试，不对外展示 */
+  pKnown: number;
+  /** 本次衰减采用的半衰期（天），由证据里占比最高的知识类型决定 */
+  halfLifeDays: number;
+  /** 最后一条证据的时刻；无证据时为 null */
+  lastEvidenceAt: string | null;
+}
+
+/** 五态阈值。仓库里此前没有先例，这里定下来并写进测试： */
+export const FAMILIAR_THRESHOLD = 0.4;
+export const PROFICIENT_THRESHOLD = 0.7;
+
+/**
+ * 变式数：按 `variantGroup` 去重。
+ *
+ * **不能用 itemId 去重** —— 平行题（同组、题干换数字）本来就是为了让学习者
+ * 多练几次而不算多会一个变式，按题去重会让「刷同一道题的三个版本」冒充
+ * 「掌握了三种变式」，那正是变式门槛要防的事。
+ */
+export function countDistinctVariants(events: readonly EvidenceEvent[]): number {
+  return new Set(events.map((event) => event.variantGroup)).size;
+}
+
+/**
+ * 半衰期取证据里占比最高的知识类型；占比持平取**更短**的那个。
+ *
+ * 持平时保守取值（取更短半衰期 = 衰减更快 = 更快提示复习）。反过来会让
+ * 「一半事实一半综合」的知识点享有综合类的 45 天半衰期，而事实类本来该
+ * 14 天就提醒复习。
+ */
+function dominantHalfLife(events: readonly EvidenceEvent[]): number {
+  if (events.length === 0) return HALF_LIFE_DAYS.concept;
+
+  const counts = new Map<KnowledgeKind, number>();
+  for (const event of events) {
+    counts.set(event.kind, (counts.get(event.kind) ?? 0) + 1);
+  }
+
+  let best: KnowledgeKind = 'concept';
+  let bestCount = -1;
+  let bestHalfLife = Number.POSITIVE_INFINITY;
+  for (const [kind, count] of counts) {
+    const halfLife = HALF_LIFE_DAYS[kind];
+    if (count > bestCount || (count === bestCount && halfLife < bestHalfLife)) {
+      best = kind;
+      bestCount = count;
+      bestHalfLife = halfLife;
+    }
+  }
+  return HALF_LIFE_DAYS[best];
+}
+
+function toMillis(iso: string): number {
+  const ms = Date.parse(iso);
+  // 坏时间戳不能静默变成 NaN 再污染整条回放：当作「最早」处理，但这属于
+  // 上游数据错误，所以用 0 而不是「现在」—— 后者会让结果依赖系统时钟。
+  return Number.isNaN(ms) ? 0 : ms;
+}
+
+/**
+ * 回放一串作答，得出双字段掌握度。
+ *
+ * 语义（逐条对应票 05 验收）：
+ * - `achieved` = 折演过程中后验的**历史最大值**，因此单调不减、永不衰减；
+ * - `current` = 折演结束时后验按「距最后一条证据的天数」衰减，所以答错会降、
+ *   时间流逝会降、答对会升；
+ * - 时长为 0 天时 `current` 就等于裸后验，两者相减就是衰减量。
+ *
+ * 确定性：不读系统时钟、不用随机数、不依赖 Map 迭代顺序（比较时同时比
+ * 计数与半衰期），事件按时间排序（同时刻保持入参顺序），所以同一串输入
+ * 无论调用几次、在什么时刻调用，输出逐字段相同。
+ */
+export function replayMastery(
+  events: readonly EvidenceEvent[],
+  evaluatedAt: string,
+  params: BktParams = DEFAULT_BKT,
+): MasterySnapshot {
+  const ordered = events
+    .map((event, index) => ({ event, index }))
+    .sort((a, b) => toMillis(a.event.at) - toMillis(b.event.at) || a.index - b.index)
+    .map(({ event }) => event);
+
+  let state = initialState(params);
+  let achieved = 0;
+  for (const event of ordered) {
+    state = bktUpdate(state, { correct: event.correct }, params);
+    achieved = Math.max(achieved, state.pKnown);
+  }
+
+  const attemptCount = ordered.length;
+  const variantCount = countDistinctVariants(ordered);
+  const evidenceSufficient = attemptCount >= MASTERY_MIN_ATTEMPTS && variantCount >= MASTERY_MIN_VARIANTS;
+
+  const last = ordered[ordered.length - 1];
+  const lastEvidenceAt = last ? last.at : null;
+  const halfLifeDays = dominantHalfLife(ordered);
+  const elapsedDays = last ? (toMillis(evaluatedAt) - toMillis(last.at)) / 86_400_000 : 0;
+  const current = decay(state.pKnown, elapsedDays, halfLifeDays);
+
+  return {
+    // 无证据时 0 而不是 prior：先验 0.25 是算法起点，不是「学习者会了两成半」
+    achieved: attemptCount === 0 ? 0 : achieved,
+    current: attemptCount === 0 ? 0 : current,
+    state: deriveState(attemptCount, evidenceSufficient, current),
+    attemptCount,
+    variantCount,
+    evidenceSufficient,
+    pKnown: attemptCount === 0 ? 0 : state.pKnown,
+    halfLifeDays,
+    lastEvidenceAt,
+  };
+}
+
+/**
+ * 五态派生。证据不足时**不许**给出 familiar 以上 —— 两次蒙对不该显示为「已熟悉」。
+ * 与 `app.mastery.state` 的 CHECK 一致，所以这里返回值可直接落库。
+ */
+export function deriveState(
+  attemptCount: number,
+  evidenceSufficient: boolean,
+  current: number,
+): MasteryState {
+  if (attemptCount === 0) return 'unseen';
+  if (!evidenceSufficient) return 'attempted';
+  if (current >= MASTERY_THRESHOLD) return 'mastered';
+  if (current >= PROFICIENT_THRESHOLD) return 'proficient';
+  if (current >= FAMILIAR_THRESHOLD) return 'familiar';
+  return 'attempted';
+}
+
+/**
+ * 非叶节点颜色：子节点按**证据量**加权聚合（ADR-0004）。
+ *
+ * 为什么按证据量不按简单平均：一个只做过 1 道题的子节点和一个做过 20 道题
+ * 的子节点对父节点颜色的贡献不该相同，否则父节点色会随「哪些孩子被碰过」
+ * 剧烈跳动。为什么只读派生、不落库：一份证据只能计权一次，落库就会让同一
+ * 道题同时抬高它自己和所有祖先（ADR-0004 的核心禁止事项）。
+ *
+ * 证据量为 0 的子节点不参与（不把平均值往下拉），全部为 0 时返回 null，
+ * 由调用方渲染成「未学习」而不是 0%。
+ */
+export function aggregateEvidence(
+  children: readonly { value: number; weight: number }[],
+): number | null {
+  let weighted = 0;
+  let weight = 0;
+  for (const child of children) {
+    if (child.weight <= 0) continue;
+    weighted += child.value * child.weight;
+    weight += child.weight;
+  }
+  if (weight === 0) return null;
+  return weighted / weight;
+}

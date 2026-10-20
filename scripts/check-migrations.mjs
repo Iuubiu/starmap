@@ -26,10 +26,22 @@
  *
  * ## 不检查编号连续
  *
- * 编号是**泳道分区**而不是序号：0001-0009 共享面、0010-0019 关卡、
- * 0020-0029 智能体、0040-0049 自制关卡。中间的空号是有意留的，将来每条
- * 泳道还要往里插。检查连续会在每次插号时误报，误报几次之后这个门就会
- * 被人加 `|| true` 绕过 —— 那时它连真问题也拦不住了。
+ * 编号是**泳道分区**而不是序号。中间的空号是有意留的，将来每条泳道还要
+ * 往里插。检查连续会在每次插号时误报，误报几次之后这个门就会被人加
+ * `|| true` 绕过 —— 那时它连真问题也拦不住了。
+ *
+ * 分区表（**新迁移按自己泳道的号段取，不要抢别人的号**）：
+ *
+ * | 号段 | 归属 | 现状 |
+ * | --- | --- | --- |
+ * | 0001-0009 | 共享面（integrator） | 0001 初始化 / 0002 内容归属 / 0003 图谱与复验 |
+ * | 0010-0019 | 关卡与掌握度（level-dev） | 0010 布尔代数教学关 |
+ * | 0020-0029 | 智能体与检索（agent-dev） | 0020 回合 / 0021 追问 / 0022 技能注册 |
+ * | 0030-0039 | 内容与图谱（content-dev） | 尚未使用 |
+ * | 0040-0049 | 自制关卡与市场（authoring-dev） | 0040 关卡市场 |
+ *
+ * 撞号检查（下面的 `numbering`）只能事后发现，分区表让人在写文件之前就
+ * 选对号 —— 两者不重复，前者是兜底。
  *
  * ## 为什么不复用 `apps/api/scripts/migrate.ts`
  *
@@ -207,6 +219,103 @@ const LEFTOVER_INDEX_SQL = `
   ORDER BY indexname
 `;
 
+/** 某个列还在不在。 */
+const COLUMN_EXISTS_SQL = `
+  SELECT count(*)::int AS n
+  FROM information_schema.columns
+  WHERE table_schema = $1 AND table_name = $2 AND column_name = $3
+`;
+
+/** 某个表当前有多少行。用于判断「内容迁移的 down 到底删没删东西」。 */
+async function totalRows(client, schema) {
+  const tables = (await client.query(LEFTOVER_SQL, [schema])).rows
+    .map((r) => r.table_name)
+    .filter((t) => t !== 'schema_migrations');
+  let total = 0;
+  for (const t of tables) {
+    const { rows } = await client.query(`SELECT count(*)::int AS n FROM ${schema}."${t}"`);
+    total += rows[0].n;
+  }
+  return total;
+}
+
+/**
+ * 每个文件「它建了什么」——表、索引、列。回滚时逐个来问这些东西还在不在。
+ *
+ * 用「这个文件建的对象」而不是「schema 里还剩几张表」作为判据，是因为后者
+ * 会被 `0001_init.down.sql` 的 `DROP SCHEMA ... CASCADE` 一次性抹平：只要
+ * 0001 的 down 跑了，前面任何泳道的 down 少删了什么都看不出来。本脚本的
+ * 第一版正是这么写的，往 `0022` 的 down 里写「什么都不做」它照样报绿。
+ */
+function createdObjectsOf(sql) {
+  const objects = [];
+  for (const m of sql.matchAll(
+    /CREATE\s+(UNIQUE\s+)?(TABLE|INDEX)\s+(IF\s+NOT\s+EXISTS\s+)?(?:app\.)?([a-z_0-9]+)/gi,
+  )) {
+    objects.push({ kind: m[2].toLowerCase(), name: m[4] });
+  }
+  for (const m of sql.matchAll(
+    /ALTER\s+TABLE\s+(?:ONLY\s+)?app\.([a-z_0-9]+)\s+ADD\s+COLUMN\s+(?:IF\s+NOT\s+EXISTS\s+)?([a-z_0-9]+)/gi,
+  )) {
+    // 注意可选前缀 `IF NOT EXISTS` 必须显式吃掉：用非贪婪 `[^;]*?` 去接列名
+    // 会把 `IF` 抓成列名，于是检查在查一个不存在的列、永远「已删除」。
+    objects.push({ kind: 'column', table: m[1], name: m[2] });
+  }
+  return objects;
+}
+
+/** 这个上行文件写了 INSERT 吗（内容迁移的判据）。 */
+function hasInsert(sql) {
+  return /^\s*INSERT\s+INTO/im.test(sql) || /\bINSERT\s+INTO\b/i.test(sql);
+}
+
+/**
+ * 上行文件改过哪些列的默认值。
+ *
+ * 这一类改动 `createdObjectsOf` 完全看不见：它既没有 CREATE 也没有 ADD COLUMN，
+ * 只是把某一列的 DEFAULT 拿掉或换掉。`0004_drop_stale_seed_level.sql` 正是
+ * 这种形状（`DELETE` 两行 + `ALTER COLUMN spec DROP DEFAULT`），于是探针实测
+ * 出一个盲区：**把它的 down 写成只有一行注释，检查照样报绿。**
+ *
+ * 判据取「down 跑完之后，这一列的默认值和 down 跑之前不一样」。因为 down 的
+ * 职责就是撤销 up 做过的改动 —— 值没变就说明它什么都没做。这对 SET 和 DROP
+ * 两个方向都成立，也不需要读懂 DEFAULT 表达式是什么。
+ */
+function alteredDefaultsOf(sql) {
+  const out = [];
+  for (const m of sql.matchAll(
+    /ALTER\s+TABLE\s+(?:ONLY\s+)?(?:app\.)?([a-z_0-9]+)\s+ALTER\s+COLUMN\s+([a-z_0-9]+)\s+(SET\s+DEFAULT|DROP\s+DEFAULT)/gi,
+  )) {
+    out.push({ table: m[1], column: m[2], action: /drop/i.test(m[3]) ? 'drop' : 'set' });
+  }
+  return out;
+}
+
+/** 某一列当前的默认值表达式；列不存在返回 `undefined`，「没有默认值」返回 `null`。 */
+const COLUMN_DEFAULT_SQL = `
+  SELECT column_default
+  FROM information_schema.columns
+  WHERE table_schema = $1 AND table_name = $2 AND column_name = $3
+`;
+
+async function columnDefault(client, schema, table, column) {
+  const { rows } = await client.query(COLUMN_DEFAULT_SQL, [schema, table, column]);
+  return rows.length ? rows[0].column_default : undefined;
+}
+
+async function objectExists(client, schema, obj) {
+  if (obj.kind === 'column') {
+    const { rows } = await client.query(COLUMN_EXISTS_SQL, [schema, obj.table, obj.name]);
+    return rows[0].n > 0;
+  }
+  if (obj.kind === 'table') {
+    const { rows } = await client.query(LEFTOVER_SQL, [schema]);
+    return rows.some((r) => r.table_name === obj.name);
+  }
+  const { rows } = await client.query(LEFTOVER_INDEX_SQL, [schema]);
+  return rows.some((r) => r.indexname === obj.name);
+}
+
 async function checkRoundTrip(client) {
   const schema = `mig_check_${randomBytes(6).toString('hex')}`;
   const failures = [];
@@ -220,59 +329,115 @@ async function checkRoundTrip(client) {
   );
 
   try {
-    // 先把每个 up 的「它建了什么」记下来，down 之后再来看这些名字还在不在。
-    // 光看「up 之后有几张表、down 之后是不是 0 张」不够：一张表建了又没删，
-    // 但另一张表重复建（IF NOT EXISTS 不报错），总数可能仍然对得上。
-    const createdObjects = [];
-
+    const byFile = new Map();
     for (const file of upFiles) {
       const sql = readFileSync(join(migrationsDir, file), 'utf8');
       try {
         await client.query(redirectSchema(sql, schema));
       } catch (err) {
         failures.push(`上行 ${file} 执行失败：${err.message}`);
-        return { schema, failures, createdObjects };
+        return { failures, checkedObjects: 0 };
       }
-      for (const m of sql.matchAll(
-        /CREATE\s+(?:UNIQUE\s+)?(?:TABLE|INDEX)\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:app\.)?([a-z_0-9]+)/gi,
-      )) {
-        createdObjects.push({ file, name: m[1] });
-      }
-      for (const m of sql.matchAll(/ALTER\s+TABLE\s+app\.([a-z_0-9]+)\s+ADD\s+COLUMN[^;]*?\b([a-z_0-9]+)\b/gi)) {
-        createdObjects.push({ file, name: `${m[1]}.${m[2]}`, column: true });
-      }
+      byFile.set(file, {
+        objects: createdObjectsOf(sql),
+        defaults: alteredDefaultsOf(sql),
+        inserted: hasInsert(sql),
+      });
     }
 
+    let checkedObjects = 0;
+
     // 倒序回滚，与 `migrate.ts` 的 down 行为一致（它 `[...files].reverse()`）。
+    // **每回滚一个就问一次**，而不是全滚完再统一看残留 —— 理由见
+    // `createdObjectsOf` 的注释。
     for (const file of [...upFiles].reverse()) {
-      const downPath = join(migrationsDir, file.replace(/\.sql$/, '.down.sql'));
+      const downName = file.replace(/\.sql$/, '.down.sql');
+      const downPath = join(migrationsDir, downName);
       if (!existsSync(downPath)) {
-        failures.push(`缺少下行脚本：${file.replace(/\.sql$/, '.down.sql')}`);
+        failures.push(`缺少下行脚本：${downName}`);
         continue;
       }
-      const sql = readFileSync(downPath, 'utf8');
+
+      const before = (await client.query(LEFTOVER_SQL, [schema])).rows.length;
+      const rowsBefore = await totalRows(client, schema);
+      // 记下 up 之后这些列的默认值，down 跑完再比。
+      const meta = byFile.get(file);
+      const defaultsBefore = new Map();
+      for (const d of meta.defaults) {
+        defaultsBefore.set(`${d.table}.${d.column}`, await columnDefault(client, schema, d.table, d.column));
+      }
+
       try {
-        await client.query(redirectSchema(sql, schema));
+        await client.query(redirectSchema(readFileSync(downPath, 'utf8'), schema));
       } catch (err) {
-        failures.push(`下行 ${file.replace(/\.sql$/, '.down.sql')} 执行失败：${err.message}`);
+        failures.push(`下行 ${downName} 执行失败：${err.message}`);
+        continue;
+      }
+
+      // 默认值类改动：down 之后值必须和 down 之前不同，否则它什么都没撤销。
+      // 这类改动看不到对象，`createdObjectsOf` 和内容迁移判据都漏掉它 ——
+      // 0004 就是这样漏的（探针：把 down 写成只有注释，照样报绿）。
+      for (const d of meta.defaults) {
+        checkedObjects += 1;
+        const key = `${d.table}.${d.column}`;
+        const after = await columnDefault(client, schema, d.table, d.column);
+        if (after === undefined) {
+          failures.push(
+            `下行 ${downName} 之后 ${key} 这一列不存在了（up 只改了它的默认值，不该删列）`,
+          );
+        } else if (after === defaultsBefore.get(key)) {
+          failures.push(
+            `下行 ${downName} 没有改变 ${key} 的默认值（up 改了它，down 里找不到对应的 SET/DROP DEFAULT）——` +
+              `前后都是 ${JSON.stringify(after)}`,
+          );
+        }
+      }
+
+      // 结构迁移：它建的每个对象都应该没了。
+      for (const obj of meta.objects) {
+        checkedObjects += 1;
+        if (await objectExists(client, schema, obj)) {
+          const what =
+            obj.kind === 'column' ? `${obj.table}.${obj.name}（列）` : `${obj.name}（${obj.kind}）`;
+          failures.push(`下行 ${downName} 没有删除 ${what} —— 该迁移的 up 建了它，down 里找不到对应的 DROP/ALTER`);
+        }
+      }
+
+      // 内容迁移（只有 INSERT、没有 DDL）：down 至少要让某些行消失。
+      // 判据取「整个 schema 的总行数减少了」而不是解析 DELETE 的键值：
+      // 键值在 up 里是字面量、在 down 里可能用不同写法表达同一批行，读文件
+      // 比对会变成「两种等价写法被判不一致」，而真的没删是绝对不能放过的。
+      if (meta.objects.length === 0 && meta.inserted) {
+        const rowsAfter = await totalRows(client, schema);
+        checkedObjects += 1;
+        if (rowsAfter >= rowsBefore) {
+          failures.push(
+            `下行 ${downName} 没有删掉任何行（回滚前后总行数 ${rowsBefore} → ${rowsAfter}）——` +
+              `这是内容迁移，回滚脚本应当移除它插入的数据`,
+          );
+        }
+      }
+
+      // 0001 的 down 会把整个 schema 删掉，之后的循环没必要再问。
+      const schemaGone = (await client.query(LEFTOVER_SQL, [schema])).rows.length === 0
+        && (await client.query(
+          `SELECT count(*)::int AS n FROM information_schema.schemata WHERE schema_name = $1`,
+          [schema],
+        )).rows[0].n === 0;
+      if (schemaGone) {
+        void before;
+        return { failures, checkedObjects };
       }
     }
 
     const tables = (await client.query(LEFTOVER_SQL, [schema])).rows
       .map((r) => r.table_name)
       .filter((t) => t !== 'schema_migrations');
-    const indexes = (await client.query(LEFTOVER_INDEX_SQL, [schema])).rows.map(
-      (r) => r.indexname,
-    );
+    const indexes = (await client.query(LEFTOVER_INDEX_SQL, [schema])).rows.map((r) => r.indexname);
+    if (tables.length) failures.push(`全部回滚后仍残留业务表：${tables.join(', ')}`);
+    if (indexes.length) failures.push(`全部回滚后仍残留索引：${indexes.join(', ')}`);
 
-    if (tables.length) {
-      failures.push(`回滚后仍残留业务表：${tables.join(', ')}`);
-    }
-    if (indexes.length) {
-      failures.push(`回滚后仍残留索引：${indexes.join(', ')}`);
-    }
-
-    return { schema, failures, createdObjects };
+    return { failures, checkedObjects };
   } finally {
     // 无论成败都清掉。这里用 DROP SCHEMA ... CASCADE 是对的：整个 schema 是
     // 本函数现造的，删它不可能波及任何别人的东西。
@@ -310,7 +475,7 @@ async function runDatabaseCheck() {
   }
 
   try {
-    const { failures, createdObjects } = await checkRoundTrip(client);
+    const { failures, checkedObjects } = await checkRoundTrip(client);
     if (failures.length) {
       record('roundtrip', '下行脚本真的能回滚（up → down → 无残留）', 'failed', failures.join('\n'));
     } else {
@@ -318,8 +483,8 @@ async function runDatabaseCheck() {
         'roundtrip',
         '下行脚本真的能回滚（up → down → 无残留）',
         'passed',
-        `${upFiles.length} 个迁移在一次性 schema 上 up → down 往返成功，` +
-          `建了 ${createdObjects.length} 个对象，回滚后无残留表、无残留索引`,
+        `${upFiles.length} 个迁移在一次性 schema 上逐个 up → down，` +
+          `逐一核对了 ${checkedObjects} 个「up 建了什么」，回滚后全部消失、无残留表、无残留索引`,
       );
     }
   } finally {

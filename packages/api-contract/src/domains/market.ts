@@ -171,3 +171,160 @@ export const MarketSaveLevelResponseSchema = z.object({
 export type MarketSaveLevelRequest = z.infer<typeof MarketSaveLevelRequestSchema>;
 export type MarketSaveLevelResponse = z.infer<typeof MarketSaveLevelResponseSchema>;
 export type MarketLevelDetailResponse = z.infer<typeof MarketLevelDetailResponseSchema>;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 票 16：AI 批量生成
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * 一次批量生成的状态。
+ *
+ * `partial` 单独存在而不是用「成功数 > 0 且失败数 > 0」推断：状态是要给人和
+ * 程序同时读的，字符串 `partial` 能直接进日志和 UI 文案，而两个计数字段的
+ * 组合有四种情况需要调用方自己判。
+ */
+export const GenerationRunStatusSchema = z.enum([
+  'pending',
+  'running',
+  'succeeded',
+  'partial',
+  'failed',
+]);
+
+export type GenerationRunStatus = z.infer<typeof GenerationRunStatusSchema>;
+
+/**
+ * 失败分类（与 `level_generation_task.failure_kind` 的 CHECK 一一对应）。
+ *
+ * 为什么是枚举而不是自由文本：验收⑤要求「可汇总查看」。自由文本会让
+ * 12 条失败变成 12 种同义不同字的说法，`GROUP BY` 出来等于没分组。
+ */
+export const GenerationFailureKindSchema = z.enum([
+  'llm_error',
+  'not_json',
+  'schema_invalid',
+  'missing_field',
+  'language_not_compliant',
+  'ungrounded_source',
+  'practice_violation',
+  'db_error',
+]);
+
+export type GenerationFailureKind = z.infer<typeof GenerationFailureKindSchema>;
+
+/** 每个知识点一条执行明细 */
+export const GenerationTaskSchema = z.object({
+  taskId: z.string(),
+  microKpId: z.string(),
+  microKpName: z.string(),
+  status: z.enum(['pending', 'running', 'succeeded', 'failed']),
+  failureKind: GenerationFailureKindSchema.nullable(),
+  failureMessage: z.string().nullable(),
+  /**
+   * 字段级明细。成功时为 null；schema_invalid 时是 `validateLevelSpec()` 的
+   * issues（`{path,message,code}` 数组，与市场保存的 422 details 同源）。
+   */
+  failureDetail: z.unknown(),
+  levelId: z.string().nullable(),
+  levelTitle: z.string().nullable(),
+  itemCount: z.number().int().min(0),
+  /** 这条任务被尝试过几次。幂等重跑时递增，用于分辨「一次就好」与「反复失败」 */
+  attempts: z.number().int().min(0),
+  durationMs: z.number().int().min(0).nullable(),
+});
+
+export type GenerationTask = z.infer<typeof GenerationTaskSchema>;
+
+/**
+ * 失败原因汇总的一行。
+ *
+ * 这是验收⑤「可汇总查看」的落点：不是让前端自己 group，
+ * 而是后端直接给出「这一批里 schema_invalid 失败 3 条」这种结论。
+ */
+export const GenerationFailureSummarySchema = z.object({
+  kind: GenerationFailureKindSchema,
+  count: z.number().int().min(1),
+  /** 这一类的典型报错原文（取最早的一条），用于把分类翻成人话 */
+  sample: z.string(),
+});
+
+export type GenerationFailureSummary = z.infer<typeof GenerationFailureSummarySchema>;
+
+/** 一次批量执行的完整视图（跑的过程中轮询这个看进度） */
+export const GenerationRunSchema = z.object({
+  runId: z.string(),
+  /**
+   * 本次关心的知识点总数。
+   *
+   * 与 `tasks.length` 在**未开始的运行**上可能不同：那一阶段只有计数没有明细。
+   * 但一旦开始跑，两者必然相等 —— 明细是在运行开始时一次性建齐的，
+   * 这样「进度 3/8」不会因为中途插入新行而分母漂移。
+   */
+  requestedCount: z.number().int().min(0),
+  succeededCount: z.number().int().min(0),
+  failedCount: z.number().int().min(0),
+  concurrency: z.number().int().min(1),
+  tasks: z.array(GenerationTaskSchema),
+  failures: z.array(GenerationFailureSummarySchema),
+  createdAt: z.string(),
+  finishedAt: z.string().nullable(),
+});
+
+export type GenerationRun = z.infer<typeof GenerationRunSchema>;
+
+/**
+ * POST /api/v1/market/generations —— 发起一次批量生成。
+ *
+ * `microKpIds` 与 `limit` 二选一：
+ *   - 给了 id 列表就跑这些（去重后按传入顺序，便于复现同一批）
+ *   - 只给 limit 就按「最缺关卡的叶子知识点」自动挑
+ *
+ * 两者都不给时默认 `limit=4`。故意不设「跑全部 167 个知识点」的默认值：
+ * 那是一次昂贵且不可逆的写操作，不该由省略参数触发。
+ */
+export const GenerationRunRequestSchema = z
+  .object({
+    microKpIds: z.array(z.string().min(1)).max(50).optional(),
+    limit: z.number().int().min(1).max(50).optional(),
+    /** 并发度。默认 4（票 16 的要求），上限 8 防止把上游限流打爆 */
+    concurrency: z.number().int().min(1).max(8).optional(),
+    /**
+     * 是否等这批跑完再返回。
+     *
+     * 默认 false（后台跑，立刻返回 runId 供轮询）—— 票 16 要求「可后台跑
+     * 并观察进度」。设 true 只给测试与 CLI 用，便于一条命令拿到最终结果。
+     */
+    wait: z.boolean().optional(),
+  })
+  .refine((v) => v.microKpIds !== undefined || v.limit !== undefined, {
+    message: 'microKpIds 与 limit 至少要给一个（不提供「跑全部知识点」的默认行为）',
+    path: ['limit'],
+  });
+
+export type GenerationRunRequest = z.infer<typeof GenerationRunRequestSchema>;
+
+/**
+ * 发起（或查询）一次批量生成的响应。
+ *
+ * 直接用 `GenerationRunSchema`，不另造一个 `GenerationRunResponseSchema` 别名：
+ * 别名会让 emit 的双向检查认为有两个组件，而它们的形状逐字相同 —— 那正好是
+ * 「同一个形状两个名字」的腐烂起点，Orval 会生成两个互不兼容的类型。
+ */
+export type GenerationRunResponse = GenerationRun;
+
+/** GET /api/v1/market/generations —— 最近若干次运行（只给头部，不带每条明细） */
+export const GenerationRunListResponseSchema = z.object({
+  items: z.array(
+    z.object({
+      runId: z.string(),
+      status: GenerationRunStatusSchema,
+      requestedCount: z.number().int().min(0),
+      succeededCount: z.number().int().min(0),
+      failedCount: z.number().int().min(0),
+      createdAt: z.string(),
+      finishedAt: z.string().nullable(),
+    }),
+  ),
+});
+
+export type GenerationRunListResponse = z.infer<typeof GenerationRunListResponseSchema>;

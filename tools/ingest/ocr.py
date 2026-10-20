@@ -568,6 +568,78 @@ def measure_page_number(engine: OcrEngine, doc, index: int, *, band: float = 0.1
     return None if best is None else best[1]
 
 
+def resolve_page_offsets(
+    pages: list["OcrPage"],
+    *,
+    fallback: int = 0,
+    window: int = 15,
+) -> tuple[dict[int, int], dict[str, Any]]:
+    """用**每页自己认出的印刷页码**推一个逐页偏移表，而不是全书一个常数。
+
+    为什么不能用常数偏移
+    --------------------
+    05《核辐射测量原理》实测（464 页里 442 页页脚有页码）：
+
+        pdf 页段        众数偏移
+        0–155           14
+        160–240         16
+        240–300         18 / 20
+        320–440         24
+        440–        32
+
+    真偏移从 14 一路漂到 32 —— 中间夹了整页图版（pdf 164 只有 6 行字、缩页高
+    769pt）和重排版页。用 14 一个常数，pdf 320 之后的 `printed_page` 全部错
+    10 页以上，`assign` 按 `printedPage` 分区间就会把整章内容挂错知识点。
+    其它书是稳定的（01 王芝英 261/280 页都是 13，02 都是 9，22 都是 16），
+    所以这个函数对稳定书退化成常数，对漂移书自动分段。
+
+    做法：先取每页 `pdf_index - printed` 当该页的候选偏移，再对每一页取
+    **附近 ±window 页内的众数**（漂移是分段常数，局部投票能吃掉单页误读），
+    附近没有任何页码证据时用距离最近的已知页。
+
+    返回 `(offsets, report)`；`offsets` 覆盖 `pages` 里每一页。
+    """
+    known: list[tuple[int, int]] = sorted(
+        (p.page, p.page - p.footer_page)
+        for p in pages
+        if p.footer_page is not None
+    )
+    report: dict[str, Any] = {
+        'pages': len(pages),
+        'pagesWithNumber': len(known),
+        'globalOffset': fallback,
+        'distinctOffsets': 0,
+        'drift': 0,
+        'window': window,
+    }
+    if not known:
+        return {p.page: fallback for p in pages}, report
+
+    counts: dict[int, int] = {}
+    for _, off in known:
+        counts[off] = counts.get(off, 0) + 1
+    global_offset = max(counts.items(), key=lambda kv: kv[1])[0]
+    report['globalOffset'] = global_offset
+    report['distinctOffsets'] = len(counts)
+    report['drift'] = max(known, key=lambda kv: kv[0])[1] - min(known, key=lambda kv: kv[0])[1]
+
+    by_page = sorted(pages, key=lambda p: p.page)
+    offsets: dict[int, int] = {}
+    for p in by_page:
+        near = [off for idx, off in known if abs(idx - p.page) <= window]
+        if near:
+            c: dict[int, int] = {}
+            for off in near:
+                c[off] = c.get(off, 0) + 1
+            offsets[p.page] = max(c.items(), key=lambda kv: kv[1])[0]
+            continue
+        # 附近没有证据：用页码证据距离最近的一页
+        nearest = min(known, key=lambda kv: abs(kv[0] - p.page))
+        offsets[p.page] = nearest[1]
+    report['distinctOffsets'] = len(set(offsets.values()))
+    return offsets, report
+
+
 def detect_page_offset(
     engine: OcrEngine,
     doc,
@@ -600,13 +672,32 @@ def detect_page_offset(
         return 0, 0.0, hits
     best = max(counts.items(), key=lambda kv: kv[1])
     total = sum(counts.values())
-    return best[0], best[1] / total, hits
+    agreement = best[1] / total
+    # 证据太弱时不采用众数，返回 0 让调用方报错要求显式 `--page-offset`。
+    #
+    # 两条门槛都是实测出来的：
+    # - **至少 3 次命中**：18《原子核物理实验方法》整本印的是括号页码
+    #   `(357)`，页眉页脚带里根本没有页码，抽样只碰到 2 次误读（同一张表格的
+    #   `49`），众数偏移算出 **-49**、一致率 0.50 —— 拿它当偏移会让全书每页
+    #   的 printed_page 都错 49 页，比「不知道」坏得多。3 次是最低可核验数。
+    # - **一致率 ≥ 0.5**：05《核辐射测量原理》真偏移是 14，但页眉里有表格
+    #   数字被当成页码，16 次命中里 5 次对、11 次散在不同偏移上（0.31）。
+    #   它的众数是对的，可这种「对得多、错得也多」的局面不该自动采用。
+    if len(hits) < 3 or agreement < 0.5:
+        return 0, agreement, hits
+    return best[0], agreement, hits
 
 
 # ---------------------------------------------------------------------------
 # 目录：扫描件的目录页只能 OCR，且不能用 `toc.py` 的那套正则
 # ---------------------------------------------------------------------------
-_TOC_PAGENO = re.compile(r'^[\s.·•●\-—–+*§$⋯…]*(\d{1,4})\s*$')
+# 页码行的样子。除了纯数字，还要容忍**括号页码**：18《原子核物理实验方法》和
+# 19《核辐射探测器及其实验技术手册》把页码印在行尾括号里（`(357)`、`(194 )`、
+# `（194）`），全角半角混着来，括号内外还常有空格。这两本没有独立的页码列，
+# `_band_from_lines` 量不出带子（返回 None），全靠整页识别 + 这一条正则。
+_TOC_PAGENO = re.compile(
+    r'^[\s.·•●\-—–+*§$⋯…:：]*[(（]?\s*(\d{1,4})\s*[)）]?\s*[\s.·•●:：]*$'
+)
 _TOC_NUM = re.compile(r'^(?:第\s*([一二三四五六七八九十百零\d]+)\s*[章节]|([\d]{1,2}(?:\.\d{1,2}){0,2}))\s*')
 # 目录页右侧页码带的左右边界（占页宽比例），裁带尺寸是实测出来的，见
 # `toc_band_lines`：0.74–0.84 + text_score 0.05 能认到 33 个数字行、整列
@@ -627,6 +718,25 @@ def _chinese_int(s: str) -> int:
     return digits.index(s) if s in digits else 0
 
 
+def _repair_page(raw: str) -> int:
+    """页码数字串 → 整数，顺带修「两位数字调序」（`08` 其实是 `80`）。
+
+    **只能在拿到原始字符串的地方做**：`int('08')` 已经是 8，和真值第 8 页在
+    数值上完全无法区分，一旦转成 int 就再也修不回来了。
+
+    判据靠印刷事实：页码从不带前导零，所以页码列里以 `0` 开头的两位数一定
+    是两位数字被认反了 —— `08`→`80`、`03`→`30`。三位以上不动（`012` 这种
+    在 5181 页的教材里不存在，真出现说明这一行不是页码）。
+
+    实测来源：02 王经瑾 p8 的 `11.3.5` 页码列认成 `08`，前后条目是 79 和 82，
+    真值 80。不修的话这条 `printed_page` 落到 8，`assign` 会把它挂到第十一章
+    以外的知识点上。
+    """
+    if len(raw) == 2 and raw[0] == '0':
+        return int(raw[1] + raw[0])
+    return int(raw)
+
+
 def _toc_page_number(text: str) -> int | None:
     """目录右侧那一列：`17`、`·17`、`-20`、`..25`、`+++50`、`........1` → 数字。
 
@@ -645,12 +755,34 @@ def _toc_page_number(text: str) -> int | None:
     m = _TOC_PAGENO.match(t)
     if not m:
         return None
-    return int(m.group(1))
+    return _repair_page(m.group(1))
 
 
 _CHAPTER_ONLY = re.compile(r'^第\s*[一二三四五六七八九十百零\d]+\s*[章节篇]\s*$')
-# 小节符号独占一行（`§1`，OCR 常认成 `$1` / `s3` / `S4`）
-_SEC_ONLY = re.compile(r'^[§\$sS]\s*\d{1,2}\s*$')
+# 小节符号独占一行（`§1`，OCR 常认成 `$1` / `s3` / `S4`）。
+#
+# 尾部必须容忍一个杂点：p10 的 `$1.`（y=1881，`§1` 后面跟着一个小数点残留）
+# 原来匹配不上，于是 `第三章 放大器` 那一个节的编号整个丢掉、`section` 停在
+# 上一章的 2，连带它下面所有 `三、`/`四、` 子节都拿不到 `3.1.x` —— 实测
+# 126 个节点里 63 个没有编号，一半是这一个字符引起的。
+_SEC_ONLY = re.compile(r'^[§\$sS]\s*\d{1,2}\s*[.·、,]?\s*$')
+# 点分编号独占一行（`11.2.2`），标题在右边单独一列。
+#
+# 02《核电子学》王经瑾上册是这种版式：编号列 x≈100、标题列 x≈203、页码列
+# x≈1200，三列各自独立成行（实测 p8 的 115 行里 40 行是页码）。原来只把
+# `第X章`/`§N` 当「独占一行的标记」，`11.2.2` 就掉进了标题分支 —— 于是
+# `_title_of` 把它当标题正文，配对时按 y 贪心抢到页码，整页变成一堆
+# 编号对页码、标题全丢（实测 p8 只出 54 条且标题是 `+1136`/`:1137` 这种
+# 噪声）。识别成标记后它就按 y 配到右侧标题上，行为与 `第一章` 一致。
+_DOTTED_ONLY = re.compile(r'^[\s.·•●\-—–+*:：]*(\d{1,2}(?:\.\d{1,2}){1,2})[\s.·•●]*$')
+
+
+def _is_standalone_marker(text: str) -> bool:
+    """这一行是不是「只有编号、没有标题」的标记行。"""
+    t = text.strip()
+    return bool(
+        _CHAPTER_ONLY.match(t) or _SEC_ONLY.match(t) or _DOTTED_ONLY.match(t)
+    )
 
 
 def parse_toc_ocr(lines: list[OcrLine], *, denoise: bool = False) -> list[tuple[str, str, int]]:
@@ -707,16 +839,8 @@ def parse_toc_ocr(lines: list[OcrLine], *, denoise: bool = False) -> list[tuple[
             continue
         titles.append((ln, t))
         title_line.append(k)
-    markers = [
-        (ln, t)
-        for ln, t in titles
-        if _CHAPTER_ONLY.match(t) or _SEC_ONLY.match(t)
-    ]
-    keep = [
-        i
-        for i, (_, t) in enumerate(titles)
-        if not (_CHAPTER_ONLY.match(t) or _SEC_ONLY.match(t))
-    ]
+    markers = [(ln, t) for ln, t in titles if _is_standalone_marker(t)]
+    keep = [i for i, (_, t) in enumerate(titles) if not _is_standalone_marker(t)]
     titles = [titles[i] for i in keep]
     title_line = [title_line[i] for i in keep]
     prefix: dict[int, list[tuple[float, str]]] = {}
@@ -747,8 +871,20 @@ def parse_toc_ocr(lines: list[OcrLine], *, denoise: bool = False) -> list[tuple[
             num = mm.group(2)
             raw = raw[mm.end() :]
         elif i in prefix:
-            # 章号/节号独占一行时按 y 距离配到标题上，多个标记按纵向顺序拼
-            raw = ' '.join(t for _, t in sorted(prefix[i])) + ' ' + raw
+            # 章号/节号独占一行时按 y 距离配到标题上，多个标记按纵向顺序拼。
+            #
+            # 标记本身要按类型分开处理：`第X章`/`§N` 原样拼回标题串，让
+            # `_assign_nums` 看到并翻译；点分编号（`11.2.2`）直接当 `num`，
+            # 它是已经成形的编号，拼进标题反而会被 `_TOC_NUM` 再剥一次。
+            marks = sorted(prefix[i])
+            dotted = [t for _, t in marks if _DOTTED_ONLY.match(t.strip())]
+            words = [t for _, t in marks if not _DOTTED_ONLY.match(t.strip())]
+            if dotted:
+                dm = _DOTTED_ONLY.match(dotted[-1].strip())
+                if dm and not num:
+                    num = dm.group(1)
+            if words:
+                raw = ' '.join(words) + ' ' + raw
         return num, re.sub(r'[\s.·…\u2026]+', '', raw).strip('-—_')
 
     out: list[tuple[int, str, str, int]] = []
@@ -871,14 +1007,75 @@ def _assign_nums(entries: list[tuple[str, str, int]]) -> list[tuple[str, str, in
             out.append((f'{chapter}.{section}', body, page))
         elif hit_sub:
             out.append((f'{chapter}.{section}.{sub}', body, page))
+        elif _looks_like_orphan_sub(raw) and chapter and section:
+            # 序号被 OCR 吃掉、只剩前导「、」的子节（`、系统的基本组成` 原本
+            # 是 `三、系统的基本组成`）。这种行不能落到无编号分支：`build_tree`
+            # 只会给它造一个孤立的 `kp-pNN-*` 节点，实测王芝英有 26 个叶子
+            # 颗粒无收，其中大半是这类。按「上一个子节 + 1」续号。
+            sub += 1
+            out.append((f'{chapter}.{section}.{sub}', raw.strip()[1:].strip() or title, page))
         else:
             # 点分编号（`1.2.3`）已经在 `parse_toc_ocr` 里取出来了，这里照抄
             out.append((num, body, page))
     return out
 
 
+_ORPHAN_SUB = re.compile(r'^[、.．，,·]\s*\S')
+
+
+def _looks_like_orphan_sub(raw: str) -> bool:
+    """`、系统的基本组成` 这种「前导标点 + 正文」，是真子节但序号丢了。
+
+    只认**前导顿号紧接汉字**：目录里的噪声行要么是**孤零零一个标点**
+    （p10 的 `、`、`，`），要么是别的标点开头。所以要求至少 2 个汉字 ——
+    门槛是卡「有没有正文」，不是卡「够不够长」：实测有 `、最佳滤波器的讨论`
+    这种真子节，也有 `、戊` 这种短标题，用 3 字门槛会把后者误判成噪声。
+    2 个汉字足够挡掉 `、`/`，`/`·`，因为纯标点行一个汉字都没有。
+    """
+    t = raw.strip()
+    if not _ORPHAN_SUB.match(t):
+        return False
+    return len(re.findall(r'[一-鿿]', t)) >= 2
+
+
+def _band_from_lines(lines: list[OcrLine], width: float) -> tuple[float, float] | None:
+    """从整页识别结果里**量出**页码列在哪，返回 `(左, 右)` 占页宽的比例。
+
+    不能像第一版那样写死 `0.74–0.84`：11 本书量下来页码列的右沿分布很宽 ——
+    01 王芝英 0.77w、02 王经瑾 0.76w、05 汤彬 0.95w、06 陈伯显 0.97w、
+    07 丁洪林 0.92w。写死的带子只有 01/02 落在里面，其余几本整列页码都裁到
+    带外去了（裁带里一条数字都没有，`_merge_toc_band` 又把带右边的真页码全
+    删掉，等于把页码列清空）。
+
+    判法和 `parse_toc_ocr` 一致：候选按 x1 聚 40px 桶，取**最密且最靠右**的
+    那一桶。标题列里被误读成数字的短行（`83`、`$4`）x1 只有 0.14w 左右，聚
+    在不同桶里且稀疏，选不中。
+    """
+    nums = [ln for ln in lines if _toc_page_number(ln.text) is not None]
+    if len(nums) < 2:
+        return None
+    buckets: dict[int, list[OcrLine]] = {}
+    for ln in nums:
+        buckets.setdefault(int(ln.x1 // 40), []).append(ln)
+    best = max(buckets.values(), key=lambda v: (len(v), max(l.x1 for l in v)))
+    col_right = max(ln.x1 for ln in best)
+    # 右边界多留 3% 页宽：引导点会把框的左沿拖出去，右沿基本贴着印刷位置
+    lo = max(0.0, (col_right - 0.09 * width) / width)
+    hi = min(1.0, (col_right + 0.03 * width) / width)
+    if hi - lo < 0.04:  # 太窄说明量出来的位置不可信，交给调用方用默认带
+        return None
+    return lo, hi
+
+
 def toc_band_lines(
-    engine: "OcrEngine", doc, index: int, *, dpi: int = OCR_DPI, text_score: float | None = None
+    engine: "OcrEngine",
+    doc,
+    index: int,
+    *,
+    dpi: int = OCR_DPI,
+    text_score: float | None = None,
+    band: tuple[float, float] | None = None,
+    lines: list[OcrLine] | None = None,
 ) -> tuple[list[OcrLine], float]:
     """只认**右侧页码带**里的字，用来给目录页补页码。返回 (行表, 裁带左边界像素)。
 
@@ -904,18 +1101,27 @@ def toc_band_lines(
 
     返回的行坐标**已经换回整页坐标**（x 加上裁带的偏移），所以能和整页识别
     出来的标题行直接按 y 配对。
+
+    `band` 不传就用默认的 `_TOC_BAND`；传了就用传进来的（`parse_toc_pages`
+    会先用 `_band_from_lines` 从整页结果里量出这本书自己的页码列位置）。
     """
     import numpy as np
 
     image = render_page(doc, index, dpi)
     h, w = image.shape[:2]
-    x0 = int(w * _TOC_BAND[0])
-    strip = np.ascontiguousarray(image[:, x0 : int(w * _TOC_BAND[1])])
+    left, right = band if band is not None else _TOC_BAND
+    x0 = int(w * left)
+    strip = np.ascontiguousarray(image[:, x0 : int(w * right)])
     rows = [
         OcrLine(text=l.text, conf=l.conf, x0=l.x0 + x0, y0=l.y0, x1=l.x1 + x0, y1=l.y1)
         for l in engine.lines(strip, text_score=text_score)
     ]
     return rows, float(x0)
+
+
+def _page_width(doc, index: int, dpi: int) -> float:
+    """页面渲染成图后的像素宽（页码带按比例裁，得先知道宽）。"""
+    return doc[index].rect.width * dpi / 72.0
 
 
 def parse_toc_pages(
@@ -941,12 +1147,21 @@ def parse_toc_pages(
     for p in pages:
         lines = list(p.lines)
         if engine is not None and doc is not None:
+            # 先整页认一遍、量出这本书的页码列在哪，再只裁那一条带重认 ——
+            # 写死 0.74–0.84 时 05/06/07 的页码列（0.92–0.98w）整个落在带
+            # 外，`_merge_toc_band` 会把带右边那一大片真页码当「带内旧行」
+            # 删掉，等于把页码列清空。
+            width_px = _page_width(doc, p.page, dpi)
+            band_range = _band_from_lines(lines, width_px) or _TOC_BAND
             try:
-                band, x0 = toc_band_lines(engine, doc, p.page, dpi=dpi, text_score=_TOC_BAND_SCORE)
+                band, x0 = toc_band_lines(
+                    engine, doc, p.page, dpi=dpi, text_score=_TOC_BAND_SCORE, band=band_range
+                )
             except Exception:
                 band = []
             if band:
-                lines = _merge_toc_band(lines, band, x0)
+                right = x0 + width_px * (band_range[1] - band_range[0])
+                lines = _merge_toc_band(lines, band, x0, right)
         entries.extend(parse_toc_ocr(lines))
     entries = _toc_denoise(entries)
     if max_page:
@@ -972,7 +1187,9 @@ def _clamp_pages(entries: list[tuple[str, str, int]], max_page: int) -> list[tup
     return out
 
 
-def _merge_toc_band(lines: list[OcrLine], band: list[OcrLine], x0: float) -> list[OcrLine]:
+def _merge_toc_band(
+    lines: list[OcrLine], band: list[OcrLine], x0: float, right: float | None = None
+) -> list[OcrLine]:
     """把页码带的识别结果并回整页行表：带内那一片的旧行**整段替换**，不是追加。
 
     追加会出问题：同一条页码在两边各认一次，`parse_toc_ocr` 的「一对一贪心
@@ -983,12 +1200,21 @@ def _merge_toc_band(lines: list[OcrLine], band: list[OcrLine], x0: float) -> lis
     落在带内（1292–1317）、也可能被引导符拖到带外（1251），按 `x0 < x0` 判
     会漏掉后者，留下 `600961-50` 这种和带内 `-50` 打双包的脏行。
 
+    **必须也给右边界**（`right`）：给了 `right` 就只替换 `[x0, right]` 这一段
+    里的旧行，带右边的行原样保留。自适应带子是按每本书量出来的，不给右边界
+    就会把带子右边到页边的所有页码行一起删掉 —— 05/06/07 这几本的页码列本来
+    就在 0.92–0.98w，那样正好把整列页码清空。`right` 省略时退回「保留全部
+    左侧行」的老行为，兼容单测和固定带子的调用。
+
     带内一条都没认出来时（`band` 为空）原样返回：宁可留着整页认出的页码去
     试配对，也不要因为一次裁带失败把整列页码全丢掉。
     """
     if not band:
         return lines
-    keep = [l for l in lines if l.x1 < x0]
+    if right is None:
+        keep = [l for l in lines if l.x1 < x0]
+    else:
+        keep = [l for l in lines if l.x1 < x0 or l.x0 > right]
     return keep + list(band)
 
 

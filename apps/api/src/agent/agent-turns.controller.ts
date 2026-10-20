@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Inject,
   Param,
   Post,
@@ -43,8 +44,14 @@ export class AgentTurnsController {
    *
    * 用 POST 而不是 GET：一句话落库会产生新记录，且同一句话在不同掌握度下
    * 会得到不同卡（缓存语义是错的）。
+   *
+   * 但状态码是 200 不是 201：这一轮的价值在于**返回的那张卡**，而不是
+   * 一个「新建的回合资源」。回合 id 是给「看依据 / 回看」用的句柄，
+   * 调用方不会拿着它去 GET 一个集合成员 —— 用 201 会暗示一个并不存在的
+   * `Location`。契约里这四条也只声明了 200。
    */
   @Post('agent/turns')
+  @HttpCode(200)
   async create(@Body() rawBody: unknown): Promise<AgentTurnResponse> {
     const parsed = AgentTurnRequestSchema.safeParse(rawBody);
     if (!parsed.success) {

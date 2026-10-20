@@ -22,6 +22,18 @@ describe('求助阶梯的上限由非 LLM 策略核心决定', () => {
     expect(LADDER_LEVELS[4]?.topic).toBe('设计权衡');
   });
 
+  it('每级的骨架问句恰好一个问号，且以问号结尾', () => {
+    // 这不是文案洁癖：safeQuestion 会把它原样拼给学习者，它同时是
+    // 「模型措辞越界时的兜底」和「每轮只问一个问题」在非 LLM 路径上的保证。
+    for (const level of LADDER_LEVELS) {
+      const marks = level.ask.match(/[?？]/g) ?? [];
+      expect(marks, `第 ${level.level} 级的 ask 问号数量不对：${level.ask}`).toHaveLength(1);
+      expect(level.ask.trim().endsWith('？'), `第 ${level.level} 级的 ask 不以问号结尾：${level.ask}`).toBe(
+        true,
+      );
+    }
+  });
+
   it('P1 学习者即使连续失败也拿不到第 4 级提示', () => {
     let state = initialLadderState('P1');
     const seen: number[] = [];

@@ -46,8 +46,12 @@ describe('NodesController（集成）', () => {
        VALUES ('kp-noise', 0.62, 0.48, 'familiar', 9, 3)`,
     );
     await db.query(
-      `INSERT INTO ${schema.name}.levels (id, micro_kp_id, title, kind, ordinal)
-       VALUES ('lv-1', 'kp-noise', '噪声从哪里来', 'teach', 1)`,
+      // spec 显式给空对象，别再依赖列默认值：0004 之后 `levels.spec` 已经
+      // 没有默认值了（那个 `DEFAULT '{}'` 把「忘了写 spec」藏成了运行时 500）。
+      // 这个用例只验 level_items 的计数，从不读 spec，所以显式写空是诚实的
+      // 声明「这里不关心 spec」，而不是又一次忘记。
+      `INSERT INTO ${schema.name}.levels (id, micro_kp_id, title, kind, ordinal, spec)
+       VALUES ('lv-1', 'kp-noise', '噪声从哪里来', 'teach', 1, '{}'::jsonb)`,
     );
     await db.query(
       `INSERT INTO ${schema.name}.level_items

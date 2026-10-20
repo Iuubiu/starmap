@@ -77,6 +77,11 @@ def build_cmd(book: dict, out_dir: Path) -> list[str]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Windows 上把输出重定向到文件时 stdout 默认是 GBK，`✓`/`✗` 会直接抛
+    # UnicodeEncodeError 把整批跑挂（实测：第 1 本书已经跑完，打印汇总时崩）。
+    # 这里改成 utf-8 + replace，反正日志是我们自己看的。
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
     ap = argparse.ArgumentParser()
     ap.add_argument('config')
     ap.add_argument('--only', default='', help='只跑这些 sourceId（逗号分隔）')

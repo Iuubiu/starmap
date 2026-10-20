@@ -11,7 +11,10 @@ import { test, expect } from '@playwright/test';
  * 四个用它的测试全红。改成断言「有卡片、卡片带中文名、点得进去」。
  */
 test('看板显示后端真实知识点', async ({ page }) => {
-  await page.goto('/');
+  // 看板在 `/board`。票 08 之后 `/` 是智能体主页，那条路要换回来
+  // （`apps/web/src/routes.tsx` 的注释写了原因：最常用的入口该是工作台
+  // 而不是陈列架）。这条测试断言的是知识点卡片列表，所以去列表所在的页面。
+  await page.goto('/board');
   await expect(page.getByText('核电子学学习工作站')).toBeVisible();
 
   // 知识点卡片的可访问名形如「布尔代数基本运算 未学习 证据不足」
@@ -22,11 +25,12 @@ test('看板显示后端真实知识点', async ({ page }) => {
 
 test('顶栏显示数据库时间（证明后端连上了真库）', async ({ page }) => {
   await page.goto('/');
+  // 顶栏是个壳，挂在哪个路由下都会渲染 —— 用 `/`（智能体主页）验证这一点。
   await expect(page.getByText(/数据库 \d{2}:\d{2}:\d{2}/)).toBeVisible();
 });
 
 test('从看板点进知识点详情', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/board');
   const first = page.getByRole('button', { name: /未学习|已熟悉|已掌握|生疏/ }).first();
   await expect(first).toBeVisible();
   const name = (await first.getAttribute('aria-label')) ?? '';
@@ -62,11 +66,42 @@ test('六个页面路由都能打开，占位页说明「将来干什么」而�
 
   await page.goto('/skills');
   await expect(page.getByRole('heading', { name: '技能库' })).toBeVisible();
-
-  await page.goto('/level/lv-bool-1');
-  await expect(page.getByRole('heading', { name: '关卡' })).toBeVisible();
-  await expect(page.getByText(/票 04/)).toBeVisible();
 });
+
+/**
+ * 关卡页要能真的打开，且是**真关卡**。
+ *
+ * 这里用 `lv-bool-laws`（迁移 0010 提供）而不是 `lv-bool-1`（早期 seed 插入的
+ * 演示关卡）。后者没有 spec，靠 `levels.spec` 的 `DEFAULT '{}'` 蒙混入库，
+ * 点开就是 500「关卡规范不合法」—— 已由迁移 0004 删除，且那个 DEFAULT 也被
+ * 一并撤掉了。断言换成迁移提供的关卡，任何库都有，不依赖有没有跑过 seed。
+ *
+ * 用一级标题断言而不是 `getByRole('heading')`：这个页面此前**没有 h1**
+ * （`<Text>` 默认渲染成 span），屏幕阅读器的标题导航在这里断掉。断言 h1
+ * 同时钉住了无障碍缺陷与关卡真名。
+ */
+test('关卡页打开真实教学关卡，一级标题是关卡名', async ({ page }) => {
+  await page.goto('/level/lv-bool-laws');
+  await expect(
+    page.getByRole('heading', { level: 1, name: '逻辑代数基本律：吸收律与德摩根律' }),
+  ).toBeVisible();
+  // 播放器真的渲染出了第一步，而不是空壳页面。
+  await expect(page.getByText(/第 1 段/)).toBeVisible();
+});
+
+/**
+ * 「关卡不存在」与「关卡存在但数据坏了」必须是两种不同的结果。
+ *
+ * 500 曾经是「这行在库里，但它的 spec 是坏的」的唯一信号；把它和 404 混成
+ * 一种，下一个写坏 spec 的人就不会知道自己写坏了。这条守的是这个区分本身：
+ * 一个从没存在过的 id 必须 404，不能因为「读不出来」就报 500。
+ */
+test('不存在的关卡返回 404，不是 500', async ({ request }) => {
+  const res = await request.get('/api/v1/levels/nope-does-not-exist');
+  expect(res.status()).toBe(404);
+  expect((await res.json()).code).toBe('NOT_FOUND');
+});
+
 
 test('顶栏导航能切换到数据库页', async ({ page }) => {
   await page.goto('/');

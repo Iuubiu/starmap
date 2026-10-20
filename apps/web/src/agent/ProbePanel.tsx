@@ -228,7 +228,14 @@ export function ProbePanel({
 
       <div className={styles.actions}>
         {!exited && (
-          <Button appearance="primary" onClick={submit} disabled={!canSubmit}>
+          <Button
+            appearance="primary"
+            onClick={submit}
+            disabled={!canSubmit}
+            // 页面底部还有一颗「提交这一轮」（提交一句话）。两颗按钮同页并存时
+            // 屏幕阅读器只会念出同一个名字，分不出哪颗属于哪个输入框。
+            aria-label="提交这一问的回答"
+          >
             {reply.isPending ? '判定中…' : '提交这一轮'}
           </Button>
         )}

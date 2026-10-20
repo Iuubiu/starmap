@@ -10,7 +10,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from assign import _core_terms, assign, is_answer_block, leaf_page_ranges, owner_of
+from assign import (
+    _core_terms,
+    assign,
+    audit_assignment,
+    is_answer_block,
+    leaf_page_ranges,
+    owner_of,
+)
 from chunk import Chunk
 
 
@@ -30,6 +37,54 @@ class TestLeafRanges:
     def test_non_leaf_is_skipped(self):
         nodes = [_node('ch', '章', 1, is_leaf=False), _node('a', '甲', 1)]
         assert [r[0] for r in leaf_page_ranges(nodes)] == ['a']
+
+    def test_same_page_leaves_both_get_a_non_empty_range(self):
+        """两个叶子印在同一页（实测王芝英 20 组）不能把前一个饿死成 `[p,p)`。
+
+        原来的实现「end = 下一个叶子的 start」在并列时给出空区间，前一个叶子
+        永远匹配不到任何页 —— `kp-2-2 电荷灵敏前置放大器` 就是这样 0 chunk 的，
+        而它的内容真实存在（修复后 71 chunk）。
+        """
+        ranges = leaf_page_ranges([_node('a', '甲', 7), _node('b', '乙', 7), _node('c', '丙', 9)])
+        assert ranges[0] == ('a', '甲', 7, 8)
+        assert ranges[1] == ('b', '乙', 8, 9)
+        assert ranges[2] == ('c', '丙', 9, 10**6)
+
+    def test_every_range_is_non_empty(self):
+        """任意输入下 `end > start` 都必须成立 —— 空区间等于静默丢知识点。"""
+        nodes = [_node(f'n{i}', f'名{i}', p) for i, p in enumerate([1, 1, 1, 2, 2, 5])]
+        for _kp, _name, start, end in leaf_page_ranges(nodes):
+            assert end > start
+
+    def test_page_regression_does_not_steal_earlier_pages(self):
+        """目录页码倒退（实测王芝英 16 处）不能让后来者覆盖已占住的页。"""
+        ranges = leaf_page_ranges([_node('a', '甲', 28), _node('b', '乙', 25), _node('c', '丙', 40)])
+        by_id = {r[0]: r for r in ranges}
+        # 按页码排序后 b(25) 在 a(28) 前面，区间首尾相接且递增
+        assert by_id['b'][2] == 25 and by_id['b'][3] == 28
+        assert by_id['a'][2] == 28 and by_id['a'][3] == 40
+        assert owner_of(26, ranges) == ('b', '乙')
+        assert owner_of(30, ranges) == ('a', '甲')
+
+    def test_last_leaf_by_page_absorbs_tail_not_last_in_document_order(self):
+        """`end = 10**6` 只能给**页码最大**的叶子，不能给目录里排最后那个。
+
+        原实现按目录出现顺序取最后一个叶子。王芝英的 `kp-5 时间分析`(p164)
+        排在 `kp-p142 …`(p142) 后面却是最后一个，于是它吞掉 p164 到书末 ——
+        实测 2585/4884 = 52.9%。
+        """
+        nodes = [
+            _node('kp-4-3-3', '逐次比较型模数变换器', 164),
+            _node('kp-p142', '、用于幅度分析的模数变换器', 142),
+            _node('kp-5', '时间分析', 164),
+            _node('kp-6', '数据获取和处理', 252),
+        ]
+        ranges = leaf_page_ranges(nodes)
+        by_id = {r[0]: r for r in ranges}
+        assert by_id['kp-6'][3] == 10**6, '页码最大的叶子才兜书末'
+        assert by_id['kp-5'][3] == 252, 'p164 的叶子不能吞到书末'
+        assert owner_of(200, ranges) == ('kp-5', '时间分析')
+        assert owner_of(300, ranges) == ('kp-6', '数据获取和处理')
 
 
 class TestOwnerOf:
@@ -141,3 +196,44 @@ class TestAssign:
         chunks = [_chunk('c1', 20, '无关的一段背景叙述文字')]
         assign(chunks, nodes)
         assert chunks[0].answer_for == []
+
+
+class TestAuditAssignment:
+    """自检必须能抓住「目录解析坏了但 assign 照样成功」这种静默错误。
+
+    修复前的王芝英就是典型：4884 个 chunk 全部拿到了 `micro_kp_id`，
+    `assign` 一声不响，实际上 52.9% 挤在一个节点、37.7% 的叶子零内容。
+    没有这层自检，t17 会把这份坏目录原样建成图谱。
+    """
+
+    def test_clean_assignment_raises_no_warning(self):
+        nodes = [_node(f'n{i}', f'知识点{i}', i * 10 + 1) for i in range(10)]
+        chunks = [_chunk(f'c{i}', 3 + i * 10, f'知识点{i}的正文内容') for i in range(10)]
+        assign(chunks, nodes)
+        assert audit_assignment(chunks, nodes)['warnings'] == []
+
+    def test_flags_one_node_swallowing_the_book(self):
+        """一个节点吃掉一半以上内容 —— 王芝英修复前 `kp-5` 正是 52.9%。"""
+        nodes = [_node('a', '甲', 1), _node('b', '乙', 100)]
+        chunks = [_chunk(f'c{i}', 5, f'正文{i}') for i in range(10)] + [
+            _chunk('c_tail', 120, '尾部正文')
+        ]
+        assign(chunks, nodes)
+        a = audit_assignment(chunks, nodes)
+        assert a['largest'] == 'a'
+        assert a['largestShare'] > 0.25
+        assert any('吞掉' in w for w in a['warnings'])
+
+    def test_flags_mostly_empty_leaves(self):
+        """大量叶子零内容 —— 同页并列把区间挤空时的症状。"""
+        nodes = [_node(f'n{i}', f'知识点{i}', 5) for i in range(10)]
+        chunks = [_chunk('c1', 5, '唯一有内容的一页')]
+        assign(chunks, nodes)
+        a = audit_assignment(chunks, nodes)
+        assert len(a['emptyLeaves']) >= 8
+        assert any('零 chunk' in w for w in a['warnings'])
+
+    def test_empty_chunk_list_does_not_crash(self):
+        a = audit_assignment([], [_node('a', '甲', 1)])
+        assert a['total'] == 0 and a['largestShare'] == 0.0
+

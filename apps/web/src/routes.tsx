@@ -7,7 +7,9 @@ import { DatabasePage } from './pages/DatabasePage';
 import { LevelPage } from './pages/LevelPage';
 import { MarketPage } from './pages/MarketPage';
 import { MarketAuthorPage } from './pages/MarketAuthorPage';
-import { SkillsPage } from './pages/PlaceholderPages';
+import { GenerationPage } from './pages/GenerationPage';
+import { HomePage } from './pages/HomePage';
+import { SkillsPage } from './pages/SkillsPage';
 
 /**
  * 路由表 —— **新增页面只改这一个文件**。
@@ -32,13 +34,19 @@ export const appRoutes: RouteObject[] = [
     path: '/',
     element: <AppShell />,
     children: [
-      { index: true, element: <DashboardPage /> },
+      // `/` 是**智能体主页**，不是知识点列表（spec §9 第 1 条）。
+      // 看板（推荐 + 今日摘要）在 `/board`。票 01 时 `/` 一度是知识点列表，
+      // 那是「先有数据、后有智能体」阶段的临时形状；票 08 落地后必须换回来，
+      // 否则最常用的入口是陈列架而不是工作台。
+      { index: true, element: <HomePage /> },
+      { path: 'board', element: <DashboardPage /> },
       { path: 'map', element: <MapPage /> },
       { path: 'map/:microKpId', element: <NodeDetailPage /> },
       { path: 'level/:levelId', element: <LevelPage /> },
       { path: 'database', element: <DatabasePage /> },
       { path: 'market', element: <MarketPage /> },
       { path: 'market/author/:microKpId', element: <MarketAuthorPage /> },
+      { path: 'market/generate', element: <GenerationPage /> },
       { path: 'skills', element: <SkillsPage /> },
     ],
   },

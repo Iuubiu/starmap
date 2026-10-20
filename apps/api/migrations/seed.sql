@@ -16,15 +16,15 @@ INSERT INTO app.mastery
 VALUES ('kp-bool', 0.72, 0.66, 'familiar', 10, 3, true)
 ON CONFLICT (micro_kp_id) DO NOTHING;
 
-INSERT INTO app.levels (id, micro_kp_id, title, kind, ordinal)
-VALUES ('lv-bool-1', 'kp-bool', '布尔代数的三条基本律', 'teach', 1)
-ON CONFLICT (id) DO NOTHING;
-
-INSERT INTO app.level_items
-  (id, level_id, stem, answer, explain_correct, explain_wrong, variant_group, pool)
-VALUES (
-  'it-bool-1', 'lv-bool-1', 'A + A·B 化简后等于什么？', '{"value":"A"}',
-  '吸收律：A + A·B = A(1+B) = A',
-  '把吸收律与德摩根律混用会得到 A+B。注意 A·B 是 A 的子集，所以并上 A 不增加任何东西。',
-  'vg-absorb', 'quiz'
-) ON CONFLICT (id) DO NOTHING;
+-- 这里曾经插过一条演示关卡 lv-bool-1（title 布尔代数的三条基本律）和它的
+-- 一道题 it-bool-1。已删除，原因有两条：
+--
+--   1. 它没有 spec。0001 的 `spec jsonb NOT NULL DEFAULT '{}'::jsonb` 让它
+--      静默落成空对象，点开这一关就是 500「关卡规范不合法」—— 见
+--      0004_drop_stale_seed_level.sql 的完整说明。
+--   2. 它和 0010 的 lv-bool-laws 覆盖同一个 kp-bool。真正的教学关卡由 0010
+--      提供且带完整 spec，seed 里再放一条是历史残留。
+--
+-- 已有库里的那一行由 0004 删掉；新库跑 seed 时不会再产生它。
+-- 注意：`spec` 的 DEFAULT 也已被 0004 撤掉，所以将来往这里加关卡**必须**
+-- 显式给 spec 列，否则插入当场失败（这是想要的行为）。

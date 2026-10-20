@@ -43,7 +43,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from assign import assign, review_sample  # noqa: E402
+from assign import assign, audit_assignment, review_sample  # noqa: E402
 from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E402
 from edges import build_edges, summarize, write_edges  # noqa: E402
 from ocr import (  # noqa: E402
@@ -56,6 +56,7 @@ from ocr import (  # noqa: E402
     load_page,
     ocr_page,
     parse_toc_pages,
+    resolve_page_offsets,
     save_page,
     write_page_artifacts,
 )
@@ -148,6 +149,10 @@ def _fallback_node(count: int) -> list[dict]:
 
 
 def main() -> int:
+    # 输出里有 ⚠ / ✓，Windows 把 stdout 重定向到文件时默认 GBK 会直接抛
+    # UnicodeEncodeError 把整本书跑挂。统一改成 utf-8 + replace。
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
     ap = argparse.ArgumentParser()
     ap.add_argument('pdf')
     ap.add_argument('--source-id', required=True)
@@ -175,6 +180,7 @@ def main() -> int:
     print(f'引擎就绪 {time.time() - t_engine:.2f}s（OpenVINO {args.device}，dpi={args.dpi}）')
 
     # 1. 页偏移：auto 就抽样扫页眉页脚
+    offset_confident = True
     if args.page_offset == 'auto':
         print('探测页偏移：抽样扫上下 12% 带…', flush=True)
         offset, agreement, hits = detect_page_offset(engine, doc)
@@ -182,12 +188,21 @@ def main() -> int:
             print(f'  命中 {len(hits)} 页，众数偏移 {offset}，一致率 {agreement:.2f}')
             print(f'  样本: {hits[:8]}')
         else:
-            print('  一页页码都没认出来 → 偏移按 0 处理，请改用 --page-offset 显式指定')
-        if agreement < 0.5 and hits:
-            print(f'  ⚠ 一致率 {agreement:.2f} < 0.5，页码不可信；印刷页码仅供参考')
+            print('  一页页码都没认出来')
+        # `detect_page_offset` 证据不足时返回 0 —— 但 0 也可能是真偏移
+        # （PDF 首页就是印刷第 1 页），要靠这两个值区分「可信的 0」和「放弃」。
+        if len(hits) < 3 or agreement < 0.5:
+            offset_confident = False
+            print(
+                f'  ⚠ 页码证据不足（命中 {len(hits)} 页、一致率 {agreement:.2f}），'
+                f'偏移按 0 处理'
+            )
+            print('  ⚠ 请用 --page-offset 显式指定；否则 printed_page 不可信')
     else:
         offset = int(args.page_offset)
     print(f'页偏移 = {offset}（PDF 页 i → 印刷页 i-{offset}）')
+    if not offset_confident:
+        print('  ⚠ 本次运行的印刷页码仅供参考，不要直接入库')
 
     # 2. 要处理哪些页：目录页 ∪ 正文页
     toc_first, toc_last = args.toc_range
@@ -236,13 +251,30 @@ def main() -> int:
         nodes = _fallback_node(args.limit or doc.page_count)
         print(f'⚠ 目录没解析出条目，退化成单节点「全书」')
 
-    # 5. 正文 → chunk（走的是和 run.py 完全相同的函数）
+    # 5. 逐页偏移：锚定用每页自己认出的页脚页码，不是全书一个常数。
+    #    05《核辐射测量原理》实测真偏移从 14 一路漂到 32（中间夹整页图版），
+    #    全书一个常数会让 pdf 320 之后每页的 printed_page 错 10 页以上。
+    #    页码证据不足的书退化成常数，行为与之前一致。
+    offsets, offset_report = resolve_page_offsets(all_pages, fallback=offset)
+    if offset_report['pagesWithNumber']:
+        print(
+            f"逐页偏移：{offset_report['pagesWithNumber']}/{offset_report['pages']} 页有页码，"
+            f"偏移取值 {offset_report['distinctOffsets']} 种、跨度 {offset_report['drift']}"
+        )
+        if offset_report['distinctOffsets'] > 1:
+            print(f"  偏移随页漂移，按 {offset_report['window']} 页滑窗取众数逐页校正")
+    else:
+        print('逐页偏移：一页页码都没认出来，全书用常数偏移')
+
+    # 6. 正文 → chunk（走的是和 run.py 完全相同的函数）
     all_chunks = []
     for i in body_indexes:
         p = by_index.get(i)
         if p is None:  # 理论上不会发生：todo 覆盖了 body_indexes
             continue
-        all_chunks.extend(blocks_to_chunks(p.blocks, args.source_id, page_offset=offset))
+        all_chunks.extend(
+            blocks_to_chunks(p.blocks, args.source_id, page_offset=offsets.get(i, offset))
+        )
 
     titles = {re.sub(r'\s+', '', re.sub(r'^\d+(\.\d+)*', '', n['name'])) for n in nodes}
     titles |= {re.sub(r'\s+', '', n['name']) for n in nodes}
@@ -254,6 +286,17 @@ def main() -> int:
     n_ans = sum(1 for c in all_chunks if c.answer_for)
     n_orphan = sum(1 for c in all_chunks if c.micro_kp_id is None)
     print(f'答案块 {n_ans} 条；无归属 {n_orphan} 条')
+    # 归属自检：`assign` 永远会「成功」（每个 chunk 都拿到某个 kp），所以
+    # 目录解析坏了它也不会报错 —— 必须显式检查。见 `assign.audit_assignment`
+    # 的阈值来由：干净的康华光是 6.1% 叶子零内容 / 4.5% 最大节点。
+    audit = audit_assignment(all_chunks, nodes)
+    print(
+        f'归属自检：叶子 {audit["leafCount"]} 个、零内容 {len(audit["emptyLeaves"])} 个'
+        f'（{audit["emptyShare"]:.1%}）、最大节点 {audit["largest"]} '
+        f'占 {audit["largestShare"]:.1%}'
+    )
+    for w in audit['warnings']:
+        print(f'⚠ {w}')
     if args.review_sample:
         for s in review_sample(all_chunks, nodes, args.review_sample):
             mark = '答案' if s['markedAsAnswer'] else '背景'
@@ -290,6 +333,14 @@ def main() -> int:
         if p.figures:
             figures.extend(crop_figures(doc, p, fig_dir, dpi=args.dpi))
     summary = write_page_artifacts(all_pages, out / 'ocr', figures, chunk_index)
+    # 页偏移的可信度必须进产物，不能只打印在终端：下游 t18 入库时无法看到
+    # 控制台输出，`printed_page` 不可信这件事必须跟着数据走。
+    summary['pageOffset'] = offset
+    summary['pageOffsetConfident'] = offset_confident
+    summary['pageOffsetPerPage'] = offset_report['distinctOffsets'] > 1
+    summary['pageOffsetReport'] = offset_report
+    audit_path = out / 'ocr' / 'summary.json'
+    audit_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding='utf-8')
 
     print(
         f'页数 {summary["pageCount"]}；ok {summary["okPages"]}、'

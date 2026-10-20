@@ -12,8 +12,9 @@ import {
   Button,
   Divider,
 } from '@fluentui/react-components';
-import { useNavigate, useParams } from 'react-router';
-import { useNodeDetail } from '../api/queries';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import { useMastery, useNodeDetail } from '../api/queries';
+import { MasteryMeter } from '../level/MasteryMeter';
 
 const useStyles = makeStyles({
   page: {
@@ -33,25 +34,6 @@ const useStyles = makeStyles({
     fontSize: tokens.fontSizeHero700,
     fontWeight: tokens.fontWeightSemibold,
     lineHeight: tokens.lineHeightHero700,
-  },
-  masteryRow: {
-    display: 'flex',
-    gap: '32px',
-    alignItems: 'baseline',
-  },
-  meterBlock: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '4px',
-  },
-  meterLabel: {
-    color: tokens.colorNeutralForeground3,
-    fontSize: tokens.fontSizeBase200,
-  },
-  meterValue: {
-    fontSize: tokens.fontSizeHero800,
-    fontWeight: tokens.fontWeightSemibold,
-    fontVariantNumeric: 'tabular-nums',
   },
   reasons: {
     display: 'flex',
@@ -100,7 +82,43 @@ export function NodeDetailPage() {
   const styles = useStyles();
   const { microKpId } = useParams<{ microKpId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const node = useNodeDetail(microKpId);
+
+  /**
+   * 回地图的地址（票 03 第 4 条：从关卡返回时焦点保持原位）。
+   *
+   * 两级回落，因为到达这个页面的路径不止一条：
+   *
+   * 1. `location.state.returnHref` —— 从图谱点进来时 `MapPage` 已经拼好了
+   *    完整地址（带 `focus` / `hops` / `view`）。原样用，位置分毫不差。
+   * 2. 没有 state 时（直接打开链接、从看板进来、刷新页面）用当前节点当焦点。
+   *    这仍然满足「回到地图时以刚才看的节点为中心」，只是跳数与视图用默认。
+   *
+   * 绝不回落到裸 `/map`：那会退到全图，而「我刚看完的那个点在哪」正是用户
+   * 按下这个按钮时唯一想知道的事。
+   */
+  const backToMap = (): void => {
+    const state = location.state as { returnHref?: unknown } | null;
+    const fromState = state?.returnHref;
+    if (typeof fromState === 'string' && fromState.startsWith('/map')) {
+      navigate(fromState);
+      return;
+    }
+    const id = microKpId ?? node.payload?.node.microKpId;
+    navigate(id ? `/map?${new URLSearchParams({ focus: id, hops: '2' }).toString()}` : '/map');
+  };
+
+  /**
+   * 掌握度的真源是 `/mastery/{microKpId}`，不是节点详情里的 `percent`。
+   *
+   * 原因是两者算的不是一回事：节点详情里的 `percent` 是 `app.mastery.current`
+   * 这一列的**快照**（上一次作答那一刻写下的值，之后不再更新）；而 mastery 接口
+   * 每次请求都从 `attempts` 重放证据、按半衰期重新算一遍。展示一个会随时间变旧的
+   * 数，等于要求用户理解「你看的这个数是几天前算的」——没有人会去理解这件事，
+   * 他们只会记住它，然后被它误导。
+   */
+  const mastery = useMastery(microKpId ?? node.payload?.node.microKpId);
 
   if (node.isPending) return <div className={styles.page}><Spinner label="加载知识点…" /></div>;
 
@@ -113,7 +131,7 @@ export function NodeDetailPage() {
           </MessageBarBody>
         </MessageBar>
         <div>
-          <Button onClick={() => navigate('/map')}>返回地图</Button>
+          <Button onClick={backToMap}>返回地图</Button>
         </div>
       </div>
     );
@@ -134,14 +152,12 @@ export function NodeDetailPage() {
 
       <Card>
         <CardHeader header={<Text weight="semibold">掌握度</Text>} />
-        <div className={styles.masteryRow}>
-          <div className={styles.meterBlock}>
-            <span className={styles.meterLabel}>当前熟练度（会随时间回落，用于推荐）</span>
-            <span className={styles.meterValue}>
-              {kp.percent === null ? '证据不足' : `${Math.round(kp.percent * 100)}%`}
-            </span>
-          </div>
-        </div>
+        {/*
+          双字段（票 05 验收 5）：`achieved` 不衰减、管解锁；`current` 衰减、管推荐。
+          证据不足时两栏都不给数字 —— 显示 0% 等于告诉学习者「你完全不会」，
+          而系统此刻其实只是「还不知道」。细节与措辞都在 MasteryMeter 里。
+        */}
+        <MasteryMeter view={mastery.payload} />
       </Card>
 
       {reasons.length > 0 && (
@@ -185,7 +201,7 @@ export function NodeDetailPage() {
       )}
 
       <div>
-        <Button onClick={() => navigate('/map')}>返回地图</Button>
+        <Button onClick={backToMap}>返回地图</Button>
       </div>
     </div>
   );

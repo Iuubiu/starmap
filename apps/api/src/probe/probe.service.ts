@@ -386,22 +386,32 @@ export class ProbeService {
       expectedFormula: expected.formula,
     });
 
-    const finalQuestion = firstJudge.passed
-      ? rawQuestion
-      : this.safeQuestion(transition.action, transition.state, cap);
-    const finalJudge = firstJudge.passed
-      ? firstJudge
-      : judgeProbeReply({
-          text: finalQuestion,
-          isProbe,
-          expectedValue: expected.value,
-          expectedFormula: expected.formula,
-        });
+    // 越界时退回骨架问句。`fallbackApplied` 必须返回给调用方：
+    // 骨架问句和模型原话在学生眼里没有区别，但排查「模型总在漏答案」时
+    // 这条标记是唯一的线索。
+    const fallbackApplied = !firstJudge.passed;
+    const finalQuestion = fallbackApplied
+      ? this.safeQuestion(transition.action, transition.state, cap)
+      : rawQuestion;
 
-    if (!firstJudge.passed) {
+    if (fallbackApplied) {
       this.logger.warn(
         `追问措辞越界（${firstJudge.reasons.join(',')}），已退回骨架问句：${rawQuestion.slice(0, 60)}`,
       );
+      // 骨架问句本身也应合规（`LADDER_LEVELS[*].ask` 有"恰好一个问号"的
+      // 硬约束，并有 engine 单测盯着）。若这里仍然越界，说明兜底自己也坏了——
+      // 那是必须修代码的缺陷，不能被静默吞掉。
+      const safeguard = judgeProbeReply({
+        text: finalQuestion,
+        isProbe,
+        expectedValue: expected.value,
+        expectedFormula: expected.formula,
+      });
+      if (!safeguard.passed) {
+        this.logger.error(
+          `骨架问句自身越界（${safeguard.reasons.join(',')}）：${finalQuestion.slice(0, 60)}`,
+        );
+      }
     }
 
     const ordinal = session.turns + 1;
@@ -438,9 +448,12 @@ export class ProbeService {
         transition.action.kind,
         actionReason,
         finalQuestion,
-        JSON.stringify(finalJudge satisfies ProbeJudgeVerdict),
-        finalJudge.passed,
-        finalJudge.reasons,
+        // 存的是**模型原始措辞**的判定，不是兜底后问句的判定。
+        // 若存后者，`judge_passed` 永远为 true，metrics 的越界率恒等于 0 ——
+        // 票 10 要求「泄露最终数值／公式的回复占比可测量」，那一栏就废了。
+        JSON.stringify(firstJudge satisfies ProbeJudgeVerdict),
+        firstJudge.passed,
+        firstJudge.reasons,
       ],
     );
 
@@ -453,7 +466,8 @@ export class ProbeService {
       actionReason,
       question: finalQuestion,
       ladder: this.snapshot(nextState),
-      judge: finalJudge,
+      judge: firstJudge,
+      fallbackApplied,
       createdAt: await this.db.now(),
     });
   }

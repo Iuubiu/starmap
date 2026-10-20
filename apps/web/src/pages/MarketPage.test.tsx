@@ -10,7 +10,7 @@ import type {
   MarketSaveLevelResponse,
 } from '../api/generated/model';
 import { MarketPage } from './MarketPage';
-import { MarketAuthorPage } from './MarketAuthorPage';
+import { MarketAuthorPage, toIssues } from './MarketAuthorPage';
 import * as queries from '../api/queries';
 
 /**
@@ -463,5 +463,116 @@ describe('MarketAuthorPage', () => {
     const heading = screen.getByRole('heading', { name: '继续编辑自制关卡' });
     expect(heading).toBeInTheDocument();
     expect(within(heading.closest('div') as HTMLElement).getByText(/lv-self-kp-bool/)).toBeInTheDocument();
+  });
+});
+
+/**
+ * `toIssues()` 的独立测试。
+ *
+ * 这个函数看起来像「万能的防御性函数」，那种函数最容易在下一个人手里被当
+ * 冗余删掉 —— 因为没人知道它到底防的是什么。它防的是**服务端真的会返回的
+ * 两种形状**（外加几种 `z.unknown()` 允许的畸形值），依据是
+ * `apps/api/src/market/market.controller.test.ts` 里
+ * 「422 与 400 的 details 是两种形状」那条实测。
+ *
+ * 这里的每个 `it` 对应一种真实或契约允许的形状。删掉任何一条，都是删掉
+ * 一个「用户会看到空错误列表」的具体场景。
+ */
+describe('toIssues', () => {
+  it('吃得下 422 的点号字符串 path（来自 validateLevelSpec）', () => {
+    // 逐字来自真实响应体的抓取结果。
+    const issues = toIssues([
+      {
+        path: 'items.0.sourceRef',
+        message: '判定题 d-i-1 缺少 sourceRef，无法溯源到教材',
+        code: 'custom',
+      },
+      { path: 'gating.itemCount', message: '门控题量 5 超过关卡总题量 1', code: 'custom' },
+    ]);
+
+    expect(issues).toEqual([
+      {
+        path: 'items.0.sourceRef',
+        message: '判定题 d-i-1 缺少 sourceRef，无法溯源到教材',
+        code: 'custom',
+      },
+      { path: 'gating.itemCount', message: '门控题量 5 超过关卡总题量 1', code: 'custom' },
+    ]);
+  });
+
+  it('吃得下 400 的 Zod 数组 path，并 join 成点号', () => {
+    // Zod 原生的 `error.issues`：path 是数组，还带 expected/received 等多余字段。
+    const issues = toIssues([
+      {
+        code: 'invalid_type',
+        expected: 'nonoptional',
+        path: ['spec'],
+        message: 'Invalid input: expected nonoptional, received undefined',
+      },
+      {
+        code: 'unrecognized_keys',
+        keys: ['tag'],
+        path: ['tags', 0],
+        message: 'Unrecognized key: "tag"',
+      },
+    ]);
+
+    expect(issues).toEqual([
+      {
+        path: 'spec',
+        message: 'Invalid input: expected nonoptional, received undefined',
+        code: 'invalid_type',
+      },
+      { path: 'tags.0', message: 'Unrecognized key: "tag"', code: 'unrecognized_keys' },
+    ]);
+  });
+
+  it('两种形状混在同一个数组里也能一起处理', () => {
+    const issues = toIssues([
+      { path: 'meta.title', message: '必填', code: 'custom' },
+      { path: ['spec', 'meta', 'id'], code: 'invalid_type', message: '不是字符串' },
+    ]);
+
+    expect(issues.map((i) => i.path)).toEqual(['meta.title', 'spec.meta.id']);
+  });
+
+  it('details 是 null / undefined / 字符串 / 对象时不崩溃，退化成空列表', () => {
+    // 契约里 details 是 `z.unknown()`，所以这些都合法。抛异常会把
+    // 「展示错误」变成「白屏」，比不显示更糟。
+    expect(toIssues(null)).toEqual([]);
+    expect(toIssues(undefined)).toEqual([]);
+    expect(toIssues('字段不合法')).toEqual([]);
+    expect(toIssues({ message: '看起来像 issue 但是个对象' })).toEqual([]);
+    expect(toIssues(42)).toEqual([]);
+  });
+
+  it('数组元素本身不是对象时跳过那一项，不拖垮整张列表', () => {
+    const issues = toIssues([
+      null,
+      'oops',
+      42,
+      { path: 'meta.id', message: '必填', code: 'custom' },
+      ['嵌套数组'],
+    ]);
+
+    expect(issues).toEqual([{ path: 'meta.id', message: '必填', code: 'custom' }]);
+  });
+
+  it('字段缺失或类型不对时给出可读的兜底值，而不是 undefined', () => {
+    // 兜底文案是给人看的；`undefined` 渲染到 React 里是一片空白，
+    // 用户会以为这条错误没有内容。
+    const issues = toIssues([
+      {},
+      { message: 123 },
+      { path: { nested: true }, message: '路径是个对象' },
+      { code: 7 },
+    ]);
+
+    expect(issues).toEqual([
+      { path: '', message: '未知问题', code: 'invalid' },
+      { path: '', message: '未知问题', code: 'invalid' },
+      { path: '', message: '路径是个对象', code: 'invalid' },
+      { path: '', message: '未知问题', code: 'invalid' },
+    ]);
   });
 });

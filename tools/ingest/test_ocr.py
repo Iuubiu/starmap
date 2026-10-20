@@ -41,6 +41,7 @@ from ocr import (  # noqa: E402
     ocr_page,
     parse_toc_ocr,
     render_page,
+    resolve_page_offsets,
     save_page,
     summarize,
     write_page_artifacts,
@@ -61,8 +62,12 @@ def L(text: str, x0: float, y0: float, x1: float, y1: float, conf: float = 0.9) 
         ('- 12', 12),
         (':48:', 48),        # 实测 p61 认回来的形状
         ('........1', 1),    # 引导点 + 页码被并成一个框（长度上限就是为它放宽的）
+        ('(357)', 357),      # 18/19 两本的括号页码（半角）
+        ('（194）', 194),     # 同一批书的全角括号
+        ('( 194 )', 194),    # 括号内侧带空格
         ('2.2.17', None),    # 公式号，不是页码
         ('图3.4', None),     # 图注号
+        ('(2.2.17)', None),  # 加了括号的公式号仍然是公式号
         ('第五章', None),
         ('', None),
     ],
@@ -70,6 +75,27 @@ def L(text: str, x0: float, y0: float, x1: float, y1: float, conf: float = 0.9) 
 def test_parse_page_number_accepts_only_real_page_numbers(raw: str, expected: int | None) -> None:
     """页码判定必须同时挡住公式号和图注号，否则 `printed_page` 会混进 `(2.2.17)`。"""
     assert _parse_page_number(raw) == expected
+
+
+@pytest.mark.parametrize(
+    'raw,expected',
+    [
+        ('357', 357),
+        ('(357)', 357),      # 18《原子核物理实验方法》行尾括号页码
+        ('(194 )', 194),     # 19《核辐射探测器及其实验技术手册》
+        ('（194）', 194),
+        ('........1', 1),
+        ('(2.2.17)', None),
+        ('第五章', None),
+    ],
+)
+def test_toc_page_number_accepts_parenthesised_form(raw: str, expected: int | None) -> None:
+    """目录列里的页码：18/19 两本没有独立页码列，页码是行尾括号。
+
+    这两本 `_band_from_lines` 量不出带子（返回 None），完全靠整页识别 + 这条
+    正则；不接受括号它们会一条页码都配不上。
+    """
+    assert _toc_page_number(raw) == expected
 
 
 def test_page_number_lines_only_looks_in_top_and_bottom_bands() -> None:
@@ -247,6 +273,75 @@ def test_assign_nums_leaves_unmarked_entries_without_number() -> None:
     """`习题与思考题` 这类没有标记的条目要保留空编号，`build_tree` 会挂到当前章下。"""
     got = _assign_nums([('', '第一章绪论', 1), ('', '习题与思考题', 56)])
     assert got[1][0] == ''
+
+
+def test_assign_nums_recovers_subitem_whose_number_ocr_ate() -> None:
+    """序号被 OCR 吃掉、只剩前导 `、` 的子节要续号，不能落成孤立合成节点。
+
+    实测王芝英 p25 的目录行是 `、系统的基本组成`（原本 `一、系统的基本组成`，
+    后面紧跟 `二、核电子学常用的信号处理系统`）。落到无编号分支后
+    `build_tree` 给它造了个 `kp-p25-、系统的基本组成`：没有编号、没有层级、
+    内容挂不上去 —— 修复前 69 个叶子里有 26 个是这种零内容节点。
+    续号后它是 `1.4.1`，正好接上后面的 `二、`。
+    """
+    entries = [
+        ('', '第一章核电子学系统中的信号与噪声', 1),
+        ('', '$1核辐射探测器及其输出信号', 1),
+        ('', '、系统的基本组成', 1),          # 序号丢了，实为「一、」
+        ('', '二、核电子学常用的信号处理系统', 2),
+        ('', '三、核电子学信号处理单元插件标准化', 3),
+    ]
+    got = _assign_nums(entries)
+    assert [num for num, _, _ in got] == ['1', '1.1', '1.1.1', '1.1.2', '1.1.3']
+    assert got[2][1] == '系统的基本组成', '前导顿号要被剥掉，不能留在标题里'
+
+
+def test_assign_nums_orphan_subitem_continues_after_real_ones() -> None:
+    """真子节之后出现的孤儿条依次续号，不会和已用掉的编号撞车。"""
+    entries = [
+        ('', '第一章甲', 1),
+        ('', '$1乙', 1),
+        ('', '一、丙', 1),
+        ('', '二、丁', 2),
+        ('', '、戊子', 3),
+        ('', '、己丑', 4),
+    ]
+    got = _assign_nums(entries)
+    assert [num for num, _, _ in got] == ['1', '1.1', '1.1.1', '1.1.2', '1.1.3', '1.1.4']
+    assert got[4][1] == '戊子', '前导顿号必须剥掉，标题里不能留'
+
+
+def test_assign_nums_does_not_treat_short_punctuation_as_orphan_subitem() -> None:
+    """孤立的 `、` 或 `，` 不是子节标题 —— 长度门槛挡住它们。"""
+    got = _assign_nums([('', '第一章绪论', 1), ('', '$1甲', 1), ('', '、', 2), ('', '，', 3)])
+    assert [n for n, _, _ in got] == ['1', '1.1', '', '']
+
+
+def test_repair_page_swaps_transposed_two_digit_page_number() -> None:
+    """`08` 是 `80` 被认反 —— 靠「页码不带前导零」这条印刷事实判定。
+
+    实测 02 王经瑾 p8 的 `11.3.5`：页码列认成 `08`，前后条目是 79 和 82，
+    真值 80。不修的话这条 `printed_page` 落到 8，会挂到第十一章以外去。
+
+    必须在 `_toc_page_number` 里按**原始字符串**修：`int('08')` 已经是 8，
+    转成 int 之后就和真值第 8 页完全无法区分了。
+    """
+    assert _toc_page_number('08') == 80
+    assert _toc_page_number('03') == 30
+
+
+def test_repair_page_leaves_normal_page_numbers_alone() -> None:
+    """正常页码一律不动 —— 修页号必须极保守，错改比漏改更糟。"""
+    for raw, want in [('7', 7), ('80', 80), ('194', 194), ('357', 357), ('100', 100)]:
+        assert _toc_page_number(raw) == want
+
+
+def test_toc_denoise_still_drops_real_backsteps() -> None:
+    """真倒退仍然按噪声丢掉。"""
+    entries = [('1', '甲章节', 50), ('2', '乙章节', 30)]
+    assert [p for _, _, p in _toc_denoise(entries)] == [50]
+
+
 
 
 def test_clamp_pages_fixes_out_of_range_page_numbers() -> None:
@@ -472,6 +567,101 @@ def test_detect_page_offset_falls_back_to_zero_when_nothing_readable() -> None:
         assert detect_page_offset(object(), _FakeDoc(10), samples=3) == (0, 0.0, [])
     finally:
         _ocr.measure_page_number = orig
+
+
+def test_detect_page_offset_refuses_to_trust_two_lucky_hits() -> None:
+    """只有 2 次命中时不信众数 —— 18 那本就是这样算出 -49 的。
+
+    18《原子核物理实验方法》整本印的是括号页码 `(357)`，页眉页脚带里没有
+    页码，`measure_page_number` 一页都认不出。实测抽样只碰到 2 次误读（同一张
+    表格里的 `49`），众数偏移 -49、一致率 0.50 —— 采用它会让全书每页的
+    printed_page 都错 49 页。返回 0 让调用方要求显式 `--page-offset`。
+    """
+    import ocr as _ocr
+
+    printed = {10: 59, 20: 69}  # 两页都误读，算出来都是 -49
+    orig = _ocr.measure_page_number
+    _ocr.measure_page_number = lambda engine, doc, i, band=0.12: printed.get(i)
+    try:
+        offset, agreement, hits = detect_page_offset(object(), _FakeDoc(30), samples=30)
+    finally:
+        _ocr.measure_page_number = orig
+    assert len(hits) == 2
+    assert offset == 0, '证据不足时不能把 -49 当真'
+    assert agreement == 1.0, '一致率本身仍是 1.0，靠命中数门槛挡住'
+
+
+def test_detect_page_offset_refuses_low_agreement() -> None:
+    """一致率 < 0.5 时不采用众数 —— 05 那本 16 次命中 11 次是噪声。
+
+    05《核辐射测量原理》真偏移是 14，但页眉里有表格数字被当成页码，16 次
+    命中只有 5 次指向 14（0.31）。众数虽然对，这种「对得少、错得多」的局面
+    不该自动采用，交给人显式指定。
+    """
+    import ocr as _ocr
+
+    printed = {10: -5, 20: -5, 30: -5, 40: -5, 50: 36, 60: 38, 70: 40, 80: 42}
+    orig = _ocr.measure_page_number
+    _ocr.measure_page_number = lambda engine, doc, i, band=0.12: printed.get(i)
+    try:
+        offset, agreement, _hits = detect_page_offset(object(), _FakeDoc(90), samples=90)
+    finally:
+        _ocr.measure_page_number = orig
+    assert agreement < 0.5
+    assert offset == 0, '一致率不足时不采用众数'
+
+
+# ------------------------------------------------------- 逐页偏移（漂移的书）
+#
+# 05《核辐射测量原理》464 页里 442 页页脚印着页码，实测偏移不是常数：
+# pdf 0–155 → 14、160–240 → 16、240–300 → 18/20、320–440 → 24、440– → 32。
+# 用 14 一个常数，pdf 320 之后每页的 printed_page 就错 10 页以上，
+# `assign` 按 printedPage 分区间必然把整章挂错知识点。
+
+def test_resolve_page_offsets_follows_a_drifting_book() -> None:
+    """偏移漂移时必须逐页校正，不能全书一个常数。"""
+    # 造一本 300 页的书：前 100 页偏移 14，中 100 页 16，后 100 页 24
+    pages = []
+    for i in range(300):
+        off = 14 if i < 100 else (16 if i < 200 else 24)
+        pages.append(mkpage(i, footer=i - off))
+    offsets, report = resolve_page_offsets(pages)
+
+    assert report['pagesWithNumber'] == 300
+    assert report['distinctOffsets'] == 3, '三段偏移必须被识别成三种，不是一种'
+    assert report['drift'] == 10, '最少 14、最多 24，跨度 10'
+    # 段中间必须准
+    assert offsets[50] == 14
+    assert offsets[150] == 16
+    assert offsets[250] == 24
+    # 用错常数会错多少：pdf 250 真印刷页是 226，按全局众数 14 会算出 236
+    assert 250 - offsets[250] == 226
+
+
+def test_resolve_page_offsets_collapses_to_a_constant_when_stable() -> None:
+    """偏移稳定的书退化成常数 —— 王芝英 280 页里 261 页都是 13。"""
+    pages = [mkpage(i, footer=i - 13) for i in range(200)]
+    offsets, report = resolve_page_offsets(pages)
+    assert report['distinctOffsets'] == 1
+    assert report['drift'] == 0
+    assert set(offsets.values()) == {13}
+
+
+def test_resolve_page_offsets_survives_a_misread_page() -> None:
+    """单页页码误读不能把该页的偏移带跑 —— 靠邻域投票吃掉离群值。"""
+    pages = [mkpage(i, footer=i - 16) for i in range(40)]
+    pages[20] = mkpage(20, footer=550)  # 表格里的数字被当成页码
+    offsets, _report = resolve_page_offsets(pages)
+    assert offsets[20] == 16, '邻域 15 页都指向 16，单页 550 必须被投票吃掉'
+
+
+def test_resolve_page_offsets_falls_back_when_no_page_has_a_number() -> None:
+    """整本没有页码（18 那样括号页码印在行尾、页眉页脚带里没有）→ 常数兜底。"""
+    pages = [mkpage(i) for i in range(30)]
+    offsets, report = resolve_page_offsets(pages, fallback=7)
+    assert report['pagesWithNumber'] == 0
+    assert set(offsets.values()) == {7}
+    assert len(offsets) == 30, '每一页都要有偏移，不能漏页'
 
 
 def test_engine_missing_dependency_raises_clear_error() -> None:

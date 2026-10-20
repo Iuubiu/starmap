@@ -26,8 +26,13 @@ import type {
   AgentTurnRequest,
   AgentTurnResponse,
   ApiError,
+  AttemptSubmitRequest,
+  AttemptSubmitResponse,
   ContentStatsResponse,
   DebugRetrievalParams,
+  GenerationRun,
+  GenerationRunListResponse,
+  GenerationRunRequest,
   GetRetrievalBandsParams,
   GraphResponse,
   HealthResponse,
@@ -40,6 +45,7 @@ import type {
   MarketLevelListResponse,
   MarketSaveLevelRequest,
   MarketSaveLevelResponse,
+  MasteryView,
   NodeDetailResponse,
   NodeListResponse,
   NodeSourcesResponse,
@@ -1920,6 +1926,155 @@ export function useGetAgentTurnEvidence<TData = Awaited<ReturnType<typeof getAge
 
 
 
+export type submitAttemptResponse200 = {
+  data: AttemptSubmitResponse
+  status: 200
+}
+
+export type submitAttemptResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type submitAttemptResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type submitAttemptResponse422 = {
+  data: ApiError
+  status: 422
+}
+
+export type submitAttemptResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type submitAttemptResponseSuccess = (submitAttemptResponse200) & {
+  headers: Headers;
+};
+export type submitAttemptResponseError = (submitAttemptResponse400 | submitAttemptResponse404 | submitAttemptResponse422 | submitAttemptResponse500) & {
+  headers: Headers;
+};
+
+export type submitAttemptResponse = (submitAttemptResponseSuccess | submitAttemptResponseError)
+
+export const getSubmitAttemptUrl = () => {
+
+
+
+
+  return `/api/v1/attempts`
+}
+
+/**
+ * 对错由后端比对 `level_items.answer` 判定，请求体不接受客户端自报的 `correct`。写入作答、重算该微知识点掌握度、更新掌握度行在**同一个事务**里完成：半步失败会留下「证据记了但掌握度没动」的不一致状态。
+ * @summary 记录一次作答并重算掌握度
+ */
+export const submitAttempt = async (attemptSubmitRequest: AttemptSubmitRequest, options?: Parameters<typeof customFetch>[1]): Promise<submitAttemptResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<submitAttemptResponse>(getSubmitAttemptUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(attemptSubmitRequest)
+  }
+);}
+
+
+
+
+
+export const getSubmitAttemptQueryKey = (attemptSubmitRequest?: AttemptSubmitRequest,) => {
+    return [
+    'POST', `/api/v1/attempts`, attemptSubmitRequest
+    ] as const;
+    }
+
+
+export const getSubmitAttemptQueryOptions = <TData = Awaited<ReturnType<typeof submitAttempt>>, TError = ApiError>(attemptSubmitRequest: AttemptSubmitRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitAttempt>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSubmitAttemptQueryKey(attemptSubmitRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof submitAttempt>>> = ({ signal }) => submitAttempt(attemptSubmitRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof submitAttempt>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type SubmitAttemptQueryResult = NonNullable<Awaited<ReturnType<typeof submitAttempt>>>
+export type SubmitAttemptQueryError = ApiError
+
+
+export function useSubmitAttempt<TData = Awaited<ReturnType<typeof submitAttempt>>, TError = ApiError>(
+ attemptSubmitRequest: AttemptSubmitRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitAttempt>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof submitAttempt>>,
+          TError,
+          Awaited<ReturnType<typeof submitAttempt>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSubmitAttempt<TData = Awaited<ReturnType<typeof submitAttempt>>, TError = ApiError>(
+ attemptSubmitRequest: AttemptSubmitRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitAttempt>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof submitAttempt>>,
+          TError,
+          Awaited<ReturnType<typeof submitAttempt>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSubmitAttempt<TData = Awaited<ReturnType<typeof submitAttempt>>, TError = ApiError>(
+ attemptSubmitRequest: AttemptSubmitRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitAttempt>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 记录一次作答并重算掌握度
+ */
+
+export function useSubmitAttempt<TData = Awaited<ReturnType<typeof submitAttempt>>, TError = ApiError>(
+ attemptSubmitRequest: AttemptSubmitRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof submitAttempt>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getSubmitAttemptQueryOptions(attemptSubmitRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 export type getContentStatsResponse200 = {
   data: ContentStatsResponse
   status: 200
@@ -2539,6 +2694,392 @@ export function useCreateMarketDraft<TData = Awaited<ReturnType<typeof createMar
 
 
 
+export type listGenerationRunsResponse200 = {
+  data: GenerationRunListResponse
+  status: 200
+}
+
+export type listGenerationRunsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type listGenerationRunsResponseSuccess = (listGenerationRunsResponse200) & {
+  headers: Headers;
+};
+export type listGenerationRunsResponseError = (listGenerationRunsResponse500) & {
+  headers: Headers;
+};
+
+export type listGenerationRunsResponse = (listGenerationRunsResponseSuccess | listGenerationRunsResponseError)
+
+export const getListGenerationRunsUrl = () => {
+
+
+
+
+  return `/api/v1/market/generations`
+}
+
+/**
+ * @summary 最近的批量生成运行（只给头部计数，不带每条明细）
+ */
+export const listGenerationRuns = async ( options?: Parameters<typeof customFetch>[1]): Promise<listGenerationRunsResponse> => {
+
+  return customFetch<listGenerationRunsResponse>(getListGenerationRunsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListGenerationRunsQueryKey = () => {
+    return [
+    `/api/v1/market/generations`
+    ] as const;
+    }
+
+
+export const getListGenerationRunsQueryOptions = <TData = Awaited<ReturnType<typeof listGenerationRuns>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGenerationRuns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListGenerationRunsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listGenerationRuns>>> = ({ signal }) => listGenerationRuns({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listGenerationRuns>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListGenerationRunsQueryResult = NonNullable<Awaited<ReturnType<typeof listGenerationRuns>>>
+export type ListGenerationRunsQueryError = ApiError
+
+
+export function useListGenerationRuns<TData = Awaited<ReturnType<typeof listGenerationRuns>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGenerationRuns>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listGenerationRuns>>,
+          TError,
+          Awaited<ReturnType<typeof listGenerationRuns>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListGenerationRuns<TData = Awaited<ReturnType<typeof listGenerationRuns>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGenerationRuns>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listGenerationRuns>>,
+          TError,
+          Awaited<ReturnType<typeof listGenerationRuns>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListGenerationRuns<TData = Awaited<ReturnType<typeof listGenerationRuns>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGenerationRuns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 最近的批量生成运行（只给头部计数，不带每条明细）
+ */
+
+export function useListGenerationRuns<TData = Awaited<ReturnType<typeof listGenerationRuns>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGenerationRuns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListGenerationRunsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type startGenerationRunResponse200 = {
+  data: GenerationRun
+  status: 200
+}
+
+export type startGenerationRunResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type startGenerationRunResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type startGenerationRunResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type startGenerationRunResponseSuccess = (startGenerationRunResponse200) & {
+  headers: Headers;
+};
+export type startGenerationRunResponseError = (startGenerationRunResponse400 | startGenerationRunResponse404 | startGenerationRunResponse500) & {
+  headers: Headers;
+};
+
+export type startGenerationRunResponse = (startGenerationRunResponseSuccess | startGenerationRunResponseError)
+
+export const getStartGenerationRunUrl = () => {
+
+
+
+
+  return `/api/v1/market/generations`
+}
+
+/**
+ * @summary 按知识点批量生成关卡（后台跑，立刻返回 runId 供轮询进度）
+ */
+export const startGenerationRun = async (generationRunRequest: GenerationRunRequest, options?: Parameters<typeof customFetch>[1]): Promise<startGenerationRunResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<startGenerationRunResponse>(getStartGenerationRunUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(generationRunRequest)
+  }
+);}
+
+
+
+
+
+export const getStartGenerationRunQueryKey = (generationRunRequest?: GenerationRunRequest,) => {
+    return [
+    'POST', `/api/v1/market/generations`, generationRunRequest
+    ] as const;
+    }
+
+
+export const getStartGenerationRunQueryOptions = <TData = Awaited<ReturnType<typeof startGenerationRun>>, TError = ApiError>(generationRunRequest: GenerationRunRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startGenerationRun>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getStartGenerationRunQueryKey(generationRunRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof startGenerationRun>>> = ({ signal }) => startGenerationRun(generationRunRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof startGenerationRun>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type StartGenerationRunQueryResult = NonNullable<Awaited<ReturnType<typeof startGenerationRun>>>
+export type StartGenerationRunQueryError = ApiError
+
+
+export function useStartGenerationRun<TData = Awaited<ReturnType<typeof startGenerationRun>>, TError = ApiError>(
+ generationRunRequest: GenerationRunRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof startGenerationRun>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof startGenerationRun>>,
+          TError,
+          Awaited<ReturnType<typeof startGenerationRun>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStartGenerationRun<TData = Awaited<ReturnType<typeof startGenerationRun>>, TError = ApiError>(
+ generationRunRequest: GenerationRunRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startGenerationRun>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof startGenerationRun>>,
+          TError,
+          Awaited<ReturnType<typeof startGenerationRun>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStartGenerationRun<TData = Awaited<ReturnType<typeof startGenerationRun>>, TError = ApiError>(
+ generationRunRequest: GenerationRunRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startGenerationRun>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 按知识点批量生成关卡（后台跑，立刻返回 runId 供轮询进度）
+ */
+
+export function useStartGenerationRun<TData = Awaited<ReturnType<typeof startGenerationRun>>, TError = ApiError>(
+ generationRunRequest: GenerationRunRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startGenerationRun>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getStartGenerationRunQueryOptions(generationRunRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getGenerationRunResponse200 = {
+  data: GenerationRun
+  status: 200
+}
+
+export type getGenerationRunResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getGenerationRunResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getGenerationRunResponseSuccess = (getGenerationRunResponse200) & {
+  headers: Headers;
+};
+export type getGenerationRunResponseError = (getGenerationRunResponse404 | getGenerationRunResponse500) & {
+  headers: Headers;
+};
+
+export type getGenerationRunResponse = (getGenerationRunResponseSuccess | getGenerationRunResponseError)
+
+export const getGetGenerationRunUrl = (runId: string,) => {
+
+
+
+
+  return `/api/v1/market/generations/${runId}`
+}
+
+/**
+ * @summary 一次批量生成的完整视图：逐条结果、失败原因汇总、进度
+ */
+export const getGenerationRun = async (runId: string, options?: Parameters<typeof customFetch>[1]): Promise<getGenerationRunResponse> => {
+
+  return customFetch<getGenerationRunResponse>(getGetGenerationRunUrl(runId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetGenerationRunQueryKey = (runId: string,) => {
+    return [
+    `/api/v1/market/generations/${runId}`
+    ] as const;
+    }
+
+
+export const getGetGenerationRunQueryOptions = <TData = Awaited<ReturnType<typeof getGenerationRun>>, TError = ApiError>(runId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGenerationRun>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetGenerationRunQueryKey(runId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGenerationRun>>> = ({ signal }) => getGenerationRun(runId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: runId !== null && runId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGenerationRun>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetGenerationRunQueryResult = NonNullable<Awaited<ReturnType<typeof getGenerationRun>>>
+export type GetGenerationRunQueryError = ApiError
+
+
+export function useGetGenerationRun<TData = Awaited<ReturnType<typeof getGenerationRun>>, TError = ApiError>(
+ runId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGenerationRun>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGenerationRun>>,
+          TError,
+          Awaited<ReturnType<typeof getGenerationRun>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetGenerationRun<TData = Awaited<ReturnType<typeof getGenerationRun>>, TError = ApiError>(
+ runId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGenerationRun>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGenerationRun>>,
+          TError,
+          Awaited<ReturnType<typeof getGenerationRun>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetGenerationRun<TData = Awaited<ReturnType<typeof getGenerationRun>>, TError = ApiError>(
+ runId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGenerationRun>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 一次批量生成的完整视图：逐条结果、失败原因汇总、进度
+ */
+
+export function useGetGenerationRun<TData = Awaited<ReturnType<typeof getGenerationRun>>, TError = ApiError>(
+ runId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGenerationRun>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetGenerationRunQueryOptions(runId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 export type listMarketLevelsResponse200 = {
   data: MarketLevelListResponse
   status: 200
@@ -2919,6 +3460,131 @@ export function useGetMarketLevel<TData = Awaited<ReturnType<typeof getMarketLev
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetMarketLevelQueryOptions(levelId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getMasteryResponse200 = {
+  data: MasteryView
+  status: 200
+}
+
+export type getMasteryResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getMasteryResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getMasteryResponseSuccess = (getMasteryResponse200) & {
+  headers: Headers;
+};
+export type getMasteryResponseError = (getMasteryResponse404 | getMasteryResponse500) & {
+  headers: Headers;
+};
+
+export type getMasteryResponse = (getMasteryResponseSuccess | getMasteryResponseError)
+
+export const getGetMasteryUrl = (microKpId: string,) => {
+
+
+
+
+  return `/api/v1/mastery/${microKpId}`
+}
+
+/**
+ * 证据不足（<3 个变式或 <8 次作答）时 `achieved` 与 `current` 都是 null，调用方应显示「证据不足」而不是 0% —— 「不知道」和「零分」是两件事。
+ * @summary 知识点掌握度（双字段：achieved 不衰减、current 会衰减）
+ */
+export const getMastery = async (microKpId: string, options?: Parameters<typeof customFetch>[1]): Promise<getMasteryResponse> => {
+
+  return customFetch<getMasteryResponse>(getGetMasteryUrl(microKpId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetMasteryQueryKey = (microKpId: string,) => {
+    return [
+    `/api/v1/mastery/${microKpId}`
+    ] as const;
+    }
+
+
+export const getGetMasteryQueryOptions = <TData = Awaited<ReturnType<typeof getMastery>>, TError = ApiError>(microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMastery>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetMasteryQueryKey(microKpId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMastery>>> = ({ signal }) => getMastery(microKpId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: microKpId !== null && microKpId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMastery>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetMasteryQueryResult = NonNullable<Awaited<ReturnType<typeof getMastery>>>
+export type GetMasteryQueryError = ApiError
+
+
+export function useGetMastery<TData = Awaited<ReturnType<typeof getMastery>>, TError = ApiError>(
+ microKpId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMastery>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMastery>>,
+          TError,
+          Awaited<ReturnType<typeof getMastery>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetMastery<TData = Awaited<ReturnType<typeof getMastery>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMastery>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMastery>>,
+          TError,
+          Awaited<ReturnType<typeof getMastery>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetMastery<TData = Awaited<ReturnType<typeof getMastery>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMastery>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 知识点掌握度（双字段：achieved 不衰减、current 会衰减）
+ */
+
+export function useGetMastery<TData = Awaited<ReturnType<typeof getMastery>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMastery>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetMasteryQueryOptions(microKpId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

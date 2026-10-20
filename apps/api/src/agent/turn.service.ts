@@ -882,7 +882,13 @@ export class TurnService {
    * 读接口
    * ---------------------------------------------------------------- */
 
-  /** 学习日志（票 08：历史是日志，不是消息流）。 */
+  /**
+   * 学习日志（票 08：历史是日志，不是消息流）。
+   *
+   * `createdAt` 走 `isoTimestamp`：pg 把 `timestamptz` 解成 JS `Date`，
+   * 而契约要求 ISO 8601 字符串。创建路径上用的是 `db.now()`（SQL 侧转好），
+   * 读路径却拿到 `Date` —— 这个不对称曾让「回看」整个 500，而「新一轮」正常。
+   */
   async history(sessionId: string, limit = 50): Promise<AgentTurnHistoryResponse> {
     await this.ensureSession(sessionId);
     const rows = await this.db.query<{
@@ -892,7 +898,8 @@ export class TurnService {
       artifact_kind: string;
       card_title: string;
       degraded: boolean;
-      created_at: string;
+      /** pg 把 timestamptz 解成 Date；写 `string` 会让这个不对称沉进类型系统 */
+      created_at: Date | string;
     }>(
       `SELECT id, session_id, utterance, artifact_kind, card_title, degraded, created_at
          FROM agent_turns
@@ -911,7 +918,7 @@ export class TurnService {
         artifactKind: row.artifact_kind,
         cardTitle: row.card_title,
         degraded: row.degraded,
-        createdAt: row.created_at,
+        createdAt: isoTimestamp(row.created_at),
       })),
       nextCursor: null,
     });
@@ -939,7 +946,7 @@ export class TurnService {
       retry_count: number;
       artifact: unknown;
       language_check: unknown;
-      created_at: string;
+      created_at: Date | string;
     }>(
       `SELECT id, session_id, visible_response, visible_response_kind, artifact_kind,
               degraded, retry_count, artifact, language_check, created_at
@@ -980,7 +987,7 @@ export class TurnService {
       visibleResponseKind: row.visible_response_kind,
       languageCheck,
       actions,
-      createdAt: row.created_at,
+      createdAt: isoTimestamp(row.created_at),
     });
   }
 
@@ -1045,6 +1052,20 @@ export class TurnService {
 }
 
 /** `LlmResult.parsed` 为 null 时的最后一次尝试：直接解析文本。 */
+/**
+ * `timestamptz` → ISO 字符串。
+ *
+ * pg 驱动把 `timestamptz` 解成 `Date`。契约（以及所有 JSON 消费方）要的是
+ * ISO 8601 字符串，直接塞 `Date` 会得到一个能 toString 但过不了 zod 的值 ——
+ * 症状是 500 而不是类型错，因为校验发生在运行时。
+ *
+ * 两种输入都接受：同一列在「刚写进去又读出来」和「SQL 侧 now()」两条路径上
+ * 类型不同，与其赌哪条，不如两条都收。
+ */
+function isoTimestamp(value: Date | string): string {
+  return value instanceof Date ? value.toISOString() : value;
+}
+
 function tryParse(text: string): unknown {
   if (typeof text !== 'string') return null;
   const trimmed = text

@@ -15,7 +15,7 @@
  * 提示阶梯（`hintLadder`）是**逐步展开**的：一次只多给一条，最后一条才是
  * 接近答案的提示。一次性全摊开等于直接给答案。
  */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Badge,
   Button,
@@ -114,9 +114,27 @@ export interface QuestionViewProps {
   item: LevelItem;
   /** 已提交的选择；`undefined` 表示还没作答。 */
   submitted: { choice: number | string; feedback: Feedback } | undefined;
-  onSubmit: (choice: number | string) => void;
+  /**
+   * 提交回调。`meta` 带这次作答的过程量（用了几级提示、想了多久），
+   * 它们**不是**判分依据，而是票 05 的 BKT 与票 07 的复验要用的信号：
+   * 「8 分钟才蒙对」与「3 秒答对」在证据里不该同权。
+   */
+  onSubmit: (choice: number | string, meta: AnswerMeta) => void;
   /** 这一段不改变掌握度时显示的说明（深究分支）。 */
   nonScoring?: boolean;
+}
+
+/** 一次作答的过程量。两者都不影响对错，只影响证据的权重。 */
+export interface AnswerMeta {
+  /** 用了几级提示（0 = 裸答）。 */
+  hintsUsed: number;
+  /**
+   * 从这道题**首次出现在屏幕上**到提交的毫秒数。
+   *
+   * `null` 表示没有测到（组件挂载与提交之间没有拿到时间基准）——
+   * 与「0 毫秒」是两件事，所以不能拿 0 兜底。
+   */
+  latencyMs: number | null;
 }
 
 export function QuestionView({ item, submitted, onSubmit, nonScoring }: QuestionViewProps) {
@@ -124,6 +142,14 @@ export function QuestionView({ item, submitted, onSubmit, nonScoring }: Question
   const [draftChoice, setDraftChoice] = useState<string>('');
   const [draftText, setDraftText] = useState('');
   const [revealedHints, setRevealedHints] = useState(0);
+
+  /**
+   * 计时起点。用 `useRef` 而不是 `useState`：它不进渲染输出，写它不该触发重渲染。
+   *
+   * 在首次渲染时初始化（`useState` 的惰性初值同理，但 ref 更直白），
+   * 而不是在 `submit` 里读 `Date.now()` 再减 —— 那样差值永远是 0。
+   */
+  const startedAt = useRef<number | null>(Date.now());
 
   const isChoice = typeof item.answer === 'number';
   const locked = submitted !== undefined;
@@ -133,8 +159,13 @@ export function QuestionView({ item, submitted, onSubmit, nonScoring }: Question
 
   const submit = () => {
     if (!canSubmit || locked) return;
-    if (isChoice) onSubmit(Number(draftChoice));
-    else onSubmit(draftText.trim());
+    const started = startedAt.current;
+    const meta: AnswerMeta = {
+      hintsUsed: revealedHints,
+      latencyMs: started === null ? null : Math.max(0, Date.now() - started),
+    };
+    if (isChoice) onSubmit(Number(draftChoice), meta);
+    else onSubmit(draftText.trim(), meta);
   };
 
   return (

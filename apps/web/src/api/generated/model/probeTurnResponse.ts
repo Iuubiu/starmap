@@ -16,6 +16,7 @@ export interface ProbeTurnResponse {
   /** @nullable */
   actionReason: string | null;
   createdAt: string;
+  fallbackApplied: boolean;
   judge: ProbeTurnResponseJudge;
   ladder: ProbeTurnResponseLadder;
   microKpId: string;

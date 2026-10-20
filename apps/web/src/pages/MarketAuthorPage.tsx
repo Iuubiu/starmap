@@ -77,15 +77,37 @@ const useStyles = makeStyles({
 });
 
 /**
- * 校验失败时后端给的 details 是 `{path,message,code}` 数组，但同一路径上
- * 也可能来自请求体语法错误（Zod 原生 issue，没有 `path` 字符串字段）。
- * 这里统一收敛成可渲染的列表，而不是赌它一定是哪种形状。
+ * 把后端错误响应里的 `details` 收敛成可渲染的 `{path,message,code}[]`。
+ *
+ * ## 为什么这个函数要兼容两种形状
+ *
+ * 因为服务端**真的会返回两种**（实测，见 `market.controller.test.ts` 里
+ * 「422 与 400 的 details 是两种形状」那条）：
+ *
+ *   - **422**（spec 语义不合法）→ `validateLevelSpec()` 的 issues，
+ *     `path` 是**点号字符串**：`{path:'items.0.sourceRef', message, code}`
+ *   - **400**（请求体语法不合法）→ Zod 原生 `error.issues`，
+ *     `path` 是**数组**：`{path:['spec'], code:'invalid_type', message, ...}`
+ *
+ * 少了数组那一路，用户传错请求体时看到的是一个**空的**错误列表 —— 比不显示
+ * 更糟，因为它看起来像「没有错误」。
+ *
+ * ## 为什么它对第三种形状也不崩
+ *
+ * `details` 在契约里是 `z.unknown()`（形状由各控制器决定），所以它也可能是
+ * `null`、一个对象、或者一个元素不是对象的数组。这里一律退化成空列表而不是
+ * 抛异常：错误渲染路径自己再抛错，会把「展示错误」变成「白屏」。
+ *
+ * 导出是为了让它有一条独立测试 —— 这个函数看起来像「万能的防御性函数」，
+ * 那种函数最容易在下一个人手里被当冗余删掉，因为没人知道它防的是什么。
  */
-function toIssues(raw: unknown): MarketSpecIssue[] {
+export function toIssues(raw: unknown): MarketSpecIssue[] {
   if (!Array.isArray(raw)) return [];
   const out: MarketSpecIssue[] = [];
   for (const item of raw) {
-    if (typeof item !== 'object' || item === null) continue;
+    // `Array.isArray` 要单独判：数组的 `typeof` 也是 'object'，不排掉的话
+    // 一个嵌套数组会变成一条 {path:'', message:'未知问题'} 的噪声。
+    if (typeof item !== 'object' || item === null || Array.isArray(item)) continue;
     const r = item as { path?: unknown; message?: unknown; code?: unknown };
     // Zod 原生 issue 的 path 是数组；契约里的 path 是点号字符串。
     const path = Array.isArray(r.path)

@@ -63,7 +63,9 @@ export function AppShell() {
         ? '/database'
         : location.pathname.startsWith('/skills')
           ? '/skills'
-          : '/';
+          : location.pathname.startsWith('/board')
+            ? '/board'
+            : '/';
 
   return (
     <div className={styles.root}>
@@ -75,7 +77,8 @@ export function AppShell() {
             navigate(data.value as string);
           }}
         >
-          <Tab value="/">看板</Tab>
+          <Tab value="/">学习</Tab>
+          <Tab value="/board">看板</Tab>
           <Tab value="/map">知识地图</Tab>
           <Tab value="/market">关卡市场</Tab>
           <Tab value="/database">数据库</Tab>

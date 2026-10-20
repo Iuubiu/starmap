@@ -1,0 +1,252 @@
+/*
+ * 知识图谱的深色画布样式。
+ *
+ * 这些规则刻意**不**走 Fluent 的 makeStyles：画布是 spec 定下的独立视觉语言
+ * （深色图谱 vs 浅色学术工作台），它需要自己的底色、自己的对比度基线、以及
+ * sigma 在 `<canvas>` 上叠加元素时的绝对定位。混进 Fluent 的 token 体系会让
+ * 「画布是另一个世界」这件事变得含糊，而且 sigma 的容器尺寸必须由 CSS 明确
+ * 给定（否则 canvas 高度为 0，什么都画不出来）。
+ */
+
+.graph-canvas {
+  position: relative;
+  min-height: 480px;
+  height: 100%;
+  border-radius: 12px;
+  background-color: #12161c;
+  /* 极淡的网格暗示「这是一张图」而不是一块黑背景，同时不干扰节点的颜色判断 */
+  background-image:
+    radial-gradient(circle at 1px 1px, #1e2632 1px, transparent 0);
+  background-size: 28px 28px;
+  overflow: hidden;
+}
+
+.graph-canvas-webgl {
+  position: absolute;
+  inset: 0;
+}
+
+.graph-canvas-broken {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: #8fa0b8;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.graph-canvas-zoom {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.graph-canvas-zoom button {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #2e3644;
+  background-color: #1e242d;
+  color: #e8ecf2;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.graph-canvas-zoom button:hover {
+  border-color: #4c8dff;
+}
+
+/*
+ * 焦点环。深色画布上浏览器的默认焦点环（通常是深蓝）几乎看不见，而票 03 第
+ * 7 条要求全键盘可达 —— 看得见的焦点是可达性的一半。
+ */
+.graph-canvas-zoom button:focus-visible,
+.graph-roster-item:focus-visible {
+  outline: 2px solid #4c8dff;
+  outline-offset: 2px;
+}
+
+.graph-canvas-hint {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  margin: 0;
+  color: #6b7785;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.graph-canvas-hint-a11y {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── 图例 ───────────────────────────────────────────────────────────── */
+
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.graph-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.graph-legend-item[aria-pressed='true'] {
+  border-color: #4c8dff;
+  background-color: #eef4ff;
+}
+
+.graph-legend-item:focus-visible {
+  outline: 2px solid #4c8dff;
+  outline-offset: 2px;
+}
+
+.graph-legend-count {
+  color: #616161;
+  font-variant-numeric: tabular-nums;
+}
+
+.graph-legend-total {
+  color: #9e9e9e;
+}
+
+/* ── 节点清单（画布的等价文本替代） ────────────────────────────────── */
+
+.graph-roster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  min-height: 0;
+  /* 长清单自成一个滚动区：地图书签式浏览时，页面本身不该跟着滚 */
+  flex: 1 1 auto;
+}
+
+/* 分批展开的入口。样式跟清单项贴近，读起来像清单的延续而不是另一个控件 */
+.graph-roster-more {
+  flex: 0 0 auto;
+  margin-top: 4px;
+  padding: 6px 8px;
+  border: 1px dashed #2e3644;
+  border-radius: 6px;
+  background: transparent;
+  color: #9fb0c8;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.graph-roster-more:hover {
+  border-color: #4c8dff;
+  color: #e8ecf2;
+}
+
+.graph-roster-more:focus-visible {
+  outline: 2px solid #4c8dff;
+  outline-offset: 2px;
+}
+
+.graph-roster-item {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.graph-roster-item:hover {
+  background-color: #f3f3f3;
+}
+
+.graph-roster-item[data-focus='true'] {
+  background-color: #eef4ff;
+  font-weight: 600;
+}
+
+.graph-roster-glyph {
+  width: 12px;
+  height: 12px;
+  /* 清单里的形状与画布上的形状必须一一对应，否则两处会各自漂移 */
+  display: inline-block;
+}
+
+.graph-roster-glyph[data-shape='circle'] {
+  border-radius: 50%;
+}
+
+.graph-roster-glyph[data-shape='square'] {
+  border-radius: 2px;
+}
+
+.graph-roster-glyph[data-shape='diamond'] {
+  border-radius: 2px;
+  transform: rotate(45deg) scale(0.86);
+}
+
+.graph-roster-glyph[data-shape='triangle'] {
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  border-radius: 0;
+}
+
+.graph-roster-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.graph-roster-state {
+  color: #616161;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.graph-roster-fine {
+  color: #9e9e9e;
+}
+
+.graph-roster-percent {
+  color: #616161;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (max-width: 1080px) {
+  /* 窄屏时侧栏落到画布下方，而不是把画布挤成一条缝 */
+  .graph-canvas {
+    min-height: 380px;
+  }
+}
