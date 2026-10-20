@@ -223,7 +223,34 @@ test.describe('票 03 第 2 条：两跳邻域与逐层展开', () => {
     const readCount = async (): Promise<number> =>
       Number(await canvas(page).getAttribute('data-node-count'));
 
-    const atTwo = await readCount();
+    /**
+     * 取基线前先等计数稳定。
+     *
+     * 原先是选完焦点立刻读 —— 而 `selectOption` 只保证 change 事件发出去，
+     * 焦点视图的重建是异步的。整套 e2e 一起跑时（前面的用例把机器焐热了）
+     * 这里会读到**重建前**的全图节点数，基线被记成 167；接着 `+1 跳` 得到
+     * 几十个节点，`toBeGreaterThanOrEqual(167)` 当然不成立，于是随机变红。
+     * 单独跑这条则总是绿 —— 典型的时序抖动，不是实现有问题。
+     *
+     * 判据是「连续两次读数相同」：重建到一半时值还在跳，稳定了才取样。
+     */
+    const settledCount = async (): Promise<number> => {
+      let previous = -1;
+      await expect
+        .poll(
+          async () => {
+            const current = await readCount();
+            const stable = current === previous;
+            previous = current;
+            return stable;
+          },
+          { timeout: 10_000, intervals: [120] },
+        )
+        .toBe(true);
+      return previous;
+    };
+
+    const atTwo = await settledCount();
     await page.getByRole('button', { name: '+1 跳' }).click();
     await expect.poll(readCount, { timeout: 10_000 }).toBeGreaterThanOrEqual(atTwo);
     const atThree = await readCount();

@@ -1,8 +1,9 @@
+import os
 import sys, io, base64, json, urllib.request
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 import pymupdf
 
-KEY = "sk-aNpFv9IOPIH9ed0whG78WFzdDRyyUlT2hwDIkRMtMVDlnrle"
+KEY = os.environ["D1API_API_KEY"]
 BASE = "https://d1api.xin/v1"
 
 # 1) render a page from 王芝英 (pure scan) as PNG
