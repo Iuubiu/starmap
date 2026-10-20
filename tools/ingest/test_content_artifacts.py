@@ -67,10 +67,13 @@ def test_the_answer_appendixes_are_flagged() -> None:
     `parse_toc_text` 当时只认数字编号行与 4 个固定无编号标题，这条被静默丢掉，
     于是 p530–536 的整本答案被上一个叶子 `kp-kanghua-5e-p501-习题` 按页区间
     吞成「习题正文」，门控认不出它们（实测这 7 页 22 条里只有 9 条被标）。
-    修 `toc.py` 后它才作为独立节点出现。以后再加书这里应继续增长，而不是被
-    改成子集断言。
+    修 `toc.py` 后它才作为独立节点出现。
+
+    断言是**子集**而不是相等：本测试守「这 5 个已知的不能丢」，而不是
+    「不能有第 6 个」。多出来的答案附录由上面那条 `answerKey` 与判定规则
+    对账的测试负责，不需要在这里再钉一份清单。
     """
-    want = {
+    wanted = {
         'kp-kanghuaguang-5e-p573-部分习题答案',
         'kp-kanghua-5e-p530-部分习题答案',
         'kp-lihansun-5e-vol1-p305-部分习题答案上册',
@@ -83,4 +86,8 @@ def test_the_answer_appendixes_are_flagged() -> None:
         for n in toc.get('nodes', []):
             if n.get('answerKey') is True:
                 found.add(n['microKpId'])
-    assert found == want, f'答案附录标记缺失：{sorted(want - found)}'
+    # 子集断言而不是相等断言：这里要守的是「这 5 个已知答案附录一个都不能丢」，
+    # 「不能有第 6 个」不是目标 —— 以后加书多出答案附录是应该的，写成 `==`
+    # 会让下一个人加书时被迫回来改这份清单，而改清单的人不会去想「为什么」。
+    missing = wanted - found
+    assert not missing, f'答案附录标记缺失：{sorted(missing)}（产物里共 {len(found)} 个）'
