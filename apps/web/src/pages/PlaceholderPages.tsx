@@ -84,14 +84,3 @@ export function SkillsPage() {
     />
   );
 }
-
-export function LevelPage() {
-  return (
-    <PlaceholderPage
-      title="关卡"
-      purpose="进入一个知识点后在这里学习：引导、细节、简单问题、判断是否掌握、深究、再讲、下一关。对错都立刻看到预先写好的反馈。"
-      emptyReason="关卡播放器尚未实现。"
-      ticket="票 04"
-    />
-  );
-}

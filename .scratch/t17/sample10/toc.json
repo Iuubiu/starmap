@@ -1,0 +1,15 @@
+{
+  "sourceId": "nuclear-electronics-wangzhiying-1989",
+  "nodeCount": 1,
+  "nodes": [
+    {
+      "microKpId": "kp-all",
+      "name": "全书",
+      "num": "",
+      "printedPage": 1,
+      "depth": 0,
+      "parentId": null,
+      "isLeaf": true
+    }
+  ]
+}

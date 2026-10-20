@@ -38,6 +38,36 @@ if (!window.HTMLElement.prototype.scrollIntoView) {
 }
 
 /**
+ * `WebGL2RenderingContext` 的常量表（jsdom 完全没有这个全局）。
+ *
+ * sigma 在**模块加载时**就读 `WebGL2RenderingContext.UNSIGNED_BYTE` 等常量来
+ * 构造它的渲染层描述，所以只要任何组件（或它的 import 链）碰到 `sigma`，
+ * jsdom 里就是 `ReferenceError` —— 连 import 都过不去，测试文件在收集阶段
+ * 就红。
+ *
+ * 这里只补常量、不补构造函数：jsdom 没有 WebGL 上下文，`new Sigma(...)` 该
+ * 失败还是失败。组件测试要测图谱交互，请 mock 掉 sigma 的实例（渲染逻辑归
+ * Playwright 的端到端测试，见票 03）。数值是 WebGL 规范里的定值，抄错会让
+ * 渲染参数静默变形，所以别改。
+ */
+if (!('WebGL2RenderingContext' in globalThis)) {
+  (globalThis as Record<string, unknown>).WebGL2RenderingContext = {
+    ZERO: 0,
+    ONE: 1,
+    FUNC_ADD: 0x8006,
+    BOOL: 0x8b56,
+    BYTE: 0x1400,
+    UNSIGNED_BYTE: 0x1401,
+    SHORT: 0x1402,
+    UNSIGNED_SHORT: 0x1403,
+    INT: 0x1404,
+    UNSIGNED_INT: 0x1405,
+    FLOAT: 0x1406,
+    TEXTURE0: 0x84c0,
+  };
+}
+
+/**
  * MSW：默认拦截所有未匹配的请求并报错。
  *
  * `onUnhandledRequest: 'error'` 是刻意的 —— 组件测试里出现真实网络请求，

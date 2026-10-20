@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DatabaseService } from './db/database.service.js';
-import { NodesController } from './nodes/nodes.controller.js';
-import { ContentController } from './content/content.controller.js';
+import { domainControllers } from './domains.js';
 import { LLM_PORT } from './llm/llm.port.js';
 import { OpenAiCompatibleLlm } from './llm/openai-compatible-llm.js';
 import { StarmapMastraModule } from './mastra/mastra.module.js';
@@ -13,10 +12,12 @@ import { StarmapMastraModule } from './mastra/mastra.module.js';
  * 注册的是 catch-all 控制器（`@All('*')`），排在业务模块前面会拦掉
  * `/api/v1/*` 并返回 404。现在它是唯一的 import，但后面加模块时
  * 一定要加在它上面。
+ *
+ * 控制器清单不在这里，在 `domains.ts` —— 新增领域控制器只改那一个文件。
  */
 @Module({
   imports: [StarmapMastraModule.register()],
-  controllers: [NodesController, ContentController],
+  controllers: domainControllers,
   providers: [
     DatabaseService,
     {
@@ -32,3 +33,4 @@ import { StarmapMastraModule } from './mastra/mastra.module.js';
   exports: [DatabaseService, LLM_PORT],
 })
 export class AppModule {}
+

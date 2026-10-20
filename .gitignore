@@ -12,3 +12,14 @@ data/
 test-results/
 playwright-report/
 .scratch/pgcheck/
+
+# Python
+__pycache__/
+*.pyc
+
+# AgentTeams 运行时状态（含成员会话与邮箱，不进版本库）
+.agent-teams/
+
+# 各泳道的一次性探针与产物
+apps/api/.probe/
+

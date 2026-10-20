@@ -1,0 +1,344 @@
+-- 手写教学关卡入库：逻辑代数基本律（吸收律与德摩根律）。
+--
+-- 内容真源是 content/levels/lv-bool-laws.spec.json —— 作者改那边，
+-- 本文件里的 spec 必须同步（apps/api/src/levels/levels.content.test.ts 会逐字节比对
+-- 解析后的 JSON，漂移就让测试炸掉，而不是让线上服务端到一个过期关卡）。
+--
+-- 为什么迁移自己插学科/模块/知识点：测试用的临时 schema 只执行迁移、不执行
+-- seed.sql，而 levels.micro_kp_id 有外键。迁移必须自给自足，否则新克隆的库
+-- 跑 db:migrate 会因外键失败。全部 ON CONFLICT DO NOTHING，与 seed.sql 撞 id
+-- 时不会互相覆盖（两边写的值相同）。
+--
+-- 回滚见 0010_levels_teaching_bool.down.sql。
+
+-- ## 为什么数据段套在 DO 块里
+--
+-- 本文件同时被两个执行器读取：
+--   ① `apps/api/scripts/migrate.ts`（真实库）—— 先把版本表建好再逐个跑文件；
+--   ② `apps/api/test/test-schema.ts`（测试）—— 建一个一次性 schema，把文件里的
+--      `app.` 改写成测试 schema 名后直接执行，**不建版本表**。
+--
+-- 下面这段是**引导数据**（演示学科主干 + 这张手写关卡）。它在 ② 里落库会污染
+-- 那些自己种最小数据的测试（它们 plain INSERT 同一批主键，撞 unique violation）。
+-- 所以用「这个 schema 是否由版本化迁移器管理」来判定：版本表存在 = ①，落数据；
+-- 不存在 = ②的一次性 schema，直接返回。
+--
+-- 这不是在探测测试环境，而是在区分「版本化迁移」与「临时 schema 重放」：
+-- 临时 schema 的契约就是「只拿 schema 定义，数据各自种」（见 test-schema.ts 的注释）。
+
+DO $bootstrap$
+BEGIN
+  IF to_regclass('app.schema_migrations') IS NULL THEN
+    RETURN;
+  END IF;
+
+  INSERT INTO app.subjects (id, name) VALUES ('nuclear', '核电子学')
+  ON CONFLICT (id) DO NOTHING;
+
+  INSERT INTO app.modules (id, subject_id, name, tier, ordinal)
+  VALUES ('m-digital', 'nuclear', '数字逻辑基础', 'D', 1)
+  ON CONFLICT (id) DO NOTHING;
+
+  INSERT INTO app.knowledge_points (id, module_id, parent_id, name, is_leaf, depth, ordinal) VALUES
+    ('kp-logic', 'm-digital', NULL, '逻辑代数与门电路', false, 0, 1),
+    ('kp-bool', 'm-digital', 'kp-logic', '布尔代数基本运算', true, 1, 1)
+  ON CONFLICT (id) DO NOTHING;
+
+  INSERT INTO app.levels (id, micro_kp_id, title, kind, ordinal, spec)
+  VALUES (
+    'lv-bool-laws',
+    'kp-bool',
+    '逻辑代数基本律：吸收律与德摩根律',
+    'teach',
+    2,
+    $levelspec${
+    "schemaVersion": 1,
+    "meta": {
+      "id": "lv-bool-laws",
+      "microKpId": "kp-bool",
+      "title": "逻辑代数基本律：吸收律与德摩根律",
+      "type": "teaching",
+      "tier": "P1",
+      "estimatedMinutes": 14,
+      "author": "system",
+      "isEntry": true,
+      "nextLevelId": null
+    },
+    "sources": [
+      {
+        "ref": "康华光·电子技术基础·数字部分·第5版",
+        "locator": "§2.1.2 逻辑代数基本定律，表 2.1.1，p.34"
+      },
+      {
+        "ref": "康华光·电子技术基础·数字部分·第5版",
+        "locator": "§2.1.3 逻辑代数的基本规则，p.38"
+      }
+    ],
+    "cards": [
+      {
+        "id": "c-guide",
+        "title": "为什么数字电路里要反复化简逻辑式",
+        "body": "一个逻辑函数可以写成无穷多种等价形式，但它们对应的电路代价不一样：每一个与项要一片与门，每一个或项要一片或门，变量取反还要一片非门。化简的目标不是「让式子好看」，而是**用最少的门、最少的输入数实现同一个真值表**。\n\n举个具体的例子。某数字系统的选通条件最初写成\n\n$Y = A·B + A·B·C + A·\\overline{B}·C$\n\n逐项看：第二项 $A·B·C$ 只有在 $A·B$ 成立时才可能成立，所以它是第一项的「子集」，加不加都不改变 $Y$；第三项与第二项合并又得到 $A·C$。化简结果是\n\n$Y = A·B + A·C$\n\n门数从 7 片降到 3 片，而真值表一个 1 都没变。这一关要掌握的就是支撑这类化简的两条基本律：**吸收律**和**德摩根律**。它们是后面卡诺图化简（下一个微知识点）的代数基础。",
+        "figureRef": null
+      },
+      {
+        "id": "c-absorb",
+        "title": "吸收律：A + A·B = A 与 A·(A + B) = A",
+        "body": "吸收律说的是：如果一个与项是另一个与项的子集，那么它会被「吸收」掉，不留下任何痕迹。\n\n**推导**（只用分配律与 1 的性质，不需要背）：\n\n$A + A·B = A·(1 + B) = A·1 = A$\n\n因为 $1 + B = 1$ 对任意 $B$ 恒成立 —— 在布尔代数里「或上 1」永远是 1，这一点和普通代数不同，也是这一步唯一需要的直觉。\n\n**对偶形式**（把 · 与 + 互换，0 与 1 互换）：\n\n$A·(A + B) = A + A·B \\;\\Rightarrow\\; A·(A + B) = A$\n\n**它在电路里意味着什么**：若信号 $A$ 已经能决定输出，那么「$A$ 与 $B$ 同时为真」这个更严格的条件不会带来任何新的信息，对应的与门可以整片删掉。反过来，若 $A$ 为假，无论 $B$ 怎么变输出都是假。\n\n**工程上的常见误用**：吸收律只对「一个与项整体包含另一个与项」成立。$A + B·C$ 里的 $B·C$ 并不包含 $A$，所以**不能**把它吸收掉；把它写成 $A$ 会让真值表中 $A=0,B=C=1$ 那一行从 1 变成 0 —— 这是仿真能抓到的功能性错误。",
+        "figureRef": "ck-digital-kanghua-5e-0062-03-8f36a966f7b7"
+      },
+      {
+        "id": "c-demorgan",
+        "title": "德摩根律：把「与非」翻成「或非」",
+        "body": "德摩根律处理的是「整体取反」怎么拆到括号里面：\n\n$\\overline{A·B} = \\overline{A} + \\overline{B}$\n\n$\\overline{A + B} = \\overline{A}·\\overline{B}$\n\n**一句话记法**：非号越过运算符时，运算符翻转（· 变 +，+ 变 ·），并且**每一个**变量各自加非号。\n\n**为什么要有它**：实际工艺里与非门（NAND）和或非门（NOR）比与门、或门更快更省面积。要把一个用与/或写成的表达式落到 NAND 工艺上，就必须把与、或结构整体翻成与非结构，这一步全部靠德摩根律完成。\n\n**验证方式**（不确定时永远回到真值表）：$A=1,B=0$ 时左边 $\\overline{1·0} = \\overline{0} = 1$，右边 $\\overline{1} + \\overline{0} = 0 + 1 = 1$，一致；四行都一致，所以恒等式成立。\n\n**最常见的错误**是把 $\\overline{A·B}$ 写成 $\\overline{A}·\\overline{B}$ —— 漏掉了运算符的翻转。用 $A=1,B=0$ 一代入就能立刻看出差别：左边是 1，右边是 0。这类错误在笔试和代码里都极常见，所以下面的深究环节会专门针对它出题。",
+        "figureRef": null
+      },
+      {
+        "id": "c-deepen",
+        "title": "深究：为什么「化简」这类错误靠眼看抓不住",
+        "body": "化简错误的危险之处在于它**不改变电路的语法合法性**：式子仍然能综合、仍然能上板，只是行为在个别输入组合上不一样。这类缺陷在门级仿真里表现为「某一两个测试向量结果不对」，如果测试向量覆盖不全，很容易流片之后才发现。\n\n因此工程上的做法不是「看得更仔细」，而是把判断外化：\n1. 把原式与化简结果都写成真值表，逐行比对（变量不超过 5 个时最可靠）；\n2. 或者用等价性检查工具（形式验证）证明两边等价；\n3. 或者在关键节点插探针，把 $A$、$B$、$Y$ 都打进示波器/逻辑分析仪，用实际激励找出不一致的那一行。\n\n本步的题目只做**诊断**，答错不会扣你的掌握度 —— 它要暴露的是你脑子里的那条错误规则，而不是你的最终成绩。",
+        "figureRef": null
+      },
+      {
+        "id": "c-reteach",
+        "title": "进一步讲解：用集合的视角重看这两条律",
+        "body": "如果代数的推导让你觉得「记住了但没真懂」，换成集合会清楚很多。把 $A$、$B$ 看成两个集合，与 = 交集 $\\cap$，或 = 并集 $\\cup$，非 = 补集。\n\n**吸收律** $A \\cup (A \\cap B) = A$：$A \\cap B$ 本来就整个装在 $A$ 里面，再并上外层的 $A$，得到的还是 $A$。所以「吸收」这个名字很准确 —— 小的那个被大的吞掉了。\n\n**德摩根律** $\\overline{A \\cap B} = \\overline{A} \\cup \\overline{B}$：「不在交集里」等于「至少不在其中一个里面」。用一句话读出来就是它本身，不需要记符号。\n\n**第三个视角：真值表枚举**。两条律都只涉及两个变量，一共只有 4 行。当你对某条变形不确定时，把 4 行都算一遍是最快、最不会错的验证方式；考场上 30 秒，工程里 3 分钟就能写完一个断言。\n\n**和后面内容的衔接**：卡诺图化简（$kp-kmap$）做的事本质上是「在图上把相邻的最小项圈起来」，而吸收律正是「为什么可以圈」的代数理由。所以这一关的判定题答对之后，再去看卡诺图会明显轻松。",
+        "figureRef": null
+      },
+      {
+        "id": "c-summary",
+        "title": "这一关留下了什么",
+        "body": "**三条可迁移的判断规则**：\n1. 与项被吸收的前提是「整体包含」，$A + A·B$ 可以吸收，$A + B·C$ 不行；\n2. 非号跨过运算符必须翻转运算符，且逐项加非号；\n3. 任何化简结论都用真值表（≤5 变量）或等价性检查复核，不靠眼睛。\n\n**下一步**：本关的判定题只产出证据，不单独决定掌握度；掌握度由后续多次作答（BKT 模型）汇总，所以一次答错不会把你钉死在「未掌握」。答对之后，建议接着进入「卡诺图化简」微知识点 —— 那里会用上今天这两条律。",
+        "figureRef": null
+      }
+    ],
+    "steps": [
+      {
+        "id": "s-guide",
+        "kind": "guide",
+        "title": "引导：化简是为了省门，不是为了好看",
+        "cardIds": [
+          "c-guide"
+        ],
+        "itemIds": [],
+        "requiredCorrect": 0
+      },
+      {
+        "id": "s-detail",
+        "kind": "detail",
+        "title": "展示细节：吸收律与德摩根律",
+        "cardIds": [
+          "c-absorb",
+          "c-demorgan"
+        ],
+        "itemIds": [],
+        "requiredCorrect": 0
+      },
+      {
+        "id": "s-probe",
+        "kind": "probe",
+        "title": "简单问题：先确认你看懂了这两条律",
+        "cardIds": [],
+        "itemIds": [
+          "i-probe-absorb"
+        ],
+        "requiredCorrect": 1
+      },
+      {
+        "id": "s-deepen",
+        "kind": "deepen",
+        "title": "深究：把错误规则挖出来（本步不扣掌握度）",
+        "cardIds": [
+          "c-deepen"
+        ],
+        "itemIds": [
+          "i-deepen-demorgan"
+        ],
+        "requiredCorrect": 0
+      },
+      {
+        "id": "s-reteach",
+        "kind": "reteach",
+        "title": "进一步讲解：换集合与真值表的视角",
+        "cardIds": [
+          "c-reteach"
+        ],
+        "itemIds": [],
+        "requiredCorrect": 0
+      },
+      {
+        "id": "s-quiz",
+        "kind": "quiz",
+        "title": "判定：两道题确认你真的会用",
+        "cardIds": [],
+        "itemIds": [
+          "i-quiz-absorb",
+          "i-quiz-demorgan"
+        ],
+        "requiredCorrect": 1
+      },
+      {
+        "id": "s-summary",
+        "kind": "summary",
+        "title": "小结：三条可迁移的判断规则",
+        "cardIds": [
+          "c-summary"
+        ],
+        "itemIds": [],
+        "requiredCorrect": 0
+      }
+    ],
+    "items": [
+      {
+        "id": "i-probe-absorb",
+        "kind": "fact",
+        "stem": "下列哪一个式子恒等于 $A$？",
+        "options": [
+          "$A + A·B$",
+          "$A + B$",
+          "$A·(A + B)·\\overline{A}$",
+          "$A \\oplus A·B$"
+        ],
+        "answer": 0,
+        "variantGroup": "vg-absorb",
+        "explainCorrect": "对，就是吸收律：$A + A·B = A·(1 + B) = A·1 = A$。因为 $A·B$ 是 $A$ 的子集，并上外层这个 $A$ 不增加任何元素。",
+        "explainWrong": "再看一遍吸收律的推导：$A + A·B = A·(1 + B)$，而 $1 + B$ 在布尔代数里恒等于 1，所以整个式子塌回 $A$。选 $A + B$ 是把吸收律与「并上更宽的条件」混了；选 $A·(A+B)·\\overline{A}$ 里含 $\\overline{A}$，与 $A$ 相与必为 0；选 $A \\oplus A·B$ 是异或，$A=1$ 时它等于 $1 \\oplus B$，并不是常数 $A$。",
+        "misconceptionTags": [
+          "吸收律误用",
+          "把 A+B 当成 A"
+        ],
+        "sourceRef": "康华光·数字部分·第5版·表 2.1.1",
+        "pool": "core",
+        "hintLadder": [
+          "先把 $A$ 提到括号外面看看剩下什么",
+          "$1 + B$ 在布尔代数里等于多少？",
+          "只有「整体包含」的与项才能被吸收"
+        ]
+      },
+      {
+        "id": "i-deepen-demorgan",
+        "kind": "concept",
+        "stem": "$\\overline{A·B}$ 展开后等于什么？",
+        "options": [
+          "$\\overline{A}·\\overline{B}$",
+          "$\\overline{A} + \\overline{B}$",
+          "$A + B$",
+          "$\\overline{A + B}$"
+        ],
+        "answer": 1,
+        "variantGroup": "vg-demorgan",
+        "explainCorrect": "正确：$\\overline{A·B} = \\overline{A} + \\overline{B}$。非号越过运算符时运算符要翻转（· 变 +），并且每个变量各自加非号。",
+        "explainWrong": "这是最容易踩的坑：把 $\\overline{A·B}$ 写成 $\\overline{A}·\\overline{B}$ 属于**只加了非号、忘了翻转运算符**。代入 $A=1,B=0$ 检查：左边 $\\overline{1·0} = 1$，而 $\\overline{1}·\\overline{0} = 0$，立刻看出不等。正确答案是 $\\overline{A} + \\overline{B}$。",
+        "misconceptionTags": [
+          "德摩根漏翻转运算符",
+          "非号分配错误"
+        ],
+        "sourceRef": null,
+        "pool": "practice",
+        "hintLadder": [
+          "用 $A=1,B=0$ 代进去，两边各是多少？",
+          "非号越过 · 的时候，· 要变成什么？",
+          "「整体取反」等于「各项取反后再换一种运算」"
+        ]
+      },
+      {
+        "id": "i-quiz-absorb",
+        "kind": "concept",
+        "stem": "化简 $Y = A·B + A·B·C + A·\\overline{B}·C$，结果是？",
+        "options": [
+          "$A$",
+          "$A·B + A·C$",
+          "$A·B + C$",
+          "$B + A·C$"
+        ],
+        "answer": 1,
+        "variantGroup": "vg-simplify",
+        "explainCorrect": "正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$。门数从 7 片降到 3 片，真值表不变。",
+        "explainWrong": "按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收，式子变成 $A·B + A·\\overline{B}·C$；② 后两项提取公因子 $A$，得 $A·(B + \\overline{B}·C)$，而 $B + \\overline{B}·C = B + C$（这是「消去律」），最终 $A·(B + C) = A·B + A·C$。选 $A$ 是吸收了不该吸收的项：$A·\\overline{B}·C$ 并不包含在 $A·B$ 里（后者要求 $B=1$，前者要求 $B=0$），代入 $A=1,B=0,C=1$ 可验证原式为 1 而 $A·B$ 为 0。",
+        "misconceptionTags": [
+          "过度吸收",
+          "漏掉消去律一步"
+        ],
+        "sourceRef": "康华光·数字部分·第5版·§2.1.2 表 2.1.1",
+        "pool": "core",
+        "hintLadder": [
+          "先找哪一项整体包含在另一项里",
+          "剩两项之后能不能提取公因子 $A$？",
+          "$B + \\overline{B}·C$ 还能不能再化简？"
+        ]
+      },
+      {
+        "id": "i-quiz-demorgan",
+        "kind": "comprehensive",
+        "stem": "要用与非门实现 $Y = A + B$，先把它变成与非形式，正确的是？",
+        "options": [
+          "$Y = \\overline{\\overline{A}·\\overline{B}}$",
+          "$Y = \\overline{A·B}$",
+          "$Y = \\overline{\\overline{A} + \\overline{B}}$",
+          "$Y = \\overline{A} + \\overline{B}$"
+        ],
+        "answer": 0,
+        "variantGroup": "vg-demorgan",
+        "explainCorrect": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。",
+        "explainWrong": "目标是「只出现 · 和整体取反」的形式。对 $A + B$ 连续取两次反（不改变值）：$A + B = \\overline{\\overline{A + B}}$，再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）；选 $\\overline{\\overline{A}+\\overline{B}}$ 用德摩根展开是 $A·B$；选 $\\overline{A}+\\overline{B}$ 是或非。",
+        "misconceptionTags": [
+          "德摩根方向用反",
+          "双重否定遗漏"
+        ],
+        "sourceRef": "康华光·数字部分·第5版·§2.1.3",
+        "pool": "core",
+        "hintLadder": [
+          "连续取两次反不改变逻辑值，先把式子写成双重取反",
+          "内层的 $\\overline{A+B}$ 用德摩根拆开是什么？",
+          "最终形式里只能有 · 和整体非号"
+        ]
+      }
+    ],
+    "gating": {
+      "mode": "none",
+      "itemCount": 2,
+      "passCount": 2
+    }
+  }$levelspec$::jsonb
+  )
+  ON CONFLICT (id) DO UPDATE SET
+    micro_kp_id = EXCLUDED.micro_kp_id,
+    title       = EXCLUDED.title,
+    kind        = EXCLUDED.kind,
+    ordinal     = EXCLUDED.ordinal,
+    spec        = EXCLUDED.spec;
+
+  -- 题目也要进 level_items：票 05/06 的作答记录（attempts.item_id）靠这张表做外键，
+  -- 只把题目塞在 levels.spec 里会让「记录一次作答」无处落。
+  -- 注意 pool 的取值域是 ('quiz','practice')，而 spec 里是 ('core','practice')：
+  -- 表里的 quiz 对应 spec 的 core（参与判定的正式池）。
+  INSERT INTO app.level_items
+    (id, level_id, stem, options, answer, explain_correct, explain_wrong,
+     misconception_tags, source_ref, variant_group, pool)
+  VALUES
+    ('i-probe-absorb', 'lv-bool-laws', '下列哪一个式子恒等于 $A$？', '["$A + A·B$","$A + B$","$A·(A + B)·\\overline{A}$","$A \\oplus A·B$"]'::jsonb, '0'::jsonb,
+     '对，就是吸收律：$A + A·B = A·(1 + B) = A·1 = A$。因为 $A·B$ 是 $A$ 的子集，并上外层这个 $A$ 不增加任何元素。', '再看一遍吸收律的推导：$A + A·B = A·(1 + B)$，而 $1 + B$ 在布尔代数里恒等于 1，所以整个式子塌回 $A$。选 $A + B$ 是把吸收律与「并上更宽的条件」混了；选 $A·(A+B)·\overline{A}$ 里含 $\overline{A}$，与 $A$ 相与必为 0；选 $A \oplus A·B$ 是异或，$A=1$ 时它等于 $1 \oplus B$，并不是常数 $A$。', ARRAY['吸收律误用', '把 A+B 当成 A']::text[], '康华光·数字部分·第5版·表 2.1.1',
+     'vg-absorb', 'quiz'),
+    ('i-deepen-demorgan', 'lv-bool-laws', '$\overline{A·B}$ 展开后等于什么？', '["$\\overline{A}·\\overline{B}$","$\\overline{A} + \\overline{B}$","$A + B$","$\\overline{A + B}$"]'::jsonb, '1'::jsonb,
+     '正确：$\overline{A·B} = \overline{A} + \overline{B}$。非号越过运算符时运算符要翻转（· 变 +），并且每个变量各自加非号。', '这是最容易踩的坑：把 $\overline{A·B}$ 写成 $\overline{A}·\overline{B}$ 属于**只加了非号、忘了翻转运算符**。代入 $A=1,B=0$ 检查：左边 $\overline{1·0} = 1$，而 $\overline{1}·\overline{0} = 0$，立刻看出不等。正确答案是 $\overline{A} + \overline{B}$。', ARRAY['德摩根漏翻转运算符', '非号分配错误']::text[], NULL,
+     'vg-demorgan', 'practice'),
+    ('i-quiz-absorb', 'lv-bool-laws', '化简 $Y = A·B + A·B·C + A·\overline{B}·C$，结果是？', '["$A$","$A·B + A·C$","$A·B + C$","$B + A·C$"]'::jsonb, '1'::jsonb,
+     '正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \overline{B}·C) = A·(B + C) = A·B + A·C$。门数从 7 片降到 3 片，真值表不变。', '按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收，式子变成 $A·B + A·\overline{B}·C$；② 后两项提取公因子 $A$，得 $A·(B + \overline{B}·C)$，而 $B + \overline{B}·C = B + C$（这是「消去律」），最终 $A·(B + C) = A·B + A·C$。选 $A$ 是吸收了不该吸收的项：$A·\overline{B}·C$ 并不包含在 $A·B$ 里（后者要求 $B=1$，前者要求 $B=0$），代入 $A=1,B=0,C=1$ 可验证原式为 1 而 $A·B$ 为 0。', ARRAY['过度吸收', '漏掉消去律一步']::text[], '康华光·数字部分·第5版·§2.1.2 表 2.1.1',
+     'vg-simplify', 'quiz'),
+    ('i-quiz-demorgan', 'lv-bool-laws', '要用与非门实现 $Y = A + B$，先把它变成与非形式，正确的是？', '["$Y = \\overline{\\overline{A}·\\overline{B}}$","$Y = \\overline{A·B}$","$Y = \\overline{\\overline{A} + \\overline{B}}$","$Y = \\overline{A} + \\overline{B}$"]'::jsonb, '0'::jsonb,
+     '正确：由德摩根律 $\overline{\overline{A}·\overline{B}} = \overline{\overline{A}} + \overline{\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。', '目标是「只出现 · 和整体取反」的形式。对 $A + B$ 连续取两次反（不改变值）：$A + B = \overline{\overline{A + B}}$，再用德摩根把内层拆开，$\overline{A + B} = \overline{A}·\overline{B}$，于是 $Y = \overline{\overline{A}·\overline{B}}$。选 $\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）；选 $\overline{\overline{A}+\overline{B}}$ 用德摩根展开是 $A·B$；选 $\overline{A}+\overline{B}$ 是或非。', ARRAY['德摩根方向用反', '双重否定遗漏']::text[], '康华光·数字部分·第5版·§2.1.3',
+     'vg-demorgan', 'quiz')
+  ON CONFLICT (id) DO UPDATE SET
+    level_id           = EXCLUDED.level_id,
+    stem               = EXCLUDED.stem,
+    options            = EXCLUDED.options,
+    answer             = EXCLUDED.answer,
+    explain_correct    = EXCLUDED.explain_correct,
+    explain_wrong      = EXCLUDED.explain_wrong,
+    misconception_tags = EXCLUDED.misconception_tags,
+    source_ref         = EXCLUDED.source_ref,
+    variant_group      = EXCLUDED.variant_group,
+    pool               = EXCLUDED.pool;
+
+END
+$bootstrap$;

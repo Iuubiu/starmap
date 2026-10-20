@@ -21,13 +21,38 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AgentTurnEvidenceResponse,
+  AgentTurnHistoryResponse,
+  AgentTurnRequest,
+  AgentTurnResponse,
   ApiError,
   ContentStatsResponse,
+  DebugRetrievalParams,
+  GetRetrievalBandsParams,
   HealthResponse,
+  LevelDetailResponse,
+  ListAgentTurnsParams,
   ListNodesParams,
+  MarketDraftRequest,
+  MarketDraftResponse,
+  MarketLevelDetailResponse,
+  MarketLevelListResponse,
+  MarketSaveLevelRequest,
+  MarketSaveLevelResponse,
   NodeDetailResponse,
   NodeListResponse,
-  NodeSourcesResponse
+  NodeSourcesResponse,
+  ProbeMetricsResponse,
+  ProbeReplyRequest,
+  ProbeSessionResponse,
+  ProbeStartRequest,
+  ProbeTurnResponse,
+  RetrievalBandsResponse,
+  RetrievalDebugResponse,
+  SkillDetailResponse,
+  SkillListResponse,
+  SkillSystemPreviewResponse,
+  SkillToggleRequest
 } from '../model';
 
 import { customFetch } from '../../fetcher.js';
@@ -51,6 +76,1724 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export type startProbeResponse200 = {
+  data: ProbeTurnResponse
+  status: 200
+}
+
+export type startProbeResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type startProbeResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type startProbeResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type startProbeResponseSuccess = (startProbeResponse200) & {
+  headers: Headers;
+};
+export type startProbeResponseError = (startProbeResponse400 | startProbeResponse404 | startProbeResponse500) & {
+  headers: Headers;
+};
+
+export type startProbeResponse = (startProbeResponseSuccess | startProbeResponseError)
+
+export const getStartProbeUrl = () => {
+
+
+
+
+  return `/api/v1/agent/probes`
+}
+
+/**
+ * @summary 开始一次苏格拉底追问
+ */
+export const startProbe = async (probeStartRequest: ProbeStartRequest, options?: Parameters<typeof customFetch>[1]): Promise<startProbeResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<startProbeResponse>(getStartProbeUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(probeStartRequest)
+  }
+);}
+
+
+
+
+
+export const getStartProbeQueryKey = (probeStartRequest?: ProbeStartRequest,) => {
+    return [
+    'POST', `/api/v1/agent/probes`, probeStartRequest
+    ] as const;
+    }
+
+
+export const getStartProbeQueryOptions = <TData = Awaited<ReturnType<typeof startProbe>>, TError = ApiError>(probeStartRequest: ProbeStartRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startProbe>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getStartProbeQueryKey(probeStartRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof startProbe>>> = ({ signal }) => startProbe(probeStartRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof startProbe>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type StartProbeQueryResult = NonNullable<Awaited<ReturnType<typeof startProbe>>>
+export type StartProbeQueryError = ApiError
+
+
+export function useStartProbe<TData = Awaited<ReturnType<typeof startProbe>>, TError = ApiError>(
+ probeStartRequest: ProbeStartRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof startProbe>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof startProbe>>,
+          TError,
+          Awaited<ReturnType<typeof startProbe>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStartProbe<TData = Awaited<ReturnType<typeof startProbe>>, TError = ApiError>(
+ probeStartRequest: ProbeStartRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startProbe>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof startProbe>>,
+          TError,
+          Awaited<ReturnType<typeof startProbe>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStartProbe<TData = Awaited<ReturnType<typeof startProbe>>, TError = ApiError>(
+ probeStartRequest: ProbeStartRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startProbe>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 开始一次苏格拉底追问
+ */
+
+export function useStartProbe<TData = Awaited<ReturnType<typeof startProbe>>, TError = ApiError>(
+ probeStartRequest: ProbeStartRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startProbe>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getStartProbeQueryOptions(probeStartRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getProbeMetricsResponse200 = {
+  data: ProbeMetricsResponse
+  status: 200
+}
+
+export type getProbeMetricsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getProbeMetricsResponseSuccess = (getProbeMetricsResponse200) & {
+  headers: Headers;
+};
+export type getProbeMetricsResponseError = (getProbeMetricsResponse500) & {
+  headers: Headers;
+};
+
+export type getProbeMetricsResponse = (getProbeMetricsResponseSuccess | getProbeMetricsResponseError)
+
+export const getGetProbeMetricsUrl = () => {
+
+
+
+
+  return `/api/v1/agent/probes/metrics`
+}
+
+/**
+ * @summary 追问越界统计（按拒绝原因分类）
+ */
+export const getProbeMetrics = async ( options?: Parameters<typeof customFetch>[1]): Promise<getProbeMetricsResponse> => {
+
+  return customFetch<getProbeMetricsResponse>(getGetProbeMetricsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetProbeMetricsQueryKey = () => {
+    return [
+    `/api/v1/agent/probes/metrics`
+    ] as const;
+    }
+
+
+export const getGetProbeMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getProbeMetrics>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeMetrics>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetProbeMetricsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProbeMetrics>>> = ({ signal }) => getProbeMetrics({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProbeMetrics>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetProbeMetricsQueryResult = NonNullable<Awaited<ReturnType<typeof getProbeMetrics>>>
+export type GetProbeMetricsQueryError = ApiError
+
+
+export function useGetProbeMetrics<TData = Awaited<ReturnType<typeof getProbeMetrics>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeMetrics>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProbeMetrics>>,
+          TError,
+          Awaited<ReturnType<typeof getProbeMetrics>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetProbeMetrics<TData = Awaited<ReturnType<typeof getProbeMetrics>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeMetrics>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProbeMetrics>>,
+          TError,
+          Awaited<ReturnType<typeof getProbeMetrics>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetProbeMetrics<TData = Awaited<ReturnType<typeof getProbeMetrics>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeMetrics>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 追问越界统计（按拒绝原因分类）
+ */
+
+export function useGetProbeMetrics<TData = Awaited<ReturnType<typeof getProbeMetrics>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeMetrics>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetProbeMetricsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getProbeSessionResponse200 = {
+  data: ProbeSessionResponse
+  status: 200
+}
+
+export type getProbeSessionResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getProbeSessionResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getProbeSessionResponseSuccess = (getProbeSessionResponse200) & {
+  headers: Headers;
+};
+export type getProbeSessionResponseError = (getProbeSessionResponse404 | getProbeSessionResponse500) & {
+  headers: Headers;
+};
+
+export type getProbeSessionResponse = (getProbeSessionResponseSuccess | getProbeSessionResponseError)
+
+export const getGetProbeSessionUrl = (probeId: string,) => {
+
+
+
+
+  return `/api/v1/agent/probes/${probeId}`
+}
+
+/**
+ * @summary 追问会话状态
+ */
+export const getProbeSession = async (probeId: string, options?: Parameters<typeof customFetch>[1]): Promise<getProbeSessionResponse> => {
+
+  return customFetch<getProbeSessionResponse>(getGetProbeSessionUrl(probeId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetProbeSessionQueryKey = (probeId: string,) => {
+    return [
+    `/api/v1/agent/probes/${probeId}`
+    ] as const;
+    }
+
+
+export const getGetProbeSessionQueryOptions = <TData = Awaited<ReturnType<typeof getProbeSession>>, TError = ApiError>(probeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetProbeSessionQueryKey(probeId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProbeSession>>> = ({ signal }) => getProbeSession(probeId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: probeId !== null && probeId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProbeSession>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetProbeSessionQueryResult = NonNullable<Awaited<ReturnType<typeof getProbeSession>>>
+export type GetProbeSessionQueryError = ApiError
+
+
+export function useGetProbeSession<TData = Awaited<ReturnType<typeof getProbeSession>>, TError = ApiError>(
+ probeId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeSession>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProbeSession>>,
+          TError,
+          Awaited<ReturnType<typeof getProbeSession>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetProbeSession<TData = Awaited<ReturnType<typeof getProbeSession>>, TError = ApiError>(
+ probeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeSession>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProbeSession>>,
+          TError,
+          Awaited<ReturnType<typeof getProbeSession>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetProbeSession<TData = Awaited<ReturnType<typeof getProbeSession>>, TError = ApiError>(
+ probeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 追问会话状态
+ */
+
+export function useGetProbeSession<TData = Awaited<ReturnType<typeof getProbeSession>>, TError = ApiError>(
+ probeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProbeSession>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetProbeSessionQueryOptions(probeId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type replyProbeResponse200 = {
+  data: ProbeTurnResponse
+  status: 200
+}
+
+export type replyProbeResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type replyProbeResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type replyProbeResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type replyProbeResponseSuccess = (replyProbeResponse200) & {
+  headers: Headers;
+};
+export type replyProbeResponseError = (replyProbeResponse400 | replyProbeResponse404 | replyProbeResponse500) & {
+  headers: Headers;
+};
+
+export type replyProbeResponse = (replyProbeResponseSuccess | replyProbeResponseError)
+
+export const getReplyProbeUrl = (probeId: string,) => {
+
+
+
+
+  return `/api/v1/agent/probes/${probeId}/replies`
+}
+
+/**
+ * @summary 提交一句回答，状态机决定下一步
+ */
+export const replyProbe = async (probeId: string,
+    probeReplyRequest: ProbeReplyRequest, options?: Parameters<typeof customFetch>[1]): Promise<replyProbeResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<replyProbeResponse>(getReplyProbeUrl(probeId),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(probeReplyRequest)
+  }
+);}
+
+
+
+
+
+export const getReplyProbeQueryKey = (probeId: string,
+    probeReplyRequest?: ProbeReplyRequest,) => {
+    return [
+    'POST', `/api/v1/agent/probes/${probeId}/replies`, probeReplyRequest
+    ] as const;
+    }
+
+
+export const getReplyProbeQueryOptions = <TData = Awaited<ReturnType<typeof replyProbe>>, TError = ApiError>(probeId: string,
+    probeReplyRequest: ProbeReplyRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof replyProbe>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getReplyProbeQueryKey(probeId,probeReplyRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof replyProbe>>> = ({ signal }) => replyProbe(probeId,probeReplyRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: probeId !== null && probeId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof replyProbe>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ReplyProbeQueryResult = NonNullable<Awaited<ReturnType<typeof replyProbe>>>
+export type ReplyProbeQueryError = ApiError
+
+
+export function useReplyProbe<TData = Awaited<ReturnType<typeof replyProbe>>, TError = ApiError>(
+ probeId: string,
+    probeReplyRequest: ProbeReplyRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof replyProbe>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof replyProbe>>,
+          TError,
+          Awaited<ReturnType<typeof replyProbe>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useReplyProbe<TData = Awaited<ReturnType<typeof replyProbe>>, TError = ApiError>(
+ probeId: string,
+    probeReplyRequest: ProbeReplyRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof replyProbe>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof replyProbe>>,
+          TError,
+          Awaited<ReturnType<typeof replyProbe>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useReplyProbe<TData = Awaited<ReturnType<typeof replyProbe>>, TError = ApiError>(
+ probeId: string,
+    probeReplyRequest: ProbeReplyRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof replyProbe>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 提交一句回答，状态机决定下一步
+ */
+
+export function useReplyProbe<TData = Awaited<ReturnType<typeof replyProbe>>, TError = ApiError>(
+ probeId: string,
+    probeReplyRequest: ProbeReplyRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof replyProbe>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getReplyProbeQueryOptions(probeId,probeReplyRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getRetrievalBandsResponse200 = {
+  data: RetrievalBandsResponse
+  status: 200
+}
+
+export type getRetrievalBandsResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type getRetrievalBandsResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getRetrievalBandsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getRetrievalBandsResponseSuccess = (getRetrievalBandsResponse200) & {
+  headers: Headers;
+};
+export type getRetrievalBandsResponseError = (getRetrievalBandsResponse400 | getRetrievalBandsResponse404 | getRetrievalBandsResponse500) & {
+  headers: Headers;
+};
+
+export type getRetrievalBandsResponse = (getRetrievalBandsResponseSuccess | getRetrievalBandsResponseError)
+
+export const getGetRetrievalBandsUrl = (params: GetRetrievalBandsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/v1/agent/retrieval/bands?${stringifiedParams}` : `/api/v1/agent/retrieval/bands`
+}
+
+/**
+ * @summary 同一 query 在三档掌握度下的集合差异
+ */
+export const getRetrievalBands = async (params: GetRetrievalBandsParams, options?: Parameters<typeof customFetch>[1]): Promise<getRetrievalBandsResponse> => {
+
+  return customFetch<getRetrievalBandsResponse>(getGetRetrievalBandsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetRetrievalBandsQueryKey = (params?: GetRetrievalBandsParams,) => {
+    return [
+    `/api/v1/agent/retrieval/bands`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetRetrievalBandsQueryOptions = <TData = Awaited<ReturnType<typeof getRetrievalBands>>, TError = ApiError>(params: GetRetrievalBandsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRetrievalBands>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetRetrievalBandsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRetrievalBands>>> = ({ signal }) => getRetrievalBands(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRetrievalBands>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetRetrievalBandsQueryResult = NonNullable<Awaited<ReturnType<typeof getRetrievalBands>>>
+export type GetRetrievalBandsQueryError = ApiError
+
+
+export function useGetRetrievalBands<TData = Awaited<ReturnType<typeof getRetrievalBands>>, TError = ApiError>(
+ params: GetRetrievalBandsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRetrievalBands>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRetrievalBands>>,
+          TError,
+          Awaited<ReturnType<typeof getRetrievalBands>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRetrievalBands<TData = Awaited<ReturnType<typeof getRetrievalBands>>, TError = ApiError>(
+ params: GetRetrievalBandsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRetrievalBands>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRetrievalBands>>,
+          TError,
+          Awaited<ReturnType<typeof getRetrievalBands>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRetrievalBands<TData = Awaited<ReturnType<typeof getRetrievalBands>>, TError = ApiError>(
+ params: GetRetrievalBandsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRetrievalBands>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 同一 query 在三档掌握度下的集合差异
+ */
+
+export function useGetRetrievalBands<TData = Awaited<ReturnType<typeof getRetrievalBands>>, TError = ApiError>(
+ params: GetRetrievalBandsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRetrievalBands>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetRetrievalBandsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type debugRetrievalResponse200 = {
+  data: RetrievalDebugResponse
+  status: 200
+}
+
+export type debugRetrievalResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type debugRetrievalResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type debugRetrievalResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type debugRetrievalResponseSuccess = (debugRetrievalResponse200) & {
+  headers: Headers;
+};
+export type debugRetrievalResponseError = (debugRetrievalResponse400 | debugRetrievalResponse404 | debugRetrievalResponse500) & {
+  headers: Headers;
+};
+
+export type debugRetrievalResponse = (debugRetrievalResponseSuccess | debugRetrievalResponseError)
+
+export const getDebugRetrievalUrl = (params: DebugRetrievalParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/v1/agent/retrieval/debug?${stringifiedParams}` : `/api/v1/agent/retrieval/debug`
+}
+
+/**
+ * @summary 检索调试器：命中切片、是否答案块、被排除的具体原因
+ */
+export const debugRetrieval = async (params: DebugRetrievalParams, options?: Parameters<typeof customFetch>[1]): Promise<debugRetrievalResponse> => {
+
+  return customFetch<debugRetrievalResponse>(getDebugRetrievalUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getDebugRetrievalQueryKey = (params?: DebugRetrievalParams,) => {
+    return [
+    `/api/v1/agent/retrieval/debug`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getDebugRetrievalQueryOptions = <TData = Awaited<ReturnType<typeof debugRetrieval>>, TError = ApiError>(params: DebugRetrievalParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof debugRetrieval>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDebugRetrievalQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof debugRetrieval>>> = ({ signal }) => debugRetrieval(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof debugRetrieval>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type DebugRetrievalQueryResult = NonNullable<Awaited<ReturnType<typeof debugRetrieval>>>
+export type DebugRetrievalQueryError = ApiError
+
+
+export function useDebugRetrieval<TData = Awaited<ReturnType<typeof debugRetrieval>>, TError = ApiError>(
+ params: DebugRetrievalParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof debugRetrieval>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof debugRetrieval>>,
+          TError,
+          Awaited<ReturnType<typeof debugRetrieval>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useDebugRetrieval<TData = Awaited<ReturnType<typeof debugRetrieval>>, TError = ApiError>(
+ params: DebugRetrievalParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof debugRetrieval>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof debugRetrieval>>,
+          TError,
+          Awaited<ReturnType<typeof debugRetrieval>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useDebugRetrieval<TData = Awaited<ReturnType<typeof debugRetrieval>>, TError = ApiError>(
+ params: DebugRetrievalParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof debugRetrieval>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 检索调试器：命中切片、是否答案块、被排除的具体原因
+ */
+
+export function useDebugRetrieval<TData = Awaited<ReturnType<typeof debugRetrieval>>, TError = ApiError>(
+ params: DebugRetrievalParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof debugRetrieval>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getDebugRetrievalQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type listSkillsResponse200 = {
+  data: SkillListResponse
+  status: 200
+}
+
+export type listSkillsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type listSkillsResponseSuccess = (listSkillsResponse200) & {
+  headers: Headers;
+};
+export type listSkillsResponseError = (listSkillsResponse500) & {
+  headers: Headers;
+};
+
+export type listSkillsResponse = (listSkillsResponseSuccess | listSkillsResponseError)
+
+export const getListSkillsUrl = () => {
+
+
+
+
+  return `/api/v1/agent/skills`
+}
+
+/**
+ * @summary 扫描到的 skill 列表与启用状态
+ */
+export const listSkills = async ( options?: Parameters<typeof customFetch>[1]): Promise<listSkillsResponse> => {
+
+  return customFetch<listSkillsResponse>(getListSkillsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListSkillsQueryKey = () => {
+    return [
+    `/api/v1/agent/skills`
+    ] as const;
+    }
+
+
+export const getListSkillsQueryOptions = <TData = Awaited<ReturnType<typeof listSkills>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listSkills>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListSkillsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listSkills>>> = ({ signal }) => listSkills({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listSkills>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListSkillsQueryResult = NonNullable<Awaited<ReturnType<typeof listSkills>>>
+export type ListSkillsQueryError = ApiError
+
+
+export function useListSkills<TData = Awaited<ReturnType<typeof listSkills>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listSkills>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listSkills>>,
+          TError,
+          Awaited<ReturnType<typeof listSkills>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListSkills<TData = Awaited<ReturnType<typeof listSkills>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listSkills>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listSkills>>,
+          TError,
+          Awaited<ReturnType<typeof listSkills>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListSkills<TData = Awaited<ReturnType<typeof listSkills>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listSkills>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 扫描到的 skill 列表与启用状态
+ */
+
+export function useListSkills<TData = Awaited<ReturnType<typeof listSkills>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listSkills>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListSkillsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getSkillSystemPreviewResponse200 = {
+  data: SkillSystemPreviewResponse
+  status: 200
+}
+
+export type getSkillSystemPreviewResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getSkillSystemPreviewResponseSuccess = (getSkillSystemPreviewResponse200) & {
+  headers: Headers;
+};
+export type getSkillSystemPreviewResponseError = (getSkillSystemPreviewResponse500) & {
+  headers: Headers;
+};
+
+export type getSkillSystemPreviewResponse = (getSkillSystemPreviewResponseSuccess | getSkillSystemPreviewResponseError)
+
+export const getGetSkillSystemPreviewUrl = () => {
+
+
+
+
+  return `/api/v1/agent/skills/system-preview`
+}
+
+/**
+ * @summary 此刻 agent 的 system message 里会出现哪些 skill
+ */
+export const getSkillSystemPreview = async ( options?: Parameters<typeof customFetch>[1]): Promise<getSkillSystemPreviewResponse> => {
+
+  return customFetch<getSkillSystemPreviewResponse>(getGetSkillSystemPreviewUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetSkillSystemPreviewQueryKey = () => {
+    return [
+    `/api/v1/agent/skills/system-preview`
+    ] as const;
+    }
+
+
+export const getGetSkillSystemPreviewQueryOptions = <TData = Awaited<ReturnType<typeof getSkillSystemPreview>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkillSystemPreview>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSkillSystemPreviewQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSkillSystemPreview>>> = ({ signal }) => getSkillSystemPreview({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSkillSystemPreview>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetSkillSystemPreviewQueryResult = NonNullable<Awaited<ReturnType<typeof getSkillSystemPreview>>>
+export type GetSkillSystemPreviewQueryError = ApiError
+
+
+export function useGetSkillSystemPreview<TData = Awaited<ReturnType<typeof getSkillSystemPreview>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkillSystemPreview>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSkillSystemPreview>>,
+          TError,
+          Awaited<ReturnType<typeof getSkillSystemPreview>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSkillSystemPreview<TData = Awaited<ReturnType<typeof getSkillSystemPreview>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkillSystemPreview>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSkillSystemPreview>>,
+          TError,
+          Awaited<ReturnType<typeof getSkillSystemPreview>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSkillSystemPreview<TData = Awaited<ReturnType<typeof getSkillSystemPreview>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkillSystemPreview>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 此刻 agent 的 system message 里会出现哪些 skill
+ */
+
+export function useGetSkillSystemPreview<TData = Awaited<ReturnType<typeof getSkillSystemPreview>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkillSystemPreview>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetSkillSystemPreviewQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getSkillResponse200 = {
+  data: SkillDetailResponse
+  status: 200
+}
+
+export type getSkillResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getSkillResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getSkillResponseSuccess = (getSkillResponse200) & {
+  headers: Headers;
+};
+export type getSkillResponseError = (getSkillResponse404 | getSkillResponse500) & {
+  headers: Headers;
+};
+
+export type getSkillResponse = (getSkillResponseSuccess | getSkillResponseError)
+
+export const getGetSkillUrl = (name: string,) => {
+
+
+
+
+  return `/api/v1/agent/skills/${name}`
+}
+
+/**
+ * @summary 单个 skill 的正文与 references 清单
+ */
+export const getSkill = async (name: string, options?: Parameters<typeof customFetch>[1]): Promise<getSkillResponse> => {
+
+  return customFetch<getSkillResponse>(getGetSkillUrl(name),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetSkillQueryKey = (name: string,) => {
+    return [
+    `/api/v1/agent/skills/${name}`
+    ] as const;
+    }
+
+
+export const getGetSkillQueryOptions = <TData = Awaited<ReturnType<typeof getSkill>>, TError = ApiError>(name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkill>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSkillQueryKey(name);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSkill>>> = ({ signal }) => getSkill(name, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: name !== null && name !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSkill>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetSkillQueryResult = NonNullable<Awaited<ReturnType<typeof getSkill>>>
+export type GetSkillQueryError = ApiError
+
+
+export function useGetSkill<TData = Awaited<ReturnType<typeof getSkill>>, TError = ApiError>(
+ name: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkill>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSkill>>,
+          TError,
+          Awaited<ReturnType<typeof getSkill>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSkill<TData = Awaited<ReturnType<typeof getSkill>>, TError = ApiError>(
+ name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkill>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSkill>>,
+          TError,
+          Awaited<ReturnType<typeof getSkill>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSkill<TData = Awaited<ReturnType<typeof getSkill>>, TError = ApiError>(
+ name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkill>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 单个 skill 的正文与 references 清单
+ */
+
+export function useGetSkill<TData = Awaited<ReturnType<typeof getSkill>>, TError = ApiError>(
+ name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSkill>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetSkillQueryOptions(name,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type toggleSkillResponse200 = {
+  data: SkillDetailResponse
+  status: 200
+}
+
+export type toggleSkillResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type toggleSkillResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type toggleSkillResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type toggleSkillResponseSuccess = (toggleSkillResponse200) & {
+  headers: Headers;
+};
+export type toggleSkillResponseError = (toggleSkillResponse400 | toggleSkillResponse404 | toggleSkillResponse500) & {
+  headers: Headers;
+};
+
+export type toggleSkillResponse = (toggleSkillResponseSuccess | toggleSkillResponseError)
+
+export const getToggleSkillUrl = (name: string,) => {
+
+
+
+
+  return `/api/v1/agent/skills/${name}`
+}
+
+/**
+ * @summary 启用/禁用 skill（持久化，重启保持）
+ */
+export const toggleSkill = async (name: string,
+    skillToggleRequest: SkillToggleRequest, options?: Parameters<typeof customFetch>[1]): Promise<toggleSkillResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<toggleSkillResponse>(getToggleSkillUrl(name),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(skillToggleRequest)
+  }
+);}
+
+
+
+
+
+export const getToggleSkillQueryKey = (name: string,
+    skillToggleRequest?: SkillToggleRequest,) => {
+    return [
+    'PATCH', `/api/v1/agent/skills/${name}`, skillToggleRequest
+    ] as const;
+    }
+
+
+export const getToggleSkillQueryOptions = <TData = Awaited<ReturnType<typeof toggleSkill>>, TError = ApiError>(name: string,
+    skillToggleRequest: SkillToggleRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof toggleSkill>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getToggleSkillQueryKey(name,skillToggleRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof toggleSkill>>> = ({ signal }) => toggleSkill(name,skillToggleRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: name !== null && name !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof toggleSkill>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ToggleSkillQueryResult = NonNullable<Awaited<ReturnType<typeof toggleSkill>>>
+export type ToggleSkillQueryError = ApiError
+
+
+export function useToggleSkill<TData = Awaited<ReturnType<typeof toggleSkill>>, TError = ApiError>(
+ name: string,
+    skillToggleRequest: SkillToggleRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof toggleSkill>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof toggleSkill>>,
+          TError,
+          Awaited<ReturnType<typeof toggleSkill>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useToggleSkill<TData = Awaited<ReturnType<typeof toggleSkill>>, TError = ApiError>(
+ name: string,
+    skillToggleRequest: SkillToggleRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof toggleSkill>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof toggleSkill>>,
+          TError,
+          Awaited<ReturnType<typeof toggleSkill>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useToggleSkill<TData = Awaited<ReturnType<typeof toggleSkill>>, TError = ApiError>(
+ name: string,
+    skillToggleRequest: SkillToggleRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof toggleSkill>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 启用/禁用 skill（持久化，重启保持）
+ */
+
+export function useToggleSkill<TData = Awaited<ReturnType<typeof toggleSkill>>, TError = ApiError>(
+ name: string,
+    skillToggleRequest: SkillToggleRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof toggleSkill>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getToggleSkillQueryOptions(name,skillToggleRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type listAgentTurnsResponse200 = {
+  data: AgentTurnHistoryResponse
+  status: 200
+}
+
+export type listAgentTurnsResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type listAgentTurnsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type listAgentTurnsResponseSuccess = (listAgentTurnsResponse200) & {
+  headers: Headers;
+};
+export type listAgentTurnsResponseError = (listAgentTurnsResponse400 | listAgentTurnsResponse500) & {
+  headers: Headers;
+};
+
+export type listAgentTurnsResponse = (listAgentTurnsResponseSuccess | listAgentTurnsResponseError)
+
+export const getListAgentTurnsUrl = (params: ListAgentTurnsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/v1/agent/turns?${stringifiedParams}` : `/api/v1/agent/turns`
+}
+
+/**
+ * @summary 某个会话的学习日志（不是消息流）
+ */
+export const listAgentTurns = async (params: ListAgentTurnsParams, options?: Parameters<typeof customFetch>[1]): Promise<listAgentTurnsResponse> => {
+
+  return customFetch<listAgentTurnsResponse>(getListAgentTurnsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListAgentTurnsQueryKey = (params?: ListAgentTurnsParams,) => {
+    return [
+    `/api/v1/agent/turns`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListAgentTurnsQueryOptions = <TData = Awaited<ReturnType<typeof listAgentTurns>>, TError = ApiError>(params: ListAgentTurnsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentTurns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListAgentTurnsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listAgentTurns>>> = ({ signal }) => listAgentTurns(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listAgentTurns>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListAgentTurnsQueryResult = NonNullable<Awaited<ReturnType<typeof listAgentTurns>>>
+export type ListAgentTurnsQueryError = ApiError
+
+
+export function useListAgentTurns<TData = Awaited<ReturnType<typeof listAgentTurns>>, TError = ApiError>(
+ params: ListAgentTurnsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentTurns>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listAgentTurns>>,
+          TError,
+          Awaited<ReturnType<typeof listAgentTurns>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListAgentTurns<TData = Awaited<ReturnType<typeof listAgentTurns>>, TError = ApiError>(
+ params: ListAgentTurnsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentTurns>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listAgentTurns>>,
+          TError,
+          Awaited<ReturnType<typeof listAgentTurns>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListAgentTurns<TData = Awaited<ReturnType<typeof listAgentTurns>>, TError = ApiError>(
+ params: ListAgentTurnsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentTurns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 某个会话的学习日志（不是消息流）
+ */
+
+export function useListAgentTurns<TData = Awaited<ReturnType<typeof listAgentTurns>>, TError = ApiError>(
+ params: ListAgentTurnsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentTurns>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListAgentTurnsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type createAgentTurnResponse200 = {
+  data: AgentTurnResponse
+  status: 200
+}
+
+export type createAgentTurnResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type createAgentTurnResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type createAgentTurnResponse502 = {
+  data: ApiError
+  status: 502
+}
+
+export type createAgentTurnResponseSuccess = (createAgentTurnResponse200) & {
+  headers: Headers;
+};
+export type createAgentTurnResponseError = (createAgentTurnResponse400 | createAgentTurnResponse500 | createAgentTurnResponse502) & {
+  headers: Headers;
+};
+
+export type createAgentTurnResponse = (createAgentTurnResponseSuccess | createAgentTurnResponseError)
+
+export const getCreateAgentTurnUrl = () => {
+
+
+
+
+  return `/api/v1/agent/turns`
+}
+
+/**
+ * @summary 提交一句话，产出一张结构化产物卡
+ */
+export const createAgentTurn = async (agentTurnRequest: AgentTurnRequest, options?: Parameters<typeof customFetch>[1]): Promise<createAgentTurnResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<createAgentTurnResponse>(getCreateAgentTurnUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(agentTurnRequest)
+  }
+);}
+
+
+
+
+
+export const getCreateAgentTurnQueryKey = (agentTurnRequest?: AgentTurnRequest,) => {
+    return [
+    'POST', `/api/v1/agent/turns`, agentTurnRequest
+    ] as const;
+    }
+
+
+export const getCreateAgentTurnQueryOptions = <TData = Awaited<ReturnType<typeof createAgentTurn>>, TError = ApiError>(agentTurnRequest: AgentTurnRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurn>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCreateAgentTurnQueryKey(agentTurnRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof createAgentTurn>>> = ({ signal }) => createAgentTurn(agentTurnRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof createAgentTurn>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CreateAgentTurnQueryResult = NonNullable<Awaited<ReturnType<typeof createAgentTurn>>>
+export type CreateAgentTurnQueryError = ApiError
+
+
+export function useCreateAgentTurn<TData = Awaited<ReturnType<typeof createAgentTurn>>, TError = ApiError>(
+ agentTurnRequest: AgentTurnRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurn>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof createAgentTurn>>,
+          TError,
+          Awaited<ReturnType<typeof createAgentTurn>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCreateAgentTurn<TData = Awaited<ReturnType<typeof createAgentTurn>>, TError = ApiError>(
+ agentTurnRequest: AgentTurnRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurn>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof createAgentTurn>>,
+          TError,
+          Awaited<ReturnType<typeof createAgentTurn>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCreateAgentTurn<TData = Awaited<ReturnType<typeof createAgentTurn>>, TError = ApiError>(
+ agentTurnRequest: AgentTurnRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurn>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 提交一句话，产出一张结构化产物卡
+ */
+
+export function useCreateAgentTurn<TData = Awaited<ReturnType<typeof createAgentTurn>>, TError = ApiError>(
+ agentTurnRequest: AgentTurnRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurn>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCreateAgentTurnQueryOptions(agentTurnRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getAgentTurnEvidenceResponse200 = {
+  data: AgentTurnEvidenceResponse
+  status: 200
+}
+
+export type getAgentTurnEvidenceResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getAgentTurnEvidenceResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getAgentTurnEvidenceResponseSuccess = (getAgentTurnEvidenceResponse200) & {
+  headers: Headers;
+};
+export type getAgentTurnEvidenceResponseError = (getAgentTurnEvidenceResponse404 | getAgentTurnEvidenceResponse500) & {
+  headers: Headers;
+};
+
+export type getAgentTurnEvidenceResponse = (getAgentTurnEvidenceResponseSuccess | getAgentTurnEvidenceResponseError)
+
+export const getGetAgentTurnEvidenceUrl = (turnId: string,) => {
+
+
+
+
+  return `/api/v1/agent/turns/${turnId}/evidence`
+}
+
+/**
+ * @summary 「看依据」：本轮用到了哪些切片，哪些被门控排除
+ */
+export const getAgentTurnEvidence = async (turnId: string, options?: Parameters<typeof customFetch>[1]): Promise<getAgentTurnEvidenceResponse> => {
+
+  return customFetch<getAgentTurnEvidenceResponse>(getGetAgentTurnEvidenceUrl(turnId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetAgentTurnEvidenceQueryKey = (turnId: string,) => {
+    return [
+    `/api/v1/agent/turns/${turnId}/evidence`
+    ] as const;
+    }
+
+
+export const getGetAgentTurnEvidenceQueryOptions = <TData = Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError = ApiError>(turnId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAgentTurnEvidenceQueryKey(turnId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAgentTurnEvidence>>> = ({ signal }) => getAgentTurnEvidence(turnId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: turnId !== null && turnId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAgentTurnEvidenceQueryResult = NonNullable<Awaited<ReturnType<typeof getAgentTurnEvidence>>>
+export type GetAgentTurnEvidenceQueryError = ApiError
+
+
+export function useGetAgentTurnEvidence<TData = Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError = ApiError>(
+ turnId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAgentTurnEvidence>>,
+          TError,
+          Awaited<ReturnType<typeof getAgentTurnEvidence>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAgentTurnEvidence<TData = Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError = ApiError>(
+ turnId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAgentTurnEvidence>>,
+          TError,
+          Awaited<ReturnType<typeof getAgentTurnEvidence>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAgentTurnEvidence<TData = Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError = ApiError>(
+ turnId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 「看依据」：本轮用到了哪些切片，哪些被门控排除
+ */
+
+export function useGetAgentTurnEvidence<TData = Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError = ApiError>(
+ turnId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgentTurnEvidence>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAgentTurnEvidenceQueryOptions(turnId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
 
 export type getContentStatsResponse200 = {
   data: ContentStatsResponse
@@ -272,6 +2015,660 @@ export function useGetHealth<TData = Awaited<ReturnType<typeof getHealth>>, TErr
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetHealthQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getLevelResponse200 = {
+  data: LevelDetailResponse
+  status: 200
+}
+
+export type getLevelResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getLevelResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getLevelResponseSuccess = (getLevelResponse200) & {
+  headers: Headers;
+};
+export type getLevelResponseError = (getLevelResponse404 | getLevelResponse500) & {
+  headers: Headers;
+};
+
+export type getLevelResponse = (getLevelResponseSuccess | getLevelResponseError)
+
+export const getGetLevelUrl = (levelId: string,) => {
+
+
+
+
+  return `/api/v1/levels/${levelId}`
+}
+
+/**
+ * 返回关卡的完整规范。播放器靠它一次性拿到卡片、七段步骤与全部题目：每题的选项、正确答案与**预写反馈**都在里面，作答后不需要再请求后端、也不需要等模型生成解释。
+ * @summary 关卡详情（含完整 level.spec）
+ */
+export const getLevel = async (levelId: string, options?: Parameters<typeof customFetch>[1]): Promise<getLevelResponse> => {
+
+  return customFetch<getLevelResponse>(getGetLevelUrl(levelId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetLevelQueryKey = (levelId: string,) => {
+    return [
+    `/api/v1/levels/${levelId}`
+    ] as const;
+    }
+
+
+export const getGetLevelQueryOptions = <TData = Awaited<ReturnType<typeof getLevel>>, TError = ApiError>(levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetLevelQueryKey(levelId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getLevel>>> = ({ signal }) => getLevel(levelId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: levelId !== null && levelId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getLevel>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetLevelQueryResult = NonNullable<Awaited<ReturnType<typeof getLevel>>>
+export type GetLevelQueryError = ApiError
+
+
+export function useGetLevel<TData = Awaited<ReturnType<typeof getLevel>>, TError = ApiError>(
+ levelId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLevel>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getLevel>>,
+          TError,
+          Awaited<ReturnType<typeof getLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetLevel<TData = Awaited<ReturnType<typeof getLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLevel>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getLevel>>,
+          TError,
+          Awaited<ReturnType<typeof getLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetLevel<TData = Awaited<ReturnType<typeof getLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 关卡详情（含完整 level.spec）
+ */
+
+export function useGetLevel<TData = Awaited<ReturnType<typeof getLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetLevelQueryOptions(levelId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type createMarketDraftResponse200 = {
+  data: MarketDraftResponse
+  status: 200
+}
+
+export type createMarketDraftResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type createMarketDraftResponse422 = {
+  data: ApiError
+  status: 422
+}
+
+export type createMarketDraftResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type createMarketDraftResponseSuccess = (createMarketDraftResponse200) & {
+  headers: Headers;
+};
+export type createMarketDraftResponseError = (createMarketDraftResponse404 | createMarketDraftResponse422 | createMarketDraftResponse500) & {
+  headers: Headers;
+};
+
+export type createMarketDraftResponse = (createMarketDraftResponseSuccess | createMarketDraftResponseError)
+
+export const getCreateMarketDraftUrl = () => {
+
+
+
+
+  return `/api/v1/market/drafts`
+}
+
+/**
+ * @summary 把一个知识点的学习过程（涉及的题、错因、讲解片段）打包成关卡草稿
+ */
+export const createMarketDraft = async (marketDraftRequest: MarketDraftRequest, options?: Parameters<typeof customFetch>[1]): Promise<createMarketDraftResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<createMarketDraftResponse>(getCreateMarketDraftUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(marketDraftRequest)
+  }
+);}
+
+
+
+
+
+export const getCreateMarketDraftQueryKey = (marketDraftRequest?: MarketDraftRequest,) => {
+    return [
+    'POST', `/api/v1/market/drafts`, marketDraftRequest
+    ] as const;
+    }
+
+
+export const getCreateMarketDraftQueryOptions = <TData = Awaited<ReturnType<typeof createMarketDraft>>, TError = ApiError>(marketDraftRequest: MarketDraftRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createMarketDraft>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCreateMarketDraftQueryKey(marketDraftRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof createMarketDraft>>> = ({ signal }) => createMarketDraft(marketDraftRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof createMarketDraft>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CreateMarketDraftQueryResult = NonNullable<Awaited<ReturnType<typeof createMarketDraft>>>
+export type CreateMarketDraftQueryError = ApiError
+
+
+export function useCreateMarketDraft<TData = Awaited<ReturnType<typeof createMarketDraft>>, TError = ApiError>(
+ marketDraftRequest: MarketDraftRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof createMarketDraft>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof createMarketDraft>>,
+          TError,
+          Awaited<ReturnType<typeof createMarketDraft>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCreateMarketDraft<TData = Awaited<ReturnType<typeof createMarketDraft>>, TError = ApiError>(
+ marketDraftRequest: MarketDraftRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createMarketDraft>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof createMarketDraft>>,
+          TError,
+          Awaited<ReturnType<typeof createMarketDraft>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCreateMarketDraft<TData = Awaited<ReturnType<typeof createMarketDraft>>, TError = ApiError>(
+ marketDraftRequest: MarketDraftRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createMarketDraft>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 把一个知识点的学习过程（涉及的题、错因、讲解片段）打包成关卡草稿
+ */
+
+export function useCreateMarketDraft<TData = Awaited<ReturnType<typeof createMarketDraft>>, TError = ApiError>(
+ marketDraftRequest: MarketDraftRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createMarketDraft>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCreateMarketDraftQueryOptions(marketDraftRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type listMarketLevelsResponse200 = {
+  data: MarketLevelListResponse
+  status: 200
+}
+
+export type listMarketLevelsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type listMarketLevelsResponseSuccess = (listMarketLevelsResponse200) & {
+  headers: Headers;
+};
+export type listMarketLevelsResponseError = (listMarketLevelsResponse500) & {
+  headers: Headers;
+};
+
+export type listMarketLevelsResponse = (listMarketLevelsResponseSuccess | listMarketLevelsResponseError)
+
+export const getListMarketLevelsUrl = () => {
+
+
+
+
+  return `/api/v1/market/levels`
+}
+
+/**
+ * @summary 关卡市场：预制关卡 + 自己保存的关卡（当前只做保存，不做分发）
+ */
+export const listMarketLevels = async ( options?: Parameters<typeof customFetch>[1]): Promise<listMarketLevelsResponse> => {
+
+  return customFetch<listMarketLevelsResponse>(getListMarketLevelsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListMarketLevelsQueryKey = () => {
+    return [
+    `/api/v1/market/levels`
+    ] as const;
+    }
+
+
+export const getListMarketLevelsQueryOptions = <TData = Awaited<ReturnType<typeof listMarketLevels>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMarketLevels>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListMarketLevelsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listMarketLevels>>> = ({ signal }) => listMarketLevels({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listMarketLevels>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListMarketLevelsQueryResult = NonNullable<Awaited<ReturnType<typeof listMarketLevels>>>
+export type ListMarketLevelsQueryError = ApiError
+
+
+export function useListMarketLevels<TData = Awaited<ReturnType<typeof listMarketLevels>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMarketLevels>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listMarketLevels>>,
+          TError,
+          Awaited<ReturnType<typeof listMarketLevels>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListMarketLevels<TData = Awaited<ReturnType<typeof listMarketLevels>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMarketLevels>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listMarketLevels>>,
+          TError,
+          Awaited<ReturnType<typeof listMarketLevels>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListMarketLevels<TData = Awaited<ReturnType<typeof listMarketLevels>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMarketLevels>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 关卡市场：预制关卡 + 自己保存的关卡（当前只做保存，不做分发）
+ */
+
+export function useListMarketLevels<TData = Awaited<ReturnType<typeof listMarketLevels>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMarketLevels>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListMarketLevelsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type saveMarketLevelResponse200 = {
+  data: MarketSaveLevelResponse
+  status: 200
+}
+
+export type saveMarketLevelResponse409 = {
+  data: ApiError
+  status: 409
+}
+
+export type saveMarketLevelResponse422 = {
+  data: ApiError
+  status: 422
+}
+
+export type saveMarketLevelResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type saveMarketLevelResponseSuccess = (saveMarketLevelResponse200) & {
+  headers: Headers;
+};
+export type saveMarketLevelResponseError = (saveMarketLevelResponse409 | saveMarketLevelResponse422 | saveMarketLevelResponse500) & {
+  headers: Headers;
+};
+
+export type saveMarketLevelResponse = (saveMarketLevelResponseSuccess | saveMarketLevelResponseError)
+
+export const getSaveMarketLevelUrl = () => {
+
+
+
+
+  return `/api/v1/market/levels`
+}
+
+/**
+ * @summary 保存自制关卡到关卡库（先过 level.spec 校验器，不通过返回 422 与字段级错误）
+ */
+export const saveMarketLevel = async (marketSaveLevelRequest: MarketSaveLevelRequest, options?: Parameters<typeof customFetch>[1]): Promise<saveMarketLevelResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<saveMarketLevelResponse>(getSaveMarketLevelUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(marketSaveLevelRequest)
+  }
+);}
+
+
+
+
+
+export const getSaveMarketLevelQueryKey = (marketSaveLevelRequest?: MarketSaveLevelRequest,) => {
+    return [
+    'POST', `/api/v1/market/levels`, marketSaveLevelRequest
+    ] as const;
+    }
+
+
+export const getSaveMarketLevelQueryOptions = <TData = Awaited<ReturnType<typeof saveMarketLevel>>, TError = ApiError>(marketSaveLevelRequest: MarketSaveLevelRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof saveMarketLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSaveMarketLevelQueryKey(marketSaveLevelRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof saveMarketLevel>>> = ({ signal }) => saveMarketLevel(marketSaveLevelRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof saveMarketLevel>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type SaveMarketLevelQueryResult = NonNullable<Awaited<ReturnType<typeof saveMarketLevel>>>
+export type SaveMarketLevelQueryError = ApiError
+
+
+export function useSaveMarketLevel<TData = Awaited<ReturnType<typeof saveMarketLevel>>, TError = ApiError>(
+ marketSaveLevelRequest: MarketSaveLevelRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof saveMarketLevel>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof saveMarketLevel>>,
+          TError,
+          Awaited<ReturnType<typeof saveMarketLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSaveMarketLevel<TData = Awaited<ReturnType<typeof saveMarketLevel>>, TError = ApiError>(
+ marketSaveLevelRequest: MarketSaveLevelRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof saveMarketLevel>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof saveMarketLevel>>,
+          TError,
+          Awaited<ReturnType<typeof saveMarketLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSaveMarketLevel<TData = Awaited<ReturnType<typeof saveMarketLevel>>, TError = ApiError>(
+ marketSaveLevelRequest: MarketSaveLevelRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof saveMarketLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 保存自制关卡到关卡库（先过 level.spec 校验器，不通过返回 422 与字段级错误）
+ */
+
+export function useSaveMarketLevel<TData = Awaited<ReturnType<typeof saveMarketLevel>>, TError = ApiError>(
+ marketSaveLevelRequest: MarketSaveLevelRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof saveMarketLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getSaveMarketLevelQueryOptions(marketSaveLevelRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getMarketLevelResponse200 = {
+  data: MarketLevelDetailResponse
+  status: 200
+}
+
+export type getMarketLevelResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getMarketLevelResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getMarketLevelResponseSuccess = (getMarketLevelResponse200) & {
+  headers: Headers;
+};
+export type getMarketLevelResponseError = (getMarketLevelResponse404 | getMarketLevelResponse500) & {
+  headers: Headers;
+};
+
+export type getMarketLevelResponse = (getMarketLevelResponseSuccess | getMarketLevelResponseError)
+
+export const getGetMarketLevelUrl = (levelId: string,) => {
+
+
+
+
+  return `/api/v1/market/levels/${levelId}`
+}
+
+/**
+ * @summary 市场的单个关卡（含完整 level.spec，供编辑/重新开始）
+ */
+export const getMarketLevel = async (levelId: string, options?: Parameters<typeof customFetch>[1]): Promise<getMarketLevelResponse> => {
+
+  return customFetch<getMarketLevelResponse>(getGetMarketLevelUrl(levelId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetMarketLevelQueryKey = (levelId: string,) => {
+    return [
+    `/api/v1/market/levels/${levelId}`
+    ] as const;
+    }
+
+
+export const getGetMarketLevelQueryOptions = <TData = Awaited<ReturnType<typeof getMarketLevel>>, TError = ApiError>(levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMarketLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetMarketLevelQueryKey(levelId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMarketLevel>>> = ({ signal }) => getMarketLevel(levelId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: levelId !== null && levelId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMarketLevel>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetMarketLevelQueryResult = NonNullable<Awaited<ReturnType<typeof getMarketLevel>>>
+export type GetMarketLevelQueryError = ApiError
+
+
+export function useGetMarketLevel<TData = Awaited<ReturnType<typeof getMarketLevel>>, TError = ApiError>(
+ levelId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMarketLevel>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMarketLevel>>,
+          TError,
+          Awaited<ReturnType<typeof getMarketLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetMarketLevel<TData = Awaited<ReturnType<typeof getMarketLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMarketLevel>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMarketLevel>>,
+          TError,
+          Awaited<ReturnType<typeof getMarketLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetMarketLevel<TData = Awaited<ReturnType<typeof getMarketLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMarketLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 市场的单个关卡（含完整 level.spec，供编辑/重新开始）
+ */
+
+export function useGetMarketLevel<TData = Awaited<ReturnType<typeof getMarketLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMarketLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetMarketLevelQueryOptions(levelId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

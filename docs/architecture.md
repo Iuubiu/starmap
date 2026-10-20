@@ -309,3 +309,32 @@ Mastra 的表由适配器自动建与管理，**不手写 DDL**，且 schema 本
 | 遥测 | `MASTRA_TELEMETRY_DISABLED=1`（Mastra 默认开非匿名 PostHog） |
 | 限流 | Mastra 适配器自带（默认开）；业务路由另有全局节流 |
 | 追踪 | `tracingOptions` 可开 OpenTelemetry；v1 不开 |
+
+---
+
+## 12. 领域文件的拆分边界
+
+剩余 20 张票由五条泳道并行实现，每条泳道都要「加一条路由、加一个 schema、加一个 hook、加一张页面」。这些动作原来全部落在四个单文件上：`api-contract/src/index.ts`、`gen-openapi.mjs`、`api/queries.ts`、`App.tsx`。**共享文件不是共享，是排队**——拆分前每次合并都在同一处冲突。
+
+所以按领域拆开，每条泳道只碰自己那个文件：
+
+| 领域 | 契约 schema | OpenAPI 片段 | 前端 hook | 后端控制器 |
+|---|---|---|---|---|
+| graph | `api-contract/src/domains/graph.ts` | `scripts/paths/graph.mjs` | `api/queries/graph.ts` | `nodes/` |
+| levels | `domains/levels.ts` | `paths/levels.mjs` | `queries/levels.ts` | 待建 |
+| content | `domains/content.ts` | `paths/content.mjs` | `queries/content.ts` | `content/` |
+| agent | `domains/agent.ts` | `paths/agent.mjs` | `queries/agent.ts` | 待建 |
+| market | `domains/market.ts` | `paths/market.mjs` | `queries/market.ts` | 待建 |
+| 共享面 | `domains/common.ts`、`domains/system.ts` | `paths/common.mjs`、`system.mjs` | `queries/system.ts` | `app.module.ts`、`domains.ts` |
+
+**接口没变，只是搬了位置**：`index.ts`、`queries/index.ts` 都退化成纯 re-export，导出名一个没动，Orval 生成的前端类型名因此不变。证据是重构后 `openapi.yaml` 的 diff 只有头部注释两行——契约正文逐字节相同。
+
+三条刻意的约束：
+
+1. **component 名全局唯一，冲突即构建失败**。Orval 生成出来的类型名只由 component 名决定，重名会让前端在无人察觉的情况下换掉一种形状。同理 `path + method` 重复也报错：两条泳道写同一路由说明它们对同一件事有两种理解，必须人来裁决，不能让文件名排序决定谁赢。
+2. **`scripts/paths/_shared.mjs` 的前缀下划线表示「不是领域片段」**，收集器跳过它。这个约定让公共 helper 与领域片段放在同一个目录里而不需要第二层目录。
+3. **`routes.tsx` 是唯一的路由表，但顶栏标签不在里面**。让 `AppShell` 从 `routes.tsx` 读导航会形成循环 import，`no-circular` 规则会直接判违规。页面清单在 `routes.tsx`，标签文案在 `AppShell`，两者的一致性由「新页面通常是加进已有四个标签之一」这个事实保证——目前六个页面里只有三个不在顶栏（详情页、关卡页各一支）。
+
+新增页面 = 改 `routes.tsx` 一处；新增领域 = 四列各加一个文件 + 在三个 `index`/`domains.ts` 里加一行 re-export。**这四个「一行」的位置仍由 integrator 拥有**，避免多人同时改同一段。
+
+---

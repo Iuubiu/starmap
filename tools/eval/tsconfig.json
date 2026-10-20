@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    /* 这个包不产出 build：node 26 原生跑 .ts，vitest 自己转译。
+       写 noEmit 而不是 outDir，避免有人误以为它要进 dist。 */
+    "noEmit": true,
+    /* Node 的类型剥离只删语法、不做类型推断替换：enum / namespace /
+       参数属性 / 非 type 的纯类型 import 都会在运行期炸。这里直接禁掉，
+       让 tsc 在提交前拦下来（verify 会跑 typecheck）。 */
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    /* 包内 import 一律写 `.ts` 扩展名：node 26 原生跑 TS 时，写 `.js`
+       不会被映射回 `.ts`（实测 MODULE_NOT_FOUND），而仓库其它包沿用 `.js`
+       习惯。这里显式放开 .ts 扩展名，配合 noEmit 使用。 */
+    "allowImportingTsExtensions": true,
+    "types": ["node"]
+  },
+  "include": ["src", "test"]
+}

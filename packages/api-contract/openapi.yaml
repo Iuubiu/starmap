@@ -1,7 +1,514 @@
 # 由 packages/api-contract/scripts/gen-openapi.mjs 生成，请勿手改。
-# 改契约请改 packages/api-contract/src/index.ts 的 Zod schema，然后 pnpm contract:gen。
+# 改契约请改 packages/api-contract/src/domains/<domain>.ts 的 Zod schema，
+# 与 packages/api-contract/scripts/paths/<domain>.mjs 的 paths 片段，然后 pnpm contract:gen。
 "components":
   "schemas":
+    "AgentTurnEvidenceResponse":
+      "additionalProperties": false
+      "properties":
+        "gateTier":
+          "enum":
+            - "background"
+            - "scaffold"
+            - "full"
+          "type": "string"
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "allowed":
+                "type": "boolean"
+              "chunkId":
+                "type": "string"
+              "exclusionReason":
+                "type":
+                  - "string"
+                  - "null"
+              "isAnswerChunk":
+                "type": "boolean"
+              "kind":
+                "enum":
+                  - "text"
+                  - "formula"
+                  - "figure"
+                  - "table"
+                "type": "string"
+              "page":
+                "anyOf":
+                  - "maximum": 9007199254740991
+                    "minimum": -9007199254740991
+                    "type": "integer"
+                  - "type": "null"
+              "score":
+                "type": "number"
+              "snippet":
+                "type": "string"
+              "sourceId":
+                "type": "string"
+              "sourceTitle":
+                "type": "string"
+              "tier":
+                "enum":
+                  - "background"
+                  - "scaffold"
+                  - "full"
+                "type": "string"
+            "required":
+              - "chunkId"
+              - "sourceId"
+              - "sourceTitle"
+              - "page"
+              - "kind"
+              - "snippet"
+              - "score"
+              - "isAnswerChunk"
+              - "allowed"
+              - "tier"
+              - "exclusionReason"
+            "type": "object"
+          "type": "array"
+        "microKpId":
+          "type":
+            - "string"
+            - "null"
+        "turnId":
+          "type": "string"
+      "required":
+        - "turnId"
+        - "microKpId"
+        - "gateTier"
+        - "items"
+      "type": "object"
+    "AgentTurnHistoryResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "artifactKind":
+                "enum":
+                  - "level_card"
+                  - "graph_focus"
+                  - "progress_change"
+                  - "probe_form"
+                  - "error_card"
+                "type": "string"
+              "cardTitle":
+                "type": "string"
+              "createdAt":
+                "type": "string"
+              "degraded":
+                "type": "boolean"
+              "sessionId":
+                "type": "string"
+              "turnId":
+                "type": "string"
+              "utterance":
+                "type": "string"
+            "required":
+              - "turnId"
+              - "sessionId"
+              - "utterance"
+              - "artifactKind"
+              - "cardTitle"
+              - "degraded"
+              - "createdAt"
+            "type": "object"
+          "type": "array"
+        "nextCursor":
+          "type":
+            - "string"
+            - "null"
+        "sessionId":
+          "type": "string"
+      "required":
+        - "sessionId"
+        - "items"
+        - "nextCursor"
+      "type": "object"
+    "AgentTurnRequest":
+      "additionalProperties": false
+      "properties":
+        "microKpId":
+          "default": null
+          "type":
+            - "string"
+            - "null"
+        "sessionId":
+          "minLength": 1
+          "type": "string"
+        "tier":
+          "default": "P1"
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+        "utterance":
+          "maxLength": 2000
+          "minLength": 1
+          "type": "string"
+      "required":
+        - "sessionId"
+        - "utterance"
+        - "microKpId"
+        - "tier"
+      "type": "object"
+    "AgentTurnResponse":
+      "additionalProperties": false
+      "properties":
+        "actions":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "enabled":
+                "type": "boolean"
+              "kind":
+                "enum":
+                  - "retry"
+                  - "show_evidence"
+                "type": "string"
+              "label":
+                "type": "string"
+            "required":
+              - "kind"
+              - "label"
+              - "enabled"
+            "type": "object"
+          "type": "array"
+        "artifact":
+          "anyOf":
+            - "oneOf":
+                - "additionalProperties": false
+                  "properties":
+                    "cardId":
+                      "type": "string"
+                    "createdAt":
+                      "type": "string"
+                    "estimatedMinutes":
+                      "maximum": 9007199254740991
+                      "minimum": 1
+                      "type": "integer"
+                    "firstStepKind":
+                      "enum":
+                        - "guide"
+                        - "detail"
+                        - "probe"
+                        - "deepen"
+                        - "reteach"
+                        - "quiz"
+                        - "summary"
+                      "type": "string"
+                    "itemCount":
+                      "maximum": 9007199254740991
+                      "minimum": 0
+                      "type": "integer"
+                    "kind":
+                      "const": "level_card"
+                      "type": "string"
+                    "levelId":
+                      "type": "string"
+                    "microKpId":
+                      "type": "string"
+                    "rationale":
+                      "type": "string"
+                    "tier":
+                      "enum":
+                        - "P1"
+                        - "P2"
+                        - "P3"
+                      "type": "string"
+                    "title":
+                      "type": "string"
+                  "required":
+                    - "cardId"
+                    - "title"
+                    - "createdAt"
+                    - "kind"
+                    - "levelId"
+                    - "microKpId"
+                    - "tier"
+                    - "estimatedMinutes"
+                    - "itemCount"
+                    - "firstStepKind"
+                    - "rationale"
+                  "type": "object"
+                - "additionalProperties": false
+                  "properties":
+                    "cardId":
+                      "type": "string"
+                    "createdAt":
+                      "type": "string"
+                    "kind":
+                      "const": "graph_focus"
+                      "type": "string"
+                    "microKpId":
+                      "type": "string"
+                    "name":
+                      "type": "string"
+                    "neighbors":
+                      "items":
+                        "additionalProperties": false
+                        "properties":
+                          "direction":
+                            "enum":
+                              - "in"
+                              - "out"
+                            "type": "string"
+                          "microKpId":
+                            "type": "string"
+                          "name":
+                            "type": "string"
+                          "relation":
+                            "enum":
+                              - "prereq"
+                              - "related"
+                              - "part_of"
+                            "type": "string"
+                          "state":
+                            "enum":
+                              - "mastered"
+                              - "proficient"
+                              - "familiar"
+                              - "attempted"
+                              - "unseen"
+                            "type": "string"
+                        "required":
+                          - "microKpId"
+                          - "name"
+                          - "relation"
+                          - "direction"
+                          - "state"
+                        "type": "object"
+                      "type": "array"
+                    "rationale":
+                      "type": "string"
+                    "title":
+                      "type": "string"
+                  "required":
+                    - "cardId"
+                    - "title"
+                    - "createdAt"
+                    - "kind"
+                    - "microKpId"
+                    - "name"
+                    - "neighbors"
+                    - "rationale"
+                  "type": "object"
+                - "additionalProperties": false
+                  "properties":
+                    "after":
+                      "additionalProperties": false
+                      "properties":
+                        "achieved":
+                          "maximum": 1
+                          "minimum": 0
+                          "type": "number"
+                        "current":
+                          "maximum": 1
+                          "minimum": 0
+                          "type": "number"
+                        "state":
+                          "enum":
+                            - "mastered"
+                            - "proficient"
+                            - "familiar"
+                            - "attempted"
+                            - "unseen"
+                          "type": "string"
+                      "required":
+                        - "achieved"
+                        - "current"
+                        - "state"
+                      "type": "object"
+                    "before":
+                      "additionalProperties": false
+                      "properties":
+                        "achieved":
+                          "maximum": 1
+                          "minimum": 0
+                          "type": "number"
+                        "current":
+                          "maximum": 1
+                          "minimum": 0
+                          "type": "number"
+                        "state":
+                          "enum":
+                            - "mastered"
+                            - "proficient"
+                            - "familiar"
+                            - "attempted"
+                            - "unseen"
+                          "type": "string"
+                      "required":
+                        - "achieved"
+                        - "current"
+                        - "state"
+                      "type": "object"
+                    "cardId":
+                      "type": "string"
+                    "createdAt":
+                      "type": "string"
+                    "evidenceCount":
+                      "maximum": 9007199254740991
+                      "minimum": 0
+                      "type": "integer"
+                    "kind":
+                      "const": "progress_change"
+                      "type": "string"
+                    "microKpId":
+                      "type": "string"
+                    "name":
+                      "type": "string"
+                    "reason":
+                      "type": "string"
+                    "title":
+                      "type": "string"
+                  "required":
+                    - "cardId"
+                    - "title"
+                    - "createdAt"
+                    - "kind"
+                    - "microKpId"
+                    - "name"
+                    - "before"
+                    - "after"
+                    - "reason"
+                    - "evidenceCount"
+                  "type": "object"
+                - "additionalProperties": false
+                  "properties":
+                    "actions":
+                      "items":
+                        "additionalProperties": false
+                        "properties":
+                          "enabled":
+                            "type": "boolean"
+                          "kind":
+                            "enum":
+                              - "retry"
+                              - "show_evidence"
+                            "type": "string"
+                          "label":
+                            "type": "string"
+                        "required":
+                          - "kind"
+                          - "label"
+                          - "enabled"
+                        "type": "object"
+                      "type": "array"
+                    "cardId":
+                      "type": "string"
+                    "choices":
+                      "items":
+                        "type": "string"
+                      "type": "array"
+                    "createdAt":
+                      "type": "string"
+                    "inputKind":
+                      "enum":
+                        - "free_text"
+                        - "choice"
+                      "type": "string"
+                    "kind":
+                      "const": "probe_form"
+                      "type": "string"
+                    "ladderCap":
+                      "maximum": 5
+                      "minimum": 1
+                      "type": "integer"
+                    "ladderLevel":
+                      "maximum": 5
+                      "minimum": 1
+                      "type": "integer"
+                    "microKpId":
+                      "type": "string"
+                    "probeId":
+                      "type": "string"
+                    "question":
+                      "type": "string"
+                    "title":
+                      "type": "string"
+                  "required":
+                    - "cardId"
+                    - "title"
+                    - "createdAt"
+                    - "kind"
+                    - "probeId"
+                    - "microKpId"
+                    - "question"
+                    - "ladderLevel"
+                    - "ladderCap"
+                    - "inputKind"
+                    - "choices"
+                    - "actions"
+                  "type": "object"
+            - "type": "null"
+        "createdAt":
+          "type": "string"
+        "degraded":
+          "type": "boolean"
+        "errorCard":
+          "anyOf":
+            - "additionalProperties": false
+              "properties":
+                "debugId":
+                  "type": "string"
+                "detail":
+                  "type": "string"
+                "retryable":
+                  "type": "boolean"
+                "title":
+                  "type": "string"
+              "required":
+                - "title"
+                - "detail"
+                - "retryable"
+                - "debugId"
+              "type": "object"
+            - "type": "null"
+        "languageCheck":
+          "additionalProperties": false
+          "properties":
+            "offenders":
+              "items":
+                "type": "string"
+              "type": "array"
+            "ok":
+              "type": "boolean"
+          "required":
+            - "ok"
+            - "offenders"
+          "type": "object"
+        "retryCount":
+          "maximum": 1
+          "minimum": 0
+          "type": "integer"
+        "sessionId":
+          "type": "string"
+        "turnId":
+          "type": "string"
+        "visibleResponse":
+          "type": "string"
+        "visibleResponseKind":
+          "enum":
+            - "probe_question"
+            - "statement"
+          "type": "string"
+      "required":
+        - "turnId"
+        - "sessionId"
+        - "artifact"
+        - "errorCard"
+        - "degraded"
+        - "retryCount"
+        - "visibleResponse"
+        - "visibleResponseKind"
+        - "languageCheck"
+        - "actions"
+        - "createdAt"
+      "type": "object"
     "ApiError":
       "additionalProperties": false
       "properties":
@@ -142,6 +649,986 @@
         - "status"
         - "dbNow"
         - "version"
+      "type": "object"
+    "LevelDetailResponse":
+      "additionalProperties": false
+      "properties":
+        "level":
+          "additionalProperties": false
+          "properties":
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "kind":
+              "enum":
+                - "teach"
+                - "quiz"
+                - "mixed"
+              "type": "string"
+            "levelId":
+              "type": "string"
+            "microKpId":
+              "type": "string"
+            "title":
+              "type": "string"
+          "required":
+            - "levelId"
+            - "microKpId"
+            - "title"
+            - "itemCount"
+            - "kind"
+          "type": "object"
+        "spec":
+          "additionalProperties": false
+          "properties":
+            "cards":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "body":
+                    "type": "string"
+                  "figureRef":
+                    "type":
+                      - "string"
+                      - "null"
+                  "id":
+                    "type": "string"
+                  "title":
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "title"
+                  - "body"
+                  - "figureRef"
+                "type": "object"
+              "type": "array"
+            "gating":
+              "additionalProperties": false
+              "properties":
+                "itemCount":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "mode":
+                  "enum":
+                    - "none"
+                    - "exit"
+                    - "prereq"
+                  "type": "string"
+                "passCount":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+              "required":
+                - "mode"
+                - "itemCount"
+                - "passCount"
+              "type": "object"
+            "items":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "answer":
+                    "anyOf":
+                      - "maximum": 9007199254740991
+                        "minimum": 0
+                        "type": "integer"
+                      - "minLength": 1
+                        "type": "string"
+                  "explainCorrect":
+                    "minLength": 1
+                    "type": "string"
+                  "explainWrong":
+                    "minLength": 1
+                    "type": "string"
+                  "hintLadder":
+                    "items":
+                      "type": "string"
+                    "maxItems": 4
+                    "type": "array"
+                  "id":
+                    "minLength": 1
+                    "type": "string"
+                  "kind":
+                    "enum":
+                      - "fact"
+                      - "concept"
+                      - "comprehensive"
+                    "type": "string"
+                  "misconceptionTags":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "options":
+                    "items":
+                      "type": "string"
+                    "maxItems": 6
+                    "type": "array"
+                  "pool":
+                    "enum":
+                      - "core"
+                      - "practice"
+                    "type": "string"
+                  "sourceRef":
+                    "type":
+                      - "string"
+                      - "null"
+                  "stem":
+                    "minLength": 1
+                    "type": "string"
+                  "variantGroup":
+                    "minLength": 1
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "kind"
+                  - "stem"
+                  - "options"
+                  - "answer"
+                  - "variantGroup"
+                  - "explainCorrect"
+                  - "explainWrong"
+                  - "misconceptionTags"
+                  - "sourceRef"
+                  - "pool"
+                  - "hintLadder"
+                "type": "object"
+              "type": "array"
+            "meta":
+              "additionalProperties": false
+              "properties":
+                "author":
+                  "enum":
+                    - "system"
+                    - "teacher"
+                    - "self"
+                    - "ai"
+                  "type": "string"
+                "estimatedMinutes":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "id":
+                  "minLength": 1
+                  "type": "string"
+                "isEntry":
+                  "default": false
+                  "type": "boolean"
+                "microKpId":
+                  "minLength": 1
+                  "type": "string"
+                "nextLevelId":
+                  "anyOf":
+                    - "minLength": 1
+                      "type": "string"
+                    - "type": "null"
+                  "default": null
+                "tier":
+                  "default": "P1"
+                  "enum":
+                    - "P1"
+                    - "P2"
+                    - "P3"
+                  "type": "string"
+                "title":
+                  "minLength": 1
+                  "type": "string"
+                "type":
+                  "enum":
+                    - "teaching"
+                    - "quiz"
+                  "type": "string"
+              "required":
+                - "id"
+                - "microKpId"
+                - "title"
+                - "type"
+                - "tier"
+                - "estimatedMinutes"
+                - "author"
+                - "isEntry"
+                - "nextLevelId"
+              "type": "object"
+            "schemaVersion":
+              "const": 1
+              "type": "number"
+            "sources":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "locator":
+                    "type":
+                      - "string"
+                      - "null"
+                  "ref":
+                    "type": "string"
+                "required":
+                  - "ref"
+                  - "locator"
+                "type": "object"
+              "type": "array"
+            "steps":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "cardIds":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "id":
+                    "type": "string"
+                  "itemIds":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "kind":
+                    "enum":
+                      - "guide"
+                      - "detail"
+                      - "probe"
+                      - "deepen"
+                      - "reteach"
+                      - "quiz"
+                      - "summary"
+                    "type": "string"
+                  "requiredCorrect":
+                    "default": 0
+                    "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                  "title":
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "kind"
+                  - "title"
+                  - "cardIds"
+                  - "itemIds"
+                  - "requiredCorrect"
+                "type": "object"
+              "type": "array"
+          "required":
+            - "schemaVersion"
+            - "meta"
+            - "sources"
+            - "cards"
+            - "steps"
+            - "items"
+            - "gating"
+          "type": "object"
+      "required":
+        - "level"
+        - "spec"
+      "type": "object"
+    "LevelSpec":
+      "additionalProperties": false
+      "properties":
+        "cards":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "body":
+                "type": "string"
+              "figureRef":
+                "type":
+                  - "string"
+                  - "null"
+              "id":
+                "type": "string"
+              "title":
+                "type": "string"
+            "required":
+              - "id"
+              - "title"
+              - "body"
+              - "figureRef"
+            "type": "object"
+          "type": "array"
+        "gating":
+          "additionalProperties": false
+          "properties":
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "mode":
+              "enum":
+                - "none"
+                - "exit"
+                - "prereq"
+              "type": "string"
+            "passCount":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+          "required":
+            - "mode"
+            - "itemCount"
+            - "passCount"
+          "type": "object"
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "answer":
+                "anyOf":
+                  - "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                  - "minLength": 1
+                    "type": "string"
+              "explainCorrect":
+                "minLength": 1
+                "type": "string"
+              "explainWrong":
+                "minLength": 1
+                "type": "string"
+              "hintLadder":
+                "items":
+                  "type": "string"
+                "maxItems": 4
+                "type": "array"
+              "id":
+                "minLength": 1
+                "type": "string"
+              "kind":
+                "enum":
+                  - "fact"
+                  - "concept"
+                  - "comprehensive"
+                "type": "string"
+              "misconceptionTags":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "options":
+                "items":
+                  "type": "string"
+                "maxItems": 6
+                "type": "array"
+              "pool":
+                "enum":
+                  - "core"
+                  - "practice"
+                "type": "string"
+              "sourceRef":
+                "type":
+                  - "string"
+                  - "null"
+              "stem":
+                "minLength": 1
+                "type": "string"
+              "variantGroup":
+                "minLength": 1
+                "type": "string"
+            "required":
+              - "id"
+              - "kind"
+              - "stem"
+              - "options"
+              - "answer"
+              - "variantGroup"
+              - "explainCorrect"
+              - "explainWrong"
+              - "misconceptionTags"
+              - "sourceRef"
+              - "pool"
+              - "hintLadder"
+            "type": "object"
+          "type": "array"
+        "meta":
+          "additionalProperties": false
+          "properties":
+            "author":
+              "enum":
+                - "system"
+                - "teacher"
+                - "self"
+                - "ai"
+              "type": "string"
+            "estimatedMinutes":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "id":
+              "minLength": 1
+              "type": "string"
+            "isEntry":
+              "default": false
+              "type": "boolean"
+            "microKpId":
+              "minLength": 1
+              "type": "string"
+            "nextLevelId":
+              "anyOf":
+                - "minLength": 1
+                  "type": "string"
+                - "type": "null"
+              "default": null
+            "tier":
+              "default": "P1"
+              "enum":
+                - "P1"
+                - "P2"
+                - "P3"
+              "type": "string"
+            "title":
+              "minLength": 1
+              "type": "string"
+            "type":
+              "enum":
+                - "teaching"
+                - "quiz"
+              "type": "string"
+          "required":
+            - "id"
+            - "microKpId"
+            - "title"
+            - "type"
+            - "tier"
+            - "estimatedMinutes"
+            - "author"
+            - "isEntry"
+            - "nextLevelId"
+          "type": "object"
+        "schemaVersion":
+          "const": 1
+          "type": "number"
+        "sources":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "locator":
+                "type":
+                  - "string"
+                  - "null"
+              "ref":
+                "type": "string"
+            "required":
+              - "ref"
+              - "locator"
+            "type": "object"
+          "type": "array"
+        "steps":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "cardIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "id":
+                "type": "string"
+              "itemIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "kind":
+                "enum":
+                  - "guide"
+                  - "detail"
+                  - "probe"
+                  - "deepen"
+                  - "reteach"
+                  - "quiz"
+                  - "summary"
+                "type": "string"
+              "requiredCorrect":
+                "default": 0
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "title":
+                "type": "string"
+            "required":
+              - "id"
+              - "kind"
+              - "title"
+              - "cardIds"
+              - "itemIds"
+              - "requiredCorrect"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "schemaVersion"
+        - "meta"
+        - "sources"
+        - "cards"
+        - "steps"
+        - "items"
+        - "gating"
+      "type": "object"
+    "LevelSummary":
+      "additionalProperties": false
+      "properties":
+        "itemCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "kind":
+          "enum":
+            - "teach"
+            - "quiz"
+            - "mixed"
+          "type": "string"
+        "levelId":
+          "type": "string"
+        "microKpId":
+          "type": "string"
+        "title":
+          "type": "string"
+      "required":
+        - "levelId"
+        - "microKpId"
+        - "title"
+        - "itemCount"
+        - "kind"
+      "type": "object"
+    "MarketDraftItem":
+      "additionalProperties": false
+      "properties":
+        "correct":
+          "type":
+            - "boolean"
+            - "null"
+        "itemId":
+          "type": "string"
+        "misconceptionTags":
+          "items":
+            "type": "string"
+          "type": "array"
+        "stem":
+          "type": "string"
+      "required":
+        - "itemId"
+        - "stem"
+        - "correct"
+        - "misconceptionTags"
+      "type": "object"
+    "MarketDraftLearning":
+      "additionalProperties": false
+      "properties":
+        "attemptCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "cardIds":
+          "items":
+            "type": "string"
+          "type": "array"
+        "correctCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "correct":
+                "type":
+                  - "boolean"
+                  - "null"
+              "itemId":
+                "type": "string"
+              "misconceptionTags":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "stem":
+                "type": "string"
+            "required":
+              - "itemId"
+              - "stem"
+              - "correct"
+              - "misconceptionTags"
+            "type": "object"
+          "type": "array"
+        "microKpId":
+          "type": "string"
+        "microKpName":
+          "type": "string"
+        "sourceLevelIds":
+          "items":
+            "type": "string"
+          "type": "array"
+      "required":
+        - "microKpId"
+        - "microKpName"
+        - "attemptCount"
+        - "correctCount"
+        - "items"
+        - "cardIds"
+        - "sourceLevelIds"
+      "type": "object"
+    "MarketDraftRequest":
+      "additionalProperties": false
+      "properties":
+        "microKpId":
+          "minLength": 1
+          "type": "string"
+        "sessionId":
+          "anyOf":
+            - "minLength": 1
+              "type": "string"
+            - "type": "null"
+      "required":
+        - "microKpId"
+      "type": "object"
+    "MarketDraftResponse":
+      "additionalProperties": false
+      "properties":
+        "issues":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "code":
+                "type": "string"
+              "message":
+                "type": "string"
+              "path":
+                "type": "string"
+            "required":
+              - "path"
+              - "message"
+              - "code"
+            "type": "object"
+          "type": "array"
+        "learning":
+          "additionalProperties": false
+          "properties":
+            "attemptCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "cardIds":
+              "items":
+                "type": "string"
+              "type": "array"
+            "correctCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "items":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "correct":
+                    "type":
+                      - "boolean"
+                      - "null"
+                  "itemId":
+                    "type": "string"
+                  "misconceptionTags":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "stem":
+                    "type": "string"
+                "required":
+                  - "itemId"
+                  - "stem"
+                  - "correct"
+                  - "misconceptionTags"
+                "type": "object"
+              "type": "array"
+            "microKpId":
+              "type": "string"
+            "microKpName":
+              "type": "string"
+            "sourceLevelIds":
+              "items":
+                "type": "string"
+              "type": "array"
+          "required":
+            - "microKpId"
+            - "microKpName"
+            - "attemptCount"
+            - "correctCount"
+            - "items"
+            - "cardIds"
+            - "sourceLevelIds"
+          "type": "object"
+        "spec": {}
+      "required":
+        - "spec"
+        - "issues"
+        - "learning"
+      "type": "object"
+    "MarketLevelAuthor":
+      "enum":
+        - "system"
+        - "teacher"
+        - "self"
+        - "ai"
+      "type": "string"
+    "MarketLevelDetailResponse":
+      "additionalProperties": false
+      "properties":
+        "level":
+          "additionalProperties": false
+          "properties":
+            "author":
+              "enum":
+                - "system"
+                - "teacher"
+                - "self"
+                - "ai"
+              "type": "string"
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "kind":
+              "enum":
+                - "teach"
+                - "quiz"
+                - "mixed"
+              "type": "string"
+            "levelId":
+              "type": "string"
+            "microKpId":
+              "type": "string"
+            "microKpName":
+              "type": "string"
+            "origin":
+              "enum":
+                - "preset"
+                - "saved"
+              "type": "string"
+            "savedAt":
+              "type":
+                - "string"
+                - "null"
+            "tags":
+              "items":
+                "type": "string"
+              "type": "array"
+            "title":
+              "type": "string"
+          "required":
+            - "levelId"
+            - "microKpId"
+            - "microKpName"
+            - "title"
+            - "kind"
+            - "author"
+            - "itemCount"
+            - "savedAt"
+            - "tags"
+            - "origin"
+          "type": "object"
+        "spec": {}
+      "required":
+        - "level"
+        - "spec"
+      "type": "object"
+    "MarketLevelListResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "author":
+                "enum":
+                  - "system"
+                  - "teacher"
+                  - "self"
+                  - "ai"
+                "type": "string"
+              "itemCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "kind":
+                "enum":
+                  - "teach"
+                  - "quiz"
+                  - "mixed"
+                "type": "string"
+              "levelId":
+                "type": "string"
+              "microKpId":
+                "type": "string"
+              "microKpName":
+                "type": "string"
+              "origin":
+                "enum":
+                  - "preset"
+                  - "saved"
+                "type": "string"
+              "savedAt":
+                "type":
+                  - "string"
+                  - "null"
+              "tags":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "title":
+                "type": "string"
+            "required":
+              - "levelId"
+              - "microKpId"
+              - "microKpName"
+              - "title"
+              - "kind"
+              - "author"
+              - "itemCount"
+              - "savedAt"
+              - "tags"
+              - "origin"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "items"
+      "type": "object"
+    "MarketLevelOrigin":
+      "enum":
+        - "preset"
+        - "saved"
+      "type": "string"
+    "MarketLevelSummary":
+      "additionalProperties": false
+      "properties":
+        "author":
+          "enum":
+            - "system"
+            - "teacher"
+            - "self"
+            - "ai"
+          "type": "string"
+        "itemCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "kind":
+          "enum":
+            - "teach"
+            - "quiz"
+            - "mixed"
+          "type": "string"
+        "levelId":
+          "type": "string"
+        "microKpId":
+          "type": "string"
+        "microKpName":
+          "type": "string"
+        "origin":
+          "enum":
+            - "preset"
+            - "saved"
+          "type": "string"
+        "savedAt":
+          "type":
+            - "string"
+            - "null"
+        "tags":
+          "items":
+            "type": "string"
+          "type": "array"
+        "title":
+          "type": "string"
+      "required":
+        - "levelId"
+        - "microKpId"
+        - "microKpName"
+        - "title"
+        - "kind"
+        - "author"
+        - "itemCount"
+        - "savedAt"
+        - "tags"
+        - "origin"
+      "type": "object"
+    "MarketSaveLevelRequest":
+      "additionalProperties": false
+      "properties":
+        "spec": {}
+        "tags":
+          "items":
+            "type": "string"
+          "maxItems": 12
+          "type": "array"
+      "required":
+        - "spec"
+      "type": "object"
+    "MarketSaveLevelResponse":
+      "additionalProperties": false
+      "properties":
+        "created":
+          "type": "boolean"
+        "level":
+          "additionalProperties": false
+          "properties":
+            "author":
+              "enum":
+                - "system"
+                - "teacher"
+                - "self"
+                - "ai"
+              "type": "string"
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "kind":
+              "enum":
+                - "teach"
+                - "quiz"
+                - "mixed"
+              "type": "string"
+            "levelId":
+              "type": "string"
+            "microKpId":
+              "type": "string"
+            "microKpName":
+              "type": "string"
+            "origin":
+              "enum":
+                - "preset"
+                - "saved"
+              "type": "string"
+            "savedAt":
+              "type":
+                - "string"
+                - "null"
+            "tags":
+              "items":
+                "type": "string"
+              "type": "array"
+            "title":
+              "type": "string"
+          "required":
+            - "levelId"
+            - "microKpId"
+            - "microKpName"
+            - "title"
+            - "kind"
+            - "author"
+            - "itemCount"
+            - "savedAt"
+            - "tags"
+            - "origin"
+          "type": "object"
+      "required":
+        - "level"
+        - "created"
+      "type": "object"
+    "MarketSpecIssue":
+      "additionalProperties": false
+      "properties":
+        "code":
+          "type": "string"
+        "message":
+          "type": "string"
+        "path":
+          "type": "string"
+      "required":
+        - "path"
+        - "message"
+        - "code"
       "type": "object"
     "NodeDetailResponse":
       "additionalProperties": false
@@ -310,12 +1797,963 @@
         - "pages"
         - "chunks"
       "type": "object"
+    "ProbeMetricsResponse":
+      "additionalProperties": false
+      "properties":
+        "reasonCounts":
+          "additionalProperties":
+            "maximum": 9007199254740991
+            "minimum": 0
+            "type": "integer"
+          "propertyNames":
+            "type": "string"
+          "type": "object"
+        "turns":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "violationRate":
+          "maximum": 1
+          "minimum": 0
+          "type": "number"
+        "violations":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+      "required":
+        - "turns"
+        - "violations"
+        - "violationRate"
+        - "reasonCounts"
+      "type": "object"
+    "ProbeReplyRequest":
+      "additionalProperties": false
+      "properties":
+        "replyText":
+          "maxLength": 2000
+          "minLength": 1
+          "type": "string"
+      "required":
+        - "replyText"
+      "type": "object"
+    "ProbeSessionResponse":
+      "additionalProperties": false
+      "properties":
+        "askedQuestions":
+          "items":
+            "type": "string"
+          "type": "array"
+        "ladder":
+          "additionalProperties": false
+          "properties":
+            "cap":
+              "maximum": 5
+              "minimum": 1
+              "type": "integer"
+            "consecutiveUnknown":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "consecutiveWrong":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "exited":
+              "type": "boolean"
+            "level":
+              "maximum": 5
+              "minimum": 0
+              "type": "integer"
+            "maxLevelUsed":
+              "maximum": 5
+              "minimum": 0
+              "type": "integer"
+            "noProgress":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "level"
+            - "cap"
+            - "maxLevelUsed"
+            - "consecutiveUnknown"
+            - "consecutiveWrong"
+            - "noProgress"
+            - "exited"
+          "type": "object"
+        "microKpId":
+          "type": "string"
+        "probeId":
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+        "turns":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+      "required":
+        - "probeId"
+        - "microKpId"
+        - "tier"
+        - "ladder"
+        - "turns"
+        - "askedQuestions"
+      "type": "object"
+    "ProbeStartRequest":
+      "additionalProperties": false
+      "properties":
+        "microKpId":
+          "minLength": 1
+          "type": "string"
+        "tier":
+          "default": "P1"
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "microKpId"
+        - "tier"
+      "type": "object"
+    "ProbeTurnResponse":
+      "additionalProperties": false
+      "properties":
+        "action":
+          "enum":
+            - "acknowledge"
+            - "hint"
+            - "probe_deeper"
+            - "reteach"
+            - "reveal"
+            - "exit"
+          "type": "string"
+        "actionReason":
+          "type":
+            - "string"
+            - "null"
+        "createdAt":
+          "type": "string"
+        "judge":
+          "additionalProperties": false
+          "properties":
+            "passed":
+              "type": "boolean"
+            "questionCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "reasons":
+              "items":
+                "enum":
+                  - "leaks_final_value"
+                  - "leaks_formula"
+                  - "reveals_answer"
+                  - "multiple_questions"
+                  - "probe_without_question"
+                "type": "string"
+              "type": "array"
+          "required":
+            - "passed"
+            - "reasons"
+            - "questionCount"
+          "type": "object"
+        "ladder":
+          "additionalProperties": false
+          "properties":
+            "cap":
+              "maximum": 5
+              "minimum": 1
+              "type": "integer"
+            "consecutiveUnknown":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "consecutiveWrong":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "exited":
+              "type": "boolean"
+            "level":
+              "maximum": 5
+              "minimum": 0
+              "type": "integer"
+            "maxLevelUsed":
+              "maximum": 5
+              "minimum": 0
+              "type": "integer"
+            "noProgress":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "level"
+            - "cap"
+            - "maxLevelUsed"
+            - "consecutiveUnknown"
+            - "consecutiveWrong"
+            - "noProgress"
+            - "exited"
+          "type": "object"
+        "microKpId":
+          "type": "string"
+        "probeId":
+          "type": "string"
+        "question":
+          "type":
+            - "string"
+            - "null"
+        "replyKind":
+          "enum":
+            - "correct"
+            - "partial"
+            - "wrong"
+            - "dont_know"
+            - "give_up"
+            - "frustration"
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "probeId"
+        - "microKpId"
+        - "tier"
+        - "replyKind"
+        - "action"
+        - "actionReason"
+        - "question"
+        - "ladder"
+        - "judge"
+        - "createdAt"
+      "type": "object"
+    "RetrievalBandsResponse":
+      "additionalProperties": false
+      "properties":
+        "answerChunkIds":
+          "items":
+            "type": "string"
+          "type": "array"
+        "bands":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "allowedIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "current":
+                "maximum": 1
+                "minimum": 0
+                "type": "number"
+              "excludedIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "gateTier":
+                "enum":
+                  - "background"
+                  - "scaffold"
+                  - "full"
+                "type": "string"
+            "required":
+              - "current"
+              - "gateTier"
+              - "allowedIds"
+              - "excludedIds"
+            "type": "object"
+          "type": "array"
+        "microKpId":
+          "type": "string"
+        "query":
+          "type": "string"
+      "required":
+        - "query"
+        - "microKpId"
+        - "answerChunkIds"
+        - "bands"
+      "type": "object"
+    "RetrievalDebugResponse":
+      "additionalProperties": false
+      "properties":
+        "answerChunkCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "current":
+          "anyOf":
+            - "maximum": 1
+              "minimum": 0
+              "type": "number"
+            - "type": "null"
+        "excludedCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "gateTier":
+          "enum":
+            - "background"
+            - "scaffold"
+            - "full"
+          "type": "string"
+        "hits":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "allowed":
+                "type": "boolean"
+              "chunkId":
+                "type": "string"
+              "exclusionReason":
+                "type":
+                  - "string"
+                  - "null"
+              "isAnswerChunk":
+                "type": "boolean"
+              "kind":
+                "enum":
+                  - "text"
+                  - "formula"
+                  - "figure"
+                  - "table"
+                "type": "string"
+              "microKpId":
+                "type":
+                  - "string"
+                  - "null"
+              "page":
+                "anyOf":
+                  - "maximum": 9007199254740991
+                    "minimum": -9007199254740991
+                    "type": "integer"
+                  - "type": "null"
+              "score":
+                "type": "number"
+              "snippet":
+                "type": "string"
+              "sourceTitle":
+                "type": "string"
+              "tier":
+                "enum":
+                  - "background"
+                  - "scaffold"
+                  - "full"
+                "type": "string"
+            "required":
+              - "chunkId"
+              - "microKpId"
+              - "score"
+              - "snippet"
+              - "kind"
+              - "page"
+              - "sourceTitle"
+              - "isAnswerChunk"
+              - "allowed"
+              - "tier"
+              - "exclusionReason"
+            "type": "object"
+          "type": "array"
+        "microKpId":
+          "type": "string"
+        "query":
+          "type": "string"
+        "totalMatched":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+      "required":
+        - "query"
+        - "microKpId"
+        - "current"
+        - "gateTier"
+        - "hits"
+        - "totalMatched"
+        - "answerChunkCount"
+        - "excludedCount"
+      "type": "object"
+    "SkillDetailResponse":
+      "additionalProperties": false
+      "properties":
+        "skill":
+          "additionalProperties": false
+          "properties":
+            "description":
+              "type": "string"
+            "directoryName":
+              "type": "string"
+            "enabled":
+              "type": "boolean"
+            "instructions":
+              "type": "string"
+            "name":
+              "type": "string"
+            "referenceCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "references":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "name":
+                    "type": "string"
+                  "preview":
+                    "type": "string"
+                  "sizeBytes":
+                    "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                "required":
+                  - "name"
+                  - "sizeBytes"
+                  - "preview"
+                "type": "object"
+              "type": "array"
+            "triggerScenarios":
+              "items":
+                "type": "string"
+              "type": "array"
+            "validation":
+              "additionalProperties": false
+              "properties":
+                "errors":
+                  "items":
+                    "type": "string"
+                  "type": "array"
+                "valid":
+                  "type": "boolean"
+                "warnings":
+                  "items":
+                    "type": "string"
+                  "type": "array"
+              "required":
+                - "valid"
+                - "errors"
+                - "warnings"
+              "type": "object"
+            "version":
+              "type": "string"
+          "required":
+            - "name"
+            - "description"
+            - "version"
+            - "triggerScenarios"
+            - "enabled"
+            - "referenceCount"
+            - "directoryName"
+            - "instructions"
+            - "references"
+            - "validation"
+          "type": "object"
+      "required":
+        - "skill"
+      "type": "object"
+    "SkillListResponse":
+      "additionalProperties": false
+      "properties":
+        "directory":
+          "type": "string"
+        "disabledCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "enabledCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "description":
+                "type": "string"
+              "directoryName":
+                "type": "string"
+              "enabled":
+                "type": "boolean"
+              "name":
+                "type": "string"
+              "referenceCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "triggerScenarios":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "version":
+                "type": "string"
+            "required":
+              - "name"
+              - "description"
+              - "version"
+              - "triggerScenarios"
+              - "enabled"
+              - "referenceCount"
+              - "directoryName"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "directory"
+        - "items"
+        - "enabledCount"
+        - "disabledCount"
+      "type": "object"
+    "SkillSystemPreviewResponse":
+      "additionalProperties": false
+      "properties":
+        "excludedSkills":
+          "items":
+            "type": "string"
+          "type": "array"
+        "includedSkills":
+          "items":
+            "type": "string"
+          "type": "array"
+        "systemMessage":
+          "type": "string"
+      "required":
+        - "systemMessage"
+        - "includedSkills"
+        - "excludedSkills"
+      "type": "object"
+    "SkillToggleRequest":
+      "additionalProperties": false
+      "properties":
+        "enabled":
+          "type": "boolean"
+      "required":
+        - "enabled"
+      "type": "object"
 "info":
   "description": "核电子学学习工作站。契约唯一真源：本文件由 packages/api-contract 的 Zod schema 生成，请勿手改。"
   "title": "StarMap API"
   "version": "1.0.0"
 "openapi": "3.1.0"
 "paths":
+  "/api/v1/agent/probes":
+    "post":
+      "operationId": "startProbe"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/ProbeStartRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ProbeTurnResponse"
+          "description": "第一轮追问"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "知识点不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "开始一次苏格拉底追问"
+  "/api/v1/agent/probes/metrics":
+    "get":
+      "operationId": "getProbeMetrics"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ProbeMetricsResponse"
+          "description": "统计"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "追问越界统计（按拒绝原因分类）"
+  "/api/v1/agent/probes/{probeId}":
+    "get":
+      "operationId": "getProbeSession"
+      "parameters":
+        - "in": "path"
+          "name": "probeId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ProbeSessionResponse"
+          "description": "会话状态"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "追问不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "追问会话状态"
+  "/api/v1/agent/probes/{probeId}/replies":
+    "post":
+      "operationId": "replyProbe"
+      "parameters":
+        - "in": "path"
+          "name": "probeId"
+          "required": true
+          "schema":
+            "type": "string"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/ProbeReplyRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ProbeTurnResponse"
+          "description": "下一轮"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "追问不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "提交一句回答，状态机决定下一步"
+  "/api/v1/agent/retrieval/bands":
+    "get":
+      "operationId": "getRetrievalBands"
+      "parameters":
+        - "in": "query"
+          "name": "query"
+          "required": true
+          "schema":
+            "type": "string"
+        - "in": "query"
+          "name": "microKpId"
+          "required": true
+          "schema":
+            "type": "string"
+        - "in": "query"
+          "name": "limit"
+          "schema":
+            "maximum": 50
+            "minimum": 1
+            "type": "integer"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/RetrievalBandsResponse"
+          "description": "三档对比"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "知识点不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "同一 query 在三档掌握度下的集合差异"
+  "/api/v1/agent/retrieval/debug":
+    "get":
+      "operationId": "debugRetrieval"
+      "parameters":
+        - "in": "query"
+          "name": "query"
+          "required": true
+          "schema":
+            "type": "string"
+        - "in": "query"
+          "name": "microKpId"
+          "required": true
+          "schema":
+            "type": "string"
+        - "in": "query"
+          "name": "limit"
+          "schema":
+            "maximum": 50
+            "minimum": 1
+            "type": "integer"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/RetrievalDebugResponse"
+          "description": "调试结果"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "知识点不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "检索调试器：命中切片、是否答案块、被排除的具体原因"
+  "/api/v1/agent/skills":
+    "get":
+      "operationId": "listSkills"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/SkillListResponse"
+          "description": "skill 列表"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "扫描到的 skill 列表与启用状态"
+  "/api/v1/agent/skills/system-preview":
+    "get":
+      "operationId": "getSkillSystemPreview"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/SkillSystemPreviewResponse"
+          "description": "system message 预览"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "此刻 agent 的 system message 里会出现哪些 skill"
+  "/api/v1/agent/skills/{name}":
+    "get":
+      "operationId": "getSkill"
+      "parameters":
+        - "in": "path"
+          "name": "name"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/SkillDetailResponse"
+          "description": "skill 详情"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "skill 不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "单个 skill 的正文与 references 清单"
+    "patch":
+      "operationId": "toggleSkill"
+      "parameters":
+        - "in": "path"
+          "name": "name"
+          "required": true
+          "schema":
+            "type": "string"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/SkillToggleRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/SkillDetailResponse"
+          "description": "更新后的详情"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "skill 不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "启用/禁用 skill（持久化，重启保持）"
+  "/api/v1/agent/turns":
+    "get":
+      "operationId": "listAgentTurns"
+      "parameters":
+        - "in": "query"
+          "name": "sessionId"
+          "required": true
+          "schema":
+            "type": "string"
+        - "in": "query"
+          "name": "limit"
+          "schema":
+            "maximum": 200
+            "minimum": 1
+            "type": "integer"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/AgentTurnHistoryResponse"
+          "description": "学习日志"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "某个会话的学习日志（不是消息流）"
+    "post":
+      "operationId": "createAgentTurn"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/AgentTurnRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/AgentTurnResponse"
+          "description": "本轮的产物卡与可见回复"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+        "502":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "模型上游不可用"
+      "summary": "提交一句话，产出一张结构化产物卡"
+  "/api/v1/agent/turns/{turnId}/evidence":
+    "get":
+      "operationId": "getAgentTurnEvidence"
+      "parameters":
+        - "in": "path"
+          "name": "turnId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/AgentTurnEvidenceResponse"
+          "description": "依据清单"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "回合不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "「看依据」：本轮用到了哪些切片，哪些被门控排除"
   "/api/v1/content/stats":
     "get":
       "operationId": "getContentStats"
@@ -344,6 +2782,151 @@
                 "$ref": "#/components/schemas/HealthResponse"
           "description": "服务正常"
       "summary": "健康检查"
+  "/api/v1/levels/{levelId}":
+    "get":
+      "description": "返回关卡的完整规范。播放器靠它一次性拿到卡片、七段步骤与全部题目：每题的选项、正确答案与**预写反馈**都在里面，作答后不需要再请求后端、也不需要等模型生成解释。"
+      "operationId": "getLevel"
+      "parameters":
+        - "in": "path"
+          "name": "levelId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/LevelDetailResponse"
+          "description": "关卡详情"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "关卡详情（含完整 level.spec）"
+  "/api/v1/market/drafts":
+    "post":
+      "operationId": "createMarketDraft"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/MarketDraftRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/MarketDraftResponse"
+          "description": "草稿（可能还不合法，字段级缺项在 issues 里）"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "知识点不存在"
+        "422":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "把一个知识点的学习过程（涉及的题、错因、讲解片段）打包成关卡草稿"
+  "/api/v1/market/levels":
+    "get":
+      "operationId": "listMarketLevels"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/MarketLevelListResponse"
+          "description": "市场关卡列表"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "关卡市场：预制关卡 + 自己保存的关卡（当前只做保存，不做分发）"
+    "post":
+      "operationId": "saveMarketLevel"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/MarketSaveLevelRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/MarketSaveLevelResponse"
+          "description": "已保存（created=false 表示覆盖了同 id 的旧版本）"
+        "409":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡 id 与已有系统关卡冲突"
+        "422":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡规范校验不通过，details 里是字段级错误列表"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "保存自制关卡到关卡库（先过 level.spec 校验器，不通过返回 422 与字段级错误）"
+  "/api/v1/market/levels/{levelId}":
+    "get":
+      "operationId": "getMarketLevel"
+      "parameters":
+        - "in": "path"
+          "name": "levelId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/MarketLevelDetailResponse"
+          "description": "关卡详情"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "市场的单个关卡（含完整 level.spec，供编辑/重新开始）"
   "/api/v1/nodes":
     "get":
       "operationId": "listNodes"

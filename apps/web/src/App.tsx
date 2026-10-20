@@ -1,12 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
-import { DashboardPage } from './pages/DashboardPage';
-import { MapPage } from './pages/MapPage';
-import { NodeDetailPage } from './pages/NodeDetailPage';
-import { DatabasePage } from './pages/DatabasePage';
-import { LevelPage, SkillsPage } from './pages/PlaceholderPages';
-import { AppShell } from './components/AppShell';
+import { appRoutes } from './routes';
 
 /**
  * 应用根。
@@ -17,6 +12,8 @@ import { AppShell } from './components/AppShell';
  *
  * QueryClient 默认 `staleTime: 30s` —— 学习工作台的数据（掌握度、节点列表）
  * 在一次会话内变动不频繁，切页面就重新拉会把后端打满且造成闪烁。
+ *
+ * 本文件**不认识任何页面**：路由表在 `routes.tsx`，加页面改那里。
  */
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,24 +25,7 @@ const queryClient = new QueryClient({
   },
 });
 
-/**
- * 六个页面在票 01 就全部定下路由，后面每票只填内容不改路由。
- * 后三个（数据库、技能库、关卡播放）当前是占位页。
- */
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <AppShell />,
-    children: [
-      { index: true, element: <DashboardPage /> },
-      { path: 'map', element: <MapPage /> },
-      { path: 'map/:microKpId', element: <NodeDetailPage /> },
-      { path: 'level/:levelId', element: <LevelPage /> },
-      { path: 'database', element: <DatabasePage /> },
-      { path: 'skills', element: <SkillsPage /> },
-    ],
-  },
-]);
+const router = createBrowserRouter(appRoutes);
 
 export function App() {
   return (
