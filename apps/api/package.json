@@ -13,7 +13,8 @@
     "contract:emit": "node ./scripts/emit-openapi.mjs",
     "db:migrate": "tsx ./scripts/migrate.ts up",
     "db:rollback": "tsx ./scripts/migrate.ts down",
-    "db:seed": "tsx ./scripts/migrate.ts seed"
+    "db:seed": "tsx ./scripts/migrate.ts seed",
+    "content:import": "tsx ./scripts/import-content.ts"
   },
   "dependencies": {
     "@mastra/core": "1.78.0",

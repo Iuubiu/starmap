@@ -1,9 +1,17 @@
-import { useGetHealth, useGetNode, useListNodes } from './generated/default/default';
+import {
+  useGetContentStats,
+  useGetHealth,
+  useGetNode,
+  useGetNodeSources,
+  useListNodes,
+} from './generated/default/default';
 import type {
+  ContentStatsResponse,
   HealthResponse,
   ListNodesParams,
   NodeDetailResponse,
   NodeListResponse,
+  NodeSourcesResponse,
 } from './generated/model';
 
 /**
@@ -29,4 +37,14 @@ export function useNodeDetail(microKpId: string | undefined) {
 export function useHealth() {
   const query = useGetHealth();
   return { ...query, payload: query.data?.data as HealthResponse | undefined };
+}
+
+export function useContentStats() {
+  const query = useGetContentStats();
+  return { ...query, payload: query.data?.data as ContentStatsResponse | undefined };
+}
+
+export function useNodeSources(microKpId: string | undefined) {
+  const query = useGetNodeSources(microKpId ?? '', { query: { enabled: Boolean(microKpId) } });
+  return { ...query, payload: query.data?.data as NodeSourcesResponse | undefined };
 }

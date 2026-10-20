@@ -4,7 +4,8 @@ import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { DashboardPage } from './pages/DashboardPage';
 import { MapPage } from './pages/MapPage';
 import { NodeDetailPage } from './pages/NodeDetailPage';
-import { DatabasePage, LevelPage, SkillsPage } from './pages/PlaceholderPages';
+import { DatabasePage } from './pages/DatabasePage';
+import { LevelPage, SkillsPage } from './pages/PlaceholderPages';
 import { AppShell } from './components/AppShell';
 
 /**

@@ -22,10 +22,12 @@ import type {
 
 import type {
   ApiError,
+  ContentStatsResponse,
   HealthResponse,
   ListNodesParams,
   NodeDetailResponse,
-  NodeListResponse
+  NodeListResponse,
+  NodeSourcesResponse
 } from '../model';
 
 import { customFetch } from '../../fetcher.js';
@@ -49,6 +51,125 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export type getContentStatsResponse200 = {
+  data: ContentStatsResponse
+  status: 200
+}
+
+export type getContentStatsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getContentStatsResponseSuccess = (getContentStatsResponse200) & {
+  headers: Headers;
+};
+export type getContentStatsResponseError = (getContentStatsResponse500) & {
+  headers: Headers;
+};
+
+export type getContentStatsResponse = (getContentStatsResponseSuccess | getContentStatsResponseError)
+
+export const getGetContentStatsUrl = () => {
+
+
+
+
+  return `/api/v1/content/stats`
+}
+
+/**
+ * @summary 内容库统计：来源、知识点、chunk、答案块、先修边
+ */
+export const getContentStats = async ( options?: Parameters<typeof customFetch>[1]): Promise<getContentStatsResponse> => {
+
+  return customFetch<getContentStatsResponse>(getGetContentStatsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetContentStatsQueryKey = () => {
+    return [
+    `/api/v1/content/stats`
+    ] as const;
+    }
+
+
+export const getGetContentStatsQueryOptions = <TData = Awaited<ReturnType<typeof getContentStats>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContentStats>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetContentStatsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getContentStats>>> = ({ signal }) => getContentStats({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getContentStats>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetContentStatsQueryResult = NonNullable<Awaited<ReturnType<typeof getContentStats>>>
+export type GetContentStatsQueryError = ApiError
+
+
+export function useGetContentStats<TData = Awaited<ReturnType<typeof getContentStats>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContentStats>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getContentStats>>,
+          TError,
+          Awaited<ReturnType<typeof getContentStats>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetContentStats<TData = Awaited<ReturnType<typeof getContentStats>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContentStats>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getContentStats>>,
+          TError,
+          Awaited<ReturnType<typeof getContentStats>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetContentStats<TData = Awaited<ReturnType<typeof getContentStats>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContentStats>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 内容库统计：来源、知识点、chunk、答案块、先修边
+ */
+
+export function useGetContentStats<TData = Awaited<ReturnType<typeof getContentStats>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContentStats>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetContentStatsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
 
 export type getHealthResponse200 = {
   data: HealthResponse
@@ -406,6 +527,130 @@ export function useGetNode<TData = Awaited<ReturnType<typeof getNode>>, TError =
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetNodeQueryOptions(microKpId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getNodeSourcesResponse200 = {
+  data: NodeSourcesResponse
+  status: 200
+}
+
+export type getNodeSourcesResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getNodeSourcesResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getNodeSourcesResponseSuccess = (getNodeSourcesResponse200) & {
+  headers: Headers;
+};
+export type getNodeSourcesResponseError = (getNodeSourcesResponse404 | getNodeSourcesResponse500) & {
+  headers: Headers;
+};
+
+export type getNodeSourcesResponse = (getNodeSourcesResponseSuccess | getNodeSourcesResponseError)
+
+export const getGetNodeSourcesUrl = (microKpId: string,) => {
+
+
+
+
+  return `/api/v1/nodes/${microKpId}/sources`
+}
+
+/**
+ * @summary 某知识点的来源页与切片（用于核对内容可追溯）
+ */
+export const getNodeSources = async (microKpId: string, options?: Parameters<typeof customFetch>[1]): Promise<getNodeSourcesResponse> => {
+
+  return customFetch<getNodeSourcesResponse>(getGetNodeSourcesUrl(microKpId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetNodeSourcesQueryKey = (microKpId: string,) => {
+    return [
+    `/api/v1/nodes/${microKpId}/sources`
+    ] as const;
+    }
+
+
+export const getGetNodeSourcesQueryOptions = <TData = Awaited<ReturnType<typeof getNodeSources>>, TError = ApiError>(microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeSources>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetNodeSourcesQueryKey(microKpId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNodeSources>>> = ({ signal }) => getNodeSources(microKpId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: microKpId !== null && microKpId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getNodeSources>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetNodeSourcesQueryResult = NonNullable<Awaited<ReturnType<typeof getNodeSources>>>
+export type GetNodeSourcesQueryError = ApiError
+
+
+export function useGetNodeSources<TData = Awaited<ReturnType<typeof getNodeSources>>, TError = ApiError>(
+ microKpId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeSources>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNodeSources>>,
+          TError,
+          Awaited<ReturnType<typeof getNodeSources>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetNodeSources<TData = Awaited<ReturnType<typeof getNodeSources>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeSources>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNodeSources>>,
+          TError,
+          Awaited<ReturnType<typeof getNodeSources>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetNodeSources<TData = Awaited<ReturnType<typeof getNodeSources>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeSources>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 某知识点的来源页与切片（用于核对内容可追溯）
+ */
+
+export function useGetNodeSources<TData = Awaited<ReturnType<typeof getNodeSources>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNodeSources>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetNodeSourcesQueryOptions(microKpId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

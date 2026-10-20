@@ -27,13 +27,30 @@ if (!existsSync(join(root, '.env'))) {
   console.warn('⚠ 没有 .env，使用 .env.example 的默认值（本地 Postgres）');
 }
 
+// 本机没有 docker（daemon 不可用、`docker compose` 子命令也不存在），
+// 数据库是 scoop 装的 PostgreSQL 18。这一步是幂等的：已经在跑就立刻返回。
+// 不自动起数据库的话，重启机器后第一次 `pnpm dev` 会以
+// 「connect ECONNREFUSED 127.0.0.1:5432」失败，看起来像代码 bug。
+if (process.platform === 'win32' && existsSync(join(root, 'scripts', 'db-up.ps1'))) {
+  console.log('→ 确认本机 PostgreSQL 在运行…');
+  try {
+    execFileSync('pwsh', ['-NoProfile', '-File', join(root, 'scripts', 'db-up.ps1')], {
+      cwd: root,
+      stdio: 'inherit',
+    });
+  } catch {
+    console.warn('⚠ db-up.ps1 失败，继续尝试连数据库（可能你用的是别的 Postgres）');
+  }
+}
+
 console.log('→ 检查数据库并执行迁移…');
 try {
   execFileSync('pnpm', ['db:migrate'], { cwd: root, stdio: 'inherit', shell: process.platform === 'win32' });
 } catch {
   console.error(
     '\n✗ 迁移失败。请确认本机 PostgreSQL 已启动，且 .env 里的 DATABASE_URL 可连。\n' +
-      '  Windows（scoop 安装）：pg_ctl -D <数据目录> start\n' +
+      '  本机（scoop 安装）：pwsh -File scripts/db-up.ps1\n' +
+      '  其它环境：docker compose --profile container up -d\n' +
       '  或检查服务：Get-Service postgresql*',
   );
   process.exit(1);

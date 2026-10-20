@@ -19,6 +19,8 @@ import {
   HealthResponseSchema,
   NodeDetailResponseSchema,
   NodeListResponseSchema,
+  NodeSourcesResponseSchema,
+  ContentStatsResponseSchema,
   ApiErrorSchema,
 } from '../dist/index.js';
 
@@ -37,6 +39,8 @@ const components = {
   HealthResponse: jsonSchema(HealthResponseSchema),
   NodeListResponse: jsonSchema(NodeListResponseSchema),
   NodeDetailResponse: jsonSchema(NodeDetailResponseSchema),
+  NodeSourcesResponse: jsonSchema(NodeSourcesResponseSchema),
+  ContentStatsResponse: jsonSchema(ContentStatsResponseSchema),
   ApiError: jsonSchema(ApiErrorSchema),
 };
 
@@ -98,6 +102,59 @@ const openapi = {
           },
           '400': {
             description: '查询参数不合法',
+            content: {
+              'application/json': { schema: { $ref: '#/components/schemas/ApiError' } },
+            },
+          },
+          '500': {
+            description: '服务内部错误',
+            content: {
+              'application/json': { schema: { $ref: '#/components/schemas/ApiError' } },
+            },
+          },
+        },
+      },
+    },
+    '/api/v1/content/stats': {
+      get: {
+        operationId: 'getContentStats',
+        summary: '内容库统计：来源、知识点、chunk、答案块、先修边',
+        responses: {
+          '200': {
+            description: '统计结果',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ContentStatsResponse' },
+              },
+            },
+          },
+          '500': {
+            description: '服务内部错误',
+            content: {
+              'application/json': { schema: { $ref: '#/components/schemas/ApiError' } },
+            },
+          },
+        },
+      },
+    },
+    '/api/v1/nodes/{microKpId}/sources': {
+      get: {
+        operationId: 'getNodeSources',
+        summary: '某知识点的来源页与切片（用于核对内容可追溯）',
+        parameters: [
+          { name: 'microKpId', in: 'path', required: true, schema: { type: 'string' } },
+        ],
+        responses: {
+          '200': {
+            description: '来源页与切片',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/NodeSourcesResponse' },
+              },
+            },
+          },
+          '404': {
+            description: '节点不存在',
             content: {
               'application/json': { schema: { $ref: '#/components/schemas/ApiError' } },
             },

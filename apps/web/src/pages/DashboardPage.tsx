@@ -90,23 +90,42 @@ export function DashboardPage() {
 
       {nodes.payload && nodes.payload.items.length > 0 && (
         <div className={styles.grid}>
-          {nodes.payload.items.map((node) => (
-            <Card
-              key={node.microKpId}
-              className={styles.nodeCard}
-              onClick={() => navigate(`/map/${node.microKpId}`)}
-            >
-              <CardHeader
-                header={<Text weight="semibold">{node.name}</Text>}
-                description={
-                  <Text size={200}>
-                    {STATE_LABEL[node.state] ?? node.state}
-                    {node.percent === null ? ' · 证据不足' : ` · ${Math.round(node.percent * 100)}%`}
-                  </Text>
-                }
-              />
-            </Card>
-          ))}
+          {nodes.payload.items.map((node) => {
+            const label = `${node.name}，${STATE_LABEL[node.state] ?? node.state}${
+              node.percent === null ? '，证据不足' : `，${Math.round(node.percent * 100)}%`
+            }`;
+            const open = () => navigate(`/map/${node.microKpId}`);
+            return (
+              // Fluent 的 Card 只是 div。只加 onClick 的话，鼠标能点、键盘完全够不着
+              // —— 这是无障碍缺陷，不是外观问题。role/tabIndex/onKeyDown 三件都得给。
+              <Card
+                key={node.microKpId}
+                className={styles.nodeCard}
+                role="button"
+                tabIndex={0}
+                aria-label={label}
+                onClick={open}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    open();
+                  }
+                }}
+              >
+                <CardHeader
+                  header={<Text weight="semibold">{node.name}</Text>}
+                  description={
+                    <Text size={200}>
+                      {STATE_LABEL[node.state] ?? node.state}
+                      {node.percent === null
+                        ? ' · 证据不足'
+                        : ` · ${Math.round(node.percent * 100)}%`}
+                    </Text>
+                  }
+                />
+              </Card>
+            );
+          })}
         </div>
       )}
 

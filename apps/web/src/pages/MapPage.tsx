@@ -131,28 +131,39 @@ export function MapPage() {
 
       {nodes.payload && nodes.payload.items.length > 0 && (
         <div className={styles.canvas}>
-          {nodes.payload.items.map((node) => (
-            <div
-              key={node.microKpId}
-              className={styles.node}
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(`/map/${node.microKpId}`)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') navigate(`/map/${node.microKpId}`);
-              }}
-            >
-              <span className={styles.nodeName}>{node.name}</span>
-              <div className={styles.stateRow}>
-                <Badge appearance="tint" color={STATE_COLOR[node.state] ?? 'subtle'} size="small">
-                  {STATE_LABEL[node.state] ?? node.state}
-                </Badge>
-                <span className={styles.stateText}>
-                  {node.percent === null ? '证据不足' : `${Math.round(node.percent * 100)}%`}
-                </span>
+          {nodes.payload.items.map((node) => {
+            const label = `${node.name}，${STATE_LABEL[node.state] ?? node.state}，${
+              node.percent === null ? '证据不足' : `${Math.round(node.percent * 100)}%`
+            }`;
+            const open = () => navigate(`/map/${node.microKpId}`);
+            return (
+              <div
+                key={node.microKpId}
+                className={styles.node}
+                role="button"
+                tabIndex={0}
+                aria-label={label}
+                onClick={open}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    // 不 preventDefault 的话，空格会同时滚动页面
+                    e.preventDefault();
+                    open();
+                  }
+                }}
+              >
+                <span className={styles.nodeName}>{node.name}</span>
+                <div className={styles.stateRow}>
+                  <Badge appearance="tint" color={STATE_COLOR[node.state] ?? 'subtle'} size="small">
+                    {STATE_LABEL[node.state] ?? node.state}
+                  </Badge>
+                  <span className={styles.stateText}>
+                    {node.percent === null ? '证据不足' : `${Math.round(node.percent * 100)}%`}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

@@ -29,6 +29,53 @@ export const handlers = [
     }),
   ),
 
+  http.get('*/api/v1/content/stats', () =>
+    HttpResponse.json({
+      sources: [
+        {
+          id: 'digital-kanghua-5e',
+          title: '电子技术基础·数字部分（康华光 第5版）',
+          kind: 'book',
+          chunkCount: 3032,
+          answerChunkCount: 481,
+          pageFrom: 2,
+          pageTo: 536,
+        },
+      ],
+      knowledgePoints: { total: 215, leaves: 165 },
+      chunks: { total: 3032, byKind: { text: 2178, formula: 795, table: 59 } },
+      answers: 481,
+      edges: { total: 52, withEvidence: 52 },
+    }),
+  ),
+
+  http.get('*/api/v1/nodes/:id/sources', ({ params }) => {
+    if (params.id === 'kp-missing') {
+      return HttpResponse.json({ code: 'NOT_FOUND', message: '知识点不存在' }, { status: 404 });
+    }
+    return HttpResponse.json({
+      microKpId: params.id,
+      name: '布尔代数基本运算',
+      pages: [12, 13],
+      chunks: [
+        {
+          chunkId: 'ck-1',
+          kind: 'text',
+          page: 12,
+          isAnswer: false,
+          excerpt: '逻辑代数的基本运算有三种：与、或、非。',
+        },
+        {
+          chunkId: 'ck-2',
+          kind: 'formula',
+          page: 13,
+          isAnswer: true,
+          excerpt: 'A + A·B = A',
+        },
+      ],
+    });
+  }),
+
   http.get('*/api/v1/nodes/:id', ({ params }) => {
     if (params.id === 'kp-missing') {
       return HttpResponse.json({ code: 'NOT_FOUND', message: '知识点不存在' }, { status: 404 });

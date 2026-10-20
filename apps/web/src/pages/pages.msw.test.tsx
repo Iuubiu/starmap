@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { MemoryRouter, Route, Routes } from 'react-router';
@@ -55,6 +56,40 @@ describe('页面 × 真实请求（MSW）', () => {
     expect(screen.getByText('卡诺图化简')).toBeInTheDocument();
     // null 百分比的节点显示「证据不足」而不是 0%
     expect(screen.getByText(/证据不足/)).toBeInTheDocument();
+  });
+
+  /**
+   * 实测踩过的缺陷：Fluent 的 Card 只是个 div，只挂 onClick 的话鼠标能点、
+   * 键盘完全够不着 —— 用 Tab 走不到，回车也没反应。这是无障碍缺陷。
+   *
+   * 断言的是「回车之后到了详情页」，所以要在路由里放一个可识别的落点，
+   * 而不是断言 location（MemoryRouter 不写 window.location）。
+   */
+  it('看板知识点卡片键盘可达且回车能进去', async () => {
+    const user = userEvent.setup();
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    render(
+      <FluentProvider theme={webLightTheme}>
+        <QueryClientProvider client={client}>
+          <MemoryRouter initialEntries={['/']}>
+            <Routes>
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/map/:microKpId" element={<div>详情页落点</div>} />
+            </Routes>
+          </MemoryRouter>
+        </QueryClientProvider>
+      </FluentProvider>,
+    );
+
+    const card = await screen.findByRole('button', { name: /布尔代数基本运算/ });
+    // 能被 Tab 聚焦
+    expect(card).toHaveAttribute('tabindex', '0');
+    // 可访问名里带上状态与百分比，读屏用户不必猜
+    expect(card).toHaveAccessibleName(/布尔代数基本运算.*已熟悉.*66%/);
+
+    card.focus();
+    await user.keyboard('{Enter}');
+    await waitFor(() => expect(screen.getByText('详情页落点')).toBeInTheDocument());
   });
 
   it('接口 500 时显示错误态，不白屏也不显示旧数据', async () => {

@@ -8,6 +8,13 @@
 
 export * from './apiError.js';
 export * from './apiErrorCode.js';
+export * from './contentStatsResponse.js';
+export * from './contentStatsResponseChunks.js';
+export * from './contentStatsResponseChunksByKind.js';
+export * from './contentStatsResponseEdges.js';
+export * from './contentStatsResponseKnowledgePoints.js';
+export * from './contentStatsResponseSourcesItem.js';
+export * from './contentStatsResponseSourcesItemKind.js';
 export * from './healthResponse.js';
 export * from './listNodesParams.js';
 export * from './nodeDetailResponse.js';
@@ -18,3 +25,6 @@ export * from './nodeDetailResponseNodeState.js';
 export * from './nodeListResponse.js';
 export * from './nodeListResponseItemsItem.js';
 export * from './nodeListResponseItemsItemState.js';
+export * from './nodeSourcesResponse.js';
+export * from './nodeSourcesResponseChunksItem.js';
+export * from './nodeSourcesResponseChunksItemKind.js';

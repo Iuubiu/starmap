@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseService } from './db/database.service.js';
 import { NodesController } from './nodes/nodes.controller.js';
+import { ContentController } from './content/content.controller.js';
 import { LLM_PORT } from './llm/llm.port.js';
 import { OpenAiCompatibleLlm } from './llm/openai-compatible-llm.js';
 import { StarmapMastraModule } from './mastra/mastra.module.js';
@@ -15,7 +16,7 @@ import { StarmapMastraModule } from './mastra/mastra.module.js';
  */
 @Module({
   imports: [StarmapMastraModule.register()],
-  controllers: [NodesController],
+  controllers: [NodesController, ContentController],
   providers: [
     DatabaseService,
     {

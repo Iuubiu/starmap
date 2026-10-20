@@ -10,13 +10,20 @@ import {
   HealthResponseSchema,
   NodeDetailResponseSchema,
   NodeListResponseSchema,
+  NodeSourcesResponseSchema,
+  ContentStatsResponseSchema,
   ApiErrorSchema,
 } from '@starmap/api-contract';
 
+// 这张表必须与 packages/api-contract/scripts/gen-openapi.mjs 的 components 一致。
+// 少列一个 schema 的后果不是报错，而是「后端用了契约里没有的形状」这件事
+// 不被任何检查发现 —— 直到前端生成出来的类型对不上。
 const schemas = {
   HealthResponse: HealthResponseSchema,
   NodeListResponse: NodeListResponseSchema,
   NodeDetailResponse: NodeDetailResponseSchema,
+  NodeSourcesResponse: NodeSourcesResponseSchema,
+  ContentStatsResponse: ContentStatsResponseSchema,
   ApiError: ApiErrorSchema,
 };
 

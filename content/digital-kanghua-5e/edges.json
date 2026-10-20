@@ -1,0 +1,768 @@
+{
+  "summary": {
+    "edgeCount": 52,
+    "crossChapter": 25,
+    "withinChapter": 27,
+    "leavesTouched": 58,
+    "leafCount": 165,
+    "coverage": 0.3515
+  },
+  "edges": [
+    {
+      "fromId": "kp-1-2-1",
+      "toId": "kp-1-2-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "如果将式(1.2.1)中的10用字母R来代替，就可以得到",
+          "printedPage": 14,
+          "chunkId": "ck-digital-kanghua-5e-0036-01-30dc72471bad",
+          "ref": "式(1.2.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-1-2-2",
+      "toId": "kp-1-2-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "根据式(1.2.2),任意十六进制数可表达如下c(N)",
+          "printedPage": 20,
+          "chunkId": "ck-digital-kanghua-5e-0042-00-ec368a2bb1ac",
+          "ref": "式(1.2.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-1-3-1",
+      "toId": "kp-1-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "解：根据式(1.3.1)可知-N=(N)补-R”,所以8-",
+          "printedPage": 23,
+          "chunkId": "ck-digital-kanghua-5e-0045-06-0da4d77b7bae",
+          "ref": "式(1.3.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "码。对于无符号二进制数，同样可以利用式(1.3.1)进行补码的计算。当考虑负数情况时，",
+          "printedPage": 23,
+          "chunkId": "ck-digital-kanghua-5e-0045-06-0da4d77b7bae",
+          "ref": "式(1.3.1"
+        },
+        {
+          "kind": "节引用",
+          "quote": "进行加法运算。至于乘法和除法运算，从1.3.1节介绍知道，可以采用移位与加法或减法的",
+          "printedPage": 24,
+          "chunkId": "ck-digital-kanghua-5e-0046-05-ede3766bf831",
+          "ref": "1.3.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-1-4-1",
+      "toId": "kp-1-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "码，它的每1位没有一定的权值，不能用式(1.4.1)来表示其编码关系，但其编码可以由8",
+          "printedPage": 27,
+          "chunkId": "ck-digital-kanghua-5e-0049-04-7996555f18a7",
+          "ref": "式(1.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-1-4-2",
+      "toId": "kp-7-1-6",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": ".4所示(二进制码与格雷码的关系参阅1.4.2节的表1.4.2)。该ROM的容量至少",
+          "printedPage": 340,
+          "chunkId": "ck-digital-kanghua-5e-0362-00-e2bb5241c7a2",
+          "ref": "1.4.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-1-6",
+      "toId": "kp-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "根据1.6节介绍的方法，输入逻辑变量之间是与的关",
+          "printedPage": 131,
+          "chunkId": "ck-digital-kanghua-5e-0153-08-df29fe0ed850",
+          "ref": "1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-10-2-2",
+      "toId": "kp-10-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "1.语言描述下面仍然以10.2.2节的交通灯控制系统为例，说明用寄存器传",
+          "printedPage": 485,
+          "chunkId": "ck-digital-kanghua-5e-0507-01-04f7f69ae2aa",
+          "ref": "10.2.2节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "三个时间间隔和传感器S的条件控制，与10.2.2节所述情况相同，所以计数器的设计也相同",
+          "printedPage": 487,
+          "chunkId": "ck-digital-kanghua-5e-0509-02-c55850d76595",
+          "ref": "10.2.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-2-3-3",
+      "toId": "kp-4-6-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "erilog HDL描述组合逻辑电路2.3.3节介绍了模块的一般结构，模块是Veri",
+          "printedPage": 179,
+          "chunkId": "ck-digital-kanghua-5e-0201-05-f2503ed0a590",
+          "ref": "2.3.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-3-1-6",
+      "toId": "kp-3-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "3.逻辑门等效符号强调低电平有效在3.1.6节介绍三态门时，就涉及有效电平的概念。",
+          "printedPage": 110,
+          "chunkId": "ck-digital-kanghua-5e-0132-01-290c4139dc2d",
+          "ref": "3.1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-3-1-7",
+      "toId": "kp-3-6-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "平的要求，应将公式(3.1.7)中的VoH(mi)换成Vμ(m)进",
+          "printedPage": 113,
+          "chunkId": "ck-digital-kanghua-5e-0135-09-175005088c74",
+          "ref": "式(3.1.7"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-3-4",
+      "toId": "kp-p121-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "砷化镓逻辑门电路3.4.1  试计算3.4节介绍的两种砷化镓逻辑门电路的噪声容限",
+          "printedPage": 125,
+          "chunkId": "ck-digital-kanghua-5e-0147-04-5a5cadbad8f1",
+          "ref": "3.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-4-4-3",
+      "toId": "kp-7-1-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "据选择器的电路结构可参阅4.4.2～4.4.3节。",
+          "printedPage": 335,
+          "chunkId": "ck-digital-kanghua-5e-0357-03-802c21cc7d20",
+          "ref": "4.4.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-4-5-1",
+      "toId": "kp-6-7-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "时序电路由组合电路和存储单元组成。在4.5节中已讨论过组合PLD,在其与-或阵列",
+          "printedPage": 309,
+          "chunkId": "ck-digital-kanghua-5e-0331-02-41951d15692c",
+          "ref": "4.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-4-5-1",
+      "toId": "kp-7-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "另外，存储阵列也可采用4.5.1节介绍的带金属熔丝的二极管、SIMOS",
+          "printedPage": 336,
+          "chunkId": "ck-digital-kanghua-5e-0358-03-cc47e51ba64b",
+          "ref": "4.5.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-4-5-2",
+      "toId": "kp-6-7-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "时序电路由组合电路和存储单元组成。在4.5节中已讨论过组合PLD,在其与-或阵列",
+          "printedPage": 309,
+          "chunkId": "ck-digital-kanghua-5e-0331-02-41951d15692c",
+          "ref": "4.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-4-6-1",
+      "toId": "kp-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "rilog HDL描述时序逻辑电路在4.6节和5.5节分别介绍了用Verilog",
+          "printedPage": 302,
+          "chunkId": "ck-digital-kanghua-5e-0324-03-23f89738f225",
+          "ref": "4.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-4-6-2",
+      "toId": "kp-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "rilog HDL描述时序逻辑电路在4.6节和5.5节分别介绍了用Verilog",
+          "printedPage": 302,
+          "chunkId": "ck-digital-kanghua-5e-0324-03-23f89738f225",
+          "ref": "4.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-4-6-3",
+      "toId": "kp-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "rilog HDL描述时序逻辑电路在4.6节和5.5节分别介绍了用Verilog",
+          "printedPage": 302,
+          "chunkId": "ck-digital-kanghua-5e-0324-03-23f89738f225",
+          "ref": "4.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-2-2",
+      "toId": "kp-6-5-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从存储数据的角度看，5.2.2节所介绍的74HC/HCT373八D锁",
+          "printedPage": 280,
+          "chunkId": "ck-digital-kanghua-5e-0302-06-2cc0790ab029",
+          "ref": "5.2.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-1",
+      "toId": "kp-5-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "辑符号，特性Rn,方程也是一致的，即式(5.3.1)。",
+          "printedPage": 220,
+          "chunkId": "ck-digital-kanghua-5e-0242-03-b17946a533b0",
+          "ref": "式(5.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-1",
+      "toId": "kp-5-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在5.3节中以两种D触发器和一种JK触发器为例",
+          "printedPage": 225,
+          "chunkId": "ck-digital-kanghua-5e-0247-03-1cbd7ae60c87",
+          "ref": "5.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-1",
+      "toId": "kp-5-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "程Q\"+1= D(5.4.1)该式与5.3节中从触发器电路结构导出的式(5.3.",
+          "printedPage": 226,
+          "chunkId": "ck-digital-kanghua-5e-0248-05-ee8ab7bc30ec",
+          "ref": "5.3节"
+        },
+        {
+          "kind": "式引用",
+          "quote": "式与5.3节中从触发器电路结构导出的式(5.3.1)完全相同。",
+          "printedPage": 226,
+          "chunkId": "ck-digital-kanghua-5e-0248-05-ee8ab7bc30ec",
+          "ref": "式(5.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-2",
+      "toId": "kp-5-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在5.3节中以两种D触发器和一种JK触发器为例",
+          "printedPage": 225,
+          "chunkId": "ck-digital-kanghua-5e-0247-03-1cbd7ae60c87",
+          "ref": "5.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-2",
+      "toId": "kp-5-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "程Q\"+1= D(5.4.1)该式与5.3节中从触发器电路结构导出的式(5.3.",
+          "printedPage": 226,
+          "chunkId": "ck-digital-kanghua-5e-0248-05-ee8ab7bc30ec",
+          "ref": "5.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-3",
+      "toId": "kp-5-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在5.3节中以两种D触发器和一种JK触发器为例",
+          "printedPage": 225,
+          "chunkId": "ck-digital-kanghua-5e-0247-03-1cbd7ae60c87",
+          "ref": "5.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-3",
+      "toId": "kp-5-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "程Q\"+1= D(5.4.1)该式与5.3节中从触发器电路结构导出的式(5.3.",
+          "printedPage": 226,
+          "chunkId": "ck-digital-kanghua-5e-0248-05-ee8ab7bc30ec",
+          "ref": "5.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-4",
+      "toId": "kp-5-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "程Q\"+1= D(5.4.1)该式与5.3节中从触发器电路结构导出的式(5.3.",
+          "printedPage": 226,
+          "chunkId": "ck-digital-kanghua-5e-0248-05-ee8ab7bc30ec",
+          "ref": "5.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-3-4",
+      "toId": "kp-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "该时序与5.3.4节中所述D触发器相似。CP上升沿对D√",
+          "printedPage": 292,
+          "chunkId": "ck-digital-kanghua-5e-0314-10-dfb3e5955cb5",
+          "ref": "5.3.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-4-1",
+      "toId": "kp-5-4-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "较D触发器和JK触发器的特性方程，即式(5.4.1)和式(5.4.2),可以令D=J",
+          "printedPage": 230,
+          "chunkId": "ck-digital-kanghua-5e-0252-03-daa3b25133ff",
+          "ref": "式(5.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-4-1",
+      "toId": "kp-5-5-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "辑功能3.D触发器构成T'触发器比较式(5.4.1)和式(5.4.4)可得D=Q,于是",
+          "printedPage": 231,
+          "chunkId": "ck-digital-kanghua-5e-0253-02-725ae4bb1cde",
+          "ref": "式(5.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-4-2",
+      "toId": "kp-5-4-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "比较式(5.4.3)和式(5.4.2),如果令J=K=T,则两式等效。事",
+          "printedPage": 229,
+          "chunkId": "ck-digital-kanghua-5e-0251-01-6a8cb09e0f01",
+          "ref": "式(5.4.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-4-2",
+      "toId": "kp-5-4-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "发器的特性方程，即式(5.4.1)和式(5.4.2),可以令D=J Q+KQ(5.4.",
+          "printedPage": 230,
+          "chunkId": "ck-digital-kanghua-5e-0252-03-daa3b25133ff",
+          "ref": "式(5.4.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-4-2",
+      "toId": "kp-p237-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "5.4.2表达的逻辑关系，并将结果与式(5.4.2)核对。",
+          "printedPage": 240,
+          "chunkId": "ck-digital-kanghua-5e-0262-03-cebe63d1a1c9",
+          "ref": "式(5.4.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-4-3",
+      "toId": "kp-5-4-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "比较式(5.4.3)和式(5.4.2),如果令J=K=",
+          "printedPage": 229,
+          "chunkId": "ck-digital-kanghua-5e-0251-01-6a8cb09e0f01",
+          "ref": "式(5.4.3"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-4-4",
+      "toId": "kp-5-5-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "构成T'触发器比较式(5.4.1)和式(5.4.4)可得D=Q,于是，画出用D触发器构",
+          "printedPage": 231,
+          "chunkId": "ck-digital-kanghua-5e-0253-02-725ae4bb1cde",
+          "ref": "式(5.4.4"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-4-5",
+      "toId": "kp-6-5-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": ",将二者分别代入SR触发器的特性方程式(5.4.5),于是得Q^+1=S+RQ\"=D+",
+          "printedPage": 284,
+          "chunkId": "ck-digital-kanghua-5e-0306-04-d81ac318d00a",
+          "ref": "式(5.4.5"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-5-5-1",
+      "toId": "kp-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "HDL描述时序逻辑电路在4.6节和5.5节分别介绍了用Verilog描述组合电",
+          "printedPage": 302,
+          "chunkId": "ck-digital-kanghua-5e-0324-03-23f89738f225",
+          "ref": "5.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-3-1",
+      "toId": "kp-6-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "，因此设计过程较简单，没有必要拘泥于6.3.1节所述的设计步骤。",
+          "printedPage": 263,
+          "chunkId": "ck-digital-kanghua-5e-0285-03-c2d111923f8c",
+          "ref": "6.3.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-5-1",
+      "toId": "kp-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "使能端CE=1时，式(6.5.2)与式(6.5.1)所表达的意义是一致的。",
+          "printedPage": 289,
+          "chunkId": "ck-digital-kanghua-5e-0311-00-4edf7b37faf0",
+          "ref": "式(6.5.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-6-1",
+      "toId": "kp-p318-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "□本章分别在6.6节和6.7节介绍了用Verilog描述",
+          "printedPage": 318,
+          "chunkId": "ck-digital-kanghua-5e-0340-05-2e68939f5d05",
+          "ref": "6.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-6-2",
+      "toId": "kp-p318-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "□本章分别在6.6节和6.7节介绍了用Verilog描述",
+          "printedPage": 318,
+          "chunkId": "ck-digital-kanghua-5e-0340-05-2e68939f5d05",
+          "ref": "6.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-6-3",
+      "toId": "kp-p318-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "□本章分别在6.6节和6.7节介绍了用Verilog描述",
+          "printedPage": 318,
+          "chunkId": "ck-digital-kanghua-5e-0340-05-2e68939f5d05",
+          "ref": "6.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-7-1",
+      "toId": "kp-7-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "中逻辑块①就相当于一个GAL器件(见6.7节),CPLD中有多个逻辑块，这些逻辑",
+          "printedPage": 357,
+          "chunkId": "ck-digital-kanghua-5e-0379-00-bd7b901aecd9",
+          "ref": "6.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-7-1",
+      "toId": "kp-p318-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "□本章分别在6.6节和6.7节介绍了用Verilog描述时序电路的",
+          "printedPage": 318,
+          "chunkId": "ck-digital-kanghua-5e-0340-05-2e68939f5d05",
+          "ref": "6.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-7-2",
+      "toId": "kp-7-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "中逻辑块①就相当于一个GAL器件(见6.7节),CPLD中有多个逻辑块，这些逻辑",
+          "printedPage": 357,
+          "chunkId": "ck-digital-kanghua-5e-0379-00-bd7b901aecd9",
+          "ref": "6.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-7-2",
+      "toId": "kp-p318-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "□本章分别在6.6节和6.7节介绍了用Verilog描述时序电路的",
+          "printedPage": 318,
+          "chunkId": "ck-digital-kanghua-5e-0340-05-2e68939f5d05",
+          "ref": "6.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-7-3",
+      "toId": "kp-7-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "中逻辑块①就相当于一个GAL器件(见6.7节),CPLD中有多个逻辑块，这些逻辑",
+          "printedPage": 357,
+          "chunkId": "ck-digital-kanghua-5e-0379-00-bd7b901aecd9",
+          "ref": "6.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-6-7-3",
+      "toId": "kp-p318-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "□本章分别在6.6节和6.7节介绍了用Verilog描述时序电路的",
+          "printedPage": 318,
+          "chunkId": "ck-digital-kanghua-5e-0340-05-2e68939f5d05",
+          "ref": "6.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-7-1-6",
+      "toId": "kp-7-4-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "M。SRAM实现组合逻辑函数的原理与7.1.6节ROM的实现原理相同。例如，要实现逻",
+          "printedPage": 363,
+          "chunkId": "ck-digital-kanghua-5e-0385-02-9cf8707d5f31",
+          "ref": "7.1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-7-4-2",
+      "toId": "kp-7-4-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "PGA编程简介1.配置(编程)数据由7.4.2节介绍看出，FPGA中的CLB、IOB",
+          "printedPage": 373,
+          "chunkId": "ck-digital-kanghua-5e-0395-05-58ebb24777a6",
+          "ref": "7.4.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-8-1-1",
+      "toId": "kp-8-1-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "组成微分型单稳态触发器，其工作原理与8.1.1节所介绍的微分型单稳态触发器相似。电路",
+          "printedPage": 394,
+          "chunkId": "ck-digital-kanghua-5e-0416-00-622361cdeb9e",
+          "ref": "8.1.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-9-2-2",
+      "toId": "kp-9-2-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "入电压在T,时间间隔内的平均值，则由式(9.2.2)可得第一次积分结束时积分器的输出电",
+          "printedPage": 455,
+          "chunkId": "ck-digital-kanghua-5e-0477-00-0eb0d9133d0c",
+          "ref": "式(9.2.2"
+        }
+      ]
+    }
+  ]
+}

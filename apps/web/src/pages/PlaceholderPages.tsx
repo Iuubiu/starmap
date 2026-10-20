@@ -74,17 +74,6 @@ export function PlaceholderPage({
   );
 }
 
-export function DatabasePage() {
-  return (
-    <PlaceholderPage
-      title="数据库"
-      purpose="浏览知识点、题目、作答记录与检索索引；带一个检索调试器，能看到每次检索命中了哪些片段、哪些因为答案块门控被排除。"
-      emptyReason="数据浏览器与检索调试器尚未实现。"
-      ticket="票 09"
-    />
-  );
-}
-
 export function SkillsPage() {
   return (
     <PlaceholderPage
