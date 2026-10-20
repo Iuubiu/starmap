@@ -1,1941 +1,2437 @@
 {
   "sourceId": "digital-kanghua-5e",
-  "nodeCount": 215,
+  "nodeCount": 221,
   "nodes": [
     {
-      "microKpId": "kp-1",
+      "microKpId": "kp-kanghua-5e-1",
       "name": "数字逻辑概论",
       "num": "1",
       "printedPage": 1,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1",
+      "microKpId": "kp-kanghua-5e-1-1",
       "name": "数字电路与数字信号",
       "num": "1.1",
       "printedPage": 2,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-1",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-1",
+      "microKpId": "kp-kanghua-5e-1-1-1",
       "name": "数字技术的发展及其应用",
       "num": "1.1.1",
       "printedPage": 2,
       "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-2",
+      "microKpId": "kp-kanghua-5e-1-1-2",
       "name": "数字集成电路的分类及特点",
       "num": "1.1.2",
       "printedPage": 4,
       "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-3",
+      "microKpId": "kp-kanghua-5e-1-1-3",
       "name": "模拟信号和数字信号",
       "num": "1.1.3",
       "printedPage": 7,
       "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-4",
+      "microKpId": "kp-kanghua-5e-1-1-4",
       "name": "数字信号的描述方法",
       "num": "1.1.4",
       "printedPage": 9,
       "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-2",
+      "microKpId": "kp-kanghua-5e-1-2",
       "name": "数制",
       "num": "1.2",
       "printedPage": 13,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-1",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-2-1",
+      "microKpId": "kp-kanghua-5e-1-2-1",
       "name": "十进制",
       "num": "1.2.1",
       "printedPage": 13,
       "depth": 3,
-      "parentId": "kp-1-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-2-2",
+      "microKpId": "kp-kanghua-5e-1-2-2",
       "name": "二进制",
       "num": "1.2.2",
       "printedPage": 14,
       "depth": 3,
-      "parentId": "kp-1-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-2-3",
+      "microKpId": "kp-kanghua-5e-1-2-3",
       "name": "十-二进制之间的转换",
       "num": "1.2.3",
       "printedPage": 17,
       "depth": 3,
-      "parentId": "kp-1-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-2-4",
+      "microKpId": "kp-kanghua-5e-1-2-4",
       "name": "十六进制和八进制",
       "num": "1.2.4",
       "printedPage": 19,
       "depth": 3,
-      "parentId": "kp-1-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-3",
+      "microKpId": "kp-kanghua-5e-1-3",
       "name": "二进制数的算术运算",
       "num": "1.3",
       "printedPage": 21,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-1",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-3-1",
+      "microKpId": "kp-kanghua-5e-1-3-1",
       "name": "无符号二进制数的算术运算",
       "num": "1.3.1",
       "printedPage": 21,
       "depth": 3,
-      "parentId": "kp-1-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-3-2",
+      "microKpId": "kp-kanghua-5e-1-3-2",
       "name": "带符号二进制数的减法运算",
       "num": "1.3.2",
       "printedPage": 23,
       "depth": 3,
-      "parentId": "kp-1-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-4",
+      "microKpId": "kp-kanghua-5e-1-4",
       "name": "二进制代码",
       "num": "1.4",
       "printedPage": 25,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-1",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-4-1",
+      "microKpId": "kp-kanghua-5e-1-4-1",
       "name": "二-十进制码",
       "num": "1.4.1",
       "printedPage": 26,
       "depth": 3,
-      "parentId": "kp-1-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-4-2",
+      "microKpId": "kp-kanghua-5e-1-4-2",
       "name": "格雷码",
       "num": "1.4.2",
       "printedPage": 27,
       "depth": 3,
-      "parentId": "kp-1-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-4-3",
+      "microKpId": "kp-kanghua-5e-1-4-3",
       "name": "ASCⅡI码",
       "num": "1.4.3",
       "printedPage": 28,
       "depth": 3,
-      "parentId": "kp-1-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-5",
+      "microKpId": "kp-kanghua-5e-1-5",
       "name": "二值逻辑变量与基本逻辑运算",
       "num": "1.5",
       "printedPage": 29,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-6",
+      "microKpId": "kp-kanghua-5e-1-6",
       "name": "逻辑函数及其表示方法",
       "num": "1.6",
       "printedPage": 33,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p35-小结",
+      "microKpId": "kp-kanghua-5e-p35-小结",
       "name": "小结",
       "num": "",
       "printedPage": 35,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p36-习题",
+      "microKpId": "kp-kanghua-5e-p36-习题",
       "name": "习题",
       "num": "",
       "printedPage": 36,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-1",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2",
+      "microKpId": "kp-kanghua-5e-2",
       "name": "逻辑代数与硬件描述语言基础",
       "num": "2",
       "printedPage": 39,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-1",
+      "microKpId": "kp-kanghua-5e-2-1",
       "name": "逻辑代数",
       "num": "2.1",
       "printedPage": 40,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-2",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-1-1",
+      "microKpId": "kp-kanghua-5e-2-1-1",
       "name": "逻辑代数的基本定律和恒等式",
       "num": "2.1.1",
       "printedPage": 40,
       "depth": 3,
-      "parentId": "kp-2-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-1-2",
+      "microKpId": "kp-kanghua-5e-2-1-2",
       "name": "逻辑代数的基本规则",
       "num": "2.1.2",
       "printedPage": 41,
       "depth": 3,
-      "parentId": "kp-2-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-1-3",
+      "microKpId": "kp-kanghua-5e-2-1-3",
       "name": "逻辑函数的代数化简法",
       "num": "2.1.3",
       "printedPage": 42,
       "depth": 3,
-      "parentId": "kp-2-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-2",
+      "microKpId": "kp-kanghua-5e-2-2",
       "name": "逻辑函数的卡诺图化简法",
       "num": "2.2",
       "printedPage": 46,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-2",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-2-1",
+      "microKpId": "kp-kanghua-5e-2-2-1",
       "name": "最小项的定义及其性质",
       "num": "2.2.1",
       "printedPage": 46,
       "depth": 3,
-      "parentId": "kp-2-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-2-2",
+      "microKpId": "kp-kanghua-5e-2-2-2",
       "name": "逻辑函数的最小项表达式",
       "num": "2.2.2",
       "printedPage": 47,
       "depth": 3,
-      "parentId": "kp-2-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-2-3",
+      "microKpId": "kp-kanghua-5e-2-2-3",
       "name": "用卡诺图表示逻辑函数",
       "num": "2.2.3",
       "printedPage": 48,
       "depth": 3,
-      "parentId": "kp-2-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-2-4",
+      "microKpId": "kp-kanghua-5e-2-2-4",
       "name": "用卡诺图化简逻辑函数",
       "num": "2.2.4",
       "printedPage": 52,
       "depth": 3,
-      "parentId": "kp-2-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-3",
+      "microKpId": "kp-kanghua-5e-2-3",
       "name": "硬件描述语言Verilog HDL基础",
       "num": "2.3",
       "printedPage": 56,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-2",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-3-1",
+      "microKpId": "kp-kanghua-5e-2-3-1",
       "name": "Verilog的基本语法规则",
       "num": "2.3.1",
       "printedPage": 57,
       "depth": 3,
-      "parentId": "kp-2-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-3-2",
+      "microKpId": "kp-kanghua-5e-2-3-2",
       "name": "变量的数据类型",
       "num": "2.3.2",
       "printedPage": 59,
       "depth": 3,
-      "parentId": "kp-2-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-3-3",
+      "microKpId": "kp-kanghua-5e-2-3-3",
       "name": "Verilog程序的基本结构",
       "num": "2.3.3",
       "printedPage": 61,
       "depth": 3,
-      "parentId": "kp-2-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-3-4",
+      "microKpId": "kp-kanghua-5e-2-3-4",
       "name": "逻辑功能的仿真与测试",
       "num": "2.3.4",
       "printedPage": 63,
       "depth": 3,
-      "parentId": "kp-2-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p64-小结",
+      "microKpId": "kp-kanghua-5e-p64-小结",
       "name": "小结",
       "num": "",
       "printedPage": 64,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p64-习题",
+      "microKpId": "kp-kanghua-5e-p64-习题",
       "name": "习题",
       "num": "",
       "printedPage": 64,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-2",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3",
+      "microKpId": "kp-kanghua-5e-3",
       "name": "逻辑门电路",
       "num": "3",
       "printedPage": 67,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1",
+      "microKpId": "kp-kanghua-5e-3-1",
       "name": "MOS逻辑门电路",
       "num": "3.1",
       "printedPage": 68,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-1",
+      "microKpId": "kp-kanghua-5e-3-1-1",
       "name": "数字集成电路简介",
       "num": "3.1.1",
       "printedPage": 68,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-2",
+      "microKpId": "kp-kanghua-5e-3-1-2",
       "name": "逻辑电路的一般特性",
       "num": "3.1.2",
       "printedPage": 70,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-3",
+      "microKpId": "kp-kanghua-5e-3-1-3",
       "name": "MOS开关及其等效电路",
       "num": "3.1.3",
       "printedPage": 75,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-4",
+      "microKpId": "kp-kanghua-5e-3-1-4",
       "name": "CMOS反相器",
       "num": "3.1.4",
       "printedPage": 76,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-5",
+      "microKpId": "kp-kanghua-5e-3-1-5",
       "name": "CMOS逻辑门电路",
       "num": "3.1.5",
       "printedPage": 79,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-6",
+      "microKpId": "kp-kanghua-5e-3-1-6",
       "name": "CMOS漏极开路门和三态输出门电路",
       "num": "3.1.6",
       "printedPage": 82,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-7",
+      "microKpId": "kp-kanghua-5e-3-1-7",
       "name": "CMOS传输门",
       "num": "3.1.7",
       "printedPage": 88,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-8",
+      "microKpId": "kp-kanghua-5e-3-1-8",
       "name": "CMOS逻辑门电路的技术参数",
       "num": "3.1.8",
       "printedPage": 90,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-1-9",
+      "microKpId": "kp-kanghua-5e-3-1-9",
       "name": "NMOS门电路",
       "num": "3.1.9",
       "printedPage": 91,
       "depth": 3,
-      "parentId": "kp-3-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-2",
+      "microKpId": "kp-kanghua-5e-3-2",
       "name": "TTL逻辑门电路",
       "num": "3.2",
       "printedPage": 93,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-2-1",
+      "microKpId": "kp-kanghua-5e-3-2-1",
       "name": "BJT的开关特性",
       "num": "3.2.1",
       "printedPage": 93,
       "depth": 3,
-      "parentId": "kp-3-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-2-2",
+      "microKpId": "kp-kanghua-5e-3-2-2",
       "name": "基本BJT反相器的动态性能",
       "num": "3.2.2",
       "printedPage": 95,
       "depth": 3,
-      "parentId": "kp-3-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-2-3",
+      "microKpId": "kp-kanghua-5e-3-2-3",
       "name": "TTL反相器的基本电路",
       "num": "3.2.3",
       "printedPage": 96,
       "depth": 3,
-      "parentId": "kp-3-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-2-4",
+      "microKpId": "kp-kanghua-5e-3-2-4",
       "name": "TTL逻辑门电路",
       "num": "3.2.4",
       "printedPage": 97,
       "depth": 3,
-      "parentId": "kp-3-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-2-5",
+      "microKpId": "kp-kanghua-5e-3-2-5",
       "name": "集电极开路门和三态门电路",
       "num": "3.2.5",
       "printedPage": 98,
       "depth": 3,
-      "parentId": "kp-3-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-2-6",
+      "microKpId": "kp-kanghua-5e-3-2-6",
       "name": "BiCMOS门电路",
       "num": "3.2.6",
       "printedPage": 99,
       "depth": 3,
-      "parentId": "kp-3-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-2-7",
+      "microKpId": "kp-kanghua-5e-3-2-7",
       "name": "改进型TTL门电路---抗饱和TTL电路",
       "num": "3.2.7",
       "printedPage": 100,
       "depth": 3,
-      "parentId": "kp-3-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-3",
+      "microKpId": "kp-kanghua-5e-3-3",
       "name": "射极耦合逻辑门电路",
       "num": "3.3",
       "printedPage": 102,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-4",
+      "microKpId": "kp-kanghua-5e-3-4",
       "name": "砷化镓逻辑门电路",
       "num": "3.4",
       "printedPage": 105,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-5",
+      "microKpId": "kp-kanghua-5e-3-5",
       "name": "逻辑描述中的几个问题",
       "num": "3.5",
       "printedPage": 107,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-5-1",
+      "microKpId": "kp-kanghua-5e-3-5-1",
       "name": "正负逻辑问题",
       "num": "3.5.1",
       "printedPage": 107,
       "depth": 3,
-      "parentId": "kp-3-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-5-2",
+      "microKpId": "kp-kanghua-5e-3-5-2",
       "name": "基本逻辑门电路的等效符号及其应用",
       "num": "3.5.2",
       "printedPage": 108,
       "depth": 3,
-      "parentId": "kp-3-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-6",
+      "microKpId": "kp-kanghua-5e-3-6",
       "name": "逻辑门电路使用中的几个实际问题",
       "num": "3.6",
       "printedPage": 112,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-6-1",
+      "microKpId": "kp-kanghua-5e-3-6-1",
       "name": "各种门电路之间的接口问题",
       "num": "3.6.1",
       "printedPage": 112,
       "depth": 3,
-      "parentId": "kp-3-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-6-2",
+      "microKpId": "kp-kanghua-5e-3-6-2",
       "name": "门电路带负载时的接口电路",
       "num": "3.6.2",
       "printedPage": 115,
       "depth": 3,
-      "parentId": "kp-3-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-6-3",
+      "microKpId": "kp-kanghua-5e-3-6-3",
       "name": "抗干扰措施",
       "num": "3.6.3",
       "printedPage": 116,
       "depth": 3,
-      "parentId": "kp-3-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-7",
+      "microKpId": "kp-kanghua-5e-3-7",
       "name": "用Verilog HDL描述逻辑门电路",
       "num": "3.7",
       "printedPage": 117,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-7-1",
+      "microKpId": "kp-kanghua-5e-3-7-1",
       "name": "CMOS门电路的Verilog建模",
       "num": "3.7.1",
       "printedPage": 118,
       "depth": 3,
-      "parentId": "kp-3-7",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-7",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-7-2",
+      "microKpId": "kp-kanghua-5e-3-7-2",
       "name": "CMOS传输门电路的Verilog建模",
       "num": "3.7.2",
       "printedPage": 119,
       "depth": 3,
-      "parentId": "kp-3-7",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3-7",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p120-小结",
+      "microKpId": "kp-kanghua-5e-p120-小结",
       "name": "小结",
       "num": "",
       "printedPage": 120,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p121-习题",
+      "microKpId": "kp-kanghua-5e-p121-习题",
       "name": "习题",
       "num": "",
       "printedPage": 121,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-3",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4",
+      "microKpId": "kp-kanghua-5e-4",
       "name": "组合逻辑电路",
       "num": "4",
       "printedPage": 127,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-1",
+      "microKpId": "kp-kanghua-5e-4-1",
       "name": "组合逻辑电路的分析",
       "num": "4.1",
       "printedPage": 128,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-2",
+      "microKpId": "kp-kanghua-5e-4-2",
       "name": "组合逻辑电路的设计",
       "num": "4.2",
       "printedPage": 130,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-3",
+      "microKpId": "kp-kanghua-5e-4-3",
       "name": "组合逻辑电路中的竞争冒险",
       "num": "4.3",
       "printedPage": 133,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-4",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-3-1",
+      "microKpId": "kp-kanghua-5e-4-3-1",
       "name": "产生竞争冒险的原因",
       "num": "4.3.1",
       "printedPage": 134,
       "depth": 3,
-      "parentId": "kp-4-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-3-2",
+      "microKpId": "kp-kanghua-5e-4-3-2",
       "name": "消去竞争冒险的方法",
       "num": "4.3.2",
       "printedPage": 135,
       "depth": 3,
-      "parentId": "kp-4-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-4",
+      "microKpId": "kp-kanghua-5e-4-4",
       "name": "若干典型的组合逻辑集成电路",
       "num": "4.4",
       "printedPage": 137,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-4",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-4-1",
+      "microKpId": "kp-kanghua-5e-4-4-1",
       "name": "编码器",
       "num": "4.4.1",
       "printedPage": 137,
       "depth": 3,
-      "parentId": "kp-4-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-4-2",
+      "microKpId": "kp-kanghua-5e-4-4-2",
       "name": "译码器/数据分配器",
       "num": "4.4.2",
       "printedPage": 143,
       "depth": 3,
-      "parentId": "kp-4-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-4-3",
+      "microKpId": "kp-kanghua-5e-4-4-3",
       "name": "数据选择器",
       "num": "4.4.3",
       "printedPage": 153,
       "depth": 3,
-      "parentId": "kp-4-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-4-4",
+      "microKpId": "kp-kanghua-5e-4-4-4",
       "name": "数值比较器",
       "num": "4.4.4",
       "printedPage": 158,
       "depth": 3,
-      "parentId": "kp-4-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-4-5",
+      "microKpId": "kp-kanghua-5e-4-4-5",
       "name": "算术运算电路",
       "num": "4.4.5",
       "printedPage": 161,
       "depth": 3,
-      "parentId": "kp-4-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-5",
+      "microKpId": "kp-kanghua-5e-4-5",
       "name": "组合可编程逻辑器件",
       "num": "4.5",
       "printedPage": 171,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-4",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-5-1",
+      "microKpId": "kp-kanghua-5e-4-5-1",
       "name": "PLD的结构、表示方法及分类",
       "num": "4.5.1",
       "printedPage": 171,
       "depth": 3,
-      "parentId": "kp-4-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-5-2",
+      "microKpId": "kp-kanghua-5e-4-5-2",
       "name": "组合逻辑电路的PLD实现",
       "num": "4.5.2",
       "printedPage": 177,
       "depth": 3,
-      "parentId": "kp-4-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-6",
+      "microKpId": "kp-kanghua-5e-4-6",
       "name": "用Verilog HDL描述组合逻辑电路",
       "num": "4.6",
       "printedPage": 179,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-4",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-6-1",
+      "microKpId": "kp-kanghua-5e-4-6-1",
       "name": "组合逻辑电路的门级建模",
       "num": "4.6.1",
       "printedPage": 179,
       "depth": 3,
-      "parentId": "kp-4-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-6-2",
+      "microKpId": "kp-kanghua-5e-4-6-2",
       "name": "组合逻辑电路的数据流建模",
       "num": "4.6.2",
       "printedPage": 185,
       "depth": 3,
-      "parentId": "kp-4-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-6-3",
+      "microKpId": "kp-kanghua-5e-4-6-3",
       "name": "组合逻辑电路的行为级建模",
       "num": "4.6.3",
       "printedPage": 188,
       "depth": 3,
-      "parentId": "kp-4-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p191-小结",
+      "microKpId": "kp-kanghua-5e-p191-小结",
       "name": "小结",
       "num": "",
       "printedPage": 191,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p192-习题",
+      "microKpId": "kp-kanghua-5e-p192-习题",
       "name": "习题",
       "num": "",
       "printedPage": 192,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-4",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5",
+      "microKpId": "kp-kanghua-5e-5",
       "name": "锁存器和触发器",
       "num": "5",
       "printedPage": 202,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-1",
+      "microKpId": "kp-kanghua-5e-5-1",
       "name": "双稳态存储单元电路",
       "num": "5.1",
       "printedPage": 203,
       "depth": 2,
-      "parentId": "kp-5",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-5",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-1-1",
+      "microKpId": "kp-kanghua-5e-5-1-1",
       "name": "双稳态的概念",
       "num": "5.1.1",
       "printedPage": 203,
       "depth": 3,
-      "parentId": "kp-5-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-1-2",
+      "microKpId": "kp-kanghua-5e-5-1-2",
       "name": "双稳态存储单元电路",
       "num": "5.1.2",
       "printedPage": 203,
       "depth": 3,
-      "parentId": "kp-5-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-2",
+      "microKpId": "kp-kanghua-5e-5-2",
       "name": "锁存器",
       "num": "5.2",
       "printedPage": 205,
       "depth": 2,
-      "parentId": "kp-5",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-5",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-2-1",
+      "microKpId": "kp-kanghua-5e-5-2-1",
       "name": "SR锁存器",
       "num": "5.2.1",
       "printedPage": 206,
       "depth": 3,
-      "parentId": "kp-5-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-2-2",
+      "microKpId": "kp-kanghua-5e-5-2-2",
       "name": "D锁存器",
       "num": "5.2.2",
       "printedPage": 211,
       "depth": 3,
-      "parentId": "kp-5-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-3",
+      "microKpId": "kp-kanghua-5e-5-3",
       "name": "触发器的电路结构和工作原理",
       "num": "5.3",
       "printedPage": 216,
       "depth": 2,
-      "parentId": "kp-5",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-5",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-3-1",
+      "microKpId": "kp-kanghua-5e-5-3-1",
       "name": "主从触发器",
       "num": "5.3.1",
       "printedPage": 217,
       "depth": 3,
-      "parentId": "kp-5-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-3-2",
+      "microKpId": "kp-kanghua-5e-5-3-2",
       "name": "维持阻塞触发器",
       "num": "5.3.2",
       "printedPage": 219,
       "depth": 3,
-      "parentId": "kp-5-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-3-3",
+      "microKpId": "kp-kanghua-5e-5-3-3",
       "name": "利用传输延迟的触发器",
       "num": "5.3.3",
       "printedPage": 221,
       "depth": 3,
-      "parentId": "kp-5-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-3-4",
+      "microKpId": "kp-kanghua-5e-5-3-4",
       "name": "触发器的动态特性",
       "num": "5.3.4",
       "printedPage": 223,
       "depth": 3,
-      "parentId": "kp-5-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-4",
+      "microKpId": "kp-kanghua-5e-5-4",
       "name": "触发器的逻辑功能",
       "num": "5.4",
       "printedPage": 225,
       "depth": 2,
-      "parentId": "kp-5",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-5",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-4-1",
+      "microKpId": "kp-kanghua-5e-5-4-1",
       "name": "D触发器",
       "num": "5.4.1",
       "printedPage": 226,
       "depth": 3,
-      "parentId": "kp-5-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-4-2",
+      "microKpId": "kp-kanghua-5e-5-4-2",
       "name": "JK触发器",
       "num": "5.4.2",
       "printedPage": 226,
       "depth": 3,
-      "parentId": "kp-5-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-4-3",
+      "microKpId": "kp-kanghua-5e-5-4-3",
       "name": "T触发器",
       "num": "5.4.3",
       "printedPage": 228,
       "depth": 3,
-      "parentId": "kp-5-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-4-4",
+      "microKpId": "kp-kanghua-5e-5-4-4",
       "name": "SR触发器",
       "num": "5.4.4",
       "printedPage": 229,
       "depth": 3,
-      "parentId": "kp-5-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-4-5",
+      "microKpId": "kp-kanghua-5e-5-4-5",
       "name": "D触发器功能的转换",
       "num": "5.4.5",
       "printedPage": 230,
       "depth": 3,
-      "parentId": "kp-5-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-5",
+      "microKpId": "kp-kanghua-5e-5-5",
       "name": "用Verilog HDL描述锁存器和触发器",
       "num": "5.5",
       "printedPage": 231,
       "depth": 2,
-      "parentId": "kp-5",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-5",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5-5-1",
+      "microKpId": "kp-kanghua-5e-5-5-1",
       "name": "时序电路建模基础",
       "num": "5.5.1",
       "printedPage": 231,
       "depth": 3,
-      "parentId": "kp-5-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p237-小结",
+      "microKpId": "kp-kanghua-5e-p237-小结",
       "name": "小结",
       "num": "",
       "printedPage": 237,
       "depth": 2,
-      "parentId": "kp-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p237-习题",
+      "microKpId": "kp-kanghua-5e-p237-习题",
       "name": "习题",
       "num": "",
       "printedPage": 237,
       "depth": 2,
-      "parentId": "kp-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-5",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6",
+      "microKpId": "kp-kanghua-5e-6",
       "name": "时序逻辑电路",
       "num": "6",
       "printedPage": 245,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-1",
+      "microKpId": "kp-kanghua-5e-6-1",
       "name": "时序逻辑电路的基本概念",
       "num": "6.1",
       "printedPage": 246,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-1-1",
+      "microKpId": "kp-kanghua-5e-6-1-1",
       "name": "时序逻辑电路的模型与分类",
       "num": "6.1.1",
       "printedPage": 246,
       "depth": 3,
-      "parentId": "kp-6-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-1-2",
+      "microKpId": "kp-kanghua-5e-6-1-2",
       "name": "时序电路逻辑功能的表达",
       "num": "6.1.2",
       "printedPage": 248,
       "depth": 3,
-      "parentId": "kp-6-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-2",
+      "microKpId": "kp-kanghua-5e-6-2",
       "name": "同步时序逻辑电路的分析",
       "num": "6.2",
       "printedPage": 252,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-2-1",
+      "microKpId": "kp-kanghua-5e-6-2-1",
       "name": "分析同步时序逻辑电路的一般步骤",
       "num": "6.2.1",
       "printedPage": 252,
       "depth": 3,
-      "parentId": "kp-6-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-2-2",
+      "microKpId": "kp-kanghua-5e-6-2-2",
       "name": "同步时序逻辑电路分析举例",
       "num": "6.2.2",
       "printedPage": 252,
       "depth": 3,
-      "parentId": "kp-6-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-3",
+      "microKpId": "kp-kanghua-5e-6-3",
       "name": "同步时序逻辑电路的设计",
       "num": "6.3",
       "printedPage": 260,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-3-1",
+      "microKpId": "kp-kanghua-5e-6-3-1",
       "name": "设计同步时序逻辑电路的一般步骤",
       "num": "6.3.1",
       "printedPage": 260,
       "depth": 3,
-      "parentId": "kp-6-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-3-2",
+      "microKpId": "kp-kanghua-5e-6-3-2",
       "name": "同步时序逻辑电路设计举例",
       "num": "6.3.2",
       "printedPage": 263,
       "depth": 3,
-      "parentId": "kp-6-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-4",
+      "microKpId": "kp-kanghua-5e-6-4",
       "name": "异步时序逻辑电路的分析",
       "num": "6.4",
       "printedPage": 274,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-5",
+      "microKpId": "kp-kanghua-5e-6-5",
       "name": "若干典型的时序逻辑集成电路",
       "num": "6.5",
       "printedPage": 279,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-5-1",
+      "microKpId": "kp-kanghua-5e-6-5-1",
       "name": "寄存器和移位寄存器",
       "num": "6.5.1",
       "printedPage": 279,
       "depth": 3,
-      "parentId": "kp-6-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-5-2",
+      "microKpId": "kp-kanghua-5e-6-5-2",
       "name": "计数器",
       "num": "6.5.2",
       "printedPage": 286,
       "depth": 3,
-      "parentId": "kp-6-5",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-6",
+      "microKpId": "kp-kanghua-5e-6-6",
       "name": "用Verilog HDL描述时序逻辑电路",
       "num": "6.6",
       "printedPage": 302,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-6-1",
+      "microKpId": "kp-kanghua-5e-6-6-1",
       "name": "移位寄存器的Verilog建模",
       "num": "6.6.1",
       "printedPage": 303,
       "depth": 3,
-      "parentId": "kp-6-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-6-2",
+      "microKpId": "kp-kanghua-5e-6-6-2",
       "name": "计数器的Verilog建模",
       "num": "6.6.2",
       "printedPage": 304,
       "depth": 3,
-      "parentId": "kp-6-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-6-3",
+      "microKpId": "kp-kanghua-5e-6-6-3",
       "name": "状态图的Verilog建模",
       "num": "6.6.3",
       "printedPage": 306,
       "depth": 3,
-      "parentId": "kp-6-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-7",
+      "microKpId": "kp-kanghua-5e-6-7",
       "name": "时序可编程逻辑器件",
       "num": "6.7",
       "printedPage": 309,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-7-1",
+      "microKpId": "kp-kanghua-5e-6-7-1",
       "name": "时序可编程逻辑器件中的宏单元",
       "num": "6.7.1",
       "printedPage": 309,
       "depth": 3,
-      "parentId": "kp-6-7",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-7",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-7-2",
+      "microKpId": "kp-kanghua-5e-6-7-2",
       "name": "时序可编程逻辑器件的主要类型",
       "num": "6.7.2",
       "printedPage": 310,
       "depth": 3,
-      "parentId": "kp-6-7",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-7",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-6-7-3",
+      "microKpId": "kp-kanghua-5e-6-7-3",
       "name": "通用阵列逻辑GAL",
       "num": "6.7.3",
       "printedPage": 311,
       "depth": 3,
-      "parentId": "kp-6-7",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6-7",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p318-小结",
+      "microKpId": "kp-kanghua-5e-p318-小结",
       "name": "小结",
       "num": "",
       "printedPage": 318,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p318-习题",
+      "microKpId": "kp-kanghua-5e-p318-习题",
       "name": "习题",
       "num": "",
       "printedPage": 318,
       "depth": 2,
-      "parentId": "kp-6",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-6",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7",
+      "microKpId": "kp-kanghua-5e-7",
       "name": "存储器、复杂可编程器件和现场可编程门阵列",
       "num": "7",
       "printedPage": 331,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-1",
+      "microKpId": "kp-kanghua-5e-7-1",
       "name": "只读存储器",
       "num": "7.1",
       "printedPage": 332,
       "depth": 2,
-      "parentId": "kp-7",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-7",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-1-1",
+      "microKpId": "kp-kanghua-5e-7-1-1",
       "name": "ROM的定义与基本结构",
       "num": "7.1.1",
       "printedPage": 332,
       "depth": 3,
-      "parentId": "kp-7-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-1-2",
+      "microKpId": "kp-kanghua-5e-7-1-2",
       "name": "二维译码",
       "num": "7.1.2",
       "printedPage": 335,
       "depth": 3,
-      "parentId": "kp-7-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-1-3",
+      "microKpId": "kp-kanghua-5e-7-1-3",
       "name": "可编程ROM",
       "num": "7.1.3",
       "printedPage": 336,
       "depth": 3,
-      "parentId": "kp-7-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-1-4",
+      "microKpId": "kp-kanghua-5e-7-1-4",
       "name": "集成电路ROM",
       "num": "7.1.4",
       "printedPage": 337,
       "depth": 3,
-      "parentId": "kp-7-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-1-5",
+      "microKpId": "kp-kanghua-5e-7-1-5",
       "name": "ROM的读操作与定时图",
       "num": "7.1.5",
       "printedPage": 338,
       "depth": 3,
-      "parentId": "kp-7-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-1-6",
+      "microKpId": "kp-kanghua-5e-7-1-6",
       "name": "ROM应用举例",
       "num": "7.1.6",
       "printedPage": 339,
       "depth": 3,
-      "parentId": "kp-7-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-2",
+      "microKpId": "kp-kanghua-5e-7-2",
       "name": "随机存取存储器",
       "num": "7.2",
       "printedPage": 341,
       "depth": 2,
-      "parentId": "kp-7",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-7",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-2-1",
+      "microKpId": "kp-kanghua-5e-7-2-1",
       "name": "静态随机存取存储器",
       "num": "7.2.1",
       "printedPage": 341,
       "depth": 3,
-      "parentId": "kp-7-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-2-2",
+      "microKpId": "kp-kanghua-5e-7-2-2",
       "name": "同步静态随机存取存储器",
       "num": "7.2.2",
       "printedPage": 346,
       "depth": 3,
-      "parentId": "kp-7-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-2-3",
+      "microKpId": "kp-kanghua-5e-7-2-3",
       "name": "动态随机存取存储器",
       "num": "7.2.3",
       "printedPage": 350,
       "depth": 3,
-      "parentId": "kp-7-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-2-4",
+      "microKpId": "kp-kanghua-5e-7-2-4",
       "name": "存储容量的扩展",
       "num": "7.2.4",
       "printedPage": 354,
       "depth": 3,
-      "parentId": "kp-7-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-3",
+      "microKpId": "kp-kanghua-5e-7-3",
       "name": "复杂可编程逻辑器件",
       "num": "7.3",
       "printedPage": 356,
       "depth": 2,
-      "parentId": "kp-7",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-7",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-3-1",
+      "microKpId": "kp-kanghua-5e-7-3-1",
       "name": "CPLD的结构",
       "num": "7.3.1",
       "printedPage": 356,
       "depth": 3,
-      "parentId": "kp-7-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-3-2",
+      "microKpId": "kp-kanghua-5e-7-3-2",
       "name": "CPLD编程简介",
       "num": "7.3.2",
       "printedPage": 360,
       "depth": 3,
-      "parentId": "kp-7-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-4",
+      "microKpId": "kp-kanghua-5e-7-4",
       "name": "现场可编程门阵列",
       "num": "7.4",
       "printedPage": 362,
       "depth": 2,
-      "parentId": "kp-7",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-7",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-4-1",
+      "microKpId": "kp-kanghua-5e-7-4-1",
       "name": "FPGA中编程实现逻辑功能的基本原理",
       "num": "7.4.1",
       "printedPage": 363,
       "depth": 3,
-      "parentId": "kp-7-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-4-2",
+      "microKpId": "kp-kanghua-5e-7-4-2",
       "name": "FPGA的结构",
       "num": "7.4.2",
       "printedPage": 365,
       "depth": 3,
-      "parentId": "kp-7-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-4-3",
+      "microKpId": "kp-kanghua-5e-7-4-3",
       "name": "FPGA编程简介",
       "num": "7.4.3",
       "printedPage": 373,
       "depth": 3,
-      "parentId": "kp-7-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-7-5",
+      "microKpId": "kp-kanghua-5e-7-5",
       "name": "用EDA技术和可编程器件的设计例题",
       "num": "7.5",
       "printedPage": 377,
       "depth": 2,
-      "parentId": "kp-7",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p382-小结",
+      "microKpId": "kp-kanghua-5e-p382-小结",
       "name": "小结",
       "num": "",
       "printedPage": 382,
       "depth": 2,
-      "parentId": "kp-7",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p383-习题",
+      "microKpId": "kp-kanghua-5e-p383-习题",
       "name": "习题",
       "num": "",
       "printedPage": 383,
       "depth": 2,
-      "parentId": "kp-7",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-7",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8",
+      "microKpId": "kp-kanghua-5e-8",
       "name": "脉冲波形的变换与产生",
       "num": "8",
       "printedPage": 387,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-1",
+      "microKpId": "kp-kanghua-5e-8-1",
       "name": "单稳态触发器",
       "num": "8.1",
       "printedPage": 388,
       "depth": 2,
-      "parentId": "kp-8",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-1-1",
+      "microKpId": "kp-kanghua-5e-8-1-1",
       "name": "用CMOS门电路组成的微分型单稳态触发器",
       "num": "8.1.1",
       "printedPage": 388,
       "depth": 3,
-      "parentId": "kp-8-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-1-2",
+      "microKpId": "kp-kanghua-5e-8-1-2",
       "name": "集成单稳态触发器",
       "num": "8.1.2",
       "printedPage": 392,
       "depth": 3,
-      "parentId": "kp-8-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-1-3",
+      "microKpId": "kp-kanghua-5e-8-1-3",
       "name": "单稳态触发器的应用",
       "num": "8.1.3",
       "printedPage": 397,
       "depth": 3,
-      "parentId": "kp-8-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-2",
+      "microKpId": "kp-kanghua-5e-8-2",
       "name": "施密特触发器",
       "num": "8.2",
       "printedPage": 400,
       "depth": 2,
-      "parentId": "kp-8",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-2-1",
+      "microKpId": "kp-kanghua-5e-8-2-1",
       "name": "用门电路组成的施密特触发器",
       "num": "8.2.1",
       "printedPage": 400,
       "depth": 3,
-      "parentId": "kp-8-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-2-2",
+      "microKpId": "kp-kanghua-5e-8-2-2",
       "name": "集成施密特触发器",
       "num": "8.2.2",
       "printedPage": 403,
       "depth": 3,
-      "parentId": "kp-8-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-2-3",
+      "microKpId": "kp-kanghua-5e-8-2-3",
       "name": "施密特触发器的应用",
       "num": "8.2.3",
       "printedPage": 405,
       "depth": 3,
-      "parentId": "kp-8-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-3",
+      "microKpId": "kp-kanghua-5e-8-3",
       "name": "多谐振荡器",
       "num": "8.3",
       "printedPage": 407,
       "depth": 2,
-      "parentId": "kp-8",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-3-1",
+      "microKpId": "kp-kanghua-5e-8-3-1",
       "name": "用门电路组成的多谐振荡器",
       "num": "8.3.1",
       "printedPage": 408,
       "depth": 3,
-      "parentId": "kp-8-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-3-2",
+      "microKpId": "kp-kanghua-5e-8-3-2",
       "name": "用施密特触发器构成波形产生电路",
       "num": "8.3.2",
       "printedPage": 411,
       "depth": 3,
-      "parentId": "kp-8-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-3-3",
+      "microKpId": "kp-kanghua-5e-8-3-3",
       "name": "石英晶体振荡器",
       "num": "8.3.3",
       "printedPage": 412,
       "depth": 3,
-      "parentId": "kp-8-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-4555",
+      "microKpId": "kp-kanghua-5e-8-4555",
       "name": "定时器及其应用",
       "num": "8.4555",
       "printedPage": 414,
       "depth": 2,
-      "parentId": "kp-8",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-4-1555",
+      "microKpId": "kp-kanghua-5e-8-4-1555",
       "name": "定时器",
       "num": "8.4.1555",
       "printedPage": 414,
       "depth": 3,
-      "parentId": "kp-8",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-4-2",
+      "microKpId": "kp-kanghua-5e-8-4-2",
       "name": "用555定时器组成的施密特触发器",
       "num": "8.4.2",
       "printedPage": 416,
       "depth": 3,
-      "parentId": "kp-8",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-4-3",
+      "microKpId": "kp-kanghua-5e-8-4-3",
       "name": "用555定时器组成的单稳态触发器",
       "num": "8.4.3",
       "printedPage": 417,
       "depth": 3,
-      "parentId": "kp-8",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-8-4-4",
+      "microKpId": "kp-kanghua-5e-8-4-4",
       "name": "用555定时器组成的多谐振荡器",
       "num": "8.4.4",
       "printedPage": 421,
       "depth": 3,
-      "parentId": "kp-8",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p424-小结",
+      "microKpId": "kp-kanghua-5e-p424-小结",
       "name": "小结",
       "num": "",
       "printedPage": 424,
       "depth": 2,
-      "parentId": "kp-8",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p424-习题",
+      "microKpId": "kp-kanghua-5e-p424-习题",
       "name": "习题",
       "num": "",
       "printedPage": 424,
       "depth": 2,
-      "parentId": "kp-8",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-8",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9",
+      "microKpId": "kp-kanghua-5e-9",
       "name": "数模与模数转换器",
       "num": "9",
       "printedPage": 430,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-1",
+      "microKpId": "kp-kanghua-5e-9-1",
       "name": "D/A转换器",
       "num": "9.1",
       "printedPage": 431,
       "depth": 2,
-      "parentId": "kp-9",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-9",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-1-1",
+      "microKpId": "kp-kanghua-5e-9-1-1",
       "name": "D/A转换器的基本原理",
       "num": "9.1.1",
       "printedPage": 431,
       "depth": 3,
-      "parentId": "kp-9-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-1-2",
+      "microKpId": "kp-kanghua-5e-9-1-2",
       "name": "倒T形电阻网络D/A转换器",
       "num": "9.1.2",
       "printedPage": 432,
       "depth": 3,
-      "parentId": "kp-9-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-1-3",
+      "microKpId": "kp-kanghua-5e-9-1-3",
       "name": "权电流型D/A转换器",
       "num": "9.1.3",
       "printedPage": 435,
       "depth": 3,
-      "parentId": "kp-9-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-1-4",
+      "microKpId": "kp-kanghua-5e-9-1-4",
       "name": "D/A转换器的输出方式",
       "num": "9.1.4",
       "printedPage": 437,
       "depth": 3,
-      "parentId": "kp-9-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-1-5",
+      "microKpId": "kp-kanghua-5e-9-1-5",
       "name": "D/A转换器的主要技术指标",
       "num": "9.1.5",
       "printedPage": 440,
       "depth": 3,
-      "parentId": "kp-9-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-1-6",
+      "microKpId": "kp-kanghua-5e-9-1-6",
       "name": "D/A转换器的应用",
       "num": "9.1.6",
       "printedPage": 442,
       "depth": 3,
-      "parentId": "kp-9-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-2",
+      "microKpId": "kp-kanghua-5e-9-2",
       "name": "A/D转换器",
       "num": "9.2",
       "printedPage": 444,
       "depth": 2,
-      "parentId": "kp-9",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-9",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-2-1",
+      "microKpId": "kp-kanghua-5e-9-2-1",
       "name": "A/D转换的一般工作过程",
       "num": "9.2.1",
       "printedPage": 444,
       "depth": 3,
-      "parentId": "kp-9-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-2-2",
+      "microKpId": "kp-kanghua-5e-9-2-2",
       "name": "并行比较型A/D转换器",
       "num": "9.2.2",
       "printedPage": 447,
       "depth": 3,
-      "parentId": "kp-9-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-2-3",
+      "microKpId": "kp-kanghua-5e-9-2-3",
       "name": "逐次比较型A/D转换器",
       "num": "9.2.3",
       "printedPage": 450,
       "depth": 3,
-      "parentId": "kp-9-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-2-4",
+      "microKpId": "kp-kanghua-5e-9-2-4",
       "name": "双积分型A/D转换器",
       "num": "9.2.4",
       "printedPage": 453,
       "depth": 3,
-      "parentId": "kp-9-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-2-5",
+      "microKpId": "kp-kanghua-5e-9-2-5",
       "name": "A/D转换器的主要技术指标",
       "num": "9.2.5",
       "printedPage": 456,
       "depth": 3,
-      "parentId": "kp-9-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-9-2-6",
+      "microKpId": "kp-kanghua-5e-9-2-6",
       "name": "集成A/D转换器及其应用",
       "num": "9.2.6",
       "printedPage": 456,
       "depth": 3,
-      "parentId": "kp-9-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p460-小结",
+      "microKpId": "kp-kanghua-5e-p460-小结",
       "name": "小结",
       "num": "",
       "printedPage": 460,
       "depth": 2,
-      "parentId": "kp-9",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p461-习题",
+      "microKpId": "kp-kanghua-5e-p461-习题",
       "name": "习题",
       "num": "",
       "printedPage": 461,
       "depth": 2,
-      "parentId": "kp-9",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-9",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10",
+      "microKpId": "kp-kanghua-5e-10",
       "name": "数字系统设计基础",
       "num": "10",
       "printedPage": 464,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-1",
+      "microKpId": "kp-kanghua-5e-10-1",
       "name": "数字系统概述",
       "num": "10.1",
       "printedPage": 465,
       "depth": 2,
-      "parentId": "kp-10",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-1-1",
+      "microKpId": "kp-kanghua-5e-10-1-1",
       "name": "数字系统的组成",
       "num": "10.1.1",
       "printedPage": 465,
       "depth": 3,
-      "parentId": "kp-10-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-1-2",
+      "microKpId": "kp-kanghua-5e-10-1-2",
       "name": "数字系统的设计方法",
       "num": "10.1.2",
       "printedPage": 465,
       "depth": 3,
-      "parentId": "kp-10-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-1-3",
+      "microKpId": "kp-kanghua-5e-10-1-3",
       "name": "数字系统的实现",
       "num": "10.1.3",
       "printedPage": 467,
       "depth": 3,
-      "parentId": "kp-10-1",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-2",
+      "microKpId": "kp-kanghua-5e-10-2",
       "name": "算法状态机",
       "num": "10.2",
       "printedPage": 468,
       "depth": 2,
-      "parentId": "kp-10",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-2-1",
+      "microKpId": "kp-kanghua-5e-10-2-1",
       "name": "ASM图形符号",
       "num": "10.2.1",
       "printedPage": 468,
       "depth": 3,
-      "parentId": "kp-10-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-2-2",
+      "microKpId": "kp-kanghua-5e-10-2-2",
       "name": "数字系统的ASM图法设计举例",
       "num": "10.2.2",
       "printedPage": 470,
       "depth": 3,
-      "parentId": "kp-10-2",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-3",
+      "microKpId": "kp-kanghua-5e-10-3",
       "name": "寄存器传输语言",
       "num": "10.3",
       "printedPage": 481,
       "depth": 2,
-      "parentId": "kp-10",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-3-1",
+      "microKpId": "kp-kanghua-5e-10-3-1",
       "name": "寄存器传输语言中的几种操作",
       "num": "10.3.1",
       "printedPage": 482,
       "depth": 3,
-      "parentId": "kp-10-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-3-2",
+      "microKpId": "kp-kanghua-5e-10-3-2",
       "name": "运用寄存器传输语言设计举例",
       "num": "10.3.2",
       "printedPage": 485,
       "depth": 3,
-      "parentId": "kp-10-3",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-4",
+      "microKpId": "kp-kanghua-5e-10-4",
       "name": "用可编程逻辑器件实现数字系统",
       "num": "10.4",
       "printedPage": 487,
       "depth": 2,
-      "parentId": "kp-10",
-      "isLeaf": false
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-4-1",
+      "microKpId": "kp-kanghua-5e-10-4-1",
       "name": "交通灯控制系统的Verilog HDL描述",
       "num": "10.4.1",
       "printedPage": 488,
       "depth": 3,
-      "parentId": "kp-10-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-10-4-2",
+      "microKpId": "kp-kanghua-5e-10-4-2",
       "name": "数字密码锁的Verilog HDL描述",
       "num": "10.4.2",
       "printedPage": 496,
       "depth": 3,
-      "parentId": "kp-10-4",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p500-小结",
+      "microKpId": "kp-kanghua-5e-p500-小结",
       "name": "小结",
       "num": "",
       "printedPage": 500,
       "depth": 2,
-      "parentId": "kp-10",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p501-习题",
+      "microKpId": "kp-kanghua-5e-p501-习题",
       "name": "习题",
       "num": "",
       "printedPage": 501,
       "depth": 2,
-      "parentId": "kp-10",
-      "isLeaf": true
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-kanghua-5e-p504-附录ACMOS和TTL逻辑门电路的技术参数",
+      "name": "附录ACMOS和TTL逻辑门电路的技术参数",
+      "num": "",
+      "printedPage": 504,
+      "depth": 2,
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-kanghua-5e-p505-附录BQuartus50开发软件简介",
+      "name": "附录BQuartusⅡ 5.0开发软件简介",
+      "num": "",
+      "printedPage": 505,
+      "depth": 2,
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-kanghua-5e-p522-附录D常用逻辑符号对照表",
+      "name": "附录D常用逻辑符号对照表",
+      "num": "",
+      "printedPage": 522,
+      "depth": 2,
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-kanghua-5e-p524-参考文献",
+      "name": "参考文献",
+      "num": "",
+      "printedPage": 524,
+      "depth": 2,
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-kanghua-5e-p526-索引汉英对照",
+      "name": "索引(汉英对照)",
+      "num": "",
+      "printedPage": 526,
+      "depth": 2,
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-kanghua-5e-p530-部分习题答案",
+      "name": "部分习题答案",
+      "num": "",
+      "printedPage": 530,
+      "depth": 2,
+      "parentId": "kp-kanghua-5e-10",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": true
     }
   ]
 }
