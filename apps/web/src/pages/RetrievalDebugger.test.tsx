@@ -148,6 +148,60 @@ describe('边界与错误', () => {
     expect(screen.getByRole('button', { name: '检索' })).toBeDisabled();
   });
 
+  /**
+   * 这是一条「永远在转圈」的回归测试。
+   *
+   * `useRetrievalDebug` 的 `enabled` 是 `Boolean(query && microKpId)`，而 TanStack
+   * Query v5 里**禁用查询的 status 恒为 `'pending'`**（不是 `'success'`）——
+   * 于是 `debug.isPending` 从挂载到卸载一直是 true，页面永远显示「检索中…」。
+   * 屏幕阅读器会把这句话念给一个根本没发过请求的页面。
+   *
+   * 修法是把 `isPending` 换成 `isFetching`（后者只在实际有请求在飞时为真）。
+   * 断言用 `queryByRole` 而不是 `getByRole`：后者在元素不存在时自己就报错，
+   * 但报的是「找不到 progressbar」，说不清是「没转圈」还是「整块没渲染」。
+   */
+  it('从未检索过时不显示「检索中…」的假加载态', async () => {
+    renderWith('kp-bool');
+    await screen.findByLabelText('检索词');
+
+    expect(screen.queryByRole('progressbar', { name: /检索中/ })).toBeNull();
+    expect(screen.queryByText('检索中…')).toBeNull();
+  });
+
+  it('真正在检索时才显示加载态，请求落地后消失', async () => {
+    const user = userEvent.setup();
+    let release: (() => void) | undefined;
+    const gate = new Promise<void>((r) => {
+      release = r;
+    });
+    server.use(
+      http.get('*/api/v1/agent/retrieval/debug', async () => {
+        await gate;
+        // 必须给完整形状：`DebugResult` 直接读 `payload.hits.filter(...)`，
+        // 少了 hits 会在渲染时抛 TypeError（Vitest 报成 unhandled error）。
+        // 同时提醒：这个抛错不会让任何一条测试变红 —— 断言已经先跑完了。
+        return HttpResponse.json({
+          query: '布尔代数',
+          microKpId: 'kp-bool',
+          current: 0.66,
+          gateTier: 'scaffold',
+          totalMatched: 0,
+          answerChunkCount: 0,
+          excludedCount: 0,
+          hits: [],
+        });
+      }),
+    );
+
+    renderWith('kp-bool');
+    await runQuery(user);
+
+    // 请求飞在路上：这一次必须真的有加载态（否则修法就把真加载也一并去掉了）
+    expect(await screen.findByText('检索中…')).toBeInTheDocument();
+    release?.();
+    await waitFor(() => expect(screen.queryByText('检索中…')).toBeNull());
+  });
+
   it('检索失败时不白屏，给出中文原因', async () => {
     const user = userEvent.setup();
     server.use(

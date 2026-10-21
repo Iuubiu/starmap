@@ -272,7 +272,11 @@ export function DatabasePage() {
                 ) : undefined
               }
             />
-            {sources.isPending && <Spinner label="读取来源…" />}
+            {/* 用 isFetching 不用 isPending：`useNodeSources` 在没选中知识点时
+                `enabled: false`，而 TanStack Query v5 里禁用查询的 status 恒为
+                'pending' ⇒ isPending 就是「从挂载到卸载一直为真」。
+                那会让屏幕阅读器永远念「读取来源…」而其实没有任何请求在飞。 */}
+            {sources.isFetching && <Spinner label="读取来源…" />}
             {sources.isError && (
               <MessageBar intent="error">
                 <MessageBarBody>

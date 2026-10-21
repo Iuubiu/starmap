@@ -205,7 +205,7 @@ export function RetrievalDebugger({ microKpId }: { microKpId: string | undefined
         </Caption1>
       </Card>
 
-      {debug.isPending && <Spinner label="检索中…" />}
+      {debug.isFetching && <Spinner label="检索中…" />}
 
       {debug.isError && (
         <MessageBar intent="error">
@@ -218,7 +218,7 @@ export function RetrievalDebugger({ microKpId }: { microKpId: string | undefined
 
       {debug.payload && <DebugResult payload={debug.payload} />}
 
-      {compareBands && bands.isPending && <Spinner label="并行跑三个掌握度…" />}
+      {compareBands && bands.isFetching && <Spinner label="并行跑三个掌握度…" />}
 
       {compareBands && bands.isError && (
         <MessageBar intent="error">
