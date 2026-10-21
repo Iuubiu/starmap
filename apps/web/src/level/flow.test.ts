@@ -280,6 +280,66 @@ describe('预写反馈（票 04 验收 3：提交后立即显示，不调模型�
     expect(again.feedback.correct).toBe(false);
   });
 
+  /**
+   * 票 12：P1/P2 的「每题允许尝试次数」是 2。
+   *
+   * 默认行为（不传 `attemptsPerItem`）必须**逐字不变**：这是票 04 验收里
+   * 「作答一旦提交就是证据」的基础，任何一处默认值被改大都会变成「学生可以
+   * 无限重试直到蒙对」，而这种缺陷不会报错，只会让掌握度虚高。
+   */
+  it('默认只允许一次：不传 attemptsPerItem 时重复提交仍被忽略', () => {
+    const spec = makeSpec();
+    const atProbe = walkTo(spec, 'probe', true);
+    const first = submitAnswer(spec, atProbe, 'i-probe', 2);
+    // 先答错（2 是错的那一项），再一次正确项 —— 默认仍只留一条记录。
+    expect(first.feedback.correct).toBe(false);
+    const again = submitAnswer(spec, first.state, 'i-probe', 0);
+    expect(again.state.records).toHaveLength(1);
+    expect(again.feedback.correct).toBe(false);
+  });
+
+  it('P1 档允许再试：答错后用掉第二次，记录追加而不是覆盖', () => {
+    const spec = makeSpec();
+    const atProbe = walkTo(spec, 'probe', true);
+    const first = submitAnswer(spec, atProbe, 'i-probe', 2, { attemptsPerItem: 2 });
+    expect(first.feedback.correct).toBe(false);
+    expect(first.state.records).toHaveLength(1);
+
+    const second = submitAnswer(spec, first.state, 'i-probe', 0, { attemptsPerItem: 2 });
+    // 两次尝试都是真实发生过的证据，都要留着（后端 attempt_no 也按次数增长）。
+    expect(second.state.records).toHaveLength(2);
+    expect(second.feedback.correct).toBe(true);
+    // 选项状态取最新一次。
+    expect(second.state.choices['i-probe']).toBe(0);
+
+    // 第三次不再有效：次数已用完。
+    const third = submitAnswer(spec, second.state, 'i-probe', 2, { attemptsPerItem: 2 });
+    expect(third.state.records).toHaveLength(2);
+    expect(third.feedback.correct).toBe(true);
+  });
+
+  it('答对之后不再给次数（即使还有剩余）', () => {
+    const spec = makeSpec();
+    const atProbe = walkTo(spec, 'probe', true);
+    const first = submitAnswer(spec, atProbe, 'i-probe', 0, { attemptsPerItem: 2 });
+    expect(first.feedback.correct).toBe(true);
+
+    const again = submitAnswer(spec, first.state, 'i-probe', 2, { attemptsPerItem: 2 });
+    expect(again.state.records).toHaveLength(1);
+    expect(again.feedback.correct).toBe(true);
+  });
+
+  it('重建反馈取最后一次尝试，而不是第一次', () => {
+    const spec = makeSpec();
+    const atProbe = walkTo(spec, 'probe', true);
+    const first = submitAnswer(spec, atProbe, 'i-probe', 2, { attemptsPerItem: 2 });
+    const second = submitAnswer(spec, first.state, 'i-probe', 0, { attemptsPerItem: 2 });
+    // 页面重渲染时走的是 feedbackFor：若它还取第一条，第二次答对后界面会回到「答错」。
+    const rebuilt = feedbackFor(spec, second.state, 'i-probe');
+    expect(rebuilt).toEqual(second.feedback);
+    expect(rebuilt.correct).toBe(true);
+  });
+
   it('不属于当前步骤的题会被拒绝，而不是静默记录', () => {
     const spec = makeSpec();
     expect(() => submitAnswer(spec, createFlow(), 'i-quiz-1', 1)).toThrow(/不属于当前步骤/);

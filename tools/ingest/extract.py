@@ -50,26 +50,93 @@ class Block:
 _HEADING_RATIO = 1.25  # 比正文大 25% 以上算标题
 _FORMULA_HINT = set('=∑∫√±×÷∞≈≤≥≠∂Δ')
 
+#: C0 控制字符（含 NUL）。PDF 的文字层里真会夹这些东西：14 Rivetti 的公式行
+#: 在 `niqµn + µp` 之后跟着 `\x00\x01`（PDF 生成器留下的段落分隔占位）。
+#:
+#: 不洗的后果不是「难看」，是 **Postgres 直接拒绝整本书**：
+#: `invalid byte sequence for encoding "UTF8": 0x00`。中文书没有这类字符，
+#: 所以清洗不会改变它们已有的产物。
+_CTRL = re.compile(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]')
 
-def _spans_of(page: pymupdf.Page) -> list[dict[str, Any]]:
+
+def _spans_of(page: pymupdf.Page, *, word_spaces: bool = False) -> list[dict[str, Any]]:
+    """把一页拆成带坐标的 span 列表。
+
+    ## 纯空白 span 里的词间距（`word_spaces=True`）
+
+    PDF 的文字层里，英文书的词间距常常是**独立的空白 span**（Knoll 3e 实测占
+    全部 span 的 43%，Nakhostin 37%），而且一整行还会被拆成多个 `line`
+    （Knoll 3e 的 `In` / `the` / `limit of negligible...` 就是三个 line）。
+    直接丢掉空白 span、又不认行边界，下游 `''.join(s['text'] ...)` 就把单词
+    粘成一串：
+
+        GENERALPROPERTIESOFRADIATIONDETECTORS101Inthelimitofnegligible...
+
+    中文书不受影响（汉字不用空格，空白 span 只占 4.6%，且多是行首缩进），
+    所以这个问题一直没被中文书暴露出来。
+
+    ## 为什么是可选开关，而不是默认行为
+
+    12 本中文书的产物**已经入库**，`_stable_id` 的哈希输入里带 chunk 文本，
+    所以文本一旦变，id 就变、幂等导入会当成新 chunk。实测补空格会在这批书上
+    造出差异条目（英文缩写与数字混排的位置会被切开）。
+
+    「产物逐字节复现」比「空格更好看」重要，所以默认 `word_spaces=False`
+    **完全保持旧行为**；只有新接入的英文书（`books_batch.py`）显式开启。
+
+    ## 为什么把空格并进前一个 span，而不是保留成独立 span
+
+    保留独立 span 会改变 span 计数，而 `_table_bands` 的判据（「一行 >= 3 个
+    span、且大多是很短的 token」）与 `_group_lines` 的行高统计都吃 span 数。
+    空白 span 会被当成「短 token」，把中文书的正文行误判成表格带。
+
+    并进前一个 span 的**文本**里，span 数与坐标全不变，只有拼接结果变对。
+
+    ## 只补拉丁字母之间的空格
+
+    数字之间、中文之间都不补：竖式演算的 `2 18 ... 余0` 与连写的 `218` 是同一段
+    文字层的两种切法，补了会改 `_stable_id`。
+    """
     out: list[dict[str, Any]] = []
+    #: 上一个输出的 span 与当前 span 之间是不是「间断」（空白 span 或行边界）。
+    gap = False
     for b in page.get_text('dict')['blocks']:
         if b.get('type') != 0:
             continue
         for line in b.get('lines', []):
             for s in line['spans']:
                 if not s['text'].strip():
+                    gap = True
                     continue
                 x0, y0, x1, y1 = s['bbox']
+                text = _CTRL.sub('', s['text'])
+                if not text:
+                    # 整 span 全是控制字符（Rivetti 的 `\x00\x01` 就单独成 span），
+                    # 洗完后没有内容 —— 当成空白间断处理，不要产出一个空 span。
+                    gap = True
+                    continue
+                if word_spaces and gap and out:
+                    previous = out[-1]['text']
+                    left = previous[-1:]
+                    right = text[:1]
+                    if left.isascii() and left.isalpha() and right.isascii() and right.isalpha():
+                        out[-1]['text'] = f'{previous} '
+                gap = False
                 out.append(
                     {
-                        'text': s['text'],
+                        'text': text,
                         'size': s['size'],
                         'x': (x0 + x1) / 2,
                         'y': (y0 + y1) / 2,
                         'bbox': (x0, y0, x1, y1),
                     }
                 )
+            # 行边界也是间断：PDF 把一整行拆成多个 line 时（Knoll 3e 的
+            # `In` / `the` / `limit of negligible...` 就是三个 line），它们属于
+            # 同一视觉行，拼接时必须补空格。不置位就会得到
+            # `Inthelimit of negligible`。
+            if word_spaces:
+                gap = True
     return out
 
 
@@ -800,9 +867,16 @@ def _caption_box(line: list[dict[str, Any]]) -> tuple[float, float, float, float
     )
 
 
-def extract_page(page: pymupdf.Page, page_index: int) -> list[Block]:
-    """抽一页。返回按阅读顺序排好的块。"""
-    spans = _spans_of(page)
+def extract_page(
+    page: pymupdf.Page, page_index: int, *, word_spaces: bool = False
+) -> list[Block]:
+    """抽一页。返回按阅读顺序排好的块。
+
+    `word_spaces=True` 让 `_spans_of` 在英文书的空白 span / 行边界处补词间空格。
+    默认关闭：12 本已入库的中文书靠「逐字节复现」保证幂等导入（chunk 文本进
+    `_stable_id` 的哈希），新接入的英文书才需要它（`books_batch.py` 开启）。
+    """
+    spans = _spans_of(page, word_spaces=word_spaces)
     if not spans:
         return []
 

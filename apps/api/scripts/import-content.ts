@@ -31,6 +31,10 @@ type TocNode = {
   depth: number;
   parentId: string | null;
   isLeaf: boolean;
+  // 章节附件（小结/习题/附录/参考文献…）与答案附录。两者都是可选字段：
+  // 旧的 toc.json 没有这两键，`?? false` 兜底即可，不需要强制重跑。
+  appendix?: boolean;
+  answerKey?: boolean;
 };
 
 type ChunkRow = {
@@ -74,6 +78,18 @@ export type ImportResult = {
   edges: number;
   removedChunks: number;
   /**
+   * 该 source 下、**本次产物里已不存在**的旧知识点。
+   *
+   * 默认只报告不删（见 `pruneStaleKnowledgePoints` 的注释）：指向
+   * `knowledge_points` 的 CASCADE 有 11 条，自动删是危险的；但静默积累同样是
+   * 缺陷：t24 实测残留了 156 个幽灵节点（每次 toc.py 改名/重编号留一批），
+   * `GET /api/v1/graph` 把它们当节点返回、`/recommendations` 把「上册」「豐录」
+   * 推荐给学习者。
+   */
+  staleNodes: string[];
+  /** 本次是否真的删掉了它们（`--prune-kp` 开启时才非 0） */
+  prunedNodes: number;
+  /**
    * 因为找不到所属章而被跳过的节点 id。
    *
    * 正常情况下应该是空数组。非空意味着目录里某棵子树接不到任何 depth==1 的祖先，
@@ -81,19 +97,140 @@ export type ImportResult = {
    * （部分坏目录仍值得导入），但调用方必须把这个数组打出来 —— 静默跳过才是真问题。
    */
   skippedNodes: string[];
+  /**
+   * 目录里重复出现的 microKpId。
+   *
+   * 重复 id 的后果不是报错，而是**后一条静默覆盖前一条**（`ON CONFLICT DO UPDATE`）：
+   * 少一个知识点、少一棵子树、少一批 chunk 归属，而且库里看不出少过。
+   * 实测来源是 OCR 把编号切错（「555 定时器」被切成 `kp-55` + 标题「5定时器…」）
+   * 或目录行被拆成两条（章名与首节抢同一个 `kp-1`）。
+   * 与 skippedNodes 同样处理：不因此拒绝整本导入，但必须打出来。
+   */
+  duplicateIds: string[];
 };
 
-/** 该书的元数据。目录里没有这些，而 `sources.title` 要给人看。 */
+/**
+ * 该书的元数据。目录里没有这些，而 `sources.title` 要给人看。
+ *
+ * 不从这里兜底的话，`sources.title` 会退化成 sourceId（`digital-electronics-yanshi-6e`），
+ * 数据库展示页上直接暴露一个英文 slug 给学习者看 —— 而项目红线是「所有面向用户展示的
+ * 内容都是中文」。所以每本入库的书都必须在这里有一行。
+ */
 const SOURCE_META: Record<string, { title: string; path: string }> = {
   'digital-kanghua-5e': {
     title: '电子技术基础·数字部分（康华光 第5版）',
     path: '资源库/books/21_电子技术基础_数字部分_康华光_第5版.pdf',
   },
+  'nuclear-electronics-wangzhiying-1989': {
+    title: '核电子技术原理（王芝英 1989）',
+    path: '资源库/books/01_核电子技术原理_王芝英_原子能1989.pdf',
+  },
+  'nuclear-electronics-wangjingjin-1983': {
+    title: '核电子学·上册（王经瑾 1983）',
+    path: '资源库/books/02_核电子学_王经瑾上_原子能1983.pdf',
+  },
+  'nuclear-radiation-measurement-tangbin': {
+    title: '核辐射测量原理（汤彬）',
+    path: '资源库/books/05_核辐射测量原理_汤彬_哈工程.pdf',
+  },
+  'nuclear-radiation-physics-chenboxian-2011': {
+    title: '核辐射物理及探测学（陈伯显、张智 2011）',
+    path: '资源库/books/06_核辐射物理及探测学_陈伯显_张智_哈工程2011.pdf',
+  },
+  'radiation-detectors-dinghonglin-2010': {
+    title: '核辐射探测器（丁洪林 2010）',
+    path: '资源库/books/07_核辐射探测器_丁洪林_哈工程2010.pdf',
+  },
+  'nuclear-physics-experiment-methods-1997': {
+    title: '原子核物理实验方法（修订第3版 1997）',
+    path: '资源库/books/18_原子核物理实验方法_修订第3版_1997.pdf',
+  },
+  'radiation-detector-handbook-jichangsong-1990': {
+    title: '核辐射探测器及其实验技术手册（汲长松 1990）',
+    path: '资源库/books/19_核辐射探测器及其实验技术手册_汲长松_1990.pdf',
+  },
+  'analog-electronics-kanghuaguang-5e': {
+    title: '电子技术基础·模拟部分（康华光 第5版）',
+    path: '资源库/books/22_电子技术基础_模拟部分_康华光_第5版.pdf',
+  },
+  'digital-electronics-yanshi-6e': {
+    title: '数字电子技术基础（阎石 第6版）',
+    path: '资源库/books/23_数字电子技术基础_阎石_第6版.pdf',
+  },
+  'analog-electronics-tongshibai-5e': {
+    title: '模拟电子技术基础（童诗白、华成英 第5版）',
+    path: '资源库/books/24_模拟电子技术基础_童诗白_华成英_第5版.pdf',
+  },
+  'circuit-analysis-lihansun-5e-vol1': {
+    title: '电路分析基础·上册（李瀚荪 第5版）',
+    path: '资源库/books/25_电路分析基础_李瀚荪_第5版_上册.pdf',
+  },
+  // ---- 票 18 第二批：英文原版教材 + 郭江两版 ----
+  'knoll-3e-2000': {
+    title: '辐射探测与测量（Knoll 第3版 2000）',
+    path: '资源库/books/03_Knoll_Radiation_Detection_and_Measurement_3rd_2000.pdf',
+  },
+  'knoll-4e-2010': {
+    title: '辐射探测与测量（Knoll 第4版 2010）',
+    path: '资源库/books/04_Knoll_Radiation_Detection_and_Measurement_4th_2010.pdf',
+  },
+  'tsoulfanidis-4e': {
+    title: '辐射测量与探测（Tsoulfanidis 第4版）',
+    path: '资源库/books/08_Tsoulfanidis_Measurement_and_Detection_of_Radiation_4th.pdf',
+  },
+  'grupen-2e-2008': {
+    title: '粒子探测器（Grupen 第2版 2008）',
+    path: '资源库/books/09_Grupen_Particle_Detectors_2nd_2008.pdf',
+  },
+  'ahmed-2e': {
+    title: '辐射探测物理与工程（Ahmed 第2版）',
+    path: '资源库/books/10_Ahmed_Physics_and_Engineering_of_Radiation_Detection_2nd.pdf',
+  },
+  'spieler-2005': {
+    title: '半导体探测器系统（Spieler 2005）',
+    path: '资源库/books/11_Spieler_Semiconductor_Detector_Systems_2005.pdf',
+  },
+  'leo-2e': {
+    title: '核与粒子物理实验技术（Leo 第2版）',
+    path: '资源库/books/12_Leo_Techniques_for_Nuclear_and_Particle_Physics_Experiments_2nd.pdf',
+  },
+  'nakhostin-2018': {
+    title: '辐射探测器信号处理（Nakhostin 2018）',
+    path: '资源库/books/13_Nakhostin_Signal_Processing_for_Radiation_Detectors_2018.pdf',
+  },
+  'rivetti-2015': {
+    title: '辐射传感器 CMOS 前端电子学（Rivetti 2015）',
+    path: '资源库/books/14_Rivetti_CMOS_FrontEnd_Electronics_for_Radiation_Sensors_2015.pdf',
+  },
+  'lutz-2007': {
+    title: '半导体辐射探测器（Lutz 2007）',
+    path: '资源库/books/15_Lutz_Semiconductor_Radiation_Detectors_2007.pdf',
+  },
+  'nicholson-1974': {
+    title: '核电子学（Nicholson 1974）',
+    path: '资源库/books/16_Nicholson_Nuclear_Electronics_1974.pdf',
+  },
+  'gilmore-2e-2008': {
+    title: '实用γ射线能谱学（Gilmore 第2版 2008）',
+    path: '资源库/books/17_Gilmore_Practical_Gamma-ray_Spectrometry_2nd_2008.pdf',
+  },
+  'debertin-1988': {
+    title: 'γ与X射线能谱学（Debertin & Helmer 1988）',
+    path: '资源库/books/20_Debertin_Helmer_Gamma_and_XRay_Spectrometry_1988.pdf',
+  },
+  'guojiang-2023': {
+    title: '原子及原子核物理（郭江 第2版 2023）',
+    path: '资源库/books/26_原子及原子核物理_郭江_第2版_2023.pdf',
+  },
+  'guojiang-2014': {
+    title: '原子及原子核物理（郭江 2014 旧版）',
+    path: '资源库/books/27_原子及原子核物理_郭江_2014_旧版.pdf',
+  },
 };
 
 export async function importContent(
   contentDir: string,
-  options: { sourceId?: string } = {},
+  options: { sourceId?: string; pruneKp?: boolean } = {},
 ): Promise<ImportResult> {
   const dir = resolve(contentDir);
   const tocPath = join(dir, 'toc.json');
@@ -140,6 +277,13 @@ export async function importContent(
         `先修 tools/ingest 的建树逻辑（nodes_from_flat），不要跳过导入。`,
     );
   }
+
+  // 重复 id：上面那条 `ON CONFLICT (id) DO UPDATE` 会让后一条静默覆盖前一条，
+  // 于是「少了一个知识点」在库里完全不可见。只统计不拦截 —— 一本坏目录里
+  // 90% 的节点仍然值得导入，但调用方必须知道少了哪几个。
+  const dupCount = new Map<string, number>();
+  for (const n of toc.nodes) dupCount.set(n.microKpId, (dupCount.get(n.microKpId) ?? 0) + 1);
+  const duplicateIds = [...dupCount.entries()].filter(([, c]) => c > 1).map(([id]) => id);
 
   const client = new Client({
     connectionString: DATABASE_URL,
@@ -226,13 +370,13 @@ export async function importContent(
       const moduleId = `mod-${sourceId}-${chapterOf}`;
       await client.query(
         `INSERT INTO knowledge_points
-           (id, module_id, parent_id, name, is_leaf, depth, ordinal, source_page, source_id)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+           (id, module_id, parent_id, name, is_leaf, depth, ordinal, source_page, source_id, is_answer_key)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
          ON CONFLICT (id) DO UPDATE SET
            name = EXCLUDED.name, parent_id = EXCLUDED.parent_id,
            is_leaf = EXCLUDED.is_leaf, depth = EXCLUDED.depth,
            ordinal = EXCLUDED.ordinal, source_page = EXCLUDED.source_page,
-           source_id = EXCLUDED.source_id`,
+           source_id = EXCLUDED.source_id, is_answer_key = EXCLUDED.is_answer_key`,
         [
           n.microKpId,
           moduleId,
@@ -243,6 +387,11 @@ export async function importContent(
           Number.parseInt(n.num?.split('.').at(-1) ?? '0', 10) || 0,
           n.printedPage,
           sourceId,
+          // 答案附录（部分习题答案/参考解答）。入库后检索侧按「同书
+          // is_answer_key 的全部 chunk」取用 —— 这 4 个节点是 isLeaf=false
+          // 的容器，学习者永远不会以它们为当前知识点，只靠 chunk_kp_answer
+          // 查不到它们名下的 514 个 chunk，票 09 的答案门控对它们完全失效。
+          n.answerKey === true,
         ],
       );
       insertedNodes += 1;
@@ -325,6 +474,38 @@ export async function importContent(
     );
     removedChunks = removed.rowCount ?? 0;
 
+    // ---- 幽灵知识点：报告（默认）/ 清理（--prune-kp）----
+    //
+    // 知识点是 upsert，旧行从来不删 —— 这个取舍对 chunk 是对的（删除会让作答
+    // 记录失去锚点），但知识点没有对应的清理路径，于是每次 toc.py 改名/重编号
+    // 就留一批幽灵。t24 实测残留 156 个（占全库 6%）：`GET /api/v1/graph` 把
+    // 它们当节点返回、`/recommendations` 把「上册」「豐录」「目录」推荐给学习者。
+    //
+    // 默认**只报告不删**：指向 knowledge_points 的 CASCADE 有 11 条，自动删是
+    // 危险的（t24 手工删除前逐个核了 16 个外键位置）。但静默累积同样是缺陷，
+    // 所以每次导入都必须把「这次重导会让 N 个知识点消失」打到 stderr 上。
+    //
+    // 只对**本次导入的这个 source** 查，不跨书：`kp-<prefix>-` 命名空间已经
+    // 保证各书 id 不相交，但万一日后有人手工插入，跨书误删的后果不可逆。
+    const keepKpIds = toc.nodes.map((n) => n.microKpId);
+    const staleRows = await client.query<{ id: string; name: string }>(
+      `SELECT id, name FROM knowledge_points
+        WHERE source_id = $1 AND NOT (id = ANY($2::text[]))
+        ORDER BY id`,
+      [sourceId, keepKpIds],
+    );
+    const staleNodes = staleRows.rows.map((r) => r.id);
+    let prunedNodes = 0;
+    if (options.pruneKp && staleNodes.length > 0) {
+      // 带 id 条件的 DELETE。绝无 TRUNCATE / 无 WHERE 的 DELETE。
+      // parent_id 是 ON DELETE CASCADE，所以一棵过期子树会被整棵带走。
+      const pruned = await client.query(
+        `DELETE FROM knowledge_points WHERE source_id = $1 AND id = ANY($2::text[])`,
+        [sourceId, staleNodes],
+      );
+      prunedNodes = pruned.rowCount ?? 0;
+    }
+
     await client.query('COMMIT');
 
     return {
@@ -333,7 +514,10 @@ export async function importContent(
       answers,
       edges: edges.length,
       removedChunks,
+      staleNodes,
+      prunedNodes,
       skippedNodes: skipped,
+      duplicateIds,
     };
   } catch (err) {
     await client.query('ROLLBACK');
@@ -356,8 +540,15 @@ function findChapterId(nodes: TocNode[], id: string): string | null {
 
 const isMain = process.argv[1]?.replace(/\\/g, '/').includes('import-content');
 if (isMain) {
-  const dir = process.argv[2] ?? join(here, '..', '..', '..', 'content', 'digital-kanghua-5e');
-  importContent(dir)
+  // 参数解析：第一个非 flag 参数是内容目录。
+  //
+  // `--prune-kp` 默认关闭。幽灵知识点的清理是**不可逆**的（11 条 CASCADE），
+  // 所以它必须是一个人要显式敲下的意图，而不是导入的副作用。不开时只报告。
+  const rawArgs = process.argv.slice(2);
+  const pruneKp = rawArgs.includes('--prune-kp');
+  const positional = rawArgs.filter((a) => !a.startsWith('--'));
+  const dir = positional[0] ?? join(here, '..', '..', '..', 'content', 'digital-kanghua-5e');
+  importContent(dir, { pruneKp })
     .then((r) => {
       const digest = createHash('sha256')
         .update(JSON.stringify(r))
@@ -367,12 +558,35 @@ if (isMain) {
         `导入完成：知识点 ${r.nodes}、chunk ${r.chunks}、答案块 ${r.answers}、` +
           `先修边 ${r.edges}、清理旧 chunk ${r.removedChunks}（${digest}）`,
       );
+      if (r.staleNodes.length > 0) {
+        if (r.prunedNodes > 0) {
+          console.log(
+            `已清理 ${r.prunedNodes} 个本次产物里不存在的旧知识点（--prune-kp）：`,
+          );
+        } else {
+          // 默认路径：只报告。报告行必须让人一眼看出「这次重导会让 N 个
+          // 知识点消失」，而不是埋在一堆进度输出里。
+          console.warn(
+            `⚠ 本次重导会让 ${r.staleNodes.length} 个知识点从图谱消失（本次产物里已不存在）：\n  ` +
+              r.staleNodes.slice(0, 40).join('\n  ') +
+              (r.staleNodes.length > 40 ? `\n  …还有 ${r.staleNodes.length - 40} 个` : '') +
+              '\n  确认要删就重跑同一条命令并加 --prune-kp（不可逆：CASCADE 会带走子节点）',
+          );
+        }
+      }
       if (r.skippedNodes.length > 0) {
         // 打出来而不是只留在返回值里：这条命令行是人对「导入成功」的唯一判据。
         console.warn(
           `⚠ 有 ${r.skippedNodes.length} 个节点找不到所属章，已跳过（其下 chunk 会成为 orphan）：\n  ` +
             r.skippedNodes.slice(0, 20).join('\n  ') +
             (r.skippedNodes.length > 20 ? `\n  …还有 ${r.skippedNodes.length - 20} 个` : ''),
+        );
+      }
+      if (r.duplicateIds.length > 0) {
+        console.warn(
+          `⚠ 目录里有 ${r.duplicateIds.length} 个重复的 microKpId，每对只会留下一行（后盖前）：\n  ` +
+            r.duplicateIds.slice(0, 20).join('\n  ') +
+            (r.duplicateIds.length > 20 ? `\n  …还有 ${r.duplicateIds.length - 20} 个` : ''),
         );
       }
       process.exit(0);

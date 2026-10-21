@@ -10,11 +10,23 @@
  * ## 为什么要求模型只输出一个 JSON 对象，而不是整张关卡
  *
  * 一次生成一整关（5 段步骤 + 6 张卡 + 4 道题）会让单次输出过长、局部非法
- * 就整体作废。这个流程是**一个知识点出一道题**，然后由 `assembleLevelSpec()`
- * 把它组装成 quiz 型关卡 —— 组装的骨架（步骤顺序、门控）是我们自己的代码，
- * 不交给模型，于是模型只需要为「题干 + 选项 + 答案 + 两个解析 + 错因标签」
- * 负责。这四项正是出题技能（`skills/question-author/SKILL.md`）里定义的最小
- * 可判分单元。
+ * 就整体作废。这个流程是**一次调用出一道题**，再由 `assembleLevelSpec()`
+ * 把 N 道题组装成 quiz 型关卡 —— 组装的骨架（步骤顺序、门控）是我们自己的
+ * 代码，不交给模型，于是模型只需要为「题干 + 选项 + 答案 + 两个解析 + 错因
+ * 标签」负责。这五项正是出题技能（`skills/question-author/SKILL.md`）里定义
+ * 的最小可判分单元。
+ *
+ * ## 为什么同一知识点要出多次、每次带一个「角度」
+ *
+ * 一个知识点只出一道题，学习者在这个知识点上永远只有一个变式组，而
+ * `MASTERY_MIN_VARIANTS = 3` 要求至少 3 个不同变式组才算「证据足够」——
+ * 于是那张关卡无论答多少次都到不了「已掌握」，也就永远进不了复验排期。
+ * 5 道题各有各的变式组才能把这条路走通（见 `constants.ts` 的
+ * `QUESTIONS_PER_KP`）。
+ *
+ * 而「连续问 5 次同一个问题」会收敛到同一道题：不指定角度时模型每次都
+ * 挑该知识点最典型的那道，实测 5 次里有 2–3 次题干几乎逐字相同。把角度
+ * 写进提示词，等于把「出什么」从随机采样变成有覆盖的枚举。
  *
  * ## 语言约束为什么要写三遍
  *
@@ -23,6 +35,7 @@
  * 的 `checkChinese()`。前两处是「请求」，第三处是「验收」——只有验收能失败。
  */
 import type { LlmMessage } from '../llm/llm.port.js';
+import type { QuestionAngle } from './constants.js';
 
 /** 一道题的材料：知识点 + 若干教材片段 */
 export interface QuestionMaterial {
@@ -68,16 +81,28 @@ export const QUESTION_AUTHOR_SYSTEM_PROMPT = `你是核电子学课程（康华�
  * 明确写出「本批次只出 practice 池的题」——即使 schema 层已经强制，让模型
  * 知道这件事能减少它产出「判定题」语气的题干（那种题干会写「考试重点」）。
  */
-export function buildQuestionPrompt(material: QuestionMaterial): string {
+export function buildQuestionPrompt(material: QuestionMaterial, angle?: QuestionAngle): string {
   const excerpts = material.excerpts
     .map((e, i) => `[${i + 1}] chunkId=${e.chunkId}\n${e.text}`)
     .join('\n\n');
+
+  // 角度段单独拼：没有角度时整段消失，提示词与票 16 的原文逐字一致。
+  // 保留这条「无角度」路径是因为单题生成（脚本、排障、测试）仍然走它。
+  const angleBlock =
+    angle === undefined
+      ? ''
+      : `
+本次出题角度：${angle.label}
+${angle.hint}
+要求：这一道题只考上面这一个侧面，不要把它写成对「${material.microKpName}」的综述；
+题干要与「换个说法的定义题」明显不同，不要重复最常见的那个问法。
+`;
 
   return `微知识点：${material.microKpName}（id=${material.microKpId}）
 
 可用教材片段（这是你唯一的信息来源，sourceRef 只能取这里的 chunkId）：
 ${excerpts}
-
+${angleBlock}
 请出一道针对「${material.microKpName}」的单项选择题，只输出 JSON 对象。
 
 补充说明：
@@ -87,10 +112,13 @@ ${excerpts}
 }
 
 /** 组装成 LlmPort 需要的消息数组 */
-export function buildQuestionMessages(material: QuestionMaterial): LlmMessage[] {
+export function buildQuestionMessages(
+  material: QuestionMaterial,
+  angle?: QuestionAngle,
+): LlmMessage[] {
   return [
     { role: 'system', content: QUESTION_AUTHOR_SYSTEM_PROMPT },
-    { role: 'user', content: buildQuestionPrompt(material) },
+    { role: 'user', content: buildQuestionPrompt(material, angle) },
   ];
 }
 

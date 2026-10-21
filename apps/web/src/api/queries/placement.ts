@@ -148,6 +148,19 @@ export function useRejudgePlacement() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: getGetPlacementStatusQueryKey() });
+      /**
+       * 票 12：重判会**改变档位**，所以所有按档位算出来的东西都失效了。
+       *
+       * 用 `predicate` 而不是逐个列举 key：`/tier/levels/{levelId}/plan` 的 key
+       * 带着任意一个 levelId，这里无法穷举。不失效的后果是「定级页说档位已经从
+       * P2 升到 P3 了，关卡页还是按 P2 渲染」——两页各说一套，而学习者只能信一个。
+       *
+       * 只失效 `/api/v1/tier` 这一前缀，不动别的查询：重判不影响知识点、图谱、
+       * 作答记录（那些是证据本身，没变）。
+       */
+      void queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === '/api/v1/tier',
+      });
     },
   });
 }

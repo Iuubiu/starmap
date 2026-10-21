@@ -290,6 +290,22 @@ describe('AttemptsController（集成）', () => {
     expect(rows[0]?.state).toBe('mastered');
     expect(rows[0]?.variant_count).toBe(3);
     expect(rows[0]?.evidence_sufficient).toBe(true);
+
+    /**
+     * `attempt_count` 也必须准。captain 特别提过：`attempted` 这个状态同时盖住
+     * 「做过但证据不够」与「证据够但没掌握」两种处境，所以 `state` 列单看说明不了
+     * 学习者的真实位置；下游的推荐与门控要靠 attempt_count / variant_count /
+     * evidence_sufficient 三个数才写得出有信息量的判断。只更新 current 而让另外两个
+     * 停在上一次的值，页面会显示「12 次作答」而库里其实只答了 9 次。
+     *
+     * 断言写成「与证据行数一致」而不是写死数字：这个套件里的作答次数会随用例增减，
+     * 写死一个数只会在下次改动时无关地变红。
+     */
+    const counted = await db.query<{ n: string }>(
+      `SELECT COUNT(*)::text AS n FROM attempts
+        WHERE micro_kp_id = 'kp-att-child' AND counts_toward_mastery = true`,
+    );
+    expect(rows[0]?.attempt_count).toBe(Number(counted[0]?.n));
   });
 
   it('同一串作答输入，重放两次得出完全相同的数（无随机、无时钟泄漏）', async () => {

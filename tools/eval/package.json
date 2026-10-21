@@ -7,7 +7,10 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "eval:layer1": "node ./src/layer1/index.ts"
+    "eval:layer1": "node ./src/layer1/index.ts",
+    "run": "node --env-file-if-exists=../../.env ./src/run.ts",
+    "eval": "node --env-file-if-exists=../../.env ./src/run.ts",
+    "gold": "node --env-file-if-exists=../../.env ./src/layer3/gold-cli.ts"
   },
   "dependencies": {
     "@starmap/api-contract": "workspace:*",

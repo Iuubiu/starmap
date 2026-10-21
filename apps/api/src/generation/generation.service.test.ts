@@ -52,7 +52,7 @@ function question(chunkId: string) {
 async function seedKp(
   db: DatabaseService,
   microKpId: string,
-  options: { chunkLength?: number; kind?: string } = {},
+  options: { chunkLength?: number; kind?: string; ordinal?: number; chunkCount?: number } = {},
 ): Promise<void> {
   await db.query(`INSERT INTO subjects (id, name) VALUES ('gentest-subj', '核电子学') ON CONFLICT DO NOTHING`);
   await db.query(
@@ -66,16 +66,22 @@ async function seedKp(
   );
   await db.query(
     `INSERT INTO knowledge_points (id, module_id, name, summary, is_leaf, depth, ordinal)
-     VALUES ($1, 'gentest-mod', $2, '吸收律与德摩根律', true, 2, 1)
+     VALUES ($1, 'gentest-mod', $2, '吸收律与德摩根律', true, 2, $3)
      ON CONFLICT (id) DO NOTHING`,
-    [microKpId, `知识点 ${microKpId}`],
+    [microKpId, `知识点 ${microKpId}`, options.ordinal ?? 1],
   );
   const text = 'A + A·B = A，这是吸收律。'.repeat(8).slice(0, options.chunkLength ?? 120);
-  await db.query(
-    `INSERT INTO chunks (id, source_id, ordinal, kind, text, page, micro_kp_id)
-     VALUES ($1, 'gentest-src', 1, $2, $3, 34, $4) ON CONFLICT (id) DO NOTHING`,
-    [`${microKpId}-chunk`, options.kind ?? 'text', text, microKpId],
-  );
+  // chunkCount 默认 1；传 0 表示「有知识点但没材料」，用来验证硬前置。
+  // 单个 chunk 时 id 保持 `<kp>-chunk`（既有断言依赖它）；多 chunk 才带序号。
+  const count = options.chunkCount ?? 1;
+  for (let i = 0; i < count; i += 1) {
+    const chunkId = count === 1 ? `${microKpId}-chunk` : `${microKpId}-chunk-${i}`;
+    await db.query(
+      `INSERT INTO chunks (id, source_id, ordinal, kind, text, page, micro_kp_id)
+       VALUES ($1, 'gentest-src', $2, $3, $4, 34, $5) ON CONFLICT (id) DO NOTHING`,
+      [chunkId, i + 1, options.kind ?? 'text', text, microKpId],
+    );
+  }
 }
 
 describe('GenerationService（连真实 Postgres）', () => {
@@ -391,6 +397,38 @@ describe('GenerationService（连真实 Postgres）', () => {
     expect(ia).toBeGreaterThanOrEqual(0);
     expect(ib).toBeGreaterThanOrEqual(0);
     expect(ib).toBeLessThan(ia);
+  });
+
+  // ── tiebreak：材料量取代 ordinal（回归测试）────────────────────────────
+  //
+  // 这一组是真实缺陷的回归测试。修之前：内容管线的 20 个「小结/习题」节点
+  // ordinal 是默认 0，正常知识点从 1 起，于是 AI 生成 12 次挑 12 次全挑中
+  // 那些节点。修之后：材料多的赢，ordinal 只做完全并列时的兜底。
+
+  it('pickTargets 按材料量排序：ordinal 更小但材料更少的排在后面', async () => {
+    // 模拟章末「小结」：ordinal = 0（更小，旧排序会让它赢）但只有 1 个片段
+    await seedKp(db, 'gentest-tie-noise', { ordinal: 0, chunkCount: 1 });
+    // 模拟正常知识点：ordinal = 1（更大，旧排序会输）但有 3 个片段
+    await seedKp(db, 'gentest-tie-real', { ordinal: 1, chunkCount: 3 });
+
+    const picked = await service.pickTargets(50);
+    const noise = picked.indexOf('gentest-tie-noise');
+    const real = picked.indexOf('gentest-tie-real');
+    expect(noise).toBeGreaterThanOrEqual(0);
+    expect(real).toBeGreaterThanOrEqual(0);
+    // 材料多的赢 —— 与 ordinal 大小正好相反，这样才能证明是材料量在起作用
+    expect(real).toBeLessThan(noise);
+  });
+
+  it('pickTargets 把「零材料」当硬前置，而不是只排到后面', async () => {
+    // 有知识点、ordinal 最小、但从没有合格片段 → 不该出现在候选里
+    await seedKp(db, 'gentest-nomat-pick', { ordinal: 0, chunkCount: 0 });
+    await seedKp(db, 'gentest-hasmat-pick', { ordinal: 9, chunkCount: 1 });
+
+    const picked = await service.pickTargets(50);
+    // 关键断言：不是「排在后面」，是**根本不出现**
+    expect(picked).not.toContain('gentest-nomat-pick');
+    expect(picked).toContain('gentest-hasmat-pick');
   });
 
   // ── 失败原因汇总（验收⑤）───────────────────────────────────────────────

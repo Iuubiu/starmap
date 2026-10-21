@@ -176,7 +176,14 @@ describe('阶梯上限由策略核心决定，模型无权越过', () => {
 
     // judge 必须判它越界。若这里 passed === true，说明越界检测没生效。
     expect(turn.judge.passed).toBe(false);
-    expect(turn.judge.reasons.length).toBeGreaterThan(0);
+    // **按原因分类**是票 10 的原话。这里三类的来源各不相同，一起断言顺带
+    // 证明了「标准答案确实被读到了」：`leaks_final_value` 与 `leaks_formula`
+    // 只有在 `expectedAnswer` 取到 value=120 / formula=ENC = sqrt(4kT/RF) 时才
+    // 可能触发 —— 若标准答案没读出来，这两条断言会立刻红，而不是让下面对
+    // `question` 的负向断言悄悄空过。
+    expect(turn.judge.reasons).toContain('leaks_final_value');
+    expect(turn.judge.reasons).toContain('leaks_formula');
+    expect(turn.judge.reasons).toContain('multiple_questions');
 
     // `judge.questionCount` 数的是**模型原话**的问号数（2 个），它记录的是
     // 「模型越界到什么程度」，不是「最终给学生的问句」。所以这里不能拿它
@@ -197,15 +204,21 @@ describe('阶梯上限由策略核心决定，模型无权越过', () => {
     const probeId = await startProbe('P1');
     const seen: number[] = [];
     let last: TurnBody | null = null;
+    let fallbacks = 0;
 
     for (let i = 0; i < 4; i += 1) {
       last = await reply(probeId, '不知道');
       seen.push(last.ladder.level);
+      if (last.fallbackApplied) fallbacks += 1;
       expect(last.ladder.level).toBeLessThanOrEqual(3);
       if (last.ladder.exited) break;
     }
 
     expect(last).not.toBeNull();
+    // 正向对照：这一轮序列里模型**确实**越界过（否则「level 没超过 3」
+    // 可能只是因为模型压根没推，测试就退化成了空断言）。
+    expect(fallbacks).toBeGreaterThan(0);
+    expect(seen.length).toBeGreaterThan(0);
     expect(Math.max(...seen)).toBeLessThanOrEqual(3);
   });
 
@@ -263,24 +276,35 @@ describe('五级求助阶梯逐级递进', () => {
     }
   });
 
-  it('同样的推进序列放到 P1 上到不了第 4 级', async () => {
+  it('P1 上三级提示逐级走完，第 4 次失败退出到 reteach 而不是再加一级', async () => {
     // 与上一条形成对照：不是「阶梯只有 3 级」，而是上限由档位决定。
     // 序列里必须交替「不知道」和「答错」：连说两次「不知道」会先撞上
     // `unknownBeforeReteach=2` 直接退出，还没爬到第 3 级就结束了。
     const probeId = await startProbe('P1');
-    const levels: number[] = [];
 
-    await reply(probeId, '方向大概对了一半');
-    levels.push(1);
-    for (const answer of ['不知道', '我觉得是正比于温度', '不知道']) {
-      const turn = await reply(probeId, answer);
-      levels.push(turn.ladder.level);
-      expect(turn.ladder.level).toBeLessThanOrEqual(3);
-      expect(turn.ladder.maxLevelUsed).toBeLessThanOrEqual(3);
-      if (turn.ladder.exited) break;
-    }
+    const first = await reply(probeId, '方向大概对了一半');
+    expect(first.ladder.level).toBe(1);
 
-    expect(Math.max(...levels)).toBe(3);
+    const second = await reply(probeId, '不知道');
+    expect(second.action).toBe('hint');
+    expect(second.ladder.level).toBe(2);
+
+    const third = await reply(probeId, '我觉得是正比于温度');
+    expect(third.action).toBe('hint');
+    expect(third.ladder.level).toBe(3);
+
+    // 三级提示都真的走到了（`1 → 2 → 3` 逐级，不跳级），且三句问题各不相同。
+    // 只断言 `max(...) === 3` 是不够的：数组错位时最大值仍是 3，
+    // 但学生会连续两轮看到同一句提示。
+    const asked = [first.question, second.question, third.question];
+    expect(new Set(asked).size).toBe(3);
+
+    // 第 4 次失败：阶梯用尽，退出到 reteach（换更小粒度重讲），不是再加第 4 级。
+    const fourth = await reply(probeId, '不知道');
+    expect(fourth.ladder.exited).toBe(true);
+    expect(fourth.action).toBe('reteach');
+    expect(fourth.ladder.maxLevelUsed).toBe(3);
+    expect(fourth.question).not.toBe(third.question);
   });
 });
 
@@ -327,23 +351,51 @@ describe('两个计数器独立且阈值不同', () => {
 });
 
 describe('退出路径与「不无限追问」', () => {
-  it('连续三轮无进展即退出追问并换动作', async () => {
+  it('连续三轮无进展即退出追问，且是「换更小粒度重讲」而不是给答案', async () => {
     const probeId = await startProbe('P1');
     await reply(probeId, '不知道');
     await reply(probeId, '我觉得是正比于温度');
     const third = await reply(probeId, '不知道');
 
     expect(third.ladder.exited).toBe(true);
-    expect(['reteach', 'reveal']).toContain(third.action);
+    // 票面写的是「改为换更小粒度重讲」。原来这里放宽成 `['reteach','reveal']`，
+    // 等于允许「三轮答不上就直接揭晓」，正好是票面禁止的那条。收紧到 reteach，
+    // 并且要求原因能说出是哪一类无进展（交替失败，不是某个计数器打满）。
+    expect(third.action).toBe('reteach');
+    expect(third.actionReason).toBe('no_progress');
+
+    // 「不得直接给答案」：重讲的问题要么是问题，要么至少不能把标准答案念出来。
+    const question = third.question ?? '';
+    expect(question.length).toBeGreaterThan(0);
+    expect(question).not.toContain('120');
+    expect(question).not.toContain('sqrt');
+    // 正向对照：它确实在问一件事（而不是空白字符串让上面两条负向断言白过）。
+    expect((question.match(/[?？]/g) ?? [])).toHaveLength(1);
   });
 
-  it('学生放弃时直接给结论，不再是提示', async () => {
+  it('学生放弃时直接给结论，第一轮就退出（早于任何计数阈值）', async () => {
+    // 票 10 的必测项之一。`packages/engine/src/probe.ts` 的老语义是
+    // `PROBE_LIMITS.explicitGiveUp = 2`（连说两次「给我答案」才揭晓）；
+    // `probe-ladder.ts` 收紧成第一次就揭晓 —— 学生都已经明说不想想了，
+    // 再追一轮只是耽误时间，而且这一轮本身就可能是压垮他的那一轮。
+    // 关键是「提前」：它必须早于 repeated_unknown(2) 与 no_progress(3)。
     const probeId = await startProbe('P2');
     const turn = await reply(probeId, '直接告诉我答案吧');
 
     expect(turn.replyKind).toBe('give_up');
     expect(turn.action).toBe('reveal');
     expect(turn.ladder.exited).toBe(true);
+    // 第一轮就走到了退出，没等计数器打满
+    expect(turn.ladder.consecutiveUnknown).toBe(0);
+    expect(turn.ladder.consecutiveWrong).toBe(0);
+    expect(turn.ladder.noProgress).toBe(0);
+
+    // 退出之后不再开新的一轮：下一句无论说什么都只能是 exit。
+    // （`question` 此时是策略核心的收尾话术「要不要换一个更小的知识点继续？」，
+    //  它是元层面的邀约，不是对知识点的追问，所以这里断言的是 action 而不是问号。）
+    const after = await reply(probeId, '那再问我一题');
+    expect(after.action).toBe('exit');
+    expect(after.ladder.exited).toBe(true);
   });
 
   it('情绪信号优先于任何计数阈值', async () => {
@@ -379,16 +431,29 @@ describe('每轮只问一个问题', () => {
       if (turn.ladder.exited) break;
     }
 
+    // 正向对照：真的收集到了问句（否则上面的循环断言在「一轮都没走到」时也绿）
     expect(questions.length).toBeGreaterThan(0);
     for (const question of questions) {
       expect(question.match(/[?？]/g) ?? []).toHaveLength(1);
+      expect(question.trim().endsWith('？')).toBe(true);
     }
+    // 三句问题两两不同：重复提问本身就是缺陷（票 10 最后一条）。
+    expect(new Set(questions).size).toBe(questions.length);
   });
 });
 
 describe('越界比例可测量', () => {
   it('metrics 报告判分轮数与越界轮数，并按拒绝原因分类', async () => {
-    // 前面几组用例已经在共享 schema 里累积了轮次，这里只断言形状与自洽性
+    // **自己造轮次**，不依赖前面用例留下的状态：否则单独跑这一条
+    // （`vitest -t`）会因为 `turns === 0` 直接红，而红的原因与它要
+    // 证明的事情无关。
+    //
+    // 一条「不知道」就够了：它会走 `phraseQuestion`，拿到替身的越界措辞，
+    // 被 judge 判为泄露数值 + 泄露公式 + 一轮多问。
+    const probeId = await startProbe('P1');
+    const turn = await reply(probeId, '不知道');
+    expect(turn.fallbackApplied).toBe(true);
+
     const res = await request(app.getHttpServer())
       .get('/api/v1/agent/probes/metrics')
       .expect(200);
@@ -407,12 +472,53 @@ describe('越界比例可测量', () => {
     expect(body.violationRate).toBeLessThanOrEqual(1);
     expect(body.violationRate).toBeCloseTo(body.violations / body.turns, 5);
 
-    // 分类必须能说出「因为什么」被判越界，而不只是一个总数
+    // 分类必须能说出「因为什么」被判越界，而不只是一个总数。
+    // 这里指名两类：它们是 `expectedAnswer` 真的读到 value=120 / formula 的
+    // 证据 —— 标准答案没读出来时这两类根本不可能出现。
+    expect(body.reasonCounts.leaks_final_value).toBeGreaterThan(0);
+    expect(body.reasonCounts.leaks_formula).toBeGreaterThan(0);
+
     const counts = Object.values(body.reasonCounts);
-    expect(counts.length).toBeGreaterThan(0);
     // 一轮可以同时命中多个拒绝原因（既有数值又有公式还有两个问号），
     // 所以 reasonCounts 之和是「拒绝原因出现次数」，>= 越界轮数而不是等于。
     expect(counts.reduce((a, b) => a + b, 0)).toBeGreaterThanOrEqual(body.violations);
+  });
+});
+
+describe('不得把正确答案塞进提示生成的 prompt', () => {
+  it('措辞调用与判分调用的提示词里都没有标准答案', async () => {
+    // 票 10 明文要求。这条最容易被「顺手」破坏：判分需要标准答案，
+    // 而判分与措辞共用同一个 `LlmPort`，把 `expectedAnswer` 拼进措辞提示词
+    // 只是复制一行的距离；更糟的是模型看到答案后会把它「自然地」问出来。
+    //
+    // 断言方式：拿这一段调用区间的**全部消息正文**去查标准答案的三个特征。
+    // 区间而不是全量，是因为 `scripted.calls` 在整份文件里累积，别的用例
+    // 可能自己就带了这些字面量。
+    const before = scripted.calls.length;
+    const probeId = await startProbe('P1');
+    await reply(probeId, '不知道');
+    await reply(probeId, '我觉得是正比于温度');
+    const after = scripted.calls.slice(before);
+
+    expect(after.length).toBeGreaterThan(0);
+
+    for (const call of after) {
+      const text = call.messages.map((m) => m.content).join('\n');
+      // 标准答案的数值 120、公式 ENC = sqrt(4kT/RF)、以及原始 answer JSON。
+      // `ENC` / `4kT` 单独查会误伤正常措辞（提到概念名不算泄题），所以查的是
+      // 能拼出答案的那几段。
+      expect(text).not.toContain('120');
+      expect(text).not.toContain('sqrt(4kT/RF)');
+      expect(text).not.toContain('"value"');
+      expect(text).not.toContain('"formula"');
+    }
+
+    // 正向对照：这段区间里**确实**调过措辞模型（否则上面四条在「一次都没调」
+    // 时也全绿）。措辞调用的用户消息以「本轮可用到的最高阶梯」开头。
+    const phraseCalls = after.filter((call) =>
+      call.messages.some((m) => m.content.includes('本轮可用到的最高阶梯')),
+    );
+    expect(phraseCalls.length).toBeGreaterThan(0);
   });
 });
 

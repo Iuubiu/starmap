@@ -28,6 +28,24 @@ import { ApiClientError } from '../api/fetcher';
 const submitMock = vi.hoisted(() => ({ mutate: vi.fn() }));
 const gateMock = vi.hoisted(() => ({ mutate: vi.fn() }));
 
+/**
+ * 「看讲解」面板的返回桩（票 19）。
+ *
+ * 用可变变量而不是 `vi.fn()`，是因为 `vi.mock` 工厂在模块级只求值一次，
+ * 而票 19 的两条用例要的是「同一份页面、不同的视频数据」。默认空列表让
+ * 其余 21 条用例不受视频干扰。
+ */
+let videoClipsState: {
+  isPending: boolean;
+  isError: boolean;
+  error: Error | null;
+  payload: { items: Array<Record<string, unknown>> };
+} = { isPending: false, isError: false, error: null, payload: { items: [] } };
+const videoClipsMock = () => videoClipsState;
+const setVideoClips = (next: Partial<typeof videoClipsState>) => {
+  videoClipsState = { ...videoClipsState, ...next };
+};
+
 vi.mock('../api/queries', () => ({
   useLevel: vi.fn(),
   useMastery: vi.fn(),
@@ -37,6 +55,26 @@ vi.mock('../api/queries', () => ({
   useNodeDetail: vi.fn(),
   useNodeList: vi.fn(),
   useHealth: vi.fn(),
+  // 关卡页在小结面板下方挂了「看讲解」（票 19，authoring-dev 的 VideoPanel）。
+  // 这个 mock 工厂是**全量替换** `../api/queries`，页面每多用一个 hook 就必须
+  // 在这里补一条，否则渲染时会抛 `No "useX" export is defined on the mock`。
+  // 默认给「这个关卡没有配讲解片段」：本文件大多数断言只关心做题与门控。
+  // 写成 `videoClipsMock()` 而不是内联对象，是为了让票 19 的用例能在单条
+  // 测试里换成「有片段」的返回 —— 内联值在模块加载时固定，改不了。
+  useLevelVideoClips: () => videoClipsMock(),
+  // `VideoPanel` 还 import 了这两个纯函数。它们没有副作用，直接用与
+  // `queries/video.ts` 同形的真实现，而不是再写一份假的 —— 写假的话
+  // 一旦那边改了格式，这里的断言会“通过但错”。
+  clipSrc: (clip: { playUrl: string }) => clip.playUrl,
+  formatClipTime: (seconds: number) => {
+    const total = Math.max(0, Math.round(seconds));
+    return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`;
+  },
+  // 票 12：关卡页现在会问「这一档怎么渲染这一关」。默认给 `payload: undefined`
+  // （“还没拿到参数”）——`tier-render` 在 `null` 上一律回落到票 04 的行为
+  // （全展开、一次提交即锁、即时反馈），所以本文件原有的 23 条断言逐字不变。
+  // 专门验证「切档位 → 首屏不同」的用例在 `LevelPageTier.test.tsx`。
+  useTierLevelPlan: () => ({ payload: undefined, isLoading: false, error: null }),
 }));
 
 /** 与 content/levels/lv-bool-laws.spec.json 同构的最小教学关卡（题少，断言好写）。 */
@@ -307,9 +345,26 @@ const walkTo = async (user: ReturnType<typeof userEvent.setup>, kind: string, co
   throw new Error('推进次数超限');
 };
 
+/**
+ * 一直做题到小结面板。
+ *
+ * 票 19 的「看讲解」面板挂在小结里（卡住之后才需要补丁，不是进关卡之前），
+ * 所以两条视频用例都得先走到这里。抽成函数是因为「推进到终态」的细节
+ * （先点选项、再提交、再下一段）与做题用例完全一致 —— 写两遍就会漏一遍。
+ */
+const walkToSummary = async (user: ReturnType<typeof userEvent.setup>) => {
+  await walkTo(user, '判定', true);
+  await user.click(screen.getAllByRole('radio')[0]!);
+  await user.click(screen.getByRole('button', { name: '提交答案' }));
+  await user.click(screen.getByRole('button', { name: '进入下一段' }));
+  expect(screen.getByText('本关小结')).toBeInTheDocument();
+};
+
 describe('LevelPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // 视频桩在每个用例前回到空列表：上一条用例的片段不能漏到下一条。
+    videoClipsState = { isPending: false, isError: false, error: null, payload: { items: [] } };
     mockMastery();
     mockHistory();
     respondWith('success');
@@ -544,15 +599,23 @@ describe('LevelPage', () => {
     expect(screen.queryByRole('button', { name: /评一次出口门控/ })).not.toBeInTheDocument();
   });
 
-  it('章末出口：进小结不自动判定，点按钮才发一次 POST', async () => {
+  it('章末出口：进小结不自动判定，点按钮才发一次 POST，且考前不显示作者的题量', async () => {
     const user = userEvent.setup();
+    // spec 里作者声明 2/2，但 exit 门的判定规则是引擎常量（8 题需 7 对）——
+    // 作者的数值只被校验器用来保证卷子够长，不参与判定。
     mockLevel(makeSpec({ mode: 'exit', itemCount: 2, passCount: 2 }));
     renderPage();
     await walkToSummary(user);
 
     // 关键：翻到小结页不等于被考一次。挂载即 POST 会让「看看小结」变成一场考试。
     expect(gateMock.mutate).not.toHaveBeenCalled();
-    expect(screen.getByText(/要做满 2 道判定题、答对至少 2 道/)).toBeInTheDocument();
+    // 考前展示的必须是**引擎规则**：作者写 2 题，但判定从 8 题起算。
+    // 显示 2/2 会让学习者按一个不会生效的数字准备考试。
+    expect(screen.getByText(/至少要做满 8 道/)).toBeInTheDocument();
+    expect(screen.getByText(/答对 7 道才算过/)).toBeInTheDocument();
+    expect(screen.queryByText(/要做满 2 道/)).not.toBeInTheDocument();
+    // 这一关的判定段只有 1 道题，撑不起 8 题的门控 —— 要明说「不是你的问题」。
+    expect(screen.getByText(/只有 1 道题，少于门控要求的 8 道/)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: '评一次出口门控' }));
     expect(gateMock.mutate).toHaveBeenCalledTimes(1);
@@ -691,5 +754,87 @@ describe('LevelPage', () => {
     expect(screen.getByText(/最近一次判定还差 2 道题/)).toBeInTheDocument();
     // 不是把 409 当服务器故障
     expect(screen.queryByText(/关卡载入失败/)).not.toBeInTheDocument();
+  });
+
+  /**
+   * 票 19 验收第 4 条：「每片至少对齐 1 个知识点，能在关卡页被调出播放」。
+   *
+   * 这条必须在**页面层**验，不能只靠 `video.controller.test.ts` 验接口：
+   * 接口能返回片段但页面不渲染 `<video>` 的话，学习者那边就是没有视频。
+   * 同时钉住 `src` 的路径形状（`/media/clips/...`，相对路径，与 captain
+   * 定下的约定一致）—— 写成绝对地址会让 dev / 生产两套域名都错。
+   *
+   * 「看讲解」住在小结面板里（卡住之后才需要补丁，不是进关卡之前），
+   * 所以要先走到小结。
+   */
+  it('有讲解片段时渲染出可播放的 <video>，src 指向 /media/clips/ 下的相对路径', async () => {
+    const user = userEvent.setup();
+    mockLevel();
+    setVideoClips({
+      payload: {
+        items: [
+          {
+            clipId: 'BV1VE411e7UP_p9-c01',
+            videoId: 'BV1VE411e7UP_p9',
+            title: '核电子学 37 讲 p09 前置放大器（1）',
+            startSec: 15.25,
+            endSec: 324.7,
+            durationSec: 309.45,
+            microKpId: 'kp-jichangsong-1990-11-8',
+            microKpName: '前置放大器',
+            reason: '跳过片头 1 条（命中开场寒暄）；停在 5:24：为控制单片时长（≤6 分钟）',
+            transcriptExcerpt: '那么前置放大器它的作用是什么呢',
+            playUrl: '/media/clips/BV1VE411e7UP_p9-c01.mp4',
+            sourceUrl: 'https://www.bilibili.com/video/BV1VE411e7UP?p=9',
+            sourceOrigin: 'bilibili',
+            sourceNote: null,
+            uploadedBy: '张雪梅（B 站）',
+            asrModel: 'faster-whisper:small:int8',
+            downloadedAt: '2026-10-21T04:00:03+00:00',
+            alignments: [
+              {
+                microKpId: 'kp-jichangsong-1990-11-8',
+                name: '前置放大器',
+                score: 6,
+                hits: ['前置放大器'],
+              },
+            ],
+          },
+        ],
+      },
+    });
+    renderPage();
+
+    await walkToSummary(user);
+
+    const video = document.querySelector('video');
+    expect(video).not.toBeNull();
+    // 相对路径：`clipSrc` 拼的是 `VITE_API_BASE_URL`，测试环境为空串
+    expect(video?.getAttribute('src')).toBe('/media/clips/BV1VE411e7UP_p9-c01.mp4');
+
+    // 票面验收第 3 条：切分理由要看得见，不能只存库里
+    expect(screen.getByText(/跳过片头 1 条/)).toBeInTheDocument();
+    // 票面验收第 7 条：来源可追溯
+    expect(screen.getByText(/BV1VE411e7UP\?p=9/)).toBeInTheDocument();
+  });
+
+  /**
+   * 视频是**只读增强**：没有片段时不能渲染一个空播放器，也不能报错。
+   *
+   * 「没配」与「加载失败」要能分开。前者不阻断做题，后者才提示重试。
+   */
+  it('没有讲解片段时不渲染空播放器、也不报错（视频不阻断做题）', async () => {
+    const user = userEvent.setup();
+    mockLevel();
+    renderPage();
+
+    await walkToSummary(user);
+
+    expect(document.querySelector('video')).toBeNull();
+    expect(screen.getByText(/这个知识点还没有配讲解视频/)).toBeInTheDocument();
+    // 没片段不是错误
+    expect(screen.queryByText(/讲解视频没能加载/)).not.toBeInTheDocument();
+    // 页面主体仍然正常：小结面板与做题都不受影响
+    expect(screen.getByText('本关小结')).toBeInTheDocument();
   });
 });

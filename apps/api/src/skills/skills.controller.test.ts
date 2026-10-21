@@ -213,15 +213,43 @@ describe('开关持久化：不是进程内状态', () => {
     await toggle('socratic-tutor', true);
   });
 
+  /**
+   * 上一条用例还留着「同一次进程里写、同一次进程里读」的可能性 —— 万一实现是
+   * 把开关缓存在 Service 的字段里，那条用例照样绿。这条改成**绕过接口直接写库**
+   * （模拟上一个进程留下的状态，或人手工改表），再问接口要答案：接口必须读库。
+   */
+  it('绕过接口直接写库，接口立刻反映（证明状态不在 Service 内存里）', async () => {
+    await db.query(
+      `INSERT INTO skill_switches (name, enabled, updated_at, updated_by)
+       VALUES ($1, false, now(), 'previous-process')
+       ON CONFLICT (name) DO UPDATE SET enabled = false, updated_by = 'previous-process'`,
+      ['socratic-tutor'],
+    );
+
+    const body = await list();
+    expect(body.items.find((i) => i.name === 'socratic-tutor')?.enabled).toBe(false);
+
+    const shown = await preview();
+    expect(shown.excludedSkills).toContain('socratic-tutor');
+    expect(shown.systemMessage).not.toContain('socratic-tutor');
+
+    // 清干净，别把状态漏给后面的用例
+    await db.query('DELETE FROM skill_switches WHERE name = $1', ['socratic-tutor']);
+    const after = await list();
+    expect(after.items.find((i) => i.name === 'socratic-tutor')?.enabled).toBe(true);
+  });
+
   it('没有开关行的 skill 默认启用（新增目录立刻可用，不需要先写一行）', async () => {
+    // 自己把行清掉，不依赖上一条用例的收尾 —— 单跑这一条时也必须成立
+    await db.query('DELETE FROM skill_switches WHERE name = $1', ['socratic-tutor']);
+
     const rows = await db.query<{ count: string }>(
       'SELECT count(*)::text AS count FROM skill_switches WHERE name = $1',
       ['socratic-tutor'],
     );
-    // 上一条用例末尾已启用回来，但行还在；这里验证的是「无行」等价于启用
+    expect(Number(rows[0]?.count)).toBe(0);
     const body = await list();
     expect(body.items.find((i) => i.name === 'socratic-tutor')?.enabled).toBe(true);
-    expect(Number(rows[0]?.count)).toBeGreaterThan(0);
   });
 });
 

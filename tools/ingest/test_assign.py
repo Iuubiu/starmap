@@ -17,12 +17,20 @@ from assign import (
     is_answer_block,
     leaf_page_ranges,
     owner_of,
+    owners_at,
 )
 from chunk import Chunk
 
 
-def _node(kp_id: str, name: str, page: int, is_leaf: bool = True) -> dict:
-    return {'microKpId': kp_id, 'name': name, 'printedPage': page, 'isLeaf': is_leaf, 'depth': 1}
+def _node(kp_id: str, name: str, page: int, is_leaf: bool = True, appendix: bool = False) -> dict:
+    return {
+        'microKpId': kp_id,
+        'name': name,
+        'printedPage': page,
+        'isLeaf': is_leaf,
+        'appendix': appendix,
+        'depth': 1,
+    }
 
 
 class TestLeafRanges:
@@ -38,16 +46,17 @@ class TestLeafRanges:
         nodes = [_node('ch', '章', 1, is_leaf=False), _node('a', '甲', 1)]
         assert [r[0] for r in leaf_page_ranges(nodes)] == ['a']
 
-    def test_same_page_leaves_both_get_a_non_empty_range(self):
-        """两个叶子印在同一页（实测王芝英 20 组）不能把前一个饿死成 `[p,p)`。
+    def test_same_page_leaves_share_the_same_range(self):
+        """两个叶子印在同一页（实测王芝英 20 组）共享 `[p, 下一个不同起始页)`。
 
-        原来的实现「end = 下一个叶子的 start」在并列时给出空区间，前一个叶子
-        永远匹配不到任何页 —— `kp-2-2 电荷灵敏前置放大器` 就是这样 0 chunk 的，
-        而它的内容真实存在（修复后 71 chunk）。
+        t30 之前是「第几条就往后推几页」，正文里看似无害，但附录区一页能并列
+        3–6 个条目，偏移量累积会把整组推过书末（汲长松 30 个附录条目被推到
+        `[580, 1000000)`，而书只有 562 页）。现在共享同一段区间，一页的内容
+        归谁由 `assign()` 按 chunk 顺序切块决定。
         """
         ranges = leaf_page_ranges([_node('a', '甲', 7), _node('b', '乙', 7), _node('c', '丙', 9)])
-        assert ranges[0] == ('a', '甲', 7, 8)
-        assert ranges[1] == ('b', '乙', 8, 9)
+        assert ranges[0] == ('a', '甲', 7, 9)
+        assert ranges[1] == ('b', '乙', 7, 9)
         assert ranges[2] == ('c', '丙', 9, 10**6)
 
     def test_every_range_is_non_empty(self):
@@ -83,8 +92,106 @@ class TestLeafRanges:
         by_id = {r[0]: r for r in ranges}
         assert by_id['kp-6'][3] == 10**6, '页码最大的叶子才兜书末'
         assert by_id['kp-5'][3] == 252, 'p164 的叶子不能吞到书末'
-        assert owner_of(200, ranges) == ('kp-5', '时间分析')
+        # p164 并列两条：`owner_of` 返回目录顺序第一条（kp-4-3-3 在 kp-5 之前），
+        # 但真实归属由 `assign()` 按 chunk 顺序切块 —— 两条都在 `owners_at()` 里。
+        assert owner_of(200, ranges) == ('kp-4-3-3', '逐次比较型模数变换器')
+        assert [o[0] for o in owners_at(200, ranges)] == ['kp-4-3-3', 'kp-5']
         assert owner_of(300, ranges) == ('kp-6', '数据获取和处理')
+
+
+class TestNoOverflow:
+    """t30 的硬判据：区间不允许被推出书末，同页内容按顺序切块而不是推后。
+
+    这些用例的数字全部来自真实产物（汲长松 1990 附录区、methods-1997），
+    不是构造出来的极端值 —— 缺陷本身是真实数据暴露的。
+    """
+
+    def test_start_is_always_the_printed_page(self):
+        """`start` 恒等于条目自己的印刷页码 —— 一个偏移都不加。
+
+        这就是「区间不可能被推出书末」的充分条件：只要目录页码不超过书末，
+        `start` 就不超过书末。附录区 30 个条目把区间推到 580（书只有 562 页）
+        的那个缺陷，在这一条上不可能复发。
+        """
+        pages = [1, 1, 1, 2, 2, 5, 550, 550, 550, 550, 557, 557, 557, 557]
+        nodes = [_node(f'n{i}', f'名{i}', p) for i, p in enumerate(pages)]
+        by_id = {r[0]: r for r in leaf_page_ranges(nodes)}
+        for i, p in enumerate(pages):
+            assert by_id[f'n{i}'][2] == p, f'第 {i} 条的 start 应该是 {p}'
+
+    def test_no_start_past_the_last_page(self):
+        """同页并列 30 个条目也不会把 start 推过 maxPage + 1（汲长松实测场景）。"""
+        pages = [549] + [550] * 3 + [552] * 2 + [555] * 2 + [557] * 4 + [558] * 2
+        pages += [559] * 4 + [560] * 3 + [561] * 6 + [562] * 2
+        nodes = [_node(f'n{i}', f'名{i}', p) for i, p in enumerate(pages)]
+        max_page = max(pages)
+        for _kp, _name, start, _end in leaf_page_ranges(nodes):
+            assert start <= max_page + 1, '区间被推出书末'
+
+    def test_last_page_chunks_do_not_go_to_early_appendix(self):
+        """p559–p562 的 chunk 归 `source_page` 就在这几页的节点，不得归 549/550 的。
+
+        修复前汲长松的 32 个 chunk（p559–562）全挂到 `source_page` 549–552 的
+        条目上 —— 「希腊字母及其读音」那页的名字变成了「附录1」。
+        """
+        nodes = [
+            _node('a549', '附录1', 549, is_leaf=False, appendix=True),
+            _node('a550', '化学元素周期表', 550, is_leaf=False, appendix=True),
+            _node('b559', '希腊字母及其读音', 559, is_leaf=False, appendix=True),
+            _node('b560', '单位换算表', 560, is_leaf=False, appendix=True),
+            _node('b562', '换算表', 562, is_leaf=False, appendix=True),
+        ]
+        chunks = [
+            _chunk('c549', 549, '附录1 的正文'),
+            _chunk('c559a', 559, '希腊字母 α β γ'),
+            _chunk('c559b', 559, '读音表'),
+            _chunk('c562', 562, '换算表'),
+        ]
+        assign(chunks, nodes)
+        assert chunks[1].micro_kp_id == 'b559'
+        assert chunks[2].micro_kp_id == 'b559'
+        assert chunks[3].micro_kp_id == 'b562'
+
+    def test_same_page_chunks_are_split_in_reading_order(self):
+        """同页多条按 chunk 顺序**连续切块**，不是轮转。
+
+        轮转会让一页的正文在几个知识点之间来回跳（a1 b1 c1 a2 b2），读起来是
+        碎的；切块是 a1 a2 b1 b2 c1 —— 同一条内容保持连续。
+        """
+        nodes = [_node('a', '甲', 7), _node('b', '乙', 7), _node('c', '丙', 7)]
+        chunks = [_chunk(f'c{i}', 7, f'第{i}段') for i in range(5)]
+        assign(chunks, nodes)
+        assert [c.micro_kp_id for c in chunks] == ['a', 'a', 'b', 'b', 'c']
+
+    def test_leaf_wins_over_appendix_when_there_is_only_one_chunk(self):
+        """一页并列多个条目只有 1 个 chunk 时，叶节点优先拿，附件饿着。
+
+        附件是「小结/习题/附录」这类容器，零内容不影响地图与掌握度；微知识点
+        零内容会让它在图谱上永远是一块空白。汲长松 p557 正是这种混排
+        （附录5 / 常用物理常数表 / 附录6 / 基本粒子表）。
+        """
+        nodes = [
+            _node('ex5', '附录5', 557, is_leaf=False, appendix=True),
+            _node('kp-phys', '常用物理常数表', 557),
+            _node('ex6', '附录6', 557, is_leaf=False, appendix=True),
+            _node('kp-particle', '基本粒子表', 557),
+        ]
+        chunks = [_chunk('c1', 557, '唯一的正文')]
+        assign(chunks, nodes)
+        assert chunks[0].micro_kp_id == 'kp-phys', '叶节点优先'
+
+    def test_owners_at_is_deterministic(self):
+        """`owners_at()` 在同一并列组上永远返回同一顺序 —— 归属必须可复现。"""
+        nodes = [_node(f'n{i}', f'名{i}', 7) for i in range(5)] + [_node('z', '尾', 9)]
+        ranges = leaf_page_ranges(nodes)
+        first = [o[0] for o in owners_at(7, ranges)]
+        for _ in range(5):
+            assert [o[0] for o in owners_at(7, ranges)] == first
+        assert first == ['n0', 'n1', 'n2', 'n3', 'n4']
+        # p7 的组一直占到自己 end=9（下一个不同起始页），所以 p8 仍是同一组
+        assert [o[0] for o in owners_at(8, ranges)] == first
+        # 目录第一条之前的页没有所有者
+        assert owners_at(5, ranges) == ()
 
 
 class TestOwnerOf:

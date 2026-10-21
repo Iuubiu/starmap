@@ -137,6 +137,75 @@ export class MasteryService {
   }
 
   /**
+   * 批量掌握度：一次回放多个**叶节点**。
+   *
+   * ## 为什么需要它，而不是在循环里调 `view()`
+   *
+   * `/api/v1/nodes` 默认 20 条、上限 200 条。逐个调 `view()` 是 2×N 次往返
+   * （每个知识点一次 `findKnowledgePoint`、一次 `loadEvidence`），200 条就是
+   * 400 次。这里把「取节点」「取证据」各收成一条 `= ANY($1)` 查询，**查询次数
+   * 与 N 无关**。
+   *
+   * 这不是第二套算法：`loadEvidence` → `groupByMicroKp` → `snapshotOf`
+   * 与 `view()` 逐字相同，只是把「取数」从每个节点一次改成一次取完。两边算出
+   * 的数必须逐位相同——否则「列表里的百分比」与「详情页的百分比」又会分叉，
+   * 那正是本次要消灭的那类缺陷。
+   *
+   * ## 为什么只收叶节点
+   *
+   * 非叶节点的读路径要递归取后代（`loadLeafDescendants`），每个节点的后代
+   * 集合不同，无法与叶子共用同一次 `loadEvidence`。传进非叶 id 会直接抛错，
+   * 而不是悄悄给一个「未学习」的假值——静默的错误答案比报错难查得多。
+   * 需要非叶节点的聚合值请调 `view()`。
+   *
+   * ## 时刻
+   *
+   * `evaluatedAt` 由调用方传一次，内部截到 UTC 日界后给**所有**节点共用。
+   * 在方法内部逐节点取时刻会让同一响应里的数字分属不同时刻，`current` 连续
+   * 衰减，差几毫秒就差千分之一——列表里两个节点的百分比会互相不可比。
+   */
+  async viewMany(
+    microKpIds: readonly string[],
+    evaluatedAt: string,
+  ): Promise<Map<string, MasteryView>> {
+    const views = new Map<string, MasteryView>();
+    if (microKpIds.length === 0) return views;
+
+    const at = floorToGranularity(evaluatedAt);
+    // 去重后再查：`limit=200` 里不会有重复 id，但接口是公开的，重复 id 不该
+    // 变成两倍的工作量，也不该让 `groupByMicroKp` 之外的逻辑依赖入参唯一性。
+    const ids = [...new Set(microKpIds)];
+
+    const points = await this.db.query<{ id: string; name: string; is_leaf: boolean }>(
+      `SELECT id, name, is_leaf FROM knowledge_points WHERE id = ANY($1::text[])`,
+      [ids],
+    );
+    const byId = new Map(points.map((point) => [point.id, point]));
+
+    const notLeaf = ids.filter((id) => byId.get(id)?.is_leaf === false);
+    if (notLeaf.length > 0) {
+      throw new Error(
+        `viewMany 只接受叶节点：${notLeaf.join(', ')} 是折叠节点，它的聚合值请用 view()`,
+      );
+    }
+
+    // 一次取完全部证据。这是「不随节点数增长」的落点：不再有任何按节点的查询。
+    const evidence = await loadEvidence(this.runner, ids);
+    const grouped = groupByMicroKp(evidence);
+
+    for (const id of ids) {
+      const point = byId.get(id);
+      // 不存在的 id 不进结果（不是叶、也不是任何节点）。列表端点的 id 来自
+      // `knowledge_points` 自己的查询，不会走到这里；公开调用则跳过比报错好：
+      // 「查不到」与「查出未学习」是两件事，后者是编造事实。
+      if (!point) continue;
+      views.set(id, this.toView(id, point.name, true, 0, snapshotOf(grouped.get(id) ?? [], at)));
+    }
+
+    return views;
+  }
+
+  /**
    * 快照 → 对外形状。
    *
    * 两个百分比只在证据充足时给出（`null` 否则）。这不是「前端记得处理 null」，

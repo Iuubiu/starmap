@@ -38,6 +38,7 @@ const record = (itemId: string, attemptNo = 1): AttemptRecord => ({
   correct: true,
   countsTowardMastery: true,
   createdAt: '2026-10-20T00:00:00.000Z',
+  reviewRoundId: null,
 });
 
 describe('作答记账日志', () => {

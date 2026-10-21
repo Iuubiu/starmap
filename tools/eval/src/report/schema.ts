@@ -183,6 +183,15 @@ export const JourneySchema = z.object({
   scoringConsistency: ScoringConsistencySchema.default({ fleissKappa: null, cv: null, nReplays: 0 }),
   stall: StallSchema.default({ maxStall: 0, stalls: [], stallsOver2: 0 }),
   paasSeries: z.array(z.number().min(1).max(9)).default([]),
+  /**
+   * 这组旅程没有采集到的字段名。
+   *
+   * **摩擦计数默认为 0，但 0 有两种含义：「数了，是 0」与「根本没数」。**
+   * 本版旅程是确定性阶段脚本，不模拟点击狂点/空输入/刷新循环，所以那一组计数
+   * 恒为 0 —— 那是「没采」，不是「没发生」。不标出来的话，报告上的
+   * 「死点 0 次 · 狂点 0 次」读起来像已经验过一遍。
+   */
+  unsampled: z.array(z.string()).default([]),
 });
 
 export type Journey = z.infer<typeof JourneySchema>;

@@ -10,8 +10,22 @@ import {
   GraphResponseSchema,
   NodeDetailResponseSchema,
   NodeListResponseSchema,
+  ReasonFactSchema,
+  ReasonKindSchema,
+  RecommendationListResponseSchema,
+  RecommendationReasonSchema,
+  RecommendationSchema,
+  RedirectRequestSchema,
+  RedirectResponseSchema,
+  TodaySummarySchema,
 } from '../../dist/index.js';
 import { jsonResponse, jsonSchema, pathParam } from './_shared.mjs';
+
+/** 请求体：`{ required: true, content: { 'application/json': { schema: $ref } } }` */
+const jsonBody = (schemaName) => ({
+  required: true,
+  content: { 'application/json': { schema: { $ref: `#/components/schemas/${schemaName}` } } },
+});
 
 export const components = {
   NodeListResponse: jsonSchema(NodeListResponseSchema),
@@ -23,6 +37,19 @@ export const components = {
   GraphNode: jsonSchema(GraphNodeSchema),
   GraphEdge: jsonSchema(GraphEdgeSchema),
   GraphResponse: jsonSchema(GraphResponseSchema),
+
+  // ---- 推荐（票 13）----
+  // 这些全部声明为组件，理由同上：每个都要在前端有独立类型名。
+  // `ReasonFact` 尤其重要——它是判别联合，Orval 只有拿到组件名才会生成
+  // `ReasonFact` 类型而不是一串匿名内联对象；前端渲染理由时要做 switch。
+  ReasonFact: jsonSchema(ReasonFactSchema),
+  ReasonKind: jsonSchema(ReasonKindSchema),
+  RecommendationReason: jsonSchema(RecommendationReasonSchema),
+  Recommendation: jsonSchema(RecommendationSchema),
+  TodaySummary: jsonSchema(TodaySummarySchema),
+  RecommendationListResponse: jsonSchema(RecommendationListResponseSchema),
+  RedirectRequest: jsonSchema(RedirectRequestSchema),
+  RedirectResponse: jsonSchema(RedirectResponseSchema),
 };
 
 export const paths = {
@@ -35,6 +62,37 @@ export const paths = {
         '不分页：力导向布局需要完整图，缺一半节点会让布局跳变。',
       responses: {
         '200': jsonResponse('整张图谱', 'GraphResponse'),
+        '500': jsonResponse('服务内部错误', 'ApiError'),
+      },
+    },
+  },
+  '/api/v1/recommendations': {
+    get: {
+      operationId: 'getRecommendations',
+      summary: '今日推荐（带结构化理由）与今日学习摘要',
+      description:
+        '推荐由 `@starmap/engine` 的纯函数 `recommend()` 算出，与 `GET /api/v1/graph` ' +
+        '在同一个请求里用同一时刻调用同一个函数，所以两处的 `recommendedIds` 必然一致。' +
+        '理由以结构化事实返回（不是拼好的中文句子），由前端渲染成可点、可加粗的表述。',
+      responses: {
+        '200': jsonResponse('今日推荐与摘要', 'RecommendationListResponse'),
+        '500': jsonResponse('服务内部错误', 'ApiError'),
+      },
+    },
+  },
+  '/api/v1/recommendations/redirect': {
+    post: {
+      operationId: 'redirectRecommendation',
+      summary: '拒绝当前推荐并改道到另一个微知识点',
+      description:
+        '把「谁拒绝了谁」记进 `learning_log`（`event = recommendation_redirect`）。' +
+        '被拒绝的节点从此不再被推荐，直到它产生晚于拒绝时刻的新作答证据 —— ' +
+        '因为只有状态变了，拒绝的理由才过期。',
+      requestBody: jsonBody('RedirectRequest'),
+      responses: {
+        '200': jsonResponse('改道已记录', 'RedirectResponse'),
+        '400': jsonResponse('请求体不成形（缺字段、类型不对）', 'ApiError'),
+        '404': jsonResponse('微知识点不存在', 'ApiError'),
         '500': jsonResponse('服务内部错误', 'ApiError'),
       },
     },

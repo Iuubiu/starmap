@@ -381,30 +381,55 @@ export class GenerationService {
    *      还烧一次模型配额。
    *   3. 还没有 AI 关卡排前面 —— 重跑时优先补空缺，而不是反复重做已有的。
    *   4. 已有 AI 关卡的最久没更新的排前面（让陈旧内容先更新）。
+   *   5. **材料多的排前面**（见下）。
    *
    * 「多久没更新」用 `level_items.id` 排序做不到（那些 id 是确定性的，不随
    * 生成时间变）。这里用该知识点在 `level_generation_task` 里最近一次**成功**
    * 的时间 —— 那是真正记录了「上次生成是什么时候」的唯一地方。
    *
-   * 用 `NOT EXISTS` 而不是 LEFT JOIN + IS NULL：后者在有多个关卡时会出重复行，
-   * 得再加 DISTINCT，两种写法等价但前者读起来就是「不存在」。
+   * ## 为什么第 5 顺位是材料量而不是 `kp.ordinal`
+   *
+   * 原来这里尾随 `ORDER BY ..., kp.ordinal, kp.id`。第 3、4 顺位在「一批全都
+   * 从没生成过」的知识点上完全并列（大家都一样），排序实际由 ordinal 决定 ——
+   * 而内容管线给章末「小结」「习题」这类节点留的是 **ordinal 默认值 0**，
+   * 正常知识点的 ordinal 从 1 起。于是 AI 生成**系统性地**先挑中那些不该出题
+   * 的节点：实测 12 张生成关卡的 12 张全挂在「小结/习题」上，没有一张落在
+   * 正常知识点上。
+   *
+   * 代码没错，是 `ordinal` 这个字段没有区分力 —— 它对「排前面」以外的含义
+   * 一无所知。换成**材料量**（符合长度门槛的 chunk 数）是内容驱动的判据：
+   * 教材给的材料越多，越有把握出一道站得住的题；这个判据在换一本新书时自动
+   * 成立，也不必把「小结」「习题」这些具体词硬编码进生成逻辑 —— 那等于把数据
+   * 缺陷固化成代码。ordinal 留在最后作为完全并列时的稳定兜底。
+   *
+   * ## 材料量同时是**硬前置**，不只是排序
+   *
+   * `material.n > 0` 是 WHERE 条件。挂 0 个合格片段的知识点根本进不了候选：
+   * 没有材料还出题，模型只能凭空编，那种题比没有题更糟 —— 它违反「每条内容
+   * 可溯源到教材」这条红线，而且看起来像真的。
+   *
+   * 用 `CROSS JOIN LATERAL` 而不是在 ORDER BY 里把子查询再写一遍：材料量要
+   * 同时用于过滤与排序，算一次就够；写成两处子查询迟早漂移成两个判据。
    */
   async pickTargets(limit: number): Promise<string[]> {
     const rows = await this.db.query<{ id: string }>(
       `SELECT kp.id
          FROM knowledge_points kp
+         CROSS JOIN LATERAL (
+               SELECT count(*) AS n
+                 FROM chunks c
+                WHERE c.micro_kp_id = kp.id
+                  AND c.kind IN ('text', 'formula')
+                  AND length(c.text) >= $2
+             ) material
         WHERE kp.is_leaf
-          AND EXISTS (
-                SELECT 1 FROM chunks c
-                 WHERE c.micro_kp_id = kp.id
-                   AND c.kind IN ('text', 'formula')
-                   AND length(c.text) >= $2
-              )
+          AND material.n > 0
         ORDER BY
           (SELECT count(*) FROM levels lv
             WHERE lv.micro_kp_id = kp.id AND lv.id LIKE 'lv-ai-%') ASC,
           (SELECT max(t.finished_at) FROM level_generation_task t
             WHERE t.micro_kp_id = kp.id AND t.status = 'succeeded') ASC NULLS FIRST,
+          material.n DESC,
           kp.ordinal, kp.id
         LIMIT $1`,
       [limit, MATERIAL_MIN_CHUNK_CHARS],

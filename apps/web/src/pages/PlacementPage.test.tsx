@@ -231,6 +231,31 @@ function stubResult(body: Record<string, unknown> = resultBody()) {
   );
 }
 
+/**
+ * 档位变更历史（票 12 验收 3）。
+ *
+ * 共享的 `test/msw.ts` 里已有一条返回空列表的默认桩 —— 本文件的用例要么
+ * 显式覆盖它，要么断言「空历史什么都不显示」。不要删那条默认桩：`PlacementPage`
+ * 现在无条件挂 `useTierChanges`，没有桩时 `onUnhandledRequest:'error'` 会让
+ * **本文件里每一条用例**都红，包括与档位历史无关的那些。
+ */
+function stubTierChanges(items: Array<Record<string, unknown>>) {
+  server.use(http.get('*/api/v1/tier/changes', () => HttpResponse.json({ items })));
+}
+
+const tierChange = (overrides: Record<string, unknown> = {}) => ({
+  id: '42',
+  at: '2026-10-20T04:00:00.000Z',
+  previousTier: 'P2',
+  tier: 'P1',
+  changed: true,
+  attemptsSince: 5,
+  averageFirstTryRate: 0.21,
+  explanation:
+    '你在上次定级后又答了 5 题，平均首轮正确率 21%，低于 30% 的下调线，因此把档位下调一档：P2 → P1。',
+  ...overrides,
+});
+
 /** 把页面推进到答题段：装齐状态/自评/开始三套桩并走完自评。 */
 async function reachQuizStage(user: ReturnType<typeof userEvent.setup>) {
   stubStatus();
@@ -668,6 +693,89 @@ describe('重判：用学习证据，不是重考', () => {
 
     expect(await screen.findByText(/重判没能进行/)).toBeInTheDocument();
     expect(screen.getByText(/不是重考一遍定级题/)).toBeInTheDocument();
+  });
+});
+
+describe('档位变更历史：让人看到「为什么给我降档了」（票 12 验收 3）', () => {
+  it('列出每次重判：从哪一档到哪一档、什么时候、为什么', async () => {
+    stubStatus(statusBody({ tier: 'P1', status: 'provisional', placedAt: '2026-10-20T04:00:00.000Z' }));
+    stubTierChanges([tierChange()]);
+    renderPage();
+
+    const region = await screen.findByRole('region', { name: '档位变更历史' });
+    expect(within(region).getByText('P2 → P1')).toBeInTheDocument();
+    // 时间不是原始 ISO 串：`2026-10-20T04:00:00.000Z` 在界面上要读得懂。
+    expect(within(region).queryByText(/2026-10-20T04/)).not.toBeInTheDocument();
+    expect(within(region).getByText(/2026-10-2/)).toBeInTheDocument();
+    // 理由必须写出来 —— 只说「P2 → P1」等于宣判不给理由。
+    expect(within(region).getByText(/平均首轮正确率 21%/)).toBeInTheDocument();
+    expect(within(region).getByText(/低于 30% 的下调线/)).toBeInTheDocument();
+  });
+
+  it('多次重判按服务端给的顺序全部列出（不是只显示最近一次）', async () => {
+    stubStatus(statusBody({ tier: 'P3', status: 'provisional', placedAt: '2026-10-21T04:00:00.000Z' }));
+    stubTierChanges([
+      tierChange({
+        id: '43',
+        at: '2026-10-21T04:00:00.000Z',
+        previousTier: 'P2',
+        tier: 'P3',
+        averageFirstTryRate: 0.92,
+        explanation: '平均首轮正确率 92%，高于 80% 的上调线，因此上调：P2 → P3。',
+      }),
+      tierChange({ id: '42' }),
+    ]);
+    renderPage();
+
+    const region = await screen.findByRole('region', { name: '档位变更历史' });
+    expect(within(region).getByText('P2 → P3')).toBeInTheDocument();
+    expect(within(region).getByText('P2 → P1')).toBeInTheDocument();
+    // 两次变更都在，说明不是只渲染 `lastRejudge`。
+    expect(within(region).getAllByText(/平均首轮正确率/)).toHaveLength(2);
+  });
+
+  it('档位没变的历史也说一句，而不是只记录成功的升降级', async () => {
+    stubStatus(statusBody({ tier: 'P2', status: 'provisional', placedAt: '2026-10-20T04:00:00.000Z' }));
+    stubTierChanges([
+      tierChange({
+        previousTier: 'P2',
+        tier: 'P2',
+        changed: false,
+        averageFirstTryRate: 0.55,
+        explanation: '平均首轮正确率 55%，介于 30% 与 80% 之间，档位保持不变。',
+      }),
+    ]);
+    renderPage();
+
+    const region = await screen.findByRole('region', { name: '档位变更历史' });
+    expect(within(region).getByText('P2 保持不变')).toBeInTheDocument();
+    expect(within(region).queryByText(/P2 →/)).not.toBeInTheDocument();
+  });
+
+  it('从没重判过时不渲染空卡片（「暂无记录」会把正常状态说成问题）', async () => {
+    stubStatus(statusBody({ tier: 'P2', status: 'provisional', placedAt: '2026-10-20T04:00:00.000Z' }));
+    stubTierChanges([]);
+    renderPage();
+
+    // 先等首屏出来，再断言「没有」——否则可能在请求还没回来时就通过。
+    expect(await screen.findByText(/你的档位/)).toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: '档位变更历史' })).not.toBeInTheDocument();
+    expect(screen.queryByText(/暂无记录/)).not.toBeInTheDocument();
+  });
+
+  it('历史读不到时明说，但当前档位卡照常可用', async () => {
+    stubStatus(statusBody({ tier: 'P2', status: 'provisional', placedAt: '2026-10-20T04:00:00.000Z' }));
+    server.use(
+      http.get('*/api/v1/tier/changes', () =>
+        HttpResponse.json({ code: 'INTERNAL', message: '学习日志暂时读不到' }, { status: 500 }),
+      ),
+    );
+    renderPage();
+
+    expect(await screen.findByText(/读不到档位变更历史/)).toBeInTheDocument();
+    expect(screen.getByText(/不影响你做关题/)).toBeInTheDocument();
+    // 反向对照：档位本身仍在，错误提示没有把整页打掉。
+    expect(screen.getByText('P2（标准节奏）')).toBeInTheDocument();
   });
 });
 

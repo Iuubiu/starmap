@@ -392,3 +392,73 @@ describe('无障碍：同页两颗「提交」不能同名', () => {
     expect(entry).toHaveAttribute('tabindex', '0');
   });
 });
+
+/**
+ * 票 12：档位必须进到「真实发给智能体」的那次请求里。
+ *
+ * 这一条只有在这一层能测：后端测试能证明「给了 tier，提示词里就有水平档」，
+ * 但证明不了**页面给的是哪一档**。写死 `'P1'` 时页面渲染一切正常 ——
+ * 关卡按 P3 展开、摘要行写着「每题 1 次」，而每一轮对话仍把学习者当零基础。
+ */
+describe('提交回合时带的是当前档位，不是写死的 P1（票 12）', () => {
+  const captureTier = () => {
+    const seen: Array<{ tier?: string; utterance?: string }> = [];
+    server.use(
+      http.post('*/api/v1/agent/turns', async ({ request }) => {
+        seen.push((await request.json()) as { tier?: string; utterance?: string });
+        return HttpResponse.json(probeTurn());
+      }),
+    );
+    return seen;
+  };
+
+  it('档位是 P3 时，请求体里的 tier 也是 P3', async () => {
+    const user = userEvent.setup();
+    const seen = captureTier();
+    server.use(
+      http.get('*/api/v1/tier', () =>
+        HttpResponse.json({
+          tier: 'P3',
+          source: 'placement',
+          params: {
+            tier: 'P3',
+            firstRoundShape: 'direct',
+            ladder: { start: 3, cap: 5 },
+            sessionNewKpLimit: 4,
+            feedbackTiming: 'item_deferred_with_summary',
+            attemptsPerItem: 1,
+            masteryRule: { consecutiveCorrect: 1, requiresTransferItem: true },
+          },
+          label: '直接出题',
+          description: '首轮直接给题目。',
+        }),
+      ),
+    );
+
+    renderHome();
+    await submitTurn(user, '我想练题');
+
+    await waitFor(() => expect(seen).toHaveLength(1));
+    expect(seen[0]!.tier).toBe('P3');
+  });
+
+  it('档位接口还没回来/挂了时，回落 P1 而不是不发 tier', async () => {
+    const user = userEvent.setup();
+    const seen = captureTier();
+    server.use(
+      http.get('*/api/v1/tier', () =>
+        HttpResponse.json({ code: 'INTERNAL', message: '档位读不到' }, { status: 500 }),
+      ),
+    );
+
+    renderHome();
+    await submitTurn(user, '我想练题');
+
+    await waitFor(() => expect(seen).toHaveLength(1));
+    // 回落值必须显式出现在请求里（契约的 default 也在服务端兜底，但两层都写
+    // 才不会被「某天把 default 删了」悄悄改成别的档）。
+    expect(seen[0]!.tier).toBe('P1');
+    // 反向对照：这句话本身没被降级分支吞掉。
+    expect(seen[0]!.utterance).toBe('我想练题');
+  });
+});

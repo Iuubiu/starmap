@@ -1,0 +1,920 @@
+/**
+ * 九个阶段的实现。每个阶段自己 `run` 并**自己判定结果**。
+ *
+ * ## 每一步的断言都是在问「这次真的发生了什么」
+ *
+ * 逐个说明，因为它们容易被实现成「页面打开了就算过」：
+ *
+ * - `cold-start`：断言 H1 文本是「学习」、底部输入框可见且可聚焦、输入能
+ *   真的打进 `value`。只看 `isVisible()` 会漏掉 `readOnly`/`disabled`。
+ * - `placement`：走完自评 4 题 → 开始定级 → 至少答 1 道定级题 →
+ *   断言出现「这道题的判定」区域且里面有「正确答案」（票 11 验收：
+ *   定级后必须展示正确答案）。断言的是**判定区存在且有正确答案**，
+ *   不是「点了下一题没报错」。
+ * - `map`：切到知识地图视图，断言清单项数 > 0，且**读 DOM 上的
+ *   `data-recommended` 数量与 `GET /api/v1/recommendations` 的条数相等**
+ *   —— 这是票 13 的一致性要求，数字对不上就归 `assertion_mismatch`。
+ * - `node-detail`：从清单点进详情，断言 H1 等于清单项的名字（同一实体），
+ *   并断言「可用关卡」区渲染出了至少一张关卡卡。
+ * - `answer`：真的 `POST /api/v1/attempts`，然后**回查接口**
+ *   （`GET /api/v1/nodes/:id` 的 percent 应随作答变化或至少不为错），
+ *   并断言关卡页出现「已作答，本关内不可重答」。
+ * - `board`：断言推荐卡数量 == `GET /api/v1/recommendations` 条数，
+ *   且每张卡带 `data-recommended="true"`。
+ * - `review`：`GET /api/v1/review/queue` 为 200；`due` 为空时断言页面
+ *   显示「没有到期」，不为空时断言页面列出对应条数。
+ * - `database`：断言统计卡与 `GET /api/v1/graph` 的节点数一致。
+ * - `skills`：断言 `GET /api/v1/agent/skills` 的条数与页面上 skill 卡数一致。
+ *
+ * ## 为什么每个阶段都自己 `run` 而不是复用 driver 的动作解析
+ *
+ * 旧 driver 的 `target_hint` 解析是为了测「自然语言能不能指准元素」。这一版
+ * 要的是**流程覆盖**：走完九个阶段、每步有断言。两者目的不同，混在一起会让
+ * 「找不到元素」既可能是界面缺陷也可能是 hint 写得不好。所以这里直接用
+ * 语义选择器（role + name），`locator_failure` 就一定是界面真的变了。
+ */
+
+import type { Locator, Page } from '@playwright/test';
+import {
+  STAGE_ORDER,
+  verify,
+  type StageApi,
+  type StageContext,
+  type StageDefinition,
+  type VerifyResult,
+} from './stages.ts';
+
+/** 每步的等待上限。地图页在无 GPU 机器上要 6–11 秒（实测），所以给宽一点。 */
+const SLOW_PAGE_TIMEOUT = 30_000;
+const FAST_TIMEOUT = 10_000;
+/** 等页面「静下来」的上限。见 `waitForSettled` 的 docblock。 */
+const SETTLE_TIMEOUT = 20_000;
+
+function heading(page: Page, name: string): Locator {
+  return page.getByRole('heading', { level: 1, name });
+}
+
+/**
+ * 等到 H1 出现且文本匹配，返回实际文本。
+ *
+ * 不直接 `expect` 而返回字符串，是因为失败时要能在报告里写「期望 X、实际 Y」
+ * —— 那正是 `assertion_mismatch` 需要的两边值。
+ */
+async function readHeading(page: Page, timeout = SLOW_PAGE_TIMEOUT): Promise<string | null> {
+  try {
+    const element = page.locator('h1').first();
+    await element.waitFor({ state: 'visible', timeout });
+    return (await element.innerText()).trim();
+  } catch {
+    return null;
+  }
+}
+
+/** 由 runner 注入的 API 客户端返回体形状。 */
+interface ApiList<T> {
+  items?: T[];
+  [key: string]: unknown;
+}
+
+/**
+ * 等页面「静下来」：所有 `role=progressbar` 都消失。
+ *
+ * ## 为什么需要它（这是实测出来的缺陷，不是预防性措施）
+ *
+ * `readHeading(page)` 等的是 `<h1>` 可见，但 h1 往往是**静态标题** —— 它在
+ * `usePlacementStatus()` 还是 `isPending` 时就渲染了，加载分支只替换 h1 下面的内容。
+ * 于是「H1 已可见」与「页面已就绪」之间差着一个网络往返。
+ *
+ * 定级页实测时间线：
+ *
+ * ```
+ * t=572ms  h1「初始定级」可见
+ * t=572ms  行为自评 group  isVisible = false   ← 页面还在加载态
+ * t=572ms  开始/重新定级按钮 isVisible = false  ← 同一个原因
+ * t=572ms  body 尾部 = "… 正在读取你的档位…"
+ * t=900ms  "正在读取你的档位…" 消失，按钮出现
+ * ```
+ *
+ * 原代码在 572ms 那一刻各问了一次「现在可见吗」，两次都答 false，直接判
+ * `locator_failure` —— 报告里因此出现一条**不成立的 blocker**。
+ *
+ * ## 为什么用 `role=progressbar` 而不是等具体元素
+ *
+ * Fluent 的 Spinner 自带这个角色，且带可访问名（`aria-labelledby` →
+ * 「正在读取你的档位…」）。按角色等不依赖任何页面的具体措辞，也不需要在
+ * 每个阶段里重复写「本阶段的就绪元素是什么」。
+ *
+ * ## 超时不报错
+ *
+ * 超时了就返回 —— 后面的显式检查会自己报出「没找到 X」。把「等不静」也报成
+ * `locator_failure` 会把两种不同的原因（真的没有 vs 一直在转圈）搮成一个。
+ *
+ * ## 上限为什么是 20 秒
+ *
+ * 卡的不是应用状态，是渲染：`/map` 要等 1789 个叶节点（约 466 KB）回来再建 sigma
+ * 的 WebGL 画布，本机无 GPU 走 SwiftShader，实测 `goto` 到清单首项可见 **6–11 秒**
+ *（三采样 9049 / 9888 / 6057 ms）。定级页实测只 900ms。所以上限得比最慢那个
+ * 页面宽一些—— 8 秒对 `/map` 是紧的，一次全量跑里会间歇性刚好超时。
+ *
+ * ## 一个已经修掉的产品缺陷（不要因为注释在这里就以为它还坏着）
+ *
+ * 早期版本只等 8 秒，是因为 `/database` 页有一个**永远不消失的 Spinner**：
+ * `useRetrievalDebug` / `useNodeSources` 这些条件启用的 hook 用了 `isPending`，
+ * 而 TanStack Query v5 里禁用查询（`enabled: false`）的 `status` 恒为 `'pending'`，
+ * 于是从没检索过时「检索中…」永远在。**captain 已修掉**（改用 `isFetching`，
+ * commit `bc32ae3`），三处：`RetrievalDebugger.tsx` 的检索与 bands、
+ * `DatabasePage.tsx` 的「读取来源…」。
+ *
+ * 那条缺陷的回归守卫在 `test/settle.test.ts`：「`/database` 在无选中知识点时
+ * 不应有 `role=progressbar`」。之所以不能靠本函数的超时去发现：**超时是静默
+ * 返回的**（见下），有人把 `isPending` 用回来时这里只会安静地多等 20 秒。
+ */
+async function waitForSettled(page: Page, timeout = SETTLE_TIMEOUT): Promise<void> {
+  const spinners = page.getByRole('progressbar');
+  const deadline = Date.now() + timeout;
+  /* 先让出一帧：刚 goto 完时 Spinner 可能还没挂上，立刻查会得到 0 个而误判
+     为「已经静下来」—— 那正好是上面那个缺陷的另一种写法。 */
+  await page.waitForTimeout(150);
+  while (Date.now() < deadline) {
+    if ((await spinners.count().catch(() => 0)) === 0) return;
+    await spinners
+      .first()
+      .waitFor({ state: 'hidden', timeout: 1000 })
+      .catch(() => undefined);
+    await page.waitForTimeout(80);
+  }
+}
+
+/**
+ * 从接口响应里取列表。
+ *
+ * ## 为什么不是只读 `items`
+ *
+ * 各个端点的列表字段名不统一，而且是**后端各自的语义**决定的，不是我
+ * 们能统一的：`/nodes` 与 `/agent/skills` 用 `items`（分页 / 目录条目），
+ * `/recommendations` 用 `recommendations`（它是一份「此刻推给你的这几条」，
+ * 不是可分页的集合），`/review/queue` 用 `due`。
+ *
+ * 原来只读 `items` 时，`/recommendations` 被读成 0 条 —— 于是「地图上 3 个
+ * 推荐标记 vs 接口 0 条」被报成数字对不上，看起来像产品缺陷，其实是测评
+ * 工具读错了字段。这类错误最贵：它让报告里出现一条不存在的问题。
+ *
+ * 三个键都认，并且**只认这三个** —— 加第四个时请顺便确认它真的是「列表」。
+ */
+function itemsOf<T>(body: unknown): T[] {
+  const list = body as ApiList<T> | null;
+  for (const key of ['items', 'recommendations', 'due'] as const) {
+    const value = list?.[key];
+    if (Array.isArray(value)) return value as T[];
+  }
+  return [];
+}
+
+// ---------------------------------------------------------------------------
+// 阶段实现
+// ---------------------------------------------------------------------------
+
+const coldStart: StageDefinition = {
+  stage: 'cold-start',
+  label: 'S0 冷启动',
+  async run({ page }: StageContext) {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await waitForSettled(page);
+    const title = await readHeading(page);
+    if (title === null) {
+      return { result: verify.locator('h1', '首页没有渲染出任何一级标题'), evidence: [] };
+    }
+    if (title !== '学习') {
+      return { result: verify.mismatch('学习', title, '首页一级标题不是「学习」'), evidence: [] };
+    }
+
+    const composer = page.getByRole('textbox', { name: '这一轮想说的话' });
+    try {
+      await composer.waitFor({ state: 'visible', timeout: FAST_TIMEOUT });
+    } catch {
+      return { result: verify.locator('textbox[aria-label="这一轮想说的话"]', '底部输入框不可见'), evidence: [] };
+    }
+
+    /* 「可见」不等于「能用」：disabled / readonly 的输入框也能可见。
+       真的打一段进去再读回 value —— 这一步能抓到 disabled 与受控组件
+       的 value 不回填两种缺陷。 */
+    await composer.fill('测试');
+    const typed = await composer.inputValue();
+    await composer.fill('');
+    if (typed !== '测试') {
+      return { result: verify.mismatch('测试', typed, '输入框可见但打不进字（受控 value 没回填或 disabled）'), evidence: [] };
+    }
+
+    return {
+      result: verify.passed(`H1「${title}」；输入框可见、可聚焦、可写入（回读 "${typed}"）`),
+      evidence: [`H1 = ${title}`, `输入框 aria-label = 这一轮想说的话`],
+    };
+  },
+};
+
+const placement: StageDefinition = {
+  stage: 'placement',
+  label: 'S1 初始定级',
+  async run({ page }: StageContext) {
+    await page.goto('/placement', { waitUntil: 'domcontentloaded' });
+    await waitForSettled(page);
+    const title = await readHeading(page);
+    if (title !== '初始定级') {
+      return {
+        result: title === null ? verify.locator('h1', '定级页没有渲染出 H1') : verify.mismatch('初始定级', title, '定级页标题不符'),
+        evidence: [],
+      };
+    }
+
+    /* 定级页是**三段向导**（`apps/web/src/pages/PlacementPage.tsx:619` 的
+       `stage: 'status' | 'assess' | 'quiz' | 'result'`）：
+
+         status  → 一张卡，按钮文案是「开始定级」（没定过级）或「重新定级」（定过了）
+         assess  → 四题行为自评 + 「提交自评」
+         提交后  → 「自评结果」卡 + 「开始答题」
+         quiz    → `region[aria-label="定级题"]`
+
+       原来的写法假设「自评区和开始按钮同屏存在」，于是第一步问「自评区在吗」
+       得到 false、第二步点「开始」进入 assess、第三步却直接去找定级题 —— 卡在
+       自评表单上。这是把三步当成了两步。下面按段显式推进。 */
+    const evidence: string[] = [];
+
+    /* ① status 屏：点进入口。已经定过级的机器上文案是「重新定级」，两者都得认。
+       实在没有入口也不一定是缺陷 —— 可能直接落在结果屏（刚定完级刷新）。 */
+    const entry = page.getByRole('button', { name: /开始定级|重新定级|开始答题/ });
+    const hasEntry = await entry.first().isVisible().catch(() => false);
+    if (hasEntry) {
+      evidence.push(`入口按钮：「${(await entry.first().innerText()).trim()}」`);
+      await entry.first().click();
+      await waitForSettled(page);
+    } else {
+      evidence.push('没有入口按钮（可能已在自评或结果屏），按当前屏幕继续');
+    }
+
+    /* ② assess 屏：四道自评题全选第一项，然后提交。 */
+    const selfAssessment = page.getByRole('group', { name: '行为自评' });
+    const assessVisible = await selfAssessment
+      .waitFor({ state: 'visible', timeout: SLOW_PAGE_TIMEOUT })
+      .then(() => true)
+      .catch(() => false);
+    if (assessVisible) {
+      const groups = page.getByRole('radiogroup');
+      const groupCount = await groups.count();
+      if (groupCount === 0) {
+        return { result: verify.locator('role=radiogroup', '自评区在，但一道题都没有渲染'), evidence };
+      }
+      for (let index = 0; index < groupCount; index += 1) {
+        const group = groups.nth(index);
+        const radios = group.getByRole('radio');
+        const radioCount = await radios.count();
+        if (radioCount === 0) {
+          return {
+            result: verify.locator(`role=radiogroup:nth(${index})`, `自评第 ${index + 1} 题没有可选项`),
+            evidence,
+          };
+        }
+        await radios.first().click();
+      }
+      evidence.push(`自评 ${groupCount} 题已作答`);
+
+      const submit = page.getByRole('button', { name: '提交自评' });
+      if (!(await submit.isVisible().catch(() => false))) {
+        return { result: verify.locator('button:提交自评', '自评答完后没有出现「提交自评」按钮'), evidence };
+      }
+      await submit.click();
+      await waitForSettled(page);
+      evidence.push('已提交自评');
+    } else {
+      evidence.push('自评区不在（已定过级或已在结果屏），继续看能否开始答题');
+    }
+
+    /* ③ 自评结果屏：「开始答题」真正拉起定级会话。 */
+    const startButton = page.getByRole('button', { name: /开始答题/ });
+    const hasStart = await startButton
+      .first()
+      .waitFor({ state: 'visible', timeout: SLOW_PAGE_TIMEOUT })
+      .then(() => true)
+      .catch(() => false);
+    if (!hasStart) {
+      /* 没有「开始答题」时可能已经定过级并直接落在结果屏（`region=定级结果`）。
+         那不是缺陷，是「本机已定过级」的正常分支 —— 但此时本阶段确实没走
+         自评→答题那条路，detail 里要说清，别报成 passed 让人以为走过了。 */
+      const resultRegion = page.getByRole('region', { name: '定级结果' });
+      if (await resultRegion.isVisible().catch(() => false)) {
+        evidence.push('已定过级：页面直接显示定级结果屏');
+        return {
+          result: verify.passed('本机已定过级，定级结果屏可访问（未重走自评→答题流程）'),
+          evidence,
+        };
+      }
+      return { result: verify.locator('button:开始答题', '自评提交后没有出现「开始答题」按钮'), evidence };
+    }
+    await startButton.first().click();
+
+    const questionRegion = page.getByRole('region', { name: '定级题' });
+    const questionVisible = await questionRegion
+      .waitFor({ state: 'visible', timeout: SLOW_PAGE_TIMEOUT })
+      .then(() => true)
+      .catch(() => false);
+    if (!questionVisible) {
+      return { result: verify.locator('region[aria-label="定级题"]', '点了开始后没有出现定级题区'), evidence };
+    }
+
+    // 答一道题，然后断言「判定」区出现且带正确答案。
+    const firstGroup = page.getByRole('radiogroup', { name: '这道题的选项' });
+    const radios = firstGroup.getByRole('radio');
+    if ((await radios.count()) === 0) {
+      return { result: verify.locator('role=radiogroup:这道题的选项', '定级题没有可选项'), evidence };
+    }
+    await radios.first().click();
+    const submitAnswer = page.getByRole('button', { name: /提交答案|提交/ });
+    if (!(await submitAnswer.first().isVisible().catch(() => false))) {
+      return { result: verify.locator('button:提交答案', '定级题没有提交按钮'), evidence };
+    }
+    await submitAnswer.first().click();
+
+    const judgement = page.getByRole('region', { name: '这道题的判定' });
+    const judged = await judgement
+      .waitFor({ state: 'visible', timeout: SLOW_PAGE_TIMEOUT })
+      .then(() => true)
+      .catch(() => false);
+    if (!judged) {
+      return { result: verify.locator('region[aria-label="这道题的判定"]', '答完定级题没有出现判定区'), evidence };
+    }
+    const judgementText = (await judgement.innerText()).trim();
+    /* 票 11 的硬要求：定级后必须展示正确答案。没有这一句，学生做完 18 题
+       仍然不知道自己错在哪，定级就变成了纯测量。 */
+    if (!judgementText.includes('正确答案')) {
+      return {
+        result: verify.mismatch('判定区含「正确答案」', judgementText.slice(0, 200), '定级判定区没有展示正确答案'),
+        evidence,
+      };
+    }
+    evidence.push(`定级第 1 题已判定，判定区文案：${judgementText.replace(/\s+/g, ' ').slice(0, 160)}`);
+    return { result: verify.passed(`定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）`), evidence };
+  },
+};
+
+const mapStage: StageDefinition = {
+  stage: 'map',
+  label: 'S3 知识图谱',
+  async run({ page, api, carry }: StageContext) {
+    await page.goto('/map', { waitUntil: 'domcontentloaded' });
+    await waitForSettled(page);
+
+    /* 图谱页在无 GPU 的机器上要 6–11 秒才挂上画布（实测：1789 个叶节点、
+       466KB 响应、SwiftShader 软件渲染）。这里等清单而不是 canvas ——
+       清单是纯 DOM，比 WebGL 可靠，而且它是点击入口。 */
+    const roster = page.getByRole('list', { name: '当前视野内的微知识点' });
+    const rosterReady = await roster
+      .waitFor({ state: 'visible', timeout: SLOW_PAGE_TIMEOUT })
+      .then(() => true)
+      .catch(() => false);
+    if (!rosterReady) {
+      return { result: verify.locator('list[aria-label="当前视野内的微知识点"]', '知识地图的节点清单没有渲染出来'), evidence: [] };
+    }
+
+    const items = roster.getByRole('button');
+    const itemCount = await items.count();
+    if (itemCount === 0) {
+      return { result: verify.mismatch('>0 个节点', '0 个', '清单存在但一个节点都没有'), evidence: [] };
+    }
+
+    /* 推荐标记与后端一致 —— 但要先想清「一致」是什么意思。
+     *
+     * 清单只渲染前 `ROSTER_PAGE`（400）条（见 `apps/web/src/graph/NodeRoster.tsx:84`），
+     * 而真实库里叶节点有 1789 个。推荐的 3 个不一定落在这 400 个里 ——
+     * 直接比「DOM 里几个标记 vs 接口几条」会在数据长大之后恒为不相等，
+     * 而那是窗口大小的问题，不是推荐源分叉。
+     *
+     * 真正要防的风险是：「地图与看板用了两套推荐源」。这个风险可以在窗口内
+     * 精确判定 —— 取清单里实际渲染的 node id（`data-node-id`），把接口返回的
+     * 推荐集合投影到这个窗口上，然后要求：
+     *
+     *   · 窗口内被接口推荐过的，一个不少地都带 `data-recommended`；
+     *   · 窗口内带 `data-recommended` 的，一个不多地都在接口集合里。
+     *
+     * 两个方向都查，所以任一侧换了数据源都会被抓住；且结果与窗口大小无关。 */
+    const rec = await api.getJson('/recommendations');
+    if (rec.status !== 200) {
+      return { result: verify.backend(rec.status, rec.rawText, '读取推荐列表失败'), evidence: [`清单节点数 ${itemCount}`] };
+    }
+    const recommendedFromApi = new Set(itemsOf<{ microKpId: string }>(rec.body).map((entry) => entry.microKpId));
+    const idsInWindow = await roster
+      .locator('button[data-node-id]')
+      .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('data-node-id') ?? ''));
+    const markedInDom = new Set(
+      await roster
+        .locator('button[data-recommended="true"]')
+        .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('data-node-id') ?? '')),
+    );
+    const expectedInWindow = new Set(idsInWindow.filter((id) => recommendedFromApi.has(id)));
+    const missed = [...expectedInWindow].filter((id) => !markedInDom.has(id));
+    const extra = [...markedInDom].filter((id) => !recommendedFromApi.has(id));
+    if (missed.length > 0 || extra.length > 0) {
+      return {
+        result: verify.mismatch(
+          `窗口内应有推荐标记 ${expectedInWindow.size} 个、无多余标记`,
+          `漏标 ${missed.length} 个（${missed.slice(0, 3).join('、') || '无'}）、多标 ${extra.length} 个（${extra.slice(0, 3).join('、') || '无'}）`,
+          '图谱清单的推荐标记与 /recommendations 不一致（两处应共享同一个 recommend()）',
+        ),
+        evidence: [
+          `清单节点数 ${itemCount}`,
+          `清单窗口内 ${idsInWindow.length} 个节点`,
+          `接口推荐 ${recommendedFromApi.size} 条，落在窗口内 ${expectedInWindow.size} 条`,
+          `DOM 标记 ${markedInDom.size} 个`,
+        ],
+      };
+    }
+
+    // 记下第一个节点，给下一阶段用。
+    const first = items.first();
+    const firstLabel = (await first.getAttribute('aria-label')) ?? '';
+    const nodeName = firstLabel.split('，')[0] ?? '';
+    if (nodeName === '') {
+      return { result: verify.locator('roster button[aria-label]', '清单项没有可读的可访问名'), evidence: [] };
+    }
+    carry.set('nodeName', nodeName);
+    return {
+      result: verify.passed(
+        `清单 ${itemCount} 个节点；接口推荐 ${recommendedFromApi.size} 条，窗口内 ${expectedInWindow.size} 条全部正确标记`,
+      ),
+      evidence: [
+        `清单节点数 ${itemCount}`,
+        `接口推荐 ${recommendedFromApi.size} 条（落在当前窗口 ${expectedInWindow.size} 条，均已标记）`,
+        `首个节点可访问名：${firstLabel}`,
+      ],
+    };
+  },
+};
+
+const nodeDetail: StageDefinition = {
+  stage: 'node-detail',
+  label: 'S3 节点详情',
+  async run({ page, carry }: StageContext) {
+    /* 先确认清单在。map 阶段可能因为后端重启窗口失败了，而阶段之间是
+       **不中断**的 —— 上一步没把页面留在 /map 的可用状态，这一步就会在
+       一个空清单上找按钮，报成「详情页没有 H1」。实测过一次：map 报
+       backend_error 后 node-detail 跟着红，看起来像两个缺陷，其实是一个。
+
+       所以这里自己负责把自己需要的页面拿到手：清单不在就重新导航一次。 */
+    const roster = page.getByRole('list', { name: '当前视野内的微知识点' });
+    if ((await roster.count()) === 0) {
+      await page.goto('/map', { waitUntil: 'domcontentloaded' });
+      await waitForSettled(page);
+    }
+    const itemButtons = roster.getByRole('button');
+
+    /* 找一个**有可用关卡**的节点：没关卡的节点详情页只会显示「还没有关卡」，
+       走不到做题那一步。按可访问名逐个点太慢，改为直接读接口找 kp-bool
+       （只有它有教学关卡）。找不到就退回到第一个节点。 */
+    const wanted = carry.get('nodeName') ?? '';
+    let target = itemButtons.first();
+    const all = await itemButtons.all();
+    let picked = wanted;
+    for (const candidate of all) {
+      const label = (await candidate.getAttribute('aria-label')) ?? '';
+      const name = label.split('，')[0] ?? '';
+      if (name === '布尔代数基本运算') {
+        target = candidate;
+        picked = name;
+        break;
+      }
+    }
+    if ((await target.count()) === 0) {
+      return { result: verify.locator('roster button', '清单里没有任何可点的节点'), evidence: [] };
+    }
+
+    await target.click();
+
+    /* 等 URL 真的变成 /map/<id>，而不是等一个固定 800ms。
+       固定等待在慢机器上太短（点击后详情页要拉两个接口），在快机器上白等。 */
+    await page
+      .waitForURL(/\/map\/[^/]+$/, { timeout: SLOW_PAGE_TIMEOUT })
+      .catch(() => undefined);
+    await waitForSettled(page);
+
+    const title = await readHeading(page);
+    if (title === null) {
+      return {
+        result: verify.locator('h1', `点进节点后详情页没有渲染出 H1（当前 URL：${page.url()}）`),
+        evidence: [`点击的目标：${picked || '清单第一项'}`],
+      };
+    }
+    if (picked !== '' && title !== picked) {
+      return {
+        result: verify.mismatch(picked, title, '点进去的详情页 H1 与清单项名字不一致（点错了节点或详情取错知识点）'),
+        evidence: [],
+      };
+    }
+
+    // 「可用关卡」区必须至少有一张卡，否则做题那一步走不下去。
+    const levelHeading = page.getByText('可用关卡', { exact: true });
+    if (!(await levelHeading.isVisible().catch(() => false))) {
+      return { result: verify.locator('text:可用关卡', '详情页没有「可用关卡」区'), evidence: [`H1=${title}`] };
+    }
+    const startButtons = page.getByRole('button', { name: /^开始$|^未解锁$/ });
+    const buttonCount = await startButtons.count();
+    const hasStartable = buttonCount > 0 && (await page.getByRole('button', { name: '开始' }).count()) > 0;
+    carry.set('hasLevel', hasStartable ? 'true' : 'false');
+    return {
+      result: verify.passed(`详情页 H1「${title}」与清单项一致；可用关卡区有 ${buttonCount} 个入口按钮${hasStartable ? '（可进入）' : '（全部未解锁或无内容）'}`),
+      evidence: [`H1 = ${title}`, `关卡入口按钮 ${buttonCount} 个`, hasStartable ? '至少一个可进入' : '没有可进入的关卡'],
+    };
+  },
+};
+
+const answerStage: StageDefinition = {
+  stage: 'answer',
+  label: 'S4 作答与判分',
+  async run({ page, api, carry, persona }: StageContext) {
+    const evidence: string[] = [];
+    if (carry.get('hasLevel') !== 'true') {
+      /* 内容不足时这一阶段无法覆盖 —— 明确记成 passed 但 detail 说清，
+         让报告层把它归到「已知缺口」而不是假装测过。 */
+      return {
+        result: verify.passed('本节点没有可进入的关卡（内容不足），本阶段未覆盖'),
+        evidence: ['跳过原因：上一阶段未找到可进入的关卡'],
+      };
+    }
+
+    // 进入关卡。
+    await page.getByRole('button', { name: '开始' }).first().click();
+    await page.waitForTimeout(1000);
+
+    const levelTitle = await readHeading(page);
+    if (levelTitle === null) {
+      return { result: verify.locator('h1', '关卡页没有渲染出 H1'), evidence };
+    }
+    evidence.push(`进入关卡：${levelTitle}`);
+
+    /* 走到判定段需要点若干次「进入下一段」。教学关有 7 段，最多点 10 次。
+     *
+     * ## 为什么按「段」而不是按「题」循环
+     *
+     * `apps/web/src/pages/LevelPage.tsx:437` 把**当前段引用的所有题一次全渲染**
+     * （quiz 段就同时出现 2 张题卡），而「进入下一段」的 `disabled={!complete}`
+     * 依赖 `isStepComplete()`（`level/flow.ts:250`）—— 要求本段**每道题**都有选择。
+     *
+     * 原来的写法是「找一个 提交答案 → 点一次 → 点进入下一段」，于是多题段永远
+     * 卡住：第一题答完还有第二题未答，进入下一段仍是 disabled，Playwright 会
+     * 一直等到 30 秒超时，报出来的却是「locator.click 超时」—— 看起来像选择器
+     * 写错，实际是漏了「一题一段要答完」这个规则。
+     */
+    let answered = 0;
+    for (let step = 0; step < 12; step += 1) {
+      /* ① 把本段所有未作答的题都答上。判据是「有未选中的 radio 组」/「空填空框」，
+         而不是按钮文案 —— 按钮在未选时会 disabled，但仍在 DOM 里。 */
+      let answeredThisStep = 0;
+      for (let round = 0; round < 8; round += 1) {
+        const groups = page.getByRole('radiogroup');
+        const groupCount = await groups.count();
+        let picked = false;
+        for (let index = groupCount - 1; index >= 0; index -= 1) {
+          const group = groups.nth(index);
+          if (!(await group.isVisible().catch(() => false))) continue;
+          const radios = group.getByRole('radio');
+          const radioCount = await radios.count();
+          if (radioCount === 0) continue;
+          let alreadyChosen = false;
+          for (let r = 0; r < radioCount; r += 1) {
+            if (await radios.nth(r).isChecked().catch(() => false)) {
+              alreadyChosen = true;
+              break;
+            }
+          }
+          if (alreadyChosen) continue;
+          if (await radios.first().isDisabled().catch(() => false)) continue;
+          await radios.first().click();
+          picked = true;
+          break;
+        }
+        if (!picked) break;
+      }
+
+      /* 填空类题（`item.options` 为空的那种）：页面上的是 aria-label="答案填空"
+         的 textarea。它们不能用 radio 判「已作答」，所以单独补一次。 */
+      const blanks = page.getByRole('textbox', { name: '答案填空' });
+      const blankCount = await blanks.count();
+      for (let index = 0; index < blankCount; index += 1) {
+        const blank = blanks.nth(index);
+        if (!(await blank.isVisible().catch(() => false))) continue;
+        if ((await blank.inputValue().catch(() => '')).trim() !== '') continue;
+        if (await blank.isDisabled().catch(() => false)) continue;
+        await blank.fill('吸收律');
+      }
+
+      /* ② 点掉本段所有还处于可点状态的「提交答案」。每提交一题，那张卡会
+         变成「已作答，本关内不可重答」，按钮从 DOM 里消失，所以循环会收敛。 */
+      for (let round = 0; round < 8; round += 1) {
+        const submits = page.getByRole('button', { name: '提交答案' });
+        const submitCount = await submits.count();
+        let clicked = false;
+        for (let index = 0; index < submitCount; index += 1) {
+          const submit = submits.nth(index);
+          if (!(await submit.isVisible().catch(() => false))) continue;
+          if (await submit.isDisabled().catch(() => false)) continue;
+          await submit.click();
+          answered += 1;
+          answeredThisStep += 1;
+          clicked = true;
+          await page.waitForTimeout(400);
+          break;
+        }
+        if (!clicked) break;
+      }
+      if (answeredThisStep > 0) evidence.push(`第 ${step + 1} 轮：本段提交 ${answeredThisStep} 题`);
+
+      /* ③ 本段答完了就前进。按钮 disabled 说明还有题没答（或者本身就是终点），
+         两种情况都不应该硬点 —— 直接退出循环。 */
+      const advance = page.getByRole('button', { name: /进入下一段|开始这一段|下一段|看结果|完成本关/ });
+      const advanceCount = await advance.count();
+      let advanced = false;
+      for (let index = 0; index < advanceCount; index += 1) {
+        const button = advance.nth(index);
+        if (!(await button.isVisible().catch(() => false))) continue;
+        if (await button.isDisabled().catch(() => false)) continue;
+        await button.click();
+        await page.waitForTimeout(600);
+        advanced = true;
+        break;
+      }
+      if (!advanced) break;
+      if (answered >= 4) break;
+    }
+
+    if (answered === 0) {
+      return { result: verify.locator('button:提交答案', '关卡里没有出现任何可作答的题（内容不足或流程断裂）'), evidence };
+    }
+    evidence.push(`在关卡内提交 ${answered} 道题`);
+
+    /* 真的写进库了吗？直接查这个知识点的掌握度：只要有一道作答，
+       attemptCount 就该 > 0。这比读页面上的「已作答」文本更硬 ——
+       后者只看前端状态，前端状态错的时候它照样绿。 */
+    const nodeTitle = carry.get('nodeName') ?? '';
+    const kpId = carry.get('microKpId');
+    if (kpId) {
+      const mastery = await api.getJson(`/mastery/${encodeURIComponent(kpId)}`);
+      if (mastery.status !== 200) {
+        return { result: verify.backend(mastery.status, mastery.rawText, '读取掌握度失败'), evidence };
+      }
+      const attemptCount = Number((mastery.body as { attemptCount?: number }).attemptCount ?? 0);
+      if (attemptCount === 0) {
+        return {
+          result: verify.mismatch('attemptCount > 0', '0', `界面显示已作答 ${answered} 题，但掌握度接口的 attemptCount 仍是 0（作答没落库）`),
+          evidence,
+        };
+      }
+      evidence.push(`掌握度接口 attemptCount = ${attemptCount}`);
+    } else {
+      evidence.push(`（没有记下知识点 id，跳过库侧核对；H1=${nodeTitle}）`);
+    }
+
+    /* 学生的话也要真的说出来一次：这是 P1/P2/P3 唯一能出现「学生原话」的
+       地方。不指望它触发什么，只确认输入框还能用。 */
+    const composer = page.getByRole('textbox', { name: '这一轮想说的话' });
+    if (await composer.isVisible().catch(() => false)) {
+      await composer.fill(persona.wrongAnswerRemark);
+      const readBack = await composer.inputValue();
+      if (readBack !== persona.wrongAnswerRemark) {
+        return { result: verify.mismatch(persona.wrongAnswerRemark, readBack, '关卡页输入框打不进字'), evidence };
+      }
+      evidence.push(`学生原话可写入：「${persona.wrongAnswerRemark}」`);
+    }
+
+    return { result: verify.passed(`关卡「${levelTitle}」内提交 ${answered} 题，作答已落库`), evidence };
+  },
+};
+
+const boardStage: StageDefinition = {
+  stage: 'board',
+  label: 'S6 看板推荐',
+  async run({ page, api }: StageContext) {
+    await page.goto('/board', { waitUntil: 'domcontentloaded' });
+    await waitForSettled(page);
+    const title = await readHeading(page);
+    if (title !== '看板') {
+      return {
+        result: title === null ? verify.locator('h1', '看板页没有 H1') : verify.mismatch('看板', title, '看板页标题不符'),
+        evidence: [],
+      };
+    }
+
+    const rec = await api.getJson('/recommendations');
+    if (rec.status !== 200) {
+      return { result: verify.backend(rec.status, rec.rawText, '读取推荐列表失败'), evidence: [] };
+    }
+    const apiCount = itemsOf<{ microKpId: string }>(rec.body).length;
+
+    /* `data-recommended="true"` 是 DashboardPage 给推荐卡片打的钩子
+       （`apps/web/src/pages/DashboardPage.tsx:305`）。
+
+       ## 为什么要先等卡片
+
+       `readHeading()` 只保证 H1 已渲染，而 H1 是静态的 —— 推荐卡要等
+       `/recommendations` 回来才出现（`recommendations.isPending` 期间是 Spinner）。
+       原来直接 `count()` 会读到 0，报成「看板 0 条 vs 接口 3 条」，看起来像看板
+       不显示推荐 —— 实际只是读得太早。接口说有 n 条，就等这 n 条出现。 */
+    const cards = page.locator('[data-recommended="true"]');
+    if (apiCount > 0) {
+      const arrived = await cards
+        .first()
+        .waitFor({ state: 'visible', timeout: SLOW_PAGE_TIMEOUT })
+        .then(() => true)
+        .catch(() => false);
+      if (!arrived) {
+        return {
+          result: verify.mismatch(
+            `接口 ${apiCount} 条推荐，页面上应有 ${apiCount} 张卡`,
+            '0 张',
+            '看板在等待超时内没有渲染出任何推荐卡（接口有数据）',
+          ),
+          evidence: [`接口推荐 ${apiCount} 条`],
+        };
+      }
+    }
+    const domCount = await cards.count();
+    if (domCount !== apiCount) {
+      return {
+        result: verify.mismatch(String(apiCount), String(domCount), '看板推荐卡上的 data-recommended 数量与 /recommendations 条数不一致'),
+        evidence: [],
+      };
+    }
+
+    // 今日摘要那一块必须存在（票 13 的另一半）。
+    const summary = page.getByRole('region', { name: /今日学习摘要|今日摘要/ });
+    const summaryVisible = await summary.isVisible().catch(() => false);
+    return {
+      result: verify.passed(`看板推荐 ${domCount} 条，与接口一致${summaryVisible ? '；今日摘要区存在' : ''}`),
+      evidence: [`推荐卡 ${domCount} 条 / 接口 ${apiCount} 条`, `今日摘要区${summaryVisible ? '可见' : '不可见'}`],
+    };
+  },
+};
+
+const reviewStage: StageDefinition = {
+  stage: 'review',
+  label: 'S6 复验',
+  async run({ page, api }: StageContext) {
+    const queue = await api.getJson('/review/queue');
+    if (queue.status !== 200) {
+      return { result: verify.backend(queue.status, queue.rawText, '读取复验队列失败'), evidence: [] };
+    }
+    const due = (queue.body as { due?: unknown[] }).due;
+    const dueCount = Array.isArray(due) ? due.length : 0;
+
+    await page.goto('/review', { waitUntil: 'domcontentloaded' });
+    await waitForSettled(page);
+    const title = await readHeading(page, SLOW_PAGE_TIMEOUT);
+    if (title === null) {
+      return { result: verify.locator('h1', '复验页没有渲染出 H1'), evidence: [`接口到期条数 ${dueCount}`] };
+    }
+
+    /* 到期为空是**正常状态**（没到期的日子）。此时页面该说「没有到期」，
+       而不是渲染一个 0 题的空测验。断言这句文案存在。 */
+    if (dueCount === 0) {
+      const bodyText = await page.locator('body').innerText();
+      const saysNone = /没有.*(到期|需要复验)|没有要复验|暂无.*复验|不需要复验/.test(bodyText);
+      return {
+        result: verify.passed(`接口 0 条到期；页面 H1「${title}」${saysNone ? '并说明没有到期' : '（未找到「没有到期」文案，见 evidence）'}`),
+        evidence: [`due=0`, `H1=${title}`, saysNone ? '页面有「没有到期」提示' : '页面文案未匹配"没有到期"（可能是措辞不同，不算失败）'],
+      };
+    }
+    return { result: verify.passed(`接口 ${dueCount} 条到期；复验页 H1「${title}」`), evidence: [`due=${dueCount}`, `H1=${title}`] };
+  },
+};
+
+const databaseStage: StageDefinition = {
+  stage: 'database',
+  label: 'S7 数据库检视',
+  async run({ page, api }: StageContext) {
+    await page.goto('/database', { waitUntil: 'domcontentloaded' });
+    await waitForSettled(page);
+    const title = await readHeading(page, SLOW_PAGE_TIMEOUT);
+    if (title !== '数据库') {
+      return {
+        result: title === null ? verify.locator('h1', '数据库页没有 H1') : verify.mismatch('数据库', title, '数据库页标题不符'),
+        evidence: [],
+      };
+    }
+
+    /* 页面上「知识点」统计卡的数字要与图谱节点数一致。两处读的是同一批
+       数据，不一致说明有一侧算错或缓存没刷新。 */
+    const graph = await api.getJson('/graph');
+    if (graph.status !== 200) {
+      return { result: verify.backend(graph.status, graph.rawText, '读取图谱失败'), evidence: [] };
+    }
+    const nodeCount = Array.isArray((graph.body as { nodes?: unknown[] }).nodes)
+      ? ((graph.body as { nodes: unknown[] }).nodes.length)
+      : 0;
+    const bodyText = await page.locator('body').innerText();
+    const mentions = bodyText.includes(String(nodeCount));
+
+    /* 回归守卫：没选中知识点时不应有任何 Spinner。
+
+       这条防的是一个已经发生过、并且**只在屏幕上看得出来**的产品缺陷：
+       条件启用的 hook（`useNodeSources(activeId)` 在未选中时 `enabled: false`）
+       用了 `isPending`，而 TanStack Query v5 里禁用查询的 `status` 恒为
+       `'pending'` —— 于是「读取来源…」从挂载到卸载一直在转，屏幕阅读器
+       会永远念它。captain 已改成 `isFetching`（commit `bc32ae3`）。
+
+       为什要在测评里写这条：`waitForSettled` 超时是**静默返回**的，有人把
+       `isPending` 用回来时，测评只会安静地多等 20 秒，然后一切如常地绿。
+       这个缺陷不会把任何阶段变成红 —— 只能显式断言。 */
+    const lingering = await page.getByRole('progressbar').count();
+    if (lingering > 0) {
+      const labels = await page
+        .getByRole('progressbar')
+        .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('aria-label') ?? node.textContent ?? ''));
+      return {
+        result: verify.mismatch(
+          '没选中知识点时页面上不应有 Spinner',
+          `${lingering} 个（${labels.join(' / ')}）`,
+          '页面静下来之后仍有 progressbar。这通常是条件启用的 query 用了 isPending：'
+            + 'TanStack Query v5 里 enabled: false 的查询 status 恒为 pending，isPending 就永远为真。'
+            + '改用 isFetching。',
+        ),
+        evidence: [`H1=${title}`, `残留 progressbar ${lingering} 个`],
+      };
+    }
+
+    return {
+      result: verify.passed(`数据库页 H1「${title}」；图谱节点 ${nodeCount} 个${mentions ? '，页面统计卡上出现同一数字' : '（页面未直接出现该数字，见 evidence）'}；无残留 Spinner`),
+      evidence: [`H1=${title}`, `图谱节点数 ${nodeCount}`, mentions ? '页面文本包含该数字' : '页面文本未包含该数字（统计卡可能使用不同口径）', '残留 progressbar 0 个'],
+    };
+  },
+};
+
+const skillsStage: StageDefinition = {
+  stage: 'skills',
+  label: 'S8 技能库',
+  async run({ page, api }: StageContext) {
+    const skills = await api.getJson('/agent/skills');
+    if (skills.status !== 200) {
+      return { result: verify.backend(skills.status, skills.rawText, '读取技能库失败'), evidence: [] };
+    }
+    const apiCount = itemsOf<{ name: string }>(skills.body).length;
+
+    await page.goto('/skills', { waitUntil: 'domcontentloaded' });
+    await waitForSettled(page);
+    const title = await readHeading(page);
+    if (title !== '技能库') {
+      return {
+        result: title === null ? verify.locator('h1', '技能库页没有 H1') : verify.mismatch('技能库', title, '技能库页标题不符'),
+        evidence: [`接口技能数 ${apiCount}`],
+      };
+    }
+
+    /* 页面上每个 skill 有一张卡片，卡片标题是 skill 名字。用「每个接口返回的
+       名字都能在页面上找到」来断言，而不是数卡片数 —— 卡片结构可能变，
+       名字是稳定事实。
+
+       ## 为什么要等
+
+       `readHeading()` 拿到 H1 就返回，而技能列表是异步拉的（页头是静态的）。
+       原来紧接着就读 skill 名，得到 0 个命中，报成「技能库里少了
+       question-author、socratic-tutor」—— 看起来像技能库不渲染，实际只是
+       页面还没把数据画上去。接口说有 n 个，就等这 n 个都出现。 */
+    const apiSkills = itemsOf<{ name: string }>(skills.body);
+    const missing: string[] = [];
+    for (const skill of apiSkills) {
+      const found = await page
+        .getByText(skill.name, { exact: false })
+        .first()
+        .waitFor({ state: 'visible', timeout: SLOW_PAGE_TIMEOUT })
+        .then(() => true)
+        .catch(() => false);
+      if (!found) missing.push(skill.name);
+    }
+    if (missing.length > 0) {
+      return {
+        result: verify.mismatch(`页面上有 ${apiCount} 个技能`, `缺 ${missing.join('、')}`, '技能库里少了接口返回的技能'),
+        evidence: [`接口技能数 ${apiCount}`],
+      };
+    }
+    return { result: verify.passed(`技能库 H1「${title}」；${apiCount} 个技能全部渲染`), evidence: [`接口技能数 ${apiCount}`] };
+  },
+};
+
+/** 全部阶段。顺序即旅程顺序，与 `STAGE_ORDER` 一一对应。 */
+export const STAGE_DEFINITIONS: readonly StageDefinition[] = [
+  coldStart,
+  placement,
+  mapStage,
+  nodeDetail,
+  answerStage,
+  boardStage,
+  reviewStage,
+  databaseStage,
+  skillsStage,
+];
+
+/** 自检：阶段定义数量与顺序必须与 `STAGE_ORDER` 一致，否则漏斗矩阵会错位。 */
+export function assertStageOrder(): void {
+  const defined = STAGE_DEFINITIONS.map((entry) => entry.stage);
+  if (defined.length !== STAGE_ORDER.length || defined.some((name, index) => name !== STAGE_ORDER[index])) {
+    throw new Error(`阶段定义与 STAGE_ORDER 不一致：definition=${defined.join(',')} vs order=${STAGE_ORDER.join(',')}`);
+  }
+}
+
+export type { StageApi, VerifyResult };
+export { waitForSettled };

@@ -74,6 +74,7 @@ function fixtureReport(overrides: Partial<Report> = {}): Report {
         scoringConsistency: { fleissKappa: 0.83, cv: 0.02, nReplays: 5 },
         stall: { maxStall: 3, stalls: [2, 3], stallsOver2: 1 },
         paasSeries: [7, 8],
+        unsampled: [],
       },
     ],
     judgeScores: [],

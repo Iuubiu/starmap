@@ -140,38 +140,41 @@ def _core_terms(name: str) -> list[str]:
 
 def leaf_page_ranges(flat_nodes: list[dict]) -> list[tuple[str, str, int, int]]:
     """
-    把叶节点按页码摊成 `[(microKpId, name, start, end)]`，左闭右开。
+    把区间所有者摊成 `[(microKpId, name, start, end)]`，左闭右开。
 
-    区间怎么定，是被扫描件目录的真实缺陷逼出来的。原来的实现是
-    「`end = 下一个叶子的 start`，最后一个叶子开到正无穷」，它假设目录的
-    印刷页码**严格单调不减** —— 康华光那种排版干净的电子版成立，OCR 出来
-    的扫描件目录不成立。实测王芝英那本：
+    **同页并列的条目共享同一段区间**，因此区间可以重叠。这是本函数唯一非平凡
+    的决定，也是 t30 修的那个缺陷的根：
 
-    - **16 处页码倒退**（`、系统的基本组成` p25 排在 p28 之后、`、放大节的
-      结构` p67 排在 p73 之后…），倒退处的前一个叶子拿到 `end < start` 的
-      空区间，永远匹配不到任何页；
-    - **20 组同页并列**（一个页面上起了两个叶子，比如 `kp-2-1 概述` 和
-      `kp-p34 前置放大器的作用` 都在 p34），前者同样拿到空区间；
-    - **最后一个叶子不是页码最大的那个**：`kp-5 时间分析` p164 排在
-      `kp-p142 …` p142 之后，`end = 10**6` 让它一口吞掉 p164 到书末 ——
-      实测 2585 个 chunk、全书 52.9%。
+    原来的实现按「同页并列第几条就往后推几页」摊分（`_tie_offset`），在正文里
+    看似合理（一页并列 2–3 个叶子，渗透一两页可接受）。但**附录区一页能并列
+    3–6 个条目**（汲长松 p557 有 附录5/常用物理常数表/附录6/基本粒子表，
+    methods-1997 p470 有 6 个），偏移量逐条累积，最后把整组推过书末：
 
-    所以区间改为按**页码排序后**再摊，并且每条都保证非空：
+    - 汲长松 562 页的书，30 个附录条目被推到 `[580, 1000000)` —— p558 之后
+      的 chunk 找不到 owner（9 个叶节点零 chunk），而 p552–562 的真实内容被
+      错误地归给了前面那些被推后但仍落在书内的条目（p559–562 的 32 个
+      chunk 全挂到 `source_page` 549–552 的节点上）；
+    - methods-1997 同病但没完全溢出，表现为「挂错」而非「挂空」。
 
-    1. 叶子的先后顺序按 `printedPage` 排，不按目录出现顺序 —— 归属是「这页
-       属于哪个知识点」，页码才是唯一依据；目录里倒退的噪声条目不能改写
-       别人已经占住的页。
-    2. 排序后同页并列的几条，按目录原顺序依次分页：第一条拿到 `[p, p+1)`，
-       第二条 `[p+1, p+2)`…… 这样并列的每一条都至少有一页可挂，而不会像
-       原来那样前一条饿死。
-    3. `end` 一并用同样的偏移算，保证和 neighbour 的区间首尾相接不留洞；
-       最后一个叶子开到正无穷兜住书末索引与附录 —— 现在它真的是页码最大的
-       那个了。
+    新的规则只有一条：**`start` 永远等于条目自己的 `printedPage`，一个偏移
+    都不加**。同页并列的条目拿到完全相同的 `[p, 下一个不同起始页)`，一页的
+    内容怎么在它们之间分，交给 `assign()` 按 chunk 顺序切块（见那里）。这样
+    区间在结构上不可能被推出书末 —— 只要目录页码不超过书末，`start` 就
+    不超过书末。
 
-    代价：同页并列里排在后面的知识点会拿到本来属于下一页的那一页。这是
-    有意的取舍 —— 页级归属本身就有这个粒度上限（见模块 docstring 的
-    「粒度限制」），而「一个叶子零内容」是必然错误，宁可让相邻页互相渗透
-    一两页。实测把 `kp-2-2 电荷灵敏前置放大器`（原本 0 chunk）救回到 71 个。
+    为什么不是「让并列的共享 `[p, p)` 空区间再加兜底归属」：空区间会让
+    `owner_of()` 对那几页返回 None，于是所有同页条目都要走一条只在这种情况
+    下才执行的兜底分支；而重叠区间是「这页同时属于它们几个」的直接表达，
+    `owner_of()` / `owners_at()` 两个查询函数都能照常工作。
+
+    为什么不是「按内容关键词挑 owner」：归属必须可复现（同一份产物重跑要
+    字节相同，`manifest.contentHash` 才有意义），按内容挑会随 OCR 的错字漂移。
+
+    `end` 一律取**下一个不同的起始页**，不是下一个条目的 start（后者在并列
+    时等于 p，区间会变成空）。最后一个条目开到正无穷兜住书末索引与附录。
+
+    排序按 `printedPage` 稳定排序：同一页的几条保持目录里的先后 ——
+    `assign()` 的切块顺序依赖它。
 
     **章节附件（小结/习题/附录）也算区间所有者**，虽然它们不是叶节点。
     目录里附件条目带着自己的起始页，那几页的正文（习题题干、本章要点）
@@ -179,53 +182,74 @@ def leaf_page_ranges(flat_nodes: list[dict]) -> list[tuple[str, str, int, int]]:
     变成「知识点 A 的内容里混进一章的习题」。实测康华光 20 个附件节点挂着
     707 个 chunk（20%），全部并回相邻知识点会同时污染两侧。
     """
-    leaves = [n for n in flat_nodes if n['isLeaf'] or n.get('appendix')]
-    if not leaves:
+    owners = [n for n in flat_nodes if n['isLeaf'] or n.get('appendix')]
+    if not owners:
         return []
-    # 稳定排序：同一页的几条保持目录里的先后
-    ordered = sorted(leaves, key=lambda n: n['printedPage'])
-    starts: list[int] = []
-    for i, n in enumerate(ordered):
-        raw = n['printedPage'] + _tie_offset(ordered, i)
-        # 单调修正：同页并列的条数可能多过「到下一个不同起始页的距离」
-        # （比如 3 个叶子都在 p1、下一个在 p2），此时 `p+2` 会越过下一组，
-        # 摊出来的区间变成 `[3, 2)` 空区间。逐条往后推一格即可 —— 起点只
-        # 增不减，区间永远非空，且总长度不变。
-        starts.append(max(raw, starts[-1] + 1) if starts else raw)
-    out: list[tuple[str, str, int, int]] = []
-    for i, n in enumerate(ordered):
-        start = starts[i]
-        end = starts[i + 1] if i + 1 < len(starts) else 10**6
-        out.append((n['microKpId'], n['name'], start, end))
-    return out
+    ordered = sorted(owners, key=lambda n: n['printedPage'])
+    pages = sorted({n['printedPage'] for n in ordered})
+    ends = {
+        p: (pages[i + 1] if i + 1 < len(pages) else 10**6)
+        for i, p in enumerate(pages)
+    }
+    return [
+        (n['microKpId'], n['name'], n['printedPage'], ends[n['printedPage']])
+        for n in ordered
+    ]
 
 
-def _tie_offset(ordered: list[dict], i: int) -> int:
-    """同一起始页里排第几（0 起）—— 用来把并列的叶子摊到相邻页上去。"""
-    page = ordered[i]['printedPage']
-    return sum(1 for j in range(i) if ordered[j]['printedPage'] == page)
-
-
-def owner_of(page: int, ranges: list[tuple[str, str, int, int]]) -> tuple[str, str] | None:
+def _first_cover(page: int, ranges: list[tuple[str, str, int, int]]) -> int:
     """
-    哪一页归哪个叶节点。用二分而不是线性扫描：3032 个 chunk × 165 个叶节点
-    的暴力匹配在测试里明显变慢，而这张表是有序的。
+    覆盖该页的**第一条**区间的下标；没有覆盖返回 -1。
 
-    返回 `(microKpId, name)`；页码落在所有区间之外（目录页之前的封面等）返回 None。
+    二分先找一个命中的，再往前走回到并列组的第一条 —— 同页并列时几条区间
+    完全相同，二分会落在哪一条取决于数组长度，不往回走就不确定。
     """
     lo, hi = 0, len(ranges) - 1
-    best: tuple[str, str] | None = None
+    hit = -1
     while lo <= hi:
         mid = (lo + hi) // 2
-        kp_id, name, start, end = ranges[mid]
+        _kp, _name, start, end = ranges[mid]
         if page < start:
             hi = mid - 1
         elif page >= end:
             lo = mid + 1
         else:
-            best = (kp_id, name)
+            hit = mid
             break
-    return best
+    if hit < 0:
+        return -1
+    while hit > 0 and ranges[hit - 1][2] <= page < ranges[hit - 1][3]:
+        hit -= 1
+    return hit
+
+
+def owner_of(page: int, ranges: list[tuple[str, str, int, int]]) -> tuple[str, str] | None:
+    """
+    该页的**代表**所有者。用二分而不是线性扫描：3032 个 chunk × 165 个叶节点
+    的暴力匹配在测试里明显变慢，而这张表是有序的。
+
+    同页并列时返回并列组里**目录顺序第一条** —— 规则确定，但它只是「代表」，
+    不代表整页内容都归它。真实归属是 `assign()` 按 chunk 顺序在并列组内切块
+    分配的；想知道一页的全部候选请用 `owners_at()`。
+
+    返回 `(microKpId, name)`；页码落在所有区间之外（目录页之前的封面等）返回 None。
+    """
+    i = _first_cover(page, ranges)
+    return None if i < 0 else (ranges[i][0], ranges[i][1])
+
+
+def owners_at(
+    page: int, ranges: list[tuple[str, str, int, int]]
+) -> tuple[tuple[str, str, int, int], ...]:
+    """该页的全部候选所有者，按目录顺序。单条时长度为 1，区间外为空元组。"""
+    i = _first_cover(page, ranges)
+    if i < 0:
+        return ()
+    out: list[tuple[str, str, int, int]] = []
+    while i < len(ranges) and ranges[i][2] <= page < ranges[i][3]:
+        out.append(ranges[i])
+        i += 1
+    return tuple(out)
 
 
 def is_answer_block(text: str, kind: str, terms: list[str]) -> bool:
@@ -257,21 +281,51 @@ def assign(chunks: list, flat_nodes: list[dict]) -> list:
 
     没有归属的 chunk（页码落在所有目录区间之前）保留 `micro_kp_id=None`，
     不硬塞给第一个叶节点 —— 那会让封面和版权页变成「数字逻辑概论」的内容。
+
+    **一页有多个所有者怎么分**：按这一页 chunk 的顺序（`blocks_to_chunks`
+    产出的就是自上而下的阅读顺序）**连续切块**，第一个 chunk 归第一个所有者、
+    最后一段归最后一个，中间按 `i * k // n` 均分。三条理由：
+
+    1. 切块保持同一条内容内部的连续 —— 轮转（`i % k`）会让一页的正文在几个
+       知识点之间来回跳，读起来是碎的；
+    2. 页内顺序是有意义的（先出现的段落属于哪个条目，通常就是该页开头的
+       那个条目），切块保留了这层信号，轮转丢掉了它；
+    3. 确定性：不依赖随机数，也不依赖 chunk 的绝对 id。
+
+    **叶节点优先**：所有者 = 叶节点 + 章节附件。一页并列 3 个条目只有 1 个
+    chunk 时，切块会让后两个什么也拿不到；让叶节点排在前面，饿着的是附件
+    （它是「小结/习题/附录」这类容器，零内容不影响地图与掌握度），而不是
+    微知识点（零内容会让它在图谱上永远是一块空白）。
+
+    没有引入「按题干关键词挑所有者」：那会让归属随 OCR 错字漂移，同一份
+    产物重跑不再是同一份。
     """
     ranges = leaf_page_ranges(flat_nodes)
-    names = {n['microKpId']: n['name'] for n in flat_nodes}
+    leaf_ids = {n['microKpId'] for n in flat_nodes if n['isLeaf']}
+    terms_cache: dict[str, list[str]] = {}
 
+    by_page: dict[int, list] = {}
     for c in chunks:
-        owner = owner_of(c.printed_page, ranges)
-        if owner is None:
-            c.micro_kp_id = None
-            c.answer_for = []
+        by_page.setdefault(c.printed_page, []).append(c)
+
+    for page, page_chunks in by_page.items():
+        owners = owners_at(page, ranges)
+        if not owners:
+            for c in page_chunks:
+                c.micro_kp_id = None
+                c.answer_for = []
             continue
-        kp_id, name = owner
-        c.micro_kp_id = kp_id
-        c.answer_for = (
-            [kp_id] if is_answer_block(c.text, c.kind, _core_terms(name)) else []
-        )
+        ordered = [o for o in owners if o[0] in leaf_ids]
+        ordered += [o for o in owners if o[0] not in leaf_ids]
+        k, n = len(ordered), len(page_chunks)
+        for i, c in enumerate(page_chunks):
+            idx = 0 if k == 1 else min(k - 1, (i * k) // n)
+            kp_id, name = ordered[idx][0], ordered[idx][1]
+            terms = terms_cache.get(kp_id)
+            if terms is None:
+                terms = terms_cache[kp_id] = _core_terms(name)
+            c.micro_kp_id = kp_id
+            c.answer_for = [kp_id] if is_answer_block(c.text, c.kind, terms) else []
     return chunks
 
 

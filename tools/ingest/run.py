@@ -28,6 +28,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from assign import assign, review_sample  # noqa: E402
 from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E402
+from frontmatter import demote_front_matter_leaves, report_demotions  # noqa: E402
 from edges import build_edges, summarize, write_edges  # noqa: E402
 from extract import extract_page  # noqa: E402
 from toc import flatten, nodes_from_flat, parse_toc_pages  # noqa: E402
@@ -59,6 +60,10 @@ def main() -> int:
     # 重复 301 个 id、49% 节点被改掉 source_id，chunk 归属错书且无报错）。
     flat = flatten(tree, source_id=args.source_id)
     nodes = nodes_from_flat(flat)
+    # 书首前置页（卷名/目录/书前绪论）会被建 tree 时挂到 stack[0]，变成
+    # depth=0 的叶知识点 —— 它们不是可掌握知识点，降级成容器。chunk 仍挂
+    # 在它下面所以内容不丢，但地图/掌握度/出题/推荐四处都只看 is_leaf。
+    print(report_demotions(demote_front_matter_leaves(nodes)))
 
     # 2. 正文 → chunk
     doc = pymupdf.open(args.pdf)

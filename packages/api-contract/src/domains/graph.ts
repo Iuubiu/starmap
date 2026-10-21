@@ -100,6 +100,140 @@ export const GraphEdgeSchema = z.object({
 export const GraphResponseSchema = z.object({
   nodes: z.array(GraphNodeSchema),
   edges: z.array(GraphEdgeSchema),
+  /**
+   * 与 `GET /api/v1/recommendations` **同一时刻、同一批**的推荐节点 id。
+   *
+   * 票 13 验收第 5 条：「图谱与看板推荐同一时刻指向同一批节点，不出现两处
+   * 矛盾」。做到这一点不能靠「两边各算一遍然后希望结果一样」——那在数据
+   * 更新的一瞬间就会漂移，而且没人能复现。唯一的办法是**两边调同一个函数**
+   * （`@starmap/engine` 的 `recommend()`），并把算出来的 id 一起放进图谱
+   * 响应里，好让界面和测试都能直接对照。
+   *
+   * 顺序有意义：就是推荐的优劣顺序。空数组表示「此刻没有可推荐的节点」
+   * （例如全部已掌握，或全部被改道排除），不是「功能没接通」。
+   */
+  recommendedIds: z.array(z.string()),
+});
+
+/**
+ * 推荐理由里的一条**结构化事实**。
+ *
+ * 为什么不返回中文句子：句子一旦在服务端拼好，前端就没法把数字加粗、没法把
+ * 「解开谁」渲染成可点链接；改一个措辞还要动后端与测试。而且测试只能正则
+ * 抠字符串里的数字 —— 那测的是格式不是数据。
+ *
+ * 数值一律是**原值**（`0.32` 而不是 `"32%"`）：图谱保留一位小数、看板取整，
+ * 两处精度规则不同，在服务端定死就回不去了。
+ *
+ * 这些 `type` 与 `packages/engine/src/recommend.ts` 的 `ReasonFact` 逐字对应
+ * （引擎是计算处，契约是传输形状，两者若漂移有类型测试兜底）。
+ */
+export const ReasonFactSchema = z.discriminatedUnion('type', [
+  /** 当前掌握度（衰减后）。管推荐的那个数 */
+  z.object({ type: z.literal('current'), value: z.number().min(0).max(1) }),
+  /** 历史最高掌握度。不衰减，用来区分「学会了但忘了」与「从没学会」 */
+  z.object({ type: z.literal('achieved'), value: z.number().min(0).max(1) }),
+  z.object({ type: z.literal('attempts'), value: z.number().int().min(0) }),
+  z.object({ type: z.literal('variants'), value: z.number().int().min(0) }),
+  /** 熟悉线（0.4）。理由里出现「低于 40%」时，这个 40 也必须是可追溯的常量 */
+  z.object({ type: z.literal('familiarThreshold'), value: z.number().min(0).max(1) }),
+  z.object({ type: z.literal('requiredAttempts'), value: z.number().int().min(1) }),
+  z.object({ type: z.literal('requiredVariants'), value: z.number().int().min(1) }),
+  z.object({ type: z.literal('halfLifeDays'), value: z.number().min(0) }),
+  /** 这个推荐能解开哪个卡住的节点 */
+  z.object({
+    type: z.literal('unblocks'),
+    microKpId: z.string(),
+    name: z.string(),
+    current: z.number().min(0).max(1),
+  }),
+  /** 该节点的先修里已经满足几个 */
+  z.object({ type: z.literal('prereqsSatisfied'), value: z.number().int().min(0) }),
+]);
+
+/**
+ * 理由的种类。每一种都对应一个**学习者可据以行动的事实**，
+ * 不是「根据你的学习情况」这类可以套在任何节点上的空话。
+ */
+export const ReasonKindSchema = z.enum([
+  /** 到了该复验的时候（排期由票 07 写入） */
+  'review_due',
+  /** 你在某个节点上卡住，而它依赖的这个前置你也没掌握 */
+  'blocked_by_prereq',
+  /** 曾经掌握过，但按半衰期衰减了 */
+  'fading',
+  /** 证据还不够，再做几题判断才准 */
+  'needs_evidence',
+  /** 做过题，但当前掌握度还低 */
+  'low_mastery',
+  /** 先修都满足了，可以开始学这个新知识点 */
+  'next_in_line',
+]);
+
+export const RecommendationReasonSchema = z.object({
+  kind: ReasonKindSchema,
+  facts: z.array(ReasonFactSchema),
+});
+
+/** 今日推荐里的一条。 */
+export const RecommendationSchema = z.object({
+  microKpId: z.string(),
+  name: z.string(),
+  /** 主线上的位置，让用户知道「这是哪一章的」 */
+  moduleName: z.string(),
+  reason: RecommendationReasonSchema,
+});
+
+/**
+ * 今日学习摘要。
+ *
+ * **`available` 与三个数字是一对，前端只认 `available`。**
+ *
+ * 为什么不是一个「有数据就是 true」的推断：`attempts` 表为空时，三个数字
+ * 都算得出 0，而「今天答了 0 题」和「作答记录还没接通」是两件事。显示 0 是
+ * 在撒谎（说「你今天什么都没做」），真相是「我们还不知道」。这与
+ * 「证据不足不给 0%」是同一条原则：**没有数据源就不给数字**。
+ *
+ * 所以服务端必须显式回答「这个数字有没有真数据源」，而不是让前端按票的
+ * 完成顺序去猜。票 05 之后 `attempts` 就是真数据源，`available` 恒为 true；
+ * 但在那之前（或某个只读环境里表不存在时）它可以诚实地为 false。
+ */
+export const TodaySummarySchema = z.object({
+  available: z.boolean(),
+  /** 今日作答次数 */
+  answered: z.number().int().min(0),
+  /** 今日涉及的微知识点数 */
+  knowledgePoints: z.number().int().min(0),
+  /** 今日新达到「已掌握」的微知识点数 */
+  newlyMastered: z.number().int().min(0),
+});
+
+/** GET /api/v1/recommendations */
+export const RecommendationListResponseSchema = z.object({
+  recommendations: z.array(RecommendationSchema),
+  summary: TodaySummarySchema,
+  /**
+   * 这一批推荐算出来的时刻（ISO）。与响应里所有数字共享同一个时间基准，
+   * 所以「同一时刻指向同一批节点」这件事可以被断言，而不是靠运气。
+   */
+  generatedAt: z.string(),
+});
+
+/**
+ * POST /api/v1/recommendations/redirect
+ *
+ * `recommended` = 被拒绝的那条，`chosen` = 用户改道去学的。
+ * 服务端不校验 chosen 是否在候选集里：用户可以直接选一个我们没推荐的节点
+ * （那正是「一键改道」的意义）。
+ */
+export const RedirectRequestSchema = z.object({
+  recommended: z.string(),
+  chosen: z.string(),
+});
+
+export const RedirectResponseSchema = z.object({
+  /** 记录已落库。前端据此提示「换一个」成功，不需要再拉一次全量 */
+  ok: z.boolean(),
 });
 
 export type MasteryState = z.infer<typeof MasteryStateSchema>;
@@ -109,3 +243,11 @@ export type NodeDetailResponse = z.infer<typeof NodeDetailResponseSchema>;
 export type GraphNode = z.infer<typeof GraphNodeSchema>;
 export type GraphEdge = z.infer<typeof GraphEdgeSchema>;
 export type GraphResponse = z.infer<typeof GraphResponseSchema>;
+export type ReasonFact = z.infer<typeof ReasonFactSchema>;
+export type ReasonKind = z.infer<typeof ReasonKindSchema>;
+export type RecommendationReason = z.infer<typeof RecommendationReasonSchema>;
+export type Recommendation = z.infer<typeof RecommendationSchema>;
+export type TodaySummary = z.infer<typeof TodaySummarySchema>;
+export type RecommendationListResponse = z.infer<typeof RecommendationListResponseSchema>;
+export type RedirectRequest = z.infer<typeof RedirectRequestSchema>;
+export type RedirectResponse = z.infer<typeof RedirectResponseSchema>;

@@ -263,10 +263,30 @@ export function assembleLevelSpec(input: AssembleInput):
     ],
     items,
     gating: {
-      // 评分门控走「退出」而非「前置」：练习题不该拦住学习者去下一节。
-      mode: 'exit' as const,
+      // ↓ `mode: 'none'` 是**结构性**的，和上面的 pool 一样不接受参数。
+      //
+      // 早先这里是 'exit'（理由是「练习题不该拦住学习者去下一节」，指的是不该用
+      // 'prereq'）。实测证明 'exit' 更糟：`GATE_RULES.exit` 是 **8 题 ≥7**，而
+      // 本函数一次只产 1 道题，`GatingService` 对 exit 模式**忽略** spec 里声明的
+      // itemCount/passCount、一律用那组固定数值。于是这张关卡算出来的判定永远是
+      // `undetermined / insufficient_items`。
+      //
+      // 后果不是「面板上多一句提示」：`gating/repository.ts` 的 gatedPrerequisites
+      // 按 `lv.ordinal, lv.id` 取先修知识点的**第一张**关卡当作门。AI 关卡 ordinal
+      // 从 0 起算，很容易成为第一张 —— 于是它把下游节点锁死，而学习者做满也只有
+      // 1 道题、永远达不到 8 题。修前实测：
+      //   GET /api/v1/nodes/kp-chenboxian-2011-8-3/unlock
+      //     → unlocked:false，blocker 是 lv-ai-kp-chenboxian-2011-8-2 的 exit 门
+      //   GET /api/v1/nodes/kp-tangbin-1-5/unlock → 同上
+      // 改成 'none' 后 `unlockStateWith` 会跳过这道门（`mode === 'none'` 分支），
+      // 下游恢复可解锁。
+      //
+      // 语义上也更对：AI 生成的内容只进 practice 池（验收④），练习内容不该决定
+      // 谁能解锁下一个知识点 —— 那是核心判定内容 + 人工复核的事。
+      mode: 'none' as const,
       itemCount: items.length,
-      // 60% 及格线向上取整，但至少 1 题
+      // 60% 及格线向上取整，但至少 1 题（mode:'none' 时这两个数只是声明值，
+      // 引擎走「此处不设门控」分支；保留它们是为了让编辑器里读得懂作者意图）
       passCount: Math.max(1, Math.ceil(items.length * 0.6)),
     },
   };

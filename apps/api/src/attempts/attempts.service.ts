@@ -11,6 +11,7 @@ import { groupByMicroKp, snapshotOf } from '../mastery/evidence.js';
 import { judgeAnswer, optionCount } from '../mastery/judge.js';
 import { MasteryService } from '../mastery/mastery.service.js';
 import { findItem, loadEvidence, upsertMastery, type Runner } from '../mastery/repository.js';
+import { ensureInitialReviewSchedule } from '../review/schedule.js';
 
 /**
  * 「这一段算不算掌握度证据」。
@@ -44,6 +45,7 @@ type AttemptRow = {
   attempt_no: number;
   counts_toward_mastery: boolean;
   knowledge_kind: string | null;
+  review_round_id: string | null;
   created_at: Date;
 };
 
@@ -95,7 +97,14 @@ export class AttemptsService {
     }
 
     const steps = stepsOf(item.spec);
-    const countsTowardMastery = this.countsTowardMastery(steps, request.itemId, request.stepId);
+    // 复验里的作答**一定计分**：那一轮的存在意义就是「检验还记得吗」，
+    // 而票 07 验收第 3 条要求未通过时 current 下调 —— 下调只能靠把这些
+    // 答错写进 BKT 证据。所以有 reviewRoundId 时不必再看步骤类型：
+    // 复验题池只收 `pool='quiz'` 的判定题，它们本来也不该落在补救段里。
+    const countsTowardMastery =
+      request.reviewRoundId !== undefined
+        ? true
+        : this.countsTowardMastery(steps, request.itemId, request.stepId);
 
     // 选项下标越界是**调用方传错**（422），不是「答错了」。区分这两件事很重要：
     // 越界当成答错会往证据里塞一条假的「他这道题不会」。
@@ -120,6 +129,13 @@ export class AttemptsService {
     const correct = judgement.verdict === 'correct';
     const knowledgeKind = kindOfItem(item.spec, request.itemId) ?? 'concept';
 
+    // 复验认领（票 07）：先校验这次作答真的属于那一轮，再动手写证据。
+    // 校验放在事务外是因为它只读、且失败必须整条请求作废（不能留下一条
+    // 「归属不明的复验作答」）。
+    if (request.reviewRoundId !== undefined) {
+      await this.requireReviewClaim(request.reviewRoundId, request.itemId, item.micro_kp_id);
+    }
+
     const client = await this.db.connection.connect();
     try {
       await client.query('BEGIN');
@@ -139,14 +155,16 @@ export class AttemptsService {
       const inserted = await run(
         `INSERT INTO attempts
            (micro_kp_id, item_id, level_id, variant_group, correct, answer,
-            latency_ms, hints_used, attempt_no, counts_toward_mastery, knowledge_kind)
+            latency_ms, hints_used, attempt_no, counts_toward_mastery, knowledge_kind,
+            review_round_id)
          VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7, $8,
                  (SELECT COALESCE(MAX(attempt_no), 0) + 1
                     FROM attempts
                    WHERE micro_kp_id = $1 AND item_id = $2),
-                 $9, $10)
+                 $9, $10, $11)
          RETURNING id::text AS id, micro_kp_id, item_id, level_id, variant_group,
-                   correct, attempt_no, counts_toward_mastery, knowledge_kind, created_at`,
+                   correct, attempt_no, counts_toward_mastery, knowledge_kind,
+                   review_round_id, created_at`,
         [
           item.micro_kp_id,
           request.itemId,
@@ -158,6 +176,7 @@ export class AttemptsService {
           request.hintsUsed ?? null,
           countsTowardMastery,
           knowledgeKind,
+          request.reviewRoundId ?? null,
         ],
       );
 
@@ -189,6 +208,14 @@ export class AttemptsService {
           },
           answeredAt,
         );
+
+        // 票 07：刚被判为「已掌握」就落第一次复验排期（1 天后）。
+        // 只在还没有排期时写 —— 否则每次答对都重设成 +1 天，反复练习的
+        // 节点会永远不到期，等于让勤奋练习悄悄取消复验。
+        if (snapshot.state === 'mastered') {
+          await ensureInitialReviewSchedule(run, item.micro_kp_id, answeredAt);
+        }
+
         mastery = this.mastery.toView(
           item.micro_kp_id,
           await this.nameOf(run, item.micro_kp_id),
@@ -258,6 +285,61 @@ export class AttemptsService {
     return referencing.some((step) => !REMEDIATION_STEPS.has(step.kind));
   }
 
+  /**
+   * 校验一次「复验认领」（票 07）。
+   *
+   * 三件事必须同时成立：
+   * 1. 会话存在 —— 否则 `review_round_id` 会指向一行不存在的记录（FK 也会拒，
+   *    但那时报的是数据库错误，错误信息对调用方毫无意义）。
+   * 2. **这道题真的在这一轮的题单里** —— 否则学习者可以用一轮复验的 id 去刷
+   *    别的题，判分时那一轮的 `correct` 数会莫名其妙变高。
+   * 3. 会话还没判分 —— 判分之后写的作答不属于任何判定，会污染下一轮。
+   *
+   * 三条都用 422 而不是 404/409：这是调用方把请求组装错了（客户端 bug 或
+   * 陈旧页面），而不是「资源不存在」或「状态冲突」。
+   */
+  private async requireReviewClaim(
+    roundId: string,
+    itemId: string,
+    microKpId: string,
+  ): Promise<void> {
+    const rounds = await this.db.query(
+      `SELECT verdict FROM review_rounds WHERE id = $1`,
+      [roundId],
+    );
+    const round = rounds[0];
+    if (!round) {
+      throw new UnprocessableEntityException({
+        code: 'VALIDATION_FAILED',
+        message: `复验会话不存在: ${roundId}`,
+      });
+    }
+    if (round['verdict'] !== null) {
+      throw new UnprocessableEntityException({
+        code: 'VALIDATION_FAILED',
+        message: `这一轮复验已经判过分了，不能再往里面记作答: ${roundId}`,
+      });
+    }
+
+    const items = await this.db.query(
+      `SELECT micro_kp_id FROM review_round_items WHERE round_id = $1 AND item_id = $2`,
+      [roundId, itemId],
+    );
+    const claimed = items[0];
+    if (!claimed) {
+      throw new UnprocessableEntityException({
+        code: 'VALIDATION_FAILED',
+        message: `题目 ${itemId} 不在这轮复验的题单里: ${roundId}`,
+      });
+    }
+    if (claimed['micro_kp_id'] !== microKpId) {
+      throw new UnprocessableEntityException({
+        code: 'VALIDATION_FAILED',
+        message: `题目 ${itemId} 在这轮复验里属于知识点 ${String(claimed['micro_kp_id'])}，而不是 ${microKpId}`,
+      });
+    }
+  }
+
   private toRecord(row: AttemptRow): AttemptRecord {
     return {
       attemptId: row.id,
@@ -276,6 +358,7 @@ export class AttemptsService {
           ? row.knowledge_kind
           : 'concept',
       createdAt: row.created_at.toISOString(),
+      reviewRoundId: row.review_round_id,
     };
   }
 }

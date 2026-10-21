@@ -52,10 +52,12 @@ import {
   useLevel,
   useMastery,
   useSubmitAttempt,
+  useTierLevelPlan,
 } from '../api/queries';
 import type {
   GateEvaluation,
   LevelSpec,
+  TierLevelPlanResponse,
   UnlockState,
 } from '../api/queries';
 import { ApiClientError } from '../api/fetcher';
@@ -64,7 +66,6 @@ import {
   advance,
   correctCountInStep,
   countedRecordCount,
-  createFlow,
   currentStep,
   feedbackFor,
   inRemediation,
@@ -89,7 +90,35 @@ import type { AnswerMeta } from '../level/QuestionView';
 import { StepRail } from '../level/StepRail';
 import { MasteryMeter } from '../level/MasteryMeter';
 import { GatePanel, LockedNotice } from '../level/GatePanel';
-import { RichText } from '../level/markdown';
+import { VideoPanel } from '../level/VideoPanel';
+import { RichText, plainText } from '../level/markdown';
+import {
+  attemptsLeft,
+  attemptsPerItem,
+  cardPresentation,
+  createTierFlow,
+  deferredFeedbackFor,
+  defersFeedback,
+  masteryProgressText,
+  masteryRuleText,
+  skipsIntro,
+  startStepIndex,
+  tierSummaryLines,
+  type TierRenderPlan,
+} from '../level/tier-render';
+
+/**
+ * 一个选项的文字。与 `QuestionView` 里 `RadioGroup` 的 label 用同一个函数，
+ * 保证「你选了」列表与你刚才点的那一项逐字相同（否则 `$A + A·B$` 与
+ * `A + A·B` 会被当成两个不同的选项）。
+ */
+function choiceText(item: LevelSpec['items'][number], choice: number | string): string {
+  if (typeof choice === 'number') {
+    const option = item.options[choice];
+    return option === undefined ? `第 ${choice + 1} 项` : plainText(option);
+  }
+  return choice;
+}
 
 const useStyles = makeStyles({
   page: {
@@ -191,55 +220,27 @@ export function LevelPage() {
   const { levelId } = useParams<{ levelId: string }>();
   const navigate = useNavigate();
   const { payload, isLoading, error, refetch: refetchLevel } = useLevel(levelId);
-  const [flow, setFlow] = useState<FlowState>(() => createFlow());
   /**
-   * 记账日志。与 `flow` 分开是刻意的：`flow` 是「学习者做了什么」（纯前端、可回放），
-   * 这份是「后端收到了什么」（异步、会失败）。合成一个状态就得处理
-   * 「提交成功但本地没更新」这一类不可能一致的时刻。
+   * 这一关在当前档位下的渲染参数（票 12）。
+   *
+   * 只读、失败不降级页面：`payload` 为空（接口挂了/还没回来）时，
+   * `tier-render` 里的每个函数都会回落到票 04 的行为（全展开、一次提交即锁、
+   * 即时反馈）。档位参数是**优化**，不是能做题的前提。
    */
-  const [log, setLog] = useState<SubmissionLog>(() => createSubmissionLog());
-  const submitAttempt = useSubmitAttempt();
+  const tier = useTierLevelPlan(levelId);
+  const tierPlan = (tier.payload ?? null) as TierRenderPlan | null;
+  /**
+   * 本档的首轮起始段（P3 = 第一段带题的段，P1/P2 = 0）。
+   *
+   * 它进的是下面 `LevelSession` 的 `key`：`flow` 是 `useState` 的惰性初值，
+   * 只求值一次，而 `tier.payload` 是异步到的 —— 换了起始段就必须重挂载
+   * 持有这份 state 的组件，否则 key 换掉的只是子组件、`flow.stepIndex` 还是 0，
+   * P3 学习者会看到第 1 段。（上一版把 key 挂在只读 props 的 `LevelPlayer` 上，
+   * 就是这个 bug：state 在父层，换 key 动不了它。）
+   */
+  const firstStep = startStepIndex(tierPlan);
 
   const spec = payload?.spec;
-
-  /**
-   * 提交一次作答：**先**更新本地流程（反馈立即出现），**再**异步记账。
-   *
-   * 顺序不能反。反过来（先 await 后端再显示反馈）会让票 04 的「立即显示」变成
-   * 「取决于网络」，而这条反馈是作者预写好的固定文本，没有任何理由等一次往返。
-   *
-   * `void` 是刻意的：这个 Promise 的结果只走 `onSuccess`/`onError` 回调，没有人 await 它。
-   */
-  const recordAttempt = (
-    itemId: string,
-    stepId: string | undefined,
-    value: AnswerValue,
-    meta: AnswerMeta,
-  ) => {
-    setLog((current) => markPending(current, itemId));
-    submitAttempt.mutate(
-      {
-        itemId,
-        answer: value,
-        // 后端据此判断「这一段是否计分」。传的是**当前段的 id**，不是题目反查 ——
-        // 同一道题若被深究段与判定段共用，只有段 id 能分清这次是哪一次。
-        ...(stepId === undefined ? {} : { stepId }),
-        latencyMs: meta.latencyMs,
-        hintsUsed: meta.hintsUsed,
-      },
-      {
-        onSuccess: (data) => setLog((current) => markRecorded(current, data.attempt)),
-        onError: (cause) =>
-          setLog((current) =>
-            markFailed(
-              current,
-              itemId,
-              cause instanceof Error ? cause.message : '这条作答没能记上',
-            ),
-          ),
-      },
-    );
-  };
 
   if (isLoading) {
     return (
@@ -290,10 +291,96 @@ export function LevelPage() {
   }
 
   return (
-    <LevelPlayer
-      key={spec.meta.id}
+    <LevelSession
+      key={`${spec.meta.id}#${firstStep}`}
       spec={spec}
       levelKind={payload.level.kind}
+      levelId={levelId ?? ''}
+      tierPlan={tierPlan}
+      onExit={() => navigate(`/map/${payload.level.microKpId}`)}
+    />
+  );
+}
+
+/**
+ * 一关的**播放会话**：持有 `flow`（学习者做了什么）与 `log`（后端收到了什么）。
+ *
+ * 为什么要单独一层：票 12 的 P3 从「第一段带题的段」开始，而档位参数是异步到的。
+ * 初值只算一次，所以必须让**持有 state 的组件**随起始段重挂载 —— `key` 挂在
+ * 只读 props 的子组件上没有用，那只换掉渲染树、换不掉父层 state。
+ *
+ * 两条状态分开是刻意的：`flow` 是纯前端可回放的答题记录，`log` 是异步的记账回执。
+ * 合成一个就得处理「提交成功但本地没更新」这类不可能一致的时刻。
+ */
+function LevelSession({
+  spec,
+  levelKind,
+  levelId,
+  tierPlan,
+  onExit,
+}: {
+  spec: LevelSpec;
+  levelKind: string;
+  levelId: string;
+  tierPlan: TierRenderPlan | null;
+  onExit: () => void;
+}) {
+  /**
+   * 初始流程从本档的首轮段开始。
+   *
+   * 不用 `useEffect` 去 `setFlow`：那会在首帧先渲染票 04 的首屏、下一帧再跳到
+   * 首轮段，学习者会看到闪一下的错页；而且 `flow` 一旦已经开始答题，就**不能**
+   * 被异步到达的参数覆盖（会抹掉他刚答的题）。
+   */
+  const [flow, setFlow] = useState<FlowState>(() => createTierFlow(tierPlan));
+  const [log, setLog] = useState<SubmissionLog>(() => createSubmissionLog());
+  const submitAttempt = useSubmitAttempt();
+
+  /**
+   * 提交一次作答：**先**更新本地流程（反馈立即出现），**再**异步记账。
+   *
+   * 顺序不能反。反过来（先 await 后端再显示反馈）会让票 04 的「立即显示」变成
+   * 「取决于网络」，而这条反馈是作者预写好的固定文本，没有任何理由等一次往返。
+   *
+   * `void` 是刻意的：这个 Promise 的结果只走 `onSuccess`/`onError` 回调，没有人 await 它。
+   */
+  const recordAttempt = (
+    itemId: string,
+    stepId: string | undefined,
+    value: AnswerValue,
+    meta: AnswerMeta,
+  ) => {
+    setLog((current) => markPending(current, itemId));
+    submitAttempt.mutate(
+      {
+        itemId,
+        answer: value,
+        // 后端据此判断「这一段是否计分」。传的是**当前段的 id**，不是题目反查 ——
+        // 同一道题若被深究段与判定段共用，只有段 id 能分清这次是哪一次。
+        ...(stepId === undefined ? {} : { stepId }),
+        latencyMs: meta.latencyMs,
+        hintsUsed: meta.hintsUsed,
+      },
+      {
+        onSuccess: (data) => setLog((current) => markRecorded(current, data.attempt)),
+        onError: (cause) =>
+          setLog((current) =>
+            markFailed(
+              current,
+              itemId,
+              cause instanceof Error ? cause.message : '这条作答没能记上',
+            ),
+          ),
+      },
+    );
+  };
+
+  return (
+    <LevelPlayer
+      spec={spec}
+      levelKind={levelKind}
+      levelId={levelId}
+      tierPlan={tierPlan}
       flow={flow}
       setFlow={setFlow}
       log={log}
@@ -302,10 +389,13 @@ export function LevelPage() {
         // 重走整关：本地流程与记账日志都清空。**后端证据不清** —— 已记进档案的
         // 作答是不可撤销的历史，重做只会产生新证据。这也正是门控要读后端而不是
         // 读本地 `flow` 的原因：刷新一次页面就能把本地计数归零。
-        setFlow(createFlow());
+        //
+        // 用 `createTierFlow` 而不是 `createFlow`：重走要从**本档的首轮段**开始，
+        // 否则 P3 点一下「重走」就退回到讲解段，档位形同没生效。
+        setFlow(createTierFlow(tierPlan));
         setLog(createSubmissionLog());
       }}
-      onExit={() => navigate(`/map/${payload.level.microKpId}`)}
+      onExit={onExit}
     />
   );
 }
@@ -313,6 +403,10 @@ export function LevelPage() {
 interface LevelPlayerProps {
   spec: LevelSpec;
   levelKind: string;
+  /** 关卡 id：转给「看讲解」面板（票 19）。 */
+  levelId: string;
+  /** 本档的渲染参数（票 12）；`null` 表示还没拿到，回落到票 04 的行为。 */
+  tierPlan: TierRenderPlan | null;
   flow: FlowState;
   setFlow: (next: FlowState) => void;
   /** 记账日志：哪条作答真的落库了。 */
@@ -339,6 +433,8 @@ const KIND_LABEL: Record<string, string> = {
 function LevelPlayer({
   spec,
   levelKind,
+  levelId,
+  tierPlan,
   flow,
   setFlow,
   log,
@@ -356,6 +452,17 @@ function LevelPlayer({
   const correct = step ? correctCountInStep(flow, step) : 0;
   const remediating = inRemediation(step);
   const missed = failedCount(log);
+  /** 本档的摘要行（验收 2：参数改变必须能被观察到）。 */
+  const tierLines = tierSummaryLines(tierPlan);
+  /**
+   * P3 的整段延迟反馈。
+   *
+   * 只在**本段所有题都答完**时出现：提前给就等于逐题反馈，那正是这一档
+   * 要避免的东西。`SummaryPanel` 里另有一份关末总结，两者不重复 ——
+   * 这里说「这一段」，那里说「这一关」。
+   */
+  const deferred = deferredFeedbackFor(tierPlan, items.filter((i): i is NonNullable<typeof i> => i !== undefined), flow.records);
+  const showDeferred = defersFeedback(tierPlan) && complete && deferred.length > 0;
 
   return (
     <div className={styles.page}>
@@ -368,10 +475,40 @@ function LevelPlayer({
           <Badge appearance="outline" style={{ whiteSpace: 'nowrap' }}>
             {spec.meta.tier} · 约 {spec.meta.estimatedMinutes} 分钟
           </Badge>
+          {tierPlan !== null && (
+            <Badge appearance="tint" color="informative" style={{ whiteSpace: 'nowrap' }}>
+              按 {tierPlan.params.tier} 档渲染
+            </Badge>
+          )}
         </div>
         <Text className={styles.subtitle}>
           知识点 {spec.meta.microKpId} · 共 {spec.steps.length} 段
+          {skipsIntro(tierPlan) ? ` · 这一档直接从第 ${startStepIndex(tierPlan) + 1} 段开始` : ''}
         </Text>
+        {/**
+          档位摘要（票 12 验收 2）。放在标题下而不是折叠面板里：验收要求
+          「同一知识点切到不同档位，首屏渲染结果不同」，而一句话摘要正是
+          最直接的可见差异。三行都从参数算出来（`tierSummaryLines`），
+          不查标签表。
+        */}
+        {tierLines.length > 0 && (
+          <ul aria-label="本档渲染参数" style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {tierLines.map((line) => (
+              <li key={line}>
+                <Text size={200} style={{ color: tokens.colorNeutralForeground2 }}>{line}</Text>
+              </li>
+            ))}
+          </ul>
+        )}
+        {/**
+          掌握判定进度。读的是服务端回的 `masteryProgress`（attempts 回放），
+          不是本地 `flow.records` —— 后者刷新一次页面就归零。
+        */}
+        {tierPlan !== null && (
+          <Text size={200} style={{ color: tokens.colorNeutralForeground3 }}>
+            {masteryRuleText(tierPlan)}；{masteryProgressText(tierPlan)}
+          </Text>
+        )}
       </header>
 
       <StepRail progress={progress} />
@@ -414,6 +551,8 @@ function LevelPlayer({
           spec={spec}
           flow={flow}
           log={log}
+          levelId={levelId}
+          tierPlan={tierPlan}
           onRestart={onRestart}
           onExit={onExit}
         />
@@ -430,7 +569,17 @@ function LevelPlayer({
             </div>
 
             <div className={styles.section}>
-              {cards.map((card) => (card ? <CardView key={card.id} card={card} /> : null))}
+              {cards.map((card) =>
+                card ? (
+                  <CardView
+                    key={card.id}
+                    card={card}
+                    // P1 全展开；P2 只把服务端点名的那张卡折叠（forward fading）；
+                    // P3 全部默认收起但可展开。映射全在 `tier-render`，这里不写第二份。
+                    presentation={cardPresentation(card.id, tierPlan)}
+                  />
+                ) : null,
+              )}
             </div>
 
             {items.length > 0 && (
@@ -438,6 +587,16 @@ function LevelPlayer({
                 {items.map((item) => {
                   if (!item) return null;
                   const choice = flow.choices[item.id];
+                  /**
+                   * 还剩几次机会（票 12）。
+                   *
+                   * 这里传给组件的是**剩余次数**，而「还能不能再提交」由
+                   * `submitAnswer` 自己按同一个数判断 —— 页面不自己拍板
+                   * 「锁定还是不锁定」，否则两份判断会漂移。
+                   *
+                   * 答对后为 0；答错且用完为 0 —— 两种都锁题，与票 04 一致。
+                   */
+                  const left = attemptsLeft(tierPlan, flow.records, item.id);
                   // 有选择值 = 已提交。反馈从状态机的记录重建，刷新重渲染也拿到同一条。
                   const submitted =
                     choice === undefined
@@ -449,10 +608,18 @@ function LevelPlayer({
                       item={item}
                       submitted={submitted}
                       recording={statusOf(log, item.id)}
+                      // 还能再试时不锁题（P1/P2 的第二次机会）。
+                      attemptsLeft={submitted !== undefined && left > 0 ? left : undefined}
+                      // P3 档：知道对错但不当场说，收到本段末尾统一给。
+                      deferredFeedback={defersFeedback(tierPlan)}
                       onSubmit={(value, meta) => {
                         // 先落本地（反馈这一帧就出现），再记账。两步都在这里，
                         // 因为「提交了」这件事只能发生一次（`submitAnswer` 对重复提交幂等）。
-                        setFlow(submitAnswer(spec, flow, item.id, value).state);
+                        setFlow(
+                          submitAnswer(spec, flow, item.id, value, {
+                            attemptsPerItem: attemptsPerItem(tierPlan),
+                          }).state,
+                        );
                         onRecordAttempt(item.id, step.id, value, meta);
                       }}
                       nonScoring={remediating}
@@ -460,6 +627,34 @@ function LevelPlayer({
                   );
                 })}
               </div>
+            )}
+
+            {/**
+              P3 的整段反馈：本段题全部答完才出现。
+
+              这是「整题提交后延迟 + 关末总结」里的**前半句**（spec §5 第四行）。
+              没有它，P3 学习者只有在走完七段之后才知道前面那些题错在哪里，
+              而那时已经无法补救了。
+            */}
+            {showDeferred && (
+              <Card className={styles.summaryCard} appearance="filled">
+                <CardHeader
+                  header={<Text className={styles.sectionTitle}>本段反馈（这一档不逐题打断）</Text>}
+                />
+                <div className={styles.section}>
+                  {deferred.map((entry) => (
+                    <div key={entry.itemId} className={styles.section}>
+                      <Text className={styles.sectionTitle}>{plainText(entry.item.stem)}</Text>
+                      <Text size={200}>
+                        {entry.correct ? '✓ 答对了' : '△ 这条没答对'} · 你选了「{choiceText(entry.item, entry.choice)}」
+                      </Text>
+                      <Text size={200} style={{ color: tokens.colorNeutralForeground2 }}>
+                        {entry.correct ? entry.item.explainCorrect : entry.item.explainWrong}
+                      </Text>
+                    </div>
+                  ))}
+                </div>
+              </Card>
             )}
 
             <div className={styles.footer}>
@@ -493,12 +688,23 @@ function SummaryPanel({
   spec,
   flow,
   log,
+  levelId,
+  tierPlan,
   onRestart,
   onExit,
 }: {
   spec: LevelSpec;
   flow: FlowState;
   log: SubmissionLog;
+  /**
+   * 关卡 id：只给「看讲解」面板用（票 19）。
+   *
+   * 从 props 传而不是在组件里 `useParams`：这个面板已经有 `spec` 作为它的
+   * 全部输入来源，再引入一个隐式的路由依赖会让它更难在测试里单独渲染。
+   */
+  levelId: string;
+  /** 本档的渲染参数（票 12）：小结页也展示本档判定规则与还差什么。 */
+  tierPlan: TierRenderPlan | null;
   onRestart: () => void;
   onExit: () => void;
 }) {
@@ -616,6 +822,13 @@ function SummaryPanel({
         onEvaluate={runGate}
         onRestart={onRestart}
       />
+
+      {/*
+        票 19：讲解视频放在门控面板之后 —— 学习者最需要讲解的时刻是「卡住之后」，
+        而不是进关卡之前（那样会变成「先看 30 分钟视频再做题」）。
+        它只读、失败不阻断做题，所以放在主流程之外。
+      */}
+      <VideoPanel levelId={levelId} />
 
       <div className={styles.footer}>
         {spec.meta.nextLevelId !== null ? (

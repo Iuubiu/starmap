@@ -22,5 +22,10 @@ export interface GenerationRunRequest {
      * @items.minLength 1
      */
   microKpIds?: string[];
+  /**
+     * @minimum 3
+     * @maximum 8
+     */
+  questionsPerKp?: number;
   wait?: boolean;
 }

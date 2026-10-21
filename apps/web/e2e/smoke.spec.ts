@@ -160,13 +160,32 @@ test('六个页面路由都能打开，占位页说明「将来干什么」而�
  * （`<Text>` 默认渲染成 span），屏幕阅读器的标题导航在这里断掉。断言 h1
  * 同时钉住了无障碍缺陷与关卡真名。
  */
-test('关卡页打开真实教学关卡，一级标题是关卡名', async ({ page }) => {
+test('关卡页打开真实教学关卡，一级标题是关卡名', async ({ page, request }) => {
+  /**
+   * 首屏落在第几段**取决于当前档位**（票 12）：P1/P2 从第 1 段的讲解开始，
+   * P3「直接出题」从第一段带题的段开始。
+   *
+   * 这条用例原来写死 `第 1 段`，在开发库被定到 P3 之后立刻红了 —— 而那是
+   * **正确行为**，不是回归。所以这里先问一次后端「这一档从第几段开始」，
+   * 再断言页面与之一致。写死一个数字等于假设全世界的档位都一样。
+   */
+  const plan = await request.get('/api/v1/tier/levels/lv-bool-laws/plan');
+  expect(plan.status()).toBe(200);
+  const { firstRound } = (await plan.json()) as { firstRound: { startStepIndex: number } };
+
   await page.goto('/level/lv-bool-laws');
   await expect(
     page.getByRole('heading', { level: 1, name: '逻辑代数基本律：吸收律与德摩根律' }),
   ).toBeVisible();
-  // 播放器真的渲染出了第一步，而不是空壳页面。
-  await expect(page.getByText(/第 1 段/)).toBeVisible();
+  // 播放器真的渲染出了首轮段，而不是空壳页面。
+  //
+  // 正则带 ` · ` 后缀：进度条上每个 chip 也写着「第 N 段」，只匹配「第 N 段」
+  // 会同时命中 chip 与小节标题，Playwright 的 strict mode 直接判失败 ——
+  // 报错看起来像「元素找不到」，实际是「找到两个」。`第 N 段 · <段名>` 才是
+  // 小节标题独有的形状。
+  await expect(
+    page.getByText(new RegExp(`第 ${firstRound.startStepIndex + 1} 段 · `)),
+  ).toBeVisible();
 });
 
 /**
@@ -299,4 +318,64 @@ test('技能库：开关能写进真实后端，禁用后预览里真的没有�
   } finally {
     await restore();
   }
+});
+
+/**
+ * 票 12：档位参数真的驱动了关卡页的首屏。
+ *
+ * 单测（`LevelPageTier.test.tsx`）用 mock hook 证明「参数 → 界面」，后端测试
+ * 证明「engine → 参数」。这条补上最后一环：**真后端 + 真浏览器**里，页面拿到
+ * 的档位与它渲染的段号一致。三件事任何一件断了，这条都会红。
+ *
+ * 它同时是那个真缺陷的回归守卫：`key` 一度挂在只读 props 的 `LevelPlayer` 上，
+ * 而 `flow` 的 `useState` 在父层 —— 换 key 只换渲染树、换不掉 state，于是
+ * P3 学习者永远看到第 1 段。单测能抓（那正是它被发现的地方），但只有真链路
+ * 能证明「线上也修好了」。
+ */
+test('关卡页按当前档位渲染：首屏段号与 /tier/levels/{id}/plan 一致', async ({ page, request }) => {
+  const res = await request.get('/api/v1/tier/levels/lv-bool-laws/plan');
+  expect(res.status()).toBe(200);
+  const body = (await res.json()) as {
+    tier: string;
+    firstRound: { startStepIndex: number; cardMode: 'all' | 'faded' | 'none' };
+    params: { attemptsPerItem: number };
+  };
+
+  await page.goto('/level/lv-bool-laws');
+  // ` · ` 后缀限定在小节标题上（进度条 chip 是「第 N 段」的另一种形状）。
+  await expect(page.getByText(/^第 \d+ 段 · /)).toBeVisible();
+
+  // ① 段号：页面显示的段号 = 服务端算出的首轮起始段（+1，界面从 1 数）。
+  await expect(
+    page.getByText(new RegExp(`^第 ${body.firstRound.startStepIndex + 1} 段 · `)),
+  ).toBeVisible();
+
+  // ② 档位徽章：页面上写着「按 Pn 档渲染」，且与服务端一致。
+  await expect(page.getByText(`按 ${body.tier} 档渲染`)).toBeVisible();
+
+  // ③ 参数摘要：尝试次数反映在摘要行里（P3 = 1 次，P1/P2 = 2 次）。
+  const attempts =
+    body.params.attemptsPerItem > 1
+      ? `每题最多 ${body.params.attemptsPerItem} 次`
+      : '每题只有 1 次机会';
+  await expect(page.getByText(attempts)).toBeVisible();
+
+  /**
+   * ④ 卡片呈现方式与 `cardMode` 一致。
+   *
+   * 这里断言的是**摘要行**而不是「页面上有没有折叠的卡」：P3 的首轮段是
+   * `probe`（`cardIds: []`），首屏根本一张卡都没有 —— 折叠入口不存在是
+   * 对的，不是缺陷。写「非 all 档必须看到折叠入口」会在这条真实关卡上
+   * 永远红，而且红得很有道理。
+   *
+   * 摘要行由 `tierSummaryLines()` 从 `cardMode` 拼出来，是这一维在首屏上
+   * 永远可观察的那一面；卡片本身的行为由 `LevelPageTier.test.tsx` 的
+   * 「P2 折叠 / P1 不折叠」两条在受控 spec 上守（那里首轮段有卡）。
+   */
+  const CARD_MODE_LINE: Record<string, string> = {
+    all: '讲解全展开',
+    faded: '讲解留最后一步给你补',
+    none: '讲解默认收起，需要时展开',
+  };
+  await expect(page.getByText(CARD_MODE_LINE[body.firstRound.cardMode]!)).toBeVisible();
 });

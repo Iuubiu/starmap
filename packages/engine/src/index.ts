@@ -48,3 +48,35 @@ export * from './probe-ladder.js';
    judgeProbeReply）。它是纯函数、无 IO —— 追问回复的越界判定不调 LLM，
    因为「回复里有没有出现最终数值」是代码能数出来的事实，交给模型判会漂移。 */
 export * from './probe-judge.js';
+
+/* recommend 也不撞名（recommend / Recommend* / Reason* / RECOMMEND_DEFAULT_LIMIT /
+   FADING_DROP / STUCK_MIN_ATTEMPTS 在这个包里都是首次出现）。
+   它是纯函数推荐内核：图谱页与看板必须共享同一个 `recommend()`，否则
+   「为什么给我推荐这个」在两个页面上会是两套理由。 */
+export * from './recommend.js';
+
+/* placement 同样不撞名（Placement* / SelfAssessment* / ProficiencyTier / RejudgeInput /
+   priorFromSelfAssessment / initialPlacementState / tierProbabilities / placementEntropy /
+   predictedCorrect / recordPlacementAnswer / posteriorStandardDeviation / placementStop /
+   placementResult / selectPlacementItem / shouldRejudge 在这个包里都是首次出现）。
+   它是票 11 的初始定级内核：自适应选题 + 停止判据都是纯函数，可以穷举测试；
+   放在 engine 而不是 controller 里，是因为「什么时候该停」是教学策略，不是 HTTP 逻辑。 */
+export * from './placement.js';
+
+/* review 同样不撞名（REVIEW_* / Review* / initialReviewSchedule / advanceReviewSchedule /
+   reviewIntervalDays / isReviewDue / overdueDays / reviewPass* / selectReviewItems /
+   interleaveReviewItems 在这个包里都是首次出现；placement.ts 只有 PlacementReviewItem，
+   是「定级结果里的逐题复核项」，与这里的复验排期不是一回事）。
+   它是票 07 的复验排期内核：排期是一个**存下来的时刻**，不是一个待触发的闹钟 ——
+   进程崩了、重启了、部署到三个实例上，「到期没有」用 `<= now` 比一下都得同一个答案，
+   不需要谁记得去推进它。所以这个文件里没有 Date.now()，now 是参数。 */
+export * from './review.js';
+
+/* tier 不撞名（TierParams / TierMasteryRule / MasteryRuleRecord / MasteryRuleProgress /
+   FirstRoundShape / FirstRoundPlan / FirstRoundStepShape / FeedbackTiming / TIER_PARAMS /
+   TIER_LABEL / FIRST_ROUND_DESCRIPTION / tierParams / planFirstRound / masteryRuleProgress /
+   showsFeedbackImmediately 在这个包里都是首次出现；probe-ladder.ts 的 TIER_LADDER 仍是
+   阶梯数值的唯一真源，tier.ts 只是引用它，不重复导出）。
+   它是票 12 的六维渲染参数真源：参数要同时驱动界面与策略，放前端后端读不到、放数据库
+   每次改数字都要迁移，而且「P2 的阶梯上限是 4」会与 probe-ladder 变成两份。 */
+export * from './tier.js';

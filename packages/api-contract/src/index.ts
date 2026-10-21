@@ -30,6 +30,7 @@
  * | `content.ts` | content-dev | 内容库统计、来源追溯 |
  * | `agent.ts` | agent-dev | 智能体回合（空壳，待填） |
  * | `market.ts` | authoring-dev | 关卡市场（空壳，待填） |
+ * | `placement.ts` | agent-dev | 初始定级（自适应选题、自评、复核） |
  */
 export * from './domains/common.js';
 export * from './domains/system.js';
@@ -38,3 +39,6 @@ export * from './domains/graph.js';
 export * from './domains/content.js';
 export * from './domains/agent.js';
 export * from './domains/market.js';
+export * from './domains/placement.js';
+export * from './domains/tier.js';
+export * from './domains/video.js';

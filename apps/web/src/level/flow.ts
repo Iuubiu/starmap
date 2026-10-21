@@ -165,12 +165,24 @@ export function masteryCreditFor(kind: StepKind, correct: boolean): number {
  *
  * 同一题重复提交会被忽略（返回原状态的等值拷贝与既有反馈），因为作答一旦
  * 提交就是证据，不能改；要重来请重开整关。
+ *
+ * ## 重试次数（票 12）
+ *
+ * 默认一次。但 P1/P2 的「每题允许尝试次数」是 2：传入 `attemptsPerItem` 后，
+ * **答错**且还没用完次数时可以再提交一次，追加一条记录（不是改旧记录 ——
+ * 两次尝试都是真实发生过的证据，后端 `attempt_no` 也是按次数增长的）。
+ *
+ * 这条判断必须在这里而不是在页面里：页面自己算「还能不能再提交」就会与
+ * 状态机对「答了几次」的理解不一，而两份计数器一定会漂移。
+ *
+ * 答对之后不再给次数：重答一道已经答对的题只会往证据序列里刷一条同质记录。
  */
 export function submitAnswer(
   spec: LevelSpec,
   state: FlowState,
   itemId: string,
   choice: AnswerValue,
+  options: { attemptsPerItem?: number } = {},
 ): { state: FlowState; feedback: Feedback } {
   const step = currentStep(spec, state);
   if (!step) throw new Error('关卡已经结束，不能再作答');
@@ -183,7 +195,13 @@ export function submitAnswer(
 
   const existing = state.choices[itemId];
   if (existing !== undefined) {
-    return { state, feedback: feedbackFor(spec, state, itemId) };
+    const allowed = Math.max(1, options.attemptsPerItem ?? 1);
+    const mine = state.records.filter((record) => record.itemId === itemId);
+    const latest = mine[mine.length - 1];
+    // 已答过，且（答对了 或 次数用完了）—— 不能再改。
+    if (latest?.correct === true || mine.length >= allowed) {
+      return { state, feedback: feedbackFor(spec, state, itemId) };
+    }
   }
 
   const correct = judgeAnswer(item, choice);
@@ -225,7 +243,10 @@ export function submitAnswer(
  * 已答题目仍要显示当时那条预写反馈，而不是重算一遍。
  */
 export function feedbackFor(spec: LevelSpec, state: FlowState, itemId: string): Feedback {
-  const record = state.records.find((entry) => entry.itemId === itemId);
+  // 取**最后一条**记录：P1/P2 允许同一题再试一次，重试后的结论才是结论。
+  // 早先这里用 `find`（第一条），于是第二次答对了、界面仍显示第一次的「答错」。
+  const mine = state.records.filter((entry) => entry.itemId === itemId);
+  const record = mine[mine.length - 1];
   const item = findItem(spec, itemId);
   if (!record || !item) throw new Error(`题 ${itemId} 还没有作答记录`);
 

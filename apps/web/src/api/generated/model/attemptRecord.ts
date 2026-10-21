@@ -22,5 +22,7 @@ export interface AttemptRecord {
   /** @nullable */
   levelId: string | null;
   microKpId: string;
+  /** @nullable */
+  reviewRoundId: string | null;
   variantGroup: string;
 }

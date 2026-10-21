@@ -295,6 +295,20 @@ export const GenerationRunRequestSchema = z
      * 并观察进度」。设 true 只给测试与 CLI 用，便于一条命令拿到最终结果。
      */
     wait: z.boolean().optional(),
+    /**
+     * 每个知识点出几道题。默认 5（票面「每关 5–8 题」的下界）。
+     *
+     * 下限 3 不是随手写的：`packages/engine/src/mastery.ts` 的
+     * `MASTERY_MIN_VARIANTS = 3` 要求至少 3 个不同变式组才认为「证据足够」。
+     * 少于 3 道题的关卡即使全答对也凑不出 3 个变式组，学习者在这个知识点上
+     * 永远到不了「已掌握」，也就永远进不了复验排期 —— 落一张那样的关卡比
+     * 不落更糟：它看起来能练，实际练不出来，界面上不会有任何错误。
+     *
+     * 上限 8 与出题角度表（`apps/api/src/generation/constants.ts` 的
+     * `QUESTION_ANGLES`）的长度一致：9 个角度开始就要循环复用，题干开始
+     * 彼此相似，「多变式」名不副实。
+     */
+    questionsPerKp: z.number().int().min(3).max(8).optional(),
   })
   .refine((v) => v.microKpIds !== undefined || v.limit !== undefined, {
     message: 'microKpIds 与 limit 至少要给一个（不提供「跑全部知识点」的默认行为）',

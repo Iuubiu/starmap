@@ -66,14 +66,14 @@ const selectedTabLabel = (): string | null => {
   expect(selected).toHaveLength(1);
   // 用 `getByRole` 反查可访问名：它吃的就是 aria-selected 为 true 的那个元素。
   const el = selected[0] as HTMLElement;
-  for (const name of ['学习', '定级', '看板', '知识地图', '关卡市场', '数据库', '技能库']) {
+  for (const name of ['学习', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库']) {
     if (screen.queryByRole('tab', { name, selected: true }) === el) return name;
   }
   throw new Error(`选中的标签可访问名不在预期列表里：${el.outerHTML.slice(0, 120)}`);
 };
 
 describe('AppShell 顶栏选中态', () => {
-  it('七个标签按顺序渲染，且可访问名正确', () => {
+  it('八个标签按顺序渲染，且可访问名正确', () => {
     renderAt('/');
     // 顺序 + 可访问名一次断言。`getAllByRole` 返回的是文档顺序，正是标签的
     // 视觉顺序；用可访问名而不是 textContent，理由见文件头。
@@ -85,7 +85,11 @@ describe('AppShell 顶栏选中态', () => {
     // 「定级」紧跟「学习」而不放最后：定级是**入学时要走一次**的入口，
     // 放在一排功能页的最右边等于把它当成又一个查询工具，而它其实是
     // 「我是谁」这个前提。放第二位也不会挤掉五个主页面。
-    const names = ['学习', '定级', '看板', '知识地图', '关卡市场', '数据库', '技能库'];
+    //
+    // 「复验」跟在「定级」之后：两者都是「系统叫你去做一件事」的入口，
+    // 不是查询工具。复验的依据是到期了（`next_review_at <= now`），
+    // 而不是学生自己想看什么。
+    const names = ['学习', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库'];
     const tabs = screen.getAllByRole('tab');
     expect(tabs).toHaveLength(names.length);
     for (const name of names) {
@@ -103,6 +107,7 @@ describe('AppShell 顶栏选中态', () => {
   it.each([
     ['/', '学习'],
     ['/placement', '定级'],
+    ['/review', '复验'],
     ['/board', '看板'],
     ['/map', '知识地图'],
     ['/database', '数据库'],
@@ -118,6 +123,7 @@ describe('AppShell 顶栏选中态', () => {
     ['/map/kp-bool/extra', '知识地图'],
     // `/placement/...` 这类子路径也归到「定级」，而不是掉回默认的「学习」。
     ['/placement/result', '定级'],
+    ['/review/rounds/r-1', '复验'],
     // 关卡内页不属于任何顶栏标签，按「回到最常用的那个」处理。
     ['/level/lv-bool-laws', '学习'],
   ])('子路径 %s 时选中的是「%s」', (path, expected) => {
@@ -143,6 +149,7 @@ describe('AppShell 顶栏选中态', () => {
     for (const path of [
       '/',
       '/placement',
+      '/review',
       '/board',
       '/map',
       '/market',

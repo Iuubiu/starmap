@@ -148,6 +148,69 @@ export const handlers = [
   }),
 
   /**
+   * 复验队列（票 07）。
+   *
+   * 默认**空队列**：绝大多数页面用例不关心复验，而空队列是正常状态（没到期的
+   * 日子本来就没有复验）。要测复验页的队列渲染请用 `server.use(...)` 覆盖。
+   */
+  http.get('*/api/v1/review/queue', () => HttpResponse.json({ due: [] })),
+
+  /** 一轮复验的题单/结果（票 07）。默认 404，让「没有这一轮」有明确表现。 */
+  http.get('*/api/v1/review/rounds/:roundId', ({ params }) => {
+    if (params.roundId === 'round-1') {
+      return HttpResponse.json({
+        round: {
+          roundId: 'round-1',
+          itemCount: 1,
+          createdAt: '2026-10-21T00:00:00.000Z',
+          completedAt: null,
+          verdict: null,
+          correctCount: null,
+        },
+        items: [
+          {
+            ordinal: 1,
+            itemId: 'i-review-1',
+            microKpId: 'kp-bool',
+            microKpName: '布尔代数基本运算',
+            variantGroup: 'vg-absorb',
+            stem: '吸收律：A + AB 等于什么？',
+            options: ['A', 'B', 'AB', 'A+B'],
+            explainCorrect: '吸收律把 AB 一项吸收掉了，所以只剩 A。',
+            explainWrong: '再看一遍吸收律：A + AB = A(1+B) = A。',
+            misconceptionTags: ['把或运算当成算术加法'],
+          },
+        ],
+        outcomes: [],
+        mastery: [],
+      });
+    }
+    return HttpResponse.json({ code: 'NOT_FOUND', message: '复验会话不存在' }, { status: 404 });
+  }),
+
+  http.post('*/api/v1/review/rounds', () =>
+    HttpResponse.json(
+      { code: 'CONFLICT', message: '这些知识点目前都没有可复验的题目' },
+      { status: 409 },
+    ),
+  ),
+
+  http.post('*/api/v1/review/rounds/:roundId/complete', async ({ params }) =>
+    HttpResponse.json({
+      round: {
+        roundId: params.roundId,
+        itemCount: 0,
+        createdAt: '2026-10-21T00:00:00.000Z',
+        completedAt: '2026-10-21T00:05:00.000Z',
+        verdict: 'passed',
+        correctCount: 0,
+      },
+      outcomes: [],
+      mastery: [],
+    }),
+  ),
+
+  /**
    * 知识图谱（票 03 / 票 13）。
    *
    * 三个节点覆盖三种不同的读数路径，缺一个就测不到对应的显示规则：
@@ -524,6 +587,73 @@ export const handlers = [
       },
     });
   }),
+  /**
+   * 票 12：三档渲染参数。四个端点全只读，默认全是 P1 档。
+   *
+   * 默认给 P1 而不是「没定级」的 fallback：P1 是**参数完整**的一档，所有
+   * 消费方都能从它拿到六维参数与首轮计划。给 fallback 虽然也合法，但会让
+   * 「测试里看到的档位」与「真实新用户看到的」不一致 —— 而 fallback 的语义
+   * 是「还没定级」，那是票 11 的场景。
+   *
+   * 需要 P2/P3 的用例自己 `server.use()` 覆盖（同 skills 桩的约定）。
+   */
+  http.get('*/api/v1/tier', () =>
+    HttpResponse.json({
+      tier: 'P1',
+      source: 'placement',
+      params: {
+        tier: 'P1',
+        firstRoundShape: 'worked_example',
+        ladder: { start: 1, cap: 3 },
+        sessionNewKpLimit: 2,
+        feedbackTiming: 'step_immediate',
+        attemptsPerItem: 2,
+        masteryRule: { consecutiveCorrect: 2, requiresTransferItem: true },
+      },
+      label: '完整样例',
+      description: '先完整看一遍样例，再自己动手。',
+    }),
+  ),
+
+  http.get('*/api/v1/tier/levels/:levelId/plan', ({ params }) =>
+    HttpResponse.json({
+      levelId: params.levelId,
+      microKpId: 'kp-bool',
+      tier: 'P1',
+      source: 'placement',
+      params: {
+        tier: 'P1',
+        firstRoundShape: 'worked_example',
+        ladder: { start: 1, cap: 3 },
+        sessionNewKpLimit: 2,
+        feedbackTiming: 'step_immediate',
+        attemptsPerItem: 2,
+        masteryRule: { consecutiveCorrect: 2, requiresTransferItem: true },
+      },
+      firstRound: { shape: 'worked_example', startStepIndex: 0, cardMode: 'all', fadedCardId: null },
+      masteryProgress: {
+        consecutiveCorrect: 0,
+        hasTransferItem: false,
+        satisfied: false,
+        missing: ['还差连续答对 2 次', '还没做过迁移题'],
+      },
+    }),
+  ),
+
+  http.get('*/api/v1/tier/changes', () => HttpResponse.json({ items: [] })),
+
+  http.get('*/api/v1/tier/session-plan', () =>
+    HttpResponse.json({
+      tier: 'P1',
+      source: 'placement',
+      limit: 2,
+      items: [
+        { microKpId: 'kp-bool', name: '布尔代数基本运算', hasLevel: true },
+        { microKpId: 'kp-kmap', name: '卡诺图化简', hasLevel: false },
+      ],
+      deferred: 0,
+    }),
+  ),
 ];
 
 export const server = setupServer(...handlers);

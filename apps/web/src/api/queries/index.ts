@@ -31,6 +31,7 @@
  * | `agent.ts` | agent-dev | 智能体回合相关（空壳，待填） |
  * | `market.ts` | authoring-dev | 关卡市场相关（空壳，待填） |
  * | `placement.ts` | agent-dev | 票 11 初始定级（自评 → 答题 → 结果 → 复核） |
+ * | `tier.ts` | agent-dev | 票 12 三档渲染参数（概览 / 关卡计划 / 变更 / 本次计划） |
  */
 export * from './system.js';
 export * from './graph.js';
@@ -39,3 +40,5 @@ export * from './content.js';
 export * from './agent.js';
 export * from './market.js';
 export * from './placement.js';
+export * from './tier.js';
+export * from './video.js';

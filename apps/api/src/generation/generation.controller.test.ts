@@ -51,6 +51,14 @@ const VALID_QUESTION = {
 class RoutingLlm implements LlmPort {
   readonly id = 'generation-test-llm';
   readonly calls: string[] = [];
+  /**
+   * 每个知识点已经调用了几次。
+   *
+   * workflow 现在一个知识点要串行出 5 道题，而**题干重复会被当成失败**
+   * （5 个变式不能是同一道题换选项顺序）。所以假模型也得每次给不同题干，
+   * 否则测的就不是「生成 5 题」而是去重逻辑，成功用例会全部变成 failed。
+   */
+  private readonly perKp = new Map<string, number>();
 
   constructor(private readonly modes: Record<string, 'ok' | 'not-json' | 'throw' | 'english'> = {}) {}
 
@@ -58,6 +66,8 @@ class RoutingLlm implements LlmPort {
     const user = options.messages.map((m) => m.content).join('\n');
     const microKpId = /id=([\w-]+)/.exec(user)?.[1] ?? '';
     this.calls.push(microKpId);
+    const index = this.perKp.get(microKpId) ?? 0;
+    this.perKp.set(microKpId, index + 1);
 
     const mode = this.modes[microKpId] ?? 'ok';
     if (mode === 'throw') throw new Error('upstream 503 Service Unavailable');
@@ -65,11 +75,14 @@ class RoutingLlm implements LlmPort {
 
     // 从提示词里抓一个真实的 chunkId —— 假模型也得遵守「只能引用给定片段」
     const chunkId = /chunkId=([\w-]+)/.exec(user)?.[1] ?? 'missing';
+    // 每次换题干：否则第 2 道开始就被「题干重复」拦下，5 次只成功 1 道
+    const stem =
+      index === 0 ? VALID_QUESTION.stem : `${VALID_QUESTION.stem}（第 ${index + 1} 角度）`;
 
     if (mode === 'english') {
       const en = {
         ...VALID_QUESTION,
-        stem: 'What does A + A·B simplify to?',
+        stem: `What does A + A·B simplify to? (angle ${index + 1})`,
         explainCorrect: 'By absorption, A + A·B equals A.',
         explainWrong: 'You confused absorption with distributivity.',
         sourceRef: chunkId,
@@ -77,7 +90,7 @@ class RoutingLlm implements LlmPort {
       return { text: JSON.stringify(en), parsed: en };
     }
 
-    const q = { ...VALID_QUESTION, sourceRef: chunkId };
+    const q = { ...VALID_QUESTION, stem, sourceRef: chunkId };
     return { text: JSON.stringify(q), parsed: q };
   }
 }
@@ -171,7 +184,8 @@ describe('GenerationController（集成，连真实 Postgres）', () => {
       expect(body.tasks).toHaveLength(1);
       expect(body.tasks[0]!.status).toBe('succeeded');
       expect(body.tasks[0]!.levelId).toBe('lv-ai-gen-http-a');
-      expect(body.tasks[0]!.itemCount).toBe(1);
+      // 一个知识点 5 道题（QUESTIONS_PER_KP），不是 1 道
+      expect(body.tasks[0]!.itemCount).toBe(5);
     },
     60_000,
   );
@@ -313,16 +327,28 @@ describe('GenerationController（集成，连真实 Postgres）', () => {
       await start({ microKpIds: ['gen-http-a'], wait: true }).expect(200);
 
       const rows = await db.query<{
-        spec: { meta: { author: string }; items: Array<{ pool: string }> };
+        spec: {
+          meta: { author: string };
+          gating: { mode: string };
+          items: Array<{ pool: string; variantGroup: string; stem: string }>;
+        };
       }>(`SELECT spec FROM levels WHERE id = 'lv-ai-gen-http-a'`);
       expect(rows[0]!.spec.meta.author).toBe('ai');
-      expect(rows[0]!.spec.items.length).toBeGreaterThan(0);
+      // 5 题 5 变式：这是「这个知识点能到已掌握」的结构前提
+      expect(rows[0]!.spec.items).toHaveLength(5);
+      expect(new Set(rows[0]!.spec.items.map((i) => i.variantGroup)).size).toBe(5);
+      expect(new Set(rows[0]!.spec.items.map((i) => i.stem)).size).toBe(5);
       for (const item of rows[0]!.spec.items) expect(item.pool).toBe('practice');
+
+      // 练习关卡不设门控。不是「顺手选的默认值」：exit 走 GATE_RULES.exit =
+      // 8 题 ≥7，而这里只产 1 道题，判定永远是 insufficient_items；更糟的是
+      // gatedPrerequisites 会把它当成下游节点的门，把下游永久锁死。
+      expect(rows[0]!.spec.gating.mode).toBe('none');
 
       const items = await db.query<{ pool: string }>(
         `SELECT pool FROM level_items WHERE level_id = 'lv-ai-gen-http-a'`,
       );
-      expect(items.length).toBeGreaterThan(0);
+      expect(items).toHaveLength(5);
       expect(items.every((i) => i.pool === 'practice')).toBe(true);
     },
     60_000,
@@ -380,11 +406,14 @@ describe('GenerationController（集成，连真实 Postgres）', () => {
       };
       const failed = body.tasks.find((t) => t.microKpId === 'gen-http-en');
       expect(failed!.failureKind).toBe('language_not_compliant');
-      // 字段级明细：能指向具体字段（stem/explainCorrect/explainWrong）
+      // 字段级明细：现在一次知识点要跑 5 个角度，失败明细按角度定位
+      // （`angle.concept` / `angle.applicability` …），每条带具体原因。
       expect(Array.isArray(failed!.failureDetail)).toBe(true);
-      const detail = failed!.failureDetail as Array<{ path: string; message: string }>;
+      const detail = failed!.failureDetail as Array<{ path: string; message: string; code: string }>;
       expect(detail.length).toBeGreaterThan(0);
-      expect(detail[0]!.path).toMatch(/stem|explain/);
+      expect(detail[0]!.path).toMatch(/^angle\./);
+      // 而且原因本身要能下手改：说清是哪个字段不合规
+      expect(detail.some((d) => /汉字|stem|explain/.test(d.message))).toBe(true);
     },
     60_000,
   );

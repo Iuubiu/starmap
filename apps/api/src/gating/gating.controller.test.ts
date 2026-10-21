@@ -18,6 +18,14 @@ import { assertMatchesContract } from '../../test/contract.js';
  * 就只是把引擎单测抄了一遍 —— 真正会出错的地方是「读错了哪些作答」
  * （深究段、别张关卡、同一题反复刷），那是引擎看不见的。
  */
+/** 答对多少道才算「这一题量下过」——与引擎的 `requiredCorrectFor` 同口径。
+ *
+ * 不 import engine：这个测试读的是**接口行为**，把阈值再抄一遍是故意的 ——
+ * 如果从被测实现里拿期望值，引擎算错时测试也会跟着错。这里的数字固定为
+ * spec 表 3 与 `requiredCorrectFor` 的公开结果（n=12 → 10、n=20 → 16）。
+ */
+const REQUIRED = { 8: 7, 10: 9, 12: 10, 16: 13, 20: 16, 30: 24 } as const;
+
 describe('GatingController（集成）', () => {
   let app: INestApplication;
   let schema: TestSchema;
@@ -134,6 +142,20 @@ describe('GatingController（集成）', () => {
       itemCount: 2,
       gating: { mode: 'none', itemCount: 2, passCount: 2 },
     },
+    // 20 道判定题：用于验证「做多了之后达标线重算」与历史回读一致性
+    {
+      levelId: 'lv-gate-wide',
+      microKpId: 'kp-gate-wide',
+      itemCount: 20,
+      gating: { mode: 'exit', itemCount: 20, passCount: 16 },
+    },
+    // 作者在 spec 里声明 2/2，但 exit 门的判定一律用引擎规则的 8/7
+    {
+      levelId: 'lv-gate-author',
+      microKpId: 'kp-gate-author',
+      itemCount: 12,
+      gating: { mode: 'exit', itemCount: 2, passCount: 2 },
+    },
     // 挡住 kp-gate-locked 的那道先修门，自己也有门控
     {
       levelId: 'lv-gate-pre',
@@ -225,6 +247,28 @@ describe('GatingController（集成）', () => {
       await request(app.getHttpServer())
         .post('/api/v1/attempts')
         .send({ itemId: itemIdOf(levelId, index), answer: index < correct ? CORRECT : WRONG })
+        .expect(200);
+    }
+  }
+
+  /**
+   * 只作答 `indices` 这几道题（不重答前面已经答过的）。
+   *
+   * 需要单独一个 helper 是因为「题量变大」的场景必须**只补新题**：重复作答旧题会
+   * 把之前那道错题的最近一次变成对的，门控按题取最近一次，总分就换了。
+   */
+  async function answerItems(
+    levelId: string,
+    indices: readonly number[],
+    wrongIndices: readonly number[] = [],
+  ): Promise<void> {
+    for (const index of indices) {
+      await request(app.getHttpServer())
+        .post('/api/v1/attempts')
+        .send({
+          itemId: itemIdOf(levelId, index),
+          answer: wrongIndices.includes(index) ? WRONG : CORRECT,
+        })
         .expect(200);
     }
   }
@@ -447,5 +491,80 @@ describe('GatingController（集成）', () => {
       `SELECT unlocked_at FROM node_unlocks WHERE node_id = 'kp-gate-down'`,
     );
     expect(second[0]?.unlocked_at.toISOString()).toBe(first[0]?.unlocked_at.toISOString());
+  });
+
+  // -------------------------------------------------------------------------
+  // 票 25：多题量下的阈值重算，以及「判定 → 日志 → 历史 → 前端」逐字段一致
+  // -------------------------------------------------------------------------
+
+  it('做 20 题答对 16：evaluate 与 history 的 rule/verdict/shortfall 逐字段相等', async () => {
+    await answer('lv-gate-wide', 20, 16);
+
+    const evaluated = await evaluateGate('lv-gate-wide').expect(200);
+    const fromEvaluate = evaluated.body.evaluation;
+
+    // 门槛不再是与题量无关的裸计数：20 题时达标线是 16/20，不是 7/8。
+    // 若 `appliedThreshold` 没接上，这里会拿到 `{itemCount:8, passCount:7}` ——
+    // 于是界面在「答对 12/20」时写「达标线 7/8、还差 0」却判不过。
+    expect(fromEvaluate.rule).toEqual({ itemCount: 20, passCount: REQUIRED[20] });
+    expect(fromEvaluate.verdict).toBe('passed');
+    expect(fromEvaluate.shortfall).toBe(0);
+    expect(fromEvaluate.total).toBe(20);
+    expect(fromEvaluate.correct).toBe(16);
+
+    const history = await request(app.getHttpServer())
+      .get('/api/v1/levels/lv-gate-wide/gate/history')
+      .expect(200);
+
+    // 同一个判定经过两个出口（POST 的响应 / 读回的历史）必须逐字段相等。
+    // 写成 toEqual 而不是逐字段比，是因为只比 rule 会漏掉 verdict/shortfall
+    // 在某一边被重算的情形 —— 那正是「历史看起来像另一次考试」的来源。
+    expect(history.body.evaluations[0]).toEqual(fromEvaluate);
+  });
+
+  it('同一关卡题量变大后重判：历史里保留当时的 8 题快照，新判定才报 20 题', async () => {
+    // 用另一张单题关卡模拟「题量变化」：先 8 题判一次，再补 4 题判一次。
+    // 历史回看要看到**当时**的阈值（7/8 与 10/12），否则「当年为什么没过」
+    // 会被今天的题量重新解释一遍。
+    await answer('lv-gate-author', 8, 7);
+    const first = await evaluateGate('lv-gate-author').expect(200);
+    // 作者在 spec 里写的是 2/2 —— 判定必须忽略它，按引擎的 8 题起算。
+    expect(first.body.evaluation.mode).toBe('exit');
+    expect(first.body.evaluation.rule).toEqual({ itemCount: 8, passCount: REQUIRED[8] });
+    expect(first.body.evaluation.verdict).toBe('passed');
+
+    // 补答第 9–12 题（共 12 题、其中 11 对）：仍通过，但达标线变成 10/12。
+    // 注意只补新题 —— 重答第 8 题会把它从错变对，而门控按题取最近一次，
+    // 那样就不是「12 题答对 11」而是「12 题答对 12」了。
+    await answerItems('lv-gate-author', [8, 9, 10, 11]);
+    const second = await evaluateGate('lv-gate-author').expect(200);
+    expect(second.body.evaluation.total).toBe(12);
+    expect(second.body.evaluation.correct).toBe(11);
+    expect(second.body.evaluation.rule).toEqual({ itemCount: 12, passCount: REQUIRED[12] });
+    expect(second.body.evaluation.verdict).toBe('passed');
+
+    const history = await request(app.getHttpServer())
+      .get('/api/v1/levels/lv-gate-author/gate/history')
+      .expect(200);
+    expect(history.body.evaluations).toHaveLength(2);
+    // 新的在前：第一条是 12 题那次
+    expect(history.body.evaluations[0].rule).toEqual({ itemCount: 12, passCount: REQUIRED[12] });
+    expect(history.body.evaluations[0]).toEqual(second.body.evaluation);
+    // 第二条是 8 题那次：rule 未被今天的题量重写
+    expect(history.body.evaluations[1].rule).toEqual({ itemCount: 8, passCount: REQUIRED[8] });
+    expect(history.body.evaluations[1]).toEqual(first.body.evaluation);
+  });
+
+  it('evaluatedAt 是 ISO 8601 字符串，不是 Postgres 的文本时间格式', async () => {
+    // 曾经写成 `SELECT now()::text`，得到 `2026-10-21 07:13:08.775134+08`。
+    // 契约写的是 ISO 字符串，而那个形状只在 V8 上凑巧能解析 —— 换一个运行时、
+    // 或把它存进日志再读回，就会变成一个无法格式化的值。
+    const history = await request(app.getHttpServer())
+      .get('/api/v1/levels/lv-gate-wide/gate/history')
+      .expect(200);
+    const at: string = history.body.evaluations[0].evaluatedAt;
+
+    expect(at).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    expect(new Date(at).toISOString()).toBe(at);
   });
 });

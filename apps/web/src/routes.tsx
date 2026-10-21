@@ -11,6 +11,7 @@ import { GenerationPage } from './pages/GenerationPage';
 import { HomePage } from './pages/HomePage';
 import { SkillsPage } from './pages/SkillsPage';
 import { PlacementPage } from './pages/PlacementPage';
+import { ReviewPage } from './pages/ReviewPage';
 
 /**
  * 路由表 —— **新增页面只改这一个文件**。
@@ -45,6 +46,9 @@ export const appRoutes: RouteObject[] = [
       { path: 'map', element: <MapPage /> },
       { path: 'map/:microKpId', element: <NodeDetailPage /> },
       { path: 'level/:levelId', element: <LevelPage /> },
+      // 复验（票 07）单独开一页，不嵌在知识点详情页里：验收第 1 条要求
+      // 「多个知识点交错出现而不是同一个连考」—— 单知识点页天然只有一张卷。
+      { path: 'review', element: <ReviewPage /> },
       { path: 'database', element: <DatabasePage /> },
       { path: 'market', element: <MarketPage /> },
       { path: 'market/author/:microKpId', element: <MarketAuthorPage /> },

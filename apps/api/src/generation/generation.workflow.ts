@@ -35,7 +35,8 @@ import { createStep, createWorkflow } from '@mastra/core/workflows';
 import { z } from 'zod';
 import type { DatabaseService } from '../db/database.service.js';
 import type { LlmPort } from '../llm/llm.port.js';
-import { assembleLevelSpec, parseQuestionOutput, type GenerationFailureKind } from './level-assembly.js';
+import { assembleLevelSpec, parseQuestionOutput, type GeneratedQuestion, type GenerationFailureKind } from './level-assembly.js';
+import { anglesFor, MIN_QUESTIONS_PER_KP, QUESTIONS_PER_KP, type QuestionAngle } from './constants.js';
 import { buildQuestionMessages, type QuestionMaterial } from './question-prompt.js';
 import { safeJsonParse } from '../llm/openai-compatible-llm.js';
 
@@ -148,17 +149,22 @@ export function generatedLevelId(microKpId: string): string {
  *
  * 用 `AbortSignal` 而不是 `Promise.race`，让底层 fetch 真的被取消 ——
  * 否则超时之后请求还在跑，会继续占着上游的并发配额。
+ *
+ * `angle` 决定这一次出什么侧面的题（见 `constants.ts` 的 `QUESTION_ANGLES`）。
+ * 超时对**每一次调用**生效，不是整个循环共享一个总预算：一次慢调用不该
+ * 把后面几个角度的时间吃光。
  */
 async function completeWithTimeout(
   llm: LlmPort,
   material: QuestionMaterial,
+  angle: QuestionAngle,
   timeoutMs: number,
 ): Promise<{ raw: unknown }> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const result = await llm.complete({
-      messages: buildQuestionMessages(material),
+      messages: buildQuestionMessages(material, angle),
       schema: { type: 'object' },
       temperature: 0.4,
       signal: controller.signal,
@@ -171,6 +177,47 @@ async function completeWithTimeout(
   }
 }
 
+/** 一次角度尝试的失败记录（汇总进 failureMessage / failureDetail） */
+interface AngleFailure {
+  angle: QuestionAngle;
+  kind: GenerationFailureKind;
+  message: string;
+  detail?: unknown;
+}
+
+/**
+ * 题干归一化：去空白、去全角/半角差异造成的伪重复。
+ *
+ * 不做小写化与标点折叠 —— 中文题干里「A·B」与「A·B。」是两道题还是一道题
+ * 取决于人，靠归一化猜不准；只把显然相同的删掉，剩下的交给角度数量本身。
+ */
+function normalizeStem(stem: string): string {
+  return stem.replace(/\s+/gu, '').trim();
+}
+
+/**
+ * 多条不同分类的失败汇总成一条时，报哪一个分类。
+ *
+ * 取出现最多的那种（并列取最早一条）：报告给人看时「5 次都是语言不合规」
+ * 能直接指向改提示词，而「第 1 次语言、第 2 次越界、第 3 次超时」混成一个
+ * 枚举值反而丢信息 —— 逐条原因已经写进 failureMessage 与 failureDetail。
+ */
+function dominantFailureKind(failures: readonly AngleFailure[]): GenerationFailureKind {
+  const counts = new Map<GenerationFailureKind, number>();
+  for (const failure of failures) {
+    counts.set(failure.kind, (counts.get(failure.kind) ?? 0) + 1);
+  }
+  let best: GenerationFailureKind = failures[0]?.kind ?? 'schema_invalid';
+  let bestCount = 0;
+  for (const [kind, count] of counts) {
+    if (count > bestCount) {
+      best = kind;
+      bestCount = count;
+    }
+  }
+  return best;
+}
+
 /**
  * 建 Workflow。
  *
@@ -180,9 +227,13 @@ async function completeWithTimeout(
  */
 export function createGenerationWorkflow(
   deps: GenerationWorkflowDeps,
-  options: { concurrency: number; runId: string },
+  options: { concurrency: number; runId: string; questionsPerKp?: number },
 ) {
   const timeoutMs = deps.perItemTimeoutMs ?? 60_000;
+  // 每个知识点出几道题。默认 5（票面「每关 5–8 题」的下界，也是能凑出
+  // 3 个以上变式组的最小整数）；请求可以调到 3–8。
+  const questionsPerKp = options.questionsPerKp ?? QUESTIONS_PER_KP;
+  const angles = anglesFor(questionsPerKp);
 
   const fanout = createStep({
     id: 'fanout',
@@ -241,42 +292,76 @@ export function createGenerationWorkflow(
           return result;
         }
 
-        // ── 2. 调模型（超时算 llm_error）───────────────────────────────
-        let raw: unknown;
-        try {
-          ({ raw } = await completeWithTimeout(deps.llm, material, timeoutMs));
-        } catch (err) {
-          const message = err instanceof Error ? err.message : String(err);
-          const kind: GenerationFailureKind = /abort|timeout/i.test(message)
-            ? 'llm_error'
-            : 'llm_error';
-          const result = fail(kind, `模型调用失败：${message}`);
-          await deps.onTaskStatus?.({
-            microKpId,
-            status: 'failed',
-            failureKind: result.failureKind,
-            failureMessage: result.failureMessage,
-          });
-          return result;
-        }
-
-        // ── 3. 解析不出 JSON ────────────────────────────────────────────
-        if (raw === null || raw === undefined) {
-          const result = fail('not_json', '模型输出不是可解析的 JSON（可能夹了中文解释）');
-          await deps.onTaskStatus?.({
-            microKpId,
-            status: 'failed',
-            failureKind: result.failureKind,
-            failureMessage: result.failureMessage,
-          });
-          return result;
-        }
-
-        // ── 4. 校验 + 语言 + 出处 ──────────────────────────────────────
         const allowed = new Set(material.excerpts.map((e) => e.chunkId));
-        const parsed = parseQuestionOutput(raw, allowed);
-        if (!parsed.ok) {
-          const result = fail(parsed.kind, parsed.message, parsed.detail);
+        const accepted: GeneratedQuestion[] = [];
+        const failures: AngleFailure[] = [];
+
+        // ── 2. 逐个角度出题 ─────────────────────────────────────────────
+        //
+        // **串行**而不是并发：同一知识点要出 5 道不同侧面的题，并发拿到的
+        // 5 个回答彼此不知道对方出了什么，撞题率反而更高；串行还能把「已出
+        // 过的题干」当作下一轮的排除条件（见下面去重）。串行只影响单个知识点
+        // 的时长，跨知识点的并发由 `.foreach({concurrency})` 负责。
+        for (const angle of angles) {
+          try {
+            const { raw } = await completeWithTimeout(deps.llm, material, angle, timeoutMs);
+            if (raw === null || raw === undefined) {
+              failures.push({
+                angle,
+                kind: 'not_json',
+                message: '模型输出不是可解析的 JSON（可能夹了中文解释）',
+              });
+              continue;
+            }
+
+            const parsed = parseQuestionOutput(raw, allowed);
+            if (!parsed.ok) {
+              failures.push({
+                angle,
+                kind: parsed.kind,
+                message: parsed.message,
+                detail: parsed.detail,
+              });
+              continue;
+            }
+
+            // 题干两两不同：重复题干会让「5 个变式」名不副实 —— 学生看到的
+            // 是同一道题换了选项顺序，证据量却按 5 个变式计。窄知识点上模型
+            // 很容易收敛到同一个问法，所以去重放在验收侧，不只靠角度提示。
+            const duplicate = accepted.findIndex(
+              (q) => normalizeStem(q.stem) === normalizeStem(parsed.question.stem),
+            );
+            if (duplicate >= 0) {
+              failures.push({
+                angle,
+                kind: 'schema_invalid',
+                message: `题干与已出的第 ${duplicate + 1} 题重复（角度没有拉开）`,
+                detail: [{ path: 'stem', message: '题干重复', code: 'duplicate_stem' }],
+              });
+              continue;
+            }
+
+            accepted.push(parsed.question);
+          } catch (err) {
+            const message = err instanceof Error ? err.message : String(err);
+            failures.push({ angle, kind: 'llm_error', message: `模型调用失败：${message}` });
+          }
+        }
+
+        // ── 3. 成功题数不够 → 整条失败，但把每个角度的原因都带上 ────────
+        if (accepted.length < MIN_QUESTIONS_PER_KP) {
+          const reasons = failures
+            .map((f) => `${f.angle.label}：${f.message}`)
+            .join('；');
+          const result = fail(
+            dominantFailureKind(failures),
+            `${angles.length} 次出题只成功 ${accepted.length} 道，少于组装关卡的 ${MIN_QUESTIONS_PER_KP} 道下限。${reasons === '' ? '' : `各角度失败原因 —— ${reasons}`}`,
+            failures.map((f) => ({
+              path: `angle.${f.angle.key}`,
+              message: f.message,
+              code: f.kind,
+            })),
+          );
           await deps.onTaskStatus?.({
             microKpId,
             status: 'failed',
@@ -287,12 +372,12 @@ export function createGenerationWorkflow(
           return result;
         }
 
-        // ── 5. 组装成关卡（这里强制 practice + author='ai'）────────────
+        // ── 4. 组装成关卡（这里强制 practice + author='ai'）────────────
         const levelId = generatedLevelId(microKpId);
         const assembled = assembleLevelSpec({
           microKpId,
           microKpName: material.microKpName,
-          questions: [parsed.question],
+          questions: accepted,
           levelId,
         });
         if (!assembled.ok) {
@@ -307,7 +392,7 @@ export function createGenerationWorkflow(
           return result;
         }
 
-        // ── 6. 落库（幂等 upsert，db_error 不拖垮整批）──────────────────
+        // ── 5. 落库（幂等 upsert，db_error 不拖垮整批）──────────────────
         try {
           const saved = await deps.persist(assembled.spec, microKpId);
           const result: GenerationItemResult = {

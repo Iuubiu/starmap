@@ -115,6 +115,58 @@ const VERDICT_LABEL: Record<GateEvaluation['verdict'], string> = {
   undetermined: '还没考够',
 };
 
+/**
+ * 引擎的出口 / 先修门控规则（题量下限 + 该题量下的达标线）。
+ *
+ * ## 为什么前端要抄一份
+ *
+ * **未判定时不能显示 spec 里的 `gating.itemCount` / `gating.passCount`。**
+ * `ruleFor()`（`apps/api/src/gating/gating.service.ts` 的 `export function ruleFor`）
+ * 对 `exit` / `prereq`
+ * 一律返回引擎的 `GATE_RULES[mode]`，作者在 spec 里写的数值**根本不参与判定**
+ * —— 它只被校验器用来保证卷子够长。若这里显示作者值，学习者会按一个不会生效的
+ * 数字准备考试：作者写 20 题，他做满 20 题，而判定从第 8 题就开始算，达标线还是
+ * 按 8 题的下界。一个考前就错、考后还要自相矛盾的数字，比不给数字更糟。
+ *
+ * ## 为什么不 import `@starmap/engine`
+ *
+ * `apps/web` 不依赖 engine（`.dependency-cruiser.cjs` 的边界，且浏览器侧只该拿到
+ * 契约生成的类型）。所以这两个数在这里重述一遍 —— 与 `MasteryMeter.tsx` 的
+ * `MIN_ATTEMPTS` / `MIN_VARIANTS` 同一手法。`GatePanel.test.tsx` 有一条用例读
+ * `packages/engine/src/gating.ts` 比对，两边漂移会立刻红。
+ *
+ * ## 为什么只固定「下限」而不固定整张表
+ *
+ * 判定用的达标线随**实际题量**变化（`requiredCorrectFor` 的二项下界）：8 题需 7
+ * 对、10 题需 9 对、20 题需 16 对。考前不知道学习者会做多少题，所以只能显示
+ * 「最低题量 + 该题量下的达标线」；做多了之后以 `evaluation.rule` 为准。
+ */
+export const GATE_MIN_RULE: Record<
+  'exit' | 'prereq',
+  { itemCount: number; passCount: number }
+> = {
+  exit: { itemCount: 8, passCount: 7 },
+  prereq: { itemCount: 10, passCount: 9 },
+};
+
+/**
+ * 这一关实际会被门控考到几道题。
+ *
+ * 与后端 `gateItemIds()` 同口径：先取 `quiz` 段引用的题，没有则回退到
+ * `pool:'core'` 的题，再回退到全部。抄这个口径而不是大致估一下，是因为它要被
+ * 用来判断「这一关的题量撑不撑得起门控」—— 口径偏一点，警告就会误报或漏报。
+ */
+function gateItemCount(spec: LevelSpec): number {
+  const referenced = new Set<string>();
+  for (const step of spec.steps) {
+    if (step.kind !== 'quiz') continue;
+    for (const itemId of step.itemIds) referenced.add(itemId);
+  }
+  if (referenced.size > 0) return spec.items.filter((item) => referenced.has(item.id)).length;
+  const core = spec.items.filter((item) => item.pool === 'core');
+  return core.length > 0 ? core.length : spec.items.length;
+}
+
 const VERDICT_COLOR: Record<
   GateEvaluation['verdict'],
   'success' | 'warning' | 'informative'
@@ -194,10 +246,15 @@ export function GatePanel({
     );
   }
 
-  const rule = evaluation?.rule ?? {
-    itemCount: spec.gating.itemCount,
-    passCount: spec.gating.passCount,
-  };
+  // 阈值口径：**未判定时用引擎规则的题量下限，判定后用评估快照里的实际生效值**。
+  //
+  // 两处都不能读 `spec.gating`：作者的声明值不参与判定（理由见 GATE_MIN_RULE）。
+  // 判定后读 `evaluation.rule` 是唯一正确的来源 —— 它是 `appliedThreshold(rule,
+  // total)` 的产物，记的是「这一次实际按什么线判的」。把它换成 spec 值会让
+  // 「答对 12/20、达标线写着 7/8」这种自相矛盾的组合重新出现。
+  const rule = evaluation?.rule ?? GATE_MIN_RULE[mode];
+  const gateItems = gateItemCount(spec);
+  const shortOfItems = gateItems < rule.itemCount;
   const wrong = evaluation ? evaluation.wrongItemIds : [];
   const historyEntries = history?.evaluations ?? [];
 
@@ -213,11 +270,25 @@ export function GatePanel({
       />
 
       {!evaluation && (
-        <Body1>
-          这一关是{GATE_MODE_LABEL[mode] ?? mode}：要做满 {rule.itemCount} 道判定题、答对至少{' '}
-          {rule.passCount} 道才算过。判定只读这一关里计入掌握度的作答，所以深究与进一步讲解
-          里答的题不算成绩，答错也不会拖累这里。
-        </Body1>
+        <>
+          <Body1>
+            这一关是{GATE_MODE_LABEL[mode] ?? mode}：判定题至少要做满 {rule.itemCount} 道，
+            这时要答对 {rule.passCount} 道才算过。做得更多时达标线会按实际题量重算 ——
+            题量越多，允许的错题比例越接近两成，所以它不是固定分数。
+          </Body1>
+          <Body1>
+            这条线由判定规则决定，不读关卡里声明的题量：判定只读这一关里计入掌握度的
+            作答，所以深究与进一步讲解里答的题不算成绩，答错也不会拖累这里。
+          </Body1>
+          {shortOfItems && (
+            <MessageBar intent="warning">
+              <MessageBarBody>
+                这一关的判定段只有 {gateItems} 道题，少于门控要求的 {rule.itemCount} 道 ——
+                判定会一直是「还没考够」，不可能通过。这是关卡内容的问题，不是你的问题。
+              </MessageBarBody>
+            </MessageBar>
+          )}
+        </>
       )}
 
       {evaluation && (
@@ -339,7 +410,11 @@ export function GatePanel({
           {historyEntries.map((entry) => (
             <span key={`${entry.evaluatedAt}-${entry.correct}`} className={styles.mono}>
               {formatTime(entry.evaluatedAt)} · 答对 {entry.correct}/{entry.total} ·{' '}
-              {VERDICT_LABEL[entry.verdict]} · 用了 {entry.itemIds.length} 道题
+              {VERDICT_LABEL[entry.verdict]} · 用了 {entry.itemIds.length} 道题 ·{' '}
+              {/* 达标线取这条**历史记录自己**的 rule，不是当前的、也不是 spec 的：
+                  题量改过之后回看，要看到当时按什么线判的，否则「当年为什么没过」
+                  会被今天的数字重新解释一遍。 */}
+              达标线 {entry.rule.passCount}/{entry.rule.itemCount}
               {entry.verdict === 'passed' ? '' : ` · 还差 ${entry.shortfall} 道`}
             </span>
           ))}

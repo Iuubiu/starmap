@@ -29,6 +29,20 @@ interface GraphEdgeBody {
   kind: string;
 }
 
+/**
+ * 知识图谱端点。
+ *
+ * ## 这一套里最重要的用例是「快照行不算数」
+ *
+ * 历史上图谱端点直接 `LEFT JOIN mastery` 读 `ms.current` / `ms.state`，而掌握度
+ * 端点是从 `attempts` 回放的。两者的分歧在「有缓存行、没有作答记录」时暴露成
+ * 两个数：图谱说 proficient/0.9，掌握度说 unseen/null。
+ *
+ * 所以这里的种子刻意插**没有 attempts 支撑的 mastery 行**：如果实现又回去读
+ * 快照，`无掌握度证据时图谱必须说 unseen/null` 那条会立刻红。插 attempts 的
+ * 用例则在后面，用来断言「回放出来的数与掌握度接口一致」。
+ */
+
 describe('GraphController（集成）', () => {
   let app: INestApplication;
   let schema: TestSchema;
@@ -69,6 +83,33 @@ describe('GraphController（集成）', () => {
        VALUES ('kp-noise', 0.62, 0.48, 'familiar', 9, 3, true),
               ('kp-bool',  0.91, 0.88, 'mastered', 6, 2, true)`,
     );
+    // ⚠️ 上面两行是**没有 attempts 支撑的缓存行**，正是缺陷的复现条件。
+    // 下面给 kp-noise 补真实作答，让「回放的数与掌握度接口一致」有东西可比。
+    // kp-bool 刻意**不补**：它只存在于快照里，图谱必须报 unseen/null。
+    await db.query(
+      `INSERT INTO ${schema.name}.levels (id, micro_kp_id, title, kind, ordinal, spec)
+       VALUES ('lv-a', 'kp-noise', '噪声来源关卡', 'quiz', 1, '{}'::jsonb)`,
+    );
+    for (let variant = 0; variant < 3; variant += 1) {
+      await db.query(
+        `INSERT INTO ${schema.name}.level_items
+           (id, level_id, stem, options, answer, explain_correct, explain_wrong,
+            variant_group, pool)
+         VALUES ($1, 'lv-a', $2, '["甲","乙"]'::jsonb, '0'::jsonb, '对', '错', $3, 'practice')`,
+        [`kp-noise-item-${variant}`, `第 ${variant} 个变式`, `vg-kp-noise-${variant}`],
+      );
+    }
+    // 9 次作答 / 3 变式（凑到证据线以上），全对。
+    for (let i = 0; i < 9; i += 1) {
+      const variant = i % 3;
+      await db.query(
+        `INSERT INTO ${schema.name}.attempts
+           (micro_kp_id, item_id, variant_group, correct, answer, knowledge_kind,
+            counts_toward_mastery, created_at)
+         VALUES ('kp-noise', $1, $2, true, '0'::jsonb, 'concept', true, $3::timestamptz)`,
+        [`kp-noise-item-${variant}`, `vg-kp-noise-${variant}`, `2026-10-01 0${i}:00+00`],
+      );
+    }
     await db.query(
       `INSERT INTO ${schema.name}.kp_edges (from_id, to_id, kind, evidence)
        VALUES ('kp-noise', 'kp-cmf', 'prereq', '先看懂噪声才谈得上共模抑制'),
@@ -115,15 +156,35 @@ describe('GraphController（集成）', () => {
     expect(byId.get('kp-cmf')?.ordinal).toBe(2);
   });
 
-  it('无掌握度行 = unseen 且 percent 为 null（不是 0）', async () => {
+  it('只有缓存行、没有作答证据 ⇒ unseen/null（快照不算数，这就是本票修掉的缺陷）', async () => {
     const res = await request(app.getHttpServer()).get('/api/v1/graph').expect(200);
-    const cmf = (res.body.nodes as GraphNodeBody[]).find((n) => n.microKpId === 'kp-cmf');
+    const byId = new Map((res.body.nodes as GraphNodeBody[]).map((n) => [n.microKpId, n]));
+
+    // kp-bool 在 app.mastery 里写着 achieved 0.91 / current 0.88 / mastered，
+    // 但 attempts 表里一条记录都没有。改回读快照列，这两条断言立刻红。
+    const bool = byId.get('kp-bool');
+    expect(bool?.state).toBe('unseen');
+    expect(bool?.percent).toBeNull();
+
+    // kp-cmf 连缓存行都没有：同样是 unseen/null（不是 0）。
+    const cmf = byId.get('kp-cmf');
     expect(cmf?.state).toBe('unseen');
     expect(cmf?.percent).toBeNull();
+  });
 
-    const bool = (res.body.nodes as GraphNodeBody[]).find((n) => n.microKpId === 'kp-bool');
-    expect(bool?.state).toBe('mastered');
-    expect(bool?.percent).toBeCloseTo(0.88, 4);
+  it('有作答证据时，图谱的 percent 与 /api/v1/mastery/:id 的 current 逐位相等', async () => {
+    const graph = await request(app.getHttpServer()).get('/api/v1/graph').expect(200);
+    const noise = (graph.body.nodes as GraphNodeBody[]).find((n) => n.microKpId === 'kp-noise');
+    const mastery = await request(app.getHttpServer())
+      .get('/api/v1/mastery/kp-noise')
+      .expect(200);
+
+    // 两张表读的是同一批 attempts，必须给出同一个数；差一点都说明有一边在
+    // 读缓存或用了不同的评估时刻。
+    expect(noise?.percent).toBe(mastery.body.current);
+    expect(noise?.state).toBe(mastery.body.state);
+    expect(noise?.state).not.toBe('unseen');
+    expect(noise?.percent).not.toBeNull();
   });
 
   it('reviewDueAt 默认 null；写了排期就原样带出（票 07 的读写分界）', async () => {

@@ -163,6 +163,11 @@ export class EvalDriver {
       viewport: { width: 1440, height: 900 },
       locale: 'zh-CN',
       timezoneId: 'Asia/Shanghai',
+      /* baseURL 必须设：阶段里用的是相对路径 `page.goto('/placement')`。
+         不设不会报「缺少 baseURL」，而是报
+         `Protocol error (Page.navigate): Cannot navigate to invalid URL` ——
+         九段全部变成 assertion_mismatch，看起来像界面全坏了。 */
+      baseURL: resolved.baseUrl,
     });
     const page = await context.newPage();
     return new EvalDriver(page, context, resolved);

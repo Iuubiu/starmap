@@ -559,6 +559,10 @@
             - "null"
         "microKpId":
           "type": "string"
+        "reviewRoundId":
+          "type":
+            - "string"
+            - "null"
         "variantGroup":
           "type": "string"
       "required":
@@ -572,6 +576,7 @@
         - "countsTowardMastery"
         - "knowledgeKind"
         - "createdAt"
+        - "reviewRoundId"
       "type": "object"
     "AttemptSubmitRequest":
       "additionalProperties": false
@@ -595,6 +600,9 @@
               "minimum": 0
               "type": "integer"
             - "type": "null"
+        "reviewRoundId":
+          "minLength": 1
+          "type": "string"
         "stepId":
           "minLength": 1
           "type": "string"
@@ -634,6 +642,10 @@
                 - "null"
             "microKpId":
               "type": "string"
+            "reviewRoundId":
+              "type":
+                - "string"
+                - "null"
             "variantGroup":
               "type": "string"
           "required":
@@ -647,6 +659,7 @@
             - "countsTowardMastery"
             - "knowledgeKind"
             - "createdAt"
+            - "reviewRoundId"
           "type": "object"
         "mastery":
           "additionalProperties": false
@@ -824,6 +837,408 @@
         - "chunks"
         - "answers"
         - "edges"
+      "type": "object"
+    "FirstRoundPlan":
+      "additionalProperties": false
+      "properties":
+        "cardMode":
+          "enum":
+            - "all"
+            - "faded"
+            - "none"
+          "type": "string"
+        "fadedCardId":
+          "type":
+            - "string"
+            - "null"
+        "shape":
+          "enum":
+            - "worked_example"
+            - "completion"
+            - "direct"
+          "type": "string"
+        "startStepIndex":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+      "required":
+        - "shape"
+        - "startStepIndex"
+        - "cardMode"
+        - "fadedCardId"
+      "type": "object"
+    "FirstRoundShape":
+      "enum":
+        - "worked_example"
+        - "completion"
+        - "direct"
+      "type": "string"
+    "GateEvaluation":
+      "additionalProperties": false
+      "properties":
+        "correct":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "evaluatedAt":
+          "type": "string"
+        "itemIds":
+          "items":
+            "type": "string"
+          "type": "array"
+        "levelId":
+          "type": "string"
+        "message":
+          "type": "string"
+        "microKpId":
+          "type": "string"
+        "mode":
+          "enum":
+            - "none"
+            - "exit"
+            - "prereq"
+          "type": "string"
+        "passed":
+          "type": "boolean"
+        "reason":
+          "enum":
+            - "passed"
+            - "below_threshold"
+            - "insufficient_items"
+            - "no_gate_configured"
+          "type": "string"
+        "remediation":
+          "anyOf":
+            - "additionalProperties": false
+              "properties":
+                "kind":
+                  "enum":
+                    - "reteach"
+                    - "practice"
+                  "type": "string"
+                "message":
+                  "type": "string"
+                "microKpId":
+                  "type":
+                    - "string"
+                    - "null"
+                "stepId":
+                  "type":
+                    - "string"
+                    - "null"
+                "stepTitle":
+                  "type":
+                    - "string"
+                    - "null"
+              "required":
+                - "kind"
+                - "stepId"
+                - "stepTitle"
+                - "microKpId"
+                - "message"
+              "type": "object"
+            - "type": "null"
+        "rule":
+          "additionalProperties": false
+          "properties":
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "passCount":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+          "required":
+            - "itemCount"
+            - "passCount"
+          "type": "object"
+        "shortfall":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "total":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "verdict":
+          "enum":
+            - "passed"
+            - "failed"
+            - "undetermined"
+          "type": "string"
+        "wrongItemIds":
+          "items":
+            "type": "string"
+          "type": "array"
+      "required":
+        - "levelId"
+        - "microKpId"
+        - "mode"
+        - "verdict"
+        - "reason"
+        - "passed"
+        - "rule"
+        - "correct"
+        - "total"
+        - "shortfall"
+        - "message"
+        - "itemIds"
+        - "wrongItemIds"
+        - "evaluatedAt"
+        - "remediation"
+      "type": "object"
+    "GateHistoryResponse":
+      "additionalProperties": false
+      "properties":
+        "evaluations":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "correct":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "evaluatedAt":
+                "type": "string"
+              "itemIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "levelId":
+                "type": "string"
+              "message":
+                "type": "string"
+              "microKpId":
+                "type": "string"
+              "mode":
+                "enum":
+                  - "none"
+                  - "exit"
+                  - "prereq"
+                "type": "string"
+              "passed":
+                "type": "boolean"
+              "reason":
+                "enum":
+                  - "passed"
+                  - "below_threshold"
+                  - "insufficient_items"
+                  - "no_gate_configured"
+                "type": "string"
+              "remediation":
+                "anyOf":
+                  - "additionalProperties": false
+                    "properties":
+                      "kind":
+                        "enum":
+                          - "reteach"
+                          - "practice"
+                        "type": "string"
+                      "message":
+                        "type": "string"
+                      "microKpId":
+                        "type":
+                          - "string"
+                          - "null"
+                      "stepId":
+                        "type":
+                          - "string"
+                          - "null"
+                      "stepTitle":
+                        "type":
+                          - "string"
+                          - "null"
+                    "required":
+                      - "kind"
+                      - "stepId"
+                      - "stepTitle"
+                      - "microKpId"
+                      - "message"
+                    "type": "object"
+                  - "type": "null"
+              "rule":
+                "additionalProperties": false
+                "properties":
+                  "itemCount":
+                    "maximum": 9007199254740991
+                    "minimum": 1
+                    "type": "integer"
+                  "passCount":
+                    "maximum": 9007199254740991
+                    "minimum": 1
+                    "type": "integer"
+                "required":
+                  - "itemCount"
+                  - "passCount"
+                "type": "object"
+              "shortfall":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "total":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "verdict":
+                "enum":
+                  - "passed"
+                  - "failed"
+                  - "undetermined"
+                "type": "string"
+              "wrongItemIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+            "required":
+              - "levelId"
+              - "microKpId"
+              - "mode"
+              - "verdict"
+              - "reason"
+              - "passed"
+              - "rule"
+              - "correct"
+              - "total"
+              - "shortfall"
+              - "message"
+              - "itemIds"
+              - "wrongItemIds"
+              - "evaluatedAt"
+              - "remediation"
+            "type": "object"
+          "type": "array"
+        "levelId":
+          "type": "string"
+      "required":
+        - "levelId"
+        - "evaluations"
+      "type": "object"
+    "GateResponse":
+      "additionalProperties": false
+      "properties":
+        "evaluation":
+          "additionalProperties": false
+          "properties":
+            "correct":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "evaluatedAt":
+              "type": "string"
+            "itemIds":
+              "items":
+                "type": "string"
+              "type": "array"
+            "levelId":
+              "type": "string"
+            "message":
+              "type": "string"
+            "microKpId":
+              "type": "string"
+            "mode":
+              "enum":
+                - "none"
+                - "exit"
+                - "prereq"
+              "type": "string"
+            "passed":
+              "type": "boolean"
+            "reason":
+              "enum":
+                - "passed"
+                - "below_threshold"
+                - "insufficient_items"
+                - "no_gate_configured"
+              "type": "string"
+            "remediation":
+              "anyOf":
+                - "additionalProperties": false
+                  "properties":
+                    "kind":
+                      "enum":
+                        - "reteach"
+                        - "practice"
+                      "type": "string"
+                    "message":
+                      "type": "string"
+                    "microKpId":
+                      "type":
+                        - "string"
+                        - "null"
+                    "stepId":
+                      "type":
+                        - "string"
+                        - "null"
+                    "stepTitle":
+                      "type":
+                        - "string"
+                        - "null"
+                  "required":
+                    - "kind"
+                    - "stepId"
+                    - "stepTitle"
+                    - "microKpId"
+                    - "message"
+                  "type": "object"
+                - "type": "null"
+            "rule":
+              "additionalProperties": false
+              "properties":
+                "itemCount":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "passCount":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+              "required":
+                - "itemCount"
+                - "passCount"
+              "type": "object"
+            "shortfall":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "total":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "verdict":
+              "enum":
+                - "passed"
+                - "failed"
+                - "undetermined"
+              "type": "string"
+            "wrongItemIds":
+              "items":
+                "type": "string"
+              "type": "array"
+          "required":
+            - "levelId"
+            - "microKpId"
+            - "mode"
+            - "verdict"
+            - "reason"
+            - "passed"
+            - "rule"
+            - "correct"
+            - "total"
+            - "shortfall"
+            - "message"
+            - "itemIds"
+            - "wrongItemIds"
+            - "evaluatedAt"
+            - "remediation"
+          "type": "object"
+        "unlockedNodeIds":
+          "items":
+            "type": "string"
+          "type": "array"
+      "required":
+        - "evaluation"
+        - "unlockedNodeIds"
       "type": "object"
     "GenerationFailureKind":
       "enum":
@@ -1063,6 +1478,10 @@
             "type": "string"
           "maxItems": 50
           "type": "array"
+        "questionsPerKp":
+          "maximum": 8
+          "minimum": 3
+          "type": "integer"
         "wait":
           "type": "boolean"
       "type": "object"
@@ -1293,9 +1712,14 @@
               - "reviewDueAt"
             "type": "object"
           "type": "array"
+        "recommendedIds":
+          "items":
+            "type": "string"
+          "type": "array"
       "required":
         - "nodes"
         - "edges"
+        - "recommendedIds"
       "type": "object"
     "HealthResponse":
       "additionalProperties": false
@@ -1846,6 +2270,125 @@
         - "title"
         - "itemCount"
         - "kind"
+      "type": "object"
+    "LevelVideoClipListResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "alignments":
+                "items":
+                  "additionalProperties": false
+                  "properties":
+                    "evidence":
+                      "type": "string"
+                    "hits":
+                      "maximum": 9007199254740991
+                      "minimum": 0
+                      "type": "integer"
+                    "microKpId":
+                      "type": "string"
+                    "name":
+                      "type": "string"
+                    "score":
+                      "minimum": 0
+                      "type": "number"
+                  "required":
+                    - "microKpId"
+                    - "name"
+                    - "score"
+                    - "hits"
+                    - "evidence"
+                  "type": "object"
+                "type": "array"
+              "asrModel":
+                "type":
+                  - "string"
+                  - "null"
+              "clipId":
+                "type": "string"
+              "downloadedAt":
+                "type":
+                  - "string"
+                  - "null"
+              "durationSec":
+                "minimum": 0
+                "type": "number"
+              "endSec":
+                "minimum": 0
+                "type": "number"
+              "microKpId":
+                "type":
+                  - "string"
+                  - "null"
+              "microKpName":
+                "type":
+                  - "string"
+                  - "null"
+              "playUrl":
+                "type": "string"
+              "reason":
+                "type":
+                  - "string"
+                  - "null"
+              "sourceNote":
+                "type":
+                  - "string"
+                  - "null"
+              "sourceOrigin":
+                "enum":
+                  - "yt-dlp"
+                  - "local-file"
+                  - "unknown"
+                "type": "string"
+              "sourceUrl":
+                "type": "string"
+              "startSec":
+                "minimum": 0
+                "type": "number"
+              "title":
+                "type": "string"
+              "transcriptExcerpt":
+                "type":
+                  - "string"
+                  - "null"
+              "uploadedBy":
+                "type":
+                  - "string"
+                  - "null"
+              "videoId":
+                "type": "string"
+            "required":
+              - "clipId"
+              - "videoId"
+              - "microKpId"
+              - "microKpName"
+              - "title"
+              - "startSec"
+              - "endSec"
+              - "durationSec"
+              - "playUrl"
+              - "transcriptExcerpt"
+              - "reason"
+              - "alignments"
+              - "sourceUrl"
+              - "uploadedBy"
+              - "downloadedAt"
+              - "asrModel"
+              - "sourceOrigin"
+              - "sourceNote"
+            "type": "object"
+          "type": "array"
+        "levelId":
+          "type": "string"
+        "microKpId":
+          "type": "string"
+      "required":
+        - "levelId"
+        - "microKpId"
+        - "items"
       "type": "object"
     "MarketDraftItem":
       "additionalProperties": false
@@ -2524,6 +3067,574 @@
         - "pages"
         - "chunks"
       "type": "object"
+    "PlacementAnswerRequest":
+      "additionalProperties": false
+      "properties":
+        "answer":
+          "anyOf":
+            - "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            - "type": "string"
+        "itemId":
+          "minLength": 1
+          "type": "string"
+      "required":
+        - "itemId"
+        - "answer"
+      "type": "object"
+    "PlacementAnswerResponse":
+      "additionalProperties": false
+      "properties":
+        "correct":
+          "type": "boolean"
+        "correctAnswer":
+          "anyOf":
+            - "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            - "type": "string"
+        "correctAnswerText":
+          "type": "string"
+        "explanation":
+          "type":
+            - "string"
+            - "null"
+        "itemId":
+          "type": "string"
+        "session":
+          "additionalProperties": false
+          "properties":
+            "answered":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "correctCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "item":
+              "anyOf":
+                - "additionalProperties": false
+                  "properties":
+                    "difficulty":
+                      "enum":
+                        - "easy"
+                        - "medium"
+                        - "hard"
+                      "type": "string"
+                    "itemId":
+                      "type": "string"
+                    "microKpId":
+                      "type": "string"
+                    "microKpName":
+                      "type": "string"
+                    "options":
+                      "items":
+                        "type": "string"
+                      "type": "array"
+                    "stem":
+                      "type": "string"
+                  "required":
+                    - "itemId"
+                    - "microKpId"
+                    - "microKpName"
+                    - "stem"
+                    - "options"
+                    - "difficulty"
+                  "type": "object"
+                - "type": "null"
+            "posteriorSd":
+              "type": "number"
+            "probabilities":
+              "items":
+                "type": "number"
+              "maxItems": 3
+              "minItems": 3
+              "type": "array"
+            "remainingItems":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "sessionId":
+              "type": "string"
+            "stop":
+              "additionalProperties": false
+              "properties":
+                "reason":
+                  "anyOf":
+                    - "enum":
+                        - "sd"
+                        - "band"
+                        - "entropy"
+                        - "max_items"
+                        - "no_more_items"
+                      "type": "string"
+                    - "type": "null"
+                "stopped":
+                  "type": "boolean"
+              "required":
+                - "stopped"
+                - "reason"
+              "type": "object"
+          "required":
+            - "sessionId"
+            - "item"
+            - "answered"
+            - "correctCount"
+            - "probabilities"
+            - "posteriorSd"
+            - "stop"
+            - "remainingItems"
+          "type": "object"
+        "whyWrong":
+          "type":
+            - "string"
+            - "null"
+      "required":
+        - "itemId"
+        - "correct"
+        - "correctAnswer"
+        - "correctAnswerText"
+        - "explanation"
+        - "whyWrong"
+        - "session"
+      "type": "object"
+    "PlacementDifficulty":
+      "enum":
+        - "easy"
+        - "medium"
+        - "hard"
+      "type": "string"
+    "PlacementItemView":
+      "additionalProperties": false
+      "properties":
+        "difficulty":
+          "enum":
+            - "easy"
+            - "medium"
+            - "hard"
+          "type": "string"
+        "itemId":
+          "type": "string"
+        "microKpId":
+          "type": "string"
+        "microKpName":
+          "type": "string"
+        "options":
+          "items":
+            "type": "string"
+          "type": "array"
+        "stem":
+          "type": "string"
+      "required":
+        - "itemId"
+        - "microKpId"
+        - "microKpName"
+        - "stem"
+        - "options"
+        - "difficulty"
+      "type": "object"
+    "PlacementRejudgeEvent":
+      "additionalProperties": false
+      "properties":
+        "at":
+          "type": "string"
+        "attemptsSince":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "averageFirstTryRate":
+          "anyOf":
+            - "maximum": 1
+              "minimum": 0
+              "type": "number"
+            - "type": "null"
+        "changed":
+          "type": "boolean"
+        "explanation":
+          "type": "string"
+        "previousTier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "previousTier"
+        - "tier"
+        - "changed"
+        - "attemptsSince"
+        - "averageFirstTryRate"
+        - "explanation"
+        - "at"
+      "type": "object"
+    "PlacementRejudgeResponse":
+      "additionalProperties": false
+      "properties":
+        "attemptsSince":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "averageFirstTryRate":
+          "anyOf":
+            - "maximum": 1
+              "minimum": 0
+              "type": "number"
+            - "type": "null"
+        "changed":
+          "type": "boolean"
+        "explanation":
+          "type": "string"
+        "placedAt":
+          "type": "string"
+        "previousTier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "tier"
+        - "previousTier"
+        - "changed"
+        - "attemptsSince"
+        - "averageFirstTryRate"
+        - "explanation"
+        - "placedAt"
+      "type": "object"
+    "PlacementResultResponse":
+      "additionalProperties": false
+      "properties":
+        "answered":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "confidence":
+          "maximum": 1
+          "minimum": 0
+          "type": "number"
+        "correctCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "explanation":
+          "type": "string"
+        "lowConfidence":
+          "type": "boolean"
+        "probabilities":
+          "items":
+            "type": "number"
+          "maxItems": 3
+          "minItems": 3
+          "type": "array"
+        "rejudgeAfterAttempts":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "review":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "correct":
+                "type": "boolean"
+              "correctAnswerText":
+                "type": "string"
+              "difficulty":
+                "enum":
+                  - "easy"
+                  - "medium"
+                  - "hard"
+                "type": "string"
+              "itemId":
+                "type": "string"
+              "microKpId":
+                "type": "string"
+              "stem":
+                "type": "string"
+              "yourAnswerText":
+                "type": "string"
+            "required":
+              - "itemId"
+              - "microKpId"
+              - "stem"
+              - "yourAnswerText"
+              - "correctAnswerText"
+              - "correct"
+              - "difficulty"
+            "type": "object"
+          "type": "array"
+        "sessionId":
+          "type": "string"
+        "status":
+          "const": "provisional"
+          "type": "string"
+        "stopReason":
+          "anyOf":
+            - "enum":
+                - "sd"
+                - "band"
+                - "entropy"
+                - "max_items"
+                - "no_more_items"
+              "type": "string"
+            - "type": "null"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "sessionId"
+        - "tier"
+        - "status"
+        - "confidence"
+        - "lowConfidence"
+        - "probabilities"
+        - "answered"
+        - "correctCount"
+        - "stopReason"
+        - "review"
+        - "rejudgeAfterAttempts"
+        - "explanation"
+      "type": "object"
+    "PlacementReviewItem":
+      "additionalProperties": false
+      "properties":
+        "correct":
+          "type": "boolean"
+        "correctAnswerText":
+          "type": "string"
+        "difficulty":
+          "enum":
+            - "easy"
+            - "medium"
+            - "hard"
+          "type": "string"
+        "itemId":
+          "type": "string"
+        "microKpId":
+          "type": "string"
+        "stem":
+          "type": "string"
+        "yourAnswerText":
+          "type": "string"
+      "required":
+        - "itemId"
+        - "microKpId"
+        - "stem"
+        - "yourAnswerText"
+        - "correctAnswerText"
+        - "correct"
+        - "difficulty"
+      "type": "object"
+    "PlacementSessionResponse":
+      "additionalProperties": false
+      "properties":
+        "answered":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "correctCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "item":
+          "anyOf":
+            - "additionalProperties": false
+              "properties":
+                "difficulty":
+                  "enum":
+                    - "easy"
+                    - "medium"
+                    - "hard"
+                  "type": "string"
+                "itemId":
+                  "type": "string"
+                "microKpId":
+                  "type": "string"
+                "microKpName":
+                  "type": "string"
+                "options":
+                  "items":
+                    "type": "string"
+                  "type": "array"
+                "stem":
+                  "type": "string"
+              "required":
+                - "itemId"
+                - "microKpId"
+                - "microKpName"
+                - "stem"
+                - "options"
+                - "difficulty"
+              "type": "object"
+            - "type": "null"
+        "posteriorSd":
+          "type": "number"
+        "probabilities":
+          "items":
+            "type": "number"
+          "maxItems": 3
+          "minItems": 3
+          "type": "array"
+        "remainingItems":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "sessionId":
+          "type": "string"
+        "stop":
+          "additionalProperties": false
+          "properties":
+            "reason":
+              "anyOf":
+                - "enum":
+                    - "sd"
+                    - "band"
+                    - "entropy"
+                    - "max_items"
+                    - "no_more_items"
+                  "type": "string"
+                - "type": "null"
+            "stopped":
+              "type": "boolean"
+          "required":
+            - "stopped"
+            - "reason"
+          "type": "object"
+      "required":
+        - "sessionId"
+        - "item"
+        - "answered"
+        - "correctCount"
+        - "probabilities"
+        - "posteriorSd"
+        - "stop"
+        - "remainingItems"
+      "type": "object"
+    "PlacementStartRequest":
+      "additionalProperties": false
+      "properties":
+        "selfAssessment":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "optionId":
+                "minLength": 1
+                "type": "string"
+              "questionId":
+                "minLength": 1
+                "type": "string"
+            "required":
+              - "questionId"
+              - "optionId"
+            "type": "object"
+          "minItems": 1
+          "type": "array"
+      "required":
+        - "selfAssessment"
+      "type": "object"
+    "PlacementStatusResponse":
+      "additionalProperties": false
+      "properties":
+        "attemptsSince":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "lastRejudge":
+          "anyOf":
+            - "additionalProperties": false
+              "properties":
+                "at":
+                  "type": "string"
+                "attemptsSince":
+                  "maximum": 9007199254740991
+                  "minimum": 0
+                  "type": "integer"
+                "averageFirstTryRate":
+                  "anyOf":
+                    - "maximum": 1
+                      "minimum": 0
+                      "type": "number"
+                    - "type": "null"
+                "changed":
+                  "type": "boolean"
+                "explanation":
+                  "type": "string"
+                "previousTier":
+                  "enum":
+                    - "P1"
+                    - "P2"
+                    - "P3"
+                  "type": "string"
+                "tier":
+                  "enum":
+                    - "P1"
+                    - "P2"
+                    - "P3"
+                  "type": "string"
+              "required":
+                - "previousTier"
+                - "tier"
+                - "changed"
+                - "attemptsSince"
+                - "averageFirstTryRate"
+                - "explanation"
+                - "at"
+              "type": "object"
+            - "type": "null"
+        "placedAt":
+          "type":
+            - "string"
+            - "null"
+        "rejudgeAfterAttempts":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "shouldRejudge":
+          "type": "boolean"
+        "status":
+          "enum":
+            - "none"
+            - "provisional"
+          "type": "string"
+        "tier":
+          "anyOf":
+            - "enum":
+                - "P1"
+                - "P2"
+                - "P3"
+              "type": "string"
+            - "type": "null"
+      "required":
+        - "tier"
+        - "status"
+        - "placedAt"
+        - "rejudgeAfterAttempts"
+        - "attemptsSince"
+        - "shouldRejudge"
+        - "lastRejudge"
+      "type": "object"
+    "PlacementTier":
+      "enum":
+        - "P1"
+        - "P2"
+        - "P3"
+      "type": "string"
     "ProbeMetricsResponse":
       "additionalProperties": false
       "properties":
@@ -2765,6 +3876,701 @@
         - "fallbackApplied"
         - "createdAt"
       "type": "object"
+    "ReasonFact":
+      "oneOf":
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "current"
+              "type": "string"
+            "value":
+              "maximum": 1
+              "minimum": 0
+              "type": "number"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "achieved"
+              "type": "string"
+            "value":
+              "maximum": 1
+              "minimum": 0
+              "type": "number"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "attempts"
+              "type": "string"
+            "value":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "variants"
+              "type": "string"
+            "value":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "familiarThreshold"
+              "type": "string"
+            "value":
+              "maximum": 1
+              "minimum": 0
+              "type": "number"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "requiredAttempts"
+              "type": "string"
+            "value":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "requiredVariants"
+              "type": "string"
+            "value":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "halfLifeDays"
+              "type": "string"
+            "value":
+              "minimum": 0
+              "type": "number"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "current":
+              "maximum": 1
+              "minimum": 0
+              "type": "number"
+            "microKpId":
+              "type": "string"
+            "name":
+              "type": "string"
+            "type":
+              "const": "unblocks"
+              "type": "string"
+          "required":
+            - "type"
+            - "microKpId"
+            - "name"
+            - "current"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "type":
+              "const": "prereqsSatisfied"
+              "type": "string"
+            "value":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "type"
+            - "value"
+          "type": "object"
+    "ReasonKind":
+      "enum":
+        - "review_due"
+        - "blocked_by_prereq"
+        - "fading"
+        - "needs_evidence"
+        - "low_mastery"
+        - "next_in_line"
+      "type": "string"
+    "Recommendation":
+      "additionalProperties": false
+      "properties":
+        "microKpId":
+          "type": "string"
+        "moduleName":
+          "type": "string"
+        "name":
+          "type": "string"
+        "reason":
+          "additionalProperties": false
+          "properties":
+            "facts":
+              "items":
+                "oneOf":
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "current"
+                        "type": "string"
+                      "value":
+                        "maximum": 1
+                        "minimum": 0
+                        "type": "number"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "achieved"
+                        "type": "string"
+                      "value":
+                        "maximum": 1
+                        "minimum": 0
+                        "type": "number"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "attempts"
+                        "type": "string"
+                      "value":
+                        "maximum": 9007199254740991
+                        "minimum": 0
+                        "type": "integer"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "variants"
+                        "type": "string"
+                      "value":
+                        "maximum": 9007199254740991
+                        "minimum": 0
+                        "type": "integer"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "familiarThreshold"
+                        "type": "string"
+                      "value":
+                        "maximum": 1
+                        "minimum": 0
+                        "type": "number"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "requiredAttempts"
+                        "type": "string"
+                      "value":
+                        "maximum": 9007199254740991
+                        "minimum": 1
+                        "type": "integer"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "requiredVariants"
+                        "type": "string"
+                      "value":
+                        "maximum": 9007199254740991
+                        "minimum": 1
+                        "type": "integer"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "halfLifeDays"
+                        "type": "string"
+                      "value":
+                        "minimum": 0
+                        "type": "number"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "current":
+                        "maximum": 1
+                        "minimum": 0
+                        "type": "number"
+                      "microKpId":
+                        "type": "string"
+                      "name":
+                        "type": "string"
+                      "type":
+                        "const": "unblocks"
+                        "type": "string"
+                    "required":
+                      - "type"
+                      - "microKpId"
+                      - "name"
+                      - "current"
+                    "type": "object"
+                  - "additionalProperties": false
+                    "properties":
+                      "type":
+                        "const": "prereqsSatisfied"
+                        "type": "string"
+                      "value":
+                        "maximum": 9007199254740991
+                        "minimum": 0
+                        "type": "integer"
+                    "required":
+                      - "type"
+                      - "value"
+                    "type": "object"
+              "type": "array"
+            "kind":
+              "enum":
+                - "review_due"
+                - "blocked_by_prereq"
+                - "fading"
+                - "needs_evidence"
+                - "low_mastery"
+                - "next_in_line"
+              "type": "string"
+          "required":
+            - "kind"
+            - "facts"
+          "type": "object"
+      "required":
+        - "microKpId"
+        - "name"
+        - "moduleName"
+        - "reason"
+      "type": "object"
+    "RecommendationListResponse":
+      "additionalProperties": false
+      "properties":
+        "generatedAt":
+          "type": "string"
+        "recommendations":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "microKpId":
+                "type": "string"
+              "moduleName":
+                "type": "string"
+              "name":
+                "type": "string"
+              "reason":
+                "additionalProperties": false
+                "properties":
+                  "facts":
+                    "items":
+                      "oneOf":
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "current"
+                              "type": "string"
+                            "value":
+                              "maximum": 1
+                              "minimum": 0
+                              "type": "number"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "achieved"
+                              "type": "string"
+                            "value":
+                              "maximum": 1
+                              "minimum": 0
+                              "type": "number"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "attempts"
+                              "type": "string"
+                            "value":
+                              "maximum": 9007199254740991
+                              "minimum": 0
+                              "type": "integer"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "variants"
+                              "type": "string"
+                            "value":
+                              "maximum": 9007199254740991
+                              "minimum": 0
+                              "type": "integer"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "familiarThreshold"
+                              "type": "string"
+                            "value":
+                              "maximum": 1
+                              "minimum": 0
+                              "type": "number"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "requiredAttempts"
+                              "type": "string"
+                            "value":
+                              "maximum": 9007199254740991
+                              "minimum": 1
+                              "type": "integer"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "requiredVariants"
+                              "type": "string"
+                            "value":
+                              "maximum": 9007199254740991
+                              "minimum": 1
+                              "type": "integer"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "halfLifeDays"
+                              "type": "string"
+                            "value":
+                              "minimum": 0
+                              "type": "number"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "current":
+                              "maximum": 1
+                              "minimum": 0
+                              "type": "number"
+                            "microKpId":
+                              "type": "string"
+                            "name":
+                              "type": "string"
+                            "type":
+                              "const": "unblocks"
+                              "type": "string"
+                          "required":
+                            - "type"
+                            - "microKpId"
+                            - "name"
+                            - "current"
+                          "type": "object"
+                        - "additionalProperties": false
+                          "properties":
+                            "type":
+                              "const": "prereqsSatisfied"
+                              "type": "string"
+                            "value":
+                              "maximum": 9007199254740991
+                              "minimum": 0
+                              "type": "integer"
+                          "required":
+                            - "type"
+                            - "value"
+                          "type": "object"
+                    "type": "array"
+                  "kind":
+                    "enum":
+                      - "review_due"
+                      - "blocked_by_prereq"
+                      - "fading"
+                      - "needs_evidence"
+                      - "low_mastery"
+                      - "next_in_line"
+                    "type": "string"
+                "required":
+                  - "kind"
+                  - "facts"
+                "type": "object"
+            "required":
+              - "microKpId"
+              - "name"
+              - "moduleName"
+              - "reason"
+            "type": "object"
+          "type": "array"
+        "summary":
+          "additionalProperties": false
+          "properties":
+            "answered":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "available":
+              "type": "boolean"
+            "knowledgePoints":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "newlyMastered":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "available"
+            - "answered"
+            - "knowledgePoints"
+            - "newlyMastered"
+          "type": "object"
+      "required":
+        - "recommendations"
+        - "summary"
+        - "generatedAt"
+      "type": "object"
+    "RecommendationReason":
+      "additionalProperties": false
+      "properties":
+        "facts":
+          "items":
+            "oneOf":
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "current"
+                    "type": "string"
+                  "value":
+                    "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "achieved"
+                    "type": "string"
+                  "value":
+                    "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "attempts"
+                    "type": "string"
+                  "value":
+                    "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "variants"
+                    "type": "string"
+                  "value":
+                    "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "familiarThreshold"
+                    "type": "string"
+                  "value":
+                    "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "requiredAttempts"
+                    "type": "string"
+                  "value":
+                    "maximum": 9007199254740991
+                    "minimum": 1
+                    "type": "integer"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "requiredVariants"
+                    "type": "string"
+                  "value":
+                    "maximum": 9007199254740991
+                    "minimum": 1
+                    "type": "integer"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "halfLifeDays"
+                    "type": "string"
+                  "value":
+                    "minimum": 0
+                    "type": "number"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "current":
+                    "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                  "microKpId":
+                    "type": "string"
+                  "name":
+                    "type": "string"
+                  "type":
+                    "const": "unblocks"
+                    "type": "string"
+                "required":
+                  - "type"
+                  - "microKpId"
+                  - "name"
+                  - "current"
+                "type": "object"
+              - "additionalProperties": false
+                "properties":
+                  "type":
+                    "const": "prereqsSatisfied"
+                    "type": "string"
+                  "value":
+                    "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                "required":
+                  - "type"
+                  - "value"
+                "type": "object"
+          "type": "array"
+        "kind":
+          "enum":
+            - "review_due"
+            - "blocked_by_prereq"
+            - "fading"
+            - "needs_evidence"
+            - "low_mastery"
+            - "next_in_line"
+          "type": "string"
+      "required":
+        - "kind"
+        - "facts"
+      "type": "object"
+    "RedirectRequest":
+      "additionalProperties": false
+      "properties":
+        "chosen":
+          "type": "string"
+        "recommended":
+          "type": "string"
+      "required":
+        - "recommended"
+        - "chosen"
+      "type": "object"
+    "RedirectResponse":
+      "additionalProperties": false
+      "properties":
+        "ok":
+          "type": "boolean"
+      "required":
+        - "ok"
+      "type": "object"
     "RetrievalBandsResponse":
       "additionalProperties": false
       "properties":
@@ -2908,6 +4714,633 @@
         - "totalMatched"
         - "answerChunkCount"
         - "excludedCount"
+      "type": "object"
+    "ReviewCompleteResponse":
+      "additionalProperties": false
+      "properties":
+        "mastery":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "achieved":
+                "anyOf":
+                  - "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                  - "type": "null"
+              "aggregatedLeafCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "attemptCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "current":
+                "anyOf":
+                  - "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                  - "type": "null"
+              "evidenceSufficient":
+                "type": "boolean"
+              "halfLifeDays":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+              "isLeaf":
+                "type": "boolean"
+              "lastEvidenceAt":
+                "type":
+                  - "string"
+                  - "null"
+              "microKpId":
+                "type": "string"
+              "name":
+                "type": "string"
+              "state":
+                "enum":
+                  - "mastered"
+                  - "proficient"
+                  - "familiar"
+                  - "attempted"
+                  - "unseen"
+                "type": "string"
+              "variantCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+            "required":
+              - "microKpId"
+              - "name"
+              - "isLeaf"
+              - "state"
+              - "achieved"
+              - "current"
+              - "attemptCount"
+              - "variantCount"
+              - "evidenceSufficient"
+              - "halfLifeDays"
+              - "lastEvidenceAt"
+              - "aggregatedLeafCount"
+            "type": "object"
+          "type": "array"
+        "outcomes":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "correct":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "correctItemIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "message":
+                "type": "string"
+              "microKpId":
+                "type": "string"
+              "name":
+                "type": "string"
+              "nextDueAt":
+                "type": "string"
+              "passed":
+                "type": "boolean"
+              "stage":
+                "maximum": 4
+                "minimum": 0
+                "type": "integer"
+              "total":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "verdict":
+                "enum":
+                  - "passed"
+                  - "failed"
+                "type": "string"
+              "wrongItemIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+            "required":
+              - "microKpId"
+              - "name"
+              - "correct"
+              - "total"
+              - "passed"
+              - "verdict"
+              - "stage"
+              - "nextDueAt"
+              - "correctItemIds"
+              - "wrongItemIds"
+              - "message"
+            "type": "object"
+          "type": "array"
+        "round":
+          "additionalProperties": false
+          "properties":
+            "completedAt":
+              "type":
+                - "string"
+                - "null"
+            "correctCount":
+              "anyOf":
+                - "maximum": 9007199254740991
+                  "minimum": 0
+                  "type": "integer"
+                - "type": "null"
+            "createdAt":
+              "type": "string"
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "roundId":
+              "type": "string"
+            "verdict":
+              "anyOf":
+                - "enum":
+                    - "passed"
+                    - "failed"
+                  "type": "string"
+                - "type": "null"
+          "required":
+            - "roundId"
+            - "itemCount"
+            - "createdAt"
+            - "completedAt"
+            - "verdict"
+            - "correctCount"
+          "type": "object"
+      "required":
+        - "round"
+        - "outcomes"
+        - "mastery"
+      "type": "object"
+    "ReviewQueueResponse":
+      "additionalProperties": false
+      "properties":
+        "due":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "availableItemCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "intervalDays":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+              "microKpId":
+                "type": "string"
+              "name":
+                "type": "string"
+              "nextDueAt":
+                "type": "string"
+              "overdueDays":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "reviewStage":
+                "maximum": 4
+                "minimum": 0
+                "type": "integer"
+            "required":
+              - "microKpId"
+              - "name"
+              - "nextDueAt"
+              - "overdueDays"
+              - "reviewStage"
+              - "intervalDays"
+              - "availableItemCount"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "due"
+      "type": "object"
+    "ReviewRoundDetailResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "explainCorrect":
+                "type": "string"
+              "explainWrong":
+                "type": "string"
+              "itemId":
+                "type": "string"
+              "microKpId":
+                "type": "string"
+              "microKpName":
+                "type": "string"
+              "misconceptionTags":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "options":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "ordinal":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+              "stem":
+                "type": "string"
+              "variantGroup":
+                "type": "string"
+            "required":
+              - "ordinal"
+              - "itemId"
+              - "microKpId"
+              - "microKpName"
+              - "variantGroup"
+              - "stem"
+              - "options"
+              - "explainCorrect"
+              - "explainWrong"
+              - "misconceptionTags"
+            "type": "object"
+          "type": "array"
+        "mastery":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "achieved":
+                "anyOf":
+                  - "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                  - "type": "null"
+              "aggregatedLeafCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "attemptCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "current":
+                "anyOf":
+                  - "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                  - "type": "null"
+              "evidenceSufficient":
+                "type": "boolean"
+              "halfLifeDays":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+              "isLeaf":
+                "type": "boolean"
+              "lastEvidenceAt":
+                "type":
+                  - "string"
+                  - "null"
+              "microKpId":
+                "type": "string"
+              "name":
+                "type": "string"
+              "state":
+                "enum":
+                  - "mastered"
+                  - "proficient"
+                  - "familiar"
+                  - "attempted"
+                  - "unseen"
+                "type": "string"
+              "variantCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+            "required":
+              - "microKpId"
+              - "name"
+              - "isLeaf"
+              - "state"
+              - "achieved"
+              - "current"
+              - "attemptCount"
+              - "variantCount"
+              - "evidenceSufficient"
+              - "halfLifeDays"
+              - "lastEvidenceAt"
+              - "aggregatedLeafCount"
+            "type": "object"
+          "type": "array"
+        "outcomes":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "correct":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "correctItemIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "message":
+                "type": "string"
+              "microKpId":
+                "type": "string"
+              "name":
+                "type": "string"
+              "nextDueAt":
+                "type": "string"
+              "passed":
+                "type": "boolean"
+              "stage":
+                "maximum": 4
+                "minimum": 0
+                "type": "integer"
+              "total":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "verdict":
+                "enum":
+                  - "passed"
+                  - "failed"
+                "type": "string"
+              "wrongItemIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+            "required":
+              - "microKpId"
+              - "name"
+              - "correct"
+              - "total"
+              - "passed"
+              - "verdict"
+              - "stage"
+              - "nextDueAt"
+              - "correctItemIds"
+              - "wrongItemIds"
+              - "message"
+            "type": "object"
+          "type": "array"
+        "round":
+          "additionalProperties": false
+          "properties":
+            "completedAt":
+              "type":
+                - "string"
+                - "null"
+            "correctCount":
+              "anyOf":
+                - "maximum": 9007199254740991
+                  "minimum": 0
+                  "type": "integer"
+                - "type": "null"
+            "createdAt":
+              "type": "string"
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "roundId":
+              "type": "string"
+            "verdict":
+              "anyOf":
+                - "enum":
+                    - "passed"
+                    - "failed"
+                  "type": "string"
+                - "type": "null"
+          "required":
+            - "roundId"
+            - "itemCount"
+            - "createdAt"
+            - "completedAt"
+            - "verdict"
+            - "correctCount"
+          "type": "object"
+      "required":
+        - "round"
+        - "outcomes"
+        - "items"
+        - "mastery"
+      "type": "object"
+    "ReviewRoundStartResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "explainCorrect":
+                "type": "string"
+              "explainWrong":
+                "type": "string"
+              "itemId":
+                "type": "string"
+              "microKpId":
+                "type": "string"
+              "microKpName":
+                "type": "string"
+              "misconceptionTags":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "options":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "ordinal":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+              "stem":
+                "type": "string"
+              "variantGroup":
+                "type": "string"
+            "required":
+              - "ordinal"
+              - "itemId"
+              - "microKpId"
+              - "microKpName"
+              - "variantGroup"
+              - "stem"
+              - "options"
+              - "explainCorrect"
+              - "explainWrong"
+              - "misconceptionTags"
+            "type": "object"
+          "type": "array"
+        "microKpIds":
+          "items":
+            "type": "string"
+          "type": "array"
+        "round":
+          "additionalProperties": false
+          "properties":
+            "completedAt":
+              "type":
+                - "string"
+                - "null"
+            "correctCount":
+              "anyOf":
+                - "maximum": 9007199254740991
+                  "minimum": 0
+                  "type": "integer"
+                - "type": "null"
+            "createdAt":
+              "type": "string"
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "roundId":
+              "type": "string"
+            "verdict":
+              "anyOf":
+                - "enum":
+                    - "passed"
+                    - "failed"
+                  "type": "string"
+                - "type": "null"
+          "required":
+            - "roundId"
+            - "itemCount"
+            - "createdAt"
+            - "completedAt"
+            - "verdict"
+            - "correctCount"
+          "type": "object"
+      "required":
+        - "round"
+        - "items"
+        - "microKpIds"
+      "type": "object"
+    "SelfAssessmentAnswer":
+      "additionalProperties": false
+      "properties":
+        "optionId":
+          "minLength": 1
+          "type": "string"
+        "questionId":
+          "minLength": 1
+          "type": "string"
+      "required":
+        - "questionId"
+        - "optionId"
+      "type": "object"
+    "SelfAssessmentFormResponse":
+      "additionalProperties": false
+      "properties":
+        "questions":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "id":
+                "type": "string"
+              "options":
+                "items":
+                  "additionalProperties": false
+                  "properties":
+                    "id":
+                      "type": "string"
+                    "label":
+                      "type": "string"
+                  "required":
+                    - "id"
+                    - "label"
+                  "type": "object"
+                "type": "array"
+              "prompt":
+                "type": "string"
+            "required":
+              - "id"
+              - "prompt"
+              - "options"
+            "type": "object"
+          "type": "array"
+        "rationale":
+          "type": "string"
+      "required":
+        - "questions"
+        - "rationale"
+      "type": "object"
+    "SelfAssessmentOption":
+      "additionalProperties": false
+      "properties":
+        "id":
+          "type": "string"
+        "label":
+          "type": "string"
+      "required":
+        - "id"
+        - "label"
+      "type": "object"
+    "SelfAssessmentQuestion":
+      "additionalProperties": false
+      "properties":
+        "id":
+          "type": "string"
+        "options":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "id":
+                "type": "string"
+              "label":
+                "type": "string"
+            "required":
+              - "id"
+              - "label"
+            "type": "object"
+          "type": "array"
+        "prompt":
+          "type": "string"
+      "required":
+        - "id"
+        - "prompt"
+        - "options"
+      "type": "object"
+    "SelfAssessmentSubmitRequest":
+      "additionalProperties": false
+      "properties":
+        "answers":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "optionId":
+                "minLength": 1
+                "type": "string"
+              "questionId":
+                "minLength": 1
+                "type": "string"
+            "required":
+              - "questionId"
+              - "optionId"
+            "type": "object"
+          "minItems": 1
+          "type": "array"
+      "required":
+        - "answers"
+      "type": "object"
+    "SelfAssessmentSubmitResponse":
+      "additionalProperties": false
+      "properties":
+        "priorProbabilities":
+          "items":
+            "type": "number"
+          "maxItems": 3
+          "minItems": 3
+          "type": "array"
+        "priorShift":
+          "type": "number"
+      "required":
+        - "priorShift"
+        - "priorProbabilities"
       "type": "object"
     "SkillDetailResponse":
       "additionalProperties": false
@@ -3062,6 +5495,831 @@
           "type": "boolean"
       "required":
         - "enabled"
+      "type": "object"
+    "TierChange":
+      "additionalProperties": false
+      "properties":
+        "at":
+          "type": "string"
+        "attemptsSince":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "averageFirstTryRate":
+          "anyOf":
+            - "maximum": 1
+              "minimum": 0
+              "type": "number"
+            - "type": "null"
+        "changed":
+          "type": "boolean"
+        "explanation":
+          "type": "string"
+        "id":
+          "type": "string"
+        "previousTier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "id"
+        - "at"
+        - "previousTier"
+        - "tier"
+        - "changed"
+        - "attemptsSince"
+        - "averageFirstTryRate"
+        - "explanation"
+      "type": "object"
+    "TierChangesResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "at":
+                "type": "string"
+              "attemptsSince":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "averageFirstTryRate":
+                "anyOf":
+                  - "maximum": 1
+                    "minimum": 0
+                    "type": "number"
+                  - "type": "null"
+              "changed":
+                "type": "boolean"
+              "explanation":
+                "type": "string"
+              "id":
+                "type": "string"
+              "previousTier":
+                "enum":
+                  - "P1"
+                  - "P2"
+                  - "P3"
+                "type": "string"
+              "tier":
+                "enum":
+                  - "P1"
+                  - "P2"
+                  - "P3"
+                "type": "string"
+            "required":
+              - "id"
+              - "at"
+              - "previousTier"
+              - "tier"
+              - "changed"
+              - "attemptsSince"
+              - "averageFirstTryRate"
+              - "explanation"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "items"
+      "type": "object"
+    "TierLadder":
+      "additionalProperties": false
+      "properties":
+        "cap":
+          "maximum": 5
+          "minimum": 1
+          "type": "integer"
+        "start":
+          "maximum": 5
+          "minimum": 1
+          "type": "integer"
+      "required":
+        - "start"
+        - "cap"
+      "type": "object"
+    "TierLevelPlanResponse":
+      "additionalProperties": false
+      "properties":
+        "firstRound":
+          "additionalProperties": false
+          "properties":
+            "cardMode":
+              "enum":
+                - "all"
+                - "faded"
+                - "none"
+              "type": "string"
+            "fadedCardId":
+              "type":
+                - "string"
+                - "null"
+            "shape":
+              "enum":
+                - "worked_example"
+                - "completion"
+                - "direct"
+              "type": "string"
+            "startStepIndex":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "shape"
+            - "startStepIndex"
+            - "cardMode"
+            - "fadedCardId"
+          "type": "object"
+        "levelId":
+          "type": "string"
+        "masteryProgress":
+          "additionalProperties": false
+          "properties":
+            "consecutiveCorrect":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "hasTransferItem":
+              "type": "boolean"
+            "missing":
+              "items":
+                "type": "string"
+              "type": "array"
+            "satisfied":
+              "type": "boolean"
+          "required":
+            - "consecutiveCorrect"
+            - "hasTransferItem"
+            - "satisfied"
+            - "missing"
+          "type": "object"
+        "microKpId":
+          "type": "string"
+        "params":
+          "additionalProperties": false
+          "properties":
+            "attemptsPerItem":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "feedbackTiming":
+              "enum":
+                - "step_immediate"
+                - "step_immediate_with_summary"
+                - "item_deferred_with_summary"
+              "type": "string"
+            "firstRoundShape":
+              "enum":
+                - "worked_example"
+                - "completion"
+                - "direct"
+              "type": "string"
+            "ladder":
+              "additionalProperties": false
+              "properties":
+                "cap":
+                  "maximum": 5
+                  "minimum": 1
+                  "type": "integer"
+                "start":
+                  "maximum": 5
+                  "minimum": 1
+                  "type": "integer"
+              "required":
+                - "start"
+                - "cap"
+              "type": "object"
+            "masteryRule":
+              "additionalProperties": false
+              "properties":
+                "consecutiveCorrect":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "requiresTransferItem":
+                  "type": "boolean"
+              "required":
+                - "consecutiveCorrect"
+                - "requiresTransferItem"
+              "type": "object"
+            "sessionNewKpLimit":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "tier":
+              "enum":
+                - "P1"
+                - "P2"
+                - "P3"
+              "type": "string"
+          "required":
+            - "tier"
+            - "firstRoundShape"
+            - "ladder"
+            - "sessionNewKpLimit"
+            - "feedbackTiming"
+            - "attemptsPerItem"
+            - "masteryRule"
+          "type": "object"
+        "source":
+          "enum":
+            - "placement"
+            - "fallback"
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "levelId"
+        - "microKpId"
+        - "tier"
+        - "source"
+        - "params"
+        - "firstRound"
+        - "masteryProgress"
+      "type": "object"
+    "TierMasteryProgress":
+      "additionalProperties": false
+      "properties":
+        "consecutiveCorrect":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "hasTransferItem":
+          "type": "boolean"
+        "missing":
+          "items":
+            "type": "string"
+          "type": "array"
+        "satisfied":
+          "type": "boolean"
+      "required":
+        - "consecutiveCorrect"
+        - "hasTransferItem"
+        - "satisfied"
+        - "missing"
+      "type": "object"
+    "TierMasteryRule":
+      "additionalProperties": false
+      "properties":
+        "consecutiveCorrect":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "requiresTransferItem":
+          "type": "boolean"
+      "required":
+        - "consecutiveCorrect"
+        - "requiresTransferItem"
+      "type": "object"
+    "TierName":
+      "enum":
+        - "P1"
+        - "P2"
+        - "P3"
+      "type": "string"
+    "TierOverviewResponse":
+      "additionalProperties": false
+      "properties":
+        "description":
+          "type": "string"
+        "label":
+          "type": "string"
+        "params":
+          "additionalProperties": false
+          "properties":
+            "attemptsPerItem":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "feedbackTiming":
+              "enum":
+                - "step_immediate"
+                - "step_immediate_with_summary"
+                - "item_deferred_with_summary"
+              "type": "string"
+            "firstRoundShape":
+              "enum":
+                - "worked_example"
+                - "completion"
+                - "direct"
+              "type": "string"
+            "ladder":
+              "additionalProperties": false
+              "properties":
+                "cap":
+                  "maximum": 5
+                  "minimum": 1
+                  "type": "integer"
+                "start":
+                  "maximum": 5
+                  "minimum": 1
+                  "type": "integer"
+              "required":
+                - "start"
+                - "cap"
+              "type": "object"
+            "masteryRule":
+              "additionalProperties": false
+              "properties":
+                "consecutiveCorrect":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "requiresTransferItem":
+                  "type": "boolean"
+              "required":
+                - "consecutiveCorrect"
+                - "requiresTransferItem"
+              "type": "object"
+            "sessionNewKpLimit":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "tier":
+              "enum":
+                - "P1"
+                - "P2"
+                - "P3"
+              "type": "string"
+          "required":
+            - "tier"
+            - "firstRoundShape"
+            - "ladder"
+            - "sessionNewKpLimit"
+            - "feedbackTiming"
+            - "attemptsPerItem"
+            - "masteryRule"
+          "type": "object"
+        "source":
+          "enum":
+            - "placement"
+            - "fallback"
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "tier"
+        - "source"
+        - "params"
+        - "label"
+        - "description"
+      "type": "object"
+    "TierParams":
+      "additionalProperties": false
+      "properties":
+        "attemptsPerItem":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "feedbackTiming":
+          "enum":
+            - "step_immediate"
+            - "step_immediate_with_summary"
+            - "item_deferred_with_summary"
+          "type": "string"
+        "firstRoundShape":
+          "enum":
+            - "worked_example"
+            - "completion"
+            - "direct"
+          "type": "string"
+        "ladder":
+          "additionalProperties": false
+          "properties":
+            "cap":
+              "maximum": 5
+              "minimum": 1
+              "type": "integer"
+            "start":
+              "maximum": 5
+              "minimum": 1
+              "type": "integer"
+          "required":
+            - "start"
+            - "cap"
+          "type": "object"
+        "masteryRule":
+          "additionalProperties": false
+          "properties":
+            "consecutiveCorrect":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "requiresTransferItem":
+              "type": "boolean"
+          "required":
+            - "consecutiveCorrect"
+            - "requiresTransferItem"
+          "type": "object"
+        "sessionNewKpLimit":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "tier"
+        - "firstRoundShape"
+        - "ladder"
+        - "sessionNewKpLimit"
+        - "feedbackTiming"
+        - "attemptsPerItem"
+        - "masteryRule"
+      "type": "object"
+    "TierSessionPlanResponse":
+      "additionalProperties": false
+      "properties":
+        "deferred":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "hasLevel":
+                "type": "boolean"
+              "microKpId":
+                "type": "string"
+              "name":
+                "type": "string"
+            "required":
+              - "microKpId"
+              - "name"
+              - "hasLevel"
+            "type": "object"
+          "type": "array"
+        "limit":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+        "source":
+          "enum":
+            - "placement"
+            - "fallback"
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "tier"
+        - "source"
+        - "limit"
+        - "items"
+        - "deferred"
+      "type": "object"
+    "TodaySummary":
+      "additionalProperties": false
+      "properties":
+        "answered":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "available":
+          "type": "boolean"
+        "knowledgePoints":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "newlyMastered":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+      "required":
+        - "available"
+        - "answered"
+        - "knowledgePoints"
+        - "newlyMastered"
+      "type": "object"
+    "UnlockState":
+      "additionalProperties": false
+      "properties":
+        "blockers":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "gateMode":
+                "enum":
+                  - "exit"
+                  - "prereq"
+                "type": "string"
+              "lastAttemptedItemIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "lastVerdict":
+                "anyOf":
+                  - "enum":
+                      - "passed"
+                      - "failed"
+                      - "undetermined"
+                    "type": "string"
+                  - "type": "null"
+              "levelId":
+                "type":
+                  - "string"
+                  - "null"
+              "levelTitle":
+                "type":
+                  - "string"
+                  - "null"
+              "prerequisiteId":
+                "type": "string"
+              "prerequisiteName":
+                "type": "string"
+              "shortfall":
+                "anyOf":
+                  - "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                  - "type": "null"
+            "required":
+              - "prerequisiteId"
+              - "prerequisiteName"
+              - "levelId"
+              - "levelTitle"
+              - "gateMode"
+              - "lastVerdict"
+              - "shortfall"
+              - "lastAttemptedItemIds"
+            "type": "object"
+          "type": "array"
+        "microKpId":
+          "type": "string"
+        "unlocked":
+          "type": "boolean"
+      "required":
+        - "microKpId"
+        - "unlocked"
+        - "blockers"
+      "type": "object"
+    "VideoAlignment":
+      "additionalProperties": false
+      "properties":
+        "evidence":
+          "type": "string"
+        "hits":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "microKpId":
+          "type": "string"
+        "name":
+          "type": "string"
+        "score":
+          "minimum": 0
+          "type": "number"
+      "required":
+        - "microKpId"
+        - "name"
+        - "score"
+        - "hits"
+        - "evidence"
+      "type": "object"
+    "VideoClip":
+      "additionalProperties": false
+      "properties":
+        "alignments":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "evidence":
+                "type": "string"
+              "hits":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "microKpId":
+                "type": "string"
+              "name":
+                "type": "string"
+              "score":
+                "minimum": 0
+                "type": "number"
+            "required":
+              - "microKpId"
+              - "name"
+              - "score"
+              - "hits"
+              - "evidence"
+            "type": "object"
+          "type": "array"
+        "asrModel":
+          "type":
+            - "string"
+            - "null"
+        "clipId":
+          "type": "string"
+        "downloadedAt":
+          "type":
+            - "string"
+            - "null"
+        "durationSec":
+          "minimum": 0
+          "type": "number"
+        "endSec":
+          "minimum": 0
+          "type": "number"
+        "microKpId":
+          "type":
+            - "string"
+            - "null"
+        "microKpName":
+          "type":
+            - "string"
+            - "null"
+        "playUrl":
+          "type": "string"
+        "reason":
+          "type":
+            - "string"
+            - "null"
+        "sourceNote":
+          "type":
+            - "string"
+            - "null"
+        "sourceOrigin":
+          "enum":
+            - "yt-dlp"
+            - "local-file"
+            - "unknown"
+          "type": "string"
+        "sourceUrl":
+          "type": "string"
+        "startSec":
+          "minimum": 0
+          "type": "number"
+        "title":
+          "type": "string"
+        "transcriptExcerpt":
+          "type":
+            - "string"
+            - "null"
+        "uploadedBy":
+          "type":
+            - "string"
+            - "null"
+        "videoId":
+          "type": "string"
+      "required":
+        - "clipId"
+        - "videoId"
+        - "microKpId"
+        - "microKpName"
+        - "title"
+        - "startSec"
+        - "endSec"
+        - "durationSec"
+        - "playUrl"
+        - "transcriptExcerpt"
+        - "reason"
+        - "alignments"
+        - "sourceUrl"
+        - "uploadedBy"
+        - "downloadedAt"
+        - "asrModel"
+        - "sourceOrigin"
+        - "sourceNote"
+      "type": "object"
+    "VideoClipListResponse":
+      "additionalProperties": false
+      "properties":
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "alignments":
+                "items":
+                  "additionalProperties": false
+                  "properties":
+                    "evidence":
+                      "type": "string"
+                    "hits":
+                      "maximum": 9007199254740991
+                      "minimum": 0
+                      "type": "integer"
+                    "microKpId":
+                      "type": "string"
+                    "name":
+                      "type": "string"
+                    "score":
+                      "minimum": 0
+                      "type": "number"
+                  "required":
+                    - "microKpId"
+                    - "name"
+                    - "score"
+                    - "hits"
+                    - "evidence"
+                  "type": "object"
+                "type": "array"
+              "asrModel":
+                "type":
+                  - "string"
+                  - "null"
+              "clipId":
+                "type": "string"
+              "downloadedAt":
+                "type":
+                  - "string"
+                  - "null"
+              "durationSec":
+                "minimum": 0
+                "type": "number"
+              "endSec":
+                "minimum": 0
+                "type": "number"
+              "microKpId":
+                "type":
+                  - "string"
+                  - "null"
+              "microKpName":
+                "type":
+                  - "string"
+                  - "null"
+              "playUrl":
+                "type": "string"
+              "reason":
+                "type":
+                  - "string"
+                  - "null"
+              "sourceNote":
+                "type":
+                  - "string"
+                  - "null"
+              "sourceOrigin":
+                "enum":
+                  - "yt-dlp"
+                  - "local-file"
+                  - "unknown"
+                "type": "string"
+              "sourceUrl":
+                "type": "string"
+              "startSec":
+                "minimum": 0
+                "type": "number"
+              "title":
+                "type": "string"
+              "transcriptExcerpt":
+                "type":
+                  - "string"
+                  - "null"
+              "uploadedBy":
+                "type":
+                  - "string"
+                  - "null"
+              "videoId":
+                "type": "string"
+            "required":
+              - "clipId"
+              - "videoId"
+              - "microKpId"
+              - "microKpName"
+              - "title"
+              - "startSec"
+              - "endSec"
+              - "durationSec"
+              - "playUrl"
+              - "transcriptExcerpt"
+              - "reason"
+              - "alignments"
+              - "sourceUrl"
+              - "uploadedBy"
+              - "downloadedAt"
+              - "asrModel"
+              - "sourceOrigin"
+              - "sourceNote"
+            "type": "object"
+          "type": "array"
+        "microKpId":
+          "type":
+            - "string"
+            - "null"
+      "required":
+        - "microKpId"
+        - "items"
       "type": "object"
 "info":
   "description": "核电子学学习工作站。契约唯一真源：本文件由 packages/api-contract 的 Zod schema 生成，请勿手改。"
@@ -3603,7 +6861,10 @@
       "summary": "健康检查"
   "/api/v1/levels/{levelId}":
     "get":
-      "description": "返回关卡的完整规范。播放器靠它一次性拿到卡片、七段步骤与全部题目：每题的选项、正确答案与**预写反馈**都在里面，作答后不需要再请求后端、也不需要等模型生成解释。"
+      "description": "返回关卡的完整规范。播放器靠它一次性拿到卡片、七段步骤与全部题目：每题的选项、正确答案与**预写反馈**都在里面，作答后不需要再请求后端、也不需要等模型生成解释。
+
+
+        这个知识点若还被上游的先修门挡着，返回 409 而不是 200：拦的是**入口**，不是一个知识点的存在性。想知道被哪道门挡着，读 `details`（形状同 UnlockState）或直接调 `GET /nodes/{microKpId}/unlock`。"
       "operationId": "getLevel"
       "parameters":
         - "in": "path"
@@ -3624,6 +6885,12 @@
               "schema":
                 "$ref": "#/components/schemas/ApiError"
           "description": "关卡不存在"
+        "409":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "这张关卡还没解锁：挡路的先修门没通过（响应 details 里带 blockers）"
         "500":
           "content":
             "application/json":
@@ -3631,6 +6898,105 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "关卡详情（含完整 level.spec）"
+  "/api/v1/levels/{levelId}/gate":
+    "post":
+      "description": "读 `attempts` 里本关卡范围内已有的作答，用**二项下界**判定：章末出口 n=8、≥7 对；高入度先修 n=10、≥9 对。题量不足时返回 `verdict=undetermined`，不当作通过也不当作失败。判定结果写入学习日志（可回看每次用了哪几题）；通过时解锁该知识点的下游先修节点，解锁状态落库，刷新不丢。"
+      "operationId": "evaluateGate"
+      "parameters":
+        - "in": "path"
+          "name": "levelId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/GateResponse"
+          "description": "门控判定结果与本次解锁的节点"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡不存在"
+        "409":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "前置先修门还没通过，这张关卡尚未解锁（响应 details 里带 blockers）"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "评一次出口门控（通过则解锁下游节点）"
+  "/api/v1/levels/{levelId}/gate/history":
+    "get":
+      "description": "按时间倒序返回最多 20 条判定记录，每条带当时的规则、答对数、用的是哪几题。只读：不再写任何日志，也不会因为看了一次历史而多出一条判定。"
+      "operationId": "getGateHistory"
+      "parameters":
+        - "in": "path"
+          "name": "levelId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/GateHistoryResponse"
+          "description": "判定历史"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "这张关卡的门控判定历史"
+  "/api/v1/levels/{levelId}/video-clips":
+    "get":
+      "description": "关卡不存在时 404。关卡存在但它所属的知识点没有配视频时返回空数组（正常状态）。
+
+
+        响应里的 `microKpId` 是关卡的归属知识点，前端可以在空结果时说清「这个知识点还没有讲解视频」而不是「加载失败」。"
+      "operationId": "listLevelVideoClips"
+      "parameters":
+        - "in": "path"
+          "name": "levelId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/LevelVideoClipListResponse"
+          "description": "片段列表（可能为空）"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "按关卡列出它所属知识点的讲解片段"
   "/api/v1/market/drafts":
     "post":
       "operationId": "createMarketDraft"
@@ -3954,6 +7320,588 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "某知识点的来源页与切片（用于核对内容可追溯）"
+  "/api/v1/nodes/{microKpId}/unlock":
+    "get":
+      "description": "`unlocked=false` 时 `blockers` 列出每一道挡路的门控：哪个先修知识点、哪张关卡、最近一次判定还差几题。没有任何门控挡路时 `blockers` 为空数组。"
+      "operationId": "getNodeUnlock"
+      "parameters":
+        - "in": "path"
+          "name": "microKpId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/UnlockState"
+          "description": "解锁状态"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "知识点不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "节点的解锁状态与阻碍它的先修门"
+  "/api/v1/placement":
+    "get":
+      "description": "没有定级记录时返回 `status: \"none\"` 与 `tier: null` —— 新用户没定过级是正常状态，不是 404。"
+      "operationId": "getPlacementStatus"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PlacementStatusResponse"
+          "description": "定级状态"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "当前定级状态"
+  "/api/v1/placement/rejudge":
+    "post":
+      "description": "达到门槛（学满 3 个知识点）后调用。返回重判前后的档位与依据（学完的知识点数、平均首轮正确率）。未达门槛时 409。"
+      "operationId": "rejudgePlacement"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "additionalProperties": false
+              "type": "object"
+        "required": false
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PlacementRejudgeResponse"
+          "description": "重判结果"
+        "409":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "还没学满门槛，暂不能重判"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "用学习证据重判档位"
+  "/api/v1/placement/self-assessment":
+    "get":
+      "description": "返回四道**行为频率**题，用于给起手先验做一次小幅平移（最多 ±0.4 logit）。不问「你觉得自己什么水平」：自评分与实测能力的相关性不稳定，而让学习者给自己打分还会引入一层社交期望偏差。"
+      "operationId": "getSelfAssessmentForm"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/SelfAssessmentFormResponse"
+          "description": "自评问卷"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "行为自评问卷（4 题）"
+    "post":
+      "description": "只回先验（三档概率与平移量），**不直接给档位**。档位必须由随后的定级题决定：自评只能把起点挪一点，不能替代测量。"
+      "operationId": "submitSelfAssessment"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/SelfAssessmentSubmitRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/SelfAssessmentSubmitResponse"
+          "description": "起手先验"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "提交行为自评，得到起手先验"
+  "/api/v1/placement/sessions":
+    "post":
+      "description": "题池只取「即将要学的知识点」里已有关卡的题。题池不足 8 题时仍然开始，但结果会被标记为低置信度（题池的大小在 `remainingItems` 里可见）。"
+      "operationId": "startPlacement"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/PlacementStartRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PlacementSessionResponse"
+          "description": "定级会话与第一道题"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "开始一次定级，返回第一道题"
+  "/api/v1/placement/sessions/{sessionId}":
+    "get":
+      "description": "刷新页面后靠它恢复：服务端持有作答历史，前端不需要自己存。`item` 为 null 表示这次定级已经结束。"
+      "operationId": "getPlacementSession"
+      "parameters":
+        - "in": "path"
+          "name": "sessionId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PlacementSessionResponse"
+          "description": "定级会话"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "定级会话不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "读取定级会话当前状态"
+  "/api/v1/placement/sessions/{sessionId}/answers":
+    "post":
+      "description": "判定并回带**正确答案与解析**（票 11 验收 4：学习者要能判断系统有没有把自己判错）。定级的作答**不写 `app.attempts`** —— 它不是练习，不产生掌握度记录。"
+      "operationId": "submitPlacementAnswer"
+      "parameters":
+        - "in": "path"
+          "name": "sessionId"
+          "required": true
+          "schema":
+            "type": "string"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/PlacementAnswerRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PlacementAnswerResponse"
+          "description": "判定与下一题"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体不合法"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "定级会话不存在"
+        "422":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "选项下标越界或题目数据不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "提交一道定级题的作答"
+  "/api/v1/placement/sessions/{sessionId}/result":
+    "get":
+      "description": "包含逐题复核表与中文说明。结果状态永远是 `provisional`：学满若干知识点后会自动重判并可升降级（票 11 验收 5）。"
+      "operationId": "getPlacementResult"
+      "parameters":
+        - "in": "path"
+          "name": "sessionId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PlacementResultResponse"
+          "description": "定级结果"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "定级会话不存在"
+        "409":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "定级尚未结束，还不能出结果"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "定级结果（档位、置信度与逐题复核）"
+  "/api/v1/recommendations":
+    "get":
+      "description": "推荐由 `@starmap/engine` 的纯函数 `recommend()` 算出，与 `GET /api/v1/graph` 在同一个请求里用同一时刻调用同一个函数，所以两处的 `recommendedIds` 必然一致。理由以结构化事实返回（不是拼好的中文句子），由前端渲染成可点、可加粗的表述。"
+      "operationId": "getRecommendations"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/RecommendationListResponse"
+          "description": "今日推荐与摘要"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "今日推荐（带结构化理由）与今日学习摘要"
+  "/api/v1/recommendations/redirect":
+    "post":
+      "description": "把「谁拒绝了谁」记进 `learning_log`（`event = recommendation_redirect`）。被拒绝的节点从此不再被推荐，直到它产生晚于拒绝时刻的新作答证据 —— 因为只有状态变了，拒绝的理由才过期。"
+      "operationId": "redirectRecommendation"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/RedirectRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/RedirectResponse"
+          "description": "改道已记录"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体不成形（缺字段、类型不对）"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "微知识点不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "拒绝当前推荐并改道到另一个微知识点"
+  "/api/v1/review/queue":
+    "get":
+      "description": "列出所有 `next_review_at <= now` 的已掌握叶节点，按到期先后排序。每项带 `overdueDays`（逾期天数，未逾期为 0）、`reviewStage`（间隔序列位置 0..4）与 `availableItemCount`（这个知识点现在能抽多少道复验题）。"
+      "operationId": "getReviewQueue"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ReviewQueueResponse"
+          "description": "到期队列"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "此刻到期的复验队列"
+  "/api/v1/review/rounds":
+    "post":
+      "description": "从所有到期的知识点里各自抽 3–5 题（跨 `variant_group`、不重做原题），再把它们轮转交错成一份 3–5 题的题单：相邻两题来自不同知识点。
+
+
+        题单与它会话都**当场落库**：判分发生在学习者做完之后，那时现算题单会让他看到的题与判分的题不是同一批。
+
+
+        题目里不带 `answer` —— 与 `POST /attempts` 一样，判对错在服务端。`explainCorrect` / `explainWrong` 是预写反馈，答完立刻显示，不调模型。"
+      "operationId": "startReviewRound"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ReviewRoundStartResponse"
+          "description": "会话与题单"
+        "409":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "现在没有到期的复验，或者到期的知识点都还没有可复验的题"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "开始一轮复验（返回交错后的题单）"
+  "/api/v1/review/rounds/{roundId}":
+    "get":
+      "description": "判分之前 `round.verdict` 为 null、`outcomes` 为空数组；判分之后两者都有值。`items` 始终返回这一轮考了哪几题（含预写反馈），所以「上次复验考了什么」在刷新之后仍然看得到。"
+      "operationId": "getReviewRound"
+      "parameters":
+        - "in": "path"
+          "name": "roundId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ReviewRoundDetailResponse"
+          "description": "复验会话"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "复验会话不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "读一回复验（题单与判定结果）"
+  "/api/v1/review/rounds/{roundId}/complete":
+    "post":
+      "description": "按知识点把这一轮的作答聚合成「过 / 没过」，然后各自推进排期：通过 +1 档、未通过 −1 档（1/3/7/21/60 天，夹在 0..4）。
+
+
+        每个知识点分开判定的理由：间隔排期是每个知识点各自一条。A 记得牢、B 忘了，不能让 B 的遗忘把 A 的间隔一起退回去。
+
+
+        响应里的 `mastery` 是判分后各知识点的掌握度：复验的落点就是「`current` 降了、`achieved` 没降」—— `achieved` 是历史最高后验，不出现在任何下调路径里。"
+      "operationId": "completeReviewRound"
+      "parameters":
+        - "in": "path"
+          "name": "roundId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ReviewCompleteResponse"
+          "description": "判分结果"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "复验会话不存在"
+        "422":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "还有题目没答完（details.missingItemIds 列出缺哪几道）"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "判分（按知识点聚合、推进间隔排期）"
+  "/api/v1/tier":
+    "get":
+      "description": "没定过级时返回 `tier: \"P1\"` 与 `source: \"fallback\"`（参数回落到 P1），不是 404 —— 新用户该看到最完整的默认档界面，而不是一条错误。`source` 用来区分「真的定级到 P1」与「还没定级所以按 P1 渲染」：后者界面上不该说「你的水平是 P1」。"
+      "operationId": "getTierOverview"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/TierOverviewResponse"
+          "description": "当前档位与参数"
+      "summary": "当前档位与六维渲染参数"
+  "/api/v1/tier/changes":
+    "get":
+      "description": "升降级都写进学习日志；这里读出来给学习者看「为什么给我降档了」。`items` 为空数组表示从未重评过。"
+      "operationId": "getTierChanges"
+      "parameters":
+        - "in": "query"
+          "name": "limit"
+          "required": false
+          "schema":
+            "default": 10
+            "maximum": 50
+            "minimum": 1
+            "type": "integer"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/TierChangesResponse"
+          "description": "档位变更历史"
+      "summary": "档位变更历史（新的在前）"
+  "/api/v1/tier/levels/{levelId}/plan":
+    "get":
+      "description": "首轮从哪一段开始、卡片怎么摊，由服务端按该关真实的 spec 算出。前端自己推导会把「第一段带题的段」这套规则再写一遍。`masteryProgress` 也一并返回：掌握判定按本档规则算，且证据来自 `app.attempts` 回放（跨关卡、跨会话），不是页面本地记录。"
+      "operationId": "getTierLevelPlan"
+      "parameters":
+        - "in": "path"
+          "name": "levelId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/TierLevelPlanResponse"
+          "description": "关卡的首轮计划"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡不存在"
+      "summary": "某一关在当前档位下的渲染计划"
+  "/api/v1/tier/session-plan":
+    "get":
+      "description": "按当前档位的 `sessionNewKpLimit` 截断推荐列表，并回报被推迟的数量。P1 学习者拿到的 `items` 最多 2 条。"
+      "operationId": "getTierSessionPlan"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/TierSessionPlanResponse"
+          "description": "本次会话的下一步"
+      "summary": "本次会话的下一步（受档位的会话新知识点上限约束）"
+  "/api/v1/video/clips":
+    "get":
+      "description": "返回挂在该知识点上的全部片段（按视频与起点排序）。每个片段带 `playUrl`（相对路径）、起止秒数、可读的切分理由、对齐证据，以及可追溯的来源字段（`sourceUrl`、`downloadedAt`、`asrModel` 等）。
+
+
+        `microKpId` 不给时返回全部片段（调试/管理用）。没有片段时返回空数组。"
+      "operationId": "listVideoClips"
+      "parameters":
+        - "description": "知识点 id，例如 `kp-wangzhiying-1989-p34-前置放大器的作用`"
+          "in": "query"
+          "name": "microKpId"
+          "required": false
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/VideoClipListResponse"
+          "description": "片段列表（可能为空）"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "按知识点列出课程视频片段"
+  "/media/clips/{clipId}":
+    "get":
+      "description": "返回 `video/mp4`。支持 `Range` 请求头，响应 206 与 `Content-Range`；不支持 Range 的客户端会拿到 200 与完整内容。
+
+
+        片段不存在时 404；`file_path` 指向的文件已丢失时 404（不是 500 —— 那是内容部署问题，不是服务故障）。"
+      "operationId": "streamVideoClip"
+      "parameters":
+        - "in": "path"
+          "name": "clipId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "video/mp4":
+              "schema":
+                "format": "binary"
+                "type": "string"
+          "description": "完整视频内容"
+        "206":
+          "content":
+            "video/mp4":
+              "schema":
+                "format": "binary"
+                "type": "string"
+          "description": "Range 片段"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "片段或文件不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "流式播放一个视频片段（支持 HTTP Range）"
 "servers":
   - "description": "本地开发"
     "url": "http://127.0.0.1:3001"

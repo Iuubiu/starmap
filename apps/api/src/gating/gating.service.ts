@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import {
@@ -66,6 +67,9 @@ import {
  */
 @Injectable()
 export class GatingService {
+  /** 历史行读不懂时留个痕迹：静默跳过会让「历史少了一条」看起来像没考过。 */
+  private readonly logger = new Logger('Gating');
+
   constructor(@Inject(DatabaseService) private readonly db: DatabaseService) {}
 
   /** 池上的执行器：纯读路径不开事务。 */
@@ -109,8 +113,21 @@ export class GatingService {
       const correct = attempts.filter((attempt) => attempt.correct).length;
       const result = evaluateExitGate(correct, attempts.length, rule);
 
-      const nowRows = (await run(`SELECT now()::text AS now`)) as { now: string }[];
-      const evaluatedAt = nowRows[0]?.now ?? new Date().toISOString();
+      // 用事务里的 `now()`，不是进程时钟：判定、日志、解锁行要属于同一瞬间。
+      //
+      // 曾经写成 `SELECT now()::text`，那是 Postgres 的文本格式
+      //（`2026-10-21 07:13:08.775134+08`），而契约把 `evaluatedAt` 声明成 ISO
+      // 字符串 —— 把它存进 `learning_log.payload` 再读回来，前端拿到的是一个
+      // 只在 V8 上凑巧能解析的形状。`pg` 会把 timestamptz 解析成 Date，
+      // 由这里统一转成 ISO：与 `database.service.ts` 的 `now()` 同一个口径。
+      const nowRows = (await run(`SELECT now() AS now`)) as { now: Date | string }[];
+      const rawNow = nowRows[0]?.now;
+      const evaluatedAt =
+        rawNow instanceof Date
+          ? rawNow.toISOString()
+          : rawNow === undefined
+            ? new Date().toISOString()
+            : new Date(rawNow).toISOString();
 
       const attemptedItemIds = attempts.map((attempt) => attempt.item_id);
       const wrongItemIds = attempts.filter((a) => !a.correct).map((a) => a.item_id);
@@ -207,10 +224,18 @@ export class GatingService {
       limit: 20,
     });
     const evaluations: GateEvaluation[] = [];
+    let unreadable = 0;
     for (const row of rows) {
       const parsed = GateEvaluationSchema.safeParse(row.payload);
       // 历史行可能来自旧版本形状：读不懂就跳过，不让一条坏日志把整页打挂。
+      // 但**不静默** —— 跳过意味着历史里少了一次判定，界面看起来会像「没考过」。
       if (parsed.success) evaluations.push(parsed.data);
+      else unreadable += 1;
+    }
+    if (unreadable > 0) {
+      this.logger.warn(
+        `关卡 ${levelId} 有 ${unreadable} 条门控日志读不懂（形状与当前 GateEvaluationSchema 不符），已从历史里跳过`,
+      );
     }
     return GateHistoryResponseSchema.parse({ levelId, evaluations });
   }

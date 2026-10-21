@@ -20,6 +20,7 @@
  * 实现 —— 并发 4 也不会串。
  */
 import { describe, expect, it, vi } from 'vitest';
+import { validateLevelSpec } from '@starmap/shared';
 import type { LlmCompleteOptions, LlmPort, LlmResult } from '../llm/llm.port.js';
 import {
   createGenerationWorkflow,
@@ -32,9 +33,19 @@ import type { QuestionMaterial } from './question-prompt.js';
 /** 一段够长的中文解析，能过 checkLanguage 的 8 汉字下限 */
 const OK_EXPLAIN = '因为与项是多余的，吸收律可以直接把它整块去掉，所以结果就是剩下的那一项。';
 
-function validQuestion(sourceRef: string) {
+/**
+ * 造一道合法题。
+ *
+ * `index` 会进题干：workflow 现在一个知识点要出 5 道题，而题干重复会被
+ * 当作失败（「5 个变式」不能是同一道题换选项顺序）。假模型也得给出 5 个
+ * 不同的题干，否则测的就不是 workflow 而是去重逻辑。
+ */
+function validQuestion(sourceRef: string, index = 0) {
   return {
-    stem: 'A + A·B 化简后等于什么？',
+    stem:
+      index === 0
+        ? 'A + A·B 化简后等于什么？'
+        : `A + A·B 化简后等于什么？（第 ${index + 1} 角度）`,
     options: ['A', 'B', 'A·B', 'A + B'],
     answer: 0,
     explainCorrect: `吸收律：A + A·B = A。${OK_EXPLAIN}`,
@@ -60,6 +71,8 @@ const MATERIAL: QuestionMaterial = {
 class RoutingLlm implements LlmPort {
   readonly id = 'routing-llm';
   readonly calls: string[] = [];
+  /** 每个知识点已调用几次：用来给题干加编号，避免被当成「重复题干」 */
+  private readonly perKp = new Map<string, number>();
 
   constructor(
     private readonly behaviors: Record<
@@ -75,15 +88,23 @@ class RoutingLlm implements LlmPort {
     const user = options.messages.map((m) => m.content).join('\n');
     const microKpId = /id=([\w-]+)/.exec(user)?.[1] ?? '';
     this.calls.push(microKpId);
+    const index = this.perKp.get(microKpId) ?? 0;
+    this.perKp.set(microKpId, index + 1);
 
     const behavior = this.behaviors[microKpId] ?? { type: 'ok' as const };
 
     if (behavior.type === 'throw') throw new Error(behavior.message);
     if (behavior.type === 'not-json') return { text: '这是一段中文解释，不是 JSON。', parsed: null };
-    if (behavior.type === 'raw') return { text: JSON.stringify(behavior.value), parsed: behavior.value };
+    if (behavior.type === 'raw') {
+      // raw 行为可以是数组：第 n 次调用用第 n 个元素（超出则重复最后一个）。
+      // 用来模拟「前几次成功、后面几次失败」这类按次变化的行为。
+      const value = behavior.value;
+      const picked = Array.isArray(value) ? value[Math.min(index, value.length - 1)] : value;
+      return { text: JSON.stringify(picked), parsed: picked };
+    }
 
     const chunkId = behavior.chunkId ?? 'chunk-1';
-    const q = validQuestion(chunkId);
+    const q = validQuestion(chunkId, index);
     return { text: JSON.stringify(q), parsed: q };
   }
 }
@@ -151,10 +172,31 @@ describe('createGenerationWorkflow', () => {
 
       // 验收④：落库的 spec 每题都在 practice 池，author 是 ai
       for (const spec of mem.saved.values()) {
-        const s = spec as { meta: { author: string }; items: Array<{ pool: string }> };
+        const s = spec as {
+          meta: { author: string };
+          items: Array<{ pool: string; variantGroup: string; id: string; stem: string }>;
+        };
         expect(s.meta.author).toBe('ai');
-        expect(s.items.length).toBeGreaterThan(0);
+        // 每关 5 题（QUESTIONS_PER_KP）—— 不是「大于 0」。1 道题的关卡凑不出
+        // MASTERY_MIN_VARIANTS = 3 个变式组，学习者在那张关卡上永远到不了
+        // 「已掌握」，也就永远进不了复验排期。
+        expect(s.items).toHaveLength(5);
         for (const item of s.items) expect(item.pool).toBe('practice');
+        // 5 题必须 5 个不同变式组（这是「5 题 = 5 变式」的实现断言）
+        expect(new Set(s.items.map((i) => i.variantGroup)).size).toBe(5);
+        // 5 个题干两两不同（重复题干会让「5 个变式」名不副实）
+        expect(new Set(s.items.map((i) => i.stem)).size).toBe(5);
+      }
+
+      // 练习关卡不设门控。写成断言是因为它不是「顺手选的默认值」：exit 模式
+      // 走 GATE_RULES.exit = 8 题 ≥7，而这里一次只产 1 道题，判定永远是
+      // insufficient_items；更糟的是 gatedPrerequisites 会把它当成下游节点的门，
+      // 把下游锁死。改成 'none' 后 unlockStateWith 会跳过这道门。
+      for (const spec of mem.saved.values()) {
+        const s = spec as { gating: { mode: string; itemCount: number; passCount: number }; items: unknown[] };
+        expect(s.gating.mode).toBe('none');
+        expect(s.gating.itemCount).toBe(s.items.length);
+        expect(s.gating.passCount).toBeLessThanOrEqual(s.gating.itemCount);
       }
     },
     30_000,
@@ -316,7 +358,8 @@ describe('createGenerationWorkflow', () => {
 
       const output = result.result as unknown[];
       expect(output).toHaveLength(1);
-      expect(llm.calls).toEqual(['kp-dup']);
+      // 一个知识点出 5 道题 → 5 次模型调用（串行，每次一个角度）
+      expect(llm.calls).toEqual(['kp-dup', 'kp-dup', 'kp-dup', 'kp-dup', 'kp-dup']);
       expect(mem.saved.size).toBe(1);
     },
     30_000,
@@ -337,6 +380,153 @@ describe('createGenerationWorkflow', () => {
       // 两次都落到同一个 id，内存 Map 里只有一条
       expect(mem.calls).toEqual(['kp-idem', 'kp-idem']);
       expect([...mem.saved.keys()]).toEqual(['lv-ai-kp-idem']);
+    },
+    30_000,
+  );
+
+  it(
+    '5 题 5 变式组装出的关卡过 validateLevelSpec，且 variantGroup 两两不同',
+    async () => {
+      const mem = makePersist();
+      const deps = makeDeps(new RoutingLlm({}), { persist: mem.persist });
+
+      const wf = createGenerationWorkflow(deps, { concurrency: 1, runId: 'run-t29-a' });
+      const run = await wf.createRun();
+      await run.start({ inputData: { runId: 'run-t29-a', microKpIds: ['kp-five'] } });
+
+      const spec = mem.saved.get('lv-ai-kp-five');
+      expect(spec).toBeDefined();
+
+      // 用**真源**校验器（`@starmap/shared` 的 validateLevelSpec，不是副本）
+      const validated = validateLevelSpec(spec);
+      expect(validated.ok).toBe(true);
+      if (!validated.ok) return;
+
+      const items = validated.spec.items;
+      expect(items).toHaveLength(5);
+      // 5 题 5 变式 —— 这是「能到已掌握」的结构性前提
+      expect(new Set(items.map((i) => i.variantGroup)).size).toBe(5);
+      // quiz 步骤引用的题必须有 sourceRef（校验器也查这一条）
+      for (const item of items) expect(item.sourceRef).not.toBeNull();
+    },
+    30_000,
+  );
+
+  it(
+    '出题只成功 2 道时该知识点判 failed，failureMessage 列出各角度失败原因',
+    async () => {
+      // 前 2 次合法、后 3 次全英文 → 成功 2 道 < MIN_QUESTIONS_PER_KP = 3
+      const english = {
+        stem: 'What does A + A·B simplify to?',
+        options: ['A', 'B', 'A·B', 'A + B'],
+        answer: 0,
+        explainCorrect: 'By the absorption law, A + A·B equals A.',
+        explainWrong: 'You confused absorption with distributivity.',
+        misconceptionTags: ['confusion'],
+        sourceRef: 'chunk-1',
+        hintLadder: [],
+      };
+      const llm = new RoutingLlm({
+        'kp-partial': {
+          type: 'raw',
+          value: [validQuestion('chunk-1', 0), validQuestion('chunk-1', 1), english],
+        },
+      });
+      const mem = makePersist();
+      const deps = makeDeps(llm, { persist: mem.persist });
+
+      const wf = createGenerationWorkflow(deps, { concurrency: 1, runId: 'run-t29-b' });
+      const run = await wf.createRun();
+      const result = await run.start({
+        inputData: { runId: 'run-t29-b', microKpIds: ['kp-partial'] },
+      });
+
+      expect(result.status).toBe('success');
+      const output = result.result as Array<{
+        ok: boolean;
+        failureKind: string | null;
+        failureMessage: string | null;
+        failureDetail: unknown;
+        itemCount: number;
+      }>;
+      const item = output[0]!;
+      expect(item.ok).toBe(false);
+      // 2 道不够 3 道下限：分类到主导失败原因（3 次语言不合规）
+      expect(item.failureKind).toBe('language_not_compliant');
+      expect(item.itemCount).toBe(0);
+      // 汇总文案：说清成功几道，并逐角度列出原因（前两次成功，后三次全英文）
+      expect(item.failureMessage).toContain('2');
+      expect(item.failureMessage).toContain('3');
+      expect(item.failureMessage).toContain('数值与量级'); // 第 3 个角度（第一个失败的）
+      expect(item.failureMessage).toContain('常见错误'); // 第 4 个
+      expect(item.failureMessage).toContain('边界情形'); // 第 5 个
+      expect(item.failureMessage).toContain('汉字');
+      // 字段级明细：每个失败角度一条，path 能定位到具体角度
+      const detail = item.failureDetail as Array<{ path: string; code: string }>;
+      expect(detail).toHaveLength(3);
+      expect(detail.map((d) => d.code)).toEqual([
+        'language_not_compliant',
+        'language_not_compliant',
+        'language_not_compliant',
+      ]);
+      expect(detail[0]!.path).toMatch(/^angle\./);
+      // 一张都不落库（宁可没有，不要凑数）
+      expect(mem.saved.size).toBe(0);
+    },
+    30_000,
+  );
+
+  it(
+    '题干重复不当作两个变式：去重后不够 3 道也判 failed',
+    async () => {
+      // 每次都吐同一道题（题干完全相同）—— 这是窄知识点上模型很容易干的事
+      const same = validQuestion('chunk-1', 0);
+      const llm = new RoutingLlm({ 'kp-dup-stem': { type: 'raw', value: same } });
+      const mem = makePersist();
+      const deps = makeDeps(llm, { persist: mem.persist });
+
+      const wf = createGenerationWorkflow(deps, { concurrency: 1, runId: 'run-t29-c' });
+      const run = await wf.createRun();
+      const result = await run.start({
+        inputData: { runId: 'run-t29-c', microKpIds: ['kp-dup-stem'] },
+      });
+
+      const output = result.result as Array<{
+        ok: boolean;
+        failureKind: string | null;
+        failureMessage: string | null;
+        itemCount: number;
+      }>;
+      // 5 次都出了同一道题 → 只算 1 道，仍不够 3 道
+      expect(output[0]!.ok).toBe(false);
+      expect(output[0]!.failureMessage).toContain('重复');
+      expect(mem.saved.size).toBe(0);
+    },
+    30_000,
+  );
+
+  it(
+    'questionsPerKp 可调到下限 3：三次调用、三题三变式',
+    async () => {
+      const llm = new RoutingLlm({});
+      const mem = makePersist();
+      const deps = makeDeps(llm, { persist: mem.persist });
+
+      const wf = createGenerationWorkflow(deps, {
+        concurrency: 1,
+        runId: 'run-t29-d',
+        questionsPerKp: 3,
+      });
+      const run = await wf.createRun();
+      await run.start({ inputData: { runId: 'run-t29-d', microKpIds: ['kp-three'] } });
+
+      const spec = mem.saved.get('lv-ai-kp-three') as {
+        items: Array<{ variantGroup: string }>;
+      };
+      expect(spec.items).toHaveLength(3);
+      expect(new Set(spec.items.map((i) => i.variantGroup)).size).toBe(3);
+      // 3 次调用而不是 5 次
+      expect(llm.calls).toHaveLength(3);
     },
     30_000,
   );

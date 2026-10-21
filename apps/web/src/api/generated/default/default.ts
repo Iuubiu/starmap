@@ -36,11 +36,14 @@ import type {
   GenerationRunListResponse,
   GenerationRunRequest,
   GetRetrievalBandsParams,
+  GetTierChangesParams,
   GraphResponse,
   HealthResponse,
   LevelDetailResponse,
+  LevelVideoClipListResponse,
   ListAgentTurnsParams,
   ListNodesParams,
+  ListVideoClipsParams,
   MarketDraftRequest,
   MarketDraftResponse,
   MarketLevelDetailResponse,
@@ -69,6 +72,10 @@ import type {
   RejudgePlacementBody,
   RetrievalBandsResponse,
   RetrievalDebugResponse,
+  ReviewCompleteResponse,
+  ReviewQueueResponse,
+  ReviewRoundDetailResponse,
+  ReviewRoundStartResponse,
   SelfAssessmentFormResponse,
   SelfAssessmentSubmitRequest,
   SelfAssessmentSubmitResponse,
@@ -76,7 +83,12 @@ import type {
   SkillListResponse,
   SkillSystemPreviewResponse,
   SkillToggleRequest,
-  UnlockState
+  TierChangesResponse,
+  TierLevelPlanResponse,
+  TierOverviewResponse,
+  TierSessionPlanResponse,
+  UnlockState,
+  VideoClipListResponse
 } from '../model';
 
 import { customFetch } from '../../fetcher.js';
@@ -2819,6 +2831,133 @@ export function useGetGateHistory<TData = Awaited<ReturnType<typeof getGateHisto
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetGateHistoryQueryOptions(levelId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type listLevelVideoClipsResponse200 = {
+  data: LevelVideoClipListResponse
+  status: 200
+}
+
+export type listLevelVideoClipsResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type listLevelVideoClipsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type listLevelVideoClipsResponseSuccess = (listLevelVideoClipsResponse200) & {
+  headers: Headers;
+};
+export type listLevelVideoClipsResponseError = (listLevelVideoClipsResponse404 | listLevelVideoClipsResponse500) & {
+  headers: Headers;
+};
+
+export type listLevelVideoClipsResponse = (listLevelVideoClipsResponseSuccess | listLevelVideoClipsResponseError)
+
+export const getListLevelVideoClipsUrl = (levelId: string,) => {
+
+
+
+
+  return `/api/v1/levels/${levelId}/video-clips`
+}
+
+/**
+ * 关卡不存在时 404。关卡存在但它所属的知识点没有配视频时返回空数组（正常状态）。
+ *
+ * 响应里的 `microKpId` 是关卡的归属知识点，前端可以在空结果时说清「这个知识点还没有讲解视频」而不是「加载失败」。
+ * @summary 按关卡列出它所属知识点的讲解片段
+ */
+export const listLevelVideoClips = async (levelId: string, options?: Parameters<typeof customFetch>[1]): Promise<listLevelVideoClipsResponse> => {
+
+  return customFetch<listLevelVideoClipsResponse>(getListLevelVideoClipsUrl(levelId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListLevelVideoClipsQueryKey = (levelId: string,) => {
+    return [
+    `/api/v1/levels/${levelId}/video-clips`
+    ] as const;
+    }
+
+
+export const getListLevelVideoClipsQueryOptions = <TData = Awaited<ReturnType<typeof listLevelVideoClips>>, TError = ApiError>(levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelVideoClips>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListLevelVideoClipsQueryKey(levelId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listLevelVideoClips>>> = ({ signal }) => listLevelVideoClips(levelId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: levelId !== null && levelId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listLevelVideoClips>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListLevelVideoClipsQueryResult = NonNullable<Awaited<ReturnType<typeof listLevelVideoClips>>>
+export type ListLevelVideoClipsQueryError = ApiError
+
+
+export function useListLevelVideoClips<TData = Awaited<ReturnType<typeof listLevelVideoClips>>, TError = ApiError>(
+ levelId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelVideoClips>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLevelVideoClips>>,
+          TError,
+          Awaited<ReturnType<typeof listLevelVideoClips>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListLevelVideoClips<TData = Awaited<ReturnType<typeof listLevelVideoClips>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelVideoClips>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLevelVideoClips>>,
+          TError,
+          Awaited<ReturnType<typeof listLevelVideoClips>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListLevelVideoClips<TData = Awaited<ReturnType<typeof listLevelVideoClips>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelVideoClips>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 按关卡列出它所属知识点的讲解片段
+ */
+
+export function useListLevelVideoClips<TData = Awaited<ReturnType<typeof listLevelVideoClips>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelVideoClips>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListLevelVideoClipsQueryOptions(levelId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -5700,6 +5839,1241 @@ export function useRedirectRecommendation<TData = Awaited<ReturnType<typeof redi
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getRedirectRecommendationQueryOptions(redirectRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getReviewQueueResponse200 = {
+  data: ReviewQueueResponse
+  status: 200
+}
+
+export type getReviewQueueResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getReviewQueueResponseSuccess = (getReviewQueueResponse200) & {
+  headers: Headers;
+};
+export type getReviewQueueResponseError = (getReviewQueueResponse500) & {
+  headers: Headers;
+};
+
+export type getReviewQueueResponse = (getReviewQueueResponseSuccess | getReviewQueueResponseError)
+
+export const getGetReviewQueueUrl = () => {
+
+
+
+
+  return `/api/v1/review/queue`
+}
+
+/**
+ * 列出所有 `next_review_at <= now` 的已掌握叶节点，按到期先后排序。每项带 `overdueDays`（逾期天数，未逾期为 0）、`reviewStage`（间隔序列位置 0..4）与 `availableItemCount`（这个知识点现在能抽多少道复验题）。
+ * @summary 此刻到期的复验队列
+ */
+export const getReviewQueue = async ( options?: Parameters<typeof customFetch>[1]): Promise<getReviewQueueResponse> => {
+
+  return customFetch<getReviewQueueResponse>(getGetReviewQueueUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetReviewQueueQueryKey = () => {
+    return [
+    `/api/v1/review/queue`
+    ] as const;
+    }
+
+
+export const getGetReviewQueueQueryOptions = <TData = Awaited<ReturnType<typeof getReviewQueue>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewQueue>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetReviewQueueQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getReviewQueue>>> = ({ signal }) => getReviewQueue({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getReviewQueue>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetReviewQueueQueryResult = NonNullable<Awaited<ReturnType<typeof getReviewQueue>>>
+export type GetReviewQueueQueryError = ApiError
+
+
+export function useGetReviewQueue<TData = Awaited<ReturnType<typeof getReviewQueue>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewQueue>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getReviewQueue>>,
+          TError,
+          Awaited<ReturnType<typeof getReviewQueue>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetReviewQueue<TData = Awaited<ReturnType<typeof getReviewQueue>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewQueue>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getReviewQueue>>,
+          TError,
+          Awaited<ReturnType<typeof getReviewQueue>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetReviewQueue<TData = Awaited<ReturnType<typeof getReviewQueue>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewQueue>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 此刻到期的复验队列
+ */
+
+export function useGetReviewQueue<TData = Awaited<ReturnType<typeof getReviewQueue>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewQueue>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetReviewQueueQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type startReviewRoundResponse200 = {
+  data: ReviewRoundStartResponse
+  status: 200
+}
+
+export type startReviewRoundResponse409 = {
+  data: ApiError
+  status: 409
+}
+
+export type startReviewRoundResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type startReviewRoundResponseSuccess = (startReviewRoundResponse200) & {
+  headers: Headers;
+};
+export type startReviewRoundResponseError = (startReviewRoundResponse409 | startReviewRoundResponse500) & {
+  headers: Headers;
+};
+
+export type startReviewRoundResponse = (startReviewRoundResponseSuccess | startReviewRoundResponseError)
+
+export const getStartReviewRoundUrl = () => {
+
+
+
+
+  return `/api/v1/review/rounds`
+}
+
+/**
+ * 从所有到期的知识点里各自抽 3–5 题（跨 `variant_group`、不重做原题），再把它们轮转交错成一份 3–5 题的题单：相邻两题来自不同知识点。
+ *
+ * 题单与它会话都**当场落库**：判分发生在学习者做完之后，那时现算题单会让他看到的题与判分的题不是同一批。
+ *
+ * 题目里不带 `answer` —— 与 `POST /attempts` 一样，判对错在服务端。`explainCorrect` / `explainWrong` 是预写反馈，答完立刻显示，不调模型。
+ * @summary 开始一轮复验（返回交错后的题单）
+ */
+export const startReviewRound = async ( options?: Parameters<typeof customFetch>[1]): Promise<startReviewRoundResponse> => {
+
+  return customFetch<startReviewRoundResponse>(getStartReviewRoundUrl(),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+
+export const getStartReviewRoundQueryKey = () => {
+    return [
+    'POST', `/api/v1/review/rounds`
+    ] as const;
+    }
+
+
+export const getStartReviewRoundQueryOptions = <TData = Awaited<ReturnType<typeof startReviewRound>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getStartReviewRoundQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof startReviewRound>>> = ({ signal }) => startReviewRound({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof startReviewRound>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type StartReviewRoundQueryResult = NonNullable<Awaited<ReturnType<typeof startReviewRound>>>
+export type StartReviewRoundQueryError = ApiError
+
+
+export function useStartReviewRound<TData = Awaited<ReturnType<typeof startReviewRound>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof startReviewRound>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof startReviewRound>>,
+          TError,
+          Awaited<ReturnType<typeof startReviewRound>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStartReviewRound<TData = Awaited<ReturnType<typeof startReviewRound>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startReviewRound>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof startReviewRound>>,
+          TError,
+          Awaited<ReturnType<typeof startReviewRound>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStartReviewRound<TData = Awaited<ReturnType<typeof startReviewRound>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 开始一轮复验（返回交错后的题单）
+ */
+
+export function useStartReviewRound<TData = Awaited<ReturnType<typeof startReviewRound>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof startReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getStartReviewRoundQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getReviewRoundResponse200 = {
+  data: ReviewRoundDetailResponse
+  status: 200
+}
+
+export type getReviewRoundResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getReviewRoundResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getReviewRoundResponseSuccess = (getReviewRoundResponse200) & {
+  headers: Headers;
+};
+export type getReviewRoundResponseError = (getReviewRoundResponse404 | getReviewRoundResponse500) & {
+  headers: Headers;
+};
+
+export type getReviewRoundResponse = (getReviewRoundResponseSuccess | getReviewRoundResponseError)
+
+export const getGetReviewRoundUrl = (roundId: string,) => {
+
+
+
+
+  return `/api/v1/review/rounds/${roundId}`
+}
+
+/**
+ * 判分之前 `round.verdict` 为 null、`outcomes` 为空数组；判分之后两者都有值。`items` 始终返回这一轮考了哪几题（含预写反馈），所以「上次复验考了什么」在刷新之后仍然看得到。
+ * @summary 读一回复验（题单与判定结果）
+ */
+export const getReviewRound = async (roundId: string, options?: Parameters<typeof customFetch>[1]): Promise<getReviewRoundResponse> => {
+
+  return customFetch<getReviewRoundResponse>(getGetReviewRoundUrl(roundId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetReviewRoundQueryKey = (roundId: string,) => {
+    return [
+    `/api/v1/review/rounds/${roundId}`
+    ] as const;
+    }
+
+
+export const getGetReviewRoundQueryOptions = <TData = Awaited<ReturnType<typeof getReviewRound>>, TError = ApiError>(roundId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetReviewRoundQueryKey(roundId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getReviewRound>>> = ({ signal }) => getReviewRound(roundId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: roundId !== null && roundId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getReviewRound>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetReviewRoundQueryResult = NonNullable<Awaited<ReturnType<typeof getReviewRound>>>
+export type GetReviewRoundQueryError = ApiError
+
+
+export function useGetReviewRound<TData = Awaited<ReturnType<typeof getReviewRound>>, TError = ApiError>(
+ roundId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewRound>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getReviewRound>>,
+          TError,
+          Awaited<ReturnType<typeof getReviewRound>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetReviewRound<TData = Awaited<ReturnType<typeof getReviewRound>>, TError = ApiError>(
+ roundId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewRound>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getReviewRound>>,
+          TError,
+          Awaited<ReturnType<typeof getReviewRound>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetReviewRound<TData = Awaited<ReturnType<typeof getReviewRound>>, TError = ApiError>(
+ roundId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 读一回复验（题单与判定结果）
+ */
+
+export function useGetReviewRound<TData = Awaited<ReturnType<typeof getReviewRound>>, TError = ApiError>(
+ roundId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetReviewRoundQueryOptions(roundId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type completeReviewRoundResponse200 = {
+  data: ReviewCompleteResponse
+  status: 200
+}
+
+export type completeReviewRoundResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type completeReviewRoundResponse422 = {
+  data: ApiError
+  status: 422
+}
+
+export type completeReviewRoundResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type completeReviewRoundResponseSuccess = (completeReviewRoundResponse200) & {
+  headers: Headers;
+};
+export type completeReviewRoundResponseError = (completeReviewRoundResponse404 | completeReviewRoundResponse422 | completeReviewRoundResponse500) & {
+  headers: Headers;
+};
+
+export type completeReviewRoundResponse = (completeReviewRoundResponseSuccess | completeReviewRoundResponseError)
+
+export const getCompleteReviewRoundUrl = (roundId: string,) => {
+
+
+
+
+  return `/api/v1/review/rounds/${roundId}/complete`
+}
+
+/**
+ * 按知识点把这一轮的作答聚合成「过 / 没过」，然后各自推进排期：通过 +1 档、未通过 −1 档（1/3/7/21/60 天，夹在 0..4）。
+ *
+ * 每个知识点分开判定的理由：间隔排期是每个知识点各自一条。A 记得牢、B 忘了，不能让 B 的遗忘把 A 的间隔一起退回去。
+ *
+ * 响应里的 `mastery` 是判分后各知识点的掌握度：复验的落点就是「`current` 降了、`achieved` 没降」—— `achieved` 是历史最高后验，不出现在任何下调路径里。
+ * @summary 判分（按知识点聚合、推进间隔排期）
+ */
+export const completeReviewRound = async (roundId: string, options?: Parameters<typeof customFetch>[1]): Promise<completeReviewRoundResponse> => {
+
+  return customFetch<completeReviewRoundResponse>(getCompleteReviewRoundUrl(roundId),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+
+export const getCompleteReviewRoundQueryKey = (roundId: string,) => {
+    return [
+    'POST', `/api/v1/review/rounds/${roundId}/complete`
+    ] as const;
+    }
+
+
+export const getCompleteReviewRoundQueryOptions = <TData = Awaited<ReturnType<typeof completeReviewRound>>, TError = ApiError>(roundId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof completeReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCompleteReviewRoundQueryKey(roundId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof completeReviewRound>>> = ({ signal }) => completeReviewRound(roundId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: roundId !== null && roundId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof completeReviewRound>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CompleteReviewRoundQueryResult = NonNullable<Awaited<ReturnType<typeof completeReviewRound>>>
+export type CompleteReviewRoundQueryError = ApiError
+
+
+export function useCompleteReviewRound<TData = Awaited<ReturnType<typeof completeReviewRound>>, TError = ApiError>(
+ roundId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof completeReviewRound>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof completeReviewRound>>,
+          TError,
+          Awaited<ReturnType<typeof completeReviewRound>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCompleteReviewRound<TData = Awaited<ReturnType<typeof completeReviewRound>>, TError = ApiError>(
+ roundId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof completeReviewRound>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof completeReviewRound>>,
+          TError,
+          Awaited<ReturnType<typeof completeReviewRound>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCompleteReviewRound<TData = Awaited<ReturnType<typeof completeReviewRound>>, TError = ApiError>(
+ roundId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof completeReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 判分（按知识点聚合、推进间隔排期）
+ */
+
+export function useCompleteReviewRound<TData = Awaited<ReturnType<typeof completeReviewRound>>, TError = ApiError>(
+ roundId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof completeReviewRound>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCompleteReviewRoundQueryOptions(roundId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getTierOverviewResponse200 = {
+  data: TierOverviewResponse
+  status: 200
+}
+
+export type getTierOverviewResponseSuccess = (getTierOverviewResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getTierOverviewResponse = (getTierOverviewResponseSuccess)
+
+export const getGetTierOverviewUrl = () => {
+
+
+
+
+  return `/api/v1/tier`
+}
+
+/**
+ * 没定过级时返回 `tier: "P1"` 与 `source: "fallback"`（参数回落到 P1），不是 404 —— 新用户该看到最完整的默认档界面，而不是一条错误。`source` 用来区分「真的定级到 P1」与「还没定级所以按 P1 渲染」：后者界面上不该说「你的水平是 P1」。
+ * @summary 当前档位与六维渲染参数
+ */
+export const getTierOverview = async ( options?: Parameters<typeof customFetch>[1]): Promise<getTierOverviewResponse> => {
+
+  return customFetch<getTierOverviewResponse>(getGetTierOverviewUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetTierOverviewQueryKey = () => {
+    return [
+    `/api/v1/tier`
+    ] as const;
+    }
+
+
+export const getGetTierOverviewQueryOptions = <TData = Awaited<ReturnType<typeof getTierOverview>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierOverview>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetTierOverviewQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTierOverview>>> = ({ signal }) => getTierOverview({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTierOverview>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetTierOverviewQueryResult = NonNullable<Awaited<ReturnType<typeof getTierOverview>>>
+export type GetTierOverviewQueryError = unknown
+
+
+export function useGetTierOverview<TData = Awaited<ReturnType<typeof getTierOverview>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierOverview>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTierOverview>>,
+          TError,
+          Awaited<ReturnType<typeof getTierOverview>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTierOverview<TData = Awaited<ReturnType<typeof getTierOverview>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierOverview>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTierOverview>>,
+          TError,
+          Awaited<ReturnType<typeof getTierOverview>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTierOverview<TData = Awaited<ReturnType<typeof getTierOverview>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierOverview>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 当前档位与六维渲染参数
+ */
+
+export function useGetTierOverview<TData = Awaited<ReturnType<typeof getTierOverview>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierOverview>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetTierOverviewQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getTierChangesResponse200 = {
+  data: TierChangesResponse
+  status: 200
+}
+
+export type getTierChangesResponseSuccess = (getTierChangesResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getTierChangesResponse = (getTierChangesResponseSuccess)
+
+export const getGetTierChangesUrl = (params?: GetTierChangesParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/v1/tier/changes?${stringifiedParams}` : `/api/v1/tier/changes`
+}
+
+/**
+ * 升降级都写进学习日志；这里读出来给学习者看「为什么给我降档了」。`items` 为空数组表示从未重评过。
+ * @summary 档位变更历史（新的在前）
+ */
+export const getTierChanges = async (params?: GetTierChangesParams, options?: Parameters<typeof customFetch>[1]): Promise<getTierChangesResponse> => {
+
+  return customFetch<getTierChangesResponse>(getGetTierChangesUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetTierChangesQueryKey = (params?: GetTierChangesParams,) => {
+    return [
+    `/api/v1/tier/changes`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetTierChangesQueryOptions = <TData = Awaited<ReturnType<typeof getTierChanges>>, TError = unknown>(params?: GetTierChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierChanges>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetTierChangesQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTierChanges>>> = ({ signal }) => getTierChanges(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTierChanges>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetTierChangesQueryResult = NonNullable<Awaited<ReturnType<typeof getTierChanges>>>
+export type GetTierChangesQueryError = unknown
+
+
+export function useGetTierChanges<TData = Awaited<ReturnType<typeof getTierChanges>>, TError = unknown>(
+ params: undefined |  GetTierChangesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierChanges>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTierChanges>>,
+          TError,
+          Awaited<ReturnType<typeof getTierChanges>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTierChanges<TData = Awaited<ReturnType<typeof getTierChanges>>, TError = unknown>(
+ params?: GetTierChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierChanges>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTierChanges>>,
+          TError,
+          Awaited<ReturnType<typeof getTierChanges>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTierChanges<TData = Awaited<ReturnType<typeof getTierChanges>>, TError = unknown>(
+ params?: GetTierChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierChanges>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 档位变更历史（新的在前）
+ */
+
+export function useGetTierChanges<TData = Awaited<ReturnType<typeof getTierChanges>>, TError = unknown>(
+ params?: GetTierChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierChanges>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetTierChangesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getTierLevelPlanResponse200 = {
+  data: TierLevelPlanResponse
+  status: 200
+}
+
+export type getTierLevelPlanResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getTierLevelPlanResponseSuccess = (getTierLevelPlanResponse200) & {
+  headers: Headers;
+};
+export type getTierLevelPlanResponseError = (getTierLevelPlanResponse404) & {
+  headers: Headers;
+};
+
+export type getTierLevelPlanResponse = (getTierLevelPlanResponseSuccess | getTierLevelPlanResponseError)
+
+export const getGetTierLevelPlanUrl = (levelId: string,) => {
+
+
+
+
+  return `/api/v1/tier/levels/${levelId}/plan`
+}
+
+/**
+ * 首轮从哪一段开始、卡片怎么摊，由服务端按该关真实的 spec 算出。前端自己推导会把「第一段带题的段」这套规则再写一遍。`masteryProgress` 也一并返回：掌握判定按本档规则算，且证据来自 `app.attempts` 回放（跨关卡、跨会话），不是页面本地记录。
+ * @summary 某一关在当前档位下的渲染计划
+ */
+export const getTierLevelPlan = async (levelId: string, options?: Parameters<typeof customFetch>[1]): Promise<getTierLevelPlanResponse> => {
+
+  return customFetch<getTierLevelPlanResponse>(getGetTierLevelPlanUrl(levelId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetTierLevelPlanQueryKey = (levelId: string,) => {
+    return [
+    `/api/v1/tier/levels/${levelId}/plan`
+    ] as const;
+    }
+
+
+export const getGetTierLevelPlanQueryOptions = <TData = Awaited<ReturnType<typeof getTierLevelPlan>>, TError = ApiError>(levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierLevelPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetTierLevelPlanQueryKey(levelId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTierLevelPlan>>> = ({ signal }) => getTierLevelPlan(levelId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: levelId !== null && levelId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTierLevelPlan>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetTierLevelPlanQueryResult = NonNullable<Awaited<ReturnType<typeof getTierLevelPlan>>>
+export type GetTierLevelPlanQueryError = ApiError
+
+
+export function useGetTierLevelPlan<TData = Awaited<ReturnType<typeof getTierLevelPlan>>, TError = ApiError>(
+ levelId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierLevelPlan>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTierLevelPlan>>,
+          TError,
+          Awaited<ReturnType<typeof getTierLevelPlan>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTierLevelPlan<TData = Awaited<ReturnType<typeof getTierLevelPlan>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierLevelPlan>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTierLevelPlan>>,
+          TError,
+          Awaited<ReturnType<typeof getTierLevelPlan>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTierLevelPlan<TData = Awaited<ReturnType<typeof getTierLevelPlan>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierLevelPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 某一关在当前档位下的渲染计划
+ */
+
+export function useGetTierLevelPlan<TData = Awaited<ReturnType<typeof getTierLevelPlan>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierLevelPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetTierLevelPlanQueryOptions(levelId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getTierSessionPlanResponse200 = {
+  data: TierSessionPlanResponse
+  status: 200
+}
+
+export type getTierSessionPlanResponseSuccess = (getTierSessionPlanResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getTierSessionPlanResponse = (getTierSessionPlanResponseSuccess)
+
+export const getGetTierSessionPlanUrl = () => {
+
+
+
+
+  return `/api/v1/tier/session-plan`
+}
+
+/**
+ * 按当前档位的 `sessionNewKpLimit` 截断推荐列表，并回报被推迟的数量。P1 学习者拿到的 `items` 最多 2 条。
+ * @summary 本次会话的下一步（受档位的会话新知识点上限约束）
+ */
+export const getTierSessionPlan = async ( options?: Parameters<typeof customFetch>[1]): Promise<getTierSessionPlanResponse> => {
+
+  return customFetch<getTierSessionPlanResponse>(getGetTierSessionPlanUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetTierSessionPlanQueryKey = () => {
+    return [
+    `/api/v1/tier/session-plan`
+    ] as const;
+    }
+
+
+export const getGetTierSessionPlanQueryOptions = <TData = Awaited<ReturnType<typeof getTierSessionPlan>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierSessionPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetTierSessionPlanQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTierSessionPlan>>> = ({ signal }) => getTierSessionPlan({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTierSessionPlan>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetTierSessionPlanQueryResult = NonNullable<Awaited<ReturnType<typeof getTierSessionPlan>>>
+export type GetTierSessionPlanQueryError = unknown
+
+
+export function useGetTierSessionPlan<TData = Awaited<ReturnType<typeof getTierSessionPlan>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierSessionPlan>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTierSessionPlan>>,
+          TError,
+          Awaited<ReturnType<typeof getTierSessionPlan>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTierSessionPlan<TData = Awaited<ReturnType<typeof getTierSessionPlan>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierSessionPlan>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTierSessionPlan>>,
+          TError,
+          Awaited<ReturnType<typeof getTierSessionPlan>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTierSessionPlan<TData = Awaited<ReturnType<typeof getTierSessionPlan>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierSessionPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 本次会话的下一步（受档位的会话新知识点上限约束）
+ */
+
+export function useGetTierSessionPlan<TData = Awaited<ReturnType<typeof getTierSessionPlan>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTierSessionPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetTierSessionPlanQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type listVideoClipsResponse200 = {
+  data: VideoClipListResponse
+  status: 200
+}
+
+export type listVideoClipsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type listVideoClipsResponseSuccess = (listVideoClipsResponse200) & {
+  headers: Headers;
+};
+export type listVideoClipsResponseError = (listVideoClipsResponse500) & {
+  headers: Headers;
+};
+
+export type listVideoClipsResponse = (listVideoClipsResponseSuccess | listVideoClipsResponseError)
+
+export const getListVideoClipsUrl = (params?: ListVideoClipsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/v1/video/clips?${stringifiedParams}` : `/api/v1/video/clips`
+}
+
+/**
+ * 返回挂在该知识点上的全部片段（按视频与起点排序）。每个片段带 `playUrl`（相对路径）、起止秒数、可读的切分理由、对齐证据，以及可追溯的来源字段（`sourceUrl`、`downloadedAt`、`asrModel` 等）。
+ *
+ * `microKpId` 不给时返回全部片段（调试/管理用）。没有片段时返回空数组。
+ * @summary 按知识点列出课程视频片段
+ */
+export const listVideoClips = async (params?: ListVideoClipsParams, options?: Parameters<typeof customFetch>[1]): Promise<listVideoClipsResponse> => {
+
+  return customFetch<listVideoClipsResponse>(getListVideoClipsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListVideoClipsQueryKey = (params?: ListVideoClipsParams,) => {
+    return [
+    `/api/v1/video/clips`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListVideoClipsQueryOptions = <TData = Awaited<ReturnType<typeof listVideoClips>>, TError = ApiError>(params?: ListVideoClipsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVideoClips>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListVideoClipsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listVideoClips>>> = ({ signal }) => listVideoClips(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listVideoClips>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListVideoClipsQueryResult = NonNullable<Awaited<ReturnType<typeof listVideoClips>>>
+export type ListVideoClipsQueryError = ApiError
+
+
+export function useListVideoClips<TData = Awaited<ReturnType<typeof listVideoClips>>, TError = ApiError>(
+ params: undefined |  ListVideoClipsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVideoClips>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listVideoClips>>,
+          TError,
+          Awaited<ReturnType<typeof listVideoClips>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListVideoClips<TData = Awaited<ReturnType<typeof listVideoClips>>, TError = ApiError>(
+ params?: ListVideoClipsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVideoClips>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listVideoClips>>,
+          TError,
+          Awaited<ReturnType<typeof listVideoClips>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListVideoClips<TData = Awaited<ReturnType<typeof listVideoClips>>, TError = ApiError>(
+ params?: ListVideoClipsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVideoClips>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 按知识点列出课程视频片段
+ */
+
+export function useListVideoClips<TData = Awaited<ReturnType<typeof listVideoClips>>, TError = ApiError>(
+ params?: ListVideoClipsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVideoClips>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListVideoClipsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type streamVideoClipResponse200 = {
+  data: Blob
+  status: 200
+}
+
+export type streamVideoClipResponse206 = {
+  data: Blob
+  status: 206
+}
+
+export type streamVideoClipResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type streamVideoClipResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type streamVideoClipResponseSuccess = (streamVideoClipResponse200 | streamVideoClipResponse206) & {
+  headers: Headers;
+};
+export type streamVideoClipResponseError = (streamVideoClipResponse404 | streamVideoClipResponse500) & {
+  headers: Headers;
+};
+
+export type streamVideoClipResponse = (streamVideoClipResponseSuccess | streamVideoClipResponseError)
+
+export const getStreamVideoClipUrl = (clipId: string,) => {
+
+
+
+
+  return `/media/clips/${clipId}`
+}
+
+/**
+ * 返回 `video/mp4`。支持 `Range` 请求头，响应 206 与 `Content-Range`；不支持 Range 的客户端会拿到 200 与完整内容。
+ *
+ * 片段不存在时 404；`file_path` 指向的文件已丢失时 404（不是 500 —— 那是内容部署问题，不是服务故障）。
+ * @summary 流式播放一个视频片段（支持 HTTP Range）
+ */
+export const streamVideoClip = async (clipId: string, options?: Parameters<typeof customFetch>[1]): Promise<streamVideoClipResponse> => {
+
+  return customFetch<streamVideoClipResponse>(getStreamVideoClipUrl(clipId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getStreamVideoClipQueryKey = (clipId: string,) => {
+    return [
+    `/media/clips/${clipId}`
+    ] as const;
+    }
+
+
+export const getStreamVideoClipQueryOptions = <TData = Awaited<ReturnType<typeof streamVideoClip>>, TError = ApiError>(clipId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamVideoClip>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getStreamVideoClipQueryKey(clipId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof streamVideoClip>>> = ({ signal }) => streamVideoClip(clipId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: clipId !== null && clipId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof streamVideoClip>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type StreamVideoClipQueryResult = NonNullable<Awaited<ReturnType<typeof streamVideoClip>>>
+export type StreamVideoClipQueryError = ApiError
+
+
+export function useStreamVideoClip<TData = Awaited<ReturnType<typeof streamVideoClip>>, TError = ApiError>(
+ clipId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamVideoClip>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof streamVideoClip>>,
+          TError,
+          Awaited<ReturnType<typeof streamVideoClip>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStreamVideoClip<TData = Awaited<ReturnType<typeof streamVideoClip>>, TError = ApiError>(
+ clipId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamVideoClip>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof streamVideoClip>>,
+          TError,
+          Awaited<ReturnType<typeof streamVideoClip>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useStreamVideoClip<TData = Awaited<ReturnType<typeof streamVideoClip>>, TError = ApiError>(
+ clipId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamVideoClip>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 流式播放一个视频片段（支持 HTTP Range）
+ */
+
+export function useStreamVideoClip<TData = Awaited<ReturnType<typeof streamVideoClip>>, TError = ApiError>(
+ clipId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof streamVideoClip>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getStreamVideoClipQueryOptions(clipId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

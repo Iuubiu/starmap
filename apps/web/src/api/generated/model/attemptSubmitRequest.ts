@@ -17,5 +17,7 @@ export interface AttemptSubmitRequest {
   itemId: string;
   latencyMs?: number | null;
   /** @minLength 1 */
+  reviewRoundId?: string;
+  /** @minLength 1 */
   stepId?: string;
 }

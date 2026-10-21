@@ -13,14 +13,29 @@ import {
   buildFunnelMatrix,
   JUDGE_DIMENSION_LABEL,
   STAGES,
+  STAGE_IDS,
   FAILURE_IDS,
   FAILURE_LABEL,
   recognitionRates,
   type Report,
+  type StageId,
 } from './schema.ts';
 
 const YES = '✓';
 const NO = '·';
+
+/**
+ * 本版旅程里有对应阶段的那几级漏斗。
+ *
+ * S2（关卡卡产出）与 S5（追问表单）需要真跑 agent 回合才能产出结构化产物卡与
+ * 追问表单，本版旅程没有接入 —— 所以它们不在这个数组里。
+ *
+ * **这个数组存在的唯一目的，是让报告不说谎。** `stageReached` 是按旅程阶段算的，
+ * 拿它去和全部十级漏斗比，就会把「没测」写成「没走到」：S2/S5 永远不可能被
+ * 到达，于是结论栏会稳定地写「最先掉队的位置是 S2」。那是一句读数错误 ——
+ * 它会让人去查一个不存在的产品缺陷，而真正的结论是「这两级没测」。
+ */
+const COVERED_STAGE_IDS: readonly StageId[] = ['S0', 'S1', 'S3', 'S4', 'S6', 'S7', 'S8'];
 
 function pct(value: number): string {
   return `${Math.round(value * 100)}%`;
@@ -28,12 +43,23 @@ function pct(value: number): string {
 
 function sectionHeader(report: Report): string[] {
   const journeys = report.journeys;
-  const reachedCounts = STAGES.map((stage) => ({
-    stage,
-    count: journeys.filter((journey) => STAGES.findIndex((s) => s.id === journey.stageReached) >= STAGES.findIndex((s) => s.id === stage.id))
-      .length,
+  /* **「没走到」有两种原因，不能合并成一句「掉队」。**
+     漏斗按 stageReached 算到达，但 S2（关卡卡产出）与 S5（追问表单）在本版工具里
+     **压根没有对应的旅程阶段**，所以任何 persona 的 stageReached 都不可能 ≥ S2。
+     若直接写「最先掉队的位置是 S2/S5」，读起来像产品在这两级卡住了，实际是工具
+     没测。COVERED_STAGES 记的是旅程里真正有的阶段；扫描时只看这一段，
+     未接入的阶段在结论里单独说。 */
+  const covered = STAGE_IDS.filter((id) => COVERED_STAGE_IDS.includes(id));
+  const reachedCounts = covered.map((id) => ({
+    id,
+    stage: STAGES.find((stage) => stage.id === id),
+    count: journeys.filter((journey) => {
+      const last = journey.stageReached;
+      return STAGE_IDS.indexOf(last) >= STAGE_IDS.indexOf(id);
+    }).length,
   }));
   const worst = reachedCounts.find((entry) => entry.count < journeys.length);
+  const uncovered = STAGE_IDS.filter((id) => !COVERED_STAGE_IDS.includes(id));
 
   return [
     '# StarMap 模拟学习者评估报告',
@@ -44,8 +70,11 @@ function sectionHeader(report: Report): string[] {
     '',
     `- ${journeys.length} 个模拟学习者走完/中断了旅程：${journeys.map((j) => `${j.personaId}=${j.outcome}`).join('，')}。`,
     worst
-      ? `- 最先掉队的位置是 **${worst.stage.id} ${worst.stage.label}**（只有 ${worst.count}/${journeys.length} 个 persona 走到）。`
-      : '- 三个 persona 都走到了最后一阶段；这不说明体验好，只说明这次没测出阻塞。',
+      ? `- 在本次覆盖的范围内，最先没走到的位置是 **${worst.id} ${worst.stage?.label ?? ''}**（只有 ${worst.count}/${journeys.length} 个 persona 走到）。`
+      : `- ${journeys.length} 个 persona 都走到了本版工具覆盖的最后一阶段（${covered[covered.length - 1]}）；这不说明体验好，只说明这次没测出阻塞。`,
+    uncovered.length > 0
+      ? `- **${uncovered.join(' / ')} 本次未接入旅程**，漏斗里它们是空的。空不等于通过 —— 这几级本次没有任何结论。`
+      : '',
     report.topBlockers.length > 0
       ? `- 阻塞项 ${report.topBlockers.length} 条，最严重的是「${report.topBlockers[0]?.element ?? ''}」（${report.topBlockers[0]?.stage ?? ''}）。详见下文。`
       : '- 未记录阻塞项。**这是探测不足的信号，不是界面没问题的证据。**',
@@ -57,6 +86,10 @@ function sectionHeader(report: Report): string[] {
     '这类数据能做什么、不能做什么，说清楚：',
     '',
     `- 能：${YES} 找出"界面上真的点不动"的位置（locator_failure 数量是硬事实）、${YES} 暴露流程断裂、${YES} 生成待验证的假设。`,
+    `  - "硬事实"的口径：每条 locator_failure 都是在 **\`waitForSettled\` 之后仍然不存在**才算数。`
+      + `页面加载期间先让出 150ms、再等所有 \`role=progressbar\` 消失（上限 20 秒），然后才问"在不在"。`
+      + `不这么做的话，"h1 已渲染但内容还在 pending"会被读成"元素不存在"，报告里就会出现一条不成立的 blocker。`
+      + `（实测过：定级页 t=572ms 时 h1 已可见、按钮还没挂上，原写法在那里就判了红。）`,
     `- 不能：${NO} 证明可用性达标；${NO} 预测真人满意度；${NO} 替代真实学习者测试。`,
     `- 未校准项：judge 与真人评分的一致性 κ = \`${String(report.judgeMeta.agreementWithHumanKappa)}\`（${report.judgeMeta.samples} 次采样，prompt \`${report.judgeMeta.promptVersion}\`）。`,
     `- 本报告**不宣称可用性达标**（结构上已锁死：claimsUsabilityPassed = false）。`,
@@ -100,9 +133,17 @@ function funnelSection(report: Report): string[] {
   lines.push(`| ${header.join(' | ')} |`);
   lines.push(`| ${header.map(() => '---').join(' | ')} |`);
   for (const row of rows) {
-    const cells = row.cells.map((cell) => (cell === 'reached' ? YES : NO));
+    /* 未接入的级用 `未测` 而不是 `·`。两者在旧版里长得一样，但意思差很远：
+       `·` 读作「没走到」= 产品在这一级卡住了；`未测` 读作「工具没接」= 没有结论。 */
+    const cells = row.cells.map((cell, index) => {
+      const stageId = stages[index]?.id;
+      if (stageId !== undefined && !COVERED_STAGE_IDS.includes(stageId)) return '未测';
+      return cell === 'reached' ? YES : NO;
+    });
     lines.push(`| ${row.tier} ${row.personaId} | ${cells.join(' | ')} |`);
   }
+  lines.push('');
+  lines.push('> `未测` = 本版旅程没有对应的阶段，不是「没走到」，也不是「通过」。');
   lines.push('');
   lines.push('阶段定义：');
   lines.push('');
@@ -117,11 +158,22 @@ function journeySection(report: Report): string[] {
     lines.push(`### ${journey.tier} · ${journey.personaId} · 场景 ${journey.scenarioId}`, '');
     lines.push(`- 结局：**${journey.outcome}**，走到 **${journey.stageReached}**`);
     const friction = journey.friction;
+    const unsampled = new Set(journey.unsampled);
+    const mark = (field: string, value: string) => (unsampled.has(field) ? '未采集' : value);
     lines.push(
-      `- 摩擦：找不到目标 ${friction.locatorFailures} 次 · 死点 ${friction.deadClicks} 次 · 狂点 ${friction.rageClicks} 次 · ` +
-        `清空输入 ${friction.inputClears} 次 · 刷新循环 ${friction.refreshLoops} 次 · 跳过表单 ${friction.formSkips} 次 · ` +
-        `放弃于第 ${friction.abandonmentTurn ?? '—'} 轮`,
+      `- 摩擦：找不到目标 ${friction.locatorFailures} 次 · 死点 ${mark('deadClicks', `${friction.deadClicks} 次`)} · 狂点 ${mark(
+        'rageClicks',
+        `${friction.rageClicks} 次`,
+      )} · ` +
+        `清空输入 ${mark('inputClears', `${friction.inputClears} 次`)} · 刷新循环 ${mark('refreshLoops', `${friction.refreshLoops} 次`)} · ` +
+        `跳过表单 ${mark('formSkips', `${friction.formSkips} 次`)} · 放弃于第 ${friction.abandonmentTurn ?? '—'} 轮`,
     );
+    if (unsampled.size > 0) {
+      lines.push(
+        '  - **「未采集」不是 0。** 本版旅程是确定性阶段脚本，不模拟狂点/空输入/刷新循环，'
+          + '那几个计数恒为 0 是因为没数，不是数出来是 0。',
+      );
+    }
     if (journey.artifacts.length > 0) {
       lines.push('- 产物校验：');
       for (const artifact of journey.artifacts) {

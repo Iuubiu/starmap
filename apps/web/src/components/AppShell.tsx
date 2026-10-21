@@ -61,6 +61,10 @@ export function AppShell() {
       ? '/market'
       : location.pathname.startsWith('/placement')
         ? '/placement'
+        // 复验（票 07）：单独一页，不嵌在知识点详情里 ——
+        // 「多个知识点交错出现」需要跨知识点的会话，单知识点页做不出来。
+        : location.pathname.startsWith('/review')
+          ? '/review'
         : location.pathname.startsWith('/database')
         ? '/database'
         : location.pathname.startsWith('/skills')
@@ -81,6 +85,7 @@ export function AppShell() {
         >
           <Tab value="/">学习</Tab>
           <Tab value="/placement">定级</Tab>
+          <Tab value="/review">复验</Tab>
           <Tab value="/board">看板</Tab>
           <Tab value="/map">知识地图</Tab>
           <Tab value="/market">关卡市场</Tab>

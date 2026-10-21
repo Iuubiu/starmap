@@ -47,6 +47,7 @@ import { ApiExceptionFilter } from '../common/api-exception.filter.js';
 import { DatabaseService } from '../db/database.service.js';
 import { LLM_PORT, type LlmPort } from '../llm/llm.port.js';
 import { GenerationService } from './generation.service.js';
+import { QUESTIONS_PER_KP } from './constants.js';
 import { createGenerationWorkflow, type GenerationItemResult } from './generation.workflow.js';
 
 /**
@@ -102,7 +103,7 @@ export class GenerationController {
     if (!parsed.success) {
       throw new BadRequestException({
         code: 'VALIDATION_FAILED',
-        message: '请求体不合法：microKpIds 与 limit 至少给一个，并发度 1–8',
+        message: '请求体不合法：microKpIds 与 limit 至少给一个，并发度 1–8，每个知识点的题数 3–8',
         details: parsed.error.issues,
       });
     }
@@ -133,13 +134,17 @@ export class GenerationController {
     }
 
     const concurrency = request.concurrency ?? DEFAULT_CONCURRENCY;
+    // 每个知识点出几道题。不传则用常量 5（票面「每关 5–8 题」的下界）；
+    // 下限 3 与 `MASTERY_MIN_VARIANTS` 对齐 —— 少于 3 道题就凑不出 3 个
+    // 变式组，那张关卡无论如何答都到不了「已掌握」。
+    const questionsPerKp = request.questionsPerKp ?? QUESTIONS_PER_KP;
     const runId = `run-${randomUUID()}`;
 
     // 建运行 + 明细。若这一步失败，什么都没开始跑，调用方拿到 500 即可。
     await this.generation.createRun({ runId, microKpIds, concurrency });
 
     // 后台跑。**不 await** —— 这是「可后台跑」的实现点。
-    const execution = this.execute(runId, microKpIds, concurrency);
+    const execution = this.execute(runId, microKpIds, concurrency, questionsPerKp);
     inFlight.set(runId, execution);
     void execution.finally(() => inFlight.delete(runId));
 
@@ -182,7 +187,12 @@ export class GenerationController {
    * 这个方法**不抛异常**（除了自己内部的日志）：它跑在后台，抛出去会变成
    * 未处理的 rejection，把进程带崩。所有失败都折算成任务行上的状态。
    */
-  private async execute(runId: string, microKpIds: string[], concurrency: number): Promise<void> {
+  private async execute(
+    runId: string,
+    microKpIds: string[],
+    concurrency: number,
+    questionsPerKp: number,
+  ): Promise<void> {
     try {
       const workflow = createGenerationWorkflow(
         {
@@ -204,7 +214,7 @@ export class GenerationController {
               levelId: update.levelId ?? null,
             }),
         },
-        { concurrency, runId },
+        { concurrency, runId, questionsPerKp },
       );
 
       const run = await workflow.createRun();

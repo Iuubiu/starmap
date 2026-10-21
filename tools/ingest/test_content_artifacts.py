@@ -91,3 +91,122 @@ def test_the_answer_appendixes_are_flagged() -> None:
     # 会让下一个人加书时被迫回来改这份清单，而改清单的人不会去想「为什么」。
     missing = wanted - found
     assert not missing, f'答案附录标记缺失：{sorted(missing)}（产物里共 {len(found)} 个）'
+
+
+# ---- t24：书首前置页不该是可掌握知识点 -------------------------------------
+#
+# 判据是**结构**不是名字：`depth === 0 && isLeaf && num === ''`。这些是书的
+# 卷名（「上册」）、目录（「目電录」是 OCR 错字）、书前绪论/术语表 —— 目录解析
+# 把「无编号标题」挂到 stack[0]，它们就变成了根下的叶节点。
+#
+# 危害是用户可见的：`recommend.ts::compareScored` 的排序键是
+# `moduleOrdinal → depth → ordinal → microKpId`，depth=0 永远赢过正常的
+# depth=2/3，于是 `/recommendations` 前三名是「上册」「豐录」「目電录」。
+#
+# 归一化在 `frontmatter.py`，`run.py` 与 `ocr_run.py` 两个入口都调它，
+# 所以这条测试守的是**产物**（重出后必须干净），不是某一次手工修补。
+
+
+def test_no_depth0_unnumbered_leaf_survives() -> None:
+    """任何一本书里都不该有「depth=0 且无编号」的叶节点。
+
+    豁免：无。`jichangsong` 的「序言」（同一页、同一类东西）本来就是
+    `isLeaf=false` —— 那是同类东西的正确形态，不是豁免项。降级后它仍在
+    `nodes` 里、仍占着自己的 chunk，只是不再算可掌握知识点。
+    """
+    offenders: list[str] = []
+    for path in _tocs():
+        toc = json.loads(path.read_text(encoding='utf-8'))
+        for n in toc.get('nodes', []):
+            if n.get('depth') == 0 and n.get('isLeaf') is True and not (n.get('num') or '').strip():
+                offenders.append(f"{path.parent.name}: {n['microKpId']} ({n.get('name')!r})")
+    assert not offenders, (
+        '这些书首前置页仍是叶知识点，学习者会在推荐里看到「上册」「目录」：\n'
+        + '\n'.join(offenders)
+        + '\n重出产物：python tools/ingest/fix_frontmatter.py'
+    )
+
+
+def test_front_matter_demotion_landed_for_the_known_five() -> None:
+    """降级必须**保住 chunk**，不能为了修图而删内容。
+
+    这 5 条各挂着 10–62 个 chunk（书首的序/目录/术语表正文）。降级成容器后
+    地图/掌握度/出题/推荐都不再把它当知识点，但 chunk 仍挂在它下面、
+    `content.controller.ts` 的 `WITH RECURSIVE subtree` 仍能查到。
+    """
+    from frontmatter import DEMOTED_FRONT_MATTER
+
+    by_book: dict[str, dict] = {}
+    for path in _tocs():
+        by_book[path.parent.name] = {
+            n['microKpId']: n for n in json.loads(path.read_text(encoding='utf-8')).get('nodes', [])
+        }
+    missing: list[str] = []
+    still_leaf: list[str] = []
+    for kp, _reason in DEMOTED_FRONT_MATTER:
+        found = next((nodes[kp] for nodes in by_book.values() if kp in nodes), None)
+        if found is None:
+            missing.append(kp)
+        elif found.get('isLeaf') is not False:
+            still_leaf.append(kp)
+    assert not missing, f'这 5 个书首前置页在产物里找不到了（被删了？）：{missing}'
+    assert not still_leaf, f'这些仍是叶节点（降级没落进产物）：{still_leaf}'
+
+
+def test_same_parent_same_name_leaves_have_distinct_numbers() -> None:
+    """同一个父节点下、同名的叶节点，`num` 必须非空且互不相同。
+
+    这是「OCR 丢了编号」的守门测试。一个父节点下出现两个同名叶节点，只在一种
+    情况下可能：目录里它们本来各有编号，但编号在 OCR 时被拆行/丢了。
+
+    范围限定在「该父节点下**本来就用编号**」的组（`num` 非空的兄弟 >= 2）：
+    像 `methods-1997` 全书按「一、二、三 / 第X节」组织、`jichangsong` 手册体，
+    它们的目录体例本来就不编号，把那些算成违规只会得到一份必须永久豁免的名单。
+
+    豁免（必须写明理由）：
+    - `kp-kanghuaguang-5e-p205-MOSFET` / `p211-MOSFET`：章 5 的 5.1 是**非叶**
+      节点「金属-氧化物-半导体（M0S）场效应管」，它的 5.1.1–5.1.5 才是编号所在；
+      这两个「MOSFET」是 OCR 把 5.1 的正文页标题当成了平级条目，页码 205/211
+      分别落在 5.1.2 与 5.2 之内 —— 编号无法从父下的序列唯一确定（缺口为空），
+      强行补一个号会把它们挂到错误的层级。已列入报告交 captain 判断。
+    """
+    ALLOWED = {
+        # 康华光模拟：章 5 的 5.1 是**非叶**节点「金属-氧化物-半导体（M0S）场效应管」，
+        # 它的 5.1.1–5.1.5 才是编号所在；这两个「MOSFET」是 OCR 把 5.1 的正文页标题
+        # 当成了平级条目。页码 205/211 分别落在 5.1.2 与 5.2 之内 —— 父下的编号序列
+        # 缺口是**空集**，无法唯一反推出该给哪一个号，强行补一个会把它们挂错层级。
+        ('kp-kanghuaguang-5e-5', 'MOSFET'): '父下 5.1 是非叶，编号在 5.1.x；缺口为空，无法唯一推断',
+        # Grupen《粒子探测器》第二章末尾的「未收录术语」小节：p69 的
+        # 「辐射测量与的单位」与 p71 的「辐射源」是**术语索引页**上被 OCR 拆出来的
+        # 残行，紧接着 p71/p76 才是真正的 3.1「辐射测量的单位」与 3.2「辐射源」——
+        # 同名是「上一个词的残行 + 下一个词的标题」，不是同一个知识点丢了两个号。
+        # 该父下 2.1–2.6 连续无缺口，没有任何号可以补。
+        ('kp-grupen-2e-2008-2', '辐射源'): '第二章末的术语残行，真节点是同名 3.2（在第三章下）',
+    }
+    bad: list[str] = []
+    for path in _tocs():
+        toc = json.loads(path.read_text(encoding='utf-8'))
+        nodes = toc.get('nodes', [])
+        kids: dict[str | None, list[dict]] = {}
+        for n in nodes:
+            kids.setdefault(n.get('parentId'), []).append(n)
+        for parent_id, sibs in kids.items():
+            numbered = [s for s in sibs if (s.get('num') or '').strip()]
+            if len(numbered) < 2:
+                continue  # 这个父下本来就不用编号
+            groups: dict[str, list[dict]] = {}
+            for s in sibs:
+                if s.get('isLeaf'):
+                    groups.setdefault(s['name'], []).append(s)
+            for name, ns in groups.items():
+                if len(ns) < 2:
+                    continue
+                if (parent_id, name) in ALLOWED:
+                    continue
+                nums = [(n.get('num') or '').strip() for n in ns]
+                if any(not x for x in nums) or len(set(nums)) != len(nums):
+                    bad.append(
+                        f'{path.parent.name}: 父 {parent_id} 下 {name!r} ×{len(ns)}，num={nums} '
+                        f'（{", ".join(n["microKpId"] for n in ns)}）'
+                    )
+    assert not bad, '同父同名叶节点编号重复或缺失（OCR 丢了编号）：\n' + '\n'.join(bad)

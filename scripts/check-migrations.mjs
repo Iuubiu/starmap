@@ -319,6 +319,17 @@ async function objectExists(client, schema, obj) {
 async function checkRoundTrip(client) {
   const schema = `mig_check_${randomBytes(6).toString('hex')}`;
   const failures = [];
+  /**
+   * 每个迁移「被动态核对了几件事」。
+   *
+   * 存在的理由：某个迁移只删数据、down 又有意不恢复（`0005_drop_stale_seed_mastery`
+   * 就是这样），它在对象 / 默认值 / 行数三类判据里都是 0 件，于是一个都没被验过，
+   * 而总结句写的是「N 个迁移逐个 up → down」—— 读起来像每个都被验了。计数为 0
+   * 的文件必须在输出里单独点名，否则这句总结比事实强。
+   */
+  const checksByFile = new Map();
+  const bump = (file) => checksByFile.set(file, (checksByFile.get(file) ?? 0) + 1);
+  const unverified = () => upFiles.filter((f) => (checksByFile.get(f) ?? 0) === 0);
 
   // 一次性 schema 里先建好版本表：`0010` 用 `to_regclass('app.schema_migrations')`
   // 判断「这是真实库还是临时 schema」，没有版本表它就直接 RETURN、什么都不插。
@@ -336,7 +347,7 @@ async function checkRoundTrip(client) {
         await client.query(redirectSchema(sql, schema));
       } catch (err) {
         failures.push(`上行 ${file} 执行失败：${err.message}`);
-        return { failures, checkedObjects: 0 };
+        return { failures, checkedObjects: 0, unverified: unverified() };
       }
       byFile.set(file, {
         objects: createdObjectsOf(sql),
@@ -379,6 +390,7 @@ async function checkRoundTrip(client) {
       // 0004 就是这样漏的（探针：把 down 写成只有注释，照样报绿）。
       for (const d of meta.defaults) {
         checkedObjects += 1;
+        bump(file);
         const key = `${d.table}.${d.column}`;
         const after = await columnDefault(client, schema, d.table, d.column);
         if (after === undefined) {
@@ -396,6 +408,7 @@ async function checkRoundTrip(client) {
       // 结构迁移：它建的每个对象都应该没了。
       for (const obj of meta.objects) {
         checkedObjects += 1;
+        bump(file);
         if (await objectExists(client, schema, obj)) {
           const what =
             obj.kind === 'column' ? `${obj.table}.${obj.name}（列）` : `${obj.name}（${obj.kind}）`;
@@ -410,6 +423,7 @@ async function checkRoundTrip(client) {
       if (meta.objects.length === 0 && meta.inserted) {
         const rowsAfter = await totalRows(client, schema);
         checkedObjects += 1;
+        bump(file);
         if (rowsAfter >= rowsBefore) {
           failures.push(
             `下行 ${downName} 没有删掉任何行（回滚前后总行数 ${rowsBefore} → ${rowsAfter}）——` +
@@ -426,7 +440,7 @@ async function checkRoundTrip(client) {
         )).rows[0].n === 0;
       if (schemaGone) {
         void before;
-        return { failures, checkedObjects };
+        return { failures, checkedObjects, unverified: unverified() };
       }
     }
 
@@ -437,7 +451,7 @@ async function checkRoundTrip(client) {
     if (tables.length) failures.push(`全部回滚后仍残留业务表：${tables.join(', ')}`);
     if (indexes.length) failures.push(`全部回滚后仍残留索引：${indexes.join(', ')}`);
 
-    return { failures, checkedObjects };
+    return { failures, checkedObjects, unverified: unverified() };
   } finally {
     // 无论成败都清掉。这里用 DROP SCHEMA ... CASCADE 是对的：整个 schema 是
     // 本函数现造的，删它不可能波及任何别人的东西。
@@ -475,16 +489,29 @@ async function runDatabaseCheck() {
   }
 
   try {
-    const { failures, checkedObjects } = await checkRoundTrip(client);
+    const { failures, checkedObjects, unverified = [] } = await checkRoundTrip(client);
     if (failures.length) {
       record('roundtrip', '下行脚本真的能回滚（up → down → 无残留）', 'failed', failures.join('\n'));
     } else {
+      // 「N 个迁移逐个核对」这句话不能比事实强：只删数据、down 有意不回填的迁移，
+      // 动态核对能从它身上看见的东西是 0 件。点名，让读者知道少的是哪几本。
+      //
+      // 已交代的已知盲区：`0005_drop_stale_seed_mastery.sql` 没有可动态核对的改动
+      //（它只删数据，down 有意不回填）—— 这是**正确**的写法（删数据不该回填），
+      // 但本脚本对它无能为力。这条只能人工确认一次；看输出就别以为是检查漏了。
+      // 将来再加同类迁移，它的文件名会落进 `unverified` 里自动被点名，不用回来改代码。
+      const verifiedCount = upFiles.length - unverified.length;
+      const caveat = unverified.length
+        ? `；另有 ${unverified.length} 个迁移没有可动态核对的改动（${unverified.join('、')}）` +
+          `—— 通常是只删数据的迁移、down 有意不回填。这类迁移这条检查无从下手，只能人工确认一次`
+        : '';
       record(
         'roundtrip',
         '下行脚本真的能回滚（up → down → 无残留）',
         'passed',
         `${upFiles.length} 个迁移在一次性 schema 上逐个 up → down，` +
-          `逐一核对了 ${checkedObjects} 个「up 建了什么」，回滚后全部消失、无残留表、无残留索引`,
+          `其中 ${verifiedCount} 个有可动态核对的改动，共核对了 ${checkedObjects} 个` +
+          `「up 建了什么」，回滚后全部消失、无残留表、无残留索引${caveat}`,
       );
     }
   } finally {

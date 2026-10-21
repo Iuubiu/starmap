@@ -51,6 +51,7 @@ import {
   useStartPlacement,
   useSubmitPlacementAnswer,
   useSubmitSelfAssessment,
+  useTierChanges,
 } from '../api/queries';
 import type {
   PlacementAnswerResponse,
@@ -601,8 +602,85 @@ function StatusCard({
           </Button>
         )}
       </div>
+
+      {placed && <TierHistoryCard />}
     </Card>
   );
+}
+
+/**
+ * 档位变更历史（票 12 验收 3：「升降级写进学习日志，用户能看到为什么给我降档了」）。
+ *
+ * ## 为什么单独拉一个接口，而不是从 `placement.lastRejudge` 渲染
+ *
+ * `lastRejudge` 只有**最近一次**，且它会被「重新定级」冲掉（旧指针对不上就
+ * 不算了）。学习者想知道的往往是「我是从什么时候开始变差的」—— 那是历史，
+ * 不是最新状态。数据源是 `app.learning_log` 的 `tier_rejudge` 事件，写入方是
+ * `PlacementService#applyRejudge`（同一个事务里与档位更新一起写，见那里的注释）。
+ *
+ * ## 为什么每条都要带 explanation
+ *
+ * 只说「P2 → P1」等于宣布判决而不给理由。被判低的人如果看不到「平均首轮
+ * 正确率 21%，低于 30% 的下调线」这一句，他能做的只有不信任这个系统。
+ *
+ * ## 为什么没有数据时什么都不显示
+ *
+ * “从没重判过” 是常态（新用户就是）。渲染一个空卡片或「暂无记录」会把
+ * 一个正常状态弄得像出了问题。
+ */
+function TierHistoryCard() {
+  const styles = useStyles();
+  const history = useTierChanges(10);
+  const items = history.payload?.items ?? [];
+
+  if (history.isError) {
+    return (
+      <MessageBar intent="warning">
+        <MessageBarBody>
+          读不到档位变更历史：
+          {history.error instanceof Error ? history.error.message : '请稍后重试。'}
+          <br />
+          这一块不影响你做关题，当前档位仍以上面那张卡片为准。
+        </MessageBarBody>
+      </MessageBar>
+    );
+  }
+
+  if (items.length === 0) return null;
+
+  return (
+    <div className={styles.section} role="region" aria-label="档位变更历史">
+      <Text weight="semibold" as="h3">
+        档位变更历史
+      </Text>
+      <Caption1>
+        每次重判都写在学习日志里。档位只决定每一关从多完整的示范开始，不代表你的水平被重新定义。
+      </Caption1>
+      <div className={styles.section}>
+        {items.map((entry) => (
+          <div key={entry.id} className={styles.metaRow}>
+            <Caption1>{formatRejudgeAt(entry.at)}</Caption1>
+            <Badge
+              appearance="tint"
+              color={entry.changed ? 'informative' : 'subtle'}
+              className={styles.badge}
+            >
+              {entry.changed ? `${entry.previousTier} → ${entry.tier}` : `${entry.tier} 保持不变`}
+            </Badge>
+            <Caption1>{entry.explanation}</Caption1>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** 本地时区的 `YYYY-MM-DD HH:mm`，不依赖 `toLocaleString` 的平台差异。 */
+function formatRejudgeAt(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
 // ---------------------------------------------------------------------------

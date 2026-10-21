@@ -43,10 +43,17 @@ import {
   tokens,
 } from '@fluentui/react-components';
 import { useNavigate } from 'react-router';
-import { useAgentTurn, useAgentTurns, useNodeList, useSubmitTurn } from '../api/queries';
+import {
+  useAgentTurn,
+  useAgentTurns,
+  useNodeList,
+  useSubmitTurn,
+  useTierOverview,
+} from '../api/queries';
 import { ArtifactCard } from '../agent/ArtifactCard';
 import { EvidencePanel } from '../agent/EvidencePanel';
 import { ProbePanel } from '../agent/ProbePanel';
+import { SessionPlanCard } from '../agent/SessionPlanCard';
 import { TurnLog } from '../agent/TurnLog';
 import { currentSessionId, resetSessionId } from '../agent/session';
 import type { AgentTurnResponse } from '../api/generated/model';
@@ -174,6 +181,19 @@ export function HomePage() {
   const nodes = useNodeList({ limit: 200 });
   const history = useAgentTurns(sessionId);
   const submit = useSubmitTurn(sessionId);
+  /**
+   * 当前档位（票 12）。
+   *
+   * 这里不再写死 `tier:'P1'`：服务端把 `tier` 写进提示词的「水平档」一行，
+   * 它也是追问阶梯起始层的来源（engine 的 `TIER_LADDER`）。写死 P1 的后果是
+   * ——一个已经被定到 P3 的学习者，关卡按 P3 渲染、智能体的追问却仍从 L1 开始，
+   * 而且他自己开的那次追问会话会被当成零基础。
+   *
+   * 拿不到档位时回落 `'P1'`（与契约的 `default` 一致）：P1 是**最完整的示范**，
+   * 宁可多给一步提示，也不要让一个刚打开页面的人被当成有工程经验。
+   */
+  const tierOverview = useTierOverview();
+  const learnerTier = tierOverview.payload?.tier ?? 'P1';
 
   // 当前展示的卡：优先「刚提交的那张」，否则「日志里点开的那张」。
   const submitted: AgentTurnResponse | undefined = submit.data;
@@ -204,7 +224,7 @@ export function HomePage() {
     const target = (lastSent || recalled || utterance).trim();
     if (!target) return;
     setShowEvidence(false);
-    submit.mutate({ utterance: target, microKpId: currentKpId(shown), tier: 'P1' });
+    submit.mutate({ utterance: target, microKpId: currentKpId(shown), tier: learnerTier });
   };
 
   const onSubmit = () => {
@@ -214,7 +234,7 @@ export function HomePage() {
     setShowEvidence(false);
     setLastSent(text);
     submit.mutate(
-      { utterance: text, microKpId: currentKpId(shown), tier: 'P1' },
+      { utterance: text, microKpId: currentKpId(shown), tier: learnerTier },
       { onSuccess: () => setUtterance('') },
     );
   };
@@ -363,6 +383,7 @@ export function HomePage() {
             开新会话
           </Button>
         </div>
+        <SessionPlanCard />
         <DispensableHint />
         <div className={styles.logScroll}>
           <TurnLog

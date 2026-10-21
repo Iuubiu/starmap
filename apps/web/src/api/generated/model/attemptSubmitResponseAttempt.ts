@@ -22,5 +22,7 @@ export type AttemptSubmitResponseAttempt = {
   /** @nullable */
   levelId: string | null;
   microKpId: string;
+  /** @nullable */
+  reviewRoundId: string | null;
   variantGroup: string;
 };
