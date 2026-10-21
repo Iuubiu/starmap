@@ -163,26 +163,8 @@ def test_same_parent_same_name_leaves_have_distinct_numbers() -> None:
     像 `methods-1997` 全书按「一、二、三 / 第X节」组织、`jichangsong` 手册体，
     它们的目录体例本来就不编号，把那些算成违规只会得到一份必须永久豁免的名单。
 
-    豁免（必须写明理由）：
-    - `kp-kanghuaguang-5e-p205-MOSFET` / `p211-MOSFET`：章 5 的 5.1 是**非叶**
-      节点「金属-氧化物-半导体（M0S）场效应管」，它的 5.1.1–5.1.5 才是编号所在；
-      这两个「MOSFET」是 OCR 把 5.1 的正文页标题当成了平级条目，页码 205/211
-      分别落在 5.1.2 与 5.2 之内 —— 编号无法从父下的序列唯一确定（缺口为空），
-      强行补一个号会把它们挂到错误的层级。已列入报告交 captain 判断。
+    豁免见模块级 `DUPLICATE_NAME_ALLOWED`（每条都写明理由，不在这里重复）。
     """
-    ALLOWED = {
-        # 康华光模拟：章 5 的 5.1 是**非叶**节点「金属-氧化物-半导体（M0S）场效应管」，
-        # 它的 5.1.1–5.1.5 才是编号所在；这两个「MOSFET」是 OCR 把 5.1 的正文页标题
-        # 当成了平级条目。页码 205/211 分别落在 5.1.2 与 5.2 之内 —— 父下的编号序列
-        # 缺口是**空集**，无法唯一反推出该给哪一个号，强行补一个会把它们挂错层级。
-        ('kp-kanghuaguang-5e-5', 'MOSFET'): '父下 5.1 是非叶，编号在 5.1.x；缺口为空，无法唯一推断',
-        # Grupen《粒子探测器》第二章末尾的「未收录术语」小节：p69 的
-        # 「辐射测量与的单位」与 p71 的「辐射源」是**术语索引页**上被 OCR 拆出来的
-        # 残行，紧接着 p71/p76 才是真正的 3.1「辐射测量的单位」与 3.2「辐射源」——
-        # 同名是「上一个词的残行 + 下一个词的标题」，不是同一个知识点丢了两个号。
-        # 该父下 2.1–2.6 连续无缺口，没有任何号可以补。
-        ('kp-grupen-2e-2008-2', '辐射源'): '第二章末的术语残行，真节点是同名 3.2（在第三章下）',
-    }
     bad: list[str] = []
     for path in _tocs():
         toc = json.loads(path.read_text(encoding='utf-8'))
@@ -201,7 +183,7 @@ def test_same_parent_same_name_leaves_have_distinct_numbers() -> None:
             for name, ns in groups.items():
                 if len(ns) < 2:
                     continue
-                if (parent_id, name) in ALLOWED:
+                if (parent_id, name) in DUPLICATE_NAME_ALLOWED:
                     continue
                 nums = [(n.get('num') or '').strip() for n in ns]
                 if any(not x for x in nums) or len(set(nums)) != len(nums):
@@ -227,6 +209,11 @@ DUPLICATE_NAME_ALLOWED: dict[tuple[str | None, str], str] = {
     # 之内，要「拼回编号」必须同时改 depth 与 parentId —— 那是猜层级，不是补编号。
     # 已列入 t24 报告交 captain 判断，不猜。
     ('kp-kanghuaguang-5e-5', 'MOSFET'): '父下 5.1 是非叶，编号缺口为空，补号必须改层级=猜',
+    # Grupen《粒子探测器》第二章末的「未收录术语」页：p71 的「辐射源」是术语索引上
+    # 被 OCR 拆出来的残行，真节点是第三章的 3.2「辐射源」。消歧后 3.2 已改名成
+    # 「3.2 辐射源」，两者不再同名 —— 这条豁免**已不再触发**，留作记录：
+    # 它说明「同父下同名」有时是残行，不该硬补编号。
+    ('kp-grupen-2e-2008-2', '辐射源'): '第二章末术语残行；消歧后已自动区分（3.2 改名）',
 }
 
 
