@@ -224,3 +224,89 @@ def test_spieler_index_letters_are_gone() -> None:
         if re.fullmatch(r'[A-Z]', (node.get('nameOriginal') or '').strip())
     ]
     assert not letters, f'spieler-2005 还有单字母索引节点：{letters}'
+
+# ---- 缺陷 A：同书内不同英文标题不能译成同一个名字（t45） -------------------
+
+_NUM_ANY = re.compile(r'^\s*(?:\d+(?:\.\d+)*\.?|[A-Z]\.\d+(?:\.\d+)*|[IVXLC]+\.)\s*')
+
+
+def _norm_original(text: str) -> str:
+    """把英文原名归一化到「只比内容」：剥章节编号、压空白、小写。
+
+    归一化是必要的：`1.6.E Neutrons` 与 `2.6.A Neutrons` 是同一节在不同章里
+    各印一遍，译成同一个中文名是**正确**的。真正该报错的是
+    `E.1 Secular equilibrium` 与 `E.2 Transient equilibrium` 都变成「平衡」。
+    """
+    t = _NUM_ANY.sub('', (text or '').strip())
+    # 附录体例 `7.1.B Efficiency` 剥掉 `7.1.` 后还留着段字母 `B`，
+    # `A.8 Efficiency` 却整个剥干净 —— 不补这一步，同一标题会被当成两个。
+    t = re.sub(r'^[A-Z]\.?\s+', '', t)
+    return re.sub(r'\s+', ' ', t).strip().lower()
+
+
+@pytest.mark.skipif(not _tocs(), reason='没有已生成的内容目录')
+def test_no_two_originals_collapse_into_one_chinese_name() -> None:
+    """同书内 `name` 相同，但归一化后的 `nameOriginal` 不同 —— 必须为 0。
+
+    t45 缺陷 A：`translate_title` 查不到的词直接丢弃，于是
+    `E.1 Secular equilibrium` / `E.2 Transient equilibrium` /
+    `E.3 No equilibrium` 三条都只剩「平衡」，学生在图谱上看到三个同名节点。
+    改法是补词典（`secular`/`transient`/`no equilibrium` … 共 220 词），
+    不是放宽判据。
+
+    ## 反向验证（改代码的人请照做）
+
+    把 `tools/ingest/translate.py::_translate_words` 里「查不到就丢」的
+    `index += 1` 改成「保留原文」也能让这条测试变绿，但那会让 1324/3588 条
+    译名混进英文（实测），所以不能那么改。反之，把 t45 补的任意一个词从
+    `GLOSSARY` 删掉，这条测试会立刻红 —— 它守的是词典，不是算法。
+    """
+    bad: list[str] = []
+    for path in _tocs():
+        toc = json.loads(path.read_text(encoding='utf-8'))
+        groups: dict[str, set[str]] = {}
+        for node in toc.get('nodes', []):
+            name = (node.get('name') or '').strip()
+            if not name:
+                continue
+            groups.setdefault(name, set()).add(_norm_original(node.get('nameOriginal') or ''))
+        for name, originals in groups.items():
+            if len(originals) > 1:
+                bad.append(f'{path.parent.name} | {name} <- {sorted(originals)}')
+    assert not bad, '不同英文标题被译成同一个名字（补词典，不要放宽判据）：\n' + '\n'.join(bad)
+
+
+# ---- 缺陷 B：译文不许带章节编号（t45） -------------------------------------
+
+_EMBEDDED = re.compile(r'^\s*(\d+(?:\.\d+)+)\s+')
+
+
+@pytest.mark.skipif(not _tocs(), reason='没有已生成的内容目录')
+def test_translated_names_do_not_embed_their_own_number() -> None:
+    """译文节点（`nameOriginal` 非空）的 `name` 不许以自身编号开头。
+
+    t45 缺陷 B：`naming.py::disambiguate_duplicate_names` 给重名叶节点加
+    `num` 前缀，但那时译名已经塌缩（缺陷 A），于是「3.2 电子学噪声」
+    「2.5.1.5 轫致辐射」这类名字进了库 —— 编号在 `num` 字段里已经有了，
+    再写进 `name` 既重复又让检索串变长。
+
+    中文原题（`nameOriginal` 为空）**必须保留**编号：`2.5 仿真例题`
+    「11.4.1 能量分辨」是书上印的标题本身，剥掉就不是原题了。
+    """
+    embedded: list[str] = []
+    native_kept = 0
+    for path in _tocs():
+        toc = json.loads(path.read_text(encoding='utf-8'))
+        for node in toc.get('nodes', []):
+            name = (node.get('name') or '').strip()
+            match = _EMBEDDED.match(name)
+            if not match:
+                continue
+            if not (node.get('nameOriginal') or '').strip():
+                native_kept += 1
+                continue
+            if match.group(1) == (node.get('num') or '').strip():
+                embedded.append(f'{path.parent.name} | {node["microKpId"]} | {name!r}')
+    assert not embedded, '译文里嵌了自己的编号（应改用父节点名做前缀）：\n' + '\n'.join(embedded)
+    # 中文原题那一档必须还在：全剥光说明把原题也改了，那是另一个缺陷。
+    assert native_kept >= 50, f'中文原题自带编号的节点只剩 {native_kept} 个，原题被剥坏了'
