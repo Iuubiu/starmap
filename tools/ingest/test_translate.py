@@ -254,12 +254,17 @@ def test_no_two_originals_collapse_into_one_chinese_name() -> None:
     改法是补词典（`secular`/`transient`/`no equilibrium` … 共 220 词），
     不是放宽判据。
 
-    ## 反向验证（改代码的人请照做）
+    ## 这条测的是产物，不是词典
 
-    把 `tools/ingest/translate.py::_translate_words` 里「查不到就丢」的
-    `index += 1` 改成「保留原文」也能让这条测试变绿，但那会让 1324/3588 条
-    译名混进英文（实测），所以不能那么改。反之，把 t45 补的任意一个词从
-    `GLOSSARY` 删掉，这条测试会立刻红 —— 它守的是词典，不是算法。
+    它读 `content/*/toc.json`，所以**只改 `GLOSSARY` 不会让它变红** —— 得重出
+    产物才会。守词典本身的是下面 `test_glossary_still_separates_the_equilibrium_titles`，
+    两条一起才完整：一条防产物回退，一条防词典被顺手删词。
+
+    ## 为什么不用「保留原文」的改法
+
+    把 `translate.py::_translate_words` 里「查不到就丢」的 `index += 1` 改成
+    「保留原文」也能让塌缩消失，但实测会让 1324/3588 条译名混进英文，所以
+    选择补词典。
     """
     bad: list[str] = []
     for path in _tocs():
@@ -310,3 +315,46 @@ def test_translated_names_do_not_embed_their_own_number() -> None:
     assert not embedded, '译文里嵌了自己的编号（应改用父节点名做前缀）：\n' + '\n'.join(embedded)
     # 中文原题那一档必须还在：全剥光说明把原题也改了，那是另一个缺陷。
     assert native_kept >= 50, f'中文原题自带编号的节点只剩 {native_kept} 个，原题被剥坏了'
+
+
+# ---- 词典本身也要守住（t45） ----------------------------------------------
+
+# t45 为了消除译名塌缩补进来的词。它们不是「顺手多认几个词」，而是让
+# `E.1 Secular equilibrium` / `E.2 Transient equilibrium` / `E.3 No equilibrium`
+# 三条**必须**译成三个不同名字的最小集合 —— 少任何一个，那三条就会塌回「平衡」。
+_COLLAPSE_CRITICAL = {
+    'secular': '长期',
+    'transient': '瞬态',
+    'no equilibrium': '无平衡',
+}
+
+
+def test_glossary_still_separates_the_equilibrium_titles() -> None:
+    """三个 equilibrium 标题必须译成三个互不相同的名字。
+
+    这是 t45 缺陷 A 的原始形态：`translate_title` 查不到的词直接丢弃，于是
+    三条都只剩「平衡」，学生在图谱上看到三个同名节点。上面那条
+    `test_no_two_originals_collapse_into_one_chinese_name` 读的是产物，删词后
+    不重出就不会红；这条直接调函数。三个词全删时这条红，只删一个时由下面
+    `test_collapse_critical_words_are_in_the_glossary` 红 —— 两条合起来才守得住。
+    """
+    from translate import translate_title
+
+    titles = ['E.1 Secular equilibrium', 'E.2 Transient equilibrium', 'E.3 No equilibrium']
+    out = [translate_title(t) for t in titles]
+    # 这三条原来全都译成「平衡」（三个词都不在词典里）—— 现在必须互不相同。
+    # 单删一个词由下面那条词典测试负责。
+    assert len(set(out)) == len(titles), f'equilibrium 标题译名有重复：{dict(zip(titles, out))}'
+    assert all(re.search(r'[一-鿿]', x) for x in out), f'有标题没译出来：{out}'
+
+
+def test_collapse_critical_words_are_in_the_glossary() -> None:
+    """t45 补的那几个词必须还在词典里，且译名没被改。
+
+    删掉 `'secular'` 会让 `E.1`/`A.1 Secular equilibrium` 塌回「平衡」，
+    与 `E.2` 撞名 —— 这条测试就是防止「清理无用词条」时把它删掉。
+    """
+    from translate import GLOSSARY
+
+    missing = {k: v for k, v in _COLLAPSE_CRITICAL.items() if GLOSSARY.get(k) != v}
+    assert not missing, f'消除塌缩必需的词条被删或改了：{missing}'
