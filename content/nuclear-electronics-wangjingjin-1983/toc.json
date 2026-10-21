@@ -423,7 +423,7 @@
     {
       "microKpId": "kp-wangjingjin-1983-p75-道宽选择",
       "name": "道宽选择",
-      "num": "",
+      "num": "11.3.1",
       "printedPage": 75,
       "depth": 2,
       "parentId": "kp-wangjingjin-1983-11",
@@ -797,7 +797,7 @@
     {
       "microKpId": "kp-wangjingjin-1983-p121-多路脉冲幅度分析",
       "name": "多路脉冲幅度分析",
-      "num": "",
+      "num": "13.4.3",
       "printedPage": 121,
       "depth": 2,
       "parentId": "kp-wangjingjin-1983-13",
