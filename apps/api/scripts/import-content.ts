@@ -157,8 +157,13 @@ const SOURCE_META: Record<string, { title: string; path: string }> = {
     title: '数字电子技术基础（阎石 第6版）',
     path: '资源库/books/23_数字电子技术基础_阎石_第6版.pdf',
   },
+  // 版次以内容为准，不以文件名为准：磁盘上叫「第5版」的这份 PDF 实际是第 4 版
+  // （ISBN 9787040425055，PDF 内嵌元数据 Title 的 GBK 十六进制也解出「第四版」）。
+  // 资源库/books/README.md 第 24 行把这件事写在「版次」列与版本说明里。
+  // 这里若照抄文件名，学生会在知识点来源里看到「第5版」而书是第4版 ——
+  // 那是把文件名缺陷复制到产品界面上。
   'analog-electronics-tongshibai-5e': {
-    title: '模拟电子技术基础（童诗白、华成英 第5版）',
+    title: '模拟电子技术基础（童诗白、华成英 第4版）',
     path: '资源库/books/24_模拟电子技术基础_童诗白_华成英_第5版.pdf',
   },
   'circuit-analysis-lihansun-5e-vol1': {

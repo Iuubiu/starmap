@@ -1,77 +1,43 @@
-"""验证：逐行切格后，用「全表所有格中心聚类」定列，把每行的格按 x 归位。
+# -*- coding: utf-8 -*-
+"""核对每本书：节点标题是否真的出现在它自己 printedPage 附近的 chunk 里。
 
-这一步解决的是「空单元导致右侧格整体左移」：逐行切格保证格内文字正确，
-但空着的格不产生字符，因此行内切出的格数少于列数。用格中心的 x 归位后，
-空列会被正确留空。
+这是「页码翻回 PDF 能对上标题」的自动化版本 —— 不靠人眼抽查 5 条，
+把每本 depth<=2 的节点全查一遍，报命中率。命中率低说明页偏移或
+逐页表错了，`assign` 会把正文挂到邻居知识点上而全程不报错。
 """
-import statistics
-import sys
+import io, json, re, sys, unicodedata
 from pathlib import Path
 
-sys.path.insert(0, str(Path('tools/ingest')))
-import pymupdf
-from extract import _cluster, _spans_of, _table_bands, _group_lines, _chars_within, _split_row_cells
+CONTENT = Path('content')
+BOOKS = ['knoll-3e-2000','knoll-4e-2010','tsoulfanidis-4e','grupen-2e-2008','ahmed-2e',
+         'spieler-2005','leo-2e','nakhostin-2018','rivetti-2015','lutz-2007',
+         'nicholson-1974','gilmore-2e-2008','debertin-1988','guojiang-2023','guojiang-2014']
 
-doc = pymupdf.open('资源库/books/21_电子技术基础_数字部分_康华光_第5版.pdf')
-page = doc[50]
+def norm(s):
+    s = unicodedata.normalize('NFKD', s).lower()
+    return re.sub(r'[^a-z0-9\u4e00-\u9fff]', '', s)
 
-
-def rows_with_cells(chars, y_tol):
-    groups = []
-    for c in sorted(chars, key=lambda c: c['y']):
-        if groups:
-            center = statistics.mean(m['y'] for m in groups[-1])
-            if abs(c['y'] - center) <= y_tol:
-                groups[-1].append(c)
-                continue
-        groups.append([c])
-    out = []
-    for g in groups:
-        cells = []
-        cs = sorted(g, key=lambda c: c['bbox'][0])
-        widths = sorted(c['bbox'][2] - c['bbox'][0] for c in cs)
-        med = widths[len(widths) // 2] or 10.0
-        gap = med * 1.6
-        cur = [cs[0]]
-        for prev, nxt in zip(cs, cs[1:]):
-            if nxt['bbox'][0] - prev['bbox'][2] > gap:
-                cells.append(cur)
-                cur = [nxt]
-            else:
-                cur.append(nxt)
-        cells.append(cur)
-        out.append(cells)
-    return out
-
-
-lines = _group_lines(_spans_of(page))
-for a, b in _table_bands(lines):
-    region = [s for ln in lines[a : b + 1] for s in ln]
-    chars = _chars_within(page, region)
-    rws = rows_with_cells(chars, 20)
-
-    # 所有格的中心
-    centers = []
-    for cells in rws:
-        for cs in cells:
-            x0 = min(c['bbox'][0] for c in cs)
-            x1 = max(c['bbox'][2] for c in cs)
-            centers.append((x0 + x1) / 2)
-
-    cw = sorted(c['bbox'][2] - c['bbox'][0] for c in chars)
-    tol = cw[len(cw) // 2] * 0.8
-    cols = _cluster(centers, tolerance=tol)
-    cx = [statistics.mean(c) for c in cols]
-    print(f'\nband {a}..{b}: {len(rws)} 行, 格中心聚出 {len(cx)} 列 (tol={tol:.1f})')
-
-    def near(v):
-        return min(range(len(cx)), key=lambda i: abs(cx[i] - v))
-
-    grid = [[''] * len(cx) for _ in rws]
-    for ri, cells in enumerate(rws):
-        for cs in cells:
-            x0 = min(c['bbox'][0] for c in cs)
-            x1 = max(c['bbox'][2] for c in cs)
-            grid[ri][near((x0 + x1) / 2)] += ''.join(c['text'] for c in cs)
-    for r in grid:
-        print('   ', ' | '.join((c or '·').ljust(4) for c in r))
+for sid in BOOKS:
+    toc = json.load(io.open(CONTENT / sid / 'toc.json', encoding='utf-8'))
+    nodes = toc['nodes']
+    chunks = [json.loads(l) for l in io.open(CONTENT / sid / 'chunks.jsonl', encoding='utf-8')]
+    by_page = {}
+    for c in chunks:
+        by_page.setdefault(c['printed_page'], []).append(norm(c['text'][:4000]))
+    tried = hit = 0
+    misses = []
+    for n in nodes:
+        if n['depth'] > 2:
+            continue
+        key = norm(n.get('nameOriginal') or n['name'])[:22]
+        if len(key) < 8:
+            continue
+        tried += 1
+        p = n['printedPage']
+        window = ''.join(by_page.get(q, [''])[0] for q in (p-1, p, p+1))
+        if key in window:
+            hit += 1
+        elif len(misses) < 3:
+            misses.append((n['num'], n['printedPage'], (n.get('nameOriginal') or n['name'])[:40]))
+    rate = hit / tried if tried else 0
+    print(f'{sid:16s} {hit:4d}/{tried:4d} = {rate:5.1%}  misses={misses}')

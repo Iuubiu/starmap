@@ -418,3 +418,201 @@ app.modules (mod-paper-*)      10   （tier='C'，ordinal 100–109）
 
 **边界（如实记录）**：`nameOriginal` 里仍保留 OCR 原始串（含私用区乱码、`ﬁ` 连字、`7°U` 这类噪声），
 D10 只看 `name` 所以不阻塞；若将来要做「原文对照」的严格展示，需要再清洗一轮 `nameOriginal`。
+
+### 8. 英文书答案附录识别：`is_answer_key` 从 5 到 8（t41，2026-10-22 03:35）
+
+**起点**：`select count(*) from app.knowledge_points where is_answer_key` → **5**，全是中文书
+（康华光 573 / 童诗白 609 / 李瀚荪上册 305 / 阎石 464 / 康华数字 530），**15 本英文书里 0 个**。
+`tools/ingest/books_batch.py` 的书目是 **13 本英文 + 2 本中文**（`guojiang-2023` / `guojiang-2014` 走同一套书签解析），
+所以「15 本」在代码里其实是「books_batch 的 15 条」。
+
+**先判定再动手**：用 PyMuPDF 逐页扫 15 本的页首（四轮，探针脚本用完即删），
+**只有 `grupen-2e-2008` 有整本答案附录**：
+
+| 书 | 页数 | 命中 | 判定 |
+|---|---|---|---|
+| grupen-2e-2008 | 677 | PDF p558 `18 \| Solutions`，p559–585 是 `Chapter 1`–`Chapter 16` 逐章题解（`1.1 100 keV ≪mec2 …`） | **真答案附录**，印刷页 533 |
+| knoll-4e-2010 | 866 | p13 `Solutions Manual` | **不是**：那是 Preface 里的教师资源说明（「The following resources are available to instructors: Solutions Manual」） |
+| tsoulfanidis-4e | 595 | p153/161/164 `Answer` | **不是**：正文里「Answer」小节的解题示范（`Equation 4.12 will be used, but first dE/dx …`） |
+| spieler-2005 | 506 | p471 `solution` | **不是**：正文句子 |
+| 其余 9 本英文 | — | 0 命中 | 无答案附录（英文教材答案通常在教师手册里） |
+
+中文两本各有 `习题参考答案`：`guojiang-2023` 印刷页 309、`guojiang-2014` 印刷页 231。
+
+**两类根因，都不是「判据写错了」**
+
+1. **`guojiang-2023` 的答案附录根本没进产物**。PDF 书签里有 `[2, '习题参考答案', 316]`，正文 PDF p315 页首就是
+   `习题参考答案 / 第1 章 / 1. b=3.97×10–15m …`。但 `_parse_outline_levels` 有一条「最浅一层里不像章的都丢掉」的规则
+   （`top = min(level)` 且 `_OUTLINE_CHAPTER_TITLE` 不匹配就丢），而 `习题参考答案` 既不匹配章号也不匹配「第 N 章」，
+   于是被当成「书名与前言残渣」删掉，它的 5 页题解随后被相邻章按页区间吞成正文。
+2. **`grupen-2e-2008` 的 `解答` 节点 `answerKey=true` 但 `appendix=false`**，而 `assign.leaf_page_ranges` 只让
+   `n['isLeaf'] or n.get('appendix')` 当区间所有者 → p533–576 的 62 个 chunk 全挂在上一节 `kp-grupen-2e-2008-17` 名下。
+   `answerKey` 与 `appendix` 是两个字段、两条写入路径（`_build_tree` 算前者，`fix_answer_key.py` 才补后者），重生成时后者会被重置。
+
+**修法（三处代码 + 两个幂等补丁脚本）**
+
+| 文件 | 改动 |
+|---|---|
+| `tools/ingest/toc_books.py` | 新增 `is_answer_appendix_title(name, name_original='')`：中文支走 `toc.is_answer_key_title` + `_cn_answer_key`，英文支走 `is_en_answer_key`，两边都认；`_parse_outline_levels` 对「顶层但被判成答案附录」的条目给**哨兵层级 0**，让它不进 `levels` 集合、按页序插回，`_assign_numbers_from_levels` 对 level 0 输出无编号 → `_build_tree` 的 `if not num` 分支把它挂成章下的一节 |
+| `tools/ingest/fix_answer_key.py`（112 行，新） | 只改 `toc.json`：命中判据的节点置 `{answerKey: True, isLeaf: False, appendix: True}`。幂等。**重生成后必须再跑一次**（`books_batch.py` 会重置 `appendix`） |
+| `tools/ingest/fix_chunk_owner.py`（约 150 行，新） | 只重跑 `assign.assign()` 并回写 `chunks.jsonl` + `manifest.json`，**不重解 PDF**。理由：`books_batch.py` 全量重跑会让 93689 这个幂等基线数变掉，且 `chunk.py` 当时正被别的泳道改。`--dry-run` 二次执行 0 改动（幂等成立） |
+
+**逐本 `answerKey` / `appendix` 计数（重出后，`books_batch.BOOKS` 15 本）**
+
+```
+knoll-3e-2000    answerKey 0  appendix 2      ahmed-2e        0   20
+knoll-4e-2010    0   2                        spieler-2005    0    0
+tsoulfanidis-4e  0  56  ← 全是 Problems/References/Bibliography，每章末尾
+grupen-2e-2008   1  39  ← 解答 p533           leo-2e          0    2
+nakhostin-2018   0  11                        rivetti-2015    0   15
+lutz-2007        0   8                        nicholson-1974  0    2
+gilmore-2e-2008  0   0                        debertin-1988   0    0
+guojiang-2023    1  17  ← 习题参考答案 p309   guojiang-2014   1   21  ← 习题参考答案 p231
+```
+
+`tsoulfanidis-4e` 的 56 个 `appendix=True` 而 `answerKey=False`，是「正常附录不被误标成答案」的最强证据 ——
+它们要是被标成答案，检索门控会把每章末尾的习题清单当答案屏蔽掉。
+
+**结果**
+
+- `app.knowledge_points` 里 `is_answer_key` **5 → 8**，全 `is_leaf=false`：
+  5 本中文书 + `kp-grupen-2e-2008-18 解答` p533 + `kp-guojiang-2014-20 习题参考答案` p231 + `kp-guojiang-2023-p308-习题参考答案` p309。
+- **误标 0 行**：`where is_answer_key and name ~ '常数|符号|单位|能级|Index|Constant|Symbol|Unit'` → `0`。
+- 答案节点直挂 chunk **603**（grupen 62 / guojiang-2014 6 / guojiang-2023 7 / 康华光 210 / 康华数字 22 / 李瀚荪 73 / 童诗白 94 / 阎石 129）。
+- `content/*/toc.json`（27 本）扫描出的 `answerKey=true` **8 个**，与 DB 逐一一致。
+- grupen p533–576 的 62 个 chunk：修复前「被答案子树覆盖」**0**，修复后 **62/62**。
+- 重导：`content:import` 跑 `grupen-2e-2008` / `guojiang-2014` / `guojiang-2023` 三本（知识点 205 / chunk 1520 / 答案块 960 等逐本核对）。
+
+**验证**：`python -m pytest tools/ingest/ -q` → **352 passed**（此前 6 条红全消，其中 `test_content_artifacts.py`
+的两条正是 grupen / guojiang-2014 的 `answerKey` 与规则不一致）；`pnpm typecheck` → 6/6 Done；
+`pnpm --filter @starmap/api test` → 31 files / 393 tests passed。
+
+**边界（如实记录）**
+1. 13 本英文书确认**没有**答案附录，正确答案是保持 0 —— 没有为了凑数硬标。`knoll-4e` 的 `Solutions Manual`
+   是 Preface 里的教师资源说明，标了会让整本书被门控当成答案。
+2. `tools/ingest/test_content_artifacts.py` 的 `test_the_answer_appendixes_are_flagged` 写成**子集断言**
+   （5 个已知中文答案附录不能丢），不是 `==` —— 写成相等会让下一个人加书时被迫回来改清单。
+3. `fix_answer_key.py` / `fix_chunk_owner.py` 目前**没有单测**，只有产物不变量测试
+   （`test_answer_key_flag_matches_the_rule_for_every_book` 对 27 本逐本比对规则与产物）在守。
+4. `content/grupen-2e-2008`、`guojiang-2014`、`guojiang-2023` 三个目录在 `git status` 里是 `??`（未被 git 跟踪），
+   产物变更**无法用 git diff 取证**，只能靠 `.scratch/*.bak` 备份对比。
+
+### 9. t40：英文书页偏移与孤儿 chunk 清零（t40，2026-10-22 05:55）
+
+票面把根因写成「`toc_books.py` 的页偏移探测对这些书返回 0」。**实测不是**：三本书的偏移探测都成功
+（grupen 25 / tsoulfanidis 31 / rivetti 25，标题回验 95%/100%/82%），负页码来自**抽取起点**。
+
+#### 9.1 三个真实根因
+
+| # | 位置 | 缺陷 | 后果 |
+|---|---|---|---|
+| A | `books_batch.py` `build_one()` | `start = min(BODY_START[sid], first_body)` —— `BODY_START` 本意是「正文起点下界」，被 `min` 变成了**上界** | 从目录页/前言页开始抽 → 负页码 + 孤儿 |
+| B | `assign.py` `assign()` | 首个叶节点之前的页一律 `micro_kp_id=None`（这条规则本身是对的，封面/版权页不该有归属） | 章首页/章首概述/整版图页（**是正文**）变孤儿，在 `content.controller.ts` 的子树 JOIN 里对学生完全不可见 |
+| C | `toc.py` `nodes_from_flat()` | `'appendix': bool(n.appendix and not n.children)` —— **有子节点就 False** | grupen 的 `Solutions`（有 5 个子条目）丢 `appendix`，p533–576 的 62 条解答正文被「术语表」吞掉 |
+
+#### 9.2 修法（4 个文件，+195/−11）
+
+- `books_batch.py`：删掉 `first_printed/first_body/start=min(...)`，改为逐页判据
+  `if i - offsets.get(i, offset) < 1: skipped_front += 1; continue`（**印刷页 < 1 的页不产生 chunk**，
+  这才是「前言/致谢/符号表用罗马页码」的正确表达）；`BODY_START` 三处校正
+  （`knoll-4e-2010 30→29`、`ahmed-2e 22→8`、`guojiang-2023 8→9`）。
+- `assign.py`：新增 **opt-in** 的 `assign_front_matter(chunks, flat_nodes) -> int`，把「印刷页 ≥ 0 且 < 首个叶节点页」
+  的孤儿挂到 `printedPage` 最小的 `depth==1` **章容器**（不是叶节点，不污染 `audit_assignment` 的两个阈值）。
+  **没有改 `assign()` 的默认行为** —— `test_assign.py::test_chunk_before_first_leaf_gets_no_kp` 钉住了「封面不硬塞」。
+- `ocr_run.py`：`assign()` 后同样调 `assign_front_matter`（中文 OCR 书同样受益）。
+- `toc_batch.py`：新增 `mark_answer_appendixes(nodes)`，对 `is_answer_appendix_title` 命中的节点
+  置 `answerKey=True / isLeaf=False / appendix=True`，`main()` 与 `books_batch` 各调一次。
+
+#### 9.3 修前 / 修后
+
+| 指标 | 修前 | 修后 |
+|---|---|---|
+| `chunks_negpage`（`page < 0`） | **69** | **0** |
+| `chunks_orphan`（`micro_kp_id IS NULL`） | **323** | **0** |
+| book chunk 总数 | 96821 | 93597 |
+| 27 本逐本覆盖率 | 12 本 <100% | **27 本全部 100.0%** |
+
+逐本（total / orphan→0 / neg→0）：
+
+| 书 | 修前 total | 修前 orphan | 修前 neg | 修后 total | 修后 orphan | 修后 neg | 覆盖率 |
+|---|---|---|---|---|---|---|---|
+| nuclear-radiation-measurement-tangbin | 6877 | 186 | 0 | 6877 | 0 | 0 | 100% |
+| grupen-2e-2008 | 1520 | 33 | 28 | 1492 | 0 | 0 | 100% |
+| rivetti-2015 | 1699 | 24 | 19 | 1678 | 0 | 0 | 100% |
+| tsoulfanidis-4e | 1370 | 23 | 22 | 1347 | 0 | 0 | 100% |
+| lutz-2007 | 901 | 14 | 0 | 895 | 0 | 0 | 100% |
+| knoll-4e-2010 | 2774 | 11 | 0 | 2770 | 0 | 0 | 100% |
+| circuit-analysis-lihansun-5e-vol1 | 3955 | 8 | 0 | 3955 | 0 | 0 | 100% |
+| analog-electronics-kanghuaguang-5e | 7914 | 6 | 0 | 7911 | 0 | 0 | 100% |
+| guojiang-2014 | 822 | 4 | 0 | 819 | 0 | 0 | 100% |
+| guojiang-2023 | 1009 | 4 | 0 | 1008 | 0 | 0 | 100% |
+| leo-2e | 959 | 3 | 0 | 959 | 0 | 0 | 100% |
+| nakhostin-2018 | 1251 | 3 | 0 | 1248 | 0 | 0 | 100% |
+| knoll-3e-2000 | 1694 | 2 | 0 | 1694 | 0 | 0 | 100% |
+| debertin-1988 | 927 | 1 | 0 | 927 | 0 | 0 | 100% |
+| spieler-2005 | 1270 | 1 | 0 | 1270 | 0 | 0 | 100% |
+| 其余 12 本 | — | 0 | 0 | 不变 | 0 | 0 | 100% |
+
+**前置页策略（选择与理由）**：不做「前置页归第一个叶节点」，也不 `clamp` 页码。
+- 印刷页 < 1 的页（罗马页码的前言/致谢/符号表/图表清单）**直接不产生 chunk** —— 它们不是正文，
+  生成 chunk 只会污染检索。丢弃页数：grupen 12、tsoulfanidis 13、rivetti 10、nakhostin 2、guojiang-2014 1。
+- 印刷页 ≥ 1 但早于首个叶节点的页（章首页、章首概述、整版图页）**归 depth==1 章容器**。
+  共 353 条，逐本：tangbin 186、jichangsong 77、yanshi 35、lutz 8、lihansun 8、tongshibai 7、knoll-4e 7、
+  kanghuaguang 6、grupen 5、rivetti 3、leo 3、guojiang-2023 3、knoll-3e 2、spieler 1、debertin 1、guojiang-2014 1。
+  抽查语义正确：lutz p3 → `引言`「The detection of nuclear charged particles…」；knoll-4e p2 → `辐射源`
+  「Chapter1 Radiation Sources I. UNITS AND DEFINITIONS」；rivetti p1 → `前端指标与架构概述`；
+  grupen p1 → `粒子与辐射带物质的相互作用`「1 Interactions of particles and radiation with matter」。
+- **不是硬塞给叶节点**：章容器是目录里的真实节点（`import-content.ts` 里章节点 id === `depth==1` 的
+  `microKpId`，是合法外键），它本来就代表「本章尚未细分的内容」。
+
+#### 9.4 顺带修掉的两个回归（都是我重跑产物引入的，已回滚）
+
+1. **grupen `Solutions` 丢 `appendix`**：重跑后 `answerKey=True` 但 `appendix=False`，
+   `assign` 的所有者集合 `isLeaf or appendix` 里没有它 → p533–576 的 62 条解答正文全部被「术语表」(p512) 吞。
+   修法见 9.2 的 `mark_answer_appendixes`。验证：`fix_answer_key.py --dry-run` 全 27 本「无需修改」；
+   `pages 533-576 owners: {'kp-grupen-2e-2008-18': 62}`。
+2. **重跑把 content-dev 新词典的塌缩译名写进 13 本 toc.json**：`translate.py` 在 04:29 被加入 +187 行单词级词条，
+   使 `Critical Energy` / `Energy straggling` / `Energy reconstruction` / `Energy Dependence` / `Lineal energy`
+   **全部译成「能量」**。已按 `nameOriginal` 逐节点从 `git show HEAD:` 恢复人工校对过的译名
+   （ahmed 138 / grupen 9 / knoll-3e 11 / knoll-4e 14 / leo 52 / lutz 39 / nakhostin 4 / nicholson 25 /
+   rivetti 44 / spieler 32 / tsoulfanidis 77）。
+   恢复时发现 ahmed 有 **10 处按 id 错贴**（`BODY_START 22→8` 后 13-4..13-8 的节点编号位移），
+   已用「当前代码重算的 `nameOriginal` 为真源」修正；另有 **11 处重算侧 OCR 乱码**
+   （`(NaI:Tl)` → `一愀䤀㨀吀氀`、`χ²` → `윀㈀`），保留盘上干净值。修正后「真实 nameOriginal 不一致 = 0」。
+
+#### 9.5 验证
+
+- `python -m pytest tools/ingest/ -q` → **350 passed, 2 failed**
+- `pnpm typecheck` → **6/6 Done**
+- DB 复测：`negpage=0`、`orphan=0`、`book_chunks=93597`、27 本覆盖率 100%
+- 重导入 16 本（13 本英文书 + tangbin + 康华光 + 李瀚孙），逐本 rc=0；`ahmed-2e` 加 `--prune-kp` 清掉 22 个
+  stale 知识点（先逐个查过：chunk=0、edges=0、children 只指向集合内部）。
+
+**两条红是别人的改动，不是 t40 引入的**（已用决定性实验归因）：
+
+1. `test_export_glossary.py::test_common_words_that_are_ocr_residue_are_dropped` ——
+   `能量`/`类型`/`方法` 本应因「缩减后仍 > `MAX_EN_PER_ZH=8`」被丢弃。现在它们的写法数从
+   10/9/12 掉到 1/1/3（因为 `translate.py` 把它们全译成同一个中文词），反而**不再超上限**，于是被保留。
+   **归因实验**：把 `translate.py` 换回 `git show HEAD:` 版、toc 保持当前工作区 → 三条仍然 KEPT
+   （`能量 → ['Energy reconstruction']`、`类型 → ['MOSFET types']`、`方法 → ['Risetime Method', …]`）。
+   即：**当前工作区的 toc 用 HEAD 词典跑也不绿**，红由 `translate.py` 的未提交改动决定，与 t40 无关。
+   这是 t45「53 组译名塌缩」的同一根因，由 content-dev 处理。
+2. `test_translate.py::test_title_rules_that_t42_added[A.4 The Laplace transform-未收录术语（Laplace transform）]` ——
+   测试断言 `translate_title('A.4 The Laplace transform') == '未收录术语（Laplace transform）'`，
+   但当前 `translate.py` 返回 `'变换'`（新加的 `laplace`/`transform` 词条）。
+   **归因实验**：`git show HEAD:tools/ingest/translate.py` 跑同一函数 → 返回 `'未收录术语（Laplace transform）'`（测试期望值）。
+   即测试与**已提交版**一致，是 `translate.py` 的未提交改动让它红。
+
+**边界与如实记录**
+1. tangbin 的 `min(page)=0` 没消除：OCR 把 pdf 11–14（第一章首页 + 两页整版图）的页码识别成 0（`resolve_page_offsets`
+   的 `offsets[p]=min(off,p)` 夹紧所致，真实印刷页是 1/2/3/4）。修它要动 `toc.py`/OCR 页码判据（本票禁止 / 超范围），
+   186 条已全部挂到 `kp-tangbin-1` 章容器，对学习者可见且语义正确。
+   另外 `toc.py` 把 `1.1 原子与原子核` 的页码配成了 `1.2` 的 9（目录里 1.1 无页码），是同一个 OCR 页码缺陷的另一面。
+2. `ahmed-2e` 的 toc 从 637 节点变 626（−22 +11）：10 个 `Bibliography` 节点消失是 `toc_books.py` 的
+   `_OUTLINE_DROP_SUBTREE` 既有规则（HEAD 与工作区**都**含 `'bibliography'`，HEAD 里那 10 个是更早规则留下的陈旧产物）；
+   其余是 `Appendix A/B/C` 的子条目浮上来变成 `13.4`–`13.8`。**不是 `BODY_START 22→8` 造成的**：
+   `python tools/ingest/toc_batch.py --only ahmed-2e`（完全不读 `BODY_START`）产出的 id 集合与 `books_batch` 完全一致。
+3. `grupen-2e-2008` 与 `ahmed-2e` 的 `toc.json` HEAD 版是 LF、重出后是 CRLF，`git diff` 会显示整文件重写；
+   已按 HEAD 的行尾写回，`git diff --ignore-cr-at-eol --numstat` 现在只剩真实内容改动。
+4. 丢弃的 38 页前置页（9.3）没有任何 chunk 代表 —— 这是刻意的：它们是罗马页码的前言/致谢/符号表，
+   不是可学习的知识点。若将来要做「前言可检索」，应作为独立 `kind` 入库，而不是塞进章节归属。
