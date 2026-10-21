@@ -6,13 +6,13 @@
 
 **Status:** ready-for-agent
 
-- [ ] 27 本书与 101 篇论文全部入图；论文用 `.doi_index.json` 建元数据，零 OCR
-- [ ] 知识点树按**课程先修关系**排布：数字部分（第 3–4 学期）排在核电子学（第 4–6 学期）之前，中间经过模拟电子、电路分析、原子核物理
-- [ ] 每一条 `prereq` 边都能追到证据来源（课程大纲原文或教材小节）；无证据的边不建，可列出全部「有证据／无证据」的边数
-- [ ] `18 原子核物理实验方法` 归为后继课而非先修；`05 汤彬` 归入探测／测量方法组——与证据一致的分类，不按书名猜
-- [ ] 显式标注内容缺口：资源库没有「数字多道／FPGA／数字脉冲处理」的对口教材，该缺口在图上可见
-- [ ] 图上每个知识点都能点到它来自哪本书哪一页
-- [ ] 修正已发现的元数据错误：1 个文件名与内容不符、3 个变音字母丢失
+- [x] 27 本书与 101 篇论文全部入图；论文用 `.doi_index.json` 建元数据，零 OCR（t26 + t34，取证见 Comments 第 1/6 节；库内 `sources` 128 = 27 book + 101 paper，`knowledge_points` 7277，论文 1212/叶 1054/chunk 3132）
+- [x] 知识点树按**课程先修关系**排布：数字部分（第 3–4 学期）排在核电子学（第 4–6 学期）之前，中间经过模拟电子、电路分析、原子核物理（t36，取证见 Comments 第 4 节；`app.course_layers` 8 层 ordinal 10–80）
+- [x] 每一条 `prereq` 边都能追到证据来源（课程大纲原文或教材小节）；无证据的边不建，可列出全部「有证据／无证据」的边数（t36，取证见 Comments 第 4 节；`kp_edges` 279 = 书内 247 + 跨书 32，`evidence` 无空值）
+- [x] `18 原子核物理实验方法` 归为后继课而非先修；`05 汤彬` 归入探测／测量方法组——与证据一致的分类，不按书名猜（t36，取证见 Comments 第 4 节；`content/course-map.json` 逐本 `reason` 有原文引用）
+- [x] 显式标注内容缺口：资源库没有「数字多道／FPGA／数字脉冲处理」的对口教材，该缺口在图上可见（t35，取证见 Comments 第 5 节）
+- [x] 图上每个知识点都能点到它来自哪本书哪一页（t37，取证见 Comments 第 7 节；`NodeDetailResponse.source = {sourceId,title,page,pageLabel}`）
+- [x] 修正已发现的元数据错误：1 个文件名与内容不符、3 个变音字母丢失（t34 + captain，取证见 Comments 第 6 节 AC7 与第 8 节）
 
 ## Comments
 
@@ -268,3 +268,153 @@ node scripts/check-migrations.mjs          → 3 项全过（22 个迁移 / 22 �
 - 没有 `git add -A`（提交只 `git add` 具体路径）；
 - 没有改 `chunk.py` / `assign.py` / `books_batch.py` / `toc.py` / `tools/eval/**` / `packages/api-contract/**` / `apps/web/**`。
 
+### 5. AC5 取证：内容缺口的可见性（t35，2026-10-21 21:55）
+
+**数据在哪**：`app.content_gaps`（迁移 `0060_content_gaps.sql`）三条种子 —— `gap-digital-mca` 数字多道分析器 / `gap-fpga` FPGA 可编程器件 / `gap-digital-pulse` 数字脉冲处理，全部 `expected_role='advanced'`。`nearest_kp_ids` 不建外键，由迁移执行那一刻按名字子查询解析（知识点 id 会随重导入漂移，写死就变成点不动的链接）。实查三条各解析出 3 个真实叶节点 id。
+
+**为什么进库而不是前端常量**：缺口是内容侧事实，随资源库变化 —— 补了书应当删一行就消失，而不是发一次版。种子写在迁移里（不是 `seed.sql`）：seed 是演示数据、测试 schema 会跳过，缺口是产品内容。
+
+**接口**：`GraphResponseSchema` 加 `contentGaps: z.array(ContentGapSchema)`（**必填**，空数组合法）。可选字段会让前端把「没实现」和「没有缺口」当成同一件事，功能静默死掉。`graph.controller.ts` 用第三条查询读表，按 id 排序（同毫秒插入分不出先后）；不过滤 `nearest_kp_ids` 解析不到的缺口 —— 缺口的事实与「有没有指得到的地方」是两件事。
+
+**界面**：`MapPage.tsx` 页面底部「内容缺口」区（Fluent `MessageBar intent="warning"`），**不画在 sigma 画布上**：缺口指向图上不存在的节点，造虚拟节点会让布局变形，固定位置又和图无关。每条给一个「从最接近的知识点看起」入口，取第一个**在图中存在**的 `nearestKpIds`（不在图里就不给链接，但缺口照常显示）。
+
+**实现时发现并修掉的真缺陷（本票最重要的一条）**：缺口区在屏幕上**完全看不到** —— 它在 DOM 里、在无障碍树里、Playwright 的 `isVisible()` 也报 true（它只判非空矩形与 visibility，**不判遮挡**），但屏幕上是整块深色画布。两个根因叠在一起：
+1. 页面根是 `height: 100%` 的 flex 列，画布格子的 `minHeight: 0` 让它被下面的缺口区挤小，而 `.graph-canvas` 自己有 `min-height: 480px` 不会缩，于是溢出自己的格子盖在上面；
+2. 修法第一版写成 `minHeight: 480`（裸数字）—— Griffel（`makeStyles`）**不给裸数字补 `px`**，生成一条无效声明被浏览器丢弃，计算值仍是 `auto`。`minHeight: 0` 能生效是因为 0 本来就无需单位，所以这个坑只在非零值上出现。
+
+最终修法：`body.minHeight = '480px'`（与 `.graph-canvas` 的 `min-height` 同值），空间不够时整页变高、由 `AppShell` 的 `main { overflow: auto }` 滚，而不是画布压住别的内容；右栅清单仍在格子里自己滚。
+
+**新守卫** `apps/web/e2e/content-gaps.spec.ts`（2 条）：判据是**命中测试** —— 把缺口区滚进视口，在它矩形内取三点 `elementFromPoint`，命中的元素必须落在缺口区内部。jsdom 测不出这件事（没有布局引擎），只断言 DOM 存在会给假绿。**反向验证**：把修复改回原样 → 三点全部命中 `DIV.sigma-mouse`，点击也被 `sigma-mouse` 拦截，2 条红；改回 → 2 条绿。
+
+**规模回归（现库 5495 叶节点；票面写的 4441 是 captain 写票时的旧快照，t26 又入库了几本）**：
+```
+GET /api/v1/graph        1,462,942 bytes（1.40 MB）  三次 424.5 / 96.0 / 97.3 ms
+                         nodes 5495 / edges 279 / contentGaps 3（三条 nearestKpIds 全解析到真实节点）
+/map 冷加载（Playwright）domcontentloaded 2691 / 2778 / 2576 ms；画布可见 15604 / 15928 / 15662 ms
+GET /api/v1/nodes?limit=200    cursor 分页 28 页 / 5495 项 / 5495 unique（无重复无遗漏）
+```
+15.7 秒未超过任务书的 20 秒阈值，**未改任何渲染策略**（属票 03 范围）。同批另发现：5530 节点全图下单次 `mouse.wheel` 3.5–25 秒（`nodeCount=1` 时 69–81 ms），`graph.spec.ts` 两条滚轮用例超时 —— 把 `MapPage.tsx` 换回 `HEAD` 版本仍红，与 AC5 改动无关，已报 captain 另开任务。
+
+**测试与全链**：`MapPage.test.tsx` 5 条（jsdom：三条 topic 渲染 / 不在画布容器内 / 空数组不渲染 / id 全失效仍显示 / 第一个可用 id 做成入口）；`graph.controller.test.ts` 4 条（迁移种子已在、UPDATE 后指得到、DELETE 后 200+空数组、指向不存在 id 的缺口不过滤）。全链：`pnpm typecheck` 6/6；`pnpm test` shared 32 / api-contract 3 / engine 242 / tools-eval 115 / web 422 / api 393；`pnpm check:boundaries` 662 modules / 1241 deps 无违规；`contract:check` 103 组件 / 361 文件同步；`check:migrations` 22 迁移 / 22 对 / 88 对象。e2e：`smoke` 13 passed、`content-gaps` 2 passed。
+
+### 6. AC1 / AC7 取证：101 篇论文零 OCR 入图（t34，2026-10-21 22:00）
+
+工具：`tools/papers/ingest_papers.py` + 四份术语表（`paper_glossary*.py`）+ `test_paper_names.py`（55 tests）。数据流、为什么按 DOI 对齐、为什么不做 chunk 切分、已知缺陷都写在 `tools/papers/README.md`。
+
+**库内实数**（`.scratch/final-acceptance-t34.py` 一次跑出）：
+```
+app.sources kind='paper'      101
+knowledge_points (paper)     1212   （depth0 101 + 叶 1054 + 中间层 57）
+  叶节点                     1054
+app.chunks (paper)           3132   （其中多叶共享页的副本 522）
+app.modules (mod-paper-*)      10   （tier='C'，ordinal 100–109）
+```
+
+**零孤儿 / 零悬空**：kp 指向不存在 source **0** · chunk 指向不存在 kp **0** · 无叶节点的论文 **0** · 叶节点无 chunk **0**。
+
+**AC1「零 OCR」的取证**：`ingest_papers.py` 全文没有 OCR 调用，只 `pypdf.PdfReader(...).extract_text()`。101 篇全部有完整文字层（实测每篇前 3 页字符数 6.5K–17.4K），无一篇全空页占比 >50%，所以「跳过 OCR」不是放弃数据，而是没有需要 OCR 的部分。
+
+**AC1「用 `.doi_index.json` 建元数据」**：`cross_check_doi_index()` 硬校验 README 表格的 101 个 DOI 与 `.doi_index.json` 的 101 个键**集合相等**，不相等直接 exit 2。但 `.doi_index.json` 的 `file` 字段**不可信**（Windows 绝对路径 + GBK↔UTF-8 误解码，实测 101 条没有一条能对上磁盘文件名），所以只取 DOI 作主键，文件名从 README 的 `文件` 列取。
+
+**AC7「修正已发现的元数据错误」**：
+- 变音字母 3 条：`Mller1973_Dead.pdf` → `meta.correctedAuthor = "Jörg W. Müller"`、`Frhwirth1987_Application.pdf` → `"R. Frühwirth"`、`Kibdi2008_Evaluation.pdf` → `"T. Kibédi"`，各带 `fileNameNote` 说明「文件名不改（会断 .doi_index.json 的映射）」。`content/papers/index.json` 同样带这两个字段（验收要求「在 meta 里留 fileNameOriginal」，清单文件也要能反查）。
+- 文件名与内容不符那条是 books 侧（`24_模拟电子技术基础…第5版.pdf` 实为第 4 版），不属本票范围。**captain 2026-10-21 22:30 已修**：`apps/api/scripts/import-content.ts` 的 `SOURCE_META['analog-electronics-tongshibai-5e'].title` 从「第5版」改为「第4版」，并加四行注释说明「版次以内容为准，不以文件名为准」，`pnpm content:import --dir ../../content/analog-electronics-tongshibai-5e` 重导后 `app.sources.title = 模拟电子技术基础（童诗白、华成英 第4版）`。取证链：`资源库/books/README.md` 第 24 行「版次 4th / ISBN 9787040425055」+ 版本说明第 46 行；PDF 内嵌元数据 Title 的 GBK 十六进制 `A1B6C4A3C4E2B5E7D7D3BCBCCAF5BBF9B4A1A1B7CDAFCAABB0B720B5DACBC4B0E62E706466` 解码为「《模拟电子技术基础》童诗胺 第四版」（「胺」是原作者名 OCR 错字，版次「第四版」清晰）。
+
+**抽 3 篇翻回 PDF 核对**（`pypdf` 读首页文字层，肉眼比对）：
+
+> 票面写的是「Sauli1997_Gem / Knoll 相关 / 一篇 1959–1980 的奠基性论文」。**语料里没有 Knoll 的论文**
+> —— `资源库/papers/` 的 101 篇里搜 `knoll` 命中 0（README 表格、`sources.title`、`meta.tableTitle`
+> 三处都查过）。Knoll 是**教材**（`knoll-3e` / `knoll-4e` 两本书），不在论文库里。
+> 所以第三篇换成 `Charpak1968_Use.pdf`（1968 年多丝正比室，奠基性），另加 `Radeka1974_Signal.pdf`
+> 凑足三篇且覆盖「现代 / 奠基性 / 中文译名长标题」三种情况。
+
+| 文件 | PDF 首页原文 | 入库 `sources.title` | `year` |
+|---|---|---|---|
+| `Sauli1997_Gem.pdf` | `GEM: A new concept for electron amplification in gas detectors` | GEM：气体探测器中电子倍增的新概念 | 1997 ✓（A 386 (1997) 531-534）|
+| `Charpak1968_Use.pdf` | `THE USE OF MULTIWIRE PROPORTIONAL COUNTERS TO SELECT AND LOCALIZE CHARGED PARTICLES` | 用多丝正比计数器选择与定位带电粒子 | 1968 ✓（62 (1968) 262-268）|
+| `Radeka1974_Signal.pdf` | `SIGNAL, NOISE AND RESOLUTION IN POSITION-SENSITIVE DETECTORS` | 位置灵敏探测器中的信号、噪声与分辨率 | 1974 ✓ |
+
+**D10 中文名（captain 追加要求）**：纯 ASCII 节点名 **0** · 纯 ASCII 模块名 **0** · 含「未收录术语」的节点名 **0** · 以虚词结尾的节点名 **0** · 奠基性论文（`summary` 与 `sources.meta` 两处）**14 / 14**。英文原名全部保留在 `knowledge_points.summary` 的「原文：」后面（格式 `原文：<English>；DOI：…；<year> 年 · <venue>`），所以降级命名不丢信息。
+
+**为什么 kp 总数是 1212 而不是 1247**：captain 的期望值 1247 是**首次落库**的快照。之后为修「译名残句」加了入口闸（`_is_measurement_fragment` / `_is_running_text_fragment` / 参考文献缩写链），拦掉 35 个**假节点**（PDF outline 把正文行当章节），它们的页归到前一个真叶节点，所以叶 1089→1054、kp 1247→1212、chunk 3162→3132。这是改进不是回退：那些假节点在图上永远是点不开的死点。
+
+**降级命名从 77 压到 24（七轮）**：加完两道入口闸后剩 44 条，其中 20 条是**真标题被误降级**（`GEM chambers` → 「GEM 室」、`The ROOT Trees` → 「ROOT树」、`The TObject class` → 「TObject类」这类以拉丁缩写开头的名字），放宽判据到「2 汉字，或 1 汉字 + 拉丁缩写」后降到 24。剩 24 条逐条看过：参考文献条目 / PDF 版面碎片 / 单位量程 / 缩写，没有一条能靠补词表救回来。
+
+**守门测试** `tools/papers/test_paper_names.py`（55 tests）：纯函数判据（`_strip_dangling_tail` / `_is_running_text_fragment` / `_is_measurement_fragment` / `merge_small_caps` / `_looks_like_name`）+ 5 条库内不变量（节点名不得纯 ASCII / 模块名必须中文 / 奠基性 14 篇 / 每叶有 chunk / 名字不得以虚词结尾）。**反向验证做过**：把一个叶节点名改成 `Introduction` → `test_paper_kp_names_are_not_ascii` 变红并点名那条 id；`ingest_papers.py` 重跑后恢复绿。
+
+**一处如实记录的边界**：34 篇论文只有 1 个叶节点（`leafCount=1`，名字叫「全文」）—— 这些 PDF 没有 outline、正文也不符合行模式，典型是 Letter to the Editor / 4–6 页短会稿。退化成「整篇一个叶」是刻意的：宁可粒度粗，不造假节点。每篇叶节点数中位数 5，最多 146。
+
+**全仓验证**：`python -m pytest tools/papers -q` → **55 passed**；`python -X utf8 tools/papers/ingest_papers.py --dry-run` 幂等；写库重跑输出「清理旧 chunk 3132 行 → sources 101 / modules 10 / kp 1212 / chunks 3132」。
+
+**一条不属于本票的红（如实记录）**：`python -m pytest tools/` 全量跑时 `tools/ingest/test_content_artifacts.py::test_answer_key_flag_matches_the_rule_for_every_book` 失败 —— `grupen-2e-2008: 标记 ['kp-grupen-2e-2008-18'] != 期望 []`、`guojiang-2014: 标记 ['kp-guojiang-2014-20'] != 期望 []`。两个 `content/*/toc.json` 的 mtime 是 21:33，晚于我的所有改动（我只写 `tools/papers/` 与 `content/papers/`）；根因是这两个节点的名字不再匹配 `is_answer_key_title()` 的规则，属 content-dev 的 `content/*/toc.json` 重出与 `tools/ingest` 规则之间的不一致。**我没有改它**（不属于 `tools/papers/` 边界）。
+
+**票 18 剩余（不属本票范围）**：AC2 先修关系排课、AC3 每条边有证据、AC4 课程归属、AC5 内容缺口、AC6 每个知识点能点到书页 —— 分别由 t36（AC2/AC3，见第 4 节）、t35（AC5，见第 5 节）与 graph-dev 承担。本节只看 AC1（论文入图、零 OCR）与 AC7（元数据修正）。
+
+### 7. D10 译名兜底清零（t42，2026-10-22 03:20）
+
+**起点**：生产库 `app.knowledge_points` 里 `name LIKE '%未收录术语%'` 有 **213** 条（其中叶子 191），
+`translate.py` 的兜底形态是 `未收录术语（<原文>）`——它含汉字，所以「纯 ASCII 名 = 0」这条判据抓不到它，
+图上却是一个点开只有一句英文原文的死节点。
+
+**结果：0 条**（`select count(*) … where name like '%未收录术语%'` → `0`）。
+
+**三类根因，处理方式不同**（先查清再动手，没有一刀切重译）：
+
+| 类别 | 条数 | 根因 | 处置 |
+|---|---|---|---|
+| 产物过期 | 176 | 词典早就能译，只是 `content/*/toc.json` 是旧词典生成的 | 用当前 `translate.py` 拿 `nameOriginal` 原地重译，**逐字节只改这些 name** |
+| 索引页假节点 | 25 | `spieler-2005` 的 PDF 书签里 `Index`(L1) 下面挂着 `A`–`Z`(L2)，页码 478–489，而第 9 章正文只到 434 页 | 重跑 `toc_batch.py --only spieler-2005` 走书签路径，`_OUTLINE_DROP_SUBTREE` 的 `'index'` 规则把整棵子树剔掉（324 → 286 节点），**不进词典**（补成「A」「B」毫无意义） |
+| 真译不出 | 12 | 纯缩写/软件名（`ISOCS`/`GESPECOR`/`ROOT`/`MATLAB`/`ADCs`×2/`The ADC`）、`MDA: efficiency…`、`R´esum´e`、`B.4 Wilkinson ADC`、`A.4 The Laplace transform`、`9．3．1 1＋1≠2`、`6:2 Preservation of timing information` | 新建 `tools/ingest/names.zh.json`（**11 条**）做「原文 + 中文类别」覆盖；另小改 `translate_title` 三个分支 |
+
+**`tools/ingest/translate.py` 的三处小改**（不是为了这 12 条硬编码，而是补通用能力）：
+- `_LEAD_NUMBER` 扩成四分支，支持**字母段编号** `B.4` / `10.1.A` / `10.1.C`（原来只认 `\d+(\.\d+)*` 与罗马数字，整串进分词后 `B`/`ROOT` 无中文就兜底）；
+- 新增 `_LEAD_ARTICLE = re.compile(r'^(?:The|A|An)\s+')`，编号剥完后再剥前导冠词（`The ADC` 的 `The` 原来留在词串里）；
+- 冒号分支加条件 `if ':' in text and re.search(r'[A-Za-z]', text.partition(':')[0])`，**冒号左侧没有字母就不走冒号分支**（`6:2 Preservation of timing information` 原来被拆成「未收录术语（6）：定时信息的保持」）。
+
+**`tools/ingest/names.zh.json`（11 条，`load_overrides()` 读它、`make_translator()` 优先于规则）**：
+`B.4 Wilkinson ADC`→Wilkinson 型 ADC · `10.1.A ROOT`→ROOT 数据分析框架 · `10.1.C MATLAB`→MATLAB 数值计算软件 ·
+`The ADC`→ADC 模数转换器 · `ISOCS`→ISOCS 无源效率刻度软件 · `GESPECOR`→GESPECOR 符合修正软件 ·
+`MDA: efficiency, background and counting`→MDA（最小可探测活度）：效率、本底与计数 · `R´esum´e`→摘要 ·
+`9．3．1 1＋1≠2`→1＋1≠2（超重元素稳定岛） · `ADCs`→ADC 模数转换器 · `A.4 The Laplace transform`→拉普拉斯变换。
+
+**判据（按 captain 的裁定，不用「汉字占比下限」当主判据）**：
+- 主判据 `FORBIDDEN = ('未收录术语', '未譯', 'TODO', '（原文）')` 在 27 本 `toc.json` 的 `name` 里为 **0**；
+- 辅助判据纯 ASCII 名 **== 17 且逐条列白名单**（`SPICE`/`MOSFET`×2/`SPICE7`/`11.2 SPICE`/`1131`/`g:1343` 属已知 OCR 噪声，
+  `NaI(TI)`/`ZnS(Ag)`/`Lil(Eu)`/`BiGeO,(BGO)`/`CdwO,`/`CaF,(Eu)`/`Li,B,O,`/`CaSO,`/`MgSiO:Tb`/`Mg,B,O,` 是正确的化学式），
+  **新增一条就红**；
+- `names.zh.json` 的 11 条必须全部可复现（`make_translator(load_overrides())(k) == v`）；
+- 其余 name **逐字节不变**（重译脚本只碰 `name` 以 `未收录术语` 开头的节点）。
+
+**27 本全量对账（重导后）**：`books 27 mismatch 0`，逐本 `toc.json` 节点数 == DB 节点数，合计 **6025** 节点
+（比 captain 基线 6062 少 37 —— 少的是 `spieler-2005` 被剔掉的索引假节点）。
+
+**汉字占比分布（6025 节点，重出后）**：`< 0.20` **82** 条 · `< 0.30` **316** 条 · `== 0`（纯 ASCII）**17** 条。
+（captain 给的基线是 6062 / 161 / 470 / 17；`<0.30` 从 470 降到 316 的主因是 170 条重译 + spieler 剔除。）
+
+**82 条低占比逐条有理由**（清单落 `.scratch/t42/low_ratio2.tsv`，列 `sourceId / microKpId / name / ratio / nameOriginal`）：
+1. **真短节标题（保留原样，约 40 条）**：`1.5.2 源`、`1.6.1.1.1 射线`、`2.3.2.2 与`、`6.1.2 光`、`5.6.1 限`、`16.8 室`、`2.3.3 结`、`14.7 与` ——
+   原文标题只有一个实词，中文占比天然低，**按占比拦会把真节点判成缺陷**；
+2. **化学式/器件缩写（17 条纯 ASCII + 若干带 1 个汉字）**：见上面白名单；
+3. **`ahmed-2e` 尾部私用区/扩展 A 乱码（11 条 `name` 已清洗）**：`C.6 Lead tungstate 倀圀伀`、`7.1.G Noise and signal-to-noise ratio 匀⼀一`、
+   `C.2 X-ray photoelectron spectroscopy 堀倀匀`、`A.1 Roentgen 刀` 等；`nameOriginal` 保留原始 OCR 串（D10 只看 `name`）；
+4. **已修好的新译名（ratio 低但正确）**：`Wilkinson 型 ADC`(0.067)、`Bethe-Bloch 公式`(0.143)、`CRRC成形`(0.167)、`双斜 Wilkinson`(0.167)、`ADC性能`(0.167)。
+
+**`content/glossary.json` 已重生成**：**2174 个中文术语 / 2384 条英文对照**（原 1965），`export_glossary.py --check` rc=0。
+（新词条补进这份既有清单，没有另起一份。）
+
+**守门测试 `tools/ingest/test_translate.py`（24 条，新建）**：
+`_LEAD_NUMBER` 四类编号各一条 · 冠词剥离 · 冒号左侧纯数字不走冒号分支 · 中文原样返回 ·
+`load_overrides()` 读到 11 条 · 11 条覆盖逐条参数化 · 词典优先于规则 · 全库 FORBIDDEN 扫描 ·
+纯 ASCII 名 == 17 且逐条白名单 · `spieler-2005` 单字母节点归零。
+
+**全仓验证**：`python -m pytest tools/ingest/ -q` → **352 passed**；
+`python -m pytest tools/ingest/test_content_artifacts.py -q` → **8 passed**
+（**顺带修掉了第 6 节记录的那条「不属于本票的红」**：`test_answer_key_flag_matches_the_rule_for_every_book`
+的 `grupen-2e-2008` / `guojiang-2014` 两处不一致，根因正是这两个节点名当时还是 `未收录术语（…）` 形态，
+重译后重新匹配 `is_answer_key_title()` 的规则，现已绿）。
+
+**重导**：受影响 13 本全部重导（`apps/api` 下 `node_modules/.bin/tsx ./scripts/import-content.ts`），
+`spieler-2005` 用 `--prune-kp`（会删 50 个索引假节点，其 24 条索引页 chunk 变无归属 —— 它们本来就是索引页文字）。
+
+**边界（如实记录）**：`nameOriginal` 里仍保留 OCR 原始串（含私用区乱码、`ﬁ` 连字、`7°U` 这类噪声），
+D10 只看 `name` 所以不阻塞；若将来要做「原文对照」的严格展示，需要再清洗一轮 `nameOriginal`。

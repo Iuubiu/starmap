@@ -1142,6 +1142,405 @@ GLOSSARY: dict[str, str] = {
     'development': '发展',
     'history': '历史',
     'historical': '历史',
+    # ---------------- 第四轮补齐（2026-10-21，第三轮之后仍兜底的 26 条）----------------
+    #
+    # 逐条来自 `.scratch/probe_retry_translate.py` 的实测输出。三类：
+    #   1. 冠词开头（`The ADC` / `The Depletion Depth`）—— `the` 映射成空串后被跳过；
+    #   2. 派生词 / 名词化（`Overloading` / `Oxidation` / `Ratemeter`）—— 只收了动词或单数；
+    #   3. 编号或符号残形（`B.4 Wilkinson ADC` / `(CR)*-RCshaping`）。
+    #
+    # 单字母 `A`..`Z`（25 条）**刻意不补**：它们是 11 Spieler 的 `Index` 子书签，
+    # 已由 `_OUTLINE_DROP_SUBTREE` 连根丢掉，重跑产物后自然消失。给它们编译名
+    # 等于把缺陷藏进词典。
+    'adc': 'ADC',
+    'adcs': 'ADC',
+    'camac dataway': 'CAMAC 数据通道',
+    'cr': 'CR',
+    'depletion depth': '耗尽深度',
+    'gespecor': 'GESPECOR',
+    'global verification regime': '全球核查体系',
+    'isocs': 'ISOCS',
+    'matlab': 'MATLAB 数据分析软件',
+    'mda': 'MDA',
+    'optical display': '光学显示',
+    'overloading': '过载',
+    'oxidation': '氧化',
+    'passivation': '钝化',
+    'photolithographic structuring': '光刻成形',
+    'pin allocations': '引脚分配',
+    'pulser': '脉冲发生器',
+    'pulsers': '脉冲发生器',
+    'ratemeter': '计数率计',
+    'ratemeters': '计数率计',
+    'rc shaping': 'RC 成形',
+    'rcshaping': 'RC 成形',
+    'resume': '简历',
+    'root': 'ROOT 数据分析软件',
+    'uranium series': '铀系',
+    'velocity saturation': '速度饱和',
+    'vernier chronotrons': '游标计时器',
+    'wilkinson adc': 'Wilkinson 型 ADC',
+
+    # ---------------- 第三轮补齐（2026-10-21，第二轮之后仍兜底的 15 条）----------------
+    #
+    # 第二轮把 217 条兜底救回 154 条，剩 63 条。其中 25 条是 spieler-2005 的
+    # `Index` 子书签（`_OUTLINE_DROP_SUBTREE` 已连根丢掉，不是词典问题），
+    # 剩下 15 条是下面这些。逐条都有理由：
+    #   - `Preamplification` / `Amplification`：第一轮收了 `preamplifier`，
+    #     没收名词化的 `-ification` 形式；
+    #   - `NaI(Tl)` 这类化学式：`_WORD` 把括号拆成独立 token，短语键必须带空格，
+    #     且译名里要有汉字（否则「拼不出汉字就兜底」的判据会再判它未译）；
+    #   - `The Roentgen` / `Plastics`：冠词 `the` 映射成空串后被跳过，缺的是名词本身。
+    'amplification': '放大',
+    'bethe - bloch formula': 'Bethe-Bloch 公式',
+    'bgo': '锗酸铋（BGO）',
+    'caf 2 ( eu )': 'CaF2(Eu) 闪烁体',
+    'covariance': '协方差',
+    'csi ( na )': 'CsI(Na) 闪烁体',
+    'csi ( tl )': 'CsI(Tl) 闪烁体',
+    'lii ( eu )': 'LiI(Eu) 闪烁体',
+    'matlab': 'MATLAB 数据分析软件',
+    'nai ( tl )': 'NaI(Tl) 闪烁体',
+    'plastic': '塑料',
+    'plastics': '塑料',
+    'pre amplifier': '前置放大器',
+    'preamplification': '前置放大',
+    'resume': '简历',
+    'roentgen': '伦琴',
+    'root': 'ROOT 数据分析软件',
+    'wilkinson adc': 'Wilkinson 型 ADC',
+
+    # ---------------- 第二轮补齐（2026-10-21，来自 15 本实测缺失词）----------------
+    #
+    # 第一轮跑完 15 本后，3625 个节点里 217 条落到 `未收录术语（…）` 兜底。
+    # `.scratch/probe_missing_words.py` 统计 `_MISSING` 得到 299 个缺失词、449 次出现，
+    # 下面按频次逐条补齐。**每一条都能对应到某个真实标题**，不是凭空枚举；
+    # 补完重跑一遍，剩余兜底条数就是「词典还缺什么」的账本。
+    #
+    # 已存在的键在合并脚本里被跳过 —— 第一轮的译名逐条推敲过，不能被批量补齐改写。
+    'absorber': '吸收体',
+    'absorbers': '吸收体',
+    'accidental': '偶然',
+    'accidental coincidences': '偶然符合',
+    'accreditation': '认证',
+    'achieving': '达到',
+    'acute': '急性',
+    'acute exposure': '急性照射',
+    'adc': 'ADC',
+    'adc architectures': 'ADC 架构',
+    'adcs': 'ADC',
+    'adjusting': '调节',
+    'adjusting delays with the oscilloscope': '用示波器调节延迟',
+    'analyzer': '分析器',
+    'analyzers': '分析器',
+    'anthracene': '蒽',
+    'approximation': '近似',
+    'architectures': '架构',
+    'arsenide': '砷化物',
+    'articles': '文献',
+    'attenuator': '衰减器',
+    'attenuators': '衰减器',
+    'availability': '可用性',
+    'backplane': '背板',
+    'band': '带',
+    'barrier': '势垒',
+    'beam': '束',
+    'beam size': '束斑尺寸',
+    'bismuth': '铋',
+    'board': '板卡',
+    'boards': '板卡',
+    'bonner': 'Bonner',
+    'bonner sphere': 'Bonner 球',
+    'branching': '分支',
+    'branching ratio': '分支比',
+    'bulk': '体',
+    'bulk transconductance': '体跨导',
+    'caf': 'CaF',
+    'calcium': '钙',
+    'camac controllers': 'CAMAC 控制器',
+    'camac layout': 'CAMAC 布局',
+    'camac software': 'CAMAC 软件',
+    'capacitor': '电容',
+    'capacitors': '电容',
+    'cascode': '共源共栅',
+    'ccd': 'CCD',
+    'ccds': 'CCD',
+    'cema': '比转换能',
+    'centrality': '集中趋势',
+    'channeling': '沟道效应',
+    'channelling': '沟道效应',
+    'choosing an adc': 'ADC 的选择',
+    'chronic': '慢性',
+    'chronic exposure': '慢性照射',
+    'chronometry': '计时学',
+    'clock': '时钟',
+    'coincidences': '符合',
+    'collimator': '准直器',
+    'collimators': '准直器',
+    'color code': '色标',
+    'colour code': '色标',
+    'comment': '评注',
+    'comments': '评注',
+    'comparator': '比较器',
+    'comparators': '比较器',
+    'complete': '完整',
+    'composite': '复合',
+    'composite radionuclides': '复合放射性核素',
+    'concluding': '结束',
+    'concluding remarks': '结束语',
+    'conductor': '导体',
+    'conductors': '导体',
+    'conservation': '守恒',
+    'conservation laws': '守恒定律',
+    'construction': '构造',
+    'contact': '接触',
+    'contact potentials': '接触电势',
+    'controller': '控制器',
+    'controllers': '控制器',
+    'conventional': '常规',
+    'conventional sar adc': '常规 SAR ADC',
+    'core': '芯',
+    'core valence band luminescence': '芯价带发光',
+    'correlation': '相关',
+    'cost': '成本',
+    'csi': 'CsI',
+    'data highways': '数据高速通道',
+    'datahighways': '数据高速通道',
+    'de': 'de',
+    'delay': '延迟',
+    'delays': '延迟',
+    'depleted': '耗尽',
+    'deposition': '沉积',
+    'digitizer': '数字化仪',
+    'digitizers': '数字化仪',
+    'digitizers with clock interpolation': '带时钟插值的数字化仪',
+    'dispersion': '离散度',
+    'dopant': '掺杂',
+    'dopant luminescence': '掺杂发光',
+    'drain': '漏极',
+    'drain induced barrier lowering': '漏致势垒降低',
+    'dual': '双',
+    'dual ramp wilkinson': '双斜 Wilkinson',
+    'dx': 'dx',
+    'dynamic': '动态',
+    'dynamic resistances': '动态电阻',
+    'electroscope': '验电器',
+    'emulsion': '乳胶',
+    'emulsions': '乳胶',
+    'enclosure': '机箱',
+    'esum': 'ESUM',
+    'eu': 'Eu',
+    'europium': '铕',
+    'event': '事件',
+    'event generator': '事件发生器',
+    'excited': '激发',
+    'exciton': '激子',
+    'exciton luminescence': '激子发光',
+    'expectation': '期望',
+    'expectation values': '期望值',
+    'explosion': '爆炸',
+    'exposure': '照射',
+    'fastbus': 'FASTBUS',
+    'fastbus backplane': 'FASTBUS 背板',
+    'fastbus layout': 'FASTBUS 布局',
+    'fault': '故障',
+    'fault-finding guide': '故障排查指南',
+    'fiber': '光纤',
+    'fibre': '光纤',
+    'field': '场',
+    'fields': '场',
+    'finding': '查找',
+    'flash': '快闪',
+    'flash adc': '快闪 ADC',
+    'flip': '触发',
+    'flip-flops': '触发器',
+    'flops': '器',
+    'folded': '折叠',
+    'folded cascode': '折叠共源共栅',
+    'form': '形式',
+    'formulation': '表述',
+    'gallium': '镓',
+    'gate': '栅极',
+    'gate transconductance': '栅极跨导',
+    'generator': '发生器',
+    'germanate': '锗酸盐',
+    'gespecor': 'GESPECOR',
+    'glasses': '玻璃',
+    'guide': '指南',
+    'hybrid': '混合',
+    'hybrid adcs': '混合 ADC',
+    'imager': '成像器',
+    'imagers': '成像器',
+    'induced': '诱导',
+    'information': '信息',
+    'insulator': '绝缘体',
+    'insulators': '绝缘体',
+    'integrated': '集成',
+    'integrated capacitors': '集成电容',
+    'interpolation': '插值',
+    'interpolation schemes': '插值方案',
+    'inverse': '反',
+    'inverse square law': '平方反比定律',
+    'inverter': '反相器',
+    'inverters': '反相器',
+    'isocs': 'ISOCS',
+    'isomeric': '同质异能',
+    'isomeric states': '同质异能态',
+    'jets': '喷注',
+    'kerma': '比释动能',
+    'latched': '锁存',
+    'latched comparators': '锁存比较器',
+    'law': '定律',
+    'laws': '定律',
+    'layout': '布局',
+    'lifetime': '寿命',
+    'lifetime of excited states': '激发态寿命',
+    'lii': 'LiI',
+    'linearization': '线性化',
+    'linearization of the problem': '问题的线性化',
+    'local': '局部',
+    'lowering': '降低',
+    'luminescence': '发光',
+    'magnetic': '磁',
+    'magnetic fields': '磁场',
+    'mathematical': '数学',
+    'mathematical formulation': '数学表述',
+    'matlab': 'MATLAB',
+    'mca throughput': 'MCA 吞吐率',
+    'measure': '测度',
+    'measure of dispersion': '离散度测度',
+    'measures': '测度',
+    'measures of centrality': '集中趋势测度',
+    'microdosimetric': '微剂量',
+    'microdosimetric quantities': '微剂量量',
+    'microdosimetry': '微剂量学',
+    'microphonic': '颤噪',
+    'microphonics': '颤噪',
+    'mobility': '迁移率',
+    'mobility reduction': '迁移率退化',
+    'module': '模块',
+    'modules': '模块',
+    'momentum': '动量',
+    'monte carlo': '蒙特卡罗',
+    'multimeter': '万用表',
+    'multimeters': '万用表',
+    'multiparameter': '多参数',
+    'muon': 'μ子',
+    'muons': 'μ子',
+    'na': 'Na',
+    'nai': 'NaI',
+    'nim layout': 'NIM 布局',
+    'nim modules': 'NIM 模块',
+    'noiseless': '无噪声',
+    'noiseless resistances': '无噪声电阻',
+    'nonlinearity': '非线性',
+    'nuclear': '核',
+    'nuclide': '核素',
+    'nuclides': '核素',
+    'numerical': '数值',
+    'oscilloscop': '示波器',
+    'oscilloscope': '示波器',
+    'oscilloscopes': '示波器',
+    'part': '部分',
+    'patterning': '图形化',
+    'pc': 'PC',
+    'pc parallel port modules': 'PC 并口模块',
+    'pc serial port modules': 'PC 串口模块',
+    'pci': 'PCI',
+    'pci boards': 'PCI 板卡',
+    'phase': '相位',
+    'photographic': '照相',
+    'port': '端口',
+    'ports': '端口',
+    'preservation': '保持',
+    'preservation of timing information': '定时信息的保持',
+    'problem': '问题',
+    'quantities': '量',
+    'quantity': '量',
+    'quark': '夸克',
+    'quark jets': '夸克喷注',
+    'quartz': '石英',
+    'quartz fiber electroscope': '石英丝验电器',
+    'radionuclide': '放射性核素',
+    'radionuclides': '放射性核素',
+    'ramp': '斜',
+    'random': '随机',
+    'ratio': '比',
+    'reduction': '退化',
+    'referencing': '参考',
+    'register': '寄存器',
+    'regression': '回归',
+    'released': '释放',
+    'rem ball': 'Rem 球',
+    'remark': '评述',
+    'remarks': '评述',
+    'resistanc': '电阻',
+    'resistances': '电阻',
+    'resistor': '电阻',
+    'resistor color code': '电阻色标',
+    'resistor colour code': '电阻色标',
+    'restorer': '恢复器',
+    'root': 'ROOT',
+    'sar': 'SAR',
+    'scaling': '缩放',
+    'schem': '方案',
+    'scheme': '方案',
+    'schemes': '方案',
+    'scintillating': '闪烁',
+    'scintillating fibre tracker': '闪烁光纤径迹仪',
+    'segmentation': '分割',
+    'situation': '情形',
+    'size': '尺寸',
+    'solution': '解',
+    'spallation': '散裂',
+    'sphere': '球',
+    'square': '平方',
+    'stat': '统计',
+    'states': '态',
+    'stationary': '稳态',
+    'stilbene': '芪',
+    'streamer': '流光',
+    'streamer tube': '流光管',
+    'subsystem': '子系统',
+    'successive': '逐次',
+    'successive approximation adc': '逐次逼近 ADC',
+    'terma': '比释能',
+    'terphenyl': '三联苯',
+    'testing': '测试',
+    'thallium': '铊',
+    'the folded cascode': '折叠共源共栅',
+    'the laplace transform': '拉普拉斯变换',
+    'thick': '厚',
+    'thin': '薄',
+    'thing': '事物',
+    'things': '事物',
+    'throughput': '吞吐率',
+    'timer': '定时器',
+    'tl': 'Tl',
+    'toolbox': '工具箱',
+    'toolboxes': '工具箱',
+    'tracker': '径迹仪',
+    'tracking': '跟踪',
+    'tracking adc': '跟踪 ADC',
+    'transconductance': '跨导',
+    'transmutation': '嬗变',
+    'tribology': '摩擦学',
+    'tube': '管',
+    'uniformity': '均匀性',
+    'usb': 'USB',
+    'usb-based modules': 'USB 模块',
+    'valence': '价',
+    'valid': '有效',
+    'values': '值',
+    'vme': 'VME',
+    'vme backplane': 'VME 背板',
+    'vme layout': 'VME 布局',
+    'vme modules': 'VME 模块',
+    'why': '为什么',
+    'wilkinson': 'Wilkinson',
+    'wilkinson adc': 'Wilkinson ADC',
+    'work': '工作',
+
     # ---------------- 高频虚词（句式用） ----------------
     'of': '的',
     'and': '与',
@@ -1246,13 +1645,30 @@ CONNECTORS = {
 }
 
 _WORD = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?|[0-9]+(?:\.[0-9]+)*|[^\sA-Za-z0-9]")
-_LEAD_NUMBER = re.compile(r'^\s*(?:\d+(?:\.\d+)*\.?|[IVXLC]+\.)\s+')
+# 编号前缀有四种真实形态：`1.2.3` / `IV.` / `B.4`（字母段） / `10.1.A`（字母段在尾）。
+# 最后两种是 ahmed-2e 附录小节的写法（`B.4 Wilkinson ADC`、`10.1.A ROOT`），
+# 漏了会把编号当成正文一起送进逐词匹配，整条标题因此译不出来。
+_LEAD_NUMBER = re.compile(
+    r'^\s*(?:'
+    r'\d+(?:\.\d+)*\.?'          # 1.2.3 / 1.2.3.
+    r'|\d+(?:\.\d+)*\.[A-Z]\.?'  # 10.1.A / 10.1.C
+    r'|[A-Z]\.\d+(?:\.\d+)*\.?'  # B.4
+    r'|[IVXLC]+\.'                 # IV.
+    r')\s+'
+)
 _TRAIL_PUNCT = re.compile(r'[\s.·\-—–:;,]+$')
 _LEAD_PUNCT = re.compile(r'^[\s.·\-—–:;,|]+')
 _LIGATURES = {'ﬁ': 'fi', 'ﬀ': 'ff', 'ﬂ': 'fl', 'ﬃ': 'ffi', 'ﬄ': 'ffl', 'ﬅ': 'ft', 'ﬆ': 'st'}
+# 英文标题的定冠词/不定冠词。`The ADC` 这类整条只有缩写、冠词又不在 DROP_TOKENS 里，
+# 不剥掉就永远凑不出汉字。只在 `translate_title` 的开头剥一次，不动逐词表。
+_LEAD_ARTICLE = re.compile(r'^(?:The|A|An)\s+')
 
 #: 未收录词计数。`check_names.py` 用它报「还缺哪些词」。
 _MISSING: collections.Counter[str] = collections.Counter()
+
+#: 兜底形态的前缀。冒号分支要用它判断「这一半到底译出来没有」——
+#: 只看非空不够，兜底串本身也是非空字符串。
+_FALLBACK = '未收录术语（'
 
 
 def untranslated_terms() -> collections.Counter[str]:
@@ -1360,18 +1776,44 @@ def translate_title(title: str) -> str:
     text = _TRAIL_PUNCT.sub('', _LEAD_PUNCT.sub('', _strip_number(text)))
     if not text:
         return ''
+    # 冠词在编号之后剥（`A.4 The Laplace transform` → `Laplace transform`）。
+    text = _TRAIL_PUNCT.sub('', _LEAD_ARTICLE.sub('', text))
+    if not text:
+        return ''
 
     # 中文原题（26/27 郭江）原样返回：已经是中文，再切词只会破坏。
     if re.search(r'[\u4e00-\u9fff]', text):
         return text
 
     # 冒号：主标题：副标题。两边各自译，用中文冒号连。
-    if ':' in text:
+    # 左侧没有字母时冒号不是主副标题分隔符，而是「章:节」编号
+    # （`6:2 Preservation of timing information`）。按冒号切开只会得到
+    # 「未收录术语（6）：定时信息的保持」—— 编号当标题，比不译更糟。
+    if ':' in text and re.search(r'[A-Za-z]', text.partition(':')[0]):
         head, _, tail = text.partition(':')
         left, right = translate_title(head), translate_title(tail)
-        if left and right:
+        # 一侧译不出时不能把兜底串拼进结果：`Example of a general-purpose
+        # detector: Belle` 会变成「一般探测器的示例：未收录术语（Belle）」，
+        # 学生看到的就是这句。宁可只留能译的那半边（`附录 4: Monte Carlo
+        # event generators` → 「附录：蒙特卡洛事件产生器」）。
+        left_ok = bool(left) and _FALLBACK not in left
+        right_ok = bool(right) and _FALLBACK not in right
+        if left_ok and right_ok:
             return f'{left}：{right}'[:80]
-        return (left or right)[:80]
+        # 一侧译不出时不能把兜底串拼进结果：`Example of a general-purpose
+        # detector: Belle` 会变成「一般探测器的示例：未收录术语（Belle）」，
+        # 学生看到的就是这句。先试整串逐词（`Computer Controlled Electronics:
+        # CAMAC` → 「电子学CAMAC」，比只留「电子学」信息量大），再退回能译的
+        # 那半边（`Appendix 4: Monte Carlo event generators` → 「附录：蒙特卡洛
+        # 事件产生器」）。两边都译不出才落到函数末尾的兜底。
+        joined_all = _translate_words(text)
+        if re.search(r'[\u4e00-\u9fff]', joined_all):
+            return joined_all[:80]
+        if left_ok:
+            return left[:80]
+        if right_ok:
+            return right[:80]
+        text = head + ' ' + tail
 
     # 顶层 `X of Y` / `X for Y` 换位。
     split = _split_top(text)
