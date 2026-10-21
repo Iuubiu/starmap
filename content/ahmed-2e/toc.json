@@ -1,6 +1,6 @@
 {
   "sourceId": "ahmed-2e",
-  "nodeCount": 637,
+  "nodeCount": 626,
   "nodes": [
     {
       "microKpId": "kp-ahmed-2e-1",
@@ -88,7 +88,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-3-4",
-      "name": "放射性",
+      "name": "放射性链",
       "num": "1.3.4",
       "printedPage": 20,
       "depth": 3,
@@ -112,7 +112,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-3-5-1",
-      "name": "1.3.5.1 平衡",
+      "name": "长期平衡",
       "num": "1.3.5.1",
       "printedPage": 25,
       "depth": 4,
@@ -124,7 +124,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-3-5-2",
-      "name": "1.3.5.2 平衡",
+      "name": "瞬态平衡",
       "num": "1.3.5.2",
       "printedPage": 27,
       "depth": 4,
@@ -136,7 +136,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-3-5-3",
-      "name": "1.3.5.3 平衡",
+      "name": "无平衡",
       "num": "1.3.5.3",
       "printedPage": 27,
       "depth": 4,
@@ -196,7 +196,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-5-1",
-      "name": "源",
+      "name": "天然源",
       "num": "1.5.1",
       "printedPage": 31,
       "depth": 3,
@@ -208,7 +208,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-5-1-1",
-      "name": "1.5.1.1 辐射源",
+      "name": "宇宙辐射源",
       "num": "1.5.1.1",
       "printedPage": 31,
       "depth": 4,
@@ -220,7 +220,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-5-1-2",
-      "name": "1.5.1.2 辐射源",
+      "name": "地面辐射源",
       "num": "1.5.1.2",
       "printedPage": 32,
       "depth": 4,
@@ -244,7 +244,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-5-2",
-      "name": "1.5.2 源",
+      "name": "制源",
       "num": "1.5.2",
       "printedPage": 32,
       "depth": 3,
@@ -292,7 +292,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-1-1-1",
-      "name": "1.6.1.1.1 射线",
+      "name": "射线",
       "num": "1.6.1.1.1",
       "printedPage": 36,
       "depth": 5,
@@ -304,7 +304,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-1-1-2",
-      "name": "1.6.1.1.2 辐射",
+      "name": "同步辐射辐射",
       "num": "1.6.1.1.2",
       "printedPage": 39,
       "depth": 5,
@@ -412,7 +412,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-2-1-1",
-      "name": "1.6.2.1.1 电子",
+      "name": "电子枪",
       "num": "1.6.2.1.1",
       "printedPage": 45,
       "depth": 5,
@@ -460,7 +460,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-3-1-1",
-      "name": "1.6.3.1.1 粒子加速器",
+      "name": "粒子加速器",
       "num": "1.6.3.1.1",
       "printedPage": 48,
       "depth": 5,
@@ -508,7 +508,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-4-1-1",
-      "name": "1.6.4.1.1 粒子加速器",
+      "name": "质子的源 粒子加速器",
       "num": "1.6.4.1.1",
       "printedPage": 50,
       "depth": 5,
@@ -568,7 +568,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-5-1-1",
-      "name": "1.6.5.1.1 源",
+      "name": "散裂源",
       "num": "1.6.5.1.1",
       "printedPage": 52,
       "depth": 5,
@@ -580,7 +580,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-5-1-2",
-      "name": "1.6.5.1.2 源",
+      "name": "复合源",
       "num": "1.6.5.1.2",
       "printedPage": 53,
       "depth": 5,
@@ -604,7 +604,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-5-1-4",
-      "name": "反应堆",
+      "name": "核反应堆",
       "num": "1.6.5.1.4",
       "printedPage": 54,
       "depth": 5,
@@ -652,7 +652,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-6-1-1",
-      "name": "加速器源",
+      "name": "加速器基于源",
       "num": "1.6.6.1.1",
       "printedPage": 56,
       "depth": 5,
@@ -676,7 +676,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-7",
-      "name": "1.6.7 裂变",
+      "name": "裂变碎片",
       "num": "1.6.7",
       "printedPage": 57,
       "depth": 3,
@@ -688,7 +688,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-1-6-8",
-      "name": "中微子与其他粒子",
+      "name": "μ子中微子与其他粒子",
       "num": "1.6.8",
       "printedPage": 58,
       "depth": 3,
@@ -747,18 +747,6 @@
       "nameOriginal": "Problems"
     },
     {
-      "microKpId": "kp-ahmed-2e-1-8",
-      "name": "参考文献",
-      "num": "1.8",
-      "printedPage": 61,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-1",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
-    },
-    {
       "microKpId": "kp-ahmed-2e-2",
       "name": "辐射带物质的相互作用",
       "num": "2",
@@ -808,7 +796,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-1-3",
-      "name": "平均",
+      "name": "平均自由程",
       "num": "2.1.3",
       "printedPage": 69,
       "depth": 3,
@@ -820,7 +808,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-1-4",
-      "name": "2.1.4 辐射",
+      "name": "辐射长度",
       "num": "2.1.4",
       "printedPage": 71,
       "depth": 3,
@@ -844,7 +832,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-1-5-1",
-      "name": "2.1.5.1 能量",
+      "name": "能量的守恒",
       "num": "2.1.5.1",
       "printedPage": 76,
       "depth": 4,
@@ -868,7 +856,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-1-5-3",
-      "name": "电气电荷",
+      "name": "电气电荷的守恒",
       "num": "2.1.5.3",
       "printedPage": 77,
       "depth": 4,
@@ -892,7 +880,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-2-1",
-      "name": "2.2.1 散射",
+      "name": "弹性散射",
       "num": "2.2.1",
       "printedPage": 78,
       "depth": 3,
@@ -904,7 +892,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-2-2",
-      "name": "2.2.2 散射",
+      "name": "非弹性散射",
       "num": "2.2.2",
       "printedPage": 79,
       "depth": 3,
@@ -928,7 +916,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-2-4",
-      "name": "2.2.4 轫致辐射",
+      "name": "轫致辐射",
       "num": "2.2.4",
       "printedPage": 81,
       "depth": 3,
@@ -940,7 +928,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-2-5",
-      "name": "2.2.5 切伦科夫辐射",
+      "name": "切伦科夫辐射",
       "num": "2.2.5",
       "printedPage": 83,
       "depth": 3,
@@ -1000,7 +988,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-3-1-3",
-      "name": "2.3.1.3 散射",
+      "name": "汤姆逊散射",
       "num": "2.3.1.3",
       "printedPage": 98,
       "depth": 4,
@@ -1012,7 +1000,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-3-1-4",
-      "name": "2.3.1.4 散射",
+      "name": "瑞利散射",
       "num": "2.3.1.4",
       "printedPage": 98,
       "depth": 4,
@@ -1060,7 +1048,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-3-2-2",
-      "name": "2.3.2.2 与",
+      "name": "混合物与化合物",
       "num": "2.3.2.2",
       "printedPage": 107,
       "depth": 4,
@@ -1096,7 +1084,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-4-1",
-      "name": "2.4.1 散射",
+      "name": "卢瑟福散射",
       "num": "2.4.1",
       "printedPage": 111,
       "depth": 3,
@@ -1120,7 +1108,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-4-3",
-      "name": "曲线",
+      "name": "布拉格曲线",
       "num": "2.4.3",
       "printedPage": 123,
       "depth": 3,
@@ -1132,7 +1120,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-4-4",
-      "name": "2.4.4 能量",
+      "name": "能量歧离",
       "num": "2.4.4",
       "printedPage": 124,
       "depth": 3,
@@ -1144,7 +1132,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-4-5",
-      "name": "射程与射程",
+      "name": "射程与射程歧离",
       "num": "2.4.5",
       "printedPage": 126,
       "depth": 3,
@@ -1216,7 +1204,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-5-1-2",
-      "name": "2.5.1.2 散射",
+      "name": "ller散射",
       "num": "2.5.1.2",
       "printedPage": 131,
       "depth": 4,
@@ -1228,7 +1216,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-5-1-3",
-      "name": "2.5.1.3 散射",
+      "name": "Bhabha散射",
       "num": "2.5.1.3",
       "printedPage": 131,
       "depth": 4,
@@ -1252,7 +1240,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-5-1-5",
-      "name": "2.5.1.5 轫致辐射",
+      "name": "相互作用模式 轫致辐射",
       "num": "2.5.1.5",
       "printedPage": 132,
       "depth": 4,
@@ -1264,7 +1252,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-5-1-6",
-      "name": "2.5.1.6 切伦科夫辐射",
+      "name": "相互作用模式 切伦科夫辐射",
       "num": "2.5.1.6",
       "printedPage": 133,
       "depth": 4,
@@ -1288,7 +1276,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-5-3",
-      "name": "2.5.3 能量",
+      "name": "电子带物质的相互作用 能量歧离",
       "num": "2.5.3",
       "printedPage": 139,
       "depth": 3,
@@ -1312,7 +1300,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-6",
-      "name": "粒子带物质的相互作用",
+      "name": "中性粒子带物质的相互作用",
       "num": "2.6",
       "printedPage": 146,
       "depth": 2,
@@ -1336,7 +1324,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-6-1-1",
-      "name": "2.6.1.1 散射",
+      "name": "中子 弹性散射",
       "num": "2.6.1.1",
       "printedPage": 146,
       "depth": 4,
@@ -1348,7 +1336,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-6-1-2",
-      "name": "2.6.1.2 散射",
+      "name": "中子 非弹性散射",
       "num": "2.6.1.2",
       "printedPage": 146,
       "depth": 4,
@@ -1372,7 +1360,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-6-1-4",
-      "name": "2.6.1.4 俘获",
+      "name": "辐射俘获",
       "num": "2.6.1.4",
       "printedPage": 147,
       "depth": 4,
@@ -1396,7 +1384,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-2-6-1-6",
-      "name": "2.6.1.6 裂变",
+      "name": "裂变",
       "num": "2.6.1.6",
       "printedPage": 148,
       "depth": 4,
@@ -1443,18 +1431,6 @@
       "nameOriginal": "Problems"
     },
     {
-      "microKpId": "kp-ahmed-2e-2-8",
-      "name": "参考文献",
-      "num": "2.8",
-      "printedPage": 153,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-2",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
-    },
-    {
       "microKpId": "kp-ahmed-2e-3",
       "name": "气体充填探测器",
       "num": "3",
@@ -1492,7 +1468,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-2-1",
-      "name": "电中的扩散",
+      "name": "无的电场中的扩散",
       "num": "3.2.1",
       "printedPage": 160,
       "depth": 3,
@@ -1504,7 +1480,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-2-1-1",
-      "name": "电中的扩散",
+      "name": "存在的电场中的扩散",
       "num": "3.2.1.1",
       "printedPage": 161,
       "depth": 4,
@@ -1516,7 +1492,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-2-2",
-      "name": "电荷中电的漂移",
+      "name": "电荷中电场的漂移",
       "num": "3.2.2",
       "printedPage": 162,
       "depth": 3,
@@ -1528,7 +1504,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-2-2-1",
-      "name": "3.2.2.1 离子的漂移",
+      "name": "离子的漂移",
       "num": "3.2.2.1",
       "printedPage": 162,
       "depth": 4,
@@ -1540,7 +1516,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-2-2-2",
-      "name": "3.2.2.2 电子的漂移",
+      "name": "电子的漂移",
       "num": "3.2.2.2",
       "printedPage": 163,
       "depth": 4,
@@ -1684,7 +1660,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-1",
-      "name": "3.4.1 电流电压特性",
+      "name": "电流电压特性",
       "num": "3.4.1",
       "printedPage": 179,
       "depth": 3,
@@ -1708,7 +1684,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-2-1",
-      "name": "3.4.2.1 几何",
+      "name": "并联板几何",
       "num": "3.4.2.1",
       "printedPage": 180,
       "depth": 4,
@@ -1720,7 +1696,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-2-2",
-      "name": "3.4.2.2 几何",
+      "name": "圆柱几何",
       "num": "3.4.2.2",
       "printedPage": 183,
       "depth": 4,
@@ -1732,7 +1708,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-3",
-      "name": "3.4.3 气体的选择",
+      "name": "气体的选择",
       "num": "3.4.3",
       "printedPage": 187,
       "depth": 3,
@@ -1744,7 +1720,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-4",
-      "name": "离子室的特殊类型",
+      "name": "电离室的特殊类型",
       "num": "3.4.4",
       "printedPage": 187,
       "depth": 3,
@@ -1756,7 +1732,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-4-1",
-      "name": "室",
+      "name": "并联板室",
       "num": "3.4.4.1",
       "printedPage": 187,
       "depth": 4,
@@ -1768,7 +1744,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-4-2",
-      "name": "硼离子室",
+      "name": "硼电离室",
       "num": "3.4.4.2",
       "printedPage": 189,
       "depth": 4,
@@ -1780,7 +1756,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-4-3",
-      "name": "离子室",
+      "name": "补偿电离室",
       "num": "3.4.4.3",
       "printedPage": 190,
       "depth": 4,
@@ -1792,7 +1768,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-5",
-      "name": "离子室的应用",
+      "name": "电离室的应用",
       "num": "3.4.5",
       "printedPage": 190,
       "depth": 3,
@@ -1804,7 +1780,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-4-6",
-      "name": "离子室的优点与缺点",
+      "name": "电离室的优点与缺点",
       "num": "3.4.6",
       "printedPage": 191,
       "depth": 3,
@@ -1864,7 +1840,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-5-2-2",
-      "name": "3.5.2.2 猝灭",
+      "name": "猝灭",
       "num": "3.5.2.2",
       "printedPage": 199,
       "depth": 4,
@@ -1900,7 +1876,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-5-3-1",
-      "name": "正比计数器",
+      "name": "BF正比计数器",
       "num": "3.5.3.1",
       "printedPage": 201,
       "depth": 4,
@@ -1948,7 +1924,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-6-1",
-      "name": "3.6.1 电流电压特性",
+      "name": "盖革计数器 电流电压特性",
       "num": "3.6.1",
       "printedPage": 204,
       "depth": 3,
@@ -1960,7 +1936,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-6-2",
-      "name": "3.6.2 死时间",
+      "name": "死时间",
       "num": "3.6.2",
       "printedPage": 204,
       "depth": 3,
@@ -1972,7 +1948,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-6-3",
-      "name": "3.6.3 气体的选择",
+      "name": "盖革计数器 气体的选择",
       "num": "3.6.3",
       "printedPage": 207,
       "depth": 3,
@@ -2008,7 +1984,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-6-4-2",
-      "name": "3.6.4.2 猝灭",
+      "name": "外部猝灭",
       "num": "3.6.4.2",
       "printedPage": 209,
       "depth": 4,
@@ -2068,7 +2044,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-7-2-1",
-      "name": "3.7.2.1 俘获",
+      "name": "……的效应 辐射俘获",
       "num": "3.7.2.1",
       "printedPage": 213,
       "depth": 4,
@@ -2080,7 +2056,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-7-2-2",
-      "name": "3.7.2.2 俘获",
+      "name": "解离俘获",
       "num": "3.7.2.2",
       "printedPage": 213,
       "depth": 4,
@@ -2092,7 +2068,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-7-2-3",
-      "name": "3.7.2.3 俘获",
+      "name": "俘获无解离",
       "num": "3.7.2.3",
       "printedPage": 214,
       "depth": 4,
@@ -2104,7 +2080,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-7-3",
-      "name": "电荷的效应",
+      "name": "空间电荷的效应",
       "num": "3.7.3",
       "printedPage": 214,
       "depth": 3,
@@ -2128,7 +2104,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-3-8-1",
-      "name": "信号至噪声",
+      "name": "信号至噪声比",
       "num": "3.8.1",
       "printedPage": 225,
       "depth": 3,
@@ -2149,18 +2125,6 @@
       "appendix": true,
       "answerKey": false,
       "nameOriginal": "Problems"
-    },
-    {
-      "microKpId": "kp-ahmed-2e-3-10",
-      "name": "参考文献",
-      "num": "3.10",
-      "printedPage": 229,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-3",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
     },
     {
       "microKpId": "kp-ahmed-2e-4",
@@ -2212,7 +2176,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-4-1-2-1",
-      "name": "4.1.2.1 电子的漂移",
+      "name": "电荷的漂移 电子的漂移",
       "num": "4.1.2.1",
       "printedPage": 238,
       "depth": 4,
@@ -2224,7 +2188,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-4-1-2-2",
-      "name": "4.1.2.2 离子的漂移",
+      "name": "电荷的漂移 离子的漂移",
       "num": "4.1.2.2",
       "printedPage": 240,
       "depth": 4,
@@ -2248,7 +2212,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-4-2-1",
-      "name": "液体充填离子室的应用",
+      "name": "液体充填电离室的应用",
       "num": "4.2.1",
       "printedPage": 242,
       "depth": 3,
@@ -2308,7 +2272,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-4-5-1",
-      "name": "4.5.1 复合",
+      "name": "复合",
       "num": "4.5.1",
       "printedPage": 246,
       "depth": 3,
@@ -2320,7 +2284,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-4-5-2",
-      "name": "电子俘获与俘获",
+      "name": "寄生电子俘获与俘获",
       "num": "4.5.2",
       "printedPage": 248,
       "depth": 3,
@@ -2379,18 +2343,6 @@
       "nameOriginal": "Problems"
     },
     {
-      "microKpId": "kp-ahmed-2e-4-10",
-      "name": "参考文献",
-      "num": "4.10",
-      "printedPage": 257,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-4",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
-    },
-    {
       "microKpId": "kp-ahmed-2e-5",
       "name": "固体探测器",
       "num": "5",
@@ -2440,7 +2392,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-3",
-      "name": "本征与半导体",
+      "name": "本征补偿与非本征半导体",
       "num": "5.1.3",
       "printedPage": 262,
       "depth": 3,
@@ -2464,7 +2416,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-4-1",
-      "name": "5.1.4.1 掺杂（带杂质）",
+      "name": "掺杂（带受主杂质）",
       "num": "5.1.4.1",
       "printedPage": 264,
       "depth": 4,
@@ -2476,7 +2428,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-4-2",
-      "name": "5.1.4.2 掺杂（带杂质）",
+      "name": "掺杂（带施主杂质）",
       "num": "5.1.4.2",
       "printedPage": 265,
       "depth": 4,
@@ -2512,7 +2464,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-5-2",
-      "name": "5.1.5.2 复合",
+      "name": "电子电子对产生的机制与统计学 复合",
       "num": "5.1.5.2",
       "printedPage": 272,
       "depth": 4,
@@ -2524,7 +2476,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-6",
-      "name": "电荷",
+      "name": "电荷电导率",
       "num": "5.1.6",
       "printedPage": 275,
       "depth": 3,
@@ -2560,7 +2512,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-7-1",
-      "name": "5.1.7.1 硅",
+      "name": "硅",
       "num": "5.1.7.1",
       "printedPage": 278,
       "depth": 4,
@@ -2596,7 +2548,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-7-4",
-      "name": "镉",
+      "name": "镉锌碲",
       "num": "5.1.7.4",
       "printedPage": 293,
       "depth": 4,
@@ -2608,7 +2560,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-8",
-      "name": "结",
+      "name": "PN结",
       "num": "5.1.8",
       "printedPage": 294,
       "depth": 3,
@@ -2620,7 +2572,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-8-1",
-      "name": "二极管的特性",
+      "name": "反向偏置PN二极管的特性",
       "num": "5.1.8.1",
       "printedPage": 296,
       "depth": 4,
@@ -2656,7 +2608,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-9",
-      "name": "……的运行二极管的模式",
+      "name": "……的运行PN二极管的模式",
       "num": "5.1.9",
       "printedPage": 306,
       "depth": 3,
@@ -2692,7 +2644,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-10",
-      "name": "性质",
+      "name": "理想性质",
       "num": "5.1.10",
       "printedPage": 308,
       "depth": 3,
@@ -2704,7 +2656,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-10-1",
-      "name": "高辐射",
+      "name": "高辐射场",
       "num": "5.1.10.1",
       "printedPage": 310,
       "depth": 4,
@@ -2716,7 +2668,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-10-2",
-      "name": "低辐射",
+      "name": "低辐射场",
       "num": "5.1.10.2",
       "printedPage": 310,
       "depth": 4,
@@ -2728,7 +2680,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-11",
-      "name": "半导体探测器",
+      "name": "特定半导体探测器",
       "num": "5.1.11",
       "printedPage": 310,
       "depth": 3,
@@ -2812,7 +2764,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-11-6-1",
-      "name": "5.1.11.6.1 探测器",
+      "name": "微条探测器",
       "num": "5.1.11.6.1",
       "printedPage": 313,
       "depth": 5,
@@ -2860,7 +2812,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-12-1",
-      "name": "损伤机制与",
+      "name": "损伤机制与缩放",
       "num": "5.1.12.1",
       "printedPage": 315,
       "depth": 4,
@@ -2872,7 +2824,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-12-2",
-      "name": "5.1.12.2 漏电电流",
+      "name": "漏电电流",
       "num": "5.1.12.2",
       "printedPage": 315,
       "depth": 4,
@@ -2884,7 +2836,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-12-3",
-      "name": "类型",
+      "name": "类型反转",
       "num": "5.1.12.3",
       "printedPage": 317,
       "depth": 4,
@@ -2896,7 +2848,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-12-4",
-      "name": "电压",
+      "name": "耗尽电压",
       "num": "5.1.12.4",
       "printedPage": 317,
       "depth": 4,
@@ -2908,7 +2860,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-1-12-5",
-      "name": "电荷俘获与载流子",
+      "name": "电荷俘获与载流子寿命",
       "num": "5.1.12.5",
       "printedPage": 318,
       "depth": 4,
@@ -2932,7 +2884,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-2",
-      "name": "探测器",
+      "name": "金刚石探测器",
       "num": "5.2",
       "printedPage": 318,
       "depth": 2,
@@ -2956,7 +2908,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-2-2",
-      "name": "5.2.2 复合",
+      "name": "金刚石探测器 复合",
       "num": "5.2.2",
       "printedPage": 320,
       "depth": 3,
@@ -2980,7 +2932,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-2-4",
-      "name": "5.2.4 漏电电流",
+      "name": "金刚石探测器 漏电电流",
       "num": "5.2.4",
       "printedPage": 323,
       "depth": 3,
@@ -3028,7 +2980,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-3",
-      "name": "探测器",
+      "name": "热释光探测器",
       "num": "5.3",
       "printedPage": 325,
       "depth": 2,
@@ -3040,7 +2992,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-5-3-1",
-      "name": "原理",
+      "name": "热释光的原理",
       "num": "5.3.1",
       "printedPage": 326,
       "depth": 3,
@@ -3061,18 +3013,6 @@
       "appendix": true,
       "answerKey": false,
       "nameOriginal": "Problems"
-    },
-    {
-      "microKpId": "kp-ahmed-2e-5-5",
-      "name": "参考文献",
-      "num": "5.5",
-      "printedPage": 328,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-5",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
     },
     {
       "microKpId": "kp-ahmed-2e-6",
@@ -3112,7 +3052,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-1-2",
-      "name": "6.1.2 光",
+      "name": "光",
       "num": "6.1.2",
       "printedPage": 333,
       "depth": 3,
@@ -3148,7 +3088,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-1-4-1",
-      "name": "6.1.4.1 猝灭",
+      "name": "自猝灭",
       "num": "6.1.4.1",
       "printedPage": 339,
       "depth": 4,
@@ -3220,7 +3160,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-1-7",
-      "name": "性质",
+      "name": "光学性质",
       "num": "6.1.7",
       "printedPage": 341,
       "depth": 3,
@@ -3232,7 +3172,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-1-8",
-      "name": "6.1.8 或",
+      "name": "或",
       "num": "6.1.8",
       "printedPage": 341,
       "depth": 3,
@@ -3244,7 +3184,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-1-9",
-      "name": "温度",
+      "name": "温度依赖",
       "num": "6.1.9",
       "printedPage": 342,
       "depth": 3,
@@ -3256,7 +3196,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-1-10",
-      "name": "6.1.10 辐射损伤",
+      "name": "辐射损伤",
       "num": "6.1.10",
       "printedPage": 344,
       "depth": 3,
@@ -3304,7 +3244,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-2-2",
-      "name": "闪烁体",
+      "name": "塑料闪烁体",
       "num": "6.2.2",
       "printedPage": 352,
       "depth": 3,
@@ -3328,7 +3268,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-2-4",
-      "name": "闪烁体",
+      "name": "晶体闪烁体",
       "num": "6.2.4",
       "printedPage": 361,
       "depth": 3,
@@ -3348,7 +3288,7 @@
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
-      "nameOriginal": "D.1 Anthracene (C14H10)"
+      "nameOriginal": "D.1 Anthracene 䌀㄀㐀䠀㄀"
     },
     {
       "microKpId": "kp-ahmed-2e-6-2-4-2",
@@ -3360,7 +3300,7 @@
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
-      "nameOriginal": "D.2 p-Terphenyl (C18H14)"
+      "nameOriginal": "D.2 p-Terphenyl 䌀㄀㠀䌀㄀㐀"
     },
     {
       "microKpId": "kp-ahmed-2e-6-2-4-3",
@@ -3372,7 +3312,7 @@
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
-      "nameOriginal": "D.3 Stilbene (C14H12)"
+      "nameOriginal": "D.3 Stilbene 䌀㄀㐀䠀㄀㈀"
     },
     {
       "microKpId": "kp-ahmed-2e-6-3",
@@ -3436,7 +3376,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-3-2",
-      "name": "6.3.2 辐射损伤",
+      "name": "无机闪烁体 辐射损伤",
       "num": "6.3.2",
       "printedPage": 367,
       "depth": 3,
@@ -3460,7 +3400,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-3-3-1",
-      "name": "C.1 掺铊碘化钠 NaI:Tl",
+      "name": "铊钠碘化物NaITl",
       "num": "6.3.3.1",
       "printedPage": 369,
       "depth": 4,
@@ -3472,7 +3412,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-3-3-2",
-      "name": "C.2 掺钠碘化铯 CsI:Na",
+      "name": "钠铯碘化物CsINa",
       "num": "6.3.3.2",
       "printedPage": 369,
       "depth": 4,
@@ -3484,7 +3424,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-3-3-3",
-      "name": "C.3 掺铊碘化铯 CsI:Tl",
+      "name": "铊铯碘化物CsITl",
       "num": "6.3.3.3",
       "printedPage": 369,
       "depth": 4,
@@ -3496,7 +3436,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-3-3-4",
-      "name": "C.4 锗酸铋 BGO",
+      "name": "铋锗酸盐锗酸铋（BGO）",
       "num": "6.3.3.4",
       "printedPage": 370,
       "depth": 4,
@@ -3508,7 +3448,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-3-3-5",
-      "name": "C.5 钨酸镉 CWO",
+      "name": "镉钨酸盐CWO",
       "num": "6.3.3.5",
       "printedPage": 370,
       "depth": 4,
@@ -3520,7 +3460,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-3-3-6",
-      "name": "C.6 Lead tungstate 倀圀伀",
+      "name": "Lead tungstate 倀圀伀",
       "num": "6.3.3.6",
       "printedPage": 370,
       "depth": 4,
@@ -3628,7 +3568,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-4-1-3",
-      "name": "6.4.1.3 光",
+      "name": "混合光",
       "num": "6.4.1.3",
       "printedPage": 377,
       "depth": 4,
@@ -3760,7 +3700,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-5-1-8-1",
-      "name": "6.5.1.8.1 效率",
+      "name": "量子效率",
       "num": "6.5.1.8.1",
       "printedPage": 395,
       "depth": 5,
@@ -3808,7 +3748,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-6-5-1-9-1",
-      "name": "6.5.1.9.1 灵敏度",
+      "name": "辐射灵敏度",
       "num": "6.5.1.9.1",
       "printedPage": 396,
       "depth": 5,
@@ -3856,7 +3796,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1",
-      "name": "若干术语与",
+      "name": "若干术语与量",
       "num": "7.1",
       "printedPage": 434,
       "depth": 2,
@@ -3868,7 +3808,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-1",
-      "name": "分辨率",
+      "name": "空间分辨率",
       "num": "7.1.1",
       "printedPage": 436,
       "depth": 3,
@@ -3892,7 +3832,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-1-2",
-      "name": "与",
+      "name": "混叠与抗混叠",
       "num": "7.1.1.2",
       "printedPage": 437,
       "depth": 4,
@@ -3904,7 +3844,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-1-2-1",
-      "name": "由于取样频率",
+      "name": "混叠由于取样频率",
       "num": "7.1.1.2.1",
       "printedPage": 437,
       "depth": 5,
@@ -3916,7 +3856,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-1-2-2",
-      "name": "由于",
+      "name": "混叠由于",
       "num": "7.1.1.2.2",
       "printedPage": 443,
       "depth": 5,
@@ -3952,7 +3892,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-1-5",
-      "name": "函数",
+      "name": "前沿函数",
       "num": "7.1.1.5",
       "printedPage": 447,
       "depth": 4,
@@ -3988,7 +3928,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-2-1",
-      "name": "7.1.2.1 效率",
+      "name": "效率 量子效率",
       "num": "7.1.2.1",
       "printedPage": 451,
       "depth": 4,
@@ -4000,7 +3940,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-2-2",
-      "name": "B.2 空间探测量子效率 DQE",
+      "name": "空间量子效率",
       "num": "7.1.2.2",
       "printedPage": 452,
       "depth": 4,
@@ -4012,7 +3952,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-3",
-      "name": "7.1.3 灵敏度",
+      "name": "灵敏度",
       "num": "7.1.3",
       "printedPage": 453,
       "depth": 3,
@@ -4060,7 +4000,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-1-7",
-      "name": "7.1.G Noise and signal-to-noise ratio 匀⼀一",
+      "name": "Noise and signal-to-noise ratio 匀⼀一",
       "num": "7.1.7",
       "printedPage": 454,
       "depth": 3,
@@ -4096,7 +4036,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-2-1-1",
-      "name": "7.2.1.1 器件",
+      "name": "阵列器件",
       "num": "7.2.1.1",
       "printedPage": 454,
       "depth": 4,
@@ -4108,7 +4048,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-2-1-2",
-      "name": "7.2.1.2 器件",
+      "name": "器件",
       "num": "7.2.1.2",
       "printedPage": 455,
       "depth": 4,
@@ -4144,7 +4084,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-2-3",
-      "name": "7.2.C 多丝漂移室 MWPC",
+      "name": "多丝漂移室",
       "num": "7.2.3",
       "printedPage": 458,
       "depth": 3,
@@ -4156,7 +4096,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-2-4",
-      "name": "气体室",
+      "name": "微条气体室",
       "num": "7.2.4",
       "printedPage": 460,
       "depth": 3,
@@ -4168,7 +4108,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-2-5",
-      "name": "半导体探测器",
+      "name": "半导体微条探测器",
       "num": "7.2.5",
       "printedPage": 460,
       "depth": 3,
@@ -4192,7 +4132,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-1",
-      "name": "成像",
+      "name": "常规成像",
       "num": "7.3.1",
       "printedPage": 464,
       "depth": 3,
@@ -4204,7 +4144,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-1-1",
-      "name": "7.3.1.1 射线",
+      "name": "射线照相胶片",
       "num": "7.3.1.1",
       "printedPage": 464,
       "depth": 4,
@@ -4216,7 +4156,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-1-2",
-      "name": "7.3.1.2 探测器",
+      "name": "热释光探测器阵列",
       "num": "7.3.1.2",
       "printedPage": 465,
       "depth": 4,
@@ -4240,7 +4180,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-3",
-      "name": "电荷器件",
+      "name": "电荷耦合器件",
       "num": "7.3.3",
       "printedPage": 466,
       "depth": 3,
@@ -4252,7 +4192,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-4",
-      "name": "成像",
+      "name": "直接成像",
       "num": "7.3.4",
       "printedPage": 466,
       "depth": 3,
@@ -4264,7 +4204,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-4-1",
-      "name": "成像的性质",
+      "name": "直接成像CCD的性质",
       "num": "7.3.4.1",
       "printedPage": 467,
       "depth": 4,
@@ -4276,7 +4216,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-4-2",
-      "name": "成像的缺点",
+      "name": "直接成像的缺点",
       "num": "7.3.4.2",
       "printedPage": 470,
       "depth": 4,
@@ -4288,7 +4228,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-5",
-      "name": "成像",
+      "name": "间接成像",
       "num": "7.3.5",
       "printedPage": 470,
       "depth": 3,
@@ -4300,7 +4240,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-6",
-      "name": "与多丝探测器",
+      "name": "微条与多丝探测器",
       "num": "7.3.6",
       "printedPage": 471,
       "depth": 3,
@@ -4312,7 +4252,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-7-3-7",
-      "name": "7.3.7 探测器",
+      "name": "闪烁光纤探测器",
       "num": "7.3.7",
       "printedPage": 471,
       "depth": 3,
@@ -4333,18 +4273,6 @@
       "appendix": true,
       "answerKey": false,
       "nameOriginal": "Problems"
-    },
-    {
-      "microKpId": "kp-ahmed-2e-7-5",
-      "name": "参考文献",
-      "num": "7.5",
-      "printedPage": 473,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-7",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
     },
     {
       "microKpId": "kp-ahmed-2e-8",
@@ -4408,7 +4336,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-1-3-1",
-      "name": "反馈机制",
+      "name": "电阻性反馈机制",
       "num": "8.1.3.1",
       "printedPage": 486,
       "depth": 4,
@@ -4420,7 +4348,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-1-3-2",
-      "name": "机制",
+      "name": "复位机制",
       "num": "8.1.3.2",
       "printedPage": 488,
       "depth": 4,
@@ -4528,7 +4456,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-3-2-1",
-      "name": "极点",
+      "name": "极点零",
       "num": "8.3.2.1",
       "printedPage": 501,
       "depth": 4,
@@ -4552,7 +4480,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-3-3",
-      "name": "高斯脉冲成形",
+      "name": "半高斯脉冲成形",
       "num": "8.3.3",
       "printedPage": 504,
       "depth": 3,
@@ -4564,7 +4492,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-3-4",
-      "name": "脉冲成形",
+      "name": "半三角脉冲成形",
       "num": "8.3.4",
       "printedPage": 505,
       "depth": 3,
@@ -4612,7 +4540,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-4-3",
-      "name": "滤波器",
+      "name": "带滤波器",
       "num": "8.4.3",
       "printedPage": 510,
       "depth": 3,
@@ -4660,7 +4588,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-6-1-1",
-      "name": "单道",
+      "name": "单道分析器",
       "num": "8.6.1.1",
       "printedPage": 512,
       "depth": 4,
@@ -4720,7 +4648,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-7-1-2",
-      "name": "8.7.1.2 死时间",
+      "name": "转换参数 死时间",
       "num": "8.7.1.2",
       "printedPage": 514,
       "depth": 4,
@@ -4744,7 +4672,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-7-1-4",
-      "name": "8.7.1.4 非线性",
+      "name": "非线性",
       "num": "8.7.1.4",
       "printedPage": 516,
       "depth": 4,
@@ -4780,7 +4708,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-7-2-1",
-      "name": "数字ADC",
+      "name": "数字斜ADC",
       "num": "8.7.2.1",
       "printedPage": 516,
       "depth": 4,
@@ -4900,7 +4828,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-9-1-1",
-      "name": "8.9.1.1 噪声",
+      "name": "约翰逊噪声",
       "num": "8.9.1.1",
       "printedPage": 528,
       "depth": 4,
@@ -4924,7 +4852,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-9-1-3",
-      "name": "8.9.1.3 噪声",
+      "name": "噪声",
       "num": "8.9.1.3",
       "printedPage": 531,
       "depth": 4,
@@ -4936,7 +4864,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-9-1-4",
-      "name": "8.9.1.4 噪声",
+      "name": "量化噪声",
       "num": "8.9.1.4",
       "printedPage": 532,
       "depth": 4,
@@ -4948,7 +4876,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-9-2",
-      "name": "部件中的噪声",
+      "name": "特定部件中的噪声",
       "num": "8.9.2",
       "printedPage": 533,
       "depth": 3,
@@ -4972,7 +4900,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-9-2-2",
-      "name": "8.9.2.2 噪声",
+      "name": "ADC中的噪声",
       "num": "8.9.2.2",
       "printedPage": 535,
       "depth": 4,
@@ -4996,7 +4924,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-8-9-4",
-      "name": "噪声技术",
+      "name": "噪声退化技术",
       "num": "8.9.4",
       "printedPage": 537,
       "depth": 3,
@@ -5041,18 +4969,6 @@
       "appendix": true,
       "answerKey": false,
       "nameOriginal": "Problems"
-    },
-    {
-      "microKpId": "kp-ahmed-2e-8-11",
-      "name": "参考文献",
-      "num": "8.11",
-      "printedPage": 539,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-8",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
     },
     {
       "microKpId": "kp-ahmed-2e-9",
@@ -5104,7 +5020,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-3-1",
-      "name": "9.3.1 方法",
+      "name": "频率学派方法",
       "num": "9.3.1",
       "printedPage": 545,
       "depth": 3,
@@ -5116,7 +5032,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-3-2",
-      "name": "9.3.2 方法",
+      "name": "贝叶斯方法",
       "num": "9.3.2",
       "printedPage": 545,
       "depth": 3,
@@ -5140,7 +5056,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-3-3-1",
-      "name": "来自",
+      "name": "量来自",
       "num": "9.3.3.1",
       "printedPage": 547,
       "depth": 4,
@@ -5152,7 +5068,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-3-3-2",
-      "name": "9.3.3.2 方法",
+      "name": "最大似然方法",
       "num": "9.3.3.2",
       "printedPage": 550,
       "depth": 4,
@@ -5224,7 +5140,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-3-4-5",
-      "name": "9.3.4.5 分布",
+      "name": "分布",
       "num": "9.3.4.5",
       "printedPage": 561,
       "depth": 4,
@@ -5248,7 +5164,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-3-4-6-1",
-      "name": "使用方法",
+      "name": "使用最大似然方法",
       "num": "9.3.4.6.1",
       "printedPage": 563,
       "depth": 5,
@@ -5284,7 +5200,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-5-1",
-      "name": "9.5.1 误差",
+      "name": "误差",
       "num": "9.5.1",
       "printedPage": 567,
       "depth": 3,
@@ -5296,7 +5212,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-5-2",
-      "name": "9.5.2 误差",
+      "name": "随机误差",
       "num": "9.5.2",
       "printedPage": 567,
       "depth": 3,
@@ -5344,7 +5260,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-5-4",
-      "name": "9.5.4 结果",
+      "name": "结果的展示",
       "num": "9.5.4",
       "printedPage": 569,
       "depth": 3,
@@ -5380,7 +5296,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-6-2",
-      "name": "9.6.2 测试",
+      "name": "测试",
       "num": "9.6.2",
       "printedPage": 572,
       "depth": 3,
@@ -5404,7 +5320,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-7-1",
-      "name": "简单线性",
+      "name": "简单线性回归",
       "num": "9.7.1",
       "printedPage": 574,
       "depth": 3,
@@ -5416,7 +5332,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-7-2",
-      "name": "9.7.2 非线性",
+      "name": "非线性回归",
       "num": "9.7.2",
       "printedPage": 576,
       "depth": 3,
@@ -5440,7 +5356,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-8-1",
-      "name": "或简单线性",
+      "name": "或简单线性相关",
       "num": "9.8.1",
       "printedPage": 578,
       "depth": 3,
@@ -5452,7 +5368,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-9",
-      "name": "时间分析",
+      "name": "时间串联分析",
       "num": "9.9",
       "printedPage": 580,
       "depth": 2,
@@ -5500,7 +5416,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-9-11-1",
-      "name": "测量与探测限",
+      "name": "测量精密度与探测限",
       "num": "9.11.1",
       "printedPage": 585,
       "depth": 3,
@@ -5523,20 +5439,8 @@
       "nameOriginal": "Problems"
     },
     {
-      "microKpId": "kp-ahmed-2e-9-13",
-      "name": "参考文献",
-      "num": "9.13",
-      "printedPage": 592,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-9",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
-    },
-    {
       "microKpId": "kp-ahmed-2e-10",
-      "name": "数据分析",
+      "name": "用于数据分析的软件",
       "num": "10",
       "printedPage": 594,
       "depth": 1,
@@ -5596,7 +5500,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-1-3",
-      "name": "10.1.1.3 数据分析能力",
+      "name": "数据分析能力",
       "num": "10.1.1.3",
       "printedPage": 599,
       "depth": 4,
@@ -5608,7 +5512,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-1-4",
-      "name": "10.1.1.4 能力",
+      "name": "图形能力",
       "num": "10.1.1.4",
       "printedPage": 599,
       "depth": 4,
@@ -5620,7 +5524,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-1-5",
-      "name": "使用",
+      "name": "使用ROOT",
       "num": "10.1.1.5",
       "printedPage": 600,
       "depth": 4,
@@ -5632,7 +5536,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-1-6",
-      "name": "10.1.1.6 示例",
+      "name": "示例",
       "num": "10.1.1.6",
       "printedPage": 601,
       "depth": 4,
@@ -5668,7 +5572,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-2-2",
-      "name": "10.1.2.2 能力",
+      "name": "起源 图形能力",
       "num": "10.1.2.2",
       "printedPage": 607,
       "depth": 4,
@@ -5680,7 +5584,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-2-3",
-      "name": "10.1.2.3 数据分析能力",
+      "name": "起源 数据分析能力",
       "num": "10.1.2.3",
       "printedPage": 607,
       "depth": 4,
@@ -5692,7 +5596,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-2-4",
-      "name": "10.1.2.4 环境",
+      "name": "编程环境",
       "num": "10.1.2.4",
       "printedPage": 608,
       "depth": 4,
@@ -5704,7 +5608,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-2-5",
-      "name": "10.1.2.5 示例",
+      "name": "起源 示例",
       "num": "10.1.2.5",
       "printedPage": 608,
       "depth": 4,
@@ -5776,7 +5680,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-3-1-4",
-      "name": "图像处理与",
+      "name": "图像处理与计算机",
       "num": "10.1.3.1.4",
       "printedPage": 613,
       "depth": 5,
@@ -5812,7 +5716,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-3-3",
-      "name": "10.1.3.3 数据分析能力",
+      "name": "MATLAB 数值计算软件 数据分析能力",
       "num": "10.1.3.3",
       "printedPage": 613,
       "depth": 4,
@@ -5824,7 +5728,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-3-4",
-      "name": "10.1.3.4 能力",
+      "name": "可视化能力",
       "num": "10.1.3.4",
       "printedPage": 614,
       "depth": 4,
@@ -5836,7 +5740,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-3-5",
-      "name": "10.1.3.5 环境",
+      "name": "MATLAB 数值计算软件 编程环境",
       "num": "10.1.3.5",
       "printedPage": 614,
       "depth": 4,
@@ -5848,7 +5752,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-1-3-6",
-      "name": "10.1.3.6 示例",
+      "name": "MATLAB 数值计算软件 示例",
       "num": "10.1.3.6",
       "printedPage": 614,
       "depth": 4,
@@ -5860,7 +5764,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-2",
-      "name": "数据分析",
+      "name": "自研制数据分析",
       "num": "10.2",
       "printedPage": 617,
       "depth": 2,
@@ -5908,7 +5812,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-10-2-4",
-      "name": "10.2.4 结果",
+      "name": "结果显示",
       "num": "10.2.4",
       "printedPage": 619,
       "depth": 3,
@@ -5917,18 +5821,6 @@
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "10.2.D Result display"
-    },
-    {
-      "microKpId": "kp-ahmed-2e-10-3",
-      "name": "参考文献",
-      "num": "10.3",
-      "printedPage": 619,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-10",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
     },
     {
       "microKpId": "kp-ahmed-2e-11",
@@ -5944,7 +5836,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-1",
-      "name": "剂量学",
+      "name": "剂量学的重要性",
       "num": "11.1",
       "printedPage": 621,
       "depth": 2,
@@ -5968,7 +5860,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2",
-      "name": "至剂量学",
+      "name": "量至剂量学",
       "num": "11.2",
       "printedPage": 622,
       "depth": 2,
@@ -5992,7 +5884,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-1-1",
-      "name": "A.1 Roentgen 刀",
+      "name": "Roentgen 刀",
       "num": "11.2.1.1",
       "printedPage": 623,
       "depth": 4,
@@ -6040,7 +5932,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-2",
-      "name": "或率",
+      "name": "通量或率",
       "num": "11.2.2",
       "printedPage": 627,
       "depth": 3,
@@ -6052,7 +5944,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-3",
-      "name": "11.2.3 或",
+      "name": "集成通量或",
       "num": "11.2.3",
       "printedPage": 628,
       "depth": 3,
@@ -6064,7 +5956,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-4",
-      "name": "与吸收剂量：定义",
+      "name": "照射与吸收剂量：数学定义",
       "num": "11.2.4",
       "printedPage": 630,
       "depth": 3,
@@ -6076,7 +5968,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-5",
-      "name": "与",
+      "name": "比释动能比转换能与比释能",
       "num": "11.2.5",
       "printedPage": 634,
       "depth": 3,
@@ -6124,7 +6016,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-6",
-      "name": "测量与",
+      "name": "测量比释动能与照射",
       "num": "11.2.6",
       "printedPage": 638,
       "depth": 3,
@@ -6136,7 +6028,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-7",
-      "name": "理论",
+      "name": "空腔理论",
       "num": "11.2.7",
       "printedPage": 639,
       "depth": 3,
@@ -6148,7 +6040,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-7-1",
-      "name": "11.2.7.1 理论",
+      "name": "布拉格空腔理论",
       "num": "11.2.7.1",
       "printedPage": 639,
       "depth": 4,
@@ -6160,7 +6052,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-7-2",
-      "name": "11.2.7.2 理论",
+      "name": "SpencerAttix空腔理论",
       "num": "11.2.7.2",
       "printedPage": 641,
       "depth": 4,
@@ -6172,7 +6064,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-2-8",
-      "name": "11.2.8 与",
+      "name": "LET与RBE",
       "num": "11.2.8",
       "printedPage": 642,
       "depth": 3,
@@ -6244,7 +6136,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-1",
-      "name": "剂量学",
+      "name": "热释光剂量学",
       "num": "11.3.1",
       "printedPage": 647,
       "depth": 3,
@@ -6256,7 +6148,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-1-1",
-      "name": "11.3.1.1 原理与曲线",
+      "name": "工作原理与辉光曲线",
       "num": "11.3.1.1",
       "printedPage": 648,
       "depth": 4,
@@ -6268,7 +6160,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-1-2",
-      "name": "11.3.1.2 常见材料",
+      "name": "常见Tl材料",
       "num": "11.3.1.2",
       "printedPage": 649,
       "depth": 4,
@@ -6280,7 +6172,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-1-3",
-      "name": "11.3.1.3 剂量计的优点与缺点",
+      "name": "Tl剂量计的优点与缺点",
       "num": "11.3.1.3",
       "printedPage": 651,
       "depth": 4,
@@ -6292,7 +6184,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-2",
-      "name": "剂量学",
+      "name": "光受激发光剂量学",
       "num": "11.3.2",
       "printedPage": 651,
       "depth": 3,
@@ -6304,7 +6196,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-2-1",
-      "name": "11.3.2.1 原理与曲线",
+      "name": "工作原理与OSL曲线",
       "num": "11.3.2.1",
       "printedPage": 652,
       "depth": 4,
@@ -6316,7 +6208,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-2-2",
-      "name": "11.3.2.2 常见材料",
+      "name": "常见OSL材料",
       "num": "11.3.2.2",
       "printedPage": 652,
       "depth": 4,
@@ -6328,7 +6220,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-3",
-      "name": "剂量学",
+      "name": "胶片剂量学",
       "num": "11.3.3",
       "printedPage": 653,
       "depth": 3,
@@ -6340,7 +6232,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-3-1",
-      "name": "11.3.3.1 剂量计的优点与缺点",
+      "name": "胶片剂量计的优点与缺点",
       "num": "11.3.3.1",
       "printedPage": 653,
       "depth": 4,
@@ -6352,7 +6244,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-3-3-2",
-      "name": "11.3.3.2 常见材料",
+      "name": "常见辐射变色材料",
       "num": "11.3.3.2",
       "printedPage": 654,
       "depth": 4,
@@ -6400,7 +6292,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-4-1",
-      "name": "离子室剂量学",
+      "name": "电离室剂量学",
       "num": "11.4.1",
       "printedPage": 656,
       "depth": 3,
@@ -6412,7 +6304,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-4-1-1",
-      "name": "空气离子室剂量学",
+      "name": "空气电离室剂量学",
       "num": "11.4.1.1",
       "printedPage": 656,
       "depth": 4,
@@ -6424,7 +6316,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-4-1-2",
-      "name": "离子室剂量学",
+      "name": "空腔电离室剂量学",
       "num": "11.4.1.2",
       "printedPage": 659,
       "depth": 4,
@@ -6448,7 +6340,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-4-2-1",
-      "name": "11.4.2.1 剂量计",
+      "name": "剂量计",
       "num": "11.4.2.1",
       "printedPage": 663,
       "depth": 4,
@@ -6460,7 +6352,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-4-2-2",
-      "name": "11.4.2.2 剂量计",
+      "name": "金刚石剂量计",
       "num": "11.4.2.2",
       "printedPage": 665,
       "depth": 4,
@@ -6472,7 +6364,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-4-3",
-      "name": "闪烁体剂量计",
+      "name": "塑料闪烁体剂量计",
       "num": "11.4.3",
       "printedPage": 666,
       "depth": 3,
@@ -6496,7 +6388,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-4-4-1",
-      "name": "优点与缺点",
+      "name": "石英丝验电器的优点与缺点",
       "num": "11.4.4.1",
       "printedPage": 668,
       "depth": 4,
@@ -6544,7 +6436,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-5-1-2",
-      "name": "11.5.1.2 能量",
+      "name": "特定能量",
       "num": "11.5.1.2",
       "printedPage": 670,
       "depth": 4,
@@ -6556,7 +6448,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-5-1-3",
-      "name": "11.5.1.3 能量",
+      "name": "线能量",
       "num": "11.5.1.3",
       "printedPage": 670,
       "depth": 4,
@@ -6592,7 +6484,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-5-2-2",
-      "name": "固体径迹探测器",
+      "name": "固体核径迹探测器",
       "num": "11.5.2.2",
       "printedPage": 674,
       "depth": 4,
@@ -6604,7 +6496,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-5-2-3",
-      "name": "11.5.2.3 硅",
+      "name": "硅微剂量计",
       "num": "11.5.2.3",
       "printedPage": 675,
       "depth": 4,
@@ -6628,7 +6520,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-6-1",
-      "name": "与辐射照射",
+      "name": "急性与慢性辐射照射",
       "num": "11.6.1",
       "printedPage": 678,
       "depth": 3,
@@ -6664,7 +6556,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-6-2",
-      "name": "效应与",
+      "name": "照射的效应与",
       "num": "11.6.2",
       "printedPage": 679,
       "depth": 3,
@@ -6676,7 +6568,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-6-2-1",
-      "name": "11.6.2.1 辐射的效应",
+      "name": "辐射的躯体效应",
       "num": "11.6.2.1",
       "printedPage": 679,
       "depth": 4,
@@ -6688,7 +6580,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-11-6-2-2",
-      "name": "11.6.2.2 辐射的效应",
+      "name": "辐射的遗传效应",
       "num": "11.6.2.2",
       "printedPage": 679,
       "depth": 4,
@@ -6724,7 +6616,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-1-1",
-      "name": "射线能谱学",
+      "name": "γ射线能谱学",
       "num": "12.1.1",
       "printedPage": 689,
       "depth": 3,
@@ -6772,7 +6664,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-1-3-2",
-      "name": "C.2 X-ray photoelectron spectroscopy 堀倀匀",
+      "name": "X-ray photoelectron spectroscopy 堀倀匀",
       "num": "12.1.3.2",
       "printedPage": 702,
       "depth": 4,
@@ -6784,7 +6676,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-1-3-3",
-      "name": "C.3 X 射线衍射谱学 XDS",
+      "name": "射线衍射能谱学XDS",
       "num": "12.1.3.3",
       "printedPage": 704,
       "depth": 4,
@@ -6916,7 +6808,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-3-2-2",
-      "name": "高谱仪",
+      "name": "高通量谱仪",
       "num": "12.3.2.2",
       "printedPage": 721,
       "depth": 4,
@@ -6928,7 +6820,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-3-2-3",
-      "name": "滤波器谱仪",
+      "name": "滤波器分析器谱仪",
       "num": "12.3.2.3",
       "printedPage": 722,
       "depth": 4,
@@ -6940,7 +6832,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-3-2-4",
-      "name": "12.3.2.4 谱仪",
+      "name": "圆盘斩波器谱仪",
       "num": "12.3.2.4",
       "printedPage": 722,
       "depth": 4,
@@ -6952,7 +6844,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-3-2-5",
-      "name": "12.3.2.5 谱仪",
+      "name": "费米斩波器谱仪",
       "num": "12.3.2.5",
       "printedPage": 723,
       "depth": 4,
@@ -6964,7 +6856,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-3-2-6",
-      "name": "12.3.2.6 谱仪",
+      "name": "自旋回波谱仪",
       "num": "12.3.2.6",
       "printedPage": 724,
       "depth": 4,
@@ -6988,7 +6880,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-12-5",
-      "name": "12.5 时间能谱学",
+      "name": "时间能谱学",
       "num": "12.5",
       "printedPage": 727,
       "depth": 2,
@@ -7011,18 +6903,6 @@
       "nameOriginal": "Problems"
     },
     {
-      "microKpId": "kp-ahmed-2e-12-7",
-      "name": "参考文献",
-      "num": "12.7",
-      "printedPage": 729,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-12",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
-    },
-    {
       "microKpId": "kp-ahmed-2e-13",
       "name": "数据获取系统",
       "num": "13",
@@ -7036,7 +6916,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-1",
-      "name": "数据获取",
+      "name": "数据获取链",
       "num": "13.1",
       "printedPage": 731,
       "depth": 2,
@@ -7060,7 +6940,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-1-1-1",
-      "name": "13.1.1.1 脉冲计数",
+      "name": "慢脉冲计数",
       "num": "13.1.1.1",
       "printedPage": 732,
       "depth": 4,
@@ -7072,7 +6952,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-1-1-2",
-      "name": "13.1.1.2 脉冲计数",
+      "name": "快脉冲计数",
       "num": "13.1.1.2",
       "printedPage": 732,
       "depth": 4,
@@ -7096,7 +6976,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-1-3",
-      "name": "13.1.3 时间能谱学",
+      "name": "数据获取链 时间能谱学",
       "num": "13.1.3",
       "printedPage": 733,
       "depth": 3,
@@ -7240,7 +7120,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-2-3",
-      "name": "标准",
+      "name": "VME标准",
       "num": "13.2.3",
       "printedPage": 740,
       "depth": 3,
@@ -7288,7 +7168,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-2-3-4",
-      "name": "逻辑",
+      "name": "VME逻辑",
       "num": "13.2.3.4",
       "printedPage": 742,
       "depth": 4,
@@ -7300,7 +7180,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-2-4",
-      "name": "标准",
+      "name": "FASTBUS标准",
       "num": "13.2.4",
       "printedPage": 742,
       "depth": 3,
@@ -7336,7 +7216,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-3",
-      "name": "系统",
+      "name": "PC基于系统",
       "num": "13.3",
       "printedPage": 743,
       "depth": 2,
@@ -7384,7 +7264,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-3-4",
-      "name": "USB模块",
+      "name": "USB基于模块",
       "num": "13.3.4",
       "printedPage": 746,
       "depth": 3,
@@ -7396,7 +7276,7 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-3-5",
-      "name": "系统",
+      "name": "TCPIP基于系统",
       "num": "13.3.5",
       "printedPage": 746,
       "depth": 3,
@@ -7408,20 +7288,8 @@
     },
     {
       "microKpId": "kp-ahmed-2e-13-4",
-      "name": "参考文献",
-      "num": "13.4",
-      "printedPage": 747,
-      "depth": 2,
-      "parentId": "kp-ahmed-2e-13",
-      "isLeaf": false,
-      "appendix": true,
-      "answerKey": false,
-      "nameOriginal": "Bibliography"
-    },
-    {
-      "microKpId": "kp-ahmed-2e-13-5",
       "name": "万用表",
-      "num": "13.5",
+      "num": "13.4",
       "printedPage": 748,
       "depth": 2,
       "parentId": "kp-ahmed-2e-13",
@@ -7431,69 +7299,69 @@
       "nameOriginal": "A.1 Multimeters"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-5-1",
+      "microKpId": "kp-ahmed-2e-13-4-1",
       "name": "测量电压与电流",
-      "num": "13.5.1",
+      "num": "13.4.1",
       "printedPage": 748,
       "depth": 3,
-      "parentId": "kp-ahmed-2e-13-5",
+      "parentId": "kp-ahmed-2e-13-4",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.1.A Measuring voltage and current"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-5-2",
-      "name": "模拟",
-      "num": "13.5.2",
+      "microKpId": "kp-ahmed-2e-13-4-2",
+      "name": "模拟万用表",
+      "num": "13.4.2",
       "printedPage": 749,
       "depth": 3,
-      "parentId": "kp-ahmed-2e-13-5",
+      "parentId": "kp-ahmed-2e-13-4",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.1.B Analog multimeter"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-5-3",
-      "name": "13.5.3 数字",
-      "num": "13.5.3",
+      "microKpId": "kp-ahmed-2e-13-4-3",
+      "name": "数字万用表",
+      "num": "13.4.3",
       "printedPage": 749,
       "depth": 3,
-      "parentId": "kp-ahmed-2e-13-5",
+      "parentId": "kp-ahmed-2e-13-4",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.1.C Digital multimeter"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-5-4",
+      "microKpId": "kp-ahmed-2e-13-4-4",
       "name": "测量电压",
-      "num": "13.5.4",
+      "num": "13.4.4",
       "printedPage": 750,
       "depth": 3,
-      "parentId": "kp-ahmed-2e-13-5",
+      "parentId": "kp-ahmed-2e-13-4",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.1.D Measuring voltage"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-5-5",
+      "microKpId": "kp-ahmed-2e-13-4-5",
       "name": "测量电流",
-      "num": "13.5.5",
+      "num": "13.4.5",
       "printedPage": 750,
       "depth": 3,
-      "parentId": "kp-ahmed-2e-13-5",
+      "parentId": "kp-ahmed-2e-13-4",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.1.E Measuring current"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6",
+      "microKpId": "kp-ahmed-2e-13-5",
       "name": "示波器",
-      "num": "13.6",
+      "num": "13.5",
       "printedPage": 750,
       "depth": 2,
       "parentId": "kp-ahmed-2e-13",
@@ -7503,117 +7371,117 @@
       "nameOriginal": "A.2 Oscilloscopes"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-1",
-      "name": "模拟",
-      "num": "13.6.1",
+      "microKpId": "kp-ahmed-2e-13-5-1",
+      "name": "模拟示波器",
+      "num": "13.5.1",
       "printedPage": 750,
       "depth": 3,
-      "parentId": "kp-ahmed-2e-13-6",
+      "parentId": "kp-ahmed-2e-13-5",
       "isLeaf": false,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.2.A Analog oscilloscope"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-1-1",
+      "microKpId": "kp-ahmed-2e-13-5-1-1",
       "name": "衰减器",
-      "num": "13.6.1.1",
+      "num": "13.5.1.1",
       "printedPage": 751,
       "depth": 4,
-      "parentId": "kp-ahmed-2e-13-6-1",
+      "parentId": "kp-ahmed-2e-13-5-1",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.1 Attenuator"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-1-2",
-      "name": "13.6.1.2 电子",
-      "num": "13.6.1.2",
+      "microKpId": "kp-ahmed-2e-13-5-1-2",
+      "name": "模拟示波器 电子枪",
+      "num": "13.5.1.2",
       "printedPage": 751,
       "depth": 4,
-      "parentId": "kp-ahmed-2e-13-6-1",
+      "parentId": "kp-ahmed-2e-13-5-1",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.2 Electron gun"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-1-3",
-      "name": "电子系统",
-      "num": "13.6.1.3",
+      "microKpId": "kp-ahmed-2e-13-5-1-3",
+      "name": "电子束系统",
+      "num": "13.5.1.3",
       "printedPage": 752,
       "depth": 4,
-      "parentId": "kp-ahmed-2e-13-6-1",
+      "parentId": "kp-ahmed-2e-13-5-1",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.3 Electron beam deflection systems"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-1-4",
+      "microKpId": "kp-ahmed-2e-13-5-1-4",
       "name": "触发系统",
-      "num": "13.6.1.4",
+      "num": "13.5.1.4",
       "printedPage": 753,
       "depth": 4,
-      "parentId": "kp-ahmed-2e-13-6-1",
+      "parentId": "kp-ahmed-2e-13-5-1",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.4 Trigger system"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-2",
-      "name": "13.6.2 数字",
-      "num": "13.6.2",
+      "microKpId": "kp-ahmed-2e-13-5-2",
+      "name": "数字示波器",
+      "num": "13.5.2",
       "printedPage": 754,
       "depth": 3,
-      "parentId": "kp-ahmed-2e-13-6",
+      "parentId": "kp-ahmed-2e-13-5",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.2.B Digital oscilloscopes"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-3",
+      "microKpId": "kp-ahmed-2e-13-5-3",
       "name": "信号探头",
-      "num": "13.6.3",
+      "num": "13.5.3",
       "printedPage": 755,
       "depth": 3,
-      "parentId": "kp-ahmed-2e-13-6",
+      "parentId": "kp-ahmed-2e-13-5",
       "isLeaf": false,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "A.2.C Signal probes"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-3-1",
+      "microKpId": "kp-ahmed-2e-13-5-3-1",
       "name": "无源探头",
-      "num": "13.6.3.1",
+      "num": "13.5.3.1",
       "printedPage": 755,
       "depth": 4,
-      "parentId": "kp-ahmed-2e-13-6-3",
+      "parentId": "kp-ahmed-2e-13-5-3",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "C.1 Passive probes"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-6-3-2",
+      "microKpId": "kp-ahmed-2e-13-5-3-2",
       "name": "有源探头",
-      "num": "13.6.3.2",
+      "num": "13.5.3.2",
       "printedPage": 757,
       "depth": 4,
-      "parentId": "kp-ahmed-2e-13-6-3",
+      "parentId": "kp-ahmed-2e-13-5-3",
       "isLeaf": true,
       "appendix": false,
       "answerKey": false,
       "nameOriginal": "C.2 Active probes"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-7",
+      "microKpId": "kp-ahmed-2e-13-6",
       "name": "常数",
-      "num": "13.7",
+      "num": "13.6",
       "printedPage": 758,
       "depth": 2,
       "parentId": "kp-ahmed-2e-13",
@@ -7623,9 +7491,9 @@
       "nameOriginal": "B.1 Constants"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-8",
+      "microKpId": "kp-ahmed-2e-13-7",
       "name": "粒子的质量与电气电荷",
-      "num": "13.8",
+      "num": "13.7",
       "printedPage": 758,
       "depth": 2,
       "parentId": "kp-ahmed-2e-13",
@@ -7635,9 +7503,9 @@
       "nameOriginal": "B.2 Masses and electrical charges of particles"
     },
     {
-      "microKpId": "kp-ahmed-2e-13-9",
+      "microKpId": "kp-ahmed-2e-13-8",
       "name": "转换",
-      "num": "13.9",
+      "num": "13.8",
       "printedPage": 759,
       "depth": 2,
       "parentId": "kp-ahmed-2e-13",

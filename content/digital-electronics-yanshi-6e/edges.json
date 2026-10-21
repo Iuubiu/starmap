@@ -1,0 +1,943 @@
+{
+  "summary": {
+    "edgeCount": 59,
+    "crossChapter": 17,
+    "withinChapter": 42,
+    "leavesTouched": 60,
+    "leafCount": 128,
+    "coverage": 0.4688
+  },
+  "edges": [
+    {
+      "fromId": "kp-yanshi-6e-1-4-1",
+      "toId": "kp-yanshi-6e-1-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "在一些国外的教材中，也将式（1.4.1）定义的补码称为“2的补码”（2”s",
+          "printedPage": 11,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0032-09-5b0270f01825",
+          "ref": "式（1.4.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "为负数时，（N）v+1=2-N，而由式（1.4.1）又知，当N为负数",
+          "printedPage": 12,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0033-01-0d25c6667666",
+          "ref": "式（1.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-1-4-1",
+      "toId": "kp-yanshi-6e-1-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "由式（1.4.1）和式（1.4.3）可知，+13的二",
+          "printedPage": 13,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0034-04-cf91f38b1482",
+          "ref": "式（1.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-1-5",
+      "toId": "kp-yanshi-6e-p200-习题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "的门电路来实现。4位格雷码见本书第1.5节的表1.5.2。",
+          "printedPage": 202,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0223-02-e40ad532185f",
+          "ref": "1.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-2-3-1",
+      "toId": "kp-yanshi-6e-2-4-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "单个变量上的反号应保留不变。回顾一下2.3.1节中讲过的德·摩根定理便可发现，它只不",
+          "printedPage": 27,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0048-14-44632da21be3",
+          "ref": "2.3.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-2-5-2",
+      "toId": "kp-yanshi-6e-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在2.5.2节中已经讲过，逻辑函数的描述方法除逻辑",
+          "printedPage": 147,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0168-09-fcc6f4110d9c",
+          "ref": "2.5.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-3-3-1",
+      "toId": "kp-yanshi-6e-3-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "减小负载电容和MOS管的导通电阻。由式（3.3.1）可知，为了减小M0S管的导通电阻，",
+          "printedPage": 80,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0101-08-138854847066",
+          "ref": "式（3.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-3-3-1",
+      "toId": "kp-yanshi-6e-3-3-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "且希望R不受输人电压变化的影响。然而式（3.3.1）表明，M0S管的导通内阻R是栅源电",
+          "printedPage": 91,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0112-03-f7bf2811389d",
+          "ref": "式（3.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-3-3-3",
+      "toId": "kp-yanshi-6e-3-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "的定义方法也和CM0S反相器一样。由式（3.3.3）和式（3.3.4）知，输人为高电平",
+          "printedPage": 106,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0127-20-3f8f02a55b89",
+          "ref": "式（3.3.3"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-3-3-4",
+      "toId": "kp-yanshi-6e-3-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "0S反相器一样。由式（3.3.3）和式（3.3.4）知，输人为高电平",
+          "printedPage": 106,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0127-20-3f8f02a55b89",
+          "ref": "式（3.3.4"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-3-3-5",
+      "toId": "kp-yanshi-6e-3-7-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "出门上拉电阻阻值的计算方法在前面的第3.3.5节中已经讲过。",
+          "printedPage": 135,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0156-02-16c609a7ea94",
+          "ref": "3.3.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-3-4-5",
+      "toId": "kp-yanshi-6e-3-4-6",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "工作原理和特性在前面的第3.4.2~3.4.5节中已经",
+          "printedPage": 122,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0143-09-f4b3ef2c0613",
+          "ref": "3.4.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-3-7-1",
+      "toId": "kp-yanshi-6e-3-7-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "路的输人端时，在一定的m、n取值下，式（3.7.1）~（3.7.4）全部都能满足。因此",
+          "printedPage": 134,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0155-02-035c93eb33f9",
+          "ref": "式（3.7.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "驱动任何系列的TTL电路时，都能满足式（3.7.1）和式（3.7.2）的要求。",
+          "printedPage": 134,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0155-05-cb81145dc2ac",
+          "ref": "式（3.7.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-3",
+      "toId": "kp-yanshi-6e-4-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "一起使用，这些简单的模块电路都可以用4.3节所讲的方法设计出来。",
+          "printedPage": 179,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0200-09-7b8cf27285f2",
+          "ref": "4.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-4-1",
+      "toId": "kp-yanshi-6e-4-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "【例4.5.1】试用4.4节中介绍的8线-3线优先编码器74HC",
+          "printedPage": 179,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0200-12-ddbd5c0e832b",
+          "ref": "4.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-4-1",
+      "toId": "kp-yanshi-6e-6-6",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "4.4.1节中讲过。这种由于竞争而产生的尖峰脉冲",
+          "printedPage": 336,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0357-24-88950f542a9e",
+          "ref": "4.4.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-4-2",
+      "toId": "kp-yanshi-6e-4-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "【例4.5.1】试用4.4节中介绍的8线-3线优先编码器74HC",
+          "printedPage": 179,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0200-12-ddbd5c0e832b",
+          "ref": "4.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "4.4.2节详细介绍了二进制译码器的电路结构和工",
+          "printedPage": 182,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0203-00-2f11ceb4764e",
+          "ref": "4.4.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-4-3",
+      "toId": "kp-yanshi-6e-4-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "【例4.5.1】试用4.4节中介绍的8线-3线优先编码器74HC",
+          "printedPage": 179,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0200-12-ddbd5c0e832b",
+          "ref": "4.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "由4.4.3节可知，具有两位地址输人AA。的4选1",
+          "printedPage": 182,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0203-04-74a0c6662002",
+          "ref": "4.4.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-4-3",
+      "toId": "kp-yanshi-6e-6-6",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "合逻辑电路中竞争-冒险现象的方法已在4.4.3节中做了介绍，这里不再重复。",
+          "printedPage": 336,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0357-24-88950f542a9e",
+          "ref": "4.4.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-4-4",
+      "toId": "kp-yanshi-6e-4-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "【例4.5.1】试用4.4节中介绍的8线-3线优先编码器74HC",
+          "printedPage": 179,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0200-12-ddbd5c0e832b",
+          "ref": "4.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-4-4",
+      "toId": "kp-yanshi-6e-4-7",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在第一个例子中，用硬件描述语言来描述4.4.4节中用串行进位方式构成的4位全加器。4",
+          "printedPage": 189,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0210-02-16b16fade4a8",
+          "ref": "4.4.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-4-5",
+      "toId": "kp-yanshi-6e-4-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "【例4.5.1】试用4.4节中介绍的8线-3线优先编码器74HC",
+          "printedPage": 179,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0200-12-ddbd5c0e832b",
+          "ref": "4.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-6",
+      "toId": "kp-yanshi-6e-6-5-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在第4章的4.6节中介绍了可编程逻辑器件PLA的基本结",
+          "printedPage": 330,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0351-05-1702a79cfc6a",
+          "ref": "4.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-7",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "进行电子电路设计实现的一种描述方式。4.7节中用组合逻辑电路作为实例，介绍了用硬",
+          "printedPage": 331,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0352-08-c72e1324fa88",
+          "ref": "4.7节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "触发器次态和现态之间转换关系的描述。4.7节中介绍了组合逻辑电路的硬件语言描述，",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-13-10cb86d4ef2e",
+          "ref": "4.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-8",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "设计实现的步骤参见4.8节。硬件描述语言是借助EDA工具进行电",
+          "printedPage": 331,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0352-08-c72e1324fa88",
+          "ref": "4.8节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-4-9-3",
+      "toId": "kp-yanshi-6e-6-3-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "为了消除输出端的尖峰脉冲，可以采用4.9.3节中介绍的几种方法。在使用中规模集成的",
+          "printedPage": 305,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0326-15-c8ccd8d45b45",
+          "ref": "4.9.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-5-3-1",
+      "toId": "kp-yanshi-6e-5-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "式（5.3.1）称为SR触发器的特性方程。",
+          "printedPage": 224,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0245-14-277e7eae9223",
+          "ref": "式（5.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-5-3-3",
+      "toId": "kp-yanshi-6e-5-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "至固定的高电平时（即T恒等于1），则式（5.3.3）变为",
+          "printedPage": 226,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0247-00-140e7097bf2d",
+          "ref": "式（5.3.3"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-5-5-2",
+      "toId": "kp-yanshi-6e-5-5-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "解：将式（5.5.2)化为最小项之和的形式得到",
+          "printedPage": 246,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0267-04-5671f2cbd70a",
+          "ref": "式（5.5.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-5-5-4",
+      "toId": "kp-yanshi-6e-5-5-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "出都是若干字线输出的逻辑或，故可按照式（5.5.4）列出R0M存储矩阵内应存人的数据表",
+          "printedPage": 247,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0268-03-76222e9139ba",
+          "ref": "式（5.5.4"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-1",
+      "toId": "kp-yanshi-6e-6-2-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在本章6.1节中已经讲过，时序电路的逻辑功能可以用",
+          "printedPage": 263,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0284-17-6706526c4ad6",
+          "ref": "6.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-1",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "6.1节中的图6.1.2给出了时序逻辑电路的",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-12-8707d4cb7057",
+          "ref": "6.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-2-1",
+      "toId": "kp-yanshi-6e-6-2-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "（2）将式（6.2.1）代人JK触发器的特性方程Q*=JQ",
+          "printedPage": 264,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0285-04-443c54fb1417",
+          "ref": "式（6.2.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-2-1",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "，也是时序电路和组合电路最大的不同。6.2节中介绍了",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-14-2197526f059e",
+          "ref": "6.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-2-1",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在6.2节和6.4节中介绍了分析和设计时序电路",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-10-3ced96c47ce1",
+          "ref": "6.2节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "很容易画出它们的状态转换图，无需重复6.2节中的分析步骤。6.5节介绍了可用于实",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-11-f60e75238ef2",
+          "ref": "6.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-2-2",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "，也是时序电路和组合电路最大的不同。6.2节中介绍了",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-14-2197526f059e",
+          "ref": "6.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-2-2",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在6.2节和6.4节中介绍了分析和设计时序电路",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-10-3ced96c47ce1",
+          "ref": "6.2节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "很容易画出它们的状态转换图，无需重复6.2节中的分析步骤。6.5节介绍了可用于实",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-11-f60e75238ef2",
+          "ref": "6.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-2-3",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "，也是时序电路和组合电路最大的不同。6.2节中介绍了",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-14-2197526f059e",
+          "ref": "6.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-2-3",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在6.2节和6.4节中介绍了分析和设计时序电路",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-10-3ced96c47ce1",
+          "ref": "6.2节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "很容易画出它们的状态转换图，无需重复6.2节中的分析步骤。6.5节介绍了可用于实",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-11-f60e75238ef2",
+          "ref": "6.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-3-1",
+      "toId": "kp-yanshi-6e-6-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "图6.3.8所示电路就是按式（6.3.1）接成的4位二",
+          "printedPage": 277,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0298-00-e2f8d785cdf0",
+          "ref": "式（6.3.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "不难看出，当U/D=0时上式与式（6.3.1）相同，计数器做加法计数；当U/D=",
+          "printedPage": 282,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0303-06-6eda904d0d03",
+          "ref": "式（6.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-1",
+      "toId": "kp-yanshi-6e-6-4-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "设计步骤大体上仍可按6.4.1节中所讲的同步时序电路的设计步骤进行，",
+          "printedPage": 324,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0345-09-0c9e10275596",
+          "ref": "6.4.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-1",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "数器。解：首先进行逻辑抽象，这部分与6.4节中的一样。计数器的工作特点是在时钟信",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-20-5dafdda222a8",
+          "ref": "6.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "解：首先进行逻辑抽象，这部分与6.4节中的一样。取投币信号为输人逻辑变量，",
+          "printedPage": 334,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0355-15-a9aa933d4dcd",
+          "ref": "6.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-1",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在6.2节和6.4节中介绍了分析和设计时序电路的一般步骤",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-10-3ced96c47ce1",
+          "ref": "6.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-2",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "数器。解：首先进行逻辑抽象，这部分与6.4节中的一样。计数器的工作特点是在时钟信",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-20-5dafdda222a8",
+          "ref": "6.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "解：首先进行逻辑抽象，这部分与6.4节中的一样。取投币信号为输人逻辑变量，",
+          "printedPage": 334,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0355-15-a9aa933d4dcd",
+          "ref": "6.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-2",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在6.2节和6.4节中介绍了分析和设计时序电路的一般步骤",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-10-3ced96c47ce1",
+          "ref": "6.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-3",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "数器。解：首先进行逻辑抽象，这部分与6.4节中的一样。计数器的工作特点是在时钟信",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-20-5dafdda222a8",
+          "ref": "6.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "解：首先进行逻辑抽象，这部分与6.4节中的一样。取投币信号为输人逻辑变量，",
+          "printedPage": 334,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0355-15-a9aa933d4dcd",
+          "ref": "6.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-3",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在6.2节和6.4节中介绍了分析和设计时序电路的一般步骤",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-10-3ced96c47ce1",
+          "ref": "6.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-4",
+      "toId": "kp-yanshi-6e-6-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "数器。解：首先进行逻辑抽象，这部分与6.4节中的一样。计数器的工作特点是在时钟信",
+          "printedPage": 333,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0354-20-5dafdda222a8",
+          "ref": "6.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "解：首先进行逻辑抽象，这部分与6.4节中的一样。取投币信号为输人逻辑变量，",
+          "printedPage": 334,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0355-15-a9aa933d4dcd",
+          "ref": "6.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-4-4",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在6.2节和6.4节中介绍了分析和设计时序电路的一般步骤",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-10-3ced96c47ce1",
+          "ref": "6.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-5-1",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "换图，无需重复6.2节中的分析步骤。6.5节介绍了可用于实现时序逻辑电路的可编程",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-11-f60e75238ef2",
+          "ref": "6.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-5-2",
+      "toId": "kp-yanshi-6e-p340-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "换图，无需重复6.2节中的分析步骤。6.5节介绍了可用于实现时序逻辑电路的可编程",
+          "printedPage": 340,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0361-11-f60e75238ef2",
+          "ref": "6.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-7-3-1",
+      "toId": "kp-yanshi-6e-7-4-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "的起始值、终了值和转换值，就可以代人式（7.3.1）求出T，值了。",
+          "printedPage": 366,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0387-10-92927abac854",
+          "ref": "式（7.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-7-3-1",
+      "toId": "kp-yanshi-6e-7-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "oN（N）和RoN（p的条件下，根据式（7.3.1）可以近似地求得图7.4.8",
+          "printedPage": 369,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0390-03-67ebafe5c389",
+          "ref": "式（7.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-7-4-4",
+      "toId": "kp-yanshi-6e-7-5-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "发电路，然后利用前面7.4.4节讲过的方法，在施密特触发电路的基础上",
+          "printedPage": 379,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0400-13-1bfc86cf4668",
+          "ref": "7.4.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "在7.4.4节中曾经讲到，只要把施密特触发电路的反",
+          "printedPage": 379,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0400-14-375894aada3b",
+          "ref": "7.4.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "根据7.4.4节中的分析得知，电容上的电压uc将在V",
+          "printedPage": 380,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0401-02-ef085cc28051",
+          "ref": "7.4.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-7-5-2",
+      "toId": "kp-yanshi-6e-7-5-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "由式（7.5.2）和式（7.5.4）求出输出脉冲的占",
+          "printedPage": 380,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0401-08-478f9ce177c6",
+          "ref": "式（7.5.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-8-2-1",
+      "toId": "kp-yanshi-6e-8-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从第8.2节中可以看到，无论哪一种电路结构的D/",
+          "printedPage": 404,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0425-01-dd01331a4ad4",
+          "ref": "8.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-8-2-2",
+      "toId": "kp-yanshi-6e-8-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从第8.2节中可以看到，无论哪一种电路结构的D/",
+          "printedPage": 404,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0425-01-dd01331a4ad4",
+          "ref": "8.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-8-2-3",
+      "toId": "kp-yanshi-6e-8-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从第8.2节中可以看到，无论哪一种电路结构的D/",
+          "printedPage": 404,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0425-01-dd01331a4ad4",
+          "ref": "8.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-8-2-6",
+      "toId": "kp-yanshi-6e-8-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从第8.2节中可以看到，无论哪一种电路结构的D/",
+          "printedPage": 404,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0425-01-dd01331a4ad4",
+          "ref": "8.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-yanshi-6e-8-6-3",
+      "toId": "kp-yanshi-6e-8-6-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "积分，而且由式（8.6.3）可知，只要在这两次积分期间R、C的",
+          "printedPage": 417,
+          "chunkId": "ck-digital-electronics-yanshi-6e-0438-04-3ebc71cb0b78",
+          "ref": "式（8.6.3"
+        }
+      ]
+    }
+  ]
+}

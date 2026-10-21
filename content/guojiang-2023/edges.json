@@ -1,0 +1,68 @@
+{
+  "summary": {
+    "edgeCount": 4,
+    "crossChapter": 3,
+    "withinChapter": 1,
+    "leavesTouched": 7,
+    "leafCount": 63,
+    "coverage": 0.1111
+  },
+  "edges": [
+    {
+      "fromId": "kp-guojiang-2023-12-2",
+      "toId": "kp-guojiang-2023-14-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "子的动能为E0和E.\n容易证明(参阅12.2节)：在质心系中，弹性散射前后，中子和",
+          "printedPage": 290,
+          "chunkId": "ck-guojiang-2023-0296-01-939b241189cf",
+          "ref": "12.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-guojiang-2023-6-1",
+      "toId": "kp-guojiang-2023-9-7",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "子. 用pj点乘上式，经化简(过程与6.1 节类似)可得j(j1)l(l1)",
+          "printedPage": 190,
+          "chunkId": "ck-guojiang-2023-0196-00-2513af80526a",
+          "ref": "6.1 节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-guojiang-2023-7-1",
+      "toId": "kp-guojiang-2023-7-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "特征7.2.1  X 射线的发射谱用7.1 节讲述的方法可以把产生的X 射线记录在",
+          "printedPage": 122,
+          "chunkId": "ck-guojiang-2023-0129-00-9e29aaad639f",
+          "ref": "7.1 节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-guojiang-2023-9-4",
+      "toId": "kp-guojiang-2023-11-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "于原子核和电子间的超精细相互作用(非9.4 节中核自旋引起). 原子核与核外电子的",
+          "printedPage": 230,
+          "chunkId": "ck-guojiang-2023-0236-00-628c1fa9bd7c",
+          "ref": "9.4 节"
+        }
+      ]
+    }
+  ]
+}

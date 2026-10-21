@@ -4,7 +4,7 @@
   "nodes": [
     {
       "microKpId": "kp-leo-2e-1",
-      "name": "放射源中的基础过程",
+      "name": "放射源中的基础核过程",
       "num": "1",
       "printedPage": 1,
       "depth": 1,
@@ -112,7 +112,7 @@
     },
     {
       "microKpId": "kp-leo-2e-1-8",
-      "name": "1.8 电子",
+      "name": "俄歇电子",
       "num": "1.8",
       "printedPage": 8,
       "depth": 2,
@@ -172,7 +172,7 @@
     },
     {
       "microKpId": "kp-leo-2e-1-11",
-      "name": "放射性衰变",
+      "name": "放射性衰变定律",
       "num": "1.11",
       "printedPage": 10,
       "depth": 2,
@@ -196,7 +196,7 @@
     },
     {
       "microKpId": "kp-leo-2e-1-11-2",
-      "name": "放射性衰变",
+      "name": "放射性衰变链",
       "num": "1.11.2",
       "printedPage": 12,
       "depth": 3,
@@ -256,7 +256,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-1-2",
-      "name": "距离平均中的相互作用概率",
+      "name": "距离平均自由程中的相互作用概率",
       "num": "2.1.2",
       "printedPage": 19,
       "depth": 3,
@@ -316,7 +316,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-2-3",
-      "name": "2.2.3 能量",
+      "name": "能量依赖",
       "num": "2.2.3",
       "printedPage": 27,
       "depth": 3,
@@ -352,7 +352,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-2-6",
-      "name": "2.2.6 与",
+      "name": "用于混合物与化合物的dedx",
       "num": "2.2.6",
       "printedPage": 29,
       "depth": 3,
@@ -364,7 +364,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-2-7",
-      "name": "与其他效应的局限",
+      "name": "Bethe-Bloch 公式与其他效应的局限",
       "num": "2.2.7",
       "printedPage": 29,
       "depth": 3,
@@ -460,7 +460,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-4-4",
-      "name": "2.4.4 能量",
+      "name": "临界能量",
       "num": "2.4.4",
       "printedPage": 40,
       "depth": 3,
@@ -472,7 +472,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-4-5",
-      "name": "辐射",
+      "name": "辐射长度",
       "num": "2.4.5",
       "printedPage": 41,
       "depth": 3,
@@ -508,7 +508,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-5",
-      "name": "散射",
+      "name": "多散射",
       "num": "2.5",
       "printedPage": 44,
       "depth": 2,
@@ -520,7 +520,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-5-1",
-      "name": "高斯中的散射",
+      "name": "高斯近似中的多散射",
       "num": "2.5.1",
       "printedPage": 46,
       "depth": 3,
@@ -544,7 +544,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-6",
-      "name": "能量：能量损失分布",
+      "name": "能量歧离：能量损失分布",
       "num": "2.6",
       "printedPage": 49,
       "depth": 2,
@@ -568,7 +568,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-6-2",
-      "name": "厚吸收体",
+      "name": "甚厚吸收体",
       "num": "2.6.2",
       "printedPage": 50,
       "depth": 3,
@@ -676,7 +676,7 @@
     },
     {
       "microKpId": "kp-leo-2e-2-8-1",
-      "name": "2.8.1 中子",
+      "name": "中子慢化的慢化慢化",
       "num": "2.8.1",
       "printedPage": 65,
       "depth": 3,
@@ -736,7 +736,7 @@
     },
     {
       "microKpId": "kp-leo-2e-3-1-3",
-      "name": "相对生物",
+      "name": "相对生物RBE",
       "num": "3.1.3",
       "printedPage": 71,
       "depth": 3,
@@ -880,7 +880,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-1-1",
-      "name": "4.1.1 分布",
+      "name": "分布",
       "num": "4.1.1",
       "printedPage": 82,
       "depth": 3,
@@ -952,7 +952,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-2-2",
-      "name": "4.2.2 泊松分布",
+      "name": "泊松分布",
       "num": "4.2.2",
       "printedPage": 85,
       "depth": 3,
@@ -976,7 +976,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-2-4",
-      "name": "4.2.4 分布",
+      "name": "平方分布",
       "num": "4.2.4",
       "printedPage": 88,
       "depth": 3,
@@ -1000,7 +1000,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-3-1",
-      "name": "4.3.1 误差",
+      "name": "误差",
       "num": "4.3.1",
       "printedPage": 89,
       "depth": 3,
@@ -1012,7 +1012,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-3-2",
-      "name": "4.3.2 误差",
+      "name": "随机误差",
       "num": "4.3.2",
       "printedPage": 90,
       "depth": 3,
@@ -1024,7 +1024,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-4",
-      "name": "取样与参数方法",
+      "name": "取样与参数估计最大似然方法",
       "num": "4.4",
       "printedPage": 91,
       "depth": 2,
@@ -1048,7 +1048,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-4-2",
-      "name": "方法",
+      "name": "最大似然方法",
       "num": "4.4.2",
       "printedPage": 92,
       "depth": 3,
@@ -1060,7 +1060,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-4-3",
-      "name": "4.4.3 泊松分布",
+      "name": "用于泊松分布的估计量",
       "num": "4.4.3",
       "printedPage": 93,
       "depth": 3,
@@ -1072,7 +1072,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-4-4",
-      "name": "高斯分布",
+      "name": "用于高斯分布的估计量",
       "num": "4.4.4",
       "printedPage": 94,
       "depth": 3,
@@ -1108,7 +1108,7 @@
     },
     {
       "microKpId": "kp-leo-2e-4-5-1",
-      "name": "测量的平均与误差来自",
+      "name": "测量的平均与误差来自串联",
       "num": "4.5.1",
       "printedPage": 97,
       "depth": 3,
@@ -1252,7 +1252,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p112-SomeGeneralRulesforRoundingoffNumbersforFinalPresentation",
-      "name": "若干一般",
+      "name": "用于展示的若干一般",
       "num": "",
       "printedPage": 112,
       "depth": 2,
@@ -1468,7 +1468,7 @@
     },
     {
       "microKpId": "kp-leo-2e-6-3-2",
-      "name": "漂移与",
+      "name": "漂移与迁移率",
       "num": "6.3.2",
       "printedPage": 134,
       "depth": 3,
@@ -1492,7 +1492,7 @@
     },
     {
       "microKpId": "kp-leo-2e-6-5",
-      "name": "正比计数器",
+      "name": "圆柱正比计数器",
       "num": "6.5",
       "printedPage": 137,
       "depth": 2,
@@ -1648,7 +1648,7 @@
     },
     {
       "microKpId": "kp-leo-2e-6-7-2",
-      "name": "分辨率",
+      "name": "空间分辨率",
       "num": "6.7.2",
       "printedPage": 151,
       "depth": 3,
@@ -1660,7 +1660,7 @@
     },
     {
       "microKpId": "kp-leo-2e-6-7-3",
-      "name": "运行",
+      "name": "磁场中的运行",
       "num": "6.7.3",
       "printedPage": 151,
       "depth": 3,
@@ -1816,7 +1816,7 @@
     },
     {
       "microKpId": "kp-leo-2e-7-6-1",
-      "name": "7.6.1 线性",
+      "name": "线性",
       "num": "7.6.1",
       "printedPage": 168,
       "depth": 3,
@@ -1828,7 +1828,7 @@
     },
     {
       "microKpId": "kp-leo-2e-7-6-2",
-      "name": "温度",
+      "name": "温度依赖",
       "num": "7.6.2",
       "printedPage": 171,
       "depth": 3,
@@ -1840,7 +1840,7 @@
     },
     {
       "microKpId": "kp-leo-2e-7-6-3",
-      "name": "7.6.3 脉冲形状甄别",
+      "name": "脉冲形状甄别PSD",
       "num": "7.6.3",
       "printedPage": 171,
       "depth": 3,
@@ -1852,7 +1852,7 @@
     },
     {
       "microKpId": "kp-leo-2e-7-7",
-      "name": "用于辐射的本征探测效率",
+      "name": "用于各种辐射的本征探测效率",
       "num": "7.7",
       "printedPage": 173,
       "depth": 2,
@@ -1876,7 +1876,7 @@
     },
     {
       "microKpId": "kp-leo-2e-7-7-2",
-      "name": "7.7.2 电子",
+      "name": "电子",
       "num": "7.7.2",
       "printedPage": 174,
       "depth": 3,
@@ -1900,7 +1900,7 @@
     },
     {
       "microKpId": "kp-leo-2e-7-7-4",
-      "name": "7.7.4 中子",
+      "name": "中子",
       "num": "7.7.4",
       "printedPage": 175,
       "depth": 3,
@@ -1924,7 +1924,7 @@
     },
     {
       "microKpId": "kp-leo-2e-8-1",
-      "name": "基础与运行",
+      "name": "基础构造与运行",
       "num": "8.1",
       "printedPage": 177,
       "depth": 2,
@@ -1948,7 +1948,7 @@
     },
     {
       "microKpId": "kp-leo-2e-8-3",
-      "name": "电子输入系统",
+      "name": "电子光学输入系统",
       "num": "8.3",
       "printedPage": 180,
       "depth": 2,
@@ -1960,7 +1960,7 @@
     },
     {
       "microKpId": "kp-leo-2e-8-4",
-      "name": "电子",
+      "name": "电子倍增器节",
       "num": "8.4",
       "printedPage": 181,
       "depth": 2,
@@ -1984,7 +1984,7 @@
     },
     {
       "microKpId": "kp-leo-2e-8-4-2",
-      "name": "响应：单电子能谱",
+      "name": "倍增器响应：单电子能谱",
       "num": "8.4.2",
       "printedPage": 184,
       "depth": 3,
@@ -2116,7 +2116,7 @@
     },
     {
       "microKpId": "kp-leo-2e-8-8-1",
-      "name": "至光",
+      "name": "照射至光",
       "num": "8.8.1",
       "printedPage": 194,
       "depth": 3,
@@ -2140,7 +2140,7 @@
     },
     {
       "microKpId": "kp-leo-2e-8-8-3",
-      "name": "8.8.3 温度效应",
+      "name": "温度效应",
       "num": "8.8.3",
       "printedPage": 196,
       "depth": 3,
@@ -2188,7 +2188,7 @@
     },
     {
       "microKpId": "kp-leo-2e-9-1-1",
-      "name": "9.1.1 反射",
+      "name": "反射",
       "num": "9.1.1",
       "printedPage": 200,
       "depth": 3,
@@ -2212,7 +2212,7 @@
     },
     {
       "microKpId": "kp-leo-2e-9-3",
-      "name": "光电倍增管",
+      "name": "多光电倍增管",
       "num": "9.3",
       "printedPage": 202,
       "depth": 2,
@@ -2272,7 +2272,7 @@
     },
     {
       "microKpId": "kp-leo-2e-9-7-1",
-      "name": "计数器",
+      "name": "测试计数器",
       "num": "9.7.1",
       "printedPage": 208,
       "depth": 3,
@@ -2284,7 +2284,7 @@
     },
     {
       "microKpId": "kp-leo-2e-9-7-2",
-      "name": "电压",
+      "name": "调节电压",
       "num": "9.7.2",
       "printedPage": 209,
       "depth": 3,
@@ -2308,7 +2308,7 @@
     },
     {
       "microKpId": "kp-leo-2e-9-7-4",
-      "name": "增益",
+      "name": "保持增益",
       "num": "9.7.4",
       "printedPage": 213,
       "depth": 3,
@@ -2344,7 +2344,7 @@
     },
     {
       "microKpId": "kp-leo-2e-10-1-1",
-      "name": "能量结构",
+      "name": "能量带结构",
       "num": "10.1.1",
       "printedPage": 216,
       "depth": 3,
@@ -2428,7 +2428,7 @@
     },
     {
       "microKpId": "kp-leo-2e-10-3",
-      "name": "半导体结",
+      "name": "半导体结耗尽深度",
       "num": "10.3",
       "printedPage": 223,
       "depth": 2,
@@ -2500,7 +2500,7 @@
     },
     {
       "microKpId": "kp-leo-2e-10-4-2",
-      "name": "10.4.2 线性",
+      "name": "半导体的探测器特性 线性",
       "num": "10.4.2",
       "printedPage": 229,
       "depth": 3,
@@ -2608,7 +2608,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p235-1054LithiumDriftedSiliconDiodesSiLi",
-      "name": "锂漂移硅二极管SI",
+      "name": "锂漂移硅二极管SILi",
       "num": "",
       "printedPage": 235,
       "depth": 2,
@@ -2704,7 +2704,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p239-1071LithiumDriftedGermaniumGeLi",
-      "name": "锂漂移锗GE",
+      "name": "锂漂移锗GELi",
       "num": "",
       "printedPage": 239,
       "depth": 2,
@@ -2752,7 +2752,7 @@
     },
     {
       "microKpId": "kp-leo-2e-10-9-2",
-      "name": "10.9.2 信号",
+      "name": "信号放大",
       "num": "10.9.2",
       "printedPage": 243,
       "depth": 3,
@@ -2764,7 +2764,7 @@
     },
     {
       "microKpId": "kp-leo-2e-10-9-3",
-      "name": "10.9.3 温度效应",
+      "name": "半导体探测器的运行 温度效应",
       "num": "10.9.3",
       "printedPage": 245,
       "depth": 3,
@@ -2836,7 +2836,7 @@
     },
     {
       "microKpId": "kp-leo-2e-11-3",
-      "name": "与信号",
+      "name": "快与慢信号",
       "num": "11.3",
       "printedPage": 252,
       "depth": 2,
@@ -2908,7 +2908,7 @@
     },
     {
       "microKpId": "kp-leo-2e-12-4",
-      "name": "与逻辑信号",
+      "name": "与电磁量能器逻辑信号",
       "num": "12.4",
       "printedPage": 261,
       "depth": 2,
@@ -2944,7 +2944,7 @@
     },
     {
       "microKpId": "kp-leo-2e-13-1",
-      "name": "电缆",
+      "name": "同轴电缆",
       "num": "13.1",
       "printedPage": 263,
       "depth": 2,
@@ -2968,7 +2968,7 @@
     },
     {
       "microKpId": "kp-leo-2e-13-2",
-      "name": "用于线的一般方程",
+      "name": "用于同轴线的一般方程",
       "num": "13.2",
       "printedPage": 266,
       "depth": 2,
@@ -2980,7 +2980,7 @@
     },
     {
       "microKpId": "kp-leo-2e-13-3",
-      "name": "电缆",
+      "name": "理想无损电缆",
       "num": "13.3",
       "printedPage": 267,
       "depth": 2,
@@ -3004,7 +3004,7 @@
     },
     {
       "microKpId": "kp-leo-2e-13-4",
-      "name": "13.4 反射",
+      "name": "信号传输 反射",
       "num": "13.4",
       "printedPage": 268,
       "depth": 2,
@@ -3028,7 +3028,7 @@
     },
     {
       "microKpId": "kp-leo-2e-13-6",
-      "name": "电缆脉冲失真中的损失",
+      "name": "同轴电缆脉冲失真中的损失",
       "num": "13.6",
       "printedPage": 272,
       "depth": 2,
@@ -3076,7 +3076,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-1-1",
-      "name": "反馈",
+      "name": "电阻性光学反馈",
       "num": "14.1.1",
       "printedPage": 279,
       "depth": 3,
@@ -3088,7 +3088,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-2",
-      "name": "14.2 放大器",
+      "name": "放大器",
       "num": "14.2",
       "printedPage": 280,
       "depth": 2,
@@ -3124,7 +3124,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-3-2",
-      "name": "极点与基线恢复",
+      "name": "极点零消除与基线恢复",
       "num": "14.3.2",
       "printedPage": 281,
       "depth": 3,
@@ -3148,7 +3148,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-3-4",
-      "name": "高斯成形",
+      "name": "半高斯成形",
       "num": "14.3.4",
       "printedPage": 283,
       "depth": 3,
@@ -3172,7 +3172,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-4",
-      "name": "14.4 放大器",
+      "name": "偏置放大器",
       "num": "14.4",
       "printedPage": 284,
       "depth": 2,
@@ -3184,7 +3184,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-5",
-      "name": "14.5 脉冲",
+      "name": "脉冲展宽器",
       "num": "14.5",
       "printedPage": 284,
       "depth": 2,
@@ -3196,7 +3196,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-6",
-      "name": "14.6 线性",
+      "name": "线性栅极",
       "num": "14.6",
       "printedPage": 284,
       "depth": 2,
@@ -3208,7 +3208,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-7",
-      "name": "14.7 与",
+      "name": "扇出输出与扇出",
       "num": "14.7",
       "printedPage": 285,
       "depth": 2,
@@ -3256,7 +3256,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-10",
-      "name": "单道差分甄别器",
+      "name": "单道分析器差分甄别器",
       "num": "14.10",
       "printedPage": 287,
       "depth": 2,
@@ -3400,7 +3400,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-21",
-      "name": "14.21 与",
+      "name": "栅极与延迟发生器",
       "num": "14.21",
       "printedPage": 297,
       "depth": 2,
@@ -3436,7 +3436,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-22-2",
-      "name": "14.22.2 脉冲",
+      "name": "脉冲分裂",
       "num": "14.22.2",
       "printedPage": 298,
       "depth": 3,
@@ -3448,7 +3448,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-22-3",
-      "name": "14.22.3 脉冲",
+      "name": "脉冲反转",
       "num": "14.22.3",
       "printedPage": 299,
       "depth": 3,
@@ -3472,7 +3472,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-23-1",
-      "name": "14.23.1 脉冲",
+      "name": "脉冲切割",
       "num": "14.23.1",
       "printedPage": 299,
       "depth": 3,
@@ -3484,7 +3484,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-23-2",
-      "name": "高滤波器或CR电路",
+      "name": "高滤波器或CR微分电路",
       "num": "14.23.2",
       "printedPage": 300,
       "depth": 3,
@@ -3496,7 +3496,7 @@
     },
     {
       "microKpId": "kp-leo-2e-14-23-3",
-      "name": "RC低滤波器或电路",
+      "name": "RC低滤波器或积分电路",
       "num": "14.23.3",
       "printedPage": 301,
       "depth": 3,
@@ -3592,7 +3592,7 @@
     },
     {
       "microKpId": "kp-leo-2e-15-4-1",
-      "name": "符合曲线",
+      "name": "延迟符合曲线",
       "num": "15.4.1",
       "printedPage": 311,
       "depth": 3,
@@ -3628,7 +3628,7 @@
     },
     {
       "microKpId": "kp-leo-2e-15-5",
-      "name": "脉冲幅度选择与符合测定电路",
+      "name": "脉冲幅度选择与符合测定快慢电路",
       "num": "15.5",
       "printedPage": 313,
       "depth": 2,
@@ -3640,7 +3640,7 @@
     },
     {
       "microKpId": "kp-leo-2e-15-6",
-      "name": "15.6 脉冲形状甄别",
+      "name": "脉冲形状甄别",
       "num": "15.6",
       "printedPage": 314,
       "depth": 2,
@@ -3676,7 +3676,7 @@
     },
     {
       "microKpId": "kp-leo-2e-16-2",
-      "name": "16.2 与",
+      "name": "定律与",
       "num": "16.2",
       "printedPage": 319,
       "depth": 2,
@@ -3712,7 +3712,7 @@
     },
     {
       "microKpId": "kp-leo-2e-16-4-1",
-      "name": "16.4.1 体散射",
+      "name": "单体散射",
       "num": "16.4.1",
       "printedPage": 322,
       "depth": 3,
@@ -3724,7 +3724,7 @@
     },
     {
       "microKpId": "kp-leo-2e-16-4-2",
-      "name": "16.4.2 体散射",
+      "name": "双体散射",
       "num": "16.4.2",
       "printedPage": 322,
       "depth": 3,
@@ -3736,7 +3736,7 @@
     },
     {
       "microKpId": "kp-leo-2e-16-4-3",
-      "name": "……的测量",
+      "name": "μ子寿命的测量",
       "num": "16.4.3",
       "printedPage": 323,
       "depth": 3,
@@ -3760,7 +3760,7 @@
     },
     {
       "microKpId": "kp-leo-2e-17-1",
-      "name": "17.1 与",
+      "name": "走动与抖动",
       "num": "17.1",
       "printedPage": 325,
       "depth": 2,
@@ -3784,7 +3784,7 @@
     },
     {
       "microKpId": "kp-leo-2e-17-2-1",
-      "name": "17.2.1 触发",
+      "name": "前沿前沿触发",
       "num": "17.2.1",
       "printedPage": 326,
       "depth": 3,
@@ -3796,7 +3796,7 @@
     },
     {
       "microKpId": "kp-leo-2e-17-2-2",
-      "name": "17.2.2 触发",
+      "name": "快零过零触发",
       "num": "17.2.2",
       "printedPage": 327,
       "depth": 3,
@@ -3820,7 +3820,7 @@
     },
     {
       "microKpId": "kp-leo-2e-17-2-4",
-      "name": "幅度与触发",
+      "name": "幅度与补偿触发",
       "num": "17.2.4",
       "printedPage": 327,
       "depth": 3,
@@ -3844,7 +3844,7 @@
     },
     {
       "microKpId": "kp-leo-2e-17-3-1",
-      "name": "时间至幅度转换器",
+      "name": "启动停止时间至幅度转换器",
       "num": "17.3.1",
       "printedPage": 329,
       "depth": 3,
@@ -3916,7 +3916,7 @@
     },
     {
       "microKpId": "kp-leo-2e-18",
-      "name": "电子学CAMAC",
+      "name": "计算机电子学CAMAC",
       "num": "18",
       "printedPage": 335,
       "depth": 1,
@@ -3988,7 +3988,7 @@
     },
     {
       "microKpId": "kp-leo-2e-18-3-1",
-      "name": "常见信号",
+      "name": "常见控制信号",
       "num": "18.3.1",
       "printedPage": 341,
       "depth": 3,
@@ -4000,7 +4000,7 @@
     },
     {
       "microKpId": "kp-leo-2e-18-3-2",
-      "name": "18.3.2 信号",
+      "name": "状态信号",
       "num": "18.3.2",
       "printedPage": 341,
       "depth": 3,
@@ -4036,7 +4036,7 @@
     },
     {
       "microKpId": "kp-leo-2e-18-3-5",
-      "name": "18.3.5 信号",
+      "name": "地址信号",
       "num": "18.3.5",
       "printedPage": 341,
       "depth": 3,
@@ -4048,7 +4048,7 @@
     },
     {
       "microKpId": "kp-leo-2e-18-3-6",
-      "name": "18.3.6 信号",
+      "name": "命令信号",
       "num": "18.3.6",
       "printedPage": 342,
       "depth": 3,
@@ -4072,7 +4072,7 @@
     },
     {
       "microKpId": "kp-leo-2e-18-4",
-      "name": "运行",
+      "name": "数据通道运行",
       "num": "18.4",
       "printedPage": 343,
       "depth": 2,
@@ -4084,7 +4084,7 @@
     },
     {
       "microKpId": "kp-leo-2e-18-4-1",
-      "name": "定时",
+      "name": "数据通道定时",
       "num": "18.4.1",
       "printedPage": 344,
       "depth": 3,
@@ -4096,7 +4096,7 @@
     },
     {
       "microKpId": "kp-leo-2e-18-4-2",
-      "name": "传递",
+      "name": "模块传递",
       "num": "18.4.2",
       "printedPage": 346,
       "depth": 3,
@@ -4144,7 +4144,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p353-AAReviewofOscilloscopeFunctions",
-      "name": "函数的综述",
+      "name": "示波器函数的综述",
       "num": "",
       "printedPage": 353,
       "depth": 2,
@@ -4180,7 +4180,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p354-A2ControlsandOperatingModes",
-      "name": "与工作模式",
+      "name": "控制与工作模式",
       "num": "",
       "printedPage": 354,
       "depth": 2,
@@ -4216,7 +4216,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p355-A23TriggeringSynchronization",
-      "name": "触发",
+      "name": "触发同步",
       "num": "",
       "printedPage": 355,
       "depth": 2,
@@ -4228,7 +4228,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p355-A24DisplayModes",
-      "name": "模式",
+      "name": "显示模式",
       "num": "",
       "printedPage": 355,
       "depth": 2,
@@ -4252,7 +4252,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p356-A31SignalViewing",
-      "name": "信号",
+      "name": "信号观察",
       "num": "",
       "printedPage": 356,
       "depth": 2,
@@ -4276,7 +4276,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p357-BPhysicalandNumericalConstants",
-      "name": "物理与常数",
+      "name": "物理与数值常数",
       "num": "",
       "printedPage": 357,
       "depth": 2,

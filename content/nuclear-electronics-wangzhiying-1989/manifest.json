@@ -1,13 +1,13 @@
 {
   "chunkCount": 4884,
   "byKind": {
-    "text": 4260,
-    "formula": 285,
-    "table": 0
+    "text": 4127,
+    "formula": 401,
+    "table": 15
   },
   "pageRange": [
     14,
     344
   ],
-  "contentHash": "2ee71787940c7855"
+  "contentHash": "e8e0f75e0d0dffd1"
 }

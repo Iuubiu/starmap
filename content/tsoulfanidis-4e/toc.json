@@ -40,7 +40,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-3",
-      "name": "测量的误差与与",
+      "name": "测量的误差与准确度与精密度",
       "num": "1.3",
       "printedPage": 2,
       "depth": 2,
@@ -64,7 +64,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5",
-      "name": "仪器",
+      "name": "核仪器",
       "num": "1.5",
       "printedPage": 5,
       "depth": 2,
@@ -76,7 +76,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-1",
-      "name": "1.5.1 引言",
+      "name": "引言",
       "num": "1.5.1",
       "printedPage": 5,
       "depth": 3,
@@ -88,7 +88,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-2",
-      "name": "1.5.2 探测器",
+      "name": "探测器",
       "num": "1.5.2",
       "printedPage": 6,
       "depth": 3,
@@ -100,7 +100,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-3",
-      "name": "1.5.3 仪器",
+      "name": "核仪器模块",
       "num": "1.5.3",
       "printedPage": 7,
       "depth": 3,
@@ -124,7 +124,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-5",
-      "name": "1.5.5 前置放大器",
+      "name": "前置放大器",
       "num": "1.5.5",
       "printedPage": 9,
       "depth": 3,
@@ -136,7 +136,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-6",
-      "name": "1.5.6 放大器",
+      "name": "放大器",
       "num": "1.5.6",
       "printedPage": 10,
       "depth": 3,
@@ -160,7 +160,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-8",
-      "name": "甄别器或单道",
+      "name": "甄别器或单道分析器",
       "num": "1.5.8",
       "printedPage": 12,
       "depth": 3,
@@ -196,7 +196,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-11",
-      "name": "1.5.11 多道分析器",
+      "name": "多道分析器",
       "num": "1.5.11",
       "printedPage": 13,
       "depth": 3,
@@ -232,7 +232,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-2-1",
-      "name": "2.1 引言",
+      "name": "辐射计数的误差 引言",
       "num": "2.1",
       "printedPage": 15,
       "depth": 2,
@@ -268,7 +268,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-2-4",
-      "name": "概率分布与",
+      "name": "概率分布与随机",
       "num": "2.4",
       "printedPage": 20,
       "depth": 2,
@@ -292,7 +292,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-2-6",
-      "name": "索引方差与标准差",
+      "name": "离散度索引方差与标准差",
       "num": "2.6",
       "printedPage": 25,
       "depth": 2,
@@ -304,7 +304,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-2-7",
-      "name": "与",
+      "name": "协方差与相关",
       "num": "2.7",
       "printedPage": 26,
       "depth": 2,
@@ -364,7 +364,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p36-ImportanceoftheGaussianDistributionforRadiationMeasurements",
-      "name": "高斯分布用于辐射测量",
+      "name": "高斯分布用于辐射测量的重要性",
       "num": "",
       "printedPage": 36,
       "depth": 2,
@@ -448,7 +448,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p44-TheAverageandItsStandardDeviationforQuantitieswithMorethanOneRandomVariable",
-      "name": "用于比的平均与其标准差",
+      "name": "用于量带比单随机的平均与其标准差",
       "num": "",
       "printedPage": 44,
       "depth": 2,
@@ -508,7 +508,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-2-19",
-      "name": "误差的方法",
+      "name": "误差退化的方法",
       "num": "2.19",
       "printedPage": 58,
       "depth": 2,
@@ -520,7 +520,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-2-19-4",
-      "name": "误差部件的相对",
+      "name": "误差部件的相对重要性",
       "num": "2.19.4",
       "printedPage": 61,
       "depth": 3,
@@ -556,7 +556,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p60-CalculationoftheCountingTimeNecessarytoMeasureaCountingRatewithaPredeterminedStatisticalError",
-      "name": "计数时间至计数率带统计误差的计算",
+      "name": "计数时间至测度计数率带统计误差的计算",
       "num": "",
       "printedPage": 60,
       "depth": 2,
@@ -580,7 +580,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-2-21",
-      "name": "死时间的探测器时间修正与测量",
+      "name": "死时间的探测器死时间修正与测量",
       "num": "2.21",
       "printedPage": 63,
       "depth": 2,
@@ -592,7 +592,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-2-22",
-      "name": "损失计数与死时间",
+      "name": "损失计数与零死时间",
       "num": "2.22",
       "printedPage": 66,
       "depth": 2,
@@ -628,7 +628,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p70-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 70,
       "depth": 2,
@@ -652,7 +652,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-3-1",
-      "name": "3.1 引言",
+      "name": "原子与核物理的综述 引言",
       "num": "3.1",
       "printedPage": 71,
       "depth": 2,
@@ -664,7 +664,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-3-2",
-      "name": "……基础",
+      "name": "……基础运动学",
       "num": "3.2",
       "printedPage": 71,
       "depth": 2,
@@ -700,7 +700,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-3-5",
-      "name": "3.5 能量",
+      "name": "核能量",
       "num": "3.5",
       "printedPage": 79,
       "depth": 2,
@@ -712,7 +712,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-3-6",
-      "name": "能量能级",
+      "name": "核能量能级",
       "num": "3.6",
       "printedPage": 83,
       "depth": 2,
@@ -784,7 +784,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-3-7-5",
-      "name": "衰变",
+      "name": "复合衰变方案",
       "num": "3.7.5",
       "printedPage": 94,
       "depth": 3,
@@ -796,7 +796,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-3-8",
-      "name": "放射性衰变",
+      "name": "放射性衰变定律",
       "num": "3.8",
       "printedPage": 94,
       "depth": 2,
@@ -820,7 +820,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-3-9-1",
-      "name": "3.9.1 一般",
+      "name": "一般评述",
       "num": "3.9.1",
       "printedPage": 98,
       "depth": 3,
@@ -832,7 +832,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-3-9-2",
-      "name": "核反应",
+      "name": "核反应的运动学",
       "num": "3.9.2",
       "printedPage": 100,
       "depth": 3,
@@ -892,7 +892,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p110-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 110,
       "depth": 2,
@@ -916,7 +916,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-4-1",
-      "name": "4.1 引言",
+      "name": "辐射通过物质的能量损失与 引言",
       "num": "4.1",
       "printedPage": 111,
       "depth": 2,
@@ -988,7 +988,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-4-5",
-      "name": "或的计算",
+      "name": "dedx用于化合物或的计算",
       "num": "4.5",
       "printedPage": 120,
       "depth": 2,
@@ -1072,7 +1072,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-4-7-1",
-      "name": "4.7.1 引言",
+      "name": "离子的阻止本领与射程 引言",
       "num": "4.7.1",
       "printedPage": 134,
       "depth": 3,
@@ -1084,7 +1084,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-4-7-2",
-      "name": "计算",
+      "name": "dedx计算",
       "num": "4.7.2",
       "printedPage": 135,
       "depth": 3,
@@ -1252,7 +1252,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-4-9-3",
-      "name": "4.9.3 中子",
+      "name": "中子通量",
       "num": "4.9.3",
       "printedPage": 158,
       "depth": 3,
@@ -1300,7 +1300,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p164-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 164,
       "depth": 2,
@@ -1324,7 +1324,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-5-1",
-      "name": "5.1 引言",
+      "name": "气体充填探测器 引言",
       "num": "5.1",
       "printedPage": 165,
       "depth": 2,
@@ -1348,7 +1348,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-5-3",
-      "name": "气体充填探测器的类型",
+      "name": "气体充填探测器的各种类型",
       "num": "5.3",
       "printedPage": 168,
       "depth": 2,
@@ -1444,7 +1444,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-5-6",
-      "name": "盖革计数器",
+      "name": "盖革ller计数器",
       "num": "5.6",
       "printedPage": 182,
       "depth": 2,
@@ -1528,7 +1528,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-5-9",
-      "name": "气体充填探测器的一般",
+      "name": "气体充填探测器的一般评注构造",
       "num": "5.9",
       "printedPage": 189,
       "depth": 2,
@@ -1564,7 +1564,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-5-9-3",
-      "name": "5.9.3 探测器",
+      "name": "探测器窗",
       "num": "5.9.3",
       "printedPage": 190,
       "depth": 3,
@@ -1612,7 +1612,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p193-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 193,
       "depth": 2,
@@ -1636,7 +1636,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-1",
-      "name": "6.1 引言",
+      "name": "闪烁探测器 引言",
       "num": "6.1",
       "printedPage": 195,
       "depth": 2,
@@ -1660,7 +1660,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-2-1",
-      "name": "6.2.1 闪烁过程的机制",
+      "name": "闪烁过程的机制",
       "num": "6.2.1",
       "printedPage": 196,
       "depth": 3,
@@ -1672,7 +1672,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-2-2",
-      "name": "光子发射的时间",
+      "name": "光子发射的时间依赖",
       "num": "6.2.2",
       "printedPage": 198,
       "depth": 3,
@@ -1792,7 +1792,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-3-1",
-      "name": "6.3.1 闪烁过程的机制",
+      "name": "有机闪烁体 闪烁过程的机制",
       "num": "6.3.1",
       "printedPage": 201,
       "depth": 3,
@@ -1828,7 +1828,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-3-4",
-      "name": "闪烁体",
+      "name": "塑料闪烁体",
       "num": "6.3.4",
       "printedPage": 204,
       "depth": 3,
@@ -1888,7 +1888,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-5-1-2",
-      "name": "6.5.1.2 带电粒子",
+      "name": "带电粒子",
       "num": "6.5.1.2",
       "printedPage": 205,
       "depth": 4,
@@ -1900,7 +1900,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-5-1-3",
-      "name": "6.5.1.3 中子",
+      "name": "中子",
       "num": "6.5.1.3",
       "printedPage": 206,
       "depth": 4,
@@ -1924,7 +1924,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-5-2-1",
-      "name": "6.5.2.1 带电粒子",
+      "name": "有机闪烁体的响应 带电粒子",
       "num": "6.5.2.1",
       "printedPage": 206,
       "depth": 4,
@@ -1960,7 +1960,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-6-1",
-      "name": "6.6.1 一般",
+      "name": "一般描述",
       "num": "6.6.1",
       "printedPage": 207,
       "depth": 3,
@@ -2020,7 +2020,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-10",
-      "name": "6.10 探测器",
+      "name": "磷光体探测器",
       "num": "6.10",
       "printedPage": 212,
       "depth": 2,
@@ -2056,7 +2056,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p216-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 216,
       "depth": 2,
@@ -2080,7 +2080,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-7-1",
-      "name": "7.1 引言",
+      "name": "半导体探测器 引言",
       "num": "7.1",
       "printedPage": 217,
       "depth": 2,
@@ -2104,7 +2104,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-7-2-1",
-      "name": "固体中的电子学：分布函数",
+      "name": "固体中的电子学态：费米分布函数",
       "num": "7.2.1",
       "printedPage": 218,
       "depth": 3,
@@ -2164,7 +2164,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-7-3-2",
-      "name": "半导体",
+      "name": "半导体的电导率",
       "num": "7.3.2",
       "printedPage": 222,
       "depth": 3,
@@ -2176,7 +2176,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-7-3-3",
-      "name": "与本征半导体：……的作用杂质",
+      "name": "非本征与本征半导体：……的作用杂质",
       "num": "7.3.3",
       "printedPage": 225,
       "depth": 3,
@@ -2236,7 +2236,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-7-5-1",
-      "name": "表面探测器",
+      "name": "表面势垒探测器",
       "num": "7.5.1",
       "printedPage": 231,
       "depth": 3,
@@ -2260,7 +2260,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-7-5-3",
-      "name": "硅锂漂移SI探测器",
+      "name": "硅锂漂移SILi探测器",
       "num": "7.5.3",
       "printedPage": 232,
       "depth": 3,
@@ -2272,7 +2272,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-7-5-4",
-      "name": "锗锂漂移GE探测器",
+      "name": "锗锂漂移GELi探测器",
       "num": "7.5.4",
       "printedPage": 235,
       "depth": 3,
@@ -2344,7 +2344,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p242-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 242,
       "depth": 2,
@@ -2368,7 +2368,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-1",
-      "name": "8.1 引言",
+      "name": "相对与绝对测量 引言",
       "num": "8.1",
       "printedPage": 243,
       "depth": 2,
@@ -2416,7 +2416,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-2-3",
-      "name": "8.2.3 用于源与探测器的固体角度",
+      "name": "用于各向同性源与探测器带圆形孔径的固体角度",
       "num": "8.2.3",
       "printedPage": 247,
       "depth": 3,
@@ -2428,7 +2428,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-2-4",
-      "name": "用于源至探测器的固体角度",
+      "name": "用于圆盘源并联至探测器带圆形孔径的固体角度",
       "num": "8.2.4",
       "printedPage": 249,
       "depth": 3,
@@ -2440,7 +2440,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-2-5",
-      "name": "8.2.5 用于源与探测器的固体角度",
+      "name": "用于各向同性源与探测器带矩形孔径的固体角度",
       "num": "8.2.5",
       "printedPage": 250,
       "depth": 3,
@@ -2452,7 +2452,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-2-6",
-      "name": "8.2.6 用于源与探测器的固体角度",
+      "name": "用于圆盘源与探测器带矩形孔径的固体角度",
       "num": "8.2.6",
       "printedPage": 251,
       "depth": 3,
@@ -2464,7 +2464,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-2-7",
-      "name": "方法用于计算的固体角度的使用",
+      "name": "蒙特卡罗方法用于计算的固体角度的使用",
       "num": "8.2.7",
       "printedPage": 252,
       "depth": 3,
@@ -2488,7 +2488,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-3-1",
-      "name": "源吸收因子",
+      "name": "源自吸收因子",
       "num": "8.3.1",
       "printedPage": 253,
       "depth": 3,
@@ -2524,7 +2524,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-4-1",
-      "name": "探测器的散射与吸收由于",
+      "name": "探测器的散射与吸收由于窗",
       "num": "8.4.1",
       "printedPage": 257,
       "depth": 3,
@@ -2548,7 +2548,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-8-4-2-1",
-      "name": "密度与的探测器材料的效应",
+      "name": "密度与尺寸的探测器材料的效应",
       "num": "8.4.2.1",
       "printedPage": 259,
       "depth": 4,
@@ -2644,7 +2644,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p267-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 267,
       "depth": 2,
@@ -2668,7 +2668,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-9-1",
-      "name": "9.1 引言",
+      "name": "……导论能谱学 引言",
       "num": "9.1",
       "printedPage": 269,
       "depth": 2,
@@ -2704,7 +2704,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-9-4",
-      "name": "差分能谱带单道的测量",
+      "name": "差分能谱带单道分析器的测量",
       "num": "9.4",
       "printedPage": 272,
       "depth": 2,
@@ -2776,7 +2776,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-9-6-4",
-      "name": "总",
+      "name": "总宽度γ",
       "num": "9.6.4",
       "printedPage": 277,
       "depth": 3,
@@ -2800,7 +2800,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-9-8",
-      "name": "能量分辨率",
+      "name": "能量分辨率的重要性",
       "num": "9.8",
       "printedPage": 278,
       "depth": 2,
@@ -2812,7 +2812,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-9-9",
-      "name": "9.9 多道分析器",
+      "name": "多道分析器的简要描述",
       "num": "9.9",
       "printedPage": 278,
       "depth": 2,
@@ -2872,7 +2872,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-10-1",
-      "name": "10.1 引言",
+      "name": "用于辐射计数的电子学 引言",
       "num": "10.1",
       "printedPage": 289,
       "depth": 2,
@@ -2896,7 +2896,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-10-3",
-      "name": "10.3 电路",
+      "name": "微分电路",
       "num": "10.3",
       "printedPage": 293,
       "depth": 2,
@@ -2908,7 +2908,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-10-4",
-      "name": "10.4 电路",
+      "name": "积分电路",
       "num": "10.4",
       "printedPage": 294,
       "depth": 2,
@@ -2956,7 +2956,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-10-7-1",
-      "name": "10.7.1 定时方法",
+      "name": "前沿前沿定时方法",
       "num": "10.7.1",
       "printedPage": 299,
       "depth": 3,
@@ -2968,7 +2968,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-10-7-2",
-      "name": "10.7.2 定时方法",
+      "name": "零过零定时方法",
       "num": "10.7.2",
       "printedPage": 299,
       "depth": 3,
@@ -3016,7 +3016,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-10-9",
-      "name": "脉冲形状甄别",
+      "name": "脉冲形状甄别PSD",
       "num": "10.9",
       "printedPage": 305,
       "depth": 2,
@@ -3028,7 +3028,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-10-10",
-      "name": "10.10 前置放大器",
+      "name": "用于辐射计数的电子学 前置放大器",
       "num": "10.10",
       "printedPage": 307,
       "depth": 2,
@@ -3040,7 +3040,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-10-11",
-      "name": "10.11 放大器",
+      "name": "用于辐射计数的电子学 放大器",
       "num": "10.11",
       "printedPage": 308,
       "depth": 2,
@@ -3148,7 +3148,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p318-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 318,
       "depth": 2,
@@ -3172,7 +3172,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-11-1",
-      "name": "11.1 引言",
+      "name": "数据分析方法 引言",
       "num": "11.1",
       "printedPage": 319,
       "depth": 2,
@@ -3352,7 +3352,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p345-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 345,
       "depth": 2,
@@ -3364,7 +3364,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12",
-      "name": "光子射线与射线能谱学",
+      "name": "光子γ射线与射线能谱学",
       "num": "12",
       "printedPage": 347,
       "depth": 1,
@@ -3376,7 +3376,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-1",
-      "name": "12.1 引言",
+      "name": "光子γ射线与射线能谱学 引言",
       "num": "12.1",
       "printedPage": 347,
       "depth": 2,
@@ -3388,7 +3388,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-2",
-      "name": "能量中探测器的模式",
+      "name": "能量沉积中探测器的模式",
       "num": "12.2",
       "printedPage": 347,
       "depth": 2,
@@ -3400,7 +3400,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-2-1",
-      "name": "12.2.1 能量由光子（带MEV）",
+      "name": "能量沉积由光子（带MEV）",
       "num": "12.2.1",
       "printedPage": 348,
       "depth": 3,
@@ -3412,7 +3412,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-2-2",
-      "name": "12.2.2 能量由光子（带MEV）",
+      "name": "能量沉积中探测器的模式 能量沉积由光子（带MEV）",
       "num": "12.2.2",
       "printedPage": 350,
       "depth": 3,
@@ -3424,7 +3424,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-3",
-      "name": "射线与射线探测器的效率：定义",
+      "name": "射线与γ射线探测器的效率：定义",
       "num": "12.3",
       "printedPage": 353,
       "depth": 2,
@@ -3436,7 +3436,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-4",
-      "name": "光子带闪烁探测器的探测",
+      "name": "光子带NaI(Tl) 闪烁体闪烁探测器的探测",
       "num": "12.4",
       "printedPage": 355,
       "depth": 2,
@@ -3448,7 +3448,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-4-1",
-      "name": "探测器的效率",
+      "name": "NaI(Tl) 闪烁体探测器的效率",
       "num": "12.4.1",
       "printedPage": 356,
       "depth": 3,
@@ -3520,7 +3520,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-6",
-      "name": "射线带SI探测器的探测",
+      "name": "射线带SILi探测器的探测",
       "num": "12.6",
       "printedPage": 373,
       "depth": 2,
@@ -3568,7 +3568,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p380-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 380,
       "depth": 2,
@@ -3592,7 +3592,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-13-1",
-      "name": "13.1 引言",
+      "name": "带电粒子能谱学 引言",
       "num": "13.1",
       "printedPage": 381,
       "depth": 2,
@@ -3604,7 +3604,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-13-2",
-      "name": "13.2 能量",
+      "name": "能量歧离",
       "num": "13.2",
       "printedPage": 382,
       "depth": 2,
@@ -3772,7 +3772,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-13-6",
-      "name": "时间的谱仪",
+      "name": "时间的飞行谱仪",
       "num": "13.6",
       "printedPage": 396,
       "depth": 2,
@@ -3784,7 +3784,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-13-7",
-      "name": "探测器探测器",
+      "name": "探测器dedx探测器",
       "num": "13.7",
       "printedPage": 398,
       "depth": 2,
@@ -3856,7 +3856,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p405-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 405,
       "depth": 2,
@@ -3880,7 +3880,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-1",
-      "name": "14.1 引言",
+      "name": "中子探测与能谱学 引言",
       "num": "14.1",
       "printedPage": 407,
       "depth": 2,
@@ -3904,7 +3904,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-2-1",
-      "name": "14.2.1 探测器",
+      "name": "BF探测器",
       "num": "14.2.1",
       "printedPage": 408,
       "depth": 3,
@@ -3928,7 +3928,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-2-3",
-      "name": "14.2.3 探测器",
+      "name": "Li探测器",
       "num": "14.2.3",
       "printedPage": 414,
       "depth": 3,
@@ -3940,7 +3940,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-2-4",
-      "name": "14.2.4 探测器",
+      "name": "He探测器",
       "num": "14.2.4",
       "printedPage": 415,
       "depth": 3,
@@ -3988,7 +3988,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-4-2",
-      "name": "中子由计数活度的测定",
+      "name": "中子通量由计数活度的测定",
       "num": "14.4.2",
       "printedPage": 420,
       "depth": 3,
@@ -4024,7 +4024,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-5-2",
-      "name": "正比计数器所用作为中子谱仪",
+      "name": "正比计数器所用作为快中子谱仪",
       "num": "14.5.2",
       "printedPage": 425,
       "depth": 3,
@@ -4036,7 +4036,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-5-3",
-      "name": "有机闪烁体所用作为中子谱仪",
+      "name": "有机闪烁体所用作为快中子谱仪",
       "num": "14.5.3",
       "printedPage": 428,
       "depth": 3,
@@ -4048,7 +4048,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-6",
-      "name": "中子使用阈活化反应的探测",
+      "name": "快中子使用阈活化反应的探测",
       "num": "14.6",
       "printedPage": 431,
       "depth": 2,
@@ -4072,7 +4072,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-8",
-      "name": "时间的方法",
+      "name": "时间的飞行TOF方法",
       "num": "14.8",
       "printedPage": 437,
       "depth": 2,
@@ -4084,7 +4084,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-8-1",
-      "name": "中子中子",
+      "name": "中子中子斩波器",
       "num": "14.8.1",
       "printedPage": 439,
       "depth": 3,
@@ -4096,7 +4096,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-8-2",
-      "name": "离子",
+      "name": "离子束",
       "num": "14.8.2",
       "printedPage": 440,
       "depth": 3,
@@ -4108,7 +4108,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-9",
-      "name": "离子室",
+      "name": "补偿电离室",
       "num": "14.9",
       "printedPage": 441,
       "depth": 2,
@@ -4120,7 +4120,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-10",
-      "name": "中子探测器",
+      "name": "自供电中子探测器",
       "num": "14.10",
       "printedPage": 441,
       "depth": 2,
@@ -4132,7 +4132,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-10-1",
-      "name": "14.10.1 响应",
+      "name": "SPND（带延迟响应）",
       "num": "14.10.1",
       "printedPage": 443,
       "depth": 3,
@@ -4144,7 +4144,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-14-10-2",
-      "name": "14.10.2 响应",
+      "name": "SPND（带瞬发响应）",
       "num": "14.10.2",
       "printedPage": 447,
       "depth": 3,
@@ -4192,7 +4192,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p453-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 453,
       "depth": 2,
@@ -4216,7 +4216,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-15-1",
-      "name": "15.1 引言",
+      "name": "活化分析与技术 引言",
       "num": "15.1",
       "printedPage": 455,
       "depth": 2,
@@ -4372,7 +4372,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-15-11",
-      "name": "γ活化分析",
+      "name": "瞬发γ活化分析",
       "num": "15.11",
       "printedPage": 468,
       "depth": 2,
@@ -4384,7 +4384,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-15-12",
-      "name": "15.12 中子",
+      "name": "中子深度分布",
       "num": "15.12",
       "printedPage": 469,
       "depth": 2,
@@ -4396,7 +4396,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-15-13",
-      "name": "15.13 中子",
+      "name": "中子照相",
       "num": "15.13",
       "printedPage": 469,
       "depth": 2,
@@ -4432,7 +4432,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p472-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 472,
       "depth": 2,
@@ -4456,7 +4456,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-1",
-      "name": "16.1 引言",
+      "name": "物理基础 引言",
       "num": "16.1",
       "printedPage": 475,
       "depth": 2,
@@ -4468,7 +4468,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-2",
-      "name": "与吸收剂量的单位",
+      "name": "照射与吸收剂量的单位",
       "num": "16.2",
       "printedPage": 476,
       "depth": 2,
@@ -4492,7 +4492,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-4",
-      "name": "剂量学来自辐射至体",
+      "name": "剂量学来自辐射外部至体",
       "num": "16.4",
       "printedPage": 481,
       "depth": 2,
@@ -4588,7 +4588,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-6",
-      "name": "内部剂量率时间：生物",
+      "name": "内部剂量率时间依赖：生物",
       "num": "16.6",
       "printedPage": 493,
       "depth": 2,
@@ -4612,7 +4612,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-7-1",
-      "name": "单元的基础",
+      "name": "单元的基础描述",
       "num": "16.7.1",
       "printedPage": 497,
       "depth": 3,
@@ -4636,7 +4636,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-8",
-      "name": "辐射防护与限",
+      "name": "辐射防护与照射限",
       "num": "16.8",
       "printedPage": 501,
       "depth": 2,
@@ -4648,7 +4648,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-8-1",
-      "name": "限中的剂量方程所用",
+      "name": "照射限中的各种剂量方程所用",
       "num": "16.8.1",
       "printedPage": 501,
       "depth": 3,
@@ -4684,7 +4684,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-9-1",
-      "name": "16.9.1 仪器",
+      "name": "仪器",
       "num": "16.9.1",
       "printedPage": 505,
       "depth": 3,
@@ -4696,7 +4696,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-9-2",
-      "name": "剂量计",
+      "name": "热释光剂量计",
       "num": "16.9.2",
       "printedPage": 505,
       "depth": 3,
@@ -4708,7 +4708,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-9-3",
-      "name": "剂量学",
+      "name": "光受激发光剂量学",
       "num": "16.9.3",
       "printedPage": 507,
       "depth": 3,
@@ -4732,7 +4732,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-9-5",
-      "name": "中子探测器",
+      "name": "中子气泡探测器",
       "num": "16.9.5",
       "printedPage": 510,
       "depth": 3,
@@ -4792,7 +4792,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-16-11",
-      "name": "物理功率与",
+      "name": "物理核功率与",
       "num": "16.11",
       "printedPage": 514,
       "depth": 2,
@@ -4888,7 +4888,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p521-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 521,
       "depth": 2,
@@ -4912,7 +4912,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-17-1",
-      "name": "17.1 引言",
+      "name": "核取证 引言",
       "num": "17.1",
       "printedPage": 523,
       "depth": 2,
@@ -4936,7 +4936,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-17-2-1",
-      "name": "材料的无源探测",
+      "name": "核材料的无源探测",
       "num": "17.2.1",
       "printedPage": 525,
       "depth": 3,
@@ -5032,7 +5032,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p534-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 534,
       "depth": 2,
@@ -5056,7 +5056,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-18-1",
-      "name": "18.1 引言",
+      "name": "核医学仪器 引言",
       "num": "18.1",
       "printedPage": 535,
       "depth": 2,
@@ -5152,7 +5152,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-18-6",
-      "name": "放射性同位素由加速器或反应堆的产生",
+      "name": "放射性同位素由加速器或核反应堆的产生",
       "num": "18.6",
       "printedPage": 540,
       "depth": 2,
@@ -5200,7 +5200,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-p543-Bibliography",
-      "name": "参考文献",
+      "name": "参考书目",
       "num": "",
       "printedPage": 543,
       "depth": 2,

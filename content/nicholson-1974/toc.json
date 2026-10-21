@@ -28,7 +28,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-1-1-1",
-      "name": "1.1.1 引言",
+      "name": "引言",
       "num": "1.1.1",
       "printedPage": 1,
       "depth": 3,
@@ -160,7 +160,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-1-4-1",
-      "name": "1.4.1 引言",
+      "name": "半导体探测器 引言",
       "num": "1.4.1",
       "printedPage": 20,
       "depth": 3,
@@ -172,7 +172,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-1-4-3",
-      "name": "结探测器",
+      "name": "PN结探测器",
       "num": "1.4.3",
       "printedPage": 24,
       "depth": 3,
@@ -292,7 +292,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-2-1-3",
-      "name": "脉冲",
+      "name": "脉冲中各种",
       "num": "2.1.3",
       "printedPage": 44,
       "depth": 3,
@@ -316,7 +316,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-2-2-1",
-      "name": "2.2.1 方法",
+      "name": "变换方法",
       "num": "2.2.1",
       "printedPage": 48,
       "depth": 3,
@@ -340,7 +340,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-2-3-4",
-      "name": "双稳态电路",
+      "name": "双稳态触发电路",
       "num": "2.3.4",
       "printedPage": 64,
       "depth": 3,
@@ -448,7 +448,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-2-2",
-      "name": "3.2.2 CRRC成形",
+      "name": "CRRC 成形",
       "num": "3.2.2",
       "printedPage": 100,
       "depth": 3,
@@ -460,7 +460,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-2-3",
-      "name": "CRRC 成形",
+      "name": "噪声 CRRC 成形",
       "num": "3.2.3",
       "printedPage": 102,
       "depth": 3,
@@ -496,7 +496,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-2-7",
-      "name": "延迟线积分高斯成形",
+      "name": "延迟线积分三角半高斯成形",
       "num": "3.2.7",
       "printedPage": 108,
       "depth": 3,
@@ -508,7 +508,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-2-9",
-      "name": "极点",
+      "name": "极点零消除",
       "num": "3.2.9",
       "printedPage": 109,
       "depth": 3,
@@ -544,7 +544,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-3-2",
-      "name": "简单二极管",
+      "name": "简单二极管恢复器",
       "num": "3.3.2",
       "printedPage": 109,
       "depth": 3,
@@ -556,7 +556,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-3-3",
-      "name": "3.3.3 恢复器",
+      "name": "Robinson恢复器AUIS",
       "num": "3.3.3",
       "printedPage": 118,
       "depth": 3,
@@ -568,7 +568,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-3-4",
-      "name": "3.3.4 恢复器",
+      "name": "GereMiller恢复器",
       "num": "3.3.4",
       "printedPage": 118,
       "depth": 3,
@@ -628,7 +628,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-4-1-2",
-      "name": "或热噪声",
+      "name": "约翰逊或热噪声",
       "num": "4.1.2",
       "printedPage": 126,
       "depth": 3,
@@ -688,7 +688,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-4-3-1",
-      "name": "4.3.1 一般",
+      "name": "一般",
       "num": "4.3.1",
       "printedPage": 130,
       "depth": 3,
@@ -724,7 +724,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-4-4-1",
-      "name": "4.4.1 CRRC成形",
+      "name": "用于实用系统的信噪比 CRRC 成形",
       "num": "4.4.1",
       "printedPage": 139,
       "depth": 3,
@@ -736,7 +736,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-4-4-2",
-      "name": "4.4.2 系统",
+      "name": "各种系统",
       "num": "4.4.2",
       "printedPage": 141,
       "depth": 3,
@@ -772,7 +772,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-4-5-2",
-      "name": "损失",
+      "name": "损失的估计",
       "num": "4.5.2",
       "printedPage": 150,
       "depth": 3,
@@ -832,7 +832,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p166-SstIntroduction",
-      "name": "引言",
+      "name": "SST引言",
       "num": "",
       "printedPage": 166,
       "depth": 2,
@@ -844,7 +844,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p166-oeThefieldeffectaeetor",
-      "name": "效应",
+      "name": "场效应",
       "num": "",
       "printedPage": 166,
       "depth": 2,
@@ -856,7 +856,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-5-2-1",
-      "name": "……的性质",
+      "name": "场效应管的性质",
       "num": "5.2.1",
       "printedPage": 166,
       "depth": 3,
@@ -868,7 +868,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-5-2-2",
-      "name": "噪声",
+      "name": "场效应管中的噪声",
       "num": "5.2.2",
       "printedPage": 168,
       "depth": 3,
@@ -940,7 +940,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-5-4-1",
-      "name": "5.4.1 一般",
+      "name": "半导体探测器前置放大器 一般考量",
       "num": "5.4.1",
       "printedPage": 175,
       "depth": 3,
@@ -1048,7 +1048,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p205-SalFastamplifiers",
-      "name": "放大器",
+      "name": "SAL快放大器",
       "num": "",
       "printedPage": 205,
       "depth": 2,
@@ -1168,7 +1168,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-6-5-1",
-      "name": "6.5.1 引言",
+      "name": "脉冲形状甄别 引言",
       "num": "6.5.1",
       "printedPage": 233,
       "depth": 3,
@@ -1180,7 +1180,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-6-5-2",
-      "name": "6.5.2 方法",
+      "name": "零过零方法",
       "num": "6.5.2",
       "printedPage": 235,
       "depth": 3,
@@ -1240,7 +1240,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-1-1",
-      "name": "7.1.1 引言",
+      "name": "定时电路 引言",
       "num": "7.1.1",
       "printedPage": 248,
       "depth": 3,
@@ -1264,7 +1264,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-1-3",
-      "name": "时间的其他",
+      "name": "时间抖动的其他",
       "num": "7.1.3",
       "printedPage": 253,
       "depth": 3,
@@ -1288,7 +1288,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-2-1",
-      "name": "7.2.1 类型",
+      "name": "限幅器类型",
       "num": "7.2.1",
       "printedPage": 255,
       "depth": 3,
@@ -1300,7 +1300,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-2-2",
-      "name": "触发",
+      "name": "前沿前沿触发",
       "num": "7.2.2",
       "printedPage": 255,
       "depth": 3,
@@ -1312,7 +1312,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-7-3",
-      "name": "7.7.3 类型",
+      "name": "零过零类型",
       "num": "7.7.3",
       "printedPage": 259,
       "depth": 3,
@@ -1360,7 +1360,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-5-1",
-      "name": "7.5.1 类型",
+      "name": "相加型类型",
       "num": "7.5.1",
       "printedPage": 274,
       "depth": 3,
@@ -1372,7 +1372,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-5-2",
-      "name": "二极管与",
+      "name": "二极管与栅极",
       "num": "7.5.2",
       "printedPage": 274,
       "depth": 3,
@@ -1408,7 +1408,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p274-eSFastcoincidencecircuits",
-      "name": "符合电路",
+      "name": "快符合电路",
       "num": "",
       "printedPage": 274,
       "depth": 2,
@@ -1432,7 +1432,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-6-1",
-      "name": "7.6.1 引言",
+      "name": "多道时间 引言",
       "num": "7.6.1",
       "printedPage": 281,
       "depth": 3,
@@ -1444,7 +1444,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-6-2",
-      "name": "符合",
+      "name": "多符合",
       "num": "7.6.2",
       "printedPage": 282,
       "depth": 3,
@@ -1516,7 +1516,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-7-7-2",
-      "name": "7.7.2 类型",
+      "name": "启动停止类型",
       "num": "7.7.2",
       "printedPage": 288,
       "depth": 3,
@@ -1624,7 +1624,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-8-2-2",
-      "name": "8.2.2 类型",
+      "name": "Wilkinson类型Babee",
       "num": "8.2.2",
       "printedPage": 307,
       "depth": 3,
@@ -1636,7 +1636,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-8-2-4",
-      "name": "8.2.4 类型",
+      "name": "混合类型",
       "num": "8.2.4",
       "printedPage": 307,
       "depth": 3,
@@ -1648,7 +1648,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-8-3-1",
-      "name": "相对与",
+      "name": "相对与精密度",
       "num": "8.3.1",
       "printedPage": 307,
       "depth": 3,
@@ -1660,7 +1660,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-8-4-1",
-      "name": "8.4.1 类型",
+      "name": "Wilkinson类型Pon",
       "num": "8.4.1",
       "printedPage": 307,
       "depth": 3,
@@ -1708,7 +1708,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-9-2",
-      "name": "储存",
+      "name": "选定描述符的部分储存",
       "num": "9.2",
       "printedPage": 342,
       "depth": 2,
@@ -1720,7 +1720,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-9-2-1",
-      "name": "9.2.1 储存",
+      "name": "关联储存",
       "num": "9.2.1",
       "printedPage": 342,
       "depth": 3,
@@ -1732,7 +1732,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-9-2-2",
-      "name": "9.2.2 储存",
+      "name": "关联区储存",
       "num": "9.2.2",
       "printedPage": 345,
       "depth": 3,
@@ -1744,7 +1744,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-9-2-3",
-      "name": "9.2.3 方法",
+      "name": "选定描述符的部分储存 变换方法",
       "num": "9.2.3",
       "printedPage": 347,
       "depth": 3,
@@ -1768,7 +1768,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-9-3",
-      "name": "9.3 系统",
+      "name": "大型计算机系统",
       "num": "9.3",
       "printedPage": 349,
       "depth": 2,
@@ -1792,7 +1792,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p354-AppendixATransformMethodsinTransientAnalysisSeRS",
-      "name": "分析中的附录方法",
+      "name": "瞬态分析中的附录变换方法",
       "num": "",
       "printedPage": 354,
       "depth": 2,
@@ -1816,7 +1816,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p363-X1VContentsAwExcitationbyaneternalexponentialovA3TheFouriertransform",
-      "name": "目录激发由",
+      "name": "目录激发由变换",
       "num": "",
       "printedPage": 363,
       "depth": 2,
@@ -1840,7 +1840,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p369-A5RulesforfindingtransformsandinverseeenBessAppendixBStatisticsofCounting",
-      "name": "与附录统计学的计数",
+      "name": "查找变换与反附录统计学的计数",
       "num": "",
       "printedPage": 369,
       "depth": 2,
@@ -1852,7 +1852,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p369-B1Generalconsiderations",
-      "name": "一般",
+      "name": "一般考量",
       "num": "",
       "printedPage": 369,
       "depth": 2,
@@ -1876,7 +1876,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-p376-B6Accidentalcoincidencerates",
-      "name": "符合率",
+      "name": "偶然符合率",
       "num": "",
       "printedPage": 376,
       "depth": 2,

@@ -1,0 +1,103 @@
+{
+  "summary": {
+    "edgeCount": 5,
+    "crossChapter": 2,
+    "withinChapter": 3,
+    "leavesTouched": 7,
+    "leafCount": 47,
+    "coverage": 0.1489
+  },
+  "edges": [
+    {
+      "fromId": "kp-tangbin-1-2",
+      "toId": "kp-tangbin-1-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在本章1.2节中,读者对描述放射性核素（或辐射源)",
+          "printedPage": 47,
+          "chunkId": "ck-nuclear-radiation-measurement-tangbin-0061-20-afd72f2f0835",
+          "ref": "1.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tangbin-1-5",
+      "toId": "kp-tangbin-9-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "粒子注量率或能注量率，其换算关系参见1.5节）。为方便起见，常把（9.10)式中",
+          "printedPage": 393,
+          "chunkId": "ck-nuclear-radiation-measurement-tangbin-0417-01-e3a9597292cb",
+          "ref": "1.5节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "从1.5节可知，具有能谱分布的不带电粒子（这里",
+          "printedPage": 398,
+          "chunkId": "ck-nuclear-radiation-measurement-tangbin-0422-01-8a44b82198b6",
+          "ref": "1.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tangbin-2-3",
+      "toId": "kp-tangbin-2-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "度为v，碰撞后的速度变为v2，类似于2.3节中的康普顿效应的计算问题，可利用能量",
+          "printedPage": 88,
+          "chunkId": "ck-nuclear-radiation-measurement-tangbin-0102-00-9bc5e8443cdc",
+          "ref": "2.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tangbin-6-2",
+      "toId": "kp-tangbin-6-7",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "式中，各参数的物理含义可参见6.2节。",
+          "printedPage": 285,
+          "chunkId": "ck-nuclear-radiation-measurement-tangbin-0309-03-1b94a8e095f6",
+          "ref": "6.2节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "式中，各参数的物理含义可参见6.2节。",
+          "printedPage": 285,
+          "chunkId": "ck-nuclear-radiation-measurement-tangbin-0309-10-1467829ae168",
+          "ref": "6.2节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "d,称为附加吸收率；其他相关参数参见6.2 节。",
+          "printedPage": 290,
+          "chunkId": "ck-nuclear-radiation-measurement-tangbin-0314-05-ce0457298ae1",
+          "ref": "6.2 节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tangbin-6-2",
+      "toId": "kp-tangbin-9-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "于X,y射线的外照射剂量的计算,已在6.2节讨论了的内容，本节仅给出结论性公式。",
+          "printedPage": 391,
+          "chunkId": "ck-nuclear-radiation-measurement-tangbin-0415-04-5a07ea2ef7b2",
+          "ref": "6.2节"
+        }
+      ]
+    }
+  ]
+}

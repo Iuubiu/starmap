@@ -28,7 +28,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-1-2",
-      "name": "电子源",
+      "name": "快电子源",
       "num": "1.2",
       "printedPage": 6,
       "depth": 2,
@@ -100,7 +100,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-2-2",
-      "name": "电子的相互作用",
+      "name": "快电子的相互作用",
       "num": "2.2",
       "printedPage": 56,
       "depth": 2,
@@ -352,7 +352,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-5-3",
-      "name": "离子室的设计与运行",
+      "name": "电离室的设计与运行",
       "num": "5.3",
       "printedPage": 159,
       "depth": 2,
@@ -364,7 +364,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-5-4",
-      "name": "辐射剂量测量（带离子室）",
+      "name": "辐射剂量测量（带电离室）",
       "num": "5.4",
       "printedPage": 163,
       "depth": 2,
@@ -376,7 +376,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-5-5",
-      "name": "离子室的应用",
+      "name": "电离室的应用",
       "num": "5.5",
       "printedPage": 169,
       "depth": 2,
@@ -724,7 +724,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-10-1",
-      "name": "γ射线能谱学中的一般",
+      "name": "γ射线能谱学中的一般考量",
       "num": "10.1",
       "printedPage": 306,
       "depth": 2,
@@ -820,7 +820,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-11-2",
-      "name": "辐射中半导体",
+      "name": "辐射中半导体的作用",
       "num": "11.2",
       "printedPage": 372,
       "depth": 2,
@@ -892,7 +892,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-12-1",
-      "name": "离子漂移探测器",
+      "name": "离子漂移探测器制造",
       "num": "12.1",
       "printedPage": 414,
       "depth": 2,
@@ -916,7 +916,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-12-3",
-      "name": "GE探测器工作",
+      "name": "GELi探测器工作",
       "num": "12.3",
       "printedPage": 420,
       "depth": 2,
@@ -928,7 +928,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-12-4",
-      "name": "γ射线能谱学（带GE探测器）",
+      "name": "γ射线能谱学（带GELi探测器）",
       "num": "12.4",
       "printedPage": 433,
       "depth": 2,
@@ -1012,7 +1012,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-14",
-      "name": "中子探测方法",
+      "name": "慢中子探测方法",
       "num": "14",
       "printedPage": 518,
       "depth": 1,
@@ -1072,7 +1072,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-15",
-      "name": "中子探测能谱学",
+      "name": "快中子探测能谱学",
       "num": "15",
       "printedPage": 551,
       "depth": 1,
@@ -1084,7 +1084,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-15-1",
-      "name": "基于中子的计数器",
+      "name": "基于中子慢化的计数器",
       "num": "15.1",
       "printedPage": 552,
       "depth": 2,
@@ -1096,7 +1096,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-15-2",
-      "name": "基于中子反应的探测器",
+      "name": "基于快中子诱导反应的探测器",
       "num": "15.2",
       "printedPage": 562,
       "depth": 2,
@@ -1108,7 +1108,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-15-3",
-      "name": "探测器中子散射",
+      "name": "探测器快中子散射",
       "num": "15.3",
       "printedPage": 570,
       "depth": 2,
@@ -1144,7 +1144,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-16-2",
-      "name": "电缆",
+      "name": "同轴电缆",
       "num": "16.2",
       "printedPage": 601,
       "depth": 2,
@@ -1396,7 +1396,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-19-4",
-      "name": "剂量计",
+      "name": "热释光剂量计",
       "num": "19.4",
       "printedPage": 760,
       "depth": 2,
@@ -1504,7 +1504,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-p798-APPENDIXRADIATIONEFFECTSANDEXPOSURELIMITS",
-      "name": "附录：辐射效应与限",
+      "name": "附录：辐射效应与照射限",
       "num": "",
       "printedPage": 798,
       "depth": 2,
@@ -1540,7 +1540,7 @@
     },
     {
       "microKpId": "kp-knoll-3e-2000-20-8",
-      "name": "……的类型",
+      "name": "照射的类型",
       "num": "20.8",
       "printedPage": 801,
       "depth": 2,

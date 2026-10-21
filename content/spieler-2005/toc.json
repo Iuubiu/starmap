@@ -160,7 +160,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-1-7-3",
-      "name": "1.7.3 电荷收集",
+      "name": "电荷收集",
       "num": "1.7.3",
       "printedPage": 16,
       "depth": 3,
@@ -208,7 +208,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-1-8-1",
-      "name": "电荷器件",
+      "name": "电荷耦合器件",
       "num": "1.8.1",
       "printedPage": 24,
       "depth": 3,
@@ -244,7 +244,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-1-9",
-      "name": "1.9 电子学",
+      "name": "电子学",
       "num": "1.9",
       "printedPage": 29,
       "depth": 2,
@@ -268,7 +268,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-1-10-1",
-      "name": "1.10.1 电子学噪声",
+      "name": "电子学噪声",
       "num": "1.10.1",
       "printedPage": 31,
       "depth": 3,
@@ -364,7 +364,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2",
-      "name": "信号形成与",
+      "name": "信号形成与采集",
       "num": "2",
       "printedPage": 43,
       "depth": 1,
@@ -472,7 +472,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-3-3",
-      "name": "2.3.3 结",
+      "name": "PN结",
       "num": "2.3.3",
       "printedPage": 59,
       "depth": 3,
@@ -484,7 +484,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-3-4",
-      "name": "二极管",
+      "name": "反向偏置二极管",
       "num": "2.3.4",
       "printedPage": 61,
       "depth": 3,
@@ -508,7 +508,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-4",
-      "name": "2.4 电荷收集",
+      "name": "信号形成与采集 电荷收集",
       "num": "2.4",
       "printedPage": 67,
       "depth": 2,
@@ -520,7 +520,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-5",
-      "name": "信号电流的时间",
+      "name": "信号电流的时间依赖",
       "num": "2.5",
       "printedPage": 71,
       "depth": 2,
@@ -544,7 +544,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-5-2",
-      "name": "几何（带场）",
+      "name": "并联板几何（带场）",
       "num": "2.5.2",
       "printedPage": 75,
       "depth": 3,
@@ -568,7 +568,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-6",
-      "name": "俘获中的电荷收集",
+      "name": "存在的俘获中的电荷收集",
       "num": "2.6",
       "printedPage": 82,
       "depth": 2,
@@ -604,7 +604,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-9",
-      "name": "信号",
+      "name": "信号采集",
       "num": "2.9",
       "printedPage": 91,
       "depth": 2,
@@ -640,7 +640,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-9-3",
-      "name": "电压与电流模式（带源）",
+      "name": "电压与电流模式（带电容性源）",
       "num": "2.9.3",
       "printedPage": 92,
       "depth": 3,
@@ -712,7 +712,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-2",
-      "name": "3.2 电子学噪声",
+      "name": "电子学噪声（3.2 节）",
       "num": "3.2",
       "printedPage": 107,
       "depth": 2,
@@ -736,7 +736,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-3-1",
-      "name": "热噪声",
+      "name": "热约翰逊噪声",
       "num": "3.3.1",
       "printedPage": 109,
       "depth": 3,
@@ -868,7 +868,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-6",
-      "name": "3.6 噪声",
+      "name": "相关噪声",
       "num": "3.6",
       "printedPage": 115,
       "depth": 2,
@@ -904,7 +904,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-7-2",
-      "name": "3.7.2 等效噪声电荷",
+      "name": "等效噪声电荷",
       "num": "3.7.2",
       "printedPage": 116,
       "depth": 3,
@@ -964,7 +964,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-9-1",
-      "name": "源",
+      "name": "电阻性源",
       "num": "3.9.1",
       "printedPage": 121,
       "depth": 3,
@@ -988,7 +988,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-10",
-      "name": "源",
+      "name": "电容性源",
       "num": "3.10",
       "printedPage": 123,
       "depth": 2,
@@ -1024,7 +1024,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-11",
-      "name": "传感器",
+      "name": "复合传感器",
       "num": "3.11",
       "printedPage": 127,
       "depth": 2,
@@ -1036,7 +1036,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-11-1",
-      "name": "3.11.1 噪声",
+      "name": "交叉耦合噪声",
       "num": "3.11.1",
       "printedPage": 129,
       "depth": 3,
@@ -1048,7 +1048,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-11-2",
-      "name": "3.11.2 读出",
+      "name": "背面读出",
       "num": "3.11.2",
       "printedPage": 131,
       "depth": 3,
@@ -1060,7 +1060,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-12",
-      "name": "放大器中的噪声限",
+      "name": "放大器中的量子噪声限",
       "num": "3.12",
       "printedPage": 132,
       "depth": 2,
@@ -1180,7 +1180,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-3-2",
-      "name": "4.3.2 电阻",
+      "name": "并联电阻",
       "num": "4.3.2",
       "printedPage": 144,
       "depth": 3,
@@ -1192,7 +1192,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-3-3",
-      "name": "4.3.3 电阻",
+      "name": "串联电阻",
       "num": "4.3.3",
       "printedPage": 145,
       "depth": 3,
@@ -1228,7 +1228,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-3-6",
-      "name": "4.3.6 等效噪声电荷",
+      "name": "探测器与前端端放大器的噪声分析 等效噪声电荷",
       "num": "4.3.6",
       "printedPage": 146,
       "depth": 3,
@@ -1324,7 +1324,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-5-4",
-      "name": "样品脉冲成形器的噪声分析",
+      "name": "相关样品脉冲成形器的噪声分析",
       "num": "4.5.4",
       "printedPage": 160,
       "depth": 3,
@@ -1372,7 +1372,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-7-2",
-      "name": "4.7.2 噪声",
+      "name": "噪声占用",
       "num": "4.7.2",
       "printedPage": 173,
       "depth": 3,
@@ -1420,7 +1420,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-8-2",
-      "name": "尾部极点",
+      "name": "尾部极点零消除",
       "num": "4.8.2",
       "printedPage": 177,
       "depth": 3,
@@ -1480,7 +1480,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-9-3",
-      "name": "时间",
+      "name": "时间走动",
       "num": "4.9.3",
       "printedPage": 182,
       "depth": 3,
@@ -1492,7 +1492,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-9-4",
-      "name": "触发中的实用阈",
+      "name": "前沿前沿触发中的实用阈",
       "num": "4.9.4",
       "printedPage": 183,
       "depth": 3,
@@ -1504,7 +1504,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-9-5",
-      "name": "定时",
+      "name": "零过零定时",
       "num": "4.9.5",
       "printedPage": 184,
       "depth": 3,
@@ -1528,7 +1528,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-4-9-7",
-      "name": "定时若干结果",
+      "name": "快定时若干结果",
       "num": "4.9.7",
       "printedPage": 187,
       "depth": 3,
@@ -1564,7 +1564,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-5-1-1",
-      "name": "5.1.1 逻辑",
+      "name": "逻辑",
       "num": "5.1.1",
       "printedPage": 191,
       "depth": 3,
@@ -1588,7 +1588,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-5-1-3",
-      "name": "5.1.3 逻辑",
+      "name": "逻辑阵列",
       "num": "5.1.3",
       "printedPage": 195,
       "depth": 3,
@@ -1744,7 +1744,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-6-2-1",
-      "name": "6.2.1 结场效应晶体管",
+      "name": "结场效应晶体管",
       "num": "6.2.1",
       "printedPage": 230,
       "depth": 3,
@@ -1768,7 +1768,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-6-2-3",
-      "name": "类型",
+      "name": "MOSFET 类型",
       "num": "6.2.3",
       "printedPage": 241,
       "depth": 3,
@@ -1852,7 +1852,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-6-3-5",
-      "name": "噪声优化",
+      "name": "噪声优化电容性",
       "num": "6.3.5",
       "printedPage": 252,
       "depth": 3,
@@ -1912,7 +1912,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-6-6-2",
-      "name": "6.6.2 技术",
+      "name": "技术改进",
       "num": "6.6.2",
       "printedPage": 271,
       "depth": 3,
@@ -1924,7 +1924,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-6-7",
-      "name": "有源像素条读出的功率耗散",
+      "name": "有源像素阵列条读出的功率耗散",
       "num": "6.7",
       "printedPage": 274,
       "depth": 2,
@@ -2056,7 +2056,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-7-3-2",
-      "name": "7.3.2 结场效应晶体管",
+      "name": "结场效应晶体管JFET",
       "num": "7.3.2",
       "printedPage": 295,
       "depth": 3,
@@ -2104,7 +2104,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-7-5",
-      "name": "技术",
+      "name": "缓解技术",
       "num": "7.5",
       "printedPage": 304,
       "depth": 2,
@@ -2116,7 +2116,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-7-5-1",
-      "name": "7.5.1 探测器",
+      "name": "探测器",
       "num": "7.5.1",
       "printedPage": 304,
       "depth": 3,
@@ -2128,7 +2128,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-7-5-2",
-      "name": "7.5.2 电子学",
+      "name": "缓解技术 电子学",
       "num": "7.5.2",
       "printedPage": 306,
       "depth": 3,
@@ -2140,7 +2140,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-7-5-3",
-      "name": "7.5.3 小结",
+      "name": "小结",
       "num": "7.5.3",
       "printedPage": 309,
       "depth": 3,
@@ -2164,7 +2164,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-1",
-      "name": "8.1 与",
+      "name": "冲突与折中",
       "num": "8.1",
       "printedPage": 315,
       "depth": 2,
@@ -2176,7 +2176,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-2",
-      "name": "设计",
+      "name": "设计考量",
       "num": "8.2",
       "printedPage": 316,
       "depth": 2,
@@ -2224,7 +2224,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-2-4",
-      "name": "8.2.4 读出",
+      "name": "读出",
       "num": "8.2.4",
       "printedPage": 317,
       "depth": 3,
@@ -2296,7 +2296,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-4-2",
-      "name": "8.4.2 电子学",
+      "name": "跟踪与探测器在 电子学",
       "num": "8.4.2",
       "printedPage": 323,
       "depth": 3,
@@ -2344,7 +2344,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-5",
-      "name": "与跟踪探测器在",
+      "name": "与跟踪探测器在强子",
       "num": "8.5",
       "printedPage": 337,
       "depth": 2,
@@ -2356,7 +2356,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-5-1",
-      "name": "8.5.1 与",
+      "name": "CDF与",
       "num": "8.5.1",
       "printedPage": 337,
       "depth": 3,
@@ -2368,7 +2368,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-6",
-      "name": "硅径迹仪在",
+      "name": "硅径迹仪在大型强子",
       "num": "8.6",
       "printedPage": 342,
       "depth": 2,
@@ -2440,7 +2440,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-6-6",
-      "name": "8.6.6 像素探测器",
+      "name": "像素探测器",
       "num": "8.6.6",
       "printedPage": 357,
       "depth": 3,
@@ -2452,7 +2452,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-6-7",
-      "name": "8.6.7 像素探测器",
+      "name": "ATLAS像素探测器",
       "num": "8.6.7",
       "printedPage": 357,
       "depth": 3,
@@ -2488,7 +2488,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-7-2",
-      "name": "8.7.2 像素探测器",
+      "name": "DEPFET像素探测器",
       "num": "8.7.2",
       "printedPage": 364,
       "depth": 3,
@@ -2512,7 +2512,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-9",
-      "name": "应用",
+      "name": "新兴应用",
       "num": "8.9",
       "printedPage": 367,
       "depth": 2,
@@ -2524,7 +2524,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-9-1",
-      "name": "应用",
+      "name": "空间应用",
       "num": "8.9.1",
       "printedPage": 367,
       "depth": 3,
@@ -2596,7 +2596,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-8-11",
-      "name": "8.11 小结",
+      "name": "探测器系统 小结",
       "num": "8.11",
       "printedPage": 377,
       "depth": 2,
@@ -2728,7 +2728,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-3-3",
-      "name": "屏蔽结构",
+      "name": "自屏蔽结构",
       "num": "9.3.3",
       "printedPage": 395,
       "depth": 3,
@@ -2752,7 +2752,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-3-5",
-      "name": "屏蔽电缆",
+      "name": "自屏蔽电缆",
       "num": "9.3.5",
       "printedPage": 397,
       "depth": 3,
@@ -2776,7 +2776,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-4",
-      "name": "电流接地与功率",
+      "name": "电流路径接地与功率",
       "num": "9.4",
       "printedPage": 398,
       "depth": 2,
@@ -2788,7 +2788,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-4-1",
-      "name": "电流接地",
+      "name": "电流路径接地环路",
       "num": "9.4.1",
       "printedPage": 398,
       "depth": 3,
@@ -2800,7 +2800,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-4-2",
-      "name": "9.4.2 技术",
+      "name": "校正技术",
       "num": "9.4.2",
       "printedPage": 400,
       "depth": 3,
@@ -2836,7 +2836,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-5",
-      "name": "电流",
+      "name": "切断寄生电流路径",
       "num": "9.5",
       "printedPage": 405,
       "depth": 2,
@@ -2848,7 +2848,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-5-1",
-      "name": "灵敏",
+      "name": "灵敏环路",
       "num": "9.5.1",
       "printedPage": 406,
       "depth": 3,
@@ -2884,7 +2884,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-5-4",
-      "name": "接地由电阻",
+      "name": "寄生接地由串联电阻",
       "num": "9.5.4",
       "printedPage": 409,
       "depth": 3,
@@ -2932,7 +2932,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-7",
-      "name": "系统",
+      "name": "系统考量",
       "num": "9.7",
       "printedPage": 415,
       "depth": 2,
@@ -3028,7 +3028,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-13",
-      "name": "9.13 探测器",
+      "name": "探测器制造",
       "num": "9.13",
       "printedPage": 422,
       "depth": 2,
@@ -3112,7 +3112,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-20",
-      "name": "与反馈",
+      "name": "串联与分流反馈",
       "num": "9.20",
       "printedPage": 440,
       "depth": 2,
@@ -3136,7 +3136,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-21-1",
-      "name": "9.21.1 反馈",
+      "name": "串联反馈",
       "num": "9.21.1",
       "printedPage": 441,
       "depth": 3,
@@ -3148,7 +3148,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-21-2",
-      "name": "9.21.2 反馈",
+      "name": "分流反馈",
       "num": "9.21.2",
       "printedPage": 441,
       "depth": 3,
@@ -3172,7 +3172,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-22",
-      "name": "增益",
+      "name": "环路增益",
       "num": "9.22",
       "printedPage": 443,
       "depth": 2,
@@ -3220,7 +3220,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-26",
-      "name": "9.26 结",
+      "name": "为什么事物工作 PN结",
       "num": "9.26",
       "printedPage": 451,
       "depth": 2,
@@ -3232,7 +3232,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-27",
-      "name": "9.27 结",
+      "name": "正向偏置PN结",
       "num": "9.27",
       "printedPage": 453,
       "depth": 2,
@@ -3352,7 +3352,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-30-1",
-      "name": "9.30.1 区中的产生",
+      "name": "耗尽区中的产生",
       "num": "9.30.1",
       "printedPage": 465,
       "depth": 3,
@@ -3364,7 +3364,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-30-2",
-      "name": "9.30.2 区中的产生",
+      "name": "中性区中的产生",
       "num": "9.30.2",
       "printedPage": 466,
       "depth": 3,
@@ -3400,7 +3400,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-32-1",
-      "name": "9.32.1 电流",
+      "name": "反向电流",
       "num": "9.32.1",
       "printedPage": 468,
       "depth": 3,
@@ -3412,7 +3412,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-9-32-2",
-      "name": "9.32.2 电流",
+      "name": "正向电流",
       "num": "9.32.2",
       "printedPage": 470,
       "depth": 3,

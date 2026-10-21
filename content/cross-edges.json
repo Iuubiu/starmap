@@ -639,7 +639,7 @@
         "chapter": "脉冲幅度分析"
       },
       "to": {
-        "name": "差分能谱带单道的测量",
+        "name": "差分能谱带单道分析器的测量",
         "num": "9.4",
         "page": 272,
         "chapter": "……导论能谱学"
@@ -649,7 +649,7 @@
       "fromId": "kp-wangzhiying-1989-6-4-1",
       "toId": "kp-leo-2e-18-1",
       "kind": "prereq",
-      "evidence": "跨书：nuclear-electronics-wangzhiying-1989·数据获取和处理 → leo-2e·电子学：未收录术语（CAMAC）（课程层 核电子学 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；无共同术语（人工判定的应用关系））。王芝英 6.4.1 讲 NIM 数字数据总线与 NIM/GPIB 系统；Leo 第 18 章讲 CAMAC —— 同一代核电子学仪器总线标准，实验层的 CAMAC 机箱就是在 NIM 插件体系上加数字总线。",
+      "evidence": "跨书：nuclear-electronics-wangzhiying-1989·数据获取和处理 → leo-2e·计算机电子学CAMAC（课程层 核电子学 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；无共同术语（人工判定的应用关系））。王芝英 6.4.1 讲 NIM 数字数据总线与 NIM/GPIB 系统；Leo 第 18 章讲 CAMAC —— 同一代核电子学仪器总线标准，实验层的 CAMAC 机箱就是在 NIM 插件体系上加数字总线。",
       "evidenceDetail": {
         "type": "cross_book",
         "from_book": "nuclear-electronics-wangzhiying-1989",
@@ -671,7 +671,7 @@
         "name": "CAMAC系统",
         "num": "18.1",
         "page": 336,
-        "chapter": "电子学：未收录术语（CAMAC）"
+        "chapter": "计算机电子学CAMAC"
       }
     },
     {
@@ -728,7 +728,7 @@
         "chapter": "多道脉冲分析"
       },
       "to": {
-        "name": "差分能谱带单道的测量",
+        "name": "差分能谱带单道分析器的测量",
         "num": "9.4",
         "page": 272,
         "chapter": "……导论能谱学"
@@ -1019,29 +1019,29 @@
   ],
   "rejected": [],
   "candidateAudit": {
-    "normalizedConcepts": 2932,
-    "conceptsAcrossBooks": 214,
-    "layerOrderOk": 274,
+    "normalizedConcepts": 3361,
+    "conceptsAcrossBooks": 238,
+    "layerOrderOk": 277,
     "keptByWhitelist": 7,
-    "rejectedSameLayer": 524,
-    "rejectedReverseLayer": 274,
-    "rejectedNotApplication": 267,
+    "rejectedSameLayer": 496,
+    "rejectedReverseLayer": 277,
+    "rejectedNotApplication": 270,
     "rejectedUnmappedBook": 0,
     "sameLayerTop": [
       {
         "fromLayer": "radiation-detection",
         "toLayer": "radiation-detection",
-        "count": 342
+        "count": 330
       },
       {
         "fromLayer": "radiation-measurement-methods",
         "toLayer": "radiation-measurement-methods",
-        "count": 104
+        "count": 86
       },
       {
         "fromLayer": "nuclear-electronics",
         "toLayer": "nuclear-electronics",
-        "count": 28
+        "count": 30
       },
       {
         "fromLayer": "analog-electronics",

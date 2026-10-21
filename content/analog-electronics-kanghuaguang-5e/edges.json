@@ -1,0 +1,565 @@
+{
+  "summary": {
+    "edgeCount": 37,
+    "crossChapter": 9,
+    "withinChapter": 28,
+    "leavesTouched": 49,
+    "leafCount": 168,
+    "coverage": 0.2917
+  },
+  "edges": [
+    {
+      "fromId": "kp-kanghuaguang-5e-1-2",
+      "toId": "kp-kanghuaguang-5e-1-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从1.2节的讨论可知，理论上许多非正弦信号的频",
+          "printedPage": 17,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0033-04-2d1cc1c6488d",
+          "ref": "1.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-1-4",
+      "toId": "kp-kanghuaguang-5e-1-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "4.频率响应在1.4节中所介绍的放大电路模型是极为简单的模",
+          "printedPage": 15,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0031-07-1ade2391fb20",
+          "ref": "1.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "5.非线性失真在1.4节曾提到，放大电路对信号的放大应是线性",
+          "printedPage": 18,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0034-05-de37db4aa3c3",
+          "ref": "1.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-2-1",
+      "toId": "kp-kanghuaguang-5e-6-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "种高性能的多级直接耦合放大电路，从第2.1节的介",
+          "printedPage": 278,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0294-16-077566e22d5d",
+          "ref": "2.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-3-1-1",
+      "toId": "kp-kanghuaguang-5e-3-2-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "本征材料中的空穴浓度和电子浓度，考虑式（3.1.1）中的关系，则有如下的等式：",
+          "printedPage": 60,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0076-08-67172895bdc6",
+          "ref": "式（3.1.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-3-2-3",
+      "toId": "kp-kanghuaguang-5e-3-2-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "关于式（3.2.3），可解释如下：（1）",
+          "printedPage": 65,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0081-10-337693c3d152",
+          "ref": "式（3.2.3"
+        },
+        {
+          "kind": "式引用",
+          "quote": "几倍时，式（3.2.3）中的",
+          "printedPage": 65,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0081-12-911695bb23ba",
+          "ref": "式（3.2.3"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-3-2-3",
+      "toId": "kp-kanghuaguang-5e-3-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "为阅读方便，将二极管的V一I特性关系式（3.2.3）重写如下（此处原式中",
+          "printedPage": 74,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0090-03-dd3bf262782c",
+          "ref": "式（3.2.3"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-3-2-3",
+      "toId": "kp-kanghuaguang-5e-3-5-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "PN结非常类似，同样满足式（3.2.3）的",
+          "printedPage": 89,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0105-06-7b19ac7709d1",
+          "ref": "式（3.2.3"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-3-4-1",
+      "toId": "kp-kanghuaguang-5e-3-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "通过联立求解式（3.4.1)和（3.4.3），便可求出，和ip",
+          "printedPage": 74,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0090-04-d0c81726a6c5",
+          "ref": "式（3.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-3-4-2",
+      "toId": "kp-kanghuaguang-5e-3-6",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "PICE模型如图c所示，此时，r就是3.4.2节中小",
+          "printedPage": 94,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0110-00-8d1729fb80f6",
+          "ref": "3.4.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-3-5-1",
+      "toId": "kp-kanghuaguang-5e-10-2-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "阻R串联所构成的简单稳压电路获得（见3.5.1节），R,、R，与R2",
+          "printedPage": 496,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0512-03-b32f9623c8b3",
+          "ref": "3.5.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-3-5-4",
+      "toId": "kp-kanghuaguang-5e-7-6-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "放大电路。光电隔离器在3.5.4节介绍过，现将其重画于图7.6.2所示",
+          "printedPage": 357,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0373-00-3ac278be4452",
+          "ref": "3.5.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-1-1",
+      "toId": "kp-kanghuaguang-5e-4-1-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "式（4.1.1）是BJT的Ebers-Moll模型",
+          "printedPage": 104,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0120-14-7f038824d050",
+          "ref": "式（4.1.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "由图4.1.4和式（4.1.1b）、（4.1.2）可见，BJT的基",
+          "printedPage": 105,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0121-11-da8cb75f1c6f",
+          "ref": "式（4.1.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "常将BJT称为电流控制器件。实质上由式(4.1.1a)可知，I是受正向发射结电压vBE",
+          "printedPage": 106,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0122-15-b53634c0364a",
+          "ref": "式(4.1.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-1-4",
+      "toId": "kp-kanghuaguang-5e-4-6-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "的工作电流小，因而β,的值较低（参见4.1.4节图4.1.12）。为了克服这-缺",
+          "printedPage": 153,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0169-04-3b7a0b5c4142",
+          "ref": "4.1.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-1-5",
+      "toId": "kp-kanghuaguang-5e-4-4-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "因素中，尤以环境温度变化的影响最大。4.1.5节讨论过，温度上升时，BJT 的反向电",
+          "printedPage": 134,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0150-02-42caa65ab84e",
+          "ref": "4.1.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-3-2",
+      "toId": "kp-kanghuaguang-5e-4-7-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "1.BJT的高频小信号模型在4.3.2节中根据BJT的特性方程，导出了它在放",
+          "printedPage": 159,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0175-13-7873dead950a",
+          "ref": "4.3.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-4-1",
+      "toId": "kp-kanghuaguang-5e-4-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "的求法相同，用式（4.4.1）～（4.4.4）求解即可。",
+          "printedPage": 145,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0161-02-d51f75a47dc5",
+          "ref": "式（4.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-5-2",
+      "toId": "kp-kanghuaguang-5e-4-6-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "合管的特性，求得它的相关参数，然后用式（4.5.2）～（4.5.4）求A,、R和 R。",
+          "printedPage": 151,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0167-00-0aa016d37679",
+          "ref": "式（4.5.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-5-2",
+      "toId": "kp-kanghuaguang-5e-4-7-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "1.共基极放大电路的高频响应从4.5.2节的分析已知，共基极放大电路具有低输人",
+          "printedPage": 173,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0189-05-55d9b56289c1",
+          "ref": "4.5.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-6-1",
+      "toId": "kp-kanghuaguang-5e-4-6-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "式（4.6.1a）说明，组合放大电路总的电压增益等",
+          "printedPage": 150,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0166-02-31a4ad63c611",
+          "ref": "式（4.6.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "由式（4.6.1b）可知，共射-共基组合放大电路的电",
+          "printedPage": 150,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0166-04-595567239415",
+          "ref": "式（4.6.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-6-1",
+      "toId": "kp-kanghuaguang-5e-4-7-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "由4.6节的分析已知，多级放大电路的电压增益A",
+          "printedPage": 175,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0191-17-0e8d1f84bc38",
+          "ref": "4.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-6-2",
+      "toId": "kp-kanghuaguang-5e-4-7-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "由4.6节的分析已知，多级放大电路的电压增益A",
+          "printedPage": 175,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0191-17-0e8d1f84bc38",
+          "ref": "4.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-7-1",
+      "toId": "kp-kanghuaguang-5e-7-7-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "反馈系数F均与信号频率无关。然而，由4.7节的讨论得知，由于电路中电抗性元件及半",
+          "printedPage": 360,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0376-04-e80ef96fa0ad",
+          "ref": "4.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-7-1",
+      "toId": "kp-kanghuaguang-5e-9-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "1.二阶高通滤波电路由4.7.1节讨论已知，如果将RC低通电路中的R和",
+          "printedPage": 423,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0439-03-5359bc9340ce",
+          "ref": "4.7.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-7-2",
+      "toId": "kp-kanghuaguang-5e-7-7-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "反馈系数F均与信号频率无关。然而，由4.7节的讨论得知，由于电路中电抗性元件及半",
+          "printedPage": 360,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0376-04-e80ef96fa0ad",
+          "ref": "4.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-7-3",
+      "toId": "kp-kanghuaguang-5e-7-7-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "反馈系数F均与信号频率无关。然而，由4.7节的讨论得知，由于电路中电抗性元件及半",
+          "printedPage": 360,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0376-04-e80ef96fa0ad",
+          "ref": "4.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-7-4",
+      "toId": "kp-kanghuaguang-5e-7-7-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "反馈系数F均与信号频率无关。然而，由4.7节的讨论得知，由于电路中电抗性元件及半",
+          "printedPage": 360,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0376-04-e80ef96fa0ad",
+          "ref": "4.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-4-7-5",
+      "toId": "kp-kanghuaguang-5e-7-7-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "反馈系数F均与信号频率无关。然而，由4.7节的讨论得知，由于电路中电抗性元件及半",
+          "printedPage": 360,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0376-04-e80ef96fa0ad",
+          "ref": "4.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-6-1-2",
+      "toId": "kp-kanghuaguang-5e-6-2-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "，～Ta的电流等于IREr/2。根据6.1.2 节的讨论已知，在设计这种电路时，通过调",
+          "printedPage": 273,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0289-05-6fd002249587",
+          "ref": "6.1.2 节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-6-2-1",
+      "toId": "kp-kanghuaguang-5e-6-2-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "用差模和共模电压表示两输人电压时，由式（6.2.1）和式（6.2.2）可得",
+          "printedPage": 263,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0279-03-a6e90d6625a1",
+          "ref": "式（6.2.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-6-2-2",
+      "toId": "kp-kanghuaguang-5e-6-6-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "与6.2.2节所讨论的差分式放大电路的差异在于电流",
+          "printedPage": 295,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0311-12-2948ecc4119c",
+          "ref": "6.2.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-6-4-1",
+      "toId": "kp-kanghuaguang-5e-6-8",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "μA，与6.4.1节的手算结果基本",
+          "printedPage": 312,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0328-21-d2bbadf2412e",
+          "ref": "6.4.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-7-4-1",
+      "toId": "kp-kanghuaguang-5e-7-4-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "度负反馈［（1+AF）>>1]后，由式（7.4.1）可知，闭环增益近似为1/F，所以该",
+          "printedPage": 344,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0360-03-38d92ca841fe",
+          "ref": "式（7.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-7-4-1",
+      "toId": "kp-kanghuaguang-5e-7-4-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "反馈放大电路的闭环增益表达式（7.4.1）中A=1/F的物理意义是什么？",
+          "printedPage": 349,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0365-08-b3a463fdb28d",
+          "ref": "式（7.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-8-3-1",
+      "toId": "kp-kanghuaguang-5e-8-3-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "v;=0时，P、=0；当v;≠0，由式(8.3.1)和式(8.3.4)得",
+          "printedPage": 389,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0405-01-c26e55b99d22",
+          "ref": "式(8.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-8-3-1",
+      "toId": "kp-kanghuaguang-5e-8-5-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": ".4.5在单电源互补对称电路中，能用式（8.3.1）（8.3.11）直接计算输出功率、",
+          "printedPage": 395,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0411-00-66aadf4d48f2",
+          "ref": "式（8.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-8-3-2",
+      "toId": "kp-kanghuaguang-5e-8-3-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "由式（8.3.2）可求出",
+          "printedPage": 391,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0407-01-eed34143f7c9",
+          "ref": "式（8.3.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-kanghuaguang-5e-9-7-1",
+      "toId": "kp-kanghuaguang-5e-9-7-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在9.7.1节讨论LC并联谐振回路时已得出结论：谐",
+          "printedPage": 448,
+          "chunkId": "ck-analog-electronics-kanghuaguang-5e-0464-04-ec71f88c1434",
+          "ref": "9.7.1节"
+        }
+      ]
+    }
+  ]
+}

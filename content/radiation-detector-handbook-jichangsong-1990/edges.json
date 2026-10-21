@@ -1,0 +1,432 @@
+{
+  "summary": {
+    "edgeCount": 30,
+    "crossChapter": 10,
+    "withinChapter": 20,
+    "leavesTouched": 35,
+    "leafCount": 390,
+    "coverage": 0.0897
+  },
+  "edges": [
+    {
+      "fromId": "kp-jichangsong-1990-10-1",
+      "toId": "kp-jichangsong-1990-10-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "分辨时间修正因子f.与10.1节α粒子探测的f-相同，详见第11.4",
+          "printedPage": 448,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0462-07-c8b91699a7b0",
+          "ref": "10.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-1",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-11",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-12",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-13",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-14",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-15",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-16",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-17",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-18",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-19",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-2",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-20",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-21",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-4",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-5",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-6",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-7",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-8",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-11-1-9",
+      "toId": "kp-jichangsong-1990-11-1-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "经受侧表面的多次反射而遭受损失。据公式(11.1a)与(11.16)可知，在光导丝内",
+          "printedPage": 472,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0486-01-7187b3d88b44",
+          "ref": "式(11.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-2-2-4",
+      "toId": "kp-jichangsong-1990-8-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "111 11 盐 一碘氪\n | 氙 2.2.4节。\n | T 号 1. 为见\n2 3",
+          "printedPage": 418,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0432-20-8ae1d78704e1",
+          "ref": "2.2.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-2-2-4",
+      "toId": "kp-jichangsong-1990-p427-铅有机玻璃簇射探测器",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "折射系数。**辐射长度X。的定义，见2.2.4节。**Ec是电子产生切伦科夫辐射的临",
+          "printedPage": 427,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0441-03-1b105479239b",
+          "ref": "2.2.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-2-2-7",
+      "toId": "kp-jichangsong-1990-7-3-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "T1、*\"P、\"Y、K与\"\"Pm。在2.2.7节的表中，可查出它们的半衰期、β 粒子",
+          "printedPage": 394,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0408-08-ad967543727f",
+          "ref": "2.2.7节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-3-2-1",
+      "toId": "kp-jichangsong-1990-7-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "当量计刻度。有关中子源的性能特点参见3.2节。常用的中子源",
+          "printedPage": 394,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0408-17-7c73b3a9545e",
+          "ref": "3.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-3-2-2",
+      "toId": "kp-jichangsong-1990-7-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "当量计刻度。有关中子源的性能特点参见3.2节。常用的中子源",
+          "printedPage": 394,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0408-17-7c73b3a9545e",
+          "ref": "3.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-3-2-3",
+      "toId": "kp-jichangsong-1990-7-3-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "当量计刻度。有关中子源的性能特点参见3.2节。常用的中子源",
+          "printedPage": 394,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0408-17-7c73b3a9545e",
+          "ref": "3.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-6-6-1",
+      "toId": "kp-jichangsong-1990-11-1-21",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "极间电压V，近似地成正比，应用经验公式（6.6）可得",
+          "printedPage": 496,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0510-00-cb7227cad544",
+          "ref": "式（6.6"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-6-6-2",
+      "toId": "kp-jichangsong-1990-11-1-21",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "极间电压V，近似地成正比，应用经验公式（6.6）可得",
+          "printedPage": 496,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0510-00-cb7227cad544",
+          "ref": "式（6.6"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-6-6-3",
+      "toId": "kp-jichangsong-1990-11-1-21",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "极间电压V，近似地成正比，应用经验公式（6.6）可得",
+          "printedPage": 496,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0510-00-cb7227cad544",
+          "ref": "式（6.6"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-jichangsong-1990-6-7",
+      "toId": "kp-jichangsong-1990-11-1-21",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "应用增益公式（6.7）G=S/Sk，还可以算出相应的阳极",
+          "printedPage": 496,
+          "chunkId": "ck-radiation-detector-handbook-jichangsong-1990-0510-04-e8500a61c8b9",
+          "ref": "式（6.7"
+        }
+      ]
+    }
+  ]
+}

@@ -1,726 +1,1392 @@
 {
   "sourceId": "nuclear-electronics-wangzhiying-1989",
-  "nodeCount": 80,
+  "nodeCount": 126,
   "nodes": [
     {
-      "microKpId": "kp-p1-绪论",
+      "microKpId": "kp-wangzhiying-1989-p1-目電录",
+      "name": "目電录",
+      "num": "",
+      "printedPage": 1,
+      "depth": 0,
+      "parentId": null,
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p1-绪论",
       "name": "绪论",
       "num": "",
       "printedPage": 1,
       "depth": 0,
       "parentId": null,
-      "isLeaf": true
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1",
+      "microKpId": "kp-wangzhiying-1989-1",
       "name": "核电子学系统中的信号与噪声",
       "num": "1",
       "printedPage": 1,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1",
-      "name": "核辐射探测器及其输出信号",
-      "num": "1.1",
+      "microKpId": "kp-wangzhiying-1989-p1-第1章核辐射探测器及其输出信号",
+      "name": "第1章核辐射探测器及其输出信号",
+      "num": "",
       "printedPage": 1,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": false
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-1",
-      "name": "、核辐射探測器的要求和特点",
-      "num": "1.1.1",
+      "microKpId": "kp-wangzhiying-1989-p1-一核辐射探测器的要求和特点",
+      "name": "一、核辐射探测器的要求和特点",
+      "num": "",
       "printedPage": 1,
-      "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-2",
-      "name": "核辐射探测器的主要类别和输出信号",
-      "num": "1.1.2",
+      "microKpId": "kp-wangzhiying-1989-p2-二核辐射探测器的主要类别和输出信号",
+      "name": "二、核辐射探测器的主要类别和输出信号",
+      "num": "",
       "printedPage": 2,
-      "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-3",
-      "name": "核辐射探测器的基本性能(指标)",
-      "num": "1.1.3",
+      "microKpId": "kp-wangzhiying-1989-p5-三核辐射探测器的基本性能指标",
+      "name": "三、核辐射探测器的基本性能(指标)",
+      "num": "",
       "printedPage": 5,
-      "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-4",
-      "name": "核辐射探测器的输出电路",
-      "num": "1.1.4",
+      "microKpId": "kp-wangzhiying-1989-p8-四核辐射探测器的输出电路",
+      "name": "四、核辐射探测器的输出电路",
+      "num": "",
       "printedPage": 8,
-      "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-1-5",
-      "name": "核辐射探测器输出信号的数学模拟",
-      "num": "1.1.5",
+      "microKpId": "kp-wangzhiying-1989-p10-五核辐射探测器输出信号的数学模拟",
+      "name": "五、核辐射探测器输出信号的数学模拟",
+      "num": "",
       "printedPage": 10,
-      "depth": 3,
-      "parentId": "kp-1-1",
-      "isLeaf": true
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-2",
+      "microKpId": "kp-wangzhiying-1989-1-2",
       "name": "核电子学中的噪声",
       "num": "1.2",
       "printedPage": 11,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p11-噪声对核测量的影响",
-      "name": "噪声对核测量的影响",
-      "num": "",
-      "printedPage": 11,
-      "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-p13-噪声的分类和噪声源",
+      "microKpId": "kp-wangzhiying-1989-p13-噪声的分类和噪声源",
       "name": "噪声的分类和噪声源",
       "num": "",
       "printedPage": 13,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p16-核电子学中的信号与噪声分析基础",
+      "microKpId": "kp-wangzhiying-1989-1-3",
       "name": "核电子学中的信号与噪声分析基础",
-      "num": "",
+      "num": "1.3",
       "printedPage": 16,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p16-时域和频域分析",
+      "microKpId": "kp-wangzhiying-1989-p16-时域和频域分析",
       "name": "时域和频域分析",
       "num": "",
       "printedPage": 16,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p17-核电子学中常见的基本电路分析",
+      "microKpId": "kp-wangzhiying-1989-p17-核电子学中常见的基本电路分析",
       "name": "核电子学中常见的基本电路分析",
       "num": "",
       "printedPage": 17,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p20-核随机信号通过线性网络",
+      "microKpId": "kp-wangzhiying-1989-p25-核随机信号通过线性网络",
       "name": "核随机信号通过线性网络",
       "num": "",
-      "printedPage": 20,
+      "printedPage": 25,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-4",
+      "microKpId": "kp-wangzhiying-1989-1-4",
       "name": "核电子学测量系统概述",
       "num": "1.4",
       "printedPage": 25,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": false
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-4-1",
-      "name": "核电子学常用的信号处理系统",
+      "microKpId": "kp-wangzhiying-1989-1-4-1",
+      "name": "系统的基本组成",
       "num": "1.4.1",
+      "printedPage": 25,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-1-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-1-4-2",
+      "name": "核电子学常用的信号处理系统",
+      "num": "1.4.2",
       "printedPage": 26,
       "depth": 3,
-      "parentId": "kp-1-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-1-4-2",
+      "microKpId": "kp-wangzhiying-1989-1-4-3",
       "name": "核电子学信号处理单元插件标准化",
-      "num": "1.4.2",
+      "num": "1.4.3",
       "printedPage": 28,
       "depth": 3,
-      "parentId": "kp-1-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p25-系统的基本组成",
-      "name": "、系统的基本组成",
-      "num": "",
-      "printedPage": 25,
-      "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-p29-习题与思考题",
+      "microKpId": "kp-wangzhiying-1989-p29-习题与思考题",
       "name": "习题与思考题",
       "num": "",
       "printedPage": 29,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p30-附录",
+      "microKpId": "kp-wangzhiying-1989-p30-附录",
       "name": "［附录］",
       "num": "",
       "printedPage": 30,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p30-常用的几项NIM标准",
+      "microKpId": "kp-wangzhiying-1989-p30-常用的几项NIM标准",
       "name": "常用的几项NIM标准",
       "num": "",
       "printedPage": 30,
       "depth": 2,
-      "parentId": "kp-1",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2",
+      "microKpId": "kp-wangzhiying-1989-2",
       "name": "前置放大器",
       "num": "2",
       "printedPage": 34,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-1",
-      "name": "概述",
+      "microKpId": "kp-wangzhiying-1989-2-1",
+      "name": "2.1 概述",
       "num": "2.1",
       "printedPage": 34,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p34-前置放大器的作用",
+      "microKpId": "kp-wangzhiying-1989-p34-前置放大器的作用",
       "name": "前置放大器的作用",
       "num": "",
       "printedPage": 34,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p35-前置放大器的分类",
+      "microKpId": "kp-wangzhiying-1989-p35-前置放大器的分类",
       "name": "前置放大器的分类",
       "num": "",
       "printedPage": 35,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-2",
+      "microKpId": "kp-wangzhiying-1989-p37-电荷灵敏前置放大器",
       "name": "电荷灵敏前置放大器",
-      "num": "2.2",
+      "num": "",
       "printedPage": 37,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p37-电荷灵敏前置放大器的主要特性",
+      "microKpId": "kp-wangzhiying-1989-p37-电荷灵敏前置放大器的主要特性",
       "name": "电荷灵敏前置放大器的主要特性",
       "num": "",
       "printedPage": 37,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p42-电荷灵敏前置放大器的基本电路和实例分析",
+      "microKpId": "kp-wangzhiying-1989-p42-电荷灵敏前置放大器的基本电路和实例分析",
       "name": "电荷灵敏前置放大器的基本电路和实例分析",
       "num": "",
       "printedPage": 42,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p48-电荷灵敏前置放大器的噪声分析和抑制措施",
+      "microKpId": "kp-wangzhiying-1989-p48-电荷灵敏前置放大器的噪声分析和抑制措施",
       "name": "电荷灵敏前置放大器的噪声分析和抑制措施",
       "num": "",
       "printedPage": 48,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p48-电荷灵敏前置放大器的进一步改进",
+      "microKpId": "kp-wangzhiying-1989-p48-电荷灵敏前置放大器的进一步改进",
       "name": "电荷灵敏前置放大器的进一步改进",
       "num": "",
       "printedPage": 48,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p50-电荷灵敏前置放大器噪声的实验测量",
-      "name": "电荷灵敏前置放大器噪声的实验测量",
+      "microKpId": "kp-wangzhiying-1989-p50-电荷灵敏前置放大器噪声的实验测量",
+      "name": "电荷灵敏前置放大器噪声的实验测量“",
       "num": "",
       "printedPage": 50,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-3",
+      "microKpId": "kp-wangzhiying-1989-2-3",
       "name": "电压（灵敏）前置放大器",
       "num": "2.3",
       "printedPage": 53,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-2-4",
+      "microKpId": "kp-wangzhiying-1989-2-4",
       "name": "电流灵敏前置放大器",
       "num": "2.4",
       "printedPage": 54,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p56-习题与思考题",
+      "microKpId": "kp-wangzhiying-1989-p56-习题与思考题",
       "name": "习题与思考题",
       "num": "",
       "printedPage": 56,
       "depth": 2,
-      "parentId": "kp-2",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-2",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3",
+      "microKpId": "kp-wangzhiying-1989-3",
       "name": "放大器",
       "num": "3",
       "printedPage": 58,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p59-谱仪放大器的框图介绍",
+      "microKpId": "kp-wangzhiying-1989-3-1",
+      "name": "概述",
+      "num": "3.1",
+      "printedPage": 58,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-3-1-1",
+      "name": "放大器的基本参量及测量方法",
+      "num": "3.1.1",
+      "printedPage": 60,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-3-1-2",
+      "name": "其它类型的一些放大器",
+      "num": "3.1.2",
+      "printedPage": 66,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-3-1-3",
+      "name": "放大节的结构",
+      "num": "3.1.3",
+      "printedPage": 67,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-3-1-4",
+      "name": "分立元件构成的放大节电路介绍",
+      "num": "3.1.4",
+      "printedPage": 69,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-3-1-5",
+      "name": "集成运算放大器构成的放大节电路",
+      "num": "3.1.5",
+      "printedPage": 73,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-3-1",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p58-放大器在核测量系统中的作用",
+      "name": "放大器在核测量系统中的作用",
+      "num": "",
+      "printedPage": 58,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p59-谱仪放大器的框图介绍",
       "name": "谱仪放大器的框图介绍",
       "num": "",
       "printedPage": 59,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p60-三放大器的基本参量及测量方法",
-      "name": "三、放大器的基本参量及测量方法",
-      "num": "",
-      "printedPage": 60,
-      "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-p66-四其它类型的一些放大器",
-      "name": "四、其它类型的一些放大器",
-      "num": "",
-      "printedPage": 66,
-      "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-3-2",
-      "name": "谱仪放大器的放大节",
-      "num": "3.2",
-      "printedPage": 67,
-      "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
-    },
-    {
-      "microKpId": "kp-3-2-1",
-      "name": "集成运算放大器构成的放大节电路",
-      "num": "3.2.1",
-      "printedPage": 73,
-      "depth": 3,
-      "parentId": "kp-3-2",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-p67-放大节的结构",
-      "name": "、放大节的结构",
+      "microKpId": "kp-wangzhiying-1989-p67-第2章谱仪放大器的放大节",
+      "name": "第2章谱仪放大器的放大节",
       "num": "",
       "printedPage": 67,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p69-分立元件构成的放大节电路介绍",
-      "name": "、分立元件构成的放大节电路介绍",
-      "num": "",
-      "printedPage": 69,
-      "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-3-3",
+      "microKpId": "kp-wangzhiying-1989-3-3",
       "name": "谱仪放大器中的滤波成形",
       "num": "3.3",
       "printedPage": 75,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-3-1",
-      "name": "无源滤波成形电路",
+      "microKpId": "kp-wangzhiying-1989-3-3-1",
+      "name": "最佳滤波器的讨论",
       "num": "3.3.1",
+      "printedPage": 76,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-3-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-3-3-2",
+      "name": "无源滤波成形电路",
+      "num": "3.3.2",
       "printedPage": 84,
       "depth": 3,
-      "parentId": "kp-3-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-3-2",
+      "microKpId": "kp-wangzhiying-1989-3-3-3",
       "name": "有源滤波成形电路",
-      "num": "3.3.2",
+      "num": "3.3.3",
       "printedPage": 95,
       "depth": 3,
-      "parentId": "kp-3-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-3-3",
-      "name": "时变滤波成形电路",
-      "num": "3.3.3",
-      "printedPage": 101,
-      "depth": 3,
-      "parentId": "kp-3-3",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-p75-滤波成形电路在谱仪放大器中的作用",
+      "microKpId": "kp-wangzhiying-1989-p75-滤波成形电路在谱仪放大器中的作用",
       "name": "滤波成形电路在谱仪放大器中的作用",
       "num": "",
       "printedPage": 75,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p76-最佳滤波器的讨论",
-      "name": "、最佳滤波器的讨论",
-      "num": "",
-      "printedPage": 76,
-      "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-p79-滤波成形电路的信息畸变",
+      "microKpId": "kp-wangzhiying-1989-p84-滤波成形电路的信息畸变",
       "name": "滤波成形电路的信息畸变",
       "num": "",
-      "printedPage": 79,
+      "printedPage": 84,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-4",
+      "microKpId": "kp-wangzhiying-1989-3-4",
       "name": "通用谱仪放大器",
       "num": "3.4",
       "printedPage": 101,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-4-1",
-      "name": "死时间校正和允许最高计数率",
-      "num": "3.4.1",
-      "printedPage": 115,
-      "depth": 3,
-      "parentId": "kp-3-4",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-p102-基线恢复器",
+      "microKpId": "kp-wangzhiying-1989-p102-基线恢复器",
       "name": "基线恢复器",
       "num": "",
       "printedPage": 102,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p107-通用谱仪放大器介绍",
+      "microKpId": "kp-wangzhiying-1989-p107-通用谱仪放大器介绍",
       "name": "通用谱仪放大器介绍",
       "num": "",
       "printedPage": 107,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p111-高能量分辨率高计数率谱仪放大器",
+      "microKpId": "kp-wangzhiying-1989-3-5",
       "name": "高能量分辨率高计数率谱仪放大器",
-      "num": "",
+      "num": "3.5",
       "printedPage": 111,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p111-堆积拒绝方法",
+      "microKpId": "kp-wangzhiying-1989-3-5-1",
+      "name": "死时间校正和允许最高计数率",
+      "num": "3.5.1",
+      "printedPage": 115,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-3-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p111-堆积拒绝方法",
       "name": "堆积拒绝方法",
       "num": "",
       "printedPage": 111,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p115-堆积拒绝电路",
+      "microKpId": "kp-wangzhiying-1989-p115-堆积拒绝电路",
       "name": "堆积拒绝电路",
       "num": "",
       "printedPage": 115,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-6",
+      "microKpId": "kp-wangzhiying-1989-3-6",
       "name": "快放大器",
       "num": "3.6",
       "printedPage": 117,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": false
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-3-6-1",
-      "name": "调制型弱电流放大器",
-      "num": "3.6.1",
-      "printedPage": 126,
-      "depth": 3,
-      "parentId": "kp-3-6",
-      "isLeaf": true
-    },
-    {
-      "microKpId": "kp-p117-概述",
-      "name": "概述",
+      "microKpId": "kp-wangzhiying-1989-p117-概述",
+      "name": "3 概述",
       "num": "",
       "printedPage": 117,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p118-快放大器的放大节电路",
+      "microKpId": "kp-wangzhiying-1989-p118-快放大器的放大节电路",
       "name": "快放大器的放大节电路",
       "num": "",
       "printedPage": 118,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p121-弱电流放大器",
+      "microKpId": "kp-wangzhiying-1989-3-7",
       "name": "弱电流放大器",
-      "num": "",
+      "num": "3.7",
       "printedPage": 121,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p121-电阻式弱电流放大器",
+      "microKpId": "kp-wangzhiying-1989-3-7-1",
+      "name": "调制型弱电流放大器",
+      "num": "3.7.1",
+      "printedPage": 126,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-3-7",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p121-电阻式弱电流放大器",
       "name": "电阻式弱电流放大器",
       "num": "",
       "printedPage": 121,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p125-电流一频率转换的弱电流放大器",
-      "name": "电流一频率转换的弱电流放大器",
+      "microKpId": "kp-wangzhiying-1989-p125-电流频率转换的弱电流放大器",
+      "name": "电流-频率转换的弱电流放大器",
       "num": "",
       "printedPage": 125,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p127-习题与思考题",
+      "microKpId": "kp-wangzhiying-1989-p127-习题与思考题",
       "name": "习题与思考题",
       "num": "",
       "printedPage": 127,
       "depth": 2,
-      "parentId": "kp-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-3",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4",
+      "microKpId": "kp-wangzhiying-1989-4",
       "name": "脉冲幅度分析",
       "num": "4",
       "printedPage": 130,
       "depth": 1,
       "parentId": null,
-      "isLeaf": false
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-1",
+      "microKpId": "kp-wangzhiying-1989-4-1",
       "name": "脉冲幅度甄别器",
       "num": "4.1",
       "printedPage": 130,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p131-脉冲幅度甄别器的一般要求",
+      "microKpId": "kp-wangzhiying-1989-p131-脉冲幅度甄别器的一般要求",
       "name": "脉冲幅度甄别器的一般要求",
       "num": "",
       "printedPage": 131,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p133-甄别器电路实例",
+      "microKpId": "kp-wangzhiying-1989-p133-甄别器电路实例",
       "name": "甄别器电路实例",
       "num": "",
       "printedPage": 133,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p135-脉冲幅度甄别器的使用半计数法",
-      "name": "脉冲幅度甄别器的使用半计数法",
+      "microKpId": "kp-wangzhiying-1989-p135-脉冲幅度甄别器的使用一半计数法",
+      "name": "脉冲幅度甄别器的使用~一半计数法",
       "num": "",
       "printedPage": 135,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p136-单道脉冲幅度分析器",
+      "microKpId": "kp-wangzhiying-1989-4-2",
       "name": "单道脉冲幅度分析器",
-      "num": "",
+      "num": "4.2",
       "printedPage": 136,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p136-单道脉冲幅度分析器工作原理",
+      "microKpId": "kp-wangzhiying-1989-p136-单道脉冲幅度分析器工作原理",
       "name": "单道脉冲幅度分析器工作原理",
       "num": "",
       "printedPage": 136,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p138-单道脉冲幅度分析器实例",
+      "microKpId": "kp-wangzhiying-1989-p138-单道脉冲幅度分析器实例",
       "name": "单道脉冲幅度分析器实例",
       "num": "",
       "printedPage": 138,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p142-单道脉冲幅度分析器技术指标",
+      "microKpId": "kp-wangzhiying-1989-p142-单道脉冲幅度分析器技术指标",
       "name": "单道脉冲幅度分析器技术指标",
       "num": "",
       "printedPage": 142,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-3",
+      "microKpId": "kp-wangzhiying-1989-4-3",
       "name": "幅度-数字变换",
       "num": "4.3",
       "printedPage": 142,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": false
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-3-1",
-      "name": "线性门和模拟展宽器",
+      "microKpId": "kp-wangzhiying-1989-4-3-1",
+      "name": "用干幅度分析的模数变换器及其基本性能",
       "num": "4.3.1",
+      "printedPage": 142,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-4-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-4-3-2",
+      "name": "线性门和模拟展宽器",
+      "num": "4.3.2",
       "printedPage": 146,
       "depth": 3,
-      "parentId": "kp-4-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-3-2",
+      "microKpId": "kp-wangzhiying-1989-4-3-3",
       "name": "线性放电型模数变换",
-      "num": "4.3.2",
+      "num": "4.3.3",
       "printedPage": 151,
       "depth": 3,
-      "parentId": "kp-4-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-4-3-3",
+      "microKpId": "kp-wangzhiying-1989-4-3-4",
       "name": "逐次比较型模数变换器",
-      "num": "4.3.3",
+      "num": "4.3.4",
       "printedPage": 164,
       "depth": 3,
-      "parentId": "kp-4-3",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-p142-用干幅度分析的模数变换器及其基本性能",
-      "name": "、用干幅度分析的模数变换器及其基本性能",
+      "microKpId": "kp-wangzhiying-1989-4-3-5",
+      "name": "闪电型模数变换器",
+      "num": "4.3.5",
+      "printedPage": 173,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-4-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-4-3-6",
+      "name": "模数变换器的主要技术性能及其测量",
+      "num": "4.3.6",
+      "printedPage": 175,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-4-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p187-习题与思考题",
+      "name": "习题与思考题",
       "num": "",
-      "printedPage": 142,
+      "printedPage": 187,
       "depth": 2,
-      "parentId": "kp-4",
-      "isLeaf": true
+      "parentId": "kp-wangzhiying-1989-4",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     },
     {
-      "microKpId": "kp-5",
+      "microKpId": "kp-wangzhiying-1989-5",
       "name": "时间分析",
       "num": "5",
-      "printedPage": 164,
+      "printedPage": 189,
       "depth": 1,
       "parentId": null,
-      "isLeaf": true
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-1",
+      "name": "5.1 概述",
+      "num": "5.1",
+      "printedPage": 189,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-2",
+      "name": "定时方法",
+      "num": "5.2",
+      "printedPage": 192,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-2-1",
+      "name": "幅度和上升时间补偿定时",
+      "num": "5.2.1",
+      "printedPage": 203,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-5-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-2-2",
+      "name": "最佳定时滤波器与定时滤波放大器",
+      "num": "5.2.2",
+      "printedPage": 210,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-5-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p192-前沿定时",
+      "name": "前沿定时",
+      "num": "",
+      "printedPage": 192,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p198-过零定时",
+      "name": "过零定时",
+      "num": "",
+      "printedPage": 198,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p203-恒比定时",
+      "name": "恒比定时",
+      "num": "",
+      "printedPage": 203,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p209-五定时方法比较",
+      "name": "五，定时方法比较",
+      "num": "",
+      "printedPage": 209,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p218-定时单道脉冲幅度分析器",
+      "name": "定时单道脉冲幅度分析器",
+      "num": "",
+      "printedPage": 218,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-3",
+      "name": "符合",
+      "num": "5.3",
+      "printedPage": 218,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p218-符合方法",
+      "name": "符合方法",
+      "num": "",
+      "printedPage": 218,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p222-符合电路",
+      "name": "符合电路",
+      "num": "",
+      "printedPage": 222,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p230-快信号的传输和纳秒延时器",
+      "name": "快信号的传输和纳秒延时器",
+      "num": "",
+      "printedPage": 230,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-4",
+      "name": "时间量变换方法",
+      "num": "5.4",
+      "printedPage": 230,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-4-1",
+      "name": "时间一幅度变换",
+      "num": "5.4.1",
+      "printedPage": 231,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-5-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-4-2",
+      "name": "时间-数字变换",
+      "num": "5.4.2",
+      "printedPage": 239,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-5-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-4-3",
+      "name": "上升时间-幅度变换",
+      "num": "5.4.3",
+      "printedPage": 244,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-5-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p230-时间分析",
+      "name": "时间分析",
+      "num": "",
+      "printedPage": 230,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-5-5",
+      "name": "脉冲波形甄别",
+      "num": "5.5",
+      "printedPage": 247,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p249-习题与思考题",
+      "name": "习题与思考题",
+      "num": "",
+      "printedPage": 249,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-5",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6",
+      "name": "数据获取和处理",
+      "num": "6",
+      "printedPage": 252,
+      "depth": 1,
+      "parentId": null,
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-1",
+      "name": "核脉冲计数",
+      "num": "6.1",
+      "printedPage": 252,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p253-定标器",
+      "name": "定标器",
+      "num": "",
+      "printedPage": 253,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p259-计数率计",
+      "name": "计数率计",
+      "num": "",
+      "printedPage": 259,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-2",
+      "name": "核谱数据获取和处理",
+      "num": "6.2",
+      "printedPage": 267,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-2-1",
+      "name": "多道分析器的基本原理和功能",
+      "num": "6.2.1",
+      "printedPage": 273,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-6-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-2-2",
+      "name": "计算机多道分析器的数据获取接口",
+      "num": "6.2.2",
+      "printedPage": 287,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-6-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-2-3",
+      "name": "计算机多道分析器的显示原理",
+      "num": "6.2.3",
+      "printedPage": 294,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-6-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-2-4",
+      "name": "计算机多道分析器的软件配置",
+      "num": "6.2.4",
+      "printedPage": 299,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-6-2",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p267-概述",
+      "name": "6 概述",
+      "num": "",
+      "printedPage": 267,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p268-计算机技术应用基础",
+      "name": "计算机技术应用基础",
+      "num": "",
+      "printedPage": 268,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p283-四计算机多道分析器的几种典型结构",
+      "name": "四，计算机多道分析器的几种典型结构",
+      "num": "",
+      "printedPage": 283,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-3",
+      "name": "通用的核实验数据获取和处理系统",
+      "num": "6.3",
+      "printedPage": 306,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-3-1",
+      "name": "对核实验数据获取和处理系：统的要求",
+      "num": "6.3.1",
+      "printedPage": 307,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-6-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-3-2",
+      "name": "多参数谱数据的获取方式",
+      "num": "6.3.2",
+      "printedPage": 307,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-6-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-3-3",
+      "name": "多参数多用户数据获取和处理系统实例",
+      "num": "6.3.3",
+      "printedPage": 310,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-6-3",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-4",
+      "name": "在自动化测量与控制中的通用接口和系统",
+      "num": "6.4",
+      "printedPage": 313,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": false,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-6-4-1",
+      "name": "NIM数字数据总线和NIM/GPIB系统",
+      "num": "6.4.1",
+      "printedPage": 319,
+      "depth": 3,
+      "parentId": "kp-wangzhiying-1989-6-4",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p313-CAMAC系统",
+      "name": "CAMAC系统",
+      "num": "",
+      "printedPage": 313,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": true,
+      "appendix": false,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p326-习题与思考题",
+      "name": "习题与思考题",
+      "num": "",
+      "printedPage": 326,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p327-参考资料",
+      "name": "参考资料",
+      "num": "",
+      "printedPage": 327,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
+    },
+    {
+      "microKpId": "kp-wangzhiying-1989-p328-中英名词对照",
+      "name": "中英名词对照",
+      "num": "",
+      "printedPage": 328,
+      "depth": 2,
+      "parentId": "kp-wangzhiying-1989-6",
+      "isLeaf": false,
+      "appendix": true,
+      "answerKey": false
     }
   ]
 }

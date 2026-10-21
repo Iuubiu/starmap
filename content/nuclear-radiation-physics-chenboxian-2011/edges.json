@@ -1,0 +1,103 @@
+{
+  "summary": {
+    "edgeCount": 6,
+    "crossChapter": 0,
+    "withinChapter": 6,
+    "leavesTouched": 10,
+    "leafCount": 69,
+    "coverage": 0.1449
+  },
+  "edges": [
+    {
+      "fromId": "kp-chenboxian-2011-1-1",
+      "toId": "kp-chenboxian-2011-1-8",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在1.1节中我们曾定义了同质异能素，它实际上就",
+          "printedPage": 33,
+          "chunkId": "ck-nuclear-radiation-physics-chenboxian-2011-0042-03-85e73b654b5b",
+          "ref": "1.1节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "原子核的壳层模型理论还预言了1.1节中提到的超重稳定元素“岛”的可能性。",
+          "printedPage": 36,
+          "chunkId": "ck-nuclear-radiation-physics-chenboxian-2011-0045-08-db6111c1c96f",
+          "ref": "1.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-chenboxian-2011-13-3",
+      "toId": "kp-chenboxian-2011-13-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "國探测器法只能作粗略测量，其原理已在13.3节中介绍，这里不再重复。下面分别介绍上",
+          "printedPage": 455,
+          "chunkId": "ck-nuclear-radiation-physics-chenboxian-2011-0464-07-aeb5ea56bccb",
+          "ref": "13.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-chenboxian-2011-6-3",
+      "toId": "kp-chenboxian-2011-6-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "观带电粒子与物质相互作用，在6.2和6.3节中，我们讨论了带电粒子在穿过介质时的",
+          "printedPage": 171,
+          "chunkId": "ck-nuclear-radiation-physics-chenboxian-2011-0180-04-34fb51879e30",
+          "ref": "6.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-chenboxian-2011-8-1",
+      "toId": "kp-chenboxian-2011-8-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "ownsendavalanche）在8.1节中指出,有电场存在时，气体中电离形成",
+          "printedPage": 236,
+          "chunkId": "ck-nuclear-radiation-physics-chenboxian-2011-0245-01-b70215df0b61",
+          "ref": "8.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-chenboxian-2011-8-2",
+      "toId": "kp-chenboxian-2011-8-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "8.2节中的圆柱形脉冲电离室的讨论，但又有下",
+          "printedPage": 241,
+          "chunkId": "ck-nuclear-radiation-physics-chenboxian-2011-0250-06-93fe294aa63e",
+          "ref": "8.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-chenboxian-2011-8-3",
+      "toId": "kp-chenboxian-2011-8-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "在8.3节中我们讨论过有限正比区的工作状态，由",
+          "printedPage": 253,
+          "chunkId": "ck-nuclear-radiation-physics-chenboxian-2011-0262-01-43526e7c4492",
+          "ref": "8.3节"
+        }
+      ]
+    }
+  ]
+}

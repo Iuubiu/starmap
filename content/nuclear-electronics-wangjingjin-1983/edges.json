@@ -1,0 +1,40 @@
+{
+  "summary": {
+    "edgeCount": 2,
+    "crossChapter": 2,
+    "withinChapter": 0,
+    "leavesTouched": 3,
+    "leafCount": 106,
+    "coverage": 0.0283
+  },
+  "edges": [
+    {
+      "fromId": "kp-wangjingjin-1983-10-4-3",
+      "toId": "kp-wangjingjin-1983-p59-第一节概述",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "时间信息变换成幅度信息（时幅变换，见10.4.3节）然后再进行模数变换。所以模数变换是",
+          "printedPage": 59,
+          "chunkId": "ck-nuclear-electronics-wangjingjin-1983-0068-01-982f9f607343",
+          "ref": "10.4.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-wangjingjin-1983-14-3-1",
+      "toId": "kp-wangjingjin-1983-p187-附录",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "谱数据二阶多项式5点平滑公式（14.3.1式、14.3.2式的推导）",
+          "printedPage": 187,
+          "chunkId": "ck-nuclear-electronics-wangjingjin-1983-0196-14-b20ccb2d800f",
+          "ref": "式（14.3.1"
+        }
+      ]
+    }
+  ]
+}

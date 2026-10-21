@@ -1,0 +1,30 @@
+{
+  "pageCount": 464,
+  "okPages": 393,
+  "reviewPages": 70,
+  "blankPages": 1,
+  "meanConfidence": 0.907,
+  "threshold": 0.8834,
+  "totalChars": 395749,
+  "totalSeconds": 2191.3,
+  "secondsPerPage": 4.72,
+  "blankPageIndexes": [
+    269
+  ],
+  "reviewThresholdRule": "max(票面 0.85, 本模型页级置信度 p15)",
+  "reviewThresholdCalibrated": 0.8834,
+  "reviewThresholdQuantile": 0.15,
+  "recModel": "ch_PP-OCRv4_rec_infer.onnx",
+  "pageOffset": 0,
+  "pageOffsetConfident": false,
+  "pageOffsetPerPage": true,
+  "pageOffsetReport": {
+    "pages": 464,
+    "pagesWithNumber": 434,
+    "globalOffset": 14,
+    "distinctOffsets": 7,
+    "drift": 32,
+    "window": 15,
+    "noiseDropped": 15
+  }
+}

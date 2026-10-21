@@ -16,7 +16,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-1-1",
-      "name": "1.1 引言",
+      "name": "引言",
       "num": "1.1",
       "printedPage": 1,
       "depth": 2,
@@ -76,7 +76,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-1-2-4",
-      "name": "稳定",
+      "name": "多稳定",
       "num": "1.2.4",
       "printedPage": 7,
       "depth": 3,
@@ -112,7 +112,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-1-6-4",
-      "name": "能量能级",
+      "name": "核能量能级的宽度",
       "num": "1.6.4",
       "printedPage": 10,
       "depth": 3,
@@ -196,7 +196,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-1-9",
-      "name": "图表",
+      "name": "核素的图表",
       "num": "1.9",
       "printedPage": 19,
       "depth": 2,
@@ -208,7 +208,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-1-9-2",
-      "name": "源",
+      "name": "信息的源",
       "num": "1.9.2",
       "printedPage": 20,
       "depth": 3,
@@ -256,7 +256,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-2-2",
-      "name": "2.2.2 康普顿散射",
+      "name": "康普顿散射",
       "num": "2.2.2",
       "printedPage": 28,
       "depth": 3,
@@ -268,7 +268,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-2-3",
-      "name": "2.2.3 电子对产生",
+      "name": "电子对产生",
       "num": "2.2.3",
       "printedPage": 29,
       "depth": 3,
@@ -280,7 +280,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-4-1",
-      "name": "2.4.1 探测器",
+      "name": "甚大型探测器",
       "num": "2.4.1",
       "printedPage": 30,
       "depth": 3,
@@ -292,7 +292,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-4-2",
-      "name": "2.4.2 探测器",
+      "name": "甚小型探测器",
       "num": "2.4.2",
       "printedPage": 31,
       "depth": 3,
@@ -304,7 +304,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-4-3",
-      "name": "2.4.3 探测器",
+      "name": "真实探测器",
       "num": "2.4.3",
       "printedPage": 32,
       "depth": 3,
@@ -328,7 +328,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-5-2",
-      "name": "2.5.2 康普顿散射",
+      "name": "相互作用屏蔽 康普顿散射",
       "num": "2.5.2",
       "printedPage": 34,
       "depth": 3,
@@ -340,7 +340,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-5-3",
-      "name": "2.5.3 电子对产生",
+      "name": "相互作用屏蔽 电子对产生",
       "num": "2.5.3",
       "printedPage": 35,
       "depth": 3,
@@ -376,7 +376,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-3-1",
-      "name": "3.1 引言",
+      "name": "用于γ射线能谱测量的半导体探测器 引言",
       "num": "3.1",
       "printedPage": 39,
       "depth": 2,
@@ -496,7 +496,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-3-6-4",
-      "name": "电探测器",
+      "name": "电场变化探测器",
       "num": "3.6.4",
       "printedPage": 52,
       "depth": 3,
@@ -532,7 +532,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-3-7",
-      "name": "探测器",
+      "name": "探测器的封装",
       "num": "3.7",
       "printedPage": 55,
       "depth": 2,
@@ -544,7 +544,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-3-7-2",
-      "name": "3.7.2 探测器",
+      "name": "奇异探测器",
       "num": "3.7.2",
       "printedPage": 57,
       "depth": 3,
@@ -556,7 +556,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-3-7-3",
-      "name": "3.7.3 损失",
+      "name": "冷却剂的损失",
       "num": "3.7.3",
       "printedPage": 58,
       "depth": 3,
@@ -664,7 +664,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-4-3-1",
-      "name": "反馈前置放大器",
+      "name": "电阻性反馈前置放大器",
       "num": "4.3.1",
       "printedPage": 67,
       "depth": 3,
@@ -676,7 +676,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-4-3-2",
-      "name": "4.3.2 前置放大器",
+      "name": "复位前置放大器",
       "num": "4.3.2",
       "printedPage": 69,
       "depth": 3,
@@ -748,7 +748,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-4-4-6",
-      "name": "4.4.6 极点",
+      "name": "极点零消除",
       "num": "4.4.6",
       "printedPage": 75,
       "depth": 3,
@@ -796,7 +796,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-4-5",
-      "name": "4.5 分辨率",
+      "name": "分辨率增强",
       "num": "4.5",
       "printedPage": 80,
       "depth": 2,
@@ -832,7 +832,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-4-6-3",
-      "name": "ADC输入",
+      "name": "ADC输入栅极",
       "num": "4.6.3",
       "printedPage": 83,
       "depth": 3,
@@ -916,7 +916,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-4-7-2",
-      "name": "方法",
+      "name": "盖德克黑尔方法",
       "num": "4.7.2",
       "printedPage": 92,
       "depth": 3,
@@ -1000,7 +1000,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-5-1",
-      "name": "5.1 引言",
+      "name": "计数的统计学 引言",
       "num": "5.1",
       "printedPage": 101,
       "depth": 2,
@@ -1096,7 +1096,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-5-5-2",
-      "name": "最佳能谱",
+      "name": "最佳能谱尺寸",
       "num": "5.5.2",
       "printedPage": 112,
       "depth": 3,
@@ -1120,7 +1120,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-5-6-1",
-      "name": "5.6.1 限",
+      "name": "临界限",
       "num": "5.6.1",
       "printedPage": 114,
       "depth": 3,
@@ -1132,7 +1132,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-5-6-2",
-      "name": "5.6.2 限",
+      "name": "上限限",
       "num": "5.6.2",
       "printedPage": 116,
       "depth": 3,
@@ -1168,7 +1168,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-5-6-7",
-      "name": "5.6.7 活度",
+      "name": "活度MDA",
       "num": "5.6.7",
       "printedPage": 119,
       "depth": 3,
@@ -1180,7 +1180,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-5-6-8",
-      "name": "与的不确定度",
+      "name": "与MDA的不确定度",
       "num": "5.6.8",
       "printedPage": 120,
       "depth": 3,
@@ -1192,7 +1192,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-5-7",
-      "name": "特殊计数",
+      "name": "特殊计数情形",
       "num": "5.7",
       "printedPage": 121,
       "depth": 2,
@@ -1228,7 +1228,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-5-8-2",
-      "name": "与",
+      "name": "准确度与精密度",
       "num": "5.8.2",
       "printedPage": 124,
       "depth": 3,
@@ -1264,7 +1264,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-6",
-      "name": "分辨率：起源与",
+      "name": "分辨率：起源与控制",
       "num": "6",
       "printedPage": 131,
       "depth": 1,
@@ -1276,7 +1276,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-6-1",
-      "name": "6.1 引言",
+      "name": "分辨率：起源与控制 引言",
       "num": "6.1",
       "printedPage": 131,
       "depth": 2,
@@ -1300,7 +1300,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-6-2-3",
-      "name": "分辨率的温度",
+      "name": "分辨率的温度依赖",
       "num": "6.2.3",
       "printedPage": 134,
       "depth": 3,
@@ -1348,7 +1348,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-6-5",
-      "name": "6.5 峰",
+      "name": "分辨峰宽度",
       "num": "6.5",
       "printedPage": 138,
       "depth": 2,
@@ -1372,7 +1372,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-7-1",
-      "name": "7.1 引言",
+      "name": "谱仪刻度 引言",
       "num": "7.1",
       "printedPage": 143,
       "depth": 2,
@@ -1408,7 +1408,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-7-5",
-      "name": "峰刻度",
+      "name": "峰宽度刻度",
       "num": "7.5",
       "printedPage": 147,
       "depth": 2,
@@ -1420,7 +1420,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-7-5-4",
-      "name": "7.5.4 峰",
+      "name": "异常峰宽度",
       "num": "7.5.4",
       "printedPage": 149,
       "depth": 3,
@@ -1444,7 +1444,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-7-6-2",
-      "name": "7.6.2 能量峰效率",
+      "name": "全能能量峰效率",
       "num": "7.6.2",
       "printedPage": 151,
       "depth": 3,
@@ -1504,7 +1504,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-7-6-8",
-      "name": "效率损失由于相加",
+      "name": "效率损失由于随机相加",
       "num": "7.6.8",
       "printedPage": 158,
       "depth": 3,
@@ -1576,7 +1576,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-8-1",
-      "name": "8.1 引言",
+      "name": "真符合相加 引言",
       "num": "8.1",
       "printedPage": 165,
       "depth": 2,
@@ -1684,7 +1684,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-8-12",
-      "name": "……的修正",
+      "name": "用于……的修正的软件",
       "num": "8.12",
       "printedPage": 178,
       "depth": 2,
@@ -1708,7 +1708,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9",
-      "name": "γ射线能谱的分析",
+      "name": "γ射线能谱的计算机分析",
       "num": "9",
       "printedPage": 183,
       "depth": 1,
@@ -1720,7 +1720,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9-1",
-      "name": "9.1 引言",
+      "name": "γ射线能谱的计算机分析 引言",
       "num": "9.1",
       "printedPage": 183,
       "depth": 2,
@@ -1744,7 +1744,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9-2-4",
-      "name": "峰使用方法",
+      "name": "峰搜索使用相关方法",
       "num": "9.2.4",
       "printedPage": 186,
       "depth": 3,
@@ -1756,7 +1756,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9-2-5",
-      "name": "9.2.5 峰",
+      "name": "峰的检查可接受性",
       "num": "9.2.5",
       "printedPage": 187,
       "depth": 3,
@@ -1780,7 +1780,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9-6",
-      "name": "峰刻度",
+      "name": "峰宽度刻度",
       "num": "9.6",
       "printedPage": 189,
       "depth": 2,
@@ -1816,7 +1816,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9-9",
-      "name": "9.9 能量峰效率",
+      "name": "γ射线能谱的计算机分析 全能能量峰效率",
       "num": "9.9",
       "printedPage": 193,
       "depth": 2,
@@ -1876,7 +1876,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9-12-4",
-      "name": "9.12.4 活度",
+      "name": "比较活度估计",
       "num": "9.12.4",
       "printedPage": 199,
       "depth": 3,
@@ -1888,7 +1888,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9-13",
-      "name": "识别",
+      "name": "核素识别",
       "num": "9.13",
       "printedPage": 200,
       "depth": 2,
@@ -1900,7 +1900,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-9-15",
-      "name": "上升与γ射线",
+      "name": "上升核素与γ射线",
       "num": "9.15",
       "printedPage": 201,
       "depth": 2,
@@ -1936,7 +1936,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-10-1",
-      "name": "10.1 引言",
+      "name": "闪烁能谱测量 引言",
       "num": "10.1",
       "printedPage": 205,
       "depth": 2,
@@ -1960,7 +1960,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-10-5",
-      "name": "温度",
+      "name": "温度变化",
       "num": "10.5",
       "printedPage": 207,
       "depth": 2,
@@ -1984,7 +1984,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-10-6-3",
-      "name": "铯碘化物与",
+      "name": "铯碘化物CsI(Tl) 闪烁体与CsI(Na) 闪烁体",
       "num": "10.6.3",
       "printedPage": 209,
       "depth": 3,
@@ -2020,7 +2020,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-10-9",
-      "name": "电子",
+      "name": "电子倍增器",
       "num": "10.9",
       "printedPage": 212,
       "depth": 2,
@@ -2068,7 +2068,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-10-12-3",
-      "name": "10.12.3 分辨率",
+      "name": "分辨率的变化",
       "num": "10.12.3",
       "printedPage": 216,
       "depth": 3,
@@ -2080,7 +2080,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-10-13-2",
-      "name": "10.13.2 前置放大器",
+      "name": "前置放大器",
       "num": "10.13.2",
       "printedPage": 217,
       "depth": 3,
@@ -2104,7 +2104,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-11",
-      "name": "与上升探测器与其指标",
+      "name": "与上升探测器与检查其指标",
       "num": "11",
       "printedPage": 221,
       "depth": 1,
@@ -2164,7 +2164,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-11-2-5",
-      "name": "11.2.5 探测器",
+      "name": "安装探测器",
       "num": "11.2.5",
       "printedPage": 225,
       "depth": 3,
@@ -2176,7 +2176,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-11-2-7",
-      "name": "上升与",
+      "name": "上升与检查",
       "num": "11.2.7",
       "printedPage": 226,
       "depth": 3,
@@ -2200,7 +2200,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-11-3-4",
-      "name": "11.3.4 极点",
+      "name": "引言 极点零消除",
       "num": "11.3.4",
       "printedPage": 230,
       "depth": 3,
@@ -2260,7 +2260,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-11-4-4",
-      "name": "峰至康普顿",
+      "name": "峰至康普顿比",
       "num": "11.4.4",
       "printedPage": 237,
       "depth": 3,
@@ -2272,7 +2272,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-11-4-5",
-      "name": "厚度索引",
+      "name": "窗厚度索引",
       "num": "11.4.5",
       "printedPage": 238,
       "depth": 3,
@@ -2356,7 +2356,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-12-4",
-      "name": "接地上升与",
+      "name": "接地环路上升与",
       "num": "12.4",
       "printedPage": 246,
       "depth": 2,
@@ -2440,7 +2440,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-13-3-2",
-      "name": "13.3.2 探测器",
+      "name": "井型探测器",
       "num": "13.3.2",
       "printedPage": 258,
       "depth": 3,
@@ -2452,7 +2452,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-13-3-3",
-      "name": "样品与几何",
+      "name": "样品量与几何",
       "num": "13.3.3",
       "printedPage": 259,
       "depth": 3,
@@ -2500,7 +2500,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-13-4-5",
-      "name": "13.4.5 活度",
+      "name": "空中活度",
       "num": "13.4.5",
       "printedPage": 266,
       "depth": 3,
@@ -2512,7 +2512,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-13-4-7",
-      "name": "13.4.7 测量",
+      "name": "测量",
       "num": "13.4.7",
       "printedPage": 269,
       "depth": 3,
@@ -2536,7 +2536,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-13-5-2",
-      "name": "13.5.2 探测器",
+      "name": "反符合保护探测器",
       "num": "13.5.2",
       "printedPage": 273,
       "depth": 3,
@@ -2560,7 +2560,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-14-1",
-      "name": "14.1 引言",
+      "name": "高计数率系统 引言",
       "num": "14.1",
       "printedPage": 279,
       "depth": 2,
@@ -2572,7 +2572,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-14-2",
-      "name": "探测器",
+      "name": "探测器吞吐率",
       "num": "14.2",
       "printedPage": 280,
       "depth": 2,
@@ -2644,7 +2644,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-14-7",
-      "name": "死时间与",
+      "name": "死时间与吞吐率",
       "num": "14.7",
       "printedPage": 288,
       "depth": 2,
@@ -2680,7 +2680,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-14-7-3",
-      "name": "14.7.3 系统",
+      "name": "DSP系统",
       "num": "14.7.3",
       "printedPage": 291,
       "depth": 3,
@@ -2692,7 +2692,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-14-8",
-      "name": "14.8 系统",
+      "name": "系统检查",
       "num": "14.8",
       "printedPage": 292,
       "depth": 2,
@@ -2716,7 +2716,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-15-1",
-      "name": "15.1 引言",
+      "name": "γ射线能谱测量中的质量 引言",
       "num": "15.1",
       "printedPage": 295,
       "depth": 2,
@@ -2728,7 +2728,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-15-3",
-      "name": "标准",
+      "name": "放射性核素标准",
       "num": "15.3",
       "printedPage": 296,
       "depth": 2,
@@ -2740,7 +2740,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-15-4",
-      "name": "置信",
+      "name": "保持置信",
       "num": "15.4",
       "printedPage": 297,
       "depth": 2,
@@ -2752,7 +2752,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-15-4-2",
-      "name": "图表",
+      "name": "控制图表",
       "num": "15.4.2",
       "printedPage": 298,
       "depth": 3,
@@ -2764,7 +2764,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-15-4-3",
-      "name": "上升图表",
+      "name": "上升控制图表",
       "num": "15.4.3",
       "printedPage": 299,
       "depth": 3,
@@ -2776,7 +2776,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-15-5",
-      "name": "置信",
+      "name": "获得置信",
       "num": "15.5",
       "printedPage": 301,
       "depth": 2,
@@ -2788,7 +2788,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-15-5-2",
-      "name": "测试能谱",
+      "name": "计算机测试能谱",
       "num": "15.5.2",
       "printedPage": 302,
       "depth": 3,
@@ -2896,7 +2896,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-16-2-4",
-      "name": "16.2.4 损失",
+      "name": "氡损失",
       "num": "16.2.4",
       "printedPage": 317,
       "depth": 3,
@@ -2908,7 +2908,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-16-3-1",
-      "name": "16.3.1 ……的测量",
+      "name": "……的测量",
       "num": "16.3.1",
       "printedPage": 318,
       "depth": 3,
@@ -2920,7 +2920,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-16-3-4",
-      "name": "本底",
+      "name": "天然本底",
       "num": "16.3.4",
       "printedPage": 319,
       "depth": 3,
@@ -2956,7 +2956,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-16-5-1",
-      "name": "16.5.1 ……的测量",
+      "name": "分离铀的测量",
       "num": "16.5.1",
       "printedPage": 325,
       "depth": 3,
@@ -2968,7 +2968,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-16-5-4",
-      "name": "16.5.4 ……的测量",
+      "name": "石膏的测量",
       "num": "16.5.4",
       "printedPage": 327,
       "depth": 3,
@@ -3028,7 +3028,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-17-1-4",
-      "name": "17.1.4 测量",
+      "name": "测量放射性核素",
       "num": "17.1.4",
       "printedPage": 331,
       "depth": 3,
@@ -3040,7 +3040,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-17-1-5",
-      "name": "电流",
+      "name": "电流状态",
       "num": "17.1.5",
       "printedPage": 332,
       "depth": 3,
@@ -3052,7 +3052,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-17-2",
-      "name": "γ能谱测量",
+      "name": "核的γ能谱测量",
       "num": "17.2",
       "printedPage": 333,
       "depth": 2,

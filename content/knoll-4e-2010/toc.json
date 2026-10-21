@@ -88,7 +88,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-p42-InteractionofFastElectrons",
-      "name": "电子的相互作用",
+      "name": "快电子的相互作用",
       "num": "",
       "printedPage": 42,
       "depth": 2,
@@ -292,7 +292,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-4-9",
-      "name": "离子室的设计与运行",
+      "name": "电离室的设计与运行",
       "num": "4.9",
       "printedPage": 142,
       "depth": 2,
@@ -304,7 +304,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-4-10",
-      "name": "辐射剂量测量（带离子室）",
+      "name": "辐射剂量测量（带电离室）",
       "num": "4.10",
       "printedPage": 146,
       "depth": 2,
@@ -316,7 +316,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-p149-iVApplicationsofDCIonChambers",
-      "name": "离子室的应用",
+      "name": "电离室的应用",
       "num": "",
       "printedPage": 149,
       "depth": 2,
@@ -652,7 +652,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-8-8",
-      "name": "光电倍增管",
+      "name": "混合光电倍增管",
       "num": "8.8",
       "printedPage": 308,
       "depth": 2,
@@ -676,7 +676,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-8-10",
-      "name": "8.10 探测器",
+      "name": "光电离探测器",
       "num": "8.10",
       "printedPage": 321,
       "depth": 2,
@@ -784,7 +784,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-10-2",
-      "name": "辐射中半导体",
+      "name": "辐射中半导体的作用",
       "num": "10.2",
       "printedPage": 376,
       "depth": 2,
@@ -856,7 +856,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-11-1",
-      "name": "一般",
+      "name": "一般考量",
       "num": "11.1",
       "printedPage": 415,
       "depth": 2,
@@ -976,7 +976,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-13",
-      "name": "中子探测方法",
+      "name": "慢中子探测方法",
       "num": "13",
       "printedPage": 519,
       "depth": 1,
@@ -1024,7 +1024,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-14",
-      "name": "中子探测与能谱学",
+      "name": "快中子探测与能谱学",
       "num": "14",
       "printedPage": 539,
       "depth": 1,
@@ -1036,7 +1036,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-p554-CountersBasedonNeutronModeration",
-      "name": "基于中子的计数器",
+      "name": "基于中子慢化的计数器",
       "num": "",
       "printedPage": 554,
       "depth": 2,
@@ -1048,7 +1048,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-p562-rTDetectorsBasedonFastNeutronInducedReactions",
-      "name": "基于中子反应的探测器",
+      "name": "基于快中子诱导反应的探测器",
       "num": "",
       "printedPage": 562,
       "depth": 2,
@@ -1060,7 +1060,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-14-1",
-      "name": "探测器中子散射",
+      "name": "探测器快中子散射",
       "num": "14.1",
       "printedPage": 595,
       "depth": 2,
@@ -1108,7 +1108,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-15-1",
-      "name": "电缆",
+      "name": "同轴电缆",
       "num": "15.1",
       "printedPage": 607,
       "depth": 2,
@@ -1156,7 +1156,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-p614-VIEApplicationSpecificIntegratedCircuitsASICs",
-      "name": "应用集成电路ASICS",
+      "name": "应用特定集成电路ASICS",
       "num": "",
       "printedPage": 614,
       "depth": 2,
@@ -1324,7 +1324,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-18-2",
-      "name": "模式中的气体充填探测器",
+      "name": "自流光模式中的气体充填探测器",
       "num": "18.2",
       "printedPage": 735,
       "depth": 2,
@@ -1360,7 +1360,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-18-5",
-      "name": "18.5 探测器",
+      "name": "低温探测器",
       "num": "18.5",
       "printedPage": 741,
       "depth": 2,
@@ -1396,7 +1396,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-18-8",
-      "name": "或探测器",
+      "name": "或气泡探测器",
       "num": "18.8",
       "printedPage": 764,
       "depth": 2,
@@ -1492,7 +1492,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-19-5",
-      "name": "本底的有源方法",
+      "name": "本底退化的有源方法",
       "num": "19.5",
       "printedPage": 795,
       "depth": 2,
@@ -1504,7 +1504,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-p801-AppendixATheNIMCAMACandVMEInstrumentationStandards",
-      "name": "附录NIMCAMAC与仪器标准",
+      "name": "附录NIMCAMAC与VME仪器标准",
       "num": "",
       "printedPage": 801,
       "depth": 2,
@@ -1540,7 +1540,7 @@
     },
     {
       "microKpId": "kp-knoll-4e-2010-p819-eeeAppendixDTheShockleyRamoTheoremforInducedCharge13Index",
-      "name": "用于电荷索引的附录",
+      "name": "用于诱导电荷索引的附录",
       "num": "",
       "printedPage": 819,
       "depth": 2,

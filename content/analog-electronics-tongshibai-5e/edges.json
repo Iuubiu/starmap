@@ -1,0 +1,754 @@
+{
+  "summary": {
+    "edgeCount": 50,
+    "crossChapter": 22,
+    "withinChapter": 28,
+    "leavesTouched": 61,
+    "leafCount": 208,
+    "coverage": 0.2933
+  },
+  "edges": [
+    {
+      "fromId": "kp-tongshibai-5e-1-1-2",
+      "toId": "kp-tongshibai-5e-1-2-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "似分析时，仍然用 PN 结的电流方程式(1.1.2)、（1.1.3)来描述二极",
+          "printedPage": 19,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0040-08-0b3b7911649c",
+          "ref": "式(1.1.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-1-3-2",
+      "toId": "kp-tongshibai-5e-1-3-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "根据式(1.3.2)可得",
+          "printedPage": 32,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0053-04-5720c720c80d",
+          "ref": "式(1.3.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-1-6-1",
+      "toId": "kp-tongshibai-5e-p185-本章讨论的问题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "由1.6节可知，在集成电路中，相邻元器件的参数",
+          "printedPage": 185,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0206-05-30a748944918",
+          "ref": "1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-1-6-2",
+      "toId": "kp-tongshibai-5e-1-6-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "可参阅《模拟电子技术基础（第三版）》1.6节。",
+          "printedPage": 61,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0082-09-d1566b93712e",
+          "ref": "1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-1-6-2",
+      "toId": "kp-tongshibai-5e-p185-本章讨论的问题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "由1.6节可知，在集成电路中，相邻元器件的参数",
+          "printedPage": 185,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0206-05-30a748944918",
+          "ref": "1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-1-6-3",
+      "toId": "kp-tongshibai-5e-1-6-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "可参阅《模拟电子技术基础（第三版）》1.6节。",
+          "printedPage": 61,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0082-09-d1566b93712e",
+          "ref": "1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-1-6-3",
+      "toId": "kp-tongshibai-5e-p185-本章讨论的问题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "由1.6节可知，在集成电路中，相邻元器件的参数",
+          "printedPage": 185,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0206-05-30a748944918",
+          "ref": "1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-1-6-4",
+      "toId": "kp-tongshibai-5e-1-6-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "可参阅《模拟电子技术基础（第三版）》1.6节。",
+          "printedPage": 61,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0082-09-d1566b93712e",
+          "ref": "1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-1-6-4",
+      "toId": "kp-tongshibai-5e-p185-本章讨论的问题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "由1.6节可知，在集成电路中，相邻元器件的参数",
+          "printedPage": 185,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0206-05-30a748944918",
+          "ref": "1.6节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-10-4-1",
+      "toId": "kp-tongshibai-5e-10-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "加，UR也随之增大；根据式（10.4.1)，U。必然下降，即Uz下降；根据稳",
+          "printedPage": 531,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0552-05-209f8e1d81fa",
+          "ref": "式（10.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-10-5-1",
+      "toId": "kp-tongshibai-5e-10-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从10.5.1节的分析可知串联型稳压电路的基本组成部",
+          "printedPage": 540,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0561-06-de71daf75158",
+          "ref": "10.5.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-2-1",
+      "toId": "kp-tongshibai-5e-2-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "非画出直流通路不可。读者不难发现，在式(2.2.1）、（2.2.2）、（2.2.3)的",
+          "printedPage": 87,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0108-06-229fb141e103",
+          "ref": "式(2.2.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-2-1",
+      "toId": "kp-tongshibai-5e-2-3-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "Aμ、R,和 R。o解：（1）利用式(2.2.1)求出Q点。",
+          "printedPage": 102,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0123-01-00c8e8b78968",
+          "ref": "式(2.2.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-3-1",
+      "toId": "kp-tongshibai-5e-2-3-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "在输人特性坐标系中，画出式(2.3.1)所确定的直线，它与横轴的交点为（V",
+          "printedPage": 88,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0109-07-c68843213e66",
+          "ref": "式(2.3.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "Q，如图 2.3.5（a)中所标注。式（2.3.1)所确定的直线称为输人回路负载线。",
+          "printedPage": 88,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0109-07-c68843213e66",
+          "ref": "式（2.3.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-4-1",
+      "toId": "kp-tongshibai-5e-2-4-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "Rb // Rp2的大小关系来判断式(2.4.1)是否成立。",
+          "printedPage": 107,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0128-02-0f72c287d3b5",
+          "ref": "式(2.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-4-1",
+      "toId": "kp-tongshibai-5e-3-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "漂移为温度漂移，简称温漂。在第二章的2.4节曾就温度对晶体管参数的影响进行了分析",
+          "printedPage": 155,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0176-05-e7a5f1572e1f",
+          "ref": "2.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "优良，也不能成为实用电路。在第二章的2.4节曾经讲到稳定静态工作点的方法，这些方",
+          "printedPage": 155,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0176-07-8c2a3c218785",
+          "ref": "2.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-4-2",
+      "toId": "kp-tongshibai-5e-3-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "漂移为温度漂移，简称温漂。在第二章的2.4节曾就温度对晶体管参数的影响进行了分析",
+          "printedPage": 155,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0176-05-e7a5f1572e1f",
+          "ref": "2.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "优良，也不能成为实用电路。在第二章的2.4节曾经讲到稳定静态工作点的方法，这些方",
+          "printedPage": 155,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0176-07-8c2a3c218785",
+          "ref": "2.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-4-3",
+      "toId": "kp-tongshibai-5e-3-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "漂移为温度漂移，简称温漂。在第二章的2.4节曾就温度对晶体管参数的影响进行了分析",
+          "printedPage": 155,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0176-05-e7a5f1572e1f",
+          "ref": "2.4节"
+        },
+        {
+          "kind": "节引用",
+          "quote": "优良，也不能成为实用电路。在第二章的2.4节曾经讲到稳定静态工作点的方法，这些方",
+          "printedPage": 155,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0176-07-8c2a3c218785",
+          "ref": "2.4节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-5-1",
+      "toId": "kp-tongshibai-5e-2-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "算Q点、Au、R;和 R。o解：根据式(2.5.1)",
+          "printedPage": 113,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0134-10-9850f093f631",
+          "ref": "式(2.5.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-2-6-1",
+      "toId": "kp-tongshibai-5e-2-6-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "点：已知Ucs=Vcc =6V，根据式(2.6.1)(2.6.2)",
+          "printedPage": 121,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0142-01-b803208974ad",
+          "ref": "式(2.6.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-3-3-3",
+      "toId": "kp-tongshibai-5e-p487-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "正如3.3.3节所述，为了消除图9.1.5（a)所示",
+          "printedPage": 487,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0508-11-65abdff3c3f1",
+          "ref": "3.3.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-1-1",
+      "toId": "kp-tongshibai-5e-p196-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从4.1节的分析中可知，集成运放有四个组成部分",
+          "printedPage": 196,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0217-15-9a6cfbb21ef2",
+          "ref": "4.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-1-2",
+      "toId": "kp-tongshibai-5e-4-4-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "增益为94dB，约5×104倍；根据式(4.1.2)可知，在输人失调电压(2mV)作用",
+          "printedPage": 204,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0225-04-98bed30b0db2",
+          "ref": "式(4.1.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-1-2",
+      "toId": "kp-tongshibai-5e-p196-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从4.1节的分析中可知，集成运放有四个组成部分",
+          "printedPage": 196,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0217-15-9a6cfbb21ef2",
+          "ref": "4.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-1-3",
+      "toId": "kp-tongshibai-5e-p196-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从4.1节的分析中可知，集成运放有四个组成部分",
+          "printedPage": 196,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0217-15-9a6cfbb21ef2",
+          "ref": "4.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-2-1",
+      "toId": "kp-tongshibai-5e-4-2-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "如，若镜像电流源中 β=10，则根据式（4.2.1)，Ic1=0.833IR，Ici与",
+          "printedPage": 191,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0212-00-c1ada4f7cbd9",
+          "ref": "式（4.2.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-2-1",
+      "toId": "kp-tongshibai-5e-4-2-4",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "T12与T13构成镜像电流源，根据式（4.2.1）",
+          "printedPage": 194,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0215-06-2a867a3c95b6",
+          "ref": "式（4.2.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "根据式（4.2.1），空载时T管的静态集电极电流",
+          "printedPage": 195,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0216-01-81680c5e9f1e",
+          "ref": "式（4.2.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-2-1",
+      "toId": "kp-tongshibai-5e-4-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "读者可参阅2.3和4.2节自行分析电路的输人电阻、输出电阻和电",
+          "printedPage": 199,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0220-11-94c0c727bc0d",
+          "ref": "4.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-2-2",
+      "toId": "kp-tongshibai-5e-4-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "读者可参阅2.3和4.2节自行分析电路的输人电阻、输出电阻和电",
+          "printedPage": 199,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0220-11-94c0c727bc0d",
+          "ref": "4.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-2-3",
+      "toId": "kp-tongshibai-5e-4-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "读者可参阅2.3和4.2节自行分析电路的输人电阻、输出电阻和电",
+          "printedPage": 199,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0220-11-94c0c727bc0d",
+          "ref": "4.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-4-2-4",
+      "toId": "kp-tongshibai-5e-4-3-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "读者可参阅2.3和4.2节自行分析电路的输人电阻、输出电阻和电",
+          "printedPage": 199,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0220-11-94c0c727bc0d",
+          "ref": "4.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-5-1-2",
+      "toId": "kp-tongshibai-5e-p225-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "1.2（a)所示电路的f和fH分别如式(5.1.2)、(5.1.6)所示。",
+          "printedPage": 225,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0246-03-fa8c5a4e8832",
+          "ref": "式(5.1.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-5-2-2",
+      "toId": "kp-tongshibai-5e-5-4-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "根据式(5.2.2)，C'=C+（1+｜k↓)C,≈C",
+          "printedPage": 238,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0259-09-b6112775611a",
+          "ref": "式(5.2.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-5-4-1",
+      "toId": "kp-tongshibai-5e-5-4-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "根据式(5.4.1)和式(5.4.7)，图 5.4.1",
+          "printedPage": 238,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0259-13-7571ac5cfa65",
+          "ref": "式(5.4.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-5-5-1",
+      "toId": "kp-tongshibai-5e-5-5-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "一、下限频率f将式(5.5.1)中的Au用低频电压放大倍数Aul的",
+          "printedPage": 241,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0262-07-24d4054c846b",
+          "ref": "式(5.5.1"
+        },
+        {
+          "kind": "式引用",
+          "quote": "二、上限频率 fH将式（5.5.1）中的Au用高频电压放大倍数Ahz的",
+          "printedPage": 242,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0263-01-115d16d2ace4",
+          "ref": "式（5.5.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-5-6-2",
+      "toId": "kp-tongshibai-5e-p304-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "英主编《模拟电子技术基础（第三版）》5.6.2节。",
+          "printedPage": 304,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0325-14-69c7c5ccb8bd",
+          "ref": "5.6.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-4-4",
+      "toId": "kp-tongshibai-5e-p283-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "数F表达式(6.4.4)、（6.4.5)、（6.4.6)、",
+          "printedPage": 283,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0304-05-cd4ceae0e72e",
+          "ref": "式(6.4.4"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-5-1",
+      "toId": "kp-tongshibai-5e-p293-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从6.5节的分析可知，交流负反馈可以改善放大电",
+          "printedPage": 293,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0314-14-ef1e420fa1e0",
+          "ref": "6.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-5-2",
+      "toId": "kp-tongshibai-5e-p293-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从6.5节的分析可知，交流负反馈可以改善放大电",
+          "printedPage": 293,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0314-14-ef1e420fa1e0",
+          "ref": "6.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-5-3",
+      "toId": "kp-tongshibai-5e-p293-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从6.5节的分析可知，交流负反馈可以改善放大电",
+          "printedPage": 293,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0314-14-ef1e420fa1e0",
+          "ref": "6.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-5-4",
+      "toId": "kp-tongshibai-5e-p293-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从6.5节的分析可知，交流负反馈可以改善放大电",
+          "printedPage": 293,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0314-14-ef1e420fa1e0",
+          "ref": "6.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-5-5",
+      "toId": "kp-tongshibai-5e-p293-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从6.5节的分析可知，交流负反馈可以改善放大电",
+          "printedPage": 293,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0314-14-ef1e420fa1e0",
+          "ref": "6.5节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-7-1",
+      "toId": "kp-tongshibai-5e-p453-思考题",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "一、电压-电流转换电路在6.7.1节中曾介绍过电压－电流转换电路，图6.",
+          "printedPage": 453,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0474-12-6da4216f479b",
+          "ref": "6.7.1节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-7-3-2",
+      "toId": "kp-tongshibai-5e-7-3-5",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "从7.3.2节反相输人低通滤波器的分析可知，积分运",
+          "printedPage": 377,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0398-03-f1a243523a5d",
+          "ref": "7.3.2节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-7-3-3",
+      "toId": "kp-tongshibai-5e-8-1-1",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "根据7.3.3节的分析，图8.1.1（a)所示带通滤",
+          "printedPage": 402,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0423-03-21a20e24f6a0",
+          "ref": "7.3.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-8-2-1",
+      "toId": "kp-tongshibai-5e-8-2-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "根据式（8.2.1)可知，只要改变参考电压的大小和极性",
+          "printedPage": 427,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0448-08-7cb72c4b8b46",
+          "ref": "式（8.2.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-8-3-2",
+      "toId": "kp-tongshibai-5e-p467-本章小结",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "路和锯齿波发射电路，式（8.3.2）、（8.3.10）和（8.3.14",
+          "printedPage": 468,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0489-05-588bcc120300",
+          "ref": "式（8.3.2"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-8-3-3",
+      "toId": "kp-tongshibai-5e-8-4-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "节引用",
+          "quote": "放输出电压的波形如图（c)所示。根据8.3.3节对锯齿波发生电路的定量分析可知，图(",
+          "printedPage": 459,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0480-03-a6a7a491583e",
+          "ref": "8.3.3节"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-9-1-1",
+      "toId": "kp-tongshibai-5e-9-1-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "均值仍为IcQ，故电源提供的功率仍如式(9.1.1)所示。可见，电路的最大效率Pom/",
+          "printedPage": 483,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0504-07-03c010a3efc3",
+          "ref": "式(9.1.1"
+        }
+      ]
+    },
+    {
+      "fromId": "kp-tongshibai-5e-9-2-1",
+      "toId": "kp-tongshibai-5e-9-2-3",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "，则将产生什么现象？解：（1） 根据式(9.2.1)、(9.2.3)",
+          "printedPage": 492,
+          "chunkId": "ck-analog-electronics-tongshibai-5e-0513-03-95e89f3a8a8a",
+          "ref": "式(9.2.1"
+        }
+      ]
+    }
+  ]
+}

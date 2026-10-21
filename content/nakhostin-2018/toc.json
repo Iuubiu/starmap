@@ -184,7 +184,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-3-1",
-      "name": "3.1 本底",
+      "name": "本底",
       "num": "3.1",
       "printedPage": 135,
       "depth": 2,
@@ -400,7 +400,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-5-1",
-      "name": "5.1 本底",
+      "name": "脉冲计数与电流测量 本底",
       "num": "5.1",
       "printedPage": 261,
       "depth": 2,
@@ -592,7 +592,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-7-4",
-      "name": "7.4 方法",
+      "name": "上升时间方法",
       "num": "7.4",
       "printedPage": 373,
       "depth": 2,
@@ -604,7 +604,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-7-5",
-      "name": "线方法",
+      "name": "延迟线方法",
       "num": "7.5",
       "printedPage": 375,
       "depth": 2,
@@ -652,7 +652,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-8-2",
-      "name": "幅度方法",
+      "name": "幅度基于方法",
       "num": "8.2",
       "printedPage": 386,
       "depth": 2,
@@ -664,7 +664,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-8-3",
-      "name": "8.3 方法",
+      "name": "零过零方法",
       "num": "8.3",
       "printedPage": 393,
       "depth": 2,
@@ -724,7 +724,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-9-1",
-      "name": "9.1 本底",
+      "name": "……导论数字信号与系统 本底",
       "num": "9.1",
       "printedPage": 407,
       "depth": 2,

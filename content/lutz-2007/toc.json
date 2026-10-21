@@ -52,7 +52,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-2-2",
-      "name": "能量",
+      "name": "能量带",
       "num": "2.2",
       "printedPage": 8,
       "depth": 2,
@@ -76,7 +76,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-2-4",
-      "name": "半导体",
+      "name": "非本征半导体",
       "num": "2.4",
       "printedPage": 14,
       "depth": 2,
@@ -124,7 +124,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-2-5-3",
-      "name": "效应",
+      "name": "磁场效应",
       "num": "2.5.3",
       "printedPage": 19,
       "depth": 3,
@@ -184,7 +184,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-2-6-4",
-      "name": "辐射电荷的形状",
+      "name": "辐射电荷云室的形状",
       "num": "2.6.4",
       "printedPage": 25,
       "depth": 3,
@@ -220,7 +220,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-2-6-7",
-      "name": "电荷载流子",
+      "name": "电荷载流子寿命",
       "num": "2.6.7",
       "printedPage": 29,
       "depth": 3,
@@ -232,7 +232,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-2-6-8",
-      "name": "半导体中的载流子",
+      "name": "间接半导体中的载流子寿命",
       "num": "2.6.8",
       "printedPage": 31,
       "depth": 3,
@@ -256,7 +256,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-2-8",
-      "name": "2.8 小结与",
+      "name": "小结与",
       "num": "2.8",
       "printedPage": 37,
       "depth": 2,
@@ -304,7 +304,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-3-1-2",
-      "name": "二极管（带应用的电压）",
+      "name": "二极管（带应用的外部电压）",
       "num": "3.1.2",
       "printedPage": 43,
       "depth": 3,
@@ -328,7 +328,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-3-1-4",
-      "name": "3.1.4 电容电压特性",
+      "name": "电容电压特性",
       "num": "3.1.4",
       "printedPage": 49,
       "depth": 3,
@@ -340,7 +340,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-3-1-5",
-      "name": "击穿在……下偏置",
+      "name": "击穿在……下反向偏置",
       "num": "3.1.5",
       "printedPage": 51,
       "depth": 3,
@@ -352,7 +352,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-3-2",
-      "name": "金属半导体",
+      "name": "金属半导体接触",
       "num": "3.2",
       "printedPage": 56,
       "depth": 2,
@@ -388,7 +388,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-3-3",
-      "name": "金属半导体结构",
+      "name": "金属绝缘体半导体结构",
       "num": "3.3",
       "printedPage": 59,
       "depth": 2,
@@ -424,7 +424,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-3-3-3",
-      "name": "3.3.3 电容电压特性",
+      "name": "金属绝缘体半导体结构 电容电压特性",
       "num": "3.3.3",
       "printedPage": 69,
       "depth": 3,
@@ -460,7 +460,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-3-5",
-      "name": "3.5 小结与",
+      "name": "基础半导体结构 小结与",
       "num": "3.5",
       "printedPage": 73,
       "depth": 2,
@@ -508,7 +508,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-4-2",
-      "name": "半导体材料的性质",
+      "name": "非本征半导体材料的性质",
       "num": "4.2",
       "printedPage": 83,
       "depth": 2,
@@ -532,7 +532,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-4-2-2",
-      "name": "缺陷",
+      "name": "体缺陷",
       "num": "4.2.2",
       "printedPage": 86,
       "depth": 3,
@@ -556,7 +556,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-4-3",
-      "name": "与金属",
+      "name": "绝缘体与金属",
       "num": "4.3",
       "printedPage": 88,
       "depth": 2,
@@ -568,7 +568,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-4-3-1",
-      "name": "性质",
+      "name": "绝缘体性质",
       "num": "4.3.1",
       "printedPage": 89,
       "depth": 3,
@@ -628,7 +628,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-4-4-2",
-      "name": "4.4.2 电荷收集与测量",
+      "name": "电荷收集与测量精密度",
       "num": "4.4.2",
       "printedPage": 92,
       "depth": 3,
@@ -652,7 +652,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-5-1",
-      "name": "二极管",
+      "name": "无偏二极管",
       "num": "5.1",
       "printedPage": 95,
       "depth": 2,
@@ -664,7 +664,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-5-2",
-      "name": "二极管",
+      "name": "反向偏置二极管",
       "num": "5.2",
       "printedPage": 100,
       "depth": 2,
@@ -676,7 +676,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-5-2-1",
-      "name": "5.2.1 电荷收集与测量",
+      "name": "电荷收集与测量",
       "num": "5.2.1",
       "printedPage": 102,
       "depth": 3,
@@ -736,7 +736,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-6-1",
-      "name": "电荷",
+      "name": "电阻性电荷",
       "num": "6.1",
       "printedPage": 109,
       "depth": 2,
@@ -772,7 +772,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-6-2-2",
-      "name": "6.2.2 电荷收集与测量",
+      "name": "电荷收集与测量准确度",
       "num": "6.2.2",
       "printedPage": 114,
       "depth": 3,
@@ -808,7 +808,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-6-4",
-      "name": "条探测器（带读出耦合）",
+      "name": "条探测器（带集成电容性读出耦合）",
       "num": "6.4",
       "printedPage": 120,
       "depth": 2,
@@ -844,7 +844,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-6-5-2",
-      "name": "6.5.2 漂移器件",
+      "name": "矩阵漂移器件",
       "num": "6.5.2",
       "printedPage": 132,
       "depth": 3,
@@ -856,7 +856,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-6-5-3",
-      "name": "6.5.3 漂移器件",
+      "name": "径向漂移器件",
       "num": "6.5.3",
       "printedPage": 133,
       "depth": 3,
@@ -880,7 +880,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-6-6",
-      "name": "电荷器件作为探测器",
+      "name": "电荷耦合器件作为探测器",
       "num": "6.6",
       "printedPage": 137,
       "depth": 2,
@@ -904,7 +904,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-6-6-2",
-      "name": "线性与",
+      "name": "线性与矩阵CCD",
       "num": "6.6.2",
       "printedPage": 140,
       "depth": 3,
@@ -940,7 +940,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-6-6-5",
-      "name": "MOS的其他类型",
+      "name": "MOSCCD的其他类型",
       "num": "6.6.5",
       "printedPage": 144,
       "depth": 3,
@@ -1048,7 +1048,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-7-1-5",
-      "name": "与的不同类型",
+      "name": "JFET与的不同类型",
       "num": "7.1.5",
       "printedPage": 178,
       "depth": 3,
@@ -1180,7 +1180,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-7-4-1",
-      "name": "电流源与",
+      "name": "电流源与镜像",
       "num": "7.4.1",
       "printedPage": 196,
       "depth": 3,
@@ -1216,7 +1216,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-7-4-4",
-      "name": "放大器",
+      "name": "共源共栅放大器",
       "num": "7.4.4",
       "printedPage": 201,
       "depth": 3,
@@ -1252,7 +1252,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-7-5-1",
-      "name": "7.5.1 技术",
+      "name": "NMOS技术",
       "num": "7.5.1",
       "printedPage": 203,
       "depth": 3,
@@ -1288,7 +1288,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-7-5-4",
-      "name": "7.5.4 技术",
+      "name": "SOI技术",
       "num": "7.5.4",
       "printedPage": 206,
       "depth": 3,
@@ -1300,7 +1300,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-7-5-5",
-      "name": "7.5.5 技术",
+      "name": "混合技术",
       "num": "7.5.5",
       "printedPage": 207,
       "depth": 3,
@@ -1372,7 +1372,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-7-8-3",
-      "name": "噪声",
+      "name": "噪声相关",
       "num": "7.8.3",
       "printedPage": 222,
       "depth": 3,
@@ -1408,7 +1408,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-8-1",
-      "name": "探测器与其电子学的系统",
+      "name": "探测器与其电子学的混合系统",
       "num": "8.1",
       "printedPage": 229,
       "depth": 2,
@@ -1432,7 +1432,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-8-1-2",
-      "name": "8.1.2 像素探测器",
+      "name": "像素探测器",
       "num": "8.1.2",
       "printedPage": 231,
       "depth": 3,
@@ -1456,7 +1456,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9",
-      "name": "探测器（带本征）",
+      "name": "探测器（带本征放大）",
       "num": "9",
       "printedPage": 239,
       "depth": 1,
@@ -1480,7 +1480,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9-2",
-      "name": "场效应晶体管结构",
+      "name": "耗尽场效应晶体管结构",
       "num": "9.2",
       "printedPage": 243,
       "depth": 2,
@@ -1492,7 +1492,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9-2-1",
-      "name": "道MOS场效应晶体管",
+      "name": "耗尽道MOS场效应晶体管",
       "num": "9.2.1",
       "printedPage": 244,
       "depth": 3,
@@ -1516,7 +1516,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9-2-3",
-      "name": "结构的其他类型",
+      "name": "DEPFET结构的其他类型",
       "num": "9.2.3",
       "printedPage": 251,
       "depth": 3,
@@ -1528,7 +1528,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9-2-4",
-      "name": "性质与应用",
+      "name": "DEPFET性质与应用",
       "num": "9.2.4",
       "printedPage": 253,
       "depth": 3,
@@ -1540,7 +1540,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9-3",
-      "name": "像素探测器",
+      "name": "DEPFET像素探测器",
       "num": "9.3",
       "printedPage": 254,
       "depth": 2,
@@ -1552,7 +1552,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9-3-2",
-      "name": "用于运行的像素探测器",
+      "name": "用于运行的DEPFET像素探测器",
       "num": "9.3.2",
       "printedPage": 255,
       "depth": 3,
@@ -1564,7 +1564,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9-3-3",
-      "name": "9.3.3 像素探测器",
+      "name": "混合DEPFET像素探测器",
       "num": "9.3.3",
       "printedPage": 257,
       "depth": 3,
@@ -1576,7 +1576,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-9-3-4",
-      "name": "像素探测器（带模拟）",
+      "name": "DEPFET像素探测器（带模拟）",
       "num": "9.3.4",
       "printedPage": 258,
       "depth": 3,
@@ -1612,7 +1612,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-10-2",
-      "name": "技术中的处理",
+      "name": "平面技术中的处理",
       "num": "10.2",
       "printedPage": 260,
       "depth": 2,
@@ -1672,7 +1672,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-10-2-5",
-      "name": "来自气体",
+      "name": "沉积来自气体相位",
       "num": "10.2.5",
       "printedPage": 263,
       "depth": 3,
@@ -1684,7 +1684,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-10-2-6",
-      "name": "金属",
+      "name": "金属沉积",
       "num": "10.2.6",
       "printedPage": 264,
       "depth": 3,
@@ -1816,7 +1816,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-11-2-3",
-      "name": "缺陷的电气性质",
+      "name": "缺陷复合的电气性质",
       "num": "11.2.3",
       "printedPage": 279,
       "depth": 3,
@@ -1852,7 +1852,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-11-2-6",
-      "name": "退火",
+      "name": "反向退火",
       "num": "11.2.6",
       "printedPage": 300,
       "depth": 3,
@@ -1864,7 +1864,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-p301-ParameterizationofRadiationDamageforLowFluxIrradiation",
-      "name": "辐射损伤用于低辐照",
+      "name": "辐射损伤用于低通量辐照",
       "num": "",
       "printedPage": 301,
       "depth": 2,
@@ -1900,7 +1900,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-11-3-2",
-      "name": "损伤表面",
+      "name": "体损伤表面",
       "num": "11.3.2",
       "printedPage": 303,
       "depth": 3,
@@ -1996,7 +1996,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-12-1-2",
-      "name": "能级缺陷",
+      "name": "稳态情形中的能级缺陷",
       "num": "12.1.2",
       "printedPage": 315,
       "depth": 3,
@@ -2008,7 +2008,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-12-1-3",
-      "name": "能级",
+      "name": "费米能级",
       "num": "12.1.3",
       "printedPage": 317,
       "depth": 3,
@@ -2044,7 +2044,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-12-2-2",
-      "name": "方法",
+      "name": "差分方法",
       "num": "12.2.2",
       "printedPage": 322,
       "depth": 3,
@@ -2056,7 +2056,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-12-2-3",
-      "name": "示例",
+      "name": "稳态问题的示例",
       "num": "12.2.3",
       "printedPage": 327,
       "depth": 3,
@@ -2068,7 +2068,7 @@
     },
     {
       "microKpId": "kp-lutz-2007-12-3",
-      "name": "时间的模拟",
+      "name": "时间情形的模拟",
       "num": "12.3",
       "printedPage": 330,
       "depth": 2,

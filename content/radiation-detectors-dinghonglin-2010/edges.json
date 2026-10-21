@@ -1,0 +1,26 @@
+{
+  "summary": {
+    "edgeCount": 1,
+    "crossChapter": 0,
+    "withinChapter": 1,
+    "leavesTouched": 2,
+    "leafCount": 95,
+    "coverage": 0.0211
+  },
+  "edges": [
+    {
+      "fromId": "kp-dinghonglin-2010-11-1",
+      "toId": "kp-dinghonglin-2010-11-2",
+      "kind": "prereq",
+      "evidence": [
+        {
+          "kind": "式引用",
+          "quote": "9K。将这些参数代人11.2.6节公式（11.1)计算得到r.为0.05μm。再考虑",
+          "printedPage": 399,
+          "chunkId": "ck-radiation-detectors-dinghonglin-2010-0408-06-22cac0ca6b2d",
+          "ref": "式（11.1"
+        }
+      ]
+    }
+  ]
+}
