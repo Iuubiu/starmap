@@ -30,7 +30,7 @@ from assign import assign, review_sample  # noqa: E402
 from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E402
 from edges import build_edges, summarize, write_edges  # noqa: E402
 from extract import extract_page  # noqa: E402
-from toc import flatten, parse_toc_pages  # noqa: E402
+from toc import flatten, nodes_from_flat, parse_toc_pages  # noqa: E402
 
 import pymupdf  # noqa: E402
 
@@ -55,19 +55,10 @@ def main() -> int:
 
     # 1. 目录 → 知识点树
     tree = parse_toc_pages(args.pdf, args.toc_range[0], args.toc_range[1])
-    flat = flatten(tree)
-    nodes = [
-        {
-            'microKpId': nid,
-            'name': n.title,
-            'num': n.num,
-            'printedPage': n.printed_page,
-            'depth': n.depth,
-            'parentId': parent or None,
-            'isLeaf': not n.children,
-        }
-        for nid, n, parent in flat
-    ]
+    # 书级命名空间：12 本书都有 `kp-1`，不带前缀会在入库时互相覆盖（实测跨书
+    # 重复 301 个 id、49% 节点被改掉 source_id，chunk 归属错书且无报错）。
+    flat = flatten(tree, source_id=args.source_id)
+    nodes = nodes_from_flat(flat)
 
     # 2. 正文 → chunk
     doc = pymupdf.open(args.pdf)

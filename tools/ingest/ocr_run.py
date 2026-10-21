@@ -26,10 +26,15 @@
 
 断点续跑
 --------
-每页 OCR 完立刻落 `--cache`（默认 `data/ocr-cache/<source-id>/page-NNNN.json`，
+每页 OCR 完立刻落 `--cache`（默认 `data/ocr-cache/<source-id>/<rec>/page-NNNN.json`，
 `data/` 在 .gitignore 里），重跑时命中缓存的页直接读回，不重新识别。所以中断
-后重跑只补没跑完的页。缓存带 `version` + `dpi` 两个校验位，改了版式规则或换了
-dpi 会自动失效。
+后重跑只补没跑完的页。缓存带 `version` + `dpi` + `rec` 三个校验位：换了识别
+模型要重新识别，换了 dpi 坐标就变了。
+
+但**改版式规则不该要重跑识别**（5000 页 ≈ 9 小时）。缓存里存了原始行，所以
+另有一个 `LAYOUT_VERSION`：旧版式的页命中时仍返回对象（只打 `layout_stale`），
+`_ocr_range` 就地用缓存行重算块并回写，每页几毫秒。`boxes_to_blocks` 改了
+就 +1 这个数，不要动 `CACHE_VERSION`。
 """
 from __future__ import annotations
 
@@ -56,11 +61,14 @@ from ocr import (  # noqa: E402
     load_page,
     ocr_page,
     parse_toc_pages,
+    relayout_page,
     resolve_page_offsets,
     save_page,
+    apply_review_threshold,
+    choose_review_threshold,
     write_page_artifacts,
 )
-from toc import build_tree, flatten  # noqa: E402
+from toc import build_tree, flatten, nodes_from_flat  # noqa: E402
 
 import pymupdf  # noqa: E402
 
@@ -84,15 +92,26 @@ def _ocr_range(
     """按顺序 OCR 一批页，命中缓存就跳过。返回**每页都有**的列表。"""
     pages: list[OcrPage] = []
     hits = 0
+    relaid = 0
     t0 = time.time()
+    rec = getattr(engine, 'rec', 'v3')
     for n, i in enumerate(indexes, 1):
-        cached = load_page(cache_dir, i, dpi)
+        cached = load_page(cache_dir, i, dpi, rec=rec)
         if cached is not None:
             hits += 1
+            # 缓存里的识别结果是对的，只是版式规则变了一一用现成的行重算块，
+            # 不重跑识别，然后把新块回写，下次命中就不再重算。
+            if cached.layout_stale:
+                relayout_page(doc, cached, dpi=dpi)
+                try:
+                    save_page(cache_dir, cached, dpi, rec=rec)
+                except OSError:
+                    pass  # 回写失败不影响本次产物，只是下次还得重算
+                relaid += 1
             pages.append(cached)
             continue
         page = ocr_page(engine, doc, i, dpi=dpi, text_score=text_score)
-        save_page(cache_dir, page, dpi)
+        save_page(cache_dir, page, dpi, rec=rec)
         pages.append(page)
         done = n - hits
         eta = (time.time() - t0) / done * (len(indexes) - n)
@@ -106,6 +125,8 @@ def _ocr_range(
     print()
     if hits:
         print(f'{label}：{hits}/{len(indexes)} 页命中缓存（断点续跑）')
+    if relaid:
+        print(f'{label}：{relaid}/{hits} 页命中旧版式，已用缓存行重算块并回写')
     return pages
 
 
@@ -167,6 +188,12 @@ def main() -> int:
     ap.add_argument('--limit', type=int, default=None, help='只抽前 N 页，用于小样本测量')
     ap.add_argument('--dpi', type=int, default=OCR_DPI)
     ap.add_argument('--device', default='CPU', help='OpenVINO 设备：CPU / GPU / NPU')
+    ap.add_argument(
+        '--rec',
+        default='v4',
+        choices=('v4', 'v3'),
+        help='识别模型：v4（默认，PP-OCRv4）/ v3（旧模型，只重算目录与归属时用）',
+    )
     ap.add_argument('--cache', default=None, help='页缓存目录，默认 .cache/ocr/<source-id>')
     ap.add_argument('--review-sample', type=int, default=0, metavar='N', help='输出 N 条抽检样本')
     args = ap.parse_args()
@@ -176,8 +203,11 @@ def main() -> int:
 
     print(f'打开 {Path(args.pdf).name}：{doc.page_count} 页；引擎启动…', flush=True)
     t_engine = time.time()
-    engine = OcrEngine(device=args.device)
-    print(f'引擎就绪 {time.time() - t_engine:.2f}s（OpenVINO {args.device}，dpi={args.dpi}）')
+    engine = OcrEngine(device=args.device, rec=args.rec)
+    print(
+        f'引擎就绪 {time.time() - t_engine:.2f}s'
+        f'（OpenVINO {args.device}，识别模型 {engine.rec_model}，dpi={args.dpi}）'
+    )
 
     # 1. 页偏移：auto 就抽样扫页眉页脚
     offset_confident = True
@@ -220,7 +250,15 @@ def main() -> int:
             label='目录', text_score=TOC_TEXT_SCORE,
         )
     body_pages = _ocr_range(engine, doc, body_indexes, dpi=args.dpi, cache_dir=cache_dir, label='OCR')
-    all_pages = sorted(toc_pages + body_pages, key=lambda p: p.page)
+    # 目录页与正文页**可以重叠**：`--first-page` 早于 `toc_last` 时（书首前置页
+    # 要收进正文，比如王芝英要收 p0–p9 的封面/序/目录），同一页会同时出现在
+    # `toc_pages` 与 `body_pages` 里。直接相加会让页账本出现重复页 —— 实测
+    # 349 行 / 345 个唯一页（p10–p13 各两行），`pageCount == 账本行数` 的完整性
+    # 检查随之失真，`--first-page` 一改就悄悄多出几行。正文页胜出：它是按正文
+    # 门限识别的，而目录页用低门限捞孤立页码，置信度不可比。
+    merged: dict[int, OcrPage] = {p.page: p for p in toc_pages}
+    merged.update({p.page: p for p in body_pages})
+    all_pages = [merged[i] for i in sorted(merged)]
     by_index = {p.page: p for p in all_pages}
 
     # 4. 目录 → 知识点树（扫描件的目录页只有 OCR 文本，没有文字层）
@@ -233,19 +271,10 @@ def main() -> int:
             dpi=args.dpi,
             max_page=doc.page_count,
         )
-        flat = flatten(tree)
-        nodes = [
-            {
-                'microKpId': nid,
-                'name': n.title,
-                'num': n.num,
-                'printedPage': n.printed_page,
-                'depth': n.depth,
-                'parentId': parent or None,
-                'isLeaf': not n.children,
-            }
-            for nid, n, parent in flat
-        ]
+        # 书级命名空间：12 本书都有 `kp-1`，不带前缀会在入库时互相覆盖（跨书
+        # 重复 301 个 id、49% 节点被改掉 source_id，chunk 归属错书且无报错）。
+        flat = flatten(tree, source_id=args.source_id)
+        nodes = nodes_from_flat(flat)
         print(f'目录：{len(toc_indexes)} 页 → {len(nodes)} 个知识点')
     if not nodes:
         nodes = _fallback_node(args.limit or doc.page_count)
@@ -327,14 +356,26 @@ def main() -> int:
         for c in all_chunks
         if c.kind == 'figure'
     }
+    # 6.5 人工复核阈值按**本识别模型的实际分布**定，票面 0.85 当下限
+    confs = [p.mean_conf for p in all_pages if p.status != 'blank']
+    threshold_info = choose_review_threshold(confs)
+    apply_review_threshold(all_pages, threshold_info['threshold'])
+    print(
+        f'复核阈值 {threshold_info["threshold"]:.3f}'
+        f'（{threshold_info["rule"]}；校准值 {threshold_info["calibrated"]}）'
+    )
+
     fig_dir = out / 'ocr' / 'figures'
     figures: list[dict] = []
     for p in all_pages:
         if p.figures:
             figures.extend(crop_figures(doc, p, fig_dir, dpi=args.dpi))
-    summary = write_page_artifacts(all_pages, out / 'ocr', figures, chunk_index)
+    summary = write_page_artifacts(
+        all_pages, out / 'ocr', figures, chunk_index, threshold_info=threshold_info
+    )
     # 页偏移的可信度必须进产物，不能只打印在终端：下游 t18 入库时无法看到
     # 控制台输出，`printed_page` 不可信这件事必须跟着数据走。
+    summary['recModel'] = engine.rec_model
     summary['pageOffset'] = offset
     summary['pageOffsetConfident'] = offset_confident
     summary['pageOffsetPerPage'] = offset_report['distinctOffsets'] > 1
@@ -345,7 +386,7 @@ def main() -> int:
     print(
         f'页数 {summary["pageCount"]}；ok {summary["okPages"]}、'
         f'review {summary["reviewPages"]}、blank {summary["blankPages"]}；'
-        f'均置信度 {summary["meanConfidence"]:.3f}（阈值 {REVIEW_THRESHOLD}）'
+        f'均置信度 {summary["meanConfidence"]:.3f}（阈值 {summary["threshold"]:.3f}）'
     )
     print(f'图 {len(figures)} 张；chunk {manifest["chunkCount"]} 个 {manifest["byKind"]}')
     print(f'页范围 {start}..{end - 1}; 产物在 {out}')

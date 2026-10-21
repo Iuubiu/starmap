@@ -172,8 +172,14 @@ def leaf_page_ranges(flat_nodes: list[dict]) -> list[tuple[str, str, int, int]]:
     有意的取舍 —— 页级归属本身就有这个粒度上限（见模块 docstring 的
     「粒度限制」），而「一个叶子零内容」是必然错误，宁可让相邻页互相渗透
     一两页。实测把 `kp-2-2 电荷灵敏前置放大器`（原本 0 chunk）救回到 71 个。
+
+    **章节附件（小结/习题/附录）也算区间所有者**，虽然它们不是叶节点。
+    目录里附件条目带着自己的起始页，那几页的正文（习题题干、本章要点）
+    本来就属于它；若不占区间，这些页会被相邻的**真**知识点按页区间吞掉，
+    变成「知识点 A 的内容里混进一章的习题」。实测康华光 20 个附件节点挂着
+    707 个 chunk（20%），全部并回相邻知识点会同时污染两侧。
     """
-    leaves = [n for n in flat_nodes if n['isLeaf']]
+    leaves = [n for n in flat_nodes if n['isLeaf'] or n.get('appendix')]
     if not leaves:
         return []
     # 稳定排序：同一页的几条保持目录里的先后
@@ -295,13 +301,18 @@ def audit_assignment(chunks: list, flat_nodes: list[dict]) -> dict:
     这种错误在 t17 建图谱时会原样放大成「第 6 章之后全是时间分析」。
 
     返回 `{total, emptyLeaves, leafCount, largest, largestShare, emptyShare,
-    warnings}`；`warnings` 为空表示没有发现异常。
+    appendixCount, appendixChunks, warnings}`；`warnings` 为空表示没有发现异常。
+
+    `appendixCount/appendixChunks` 是章节附件（小结/习题/附录）的节点数与
+    挂在其下的 chunk 数。附件**不算叶节点**，所以不进 `emptyLeaves` 的
+    分母 —— 否则一本把附录单独列出来的书会凭空多出一堆「零内容叶子」。
     """
     counts: dict[str, int] = {}
     for c in chunks:
         if c.micro_kp_id:
             counts[c.micro_kp_id] = counts.get(c.micro_kp_id, 0) + 1
     leaves = [n for n in flat_nodes if n['isLeaf']]
+    appendix = [n for n in flat_nodes if n.get('appendix')]
     empty = [n['microKpId'] for n in leaves if not counts.get(n['microKpId'])]
     total = len(chunks) or 1
     largest, largest_n = ('', 0)
@@ -328,6 +339,8 @@ def audit_assignment(chunks: list, flat_nodes: list[dict]) -> dict:
         'largest': largest,
         'largestShare': largest_share,
         'emptyShare': empty_share,
+        'appendixCount': len(appendix),
+        'appendixChunks': sum(counts.get(n['microKpId'], 0) for n in appendix),
         'warnings': warnings,
     }
 

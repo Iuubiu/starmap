@@ -99,10 +99,12 @@ def blocks_to_chunks(
         text = b.text.strip()
         rows = b.rows if b.kind == 'table' else None
         if b.kind == 'table' and rows:
-            # 表格的文本形式也存一份，供检索用；rows 保留结构供渲染。
-            # 优先用 rows 拼，因为它有行列边界；`text` 是格子按 y 排序后摊平的
-            # 结果，数字串会连在一起无法切分。
-            text = '\n'.join(' | '.join(c for c in r) for r in rows)
+            # 表题（`表1.3 线性响应指标`）是这个表**唯一**的语义入口：只按
+            # 行拼会把表题丢掉，搜「线性响应指标」就搜不到这张表。扫描件的
+            # 表题放在 `Block.text` 里，电子版的表题在自身上一行（Block.text
+            # 为空），两种情况都把非空的那个前置。
+            grid = '\n'.join(' | '.join(c for c in r) for r in rows)
+            text = f'{text}\n{grid}' if text else grid
         if len(text) < MIN_CHARS and not rows and b.kind != 'figure':
             continue
         # 页眉页脚不是内容
@@ -131,6 +133,28 @@ def blocks_to_chunks(
                     bbox=[round(v, 1) for v in (b.clip or b.bbox)],
                     heading_path=list(path),
                     rows=rows,
+                )
+            )
+
+    # 整页兜底：一个页面 OCR 出了字，却因为每块都短于 MIN_CHARS（图多的
+    # 页面里全是「12V」「(5.6k)」「施密特电路」这种碎片）而被逐块丢掉 ——
+    # 这是**静默丢页**。实测 11 本扫描书里有 60 个正文页栽在这里（王芝英
+    # p236/p268 各 OCR 出 34/42 行却 0 个 chunk）。把整页碎片拼成一条，
+    # 长度够就留下；不够说明这页真的只有页码/页眉，那就该丢。
+    if not chunks and blocks:
+        whole = ' '.join(b.text.strip() for b in blocks if b.kind != 'heading' and b.text.strip())
+        if len(whole) >= MIN_CHARS:
+            first = blocks[0]
+            chunks.append(
+                Chunk(
+                    id=_stable_id(source_id, first.page, 0, whole),
+                    source_id=source_id,
+                    kind='text',
+                    text=whole,
+                    printed_page=first.page - page_offset,
+                    pdf_page=first.page,
+                    bbox=[round(v, 1) for v in first.bbox],
+                    heading_path=list(running_path),
                 )
             )
     return chunks

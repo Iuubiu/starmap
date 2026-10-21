@@ -73,6 +73,8 @@ def build_cmd(book: dict, out_dir: Path) -> list[str]:
         args += ['--dpi', str(book['dpi'])]
     if book.get('device'):
         args += ['--device', str(book['device'])]
+    if book.get('rec'):
+        args += ['--rec', str(book['rec'])]
     return args
 
 

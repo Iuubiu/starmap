@@ -72,6 +72,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument('--samples', type=int, default=20)
     ap.add_argument('--check-dpi', type=int, default=300, help='交叉识别用的 dpi')
     ap.add_argument('--device', default='CPU')
+    ap.add_argument('--rec', default='v4', choices=['v4', 'v3'],
+                    help='交叉识别用的识别模型，应与入库时一致')
     args = ap.parse_args(argv)
 
     import pymupdf
@@ -84,7 +86,7 @@ def main(argv: list[str] | None = None) -> int:
               (content / 'chunks.jsonl').read_text(encoding='utf-8').splitlines() if line]
 
     doc = pymupdf.open(str(ROOT / args.pdf))
-    engine = OcrEngine(device=args.device)
+    engine = OcrEngine(device=args.device, rec=args.rec)
 
     sample = [p for p in DEFAULT_PAGES if p in by_page][: args.samples]
     print(f'抽样 {len(sample)} 页，用 {args.check_dpi} dpi 交叉识别（入库用 200 dpi）')

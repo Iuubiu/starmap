@@ -237,3 +237,39 @@ class TestAuditAssignment:
         a = audit_assignment([], [_node('a', '甲', 1)])
         assert a['total'] == 0 and a['largestShare'] == 0.0
 
+
+class TestAppendixNodes:
+    """章节附件（小结/习题/附录）不是知识点，但仍要占住自己的页区间。
+
+    两个性质一起守，缺一个都会坏：
+    - 附件**不占**叶子身份，否则地图上多出「习题」格子、掌握度把习题算进
+      章节、出题器拿习题当考点；
+    - 附件**占住**页区间，否则那几页会被相邻知识点按页区间吞掉 —— 康华光
+      20 个附件节点挂着 707 个 chunk（20%），并回相邻知识点会同时污染两侧。
+    """
+
+    def test_appendix_node_owns_its_pages_but_is_not_a_leaf(self):
+        nodes = [
+            _node('a', '甲', 1),
+            dict(_node('ex', '本章小结', 5, is_leaf=False), appendix=True),
+            _node('b', '乙', 9),
+        ]
+        ranges = leaf_page_ranges(nodes)
+        assert [r[0] for r in ranges] == ['a', 'ex', 'b']
+        assert ranges[1] == ('ex', '本章小结', 5, 9)
+
+    def test_appendix_chunks_are_counted_separately_from_leaves(self):
+        nodes = [
+            _node('a', '甲', 1),
+            dict(_node('ex', '习题', 5, is_leaf=False), appendix=True),
+        ]
+        chunks = [_chunk('c1', 2, '甲的正文'), _chunk('c2', 6, '习题题干')]
+        assign(chunks, nodes)
+        assert chunks[1].micro_kp_id == 'ex'
+        a = audit_assignment(chunks, nodes)
+        # 附件不进叶子的分母，否则会凭空多出一个「零内容叶子」
+        assert a['leafCount'] == 1
+        assert a['emptyLeaves'] == []
+        assert a['appendixCount'] == 1
+        assert a['appendixChunks'] == 1
+

@@ -27,16 +27,16 @@ from ocr import (  # noqa: E402
     OcrSessionError,
     _assign_nums,
     _clamp_pages,
-    _looks_like_table_line,
     _merge_toc_band,
     _page_number_lines,
     _parse_page_number,
-    _split_table_cells,
     _starts_figure,
     _toc_denoise,
     _toc_page_number,
     boxes_to_blocks,
     detect_page_offset,
+    apply_review_threshold,
+    choose_review_threshold,
     load_page,
     ocr_page,
     parse_toc_ocr,
@@ -111,17 +111,185 @@ def test_page_number_lines_only_looks_in_top_and_bottom_bands() -> None:
 
 
 # ---------------------------------------------------------------- 表格
+#
+# 扫描件的表格是**逐格独立的 OCR 行**（一个格子一行），所以靠空格切列的老
+# 判据在 5800 页里命中 0 次。现在的两个信号是：表题做锚点、x0 几何聚列。
+# 下面的坐标全部摘自 `data/ocr-cache/.../v4/page-NNNN.json` 的真实识别结果
+# （王芝英 p20 表 1.3、p30 表 1.5、p223 表 5.1）。
 
-def test_table_line_needs_at_least_three_short_cells() -> None:
-    """表格行靠「多列 + 每列短」判定；正文一句话被空格切开不能当表格。"""
-    assert _looks_like_table_line('型号  增益  带宽')
-    assert not _looks_like_table_line('这是一个很长很长的句子 中间只有一个空格')
-    assert not _looks_like_table_line('只有  两列')
+def test_table_found_from_caption_anchor() -> None:
+    """表题下一段的格子必须聚成一张表：4 行 4 列，表题留在 text 里。
+
+    真实数据：王芝英 p20 的「表1.3 线性响应指标」，每行 3 个独立格子；
+    表下方紧跟 `5.稳定性` 小节标题，不能把它吞成表格的最后一行。
+    """
+    lines = [
+        L('表1.3 线性响应指标', 279, 1100, 800, 1135),
+        L('气体探测器', 279, 1194, 452, 1226),
+        L('小于0.01%', 589, 1194, 735, 1227),
+        L('固能量分辨率为1%，后级线性应为0.1%', 869, 1197, 1403, 1224),
+        L('半导体探测器', 278, 1258, 454, 1292),
+        L('0.015%', 616, 1259, 720, 1287),
+        L('作高能量分辨测量时，要求后级线性为0.01%', 868, 1258, 1449, 1289),
+        L('闪烁计数器', 279, 1320, 455, 1354),
+        L('1 -- 5 %', 609, 1321, 724, 1352),
+        L('线性要求一般，性约为1%左右', 867, 1320, 1305, 1351),
+        L('5.稳定性', 280, 1386, 456, 1426),
+    ]
+    blocks, _ = boxes_to_blocks(lines, page=20, width=1740, height=2187)
+    tables = [b for b in blocks if b.kind == 'table']
+    assert len(tables) == 1
+    t = tables[0]
+    assert t.text.startswith('表1.3')
+    assert len(t.rows) == 3
+    assert t.rows[0][0] == '气体探测器'
+    assert t.rows[0][1] == '小于0.01%'
+    assert t.rows[0][2].startswith('固能量分辨率')
+    # 小节标题不能被当作表格行了
+    assert all('稳定性' not in cell for row in t.rows for cell in row)
+    assert any(b.kind == 'paragraph' for b in blocks)
 
 
-def test_split_table_cells_keeps_single_space_words_together() -> None:
-    """OCR 的空格不可靠：单空格视为词内分隔，连续两个以上才是列分隔。"""
-    assert _split_table_cells('频率  增益') == ['频率', '增益']
+def test_table_caption_sharing_row_with_formula_still_anchors() -> None:
+    """表题与左侧公式聚成同一视觉行时，仍要认出表题。
+
+    王芝英 p30 的 `表1.5 常用脉冲信号的傅氏变换…` 与 `h(t) =h (t) *h2(t) *h3 (t)`
+    的 y0 相差不到半个行高，整行拼接后行首是公式，全行匹配永远失败。
+    """
+    lines = [
+        L('h(t) =h (t) *h2(t) *h3 (t)', 209, 714, 732, 755),
+        L('表1.5常用脉冲信号的傅氏变换和拉氏变换', 908, 720, 1486, 756),
+        L('信号名称', 943, 773, 1037, 801),
+        L('信号波形', 1097, 772, 1192, 802),
+        L('傅氏变换和拉氏变换', 1229, 775, 1495, 798),
+        L('单位阶跃脉冲', 943, 826, 1039, 860),
+        L('1/s', 1288, 867, 1318, 893),
+    ]
+    blocks, _ = boxes_to_blocks(lines, page=30, width=1740, height=2187)
+    tables = [b for b in blocks if b.kind == 'table']
+    assert len(tables) == 1
+    assert tables[0].text.startswith('表1.5')
+    assert len(tables[0].rows) >= 2
+
+
+def test_table_caption_does_not_swallow_the_body_text() -> None:
+    """正文行不能被当成表格的一行（汤彬 p17 的 `表1.3计算了…，` 是正文句）。"""
+    lines = [
+        L('表1.3计算了部分核素的比结合能，并绘于图1.2中', 37, 2029, 900, 2064),
+        L('由此可见，比结合能随质量数变化', 37, 2070, 900, 2105),
+    ]
+    blocks, _ = boxes_to_blocks(lines, page=17, width=1740, height=2187)
+    assert [b for b in blocks if b.kind == 'table'] == []
+
+
+def test_table_needs_at_least_two_rows() -> None:
+    """只有表题、下面只有一行格子 —— 那不是表，不能凭空造一张。"""
+    lines = [
+        L('表9.9 单行表', 200, 400, 700, 435),
+        L('一号', 200, 450, 400, 480),
+        L('二号', 700, 450, 900, 480),
+        L('正文从这里开始，这是一行足够长的正文内容', 150, 500, 1500, 535),
+    ]
+    blocks, _ = boxes_to_blocks(lines, page=9, width=1740, height=2187)
+    assert [b for b in blocks if b.kind == 'table'] == []
+
+
+def test_table_in_right_column_ignores_left_column_body() -> None:
+    """表排在右栏时，左栏的正文行不能当表格的边界。
+
+    实测丁洪林 p284：`表 9.5…` 在右栏 x782–1281，表体从 y276 开始；
+    而左栏正文（x128–749）在 y242 就有一句正文。不区分列时左栏那句会
+    把表直接切断，整张表消失。
+    """
+    lines = [
+        L('分辨率变差十分严重。所以作为一般要求，在加', 128, 242, 749, 278),
+        L('表 9.5不同类型的HPGe 探测器的阔注量率', 782, 225, 1281, 261),
+        L('类型', 841, 276, 891, 306),
+        L('效率/%', 1000, 276, 1100, 306),
+        L('阔注量/cm-2', 1150, 276, 1281, 306),
+        L('同轴P型HPGe', 841, 320, 1000, 350),
+        L('20', 1000, 320, 1050, 350),
+        L('2 x 108', 1150, 320, 1281, 350),
+    ]
+    blocks, _ = boxes_to_blocks(lines, page=284, width=1740, height=2187)
+    tables = [b for b in blocks if b.kind == 'table']
+    assert len(tables) == 1
+    assert len(tables[0].rows) == 2
+
+
+def test_left_column_body_sharing_a_visual_row_is_not_eaten() -> None:
+    """双栏页里左栏正文与右栏表头同高 —— 只吞右栏格子，左栏正文要留着。
+
+    实测丁洪林 p230：左栏 `线，其能量至少可高至40keV。`（y0=836）与右栏
+    表头 `能量/eV`（y0=831）相差 5px，被 `_group_rows` 聚成同一视觉行。
+    按整行收取时因为右栏格子存在而 `_row_beside_table` 不成立，左栏正文就
+    变成表格里的一格 —— 那一句永远不进 chunk（静默丢正文）。
+    所以要用 `_cells_of_table` 逐格判：`x1 < 表题x0 - 8` 的格子留给正文。
+    """
+    lines = [
+        L('表7.3X射线在硅和Au层中的透射比率', 741, 780, 1207, 812),
+        L('测器。尽管如此，硅（锂）探测器对X射', 150, 794, 626, 826),
+        L('线，其能量至少可高至40keV。', 148, 836, 518, 868),
+        L('能量/eV', 827, 831, 908, 863),
+        L('硅片厚度', 937, 831, 1034, 863),
+        L('金层厚度', 1179, 834, 1272, 866),
+        L('钠Na Z=11', 664, 926, 802, 958),
+        L('1 041', 839, 929, 892, 961),
+        L('0.82', 958, 926, 1012, 958),
+        L('0.90', 1200, 931, 1251, 963),
+    ]
+    blocks, _ = boxes_to_blocks(lines, page=230, width=1409, height=1814)
+    tables = [b for b in blocks if b.kind == 'table']
+    assert len(tables) == 1
+    joined = ' '.join(c for r in tables[0].rows for c in r)
+    assert '能量至少可高至' not in joined, '左栏正文被当成表格格子了'
+    body = ' '.join(b.text for b in blocks if b.kind != 'table')
+    assert '能量至少可高至' in body, '左栏正文没进任何正文块'
+
+
+def test_side_by_side_tables_merge_and_keep_other_captions() -> None:
+    """两张表并排时合成一张宽表，但另一张表的题注**不能**被当格子吞掉。
+
+    实测阎石 p88 是两张表并排：一行里 `表3.2.1` / `图3.2.5所示电路的
+    逻辑电平` / `表3.2.2` / `图3.2.5所示电路的真值表`，下面 5 行数据是
+    两张 3 列表并排（实际 6 列）。此时只认第一个表题、矩阵合成宽表；
+    但若把整行标成已用，`表3.2.2` 与后两个题注就静默消失（实测丢 50 字）。
+    """
+    lines = [
+        L('表3.2.1', 185, 300, 283, 332),
+        L('图3.2.5所示电路的逻辑电平', 302, 300, 628, 332),
+        L('表3.2.2', 809, 300, 910, 332),
+        L('图3.2.5所示电路的真值表', 930, 300, 1228, 332),
+        L('A/V', 185, 349, 250, 381),
+        L('B/V', 400, 349, 460, 381),
+        L('Y/N', 570, 349, 630, 381),
+        L('A', 809, 349, 840, 381),
+        L('B', 900, 349, 930, 381),
+        L('Y', 1000, 349, 1030, 381),
+        L('0', 185, 400, 210, 432),
+        L('0', 400, 400, 425, 432),
+        L('0.7', 570, 400, 620, 432),
+        L('0', 809, 400, 834, 432),
+        L('0', 900, 400, 925, 432),
+        L('0', 1000, 400, 1025, 432),
+        L('3', 185, 449, 210, 481),
+        L('3', 400, 449, 425, 481),
+        L('3.7', 570, 449, 620, 481),
+        L('1', 809, 449, 834, 481),
+        L('1', 900, 449, 925, 481),
+        L('1', 1000, 449, 1025, 481),
+    ]
+    blocks, _ = boxes_to_blocks(lines, page=88, width=1376, height=1968)
+    tables = [b for b in blocks if b.kind == 'table']
+    assert len(tables) == 1, '两张并排的表应当合成一张'
+    assert tables[0].text.startswith('表3.2.1')
+    assert len(tables[0].rows) == 3, '表头行 + 两行数据'
+    assert len(tables[0].rows[0]) == 6, '两张 3 列表并排应是 6 列'
+    body = ' '.join(b.text for b in blocks if b.kind != 'table')
+    # `图3.2.5所示电路的真值表` 在表题行右端；若把整行标成表格已用，它就
+    # 不可能出现在任何正文块里（静默丢字）。`表3.2.2` 这种纯数字短行会被
+    # 图区域当碎字吞掉（`_is_fragment`，与表格无关的既有行为），不在这里断言。
+    assert '图3.2.5所示电路的真值表' in body, '同行右侧的图注被表格吞了'
 
 
 # ---------------------------------------------------------------- 图与图注
@@ -402,15 +570,54 @@ def test_load_page_rejects_cache_from_other_dpi(tmp_path: Path) -> None:
 def test_load_page_rejects_cache_from_other_version(tmp_path: Path) -> None:
     """版式规则一改就要作废旧缓存（`CACHE_VERSION` 是那个开关）。"""
     save_page(tmp_path, mkpage(10, lines=[L('目录', 0, 0, 10, 10)]), dpi=200)
-    path = tmp_path / 'page-0010.json'
+    path = tmp_path / 'v3' / 'page-0010.json'
     data = json.loads(path.read_text(encoding='utf-8'))
     data['version'] = CACHE_VERSION - 1
     path.write_text(json.dumps(data, ensure_ascii=False), encoding='utf-8')
     assert load_page(tmp_path, 10, dpi=200) is None
 
 
+def test_cache_is_keyed_by_recogniser(tmp_path: Path) -> None:
+    """缓存必须按识别模型分开，否则换型后的重跑全部命中旧结果而看不出异常。
+
+    实测来源：换成 PP-OCRv4 之后 `CACHE_VERSION` 与 `dpi` 都不变，5087 页
+    v3 缓存会把 v4 的重跑全部顶回去，跑完与跑前逐字节相同。
+    """
+    save_page(tmp_path, mkpage(10, lines=[L('v3 的结果', 0, 0, 10, 10)]), dpi=200, rec='v3')
+    assert load_page(tmp_path, 10, dpi=200, rec='v4') is None
+    v4 = load_page(tmp_path, 10, dpi=200, rec='v3')
+    assert v4 is not None and v4.lines[0].text == 'v3 的结果'
+
+    save_page(tmp_path, mkpage(10, lines=[L('v4 的结果', 0, 0, 10, 10)]), dpi=200, rec='v4')
+    assert load_page(tmp_path, 10, dpi=200, rec='v4').lines[0].text == 'v4 的结果'
+    assert load_page(tmp_path, 10, dpi=200, rec='v3').lines[0].text == 'v3 的结果'
+
+
 def test_load_page_returns_none_when_absent(tmp_path: Path) -> None:
     assert load_page(tmp_path, 99, dpi=200) is None
+
+
+def test_layout_version_marks_old_cache_stale_instead_of_discarding(tmp_path: Path) -> None:
+    """版式规则改了绝不能让页缓存失效。
+
+    5000 页重跑一次是 9 小时。缓存里已存了原始行，改版式只需重算块（毫秒级），
+    所以 `load_page` 对旧版式返回页对象而不是 None，只打上 `layout_stale`。
+    """
+    page = mkpage(10, lines=[L('表1.3 线性响应指标', 200, 400, 700, 435)])
+    save_page(tmp_path, page, dpi=200)
+    path = tmp_path / 'v3' / 'page-0010.json'
+    data = json.loads(path.read_text(encoding='utf-8'))
+    data.pop('layout')  # 模拟加 LAYOUT_VERSION 之前写的老缓存
+    path.write_text(json.dumps(data, ensure_ascii=False), encoding='utf-8')
+
+    back = load_page(tmp_path, 10, dpi=200)
+    assert back is not None  # 不能丢页
+    assert back.layout_stale is True
+    assert back.lines[0].text.startswith('表1.3')  # 行还在，能重算版式
+
+    fresh = mkpage(11, lines=[L('正文', 0, 0, 10, 10)])
+    save_page(tmp_path, fresh, dpi=200)
+    assert load_page(tmp_path, 11, dpi=200).layout_stale is False
 
 
 # ---------------------------------------------------------------- 不丢页
@@ -642,9 +849,12 @@ def test_resolve_page_offsets_collapses_to_a_constant_when_stable() -> None:
     """偏移稳定的书退化成常数 —— 王芝英 280 页里 261 页都是 13。"""
     pages = [mkpage(i, footer=i - 13) for i in range(200)]
     offsets, report = resolve_page_offsets(pages)
-    assert report['distinctOffsets'] == 1
+    assert report['distinctOffsets'] == 1, '投票结果只有一种偏移，夹紧不算漂移'
     assert report['drift'] == 0
-    assert set(offsets.values()) == {13}
+    # 前 13 页按偏移 13 算会得到负数，被夹到 0 —— 那是保 printed_page >= 0 的
+    # 防护（真书里这几页是封面/目录，页脚根本没有页码）；第 13 页起必须准。
+    assert all(i - offsets[i] >= 0 for i in offsets), 'printed_page 不允许为负'
+    assert offsets[13] == 13 and offsets[150] == 13
 
 
 def test_resolve_page_offsets_survives_a_misread_page() -> None:
@@ -668,3 +878,112 @@ def test_engine_missing_dependency_raises_clear_error() -> None:
     """装不上 openvino / rapidocr 时要给出可操作的错，不是 ImportError 裸抛。"""
     with pytest.raises(OcrSessionError):
         OcrEngine(site=Path('/nonexistent/rapidocr-dir'))
+class TestNoSilentPageDrop:
+    """票 17 的硬要求：不得静默丢页。
+
+    一个页面 OCR 出了字、却因为「每块都短于 MIN_CHARS」被逐块滤掉，
+    最终整页 0 个 chunk —— 这就是静默丢页。实测 11 本扫描书的正文里有
+    60 页栽在这里，最长的一页 OCR 出 42 行、全部是 `12V` / `(5.6k)` /
+    `施密特电路` 这种图注碎片（王芝英 p236 / p268）。
+    """
+
+    def test_fragments_only_page_still_yields_one_chunk(self):
+        from chunk import blocks_to_chunks
+        from extract import Block
+
+        blocks = [
+            Block(kind='paragraph', page=236, bbox=(10, 10, 90, 20), text='12V'),
+            Block(kind='paragraph', page=236, bbox=(10, 30, 90, 40), text='(5.6k)'),
+            Block(kind='paragraph', page=236, bbox=(10, 50, 90, 60), text='施密特电路'),
+            Block(kind='paragraph', page=236, bbox=(10, 70, 90, 80), text='(4.64k)'),
+        ]
+        chunks = blocks_to_chunks(blocks, 'demo', page_offset=13)
+        assert len(chunks) == 1, '碎片页必须拼成一条，不能整页丢'
+        assert chunks[0].pdf_page == 236
+        assert chunks[0].printed_page == 223
+        assert '12V' in chunks[0].text and '施密特电路' in chunks[0].text
+
+    def test_page_with_real_content_is_not_merged(self):
+        """正常页不受影响：块还在门槛之上时各成一条。"""
+        from chunk import blocks_to_chunks
+        from extract import Block
+
+        blocks = [
+            Block(kind='paragraph', page=10, bbox=(0, 0, 100, 20), text='噪声可以按来源分成两类。'),
+            Block(kind='paragraph', page=10, bbox=(0, 30, 100, 50), text='第一类是探测器本身的散粒噪声。'),
+        ]
+        chunks = blocks_to_chunks(blocks, 'demo', page_offset=0)
+        assert len(chunks) == 2
+
+    def test_page_number_only_page_is_still_dropped(self):
+        """真的只有页码的页不能凭空造 chunk。"""
+        from chunk import blocks_to_chunks
+        from extract import Block
+
+        blocks = [Block(kind='paragraph', page=5, bbox=(0, 0, 50, 20), text='· 12 ·')]
+        assert blocks_to_chunks(blocks, 'demo', page_offset=0) == []
+
+
+# ---------------------------------------------------------------- 复核阈值标定
+
+def test_review_threshold_never_goes_below_the_ticket_floor() -> None:
+    """票面写死「低于 0.85 进复核队列」是**下限**，换模型也只能更严。
+
+    实测来源：v3 的分布 p15 是 0.836，按百分位直接取会让阈值降到票面之下，
+    等于少标票面要求必标的页 —— 违约。
+    """
+    info = choose_review_threshold([0.80, 0.82, 0.84, 0.86, 0.90])
+    assert info['threshold'] == 0.85
+    assert info['ticketThreshold'] == 0.85
+
+
+def test_review_threshold_rises_when_the_model_is_more_confident() -> None:
+    """换 PP-OCRv4 后置信度整体上移，沿用 0.85 会让复核队列几乎空掉。
+
+    实测来源：v4 在王芝英前 161 页的分布 —— p15 = 0.8756，按 0.85 筛只剩
+    10/161 = 6.2%，按 p15 筛是 20/161 = 12.4%（captain 要求 10–20%）。
+    """
+    confs = [0.95] * 70 + [0.90] * 15 + [0.86] * 15
+    info = choose_review_threshold(confs)
+    assert info['threshold'] > 0.85, '应当高于票面下限，而不是停在 0.85'
+    assert info['rule'].startswith('max(')
+    share = sum(1 for c in confs if c < info['threshold']) / len(confs)
+    assert 0.05 <= share <= 0.20, f'复核占比 {share:.0%} 超出 10–20% 的目标区间'
+
+
+def test_review_threshold_survives_an_empty_book() -> None:
+    """整本一页都没认出来时不能除零，也不能把阈值定成 0（那等于不复核）。"""
+    info = choose_review_threshold([])
+    assert info['threshold'] == 0.85
+    assert info['calibrated'] is None
+
+
+def test_apply_review_threshold_recomputes_status_from_cached_confidence() -> None:
+    """阈值是派生逻辑，页缓存里存的是原始置信度 —— 换阈值不许重跑 OCR。
+
+    这条守住「换算阈值只花几秒」这件事：11 本 5181 页重跑一次要 4 小时，
+    调一次阈值就重跑一遍是不可接受的。
+    """
+    # `mkpage` 无行时 mean_conf 强制为 0（真实规则：没字就没置信度），
+    # 所以这里必须给每页一行，否则测的就不是阈值而是 mkpage 的默认值。
+    pages = [
+        mkpage(1, lines=[L('甲乙丙丁', 0, 0, 100, 20)], conf=0.90),
+        mkpage(2, lines=[L('戊己庚辛', 0, 0, 100, 20)], conf=0.84),
+        mkpage(3, status='blank'),
+    ]
+    n = apply_review_threshold(pages, 0.85)
+    assert n == 1
+    assert pages[0].status == 'ok' and pages[1].status == 'review'
+    assert pages[2].status == 'blank', 'blank 页不该被阈值改写'
+
+    n = apply_review_threshold(pages, 0.80)
+    assert n == 0 and pages[1].status == 'ok'
+
+
+def test_summary_records_where_the_threshold_came_from() -> None:
+    """阈值来历必须进 summary.json，否则半年后没人知道这个数字怎么定的。"""
+    info = choose_review_threshold([0.95] * 8 + [0.88] * 2)
+    s = summarize([mkpage(1, lines=[L('甲乙丙丁', 0, 0, 100, 20)], conf=0.95)], threshold_info=info)
+    assert s['threshold'] == info['threshold']
+    assert s['reviewThresholdRule'].startswith('max(')
+    assert s['reviewThresholdQuantile'] == 0.15

@@ -74,10 +74,10 @@
   {
     "sourceId": "analog-electronics-tongshibai-5e",
     "pdf": "资源库/books/24_模拟电子技术基础_童诗白_华成英_第5版.pdf",
-    "tocRange": [11, 22],
+    "tocRange": [10, 22],
     "pageOffset": "auto",
     "firstPage": 22,
-    "note": "目录 11–21（11 页，每页都有「目录」页眉）；正文（第0章导言）从 22 开始"
+    "note": "目录 10–21（12 页，每页都有「目录」页眉）；正文（第0章导言）从 22 开始。tocRange 原先从 11 起，漏掉 p10 的 25 条（第0章导言/0.1–0.3/第1章/1.1/1.2），导致正文 pdf 22–48（印刷 1–27）的 334 个 chunk 找不到 owner（micro_kp_id 为 NULL）；实测把 10 加进来后目录解出 376 条、首条是 kp-tongshibai-5e-0 导言 p1"
   },
   {
     "sourceId": "circuit-analysis-lihansun-5e-vol1",

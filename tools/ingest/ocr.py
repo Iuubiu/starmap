@@ -58,20 +58,52 @@ from typing import Any, Iterable
 
 from extract import Block, _looks_like_formula, _looks_like_heading
 
-# 低于这个页级置信度就进人工复核队列（票 17 的硬指标）
+# 低于这个页级置信度就进人工复核队列（票 17 的硬指标，是下限不是建议值）
 REVIEW_THRESHOLD = 0.85
+# 复核页占比的标定目标：按当前识别模型的实际分布，让 reviewPages 落在
+# 总页数的 10–20%（取第 15 百分位作阈值）。票面的 0.85 是硬下限，
+# 实际阈值取 max(0.85, p15) —— 见 `choose_review_threshold`。
+REVIEW_QUANTILE = 0.15
 # 工作点：200 dpi。实测依据见模块 docstring
 OCR_DPI = 200
 # 缓存格式版本，改了版式规则就 +1，旧缓存自动失效
 CACHE_VERSION = 4
+# 版式分析版本。**和 CACHE_VERSION 分开**：CACHE_VERSION 一 +1，5000 页缓存
+# 全部失效、要重跑 9 小时的识别；而改 `boxes_to_blocks` 只需要重算版式 ——
+# 原始行（`lines`）在缓存里，10ms/页就能重算出块。所以版式规则改动只 +1
+# 这个数：`load_page` 发现缓存里的 layout 比当前旧，就把对象标成
+# `layout_stale`，由 `ocr_run._ocr_range` 就地重算版式并回写缓存。
+#
+# 版本史：1 = 表格恒为 0 的旧版式；2 = 表题锚定；3 = 表题同行合并（重叠框）、
+# 软/硬边界、右栏表与左栏正文分栏（见 `_tables_from_rows`）；4 = 表格区域
+# 逐格分栏（`_cells_of_table`），双栏页里同高的左栏正文不再被表格吞掉；
+# 5 = 表题行只标记表题本格为已用（不是整行），并排的第二张表题注不被吞。
+LAYOUT_VERSION = 5
 
 RAPIDOCR_SITE = Path(
     'C:/Users/Yhwhy/scoop/apps/python/current/Lib/site-packages/rapidocr_onnxruntime'
 )
+
+# 识别模型换 PP-OCRv4，检测与方向分类仍用 v3。
+#
+# 为什么只换识别：v3 的形近误识在真实扫描件上到了「明显错字」的程度
+# （实测王芝英 p20/p48/p90：`干扰`→`干犹`、`屏蔽`→`屏藏`、`接入`→`接患`、
+# `放大倍数`→`放大熟`、`A(ω)=KB*(ω)`→`A(の)二KB*()`、`表1.2`→`裘1.3`），
+# 票 17 的验收写的是「无明显错字」，用 v3 交付等于把一个已知不达标的产物写进
+# 图谱。同一批 8 页换 v4 识别器后：平均置信度 0.8732 → 0.9181，13 个错字
+# token 全部消失，速度 2.68 → 2.29 s/页（不劣化）。
+# 不换检测器的理由：v4 det 没有可测的收益，而检测框一变，版面分析、图表
+# 切分、目录配对全都要重验。
+# 不换分类器的理由：方向分类只判 0°/180°，v3 的 mobile cls 够用。
+#
+# 字典兼容性已核对：v3 与 v4 的 `character` 元数据**逐字节相同**（都是
+# 6623 个字符），所以 CTC 后处理与 `ppocr_keys_v1.txt` 都不用动。
+_V4_REC = Path(__file__).parent / 'models' / 'ch_PP-OCRv4_rec_infer.onnx'
+
 _MODEL_FILES = (
     ('text_detector', 'ch_PP-OCRv3_det_infer.onnx'),
     ('text_cls', 'ch_ppocr_mobile_v2.0_cls_infer.onnx'),
-    ('text_recognizer', 'ch_PP-OCRv3_rec_infer.onnx'),
+    ('text_recognizer', 'ch_PP-OCRv4_rec_infer.onnx'),
 )
 
 
@@ -80,6 +112,21 @@ _MODEL_FILES = (
 # ---------------------------------------------------------------------------
 class OcrSessionError(RuntimeError):
     """OCR 引擎起不来（缺包 / 缺模型 / 显卡不可用）。带上怎么修的信息再抛。"""
+
+
+def _read_onnx_meta(model_path: str | Path) -> dict | None:
+    """读 ONNX 自带的 metadata map（识别模型的 CTC 字典在 `character` 里）。
+
+    走 onnxruntime 而不是 OpenVINO：OpenVINO 的 `rt_info` 只暴露 `framework`，
+    拿不到自定义键。这一步只建 session 读元数据、不推理，开销可以忽略。
+    """
+    try:
+        import onnxruntime as ort
+
+        sess = ort.InferenceSession(str(model_path), providers=['CPUExecutionProvider'])
+        return dict(sess.get_modelmeta().custom_metadata_map)
+    except Exception:  # noqa: BLE001 - 读不到就让调用方回退
+        return None
 
 
 class OVSession:
@@ -119,6 +166,7 @@ class OcrEngine:
         self,
         site: Path | str = RAPIDOCR_SITE,
         device: str = 'CPU',
+        rec: str = 'v4',
         **rapidocr_kwargs: Any,
     ):
         import sys
@@ -142,16 +190,46 @@ class OcrEngine:
 
         self._engine = RapidOCR(**rapidocr_kwargs)
         models = site / 'models'
-        meta = self._engine.text_recognizer.session.session.get_modelmeta().custom_metadata_map
-        for attr, fname in _MODEL_FILES:
+
+        # 识别模型默认用仓库内的 PP-OCRv4；`rec='v3'` 可显式退回 RapidOCR
+        # 自带的 v3（换型期间做「只重算目录与归属」的重跑时要用，否则那几本
+        # 书的页结果会变成 v4 而其余书还是 v3，出现半天一半新的中间态）。
+        # v4 文件缺失时也回退 v3，但必须明确警告 —— 静默回退会让「已经换型」
+        # 的结论变成假的。
+        if rec not in ('v3', 'v4'):
+            raise OcrSessionError(f'rec 只能是 v3 或 v4，收到 {rec!r}')
+        if rec == 'v4' and not _V4_REC.is_file():
+            print(
+                f'⚠ 找不到 PP-OCRv4 识别模型 {_V4_REC}，回退到 v3；'
+                '错字率会回到 0.87 置信度那档',
+                flush=True,
+            )
+            rec = 'v3'
+        rec_path = _V4_REC if rec == 'v4' else models / 'ch_PP-OCRv3_rec_infer.onnx'
+        paths = {
+            'text_detector': models / 'ch_PP-OCRv3_det_infer.onnx',
+            'text_cls': models / 'ch_ppocr_mobile_v2.0_cls_infer.onnx',
+            'text_recognizer': rec_path,
+        }
+
+        # CTC 字典从**实际要跑的识别模型**里读：v3 与 v4 的 character 元数据
+        # 逐字节相同（都是 6623 个字符，已用 `.scratch/t17/probe_dicts.py` 核对），
+        # 但按「模型自带字典」读才不会在将来换模型时配错表。
+        meta = _read_onnx_meta(paths['text_recognizer'])
+        if meta is None:  # pragma: no cover - onnxruntime 缺失才走
+            meta = self._engine.text_recognizer.session.session.get_modelmeta().custom_metadata_map
+        for attr, _fname in _MODEL_FILES:
             module = getattr(self._engine, attr)
+            model_path = paths[attr]
             try:
-                module.session = OVSession(str(models / fname), device, meta)
+                module.session = OVSession(str(model_path), device, meta)
             except Exception as exc:  # pragma: no cover - 取决于本机 OpenVINO
                 raise OcrSessionError(
-                    f'OpenVINO 编译 {fname} 到 {device} 失败：{exc}\n'
+                    f'OpenVINO 编译 {model_path.name} 到 {device} 失败：{exc}\n'
                     '  pip install openvino==2026.4.1；GPU 不可用时用 --device CPU'
                 ) from exc
+        self.rec_model = rec_path.name
+        self.rec = rec
         self.device = device
         self.calls = 0
 
@@ -230,6 +308,9 @@ class OcrPage:
     figures: list[dict[str, Any]] = field(default_factory=list)
     lines: list[OcrLine] = field(default_factory=list)  # 原始行，目录解析要用坐标
     error: str = ''
+    # 缓存里的版式比当前 LAYOUT_VERSION 旧 —— 行是对的，块要重算。
+    # 不是持久字段（save_page 不写它），只是 `load_page` 的一次性标记。
+    layout_stale: bool = False
 
     @property
     def text(self) -> str:
@@ -297,18 +378,260 @@ def _starts_figure(text: str) -> bool:
     return len(t) <= 60 and bool(_CAPTION.match(t))
 
 
-def _split_table_cells(text: str) -> list[str]:
-    """表格行按 ≥2 个空格切格。OCR 会把列间空白压成 1 个半角空格，压不住。"""
-    return [c for c in re.split(r'\s{2,}', text.strip()) if c]
+# ---------------------------------------------------------------------------
+# 表格：表题锚定 + 几何列聚类
+# ---------------------------------------------------------------------------
+#
+# 扫描件的表格是**逐格独立 OCR 行**：一个格子一行，一行只有一个格子。
+# 原先「一行按 ≥2 空格切成 ≥3 列」的判据在 5800 页里命中 0 次 —— 没有哪一行
+# 有 3 列 —— 所以 11 本扫描书的 table 块恒为 0，票 17 的「表格」验收过不去。
+#
+# 改成两个可靠得多的信号：
+#   1. **表题是锚点**：`表1.3 线性响应指标` 这类行在扫描件里识别得很稳；
+#      从它下面开始向下收区域，碰到下一张表/图注/标题/正文行就停。
+#   2. **列是几何量**：同一列的格子 x0 几乎相等，把区域里所有格子的 x0
+#      聚成列心，每个格子归到最近的列心 —— 不依赖任何空格。
+#
+# 表题里出现的 `裘` 是 v3 时代实测到的**确定性**误识（`表1.2`→`裘1.3`），
+# 按已知错字枚举，不做模糊匹配。
+_TABLE_CAPTION = re.compile(r'^[表裘]\s*\d+(?:[.\-．]\d+)*')
+_CHAPTER_HEAD = re.compile(r'^第\s*[一二三四五六七八九十百零\d]+\s*[章节]')
+_NUMBERED_HEAD = re.compile(r'^\d{1,2}\s*[.、．]\s*[\u4e00-\u9fff]')
+_ONLY_PAGE_NO = re.compile(r'^[·•\-. ]*\d{1,4}[·•\-. ]*$')
+
+TABLE_COL_TOL = 0.03  # 列心容差 = 页宽 × 3%
 
 
-def _looks_like_table_line(line: "OcrLine | str") -> bool:
-    """一行像不像表格行：≥3 列且多数列很短（正文句被空格切开时列会很长）。"""
-    cells = _split_table_cells(line if isinstance(line, str) else line.text)
-    if len(cells) < 3:
+def _group_rows(lines: list[OcrLine], tol: float | None = None) -> list[list[int]]:
+    """按 y0 把行聚成视觉行，返回每行内的行下标（按 x0 排序）。
+
+    和 `_reading_order` 同一套聚类，但保留行边界 —— 表格要靠「一行几个格子」
+    来判断，摊平成一串就丢了这件事。
+    """
+    if not lines:
+        return []
+    hs = sorted(ln.h for ln in lines)
+    med = hs[len(hs) // 2]
+    tol = max(med * 0.5, 6.0) if tol is None else tol
+    rows: list[list[int]] = []
+    for i in sorted(range(len(lines)), key=lambda k: (lines[k].y0, lines[k].x0)):
+        if rows:
+            center = sum(lines[k].y0 for k in rows[-1]) / len(rows[-1])
+            if abs(lines[i].y0 - center) <= tol:
+                rows[-1].append(i)
+                continue
+        rows.append([i])
+    return [sorted(r, key=lambda k: lines[k].x0) for r in rows]
+
+
+def _row_text(row: list[int], lines: list[OcrLine]) -> str:
+    return ' '.join(lines[k].text.strip() for k in row).strip()
+
+
+def _caption_line(row: list[int], lines: list[OcrLine]) -> int | None:
+    """行内的表题行下标。
+
+    不能只看整行拼接后的文本：王芝英 p30 的 `表1.5常用脉冲信号的傅氏变换和
+    拉氏变换` 与左侧一个公式行 y0 相差不到半个行高，聚成同一视觉行后行首
+    变成了 `h(t) =h (t) *h2(t) *h3 (t) 表1.5…`，整行匹配永远失败。
+
+    也不能只要行首是 `表N` 就算：汤彬 p17 的正文句正好以 `表1.3计算了部分
+    核素的比结合能，…` 开头（长到 40+ 字）。表题是**短行**，正文是宽行。
+
+    同一个视觉行里有**多个**表题时只认第一个（不认就整页没表）：阎石 p88 是
+    两张表并排 —— `表3.2.1 | 图3.2.5所示电路的逻辑电平 | 表3.2.2 | 图3.2.5
+    所示电路的真值表`，后面 5 行数据表是两张表共用的（6 列就是两张 3 列表
+    并排）。此时矩阵会把两张表合成一张宽表，这是合理的表示；但不能把第二
+    张表的题注行一起吞掉（它在 `_caption_text` 里因以 `图N` 开头被排除，若也
+    标记为已用就会**静默丢字**），所以 `_tables_from_rows` 只把第一行的表题
+    标记为已用，其余格子留给正文。
+    """
+    for k in row:
+        if _TABLE_CAPTION.match(lines[k].text.strip()) and len(lines[k].text.strip()) <= 60:
+            return k
+    return None
+
+
+def _caption_text(row: list[int], lines: list[OcrLine], at: int) -> str:
+    """表题文本 = 表题行 + 同行里它右侧的短行（`表1.3` + `线性响应指标`）。
+
+    左右两个框**会重叠**：王芝英 p20 的 `表1.3` 右沿 867、`线性响应指标`
+    左沿 850，差 17px。要求严格右置会把表名丢掉，只留下一个搜不到的
+    `表1.3`。容差取 0.02 页宽（这里没用页宽参数，直接用 24px）。
+    """
+    parts = [lines[at].text.strip()]
+    for k in row:
+        if k == at:
+            continue
+        ln = lines[k]
+        t = ln.text.strip()
+        if _TABLE_CAPTION.match(t):
+            # 同行里还有第二个表题（两张表并排）—— 那是**另一张**表的题注，
+            # 拼进来会让它不再作为独立块出现，搜 `表3.2.2` 就搜不到。
+            continue
+        if ln.x0 > lines[at].x1 - 24 and ln.x0 > lines[at].x0 and len(t) <= 40 and not _starts_figure(t):
+            parts.append(t)
+    return ' '.join(parts).strip()
+
+
+def _row_stop_kind(
+    row: list[int], lines: list[OcrLine], page_w: float
+) -> str | None:
+    """这一行是不是表格区域的边界。
+
+    `hard` = 肯定不是表格行（下一张表 / 图注 / 章节标题 / 正文段落）；
+    `soft` = 可能不是：短、带编号、或看起来像页码的**单格行** ——
+    它们既可能是表结束后的下一节标题（王芝英 p20 的 `5.稳定性`），
+    也可能是表格里面的编号格子（丁洪林 p43 的 `1.微秒级脉冲衰减时间`）。
+    只看这一行分不开，要看下一行还在不在表里，所以交给调用方决定。
+    """
+    t = _row_text(row, lines)
+    if not t:
+        return 'hard'
+    if _caption_line(row, lines) is not None or _starts_figure(t) or _CHAPTER_HEAD.match(t):
+        return 'hard'
+    if len(row) != 1:
+        return None
+    ln = lines[row[0]]
+    if len(t) <= 6 and _ONLY_PAGE_NO.match(t):
+        # 表格里也可能有看起来像页码的格子（王经瑾 p157 的存储地址 `690`）
+        return 'soft'
+    if _is_body_cell(ln, t, page_w):
+        return 'hard'
+    if len(t) <= 20 and _NUMBERED_HEAD.match(t):
+        return 'soft'
+    return None
+
+
+def _table_continues_after(
+    rows: list[list[int]], m: int, lines: list[OcrLine], page_w: float
+) -> bool:
+    """`m` 的下一非空行还是表格行吗？用来判定 `soft` 行到底算哪边。"""
+    for q in range(m + 1, len(rows)):
+        if not _row_text(rows[q], lines):
+            continue
+        return _row_stop_kind(rows[q], lines, page_w) is None
+    return False
+
+
+def _row_beside_table(row: list[int], lines: list[OcrLine], cap_x0: float) -> bool:
+    """这一行整行落在表题左侧 —— 它是**另一栏**的正文，不是表的边界。
+
+    丁洪林 p284 的 `表 9.5…` 排在右栏（x782–1281），表体从 y276 开始；
+    而左栏正文（x128–749）在 y242 就有一句“分辨率变差十分严重…”。
+    不区分列的话，左栏正文会当成表的第一行边界，整张表直接消失。
+    """
+    return all(lines[k].x1 < cap_x0 - 8 for k in row)
+
+
+def _cells_of_table(row: list[int], lines: list[OcrLine], cap_x0: float) -> list[int]:
+    """这一行里属于表格的格子 —— 去掉整行落在表题左侧的（旁栏正文）。
+
+    只按行走不够：视觉行是**按 y 聚**出来的，双栏页里左栏正文与右栏表格
+    的同一行会聚到一起（丁洪林 p230：左栏 `线，其能量至少可高至40keV。`
+    y0=836、右栏表头 `能量/eV` y0=831，差 5px）。整行判
+    `_row_beside_table` 时因右栏格子存在而不成立，左栏正文就被当表格的一行
+    吞掉、不出 chunk。逐格判 `x1 < cap_x0 - 8` 就能把它留在正文里。
+    """
+    return [k for k in row if lines[k].x1 >= cap_x0 - 8]
+
+
+def _is_body_cell(ln: OcrLine, text: str, page_w: float) -> bool:
+    """这行是不是正文（而不是表格格子）。
+
+    真表格里有长格子（王芝英 p20 的`固能量分辨率为1%，后级线性应为0.1%`
+    宽 534px = 31% 页宽、20 字），所以不能只看长度。区别在于位置：
+
+    - 正文行要么**跨过半个页宽**（单栏排版）；
+    - 要么**整个人落在左半页**、又宽又长（双栏排版里的左栏正文）——
+      王芝英 p30 的表 1.5 排在右栏，左栏正文（148px→862px）与它同高，
+      宽度 41% 页宽、17 字，不拦就会被拼成表格的一行。
+
+    而 p20 的长格子右沿到 80% 页宽，不属于上面任一种。
+    """
+    w = ln.x1 - ln.x0
+    if len(text) < 15 or w <= page_w * 0.3:
         return False
-    short = sum(1 for c in cells if len(c) <= 8)
-    return short >= len(cells) * 0.6
+    if w > page_w * 0.55:
+        return True
+    return ln.x1 < page_w * 0.55
+
+
+def _table_matrix(
+    region: list[list[int]], lines: list[OcrLine], page_w: float
+) -> list[list[str]] | None:
+    """把区域里的格子按 x0 聚成列。列数 <2 说明这不是表，返回 None。"""
+    tol = page_w * TABLE_COL_TOL
+    xs = sorted({round(lines[k].x0, 1) for row in region for k in row})
+    clusters: list[list[float]] = []
+    for x in xs:
+        if clusters and x - clusters[-1][-1] <= tol:
+            clusters[-1].append(x)
+        else:
+            clusters.append([x])
+    centers = [sum(c) / len(c) for c in clusters]
+    if len(centers) < 2:
+        return None
+    matrix: list[list[str]] = []
+    for row in region:
+        cells = [''] * len(centers)
+        for k in row:
+            ln = lines[k]
+            t = ln.text.strip()
+            j = min(range(len(centers)), key=lambda q: abs(ln.x0 - centers[q]))
+            cells[j] = f'{cells[j]} {t}'.strip() if cells[j] else t
+        matrix.append(cells)
+    # 整列为空（通常是页边噪声聚出来的列）→ 删掉，剩不到 2 列就不是表
+    keep = [i for i in range(len(centers)) if any(r[i] for r in matrix)]
+    if len(keep) < 2:
+        return None
+    return [[r[i] for i in keep] for r in matrix]
+
+
+def _tables_from_rows(
+    lines: list[OcrLine], rows: list[list[int]], page_w: float
+) -> list[tuple[list[int], str, list[list[str]]]]:
+    """从视觉行里找表。返回 [(占用的行下标, 表题, 矩阵), …]。"""
+    out: list[tuple[list[int], str, list[list[str]]]] = []
+    k = 0
+    while k < len(rows):
+        at = _caption_line(rows[k], lines)
+        if at is None:
+            k += 1
+            continue
+        caption = _caption_text(rows[k], lines, at)
+        cap_x0 = lines[at].x0
+        # 只把表题本行标记为已用（不是整行）：同行里如果还有第二个表题/
+        # 别的短行，`_caption_text` 未必收进去（以 `图N` 开头的会被排除），
+        # 整行标已用就会让它们静默消失。
+        head = [at]
+        region: list[list[int]] = []
+        end = k + 1
+        for m in range(k + 1, len(rows)):
+            # 另一栏的行：跳过（不算表格、也不算边界）。同一视觉行里左栏
+            # 正文与右栏格子混排时，只取右栏的格子（`_cells_of_table`）。
+            cells = _cells_of_table(rows[m], lines, cap_x0)
+            if not cells:
+                continue
+            kind = _row_stop_kind(cells, lines, page_w)
+            if kind is None:
+                region.append(cells)
+                end = m + 1
+                continue
+            # 短编号行 / 像页码的格子：下一行还在表里就归表，否则就是边界。
+            if kind == 'soft' and _table_continues_after(rows, m, lines, page_w):
+                region.append(cells)
+                end = m + 1
+                continue
+            break
+        matrix = _table_matrix(region, lines, page_w) if len(region) >= 2 else None
+        if matrix is None:
+            k += 1
+            continue
+        used_idx = head + [i for r in region for i in r]
+        out.append((used_idx, caption, matrix))
+        k = end
+    return out
 
 
 def _is_fragment(line: OcrLine, body_w: float) -> bool:
@@ -337,8 +660,9 @@ def boxes_to_blocks(
        的 1.25 倍 → `heading`，level 按编号层级。
     2. 图注：`图1.2.3 xxx` / `(a)电路图` → `caption`。紧跟其后的连续碎字行
        和上一段正文之间的空隙一起构成图区域，交给 `crop_figures` 切图。
-    3. 表格：连续 ≥3 行、每行能按 ≥2 空格切成 ≥3 格、且多数格子很短 →
-       `table`，格子成为 `rows`。
+    3. 表格：`表1.3 xxx` 表题做锚点，向下收区域到下一个表/图注/标题/正文行
+       为止；区域内的格子按 x0 聚成列 → `table`，矩阵成为 `rows`，表题留在
+       `text`（检索这张表的唯一入口，`chunk.py` 会把它前置到表格文本）。
     4. 公式：复用 `extract._looks_like_formula` 的字面判据 → `formula`。
     5. 剩下的按「左沿对齐 + 行距连续」并成 `paragraph`。
     """
@@ -362,8 +686,26 @@ def boxes_to_blocks(
             max(l.y1 for l in g),
         )
 
+    # --- 3. 表格（表题锚定，先跑：表题行本身可能是短标题，先把格子占住） ---
+    rows_of_page = _group_rows(lines)
+    for idxs, caption, matrix in _tables_from_rows(lines, rows_of_page, width):
+        for k in idxs:
+            used[k] = True
+        blocks.append(
+            Block(
+                kind='table',
+                page=page,
+                bbox=bbox_of([lines[k] for k in idxs]),
+                text=caption,
+                rows=matrix,
+                fill=1.0,
+            )
+        )
+
     # --- 1. 标题 ---
     for i, ln in enumerate(lines):
+        if used[i]:
+            continue
         t = ln.text.strip()
         big = ln.h >= body_h * 1.25
         numbered = bool(re.match(r'^\d+(\.\d+)*\s*[\u4e00-\u9fff]', t))
@@ -381,33 +723,6 @@ def boxes_to_blocks(
             lvl = min(3, t.split(' ')[0].count('.') + 1)
         blocks.append(Block(kind='heading', page=page, bbox=bbox_of([ln]), text=t, level=lvl))
         used[i] = True
-
-    # --- 3. 表格（先于段落，因为表行也会被并成段落） ---
-    i = 0
-    while i < len(lines):
-        if used[i] or not _looks_like_table_line(lines[i]):
-            i += 1
-            continue
-        j = i
-        while j + 1 < len(lines) and not used[j + 1] and _looks_like_table_line(lines[j + 1]):
-            j += 1
-        if j - i + 1 >= 3:
-            rows = [_split_table_cells(lines[k].text) for k in range(i, j + 1)]
-            width_cells = max(len(r) for r in rows)
-            rows = [r + [''] * (width_cells - len(r)) for r in rows]
-            for k in range(i, j + 1):
-                used[k] = True
-            blocks.append(
-                Block(
-                    kind='table',
-                    page=page,
-                    bbox=bbox_of(lines[i : j + 1]),
-                    text='\n'.join(' '.join(r) for r in rows),
-                    rows=rows,
-                    fill=1.0,
-                )
-            )
-        i = j + 1
 
     # --- 2. 图注 + 图区域 ---
     #
@@ -568,6 +883,10 @@ def measure_page_number(engine: OcrEngine, doc, index: int, *, band: float = 0.1
     return None if best is None else best[1]
 
 
+# 锚点离全局众数超过这么多页就当成误读丢掉（见 `resolve_page_offsets` docstring）。
+_OFFSET_TOL = 40
+
+
 def resolve_page_offsets(
     pages: list["OcrPage"],
     *,
@@ -593,16 +912,33 @@ def resolve_page_offsets(
     其它书是稳定的（01 王芝英 261/280 页都是 13，02 都是 9，22 都是 16），
     所以这个函数对稳定书退化成常数，对漂移书自动分段。
 
-    做法：先取每页 `pdf_index - printed` 当该页的候选偏移，再对每一页取
+    做法：先取每页 `pdf_index - printed` 当该页的候选偏移，清洗后对每一页取
     **附近 ±window 页内的众数**（漂移是分段常数，局部投票能吃掉单页误读），
-    附近没有任何页码证据时用距离最近的已知页。
+    附近没有任何页码证据时用全书众数。
+
+    页码证据的清洗（四条，都是实测逼出来的）
+    ----------------------------------------
+    1. **丢掉偏移为负的锚点**。印刷页从 1 开始，`pdf_index - printed < 0` 只可能
+       是认错了。18《原子核物理实验方法》96 个页脚命中里有 `(102, 1000)`、
+       `(438, 1000)` 这种把表格里的 `1000` 当页码的，算出的偏移是 -562/-898。
+    2. **只保留离全局众数 ±40 页以内的锚点**（一个都不剩时退回全部）。同样这本
+       书的 `(1, 54)`…`(7, 447)` 是目录页的表格数字，偏移落在 -53…-446，和真实
+       偏移 7 差着几百页。
+    3. **每页的偏移夹到 `min(offset, pdf_index)`**，保证 `printed_page >= 0`。
+       05《核辐射测量原理》pdf 11/12/14 是前言页，邻域众数 14 会把印刷页算成
+       -3…-1；夹紧后落到 0（正文前，没有印刷页码）。
+    4. **附近没有锚点时用全局众数**，而不是「距离最近的锚点」——最近的那个很
+       可能正是噪声页；实测 18 的 pdf 278–291 就是这样被带偏成负页码。
+
+    这四条合起来把 12 本书的负页码从 4–11 页降到 **0 页**，`agree` 基本不变
+    （22 那本 552、19 那本 490、24 那本 490），即不牺牲已认对的书，只清噪声。
 
     返回 `(offsets, report)`；`offsets` 覆盖 `pages` 里每一页。
     """
     known: list[tuple[int, int]] = sorted(
         (p.page, p.page - p.footer_page)
         for p in pages
-        if p.footer_page is not None
+        if p.footer_page is not None and p.page - p.footer_page >= 0
     )
     report: dict[str, Any] = {
         'pages': len(pages),
@@ -611,6 +947,7 @@ def resolve_page_offsets(
         'distinctOffsets': 0,
         'drift': 0,
         'window': window,
+        'noiseDropped': sum(1 for p in pages if p.footer_page is not None) - len(known),
     }
     if not known:
         return {p.page: fallback for p in pages}, report
@@ -619,24 +956,32 @@ def resolve_page_offsets(
     for _, off in known:
         counts[off] = counts.get(off, 0) + 1
     global_offset = max(counts.items(), key=lambda kv: kv[1])[0]
+    kept = [(i, o) for i, o in known if abs(o - global_offset) <= _OFFSET_TOL] or known
     report['globalOffset'] = global_offset
-    report['distinctOffsets'] = len(counts)
-    report['drift'] = max(known, key=lambda kv: kv[0])[1] - min(known, key=lambda kv: kv[0])[1]
+    report['noiseDropped'] += len(known) - len(kept)
+    report['drift'] = max(o for _, o in kept) - min(o for _, o in kept)
 
     by_page = sorted(pages, key=lambda p: p.page)
     offsets: dict[int, int] = {}
+    voted: list[int] = []
     for p in by_page:
-        near = [off for idx, off in known if abs(idx - p.page) <= window]
+        near = [off for idx, off in kept if abs(idx - p.page) <= window]
         if near:
             c: dict[int, int] = {}
             for off in near:
                 c[off] = c.get(off, 0) + 1
-            offsets[p.page] = max(c.items(), key=lambda kv: kv[1])[0]
-            continue
-        # 附近没有证据：用页码证据距离最近的一页
-        nearest = min(known, key=lambda kv: abs(kv[0] - p.page))
-        offsets[p.page] = nearest[1]
-    report['distinctOffsets'] = len(set(offsets.values()))
+            off = max(c.items(), key=lambda kv: kv[1])[0]
+        else:
+            # 附近没有证据：用全书众数（不用「最近锚点」——最近的那个很可能正是噪声页，
+            # 实测 18 的 pdf 278–291 就是这样被带偏成负页码的）。
+            off = global_offset
+        voted.append(off)
+        offsets[p.page] = min(off, p.page) if p.page >= 0 else off
+    # `distinctOffsets` 要数**投票结果**，不是夹紧后的值：夹紧只是保证
+    # printed_page >= 0 的垓护，开头几页（pdf_index < 偏移）会被夹成 0/1/2…
+    # 看上去像漂到了很多段，那本书其实是常数偏移（实测稳定书 200 页夹紧后
+    # 声称有 14 种偏移，而真实只有 1 种）。
+    report['distinctOffsets'] = len(set(voted))
     return offsets, report
 
 
@@ -698,7 +1043,10 @@ def detect_page_offset(
 _TOC_PAGENO = re.compile(
     r'^[\s.·•●\-—–+*§$⋯…:：]*[(（]?\s*(\d{1,4})\s*[)）]?\s*[\s.·•●:：]*$'
 )
-_TOC_NUM = re.compile(r'^(?:第\s*([一二三四五六七八九十百零\d]+)\s*[章节]|([\d]{1,2}(?:\.\d{1,2}){0,2}))\s*')
+_TOC_NUM = re.compile(
+    r'^(?:第\s*([一二三四五六七八九十百零\d]+)\s*[章节]'
+    r'|([\d]{1,2}(?:\s*\.\s*\d{1,2}){0,2})(?!\d))\s*'
+)
 # 目录页右侧页码带的左右边界（占页宽比例），裁带尺寸是实测出来的，见
 # `toc_band_lines`：0.74–0.84 + text_score 0.05 能认到 33 个数字行、整列
 # 页码连续不丢（含最上面的 1/1/1）。
@@ -766,6 +1114,13 @@ _CHAPTER_ONLY = re.compile(r'^第\s*[一二三四五六七八九十百零\d]+\s*
 # 上一章的 2，连带它下面所有 `三、`/`四、` 子节都拿不到 `3.1.x` —— 实测
 # 126 个节点里 63 个没有编号，一半是这一个字符引起的。
 _SEC_ONLY = re.compile(r'^[§\$sS]\s*\d{1,2}\s*[.·、,]?\s*$')
+# 节号写成 `§1-1`（章-节）的形式，OCR 把 `§` 认成 `8`/`$`/`S` 甚至丢掉。
+#
+# 25《电路分析基础》李瀚荪上册整本都是 `§1-1``§2-3` 这种编号，OCR 出来是
+# `81-1`、`$1-2`、`8 1-11`、`$ 1-10` 四种变体。原来它们既不像章（`第一章`）、
+# 也不像小节符号（`§1`），于是掉进标题分支、全书的节号全部丢失 —— 只剩
+# `第一篇`/`第一章` 这种章级编号，`kp-1`/`kp-2` 各出两条（篇和章撞 id）。
+_DASH_SEC = re.compile(r'^[§\$sS8]?\s*\d{1,2}\s*[-—–]\s*\d{1,2}\s*$')
 # 点分编号独占一行（`11.2.2`），标题在右边单独一列。
 #
 # 02《核电子学》王经瑾上册是这种版式：编号列 x≈100、标题列 x≈203、页码列
@@ -774,14 +1129,30 @@ _SEC_ONLY = re.compile(r'^[§\$sS]\s*\d{1,2}\s*[.·、,]?\s*$')
 # `_title_of` 把它当标题正文，配对时按 y 贪心抢到页码，整页变成一堆
 # 编号对页码、标题全丢（实测 p8 只出 54 条且标题是 `+1136`/`:1137` 这种
 # 噪声）。识别成标记后它就按 y 配到右侧标题上，行为与 `第一章` 一致。
-_DOTTED_ONLY = re.compile(r'^[\s.·•●\-—–+*:：]*(\d{1,2}(?:\.\d{1,2}){1,2})[\s.·•●]*$')
+_DOTTED_ONLY = re.compile(
+    r'^[\s.·•●\-—–+*:：]*(\d{1,2}(?:\s*\.\s*\d{1,2}){1,2})[\s.·•●]*$'
+)
+# 章号**独占一行**且只有一个纯数字（康华光模拟部分是这种版式：章号 x≈0.15w、
+# 章标题 x≈0.18w、页码 x1≈0.90w 三列）。
+#
+# 这一行不能当标题：实测书 22 的 `2`（y=3044 x=613-665）会跟右侧 `运算放大器`
+# 抢同一个 y 带 —— 它自己配到页码 `22`、而真标题配不到任何页码，于是整本的
+# 章行全部消失（`depth==1` 节点数 **0**，导入直接被 拦）。也不能当页码：
+# 它在章号列，不在页码列。所以单独识别成「章号标记」，交给 `_CH_AUTO` 顺次编号。
+_BARE_CH = re.compile(r'^\d{1,2}$')
+# 不编号的前置内容。这类标题前面那个裸数字不可信（实测书 22 `1 绪论` 的 `1`
+# 被 OCR 认成 `7`，采用后凭空多出一个「第七章 绪论」）。
+_PRE_CHAPTER = re.compile(r'^\s*(绪论|前言|序言|导言|目录|内容简介|出版说明)')
 
 
 def _is_standalone_marker(text: str) -> bool:
     """这一行是不是「只有编号、没有标题」的标记行。"""
     t = text.strip()
     return bool(
-        _CHAPTER_ONLY.match(t) or _SEC_ONLY.match(t) or _DOTTED_ONLY.match(t)
+        _CHAPTER_ONLY.match(t)
+        or _SEC_ONLY.match(t)
+        or _DOTTED_ONLY.match(t)
+        or _DASH_SEC.match(t)
     )
 
 
@@ -840,12 +1211,26 @@ def parse_toc_ocr(lines: list[OcrLine], *, denoise: bool = False) -> list[tuple[
         titles.append((ln, t))
         title_line.append(k)
     markers = [(ln, t) for ln, t in titles if _is_standalone_marker(t)]
-    keep = [i for i, (_, t) in enumerate(titles) if not _is_standalone_marker(t)]
+    # 章号独占一列且只有一个纯数字（康华光模拟部分）：它不是标题、也不是页码，
+    # 而是「第二章」被拆出来的那个 `2`。回收成标记后由 `_title_of` 拼成
+    # `第2章` 交给 `_assign_nums`。上限卡 30：目录左列里被误读成数字的噪声
+    # （`83`、`44`）不会是章号，加个上限就自动挡掉。
+    markers += [(ln, t) for ln, t in titles if _BARE_CH.match(t) and int(t) <= 30]
+    keep = [
+        i
+        for i, (_, t) in enumerate(titles)
+        if not _is_standalone_marker(t)
+        and not (_BARE_CH.match(t) and int(t) <= 30)
+    ]
     titles = [titles[i] for i in keep]
     title_line = [title_line[i] for i in keep]
     prefix: dict[int, list[tuple[float, str]]] = {}
     for mln, mt in markers:
-        cand = [(abs(tln.y0 - mln.y0), i) for i, (tln, _) in enumerate(titles) if tln.x0 > mln.x1]
+        # 标题只要从标记的左沿右边开始就算配上（`tln.x0 > mln.x0`），不能要求
+        # 越过标记的**右沿**：实测书 22 p16 的章号 `11`（x=614-830）比它的
+        # 标题（x=810-2181）右沿还宽，`tln.x0 > mln.x1` 是 810 > 830 = False，
+        # 于是「第十一章」整条丢掉。
+        cand = [(abs(tln.y0 - mln.y0), i) for i, (tln, _) in enumerate(titles) if tln.x0 > mln.x0]
         if cand:
             dy, i = min(cand)
             if dy <= tol_y:
@@ -878,14 +1263,26 @@ def parse_toc_ocr(lines: list[OcrLine], *, denoise: bool = False) -> list[tuple[
             # 它是已经成形的编号，拼进标题反而会被 `_TOC_NUM` 再剥一次。
             marks = sorted(prefix[i])
             dotted = [t for _, t in marks if _DOTTED_ONLY.match(t.strip())]
-            words = [t for _, t in marks if not _DOTTED_ONLY.match(t.strip())]
+            # 裸章号只在标题**确实以章名开头**时才采用。`绪论`/`前言`/`序言`/
+            # `导言`/`目录` 在书上是不编号的前置内容：实测书 22 的 `1 绪论`
+            # 被 OCR 把 `1` 认成 `7`，直接采用会凭空造出「第七章 绪论」。
+            bare = [
+                t
+                for _, t in marks
+                if _BARE_CH.match(t.strip()) and not _PRE_CHAPTER.match(raw)
+            ]
+            words = [
+                t for _, t in marks
+                if not _DOTTED_ONLY.match(t.strip()) and not _BARE_CH.match(t.strip())
+            ]
             if dotted:
                 dm = _DOTTED_ONLY.match(dotted[-1].strip())
                 if dm and not num:
                     num = dm.group(1)
+            words = [f'第{int(t.strip())}章' for t in bare] + words
             if words:
                 raw = ' '.join(words) + ' ' + raw
-        return num, re.sub(r'[\s.·…\u2026]+', '', raw).strip('-—_')
+        return re.sub(r'\s+', '', num), re.sub(r'[\s.·…\u2026]+', '', raw).strip('-—_')
 
     out: list[tuple[int, str, str, int]] = []
     used_t: set[int] = set()
@@ -958,7 +1355,14 @@ def parse_toc_ocr(lines: list[OcrLine], *, denoise: bool = False) -> list[tuple[
 # 康华光那种 `1.1.1`。所以要把三种标记翻译成 `k` / `k.s` / `k.s.u` 才能喂给
 # `toc.build_tree`（它按 num 的点分前缀建树）。
 _CH_MARK = re.compile(r'^第\s*([一二三四五六七八九十百零\d]+)\s*[章篇]\s*')
+# 「第一篇 总论和电阻电路的分析」只是分组，不是知识点。
+#
+# 不丢的话 `_CH_MARK` 的 `[章篇]` 会把它当章 1，紧接着的「第一章」又置 1，
+# 于是出两个 `num='1'` 的节点→撞 id（实测书 25 的 `kp-1`/`kp-2` 重复）。
+# 丢掉的代价是篇的起始页没人认领，但篇的页码就等于第一章的页码，不影响 chunk。
+_PART_MARK = re.compile(r'^第\s*[一二三四五六七八九十百零\d]+\s*篇\s*')
 _SEC_MARK = re.compile(r'^[§\$sS]\s*(\d{1,2})\s*')
+_SEC_DASH = re.compile(r'^[§\$sS8]?\s*(\d{1,2})\s*[-—–]\s*(\d{1,2})\s*')
 _SUB_MARK = re.compile(r'^([一二三四五六七八九十]{1,3})\s*[、.．]\s*')
 
 
@@ -972,19 +1376,39 @@ def _assign_nums(entries: list[tuple[str, str, int]]) -> list[tuple[str, str, in
     chapter = 0
     section = 0
     sub = 0
-    for num, title, page in entries:
+    for i, (num, title, page) in enumerate(entries):
         raw = title
+        if _PART_MARK.match(raw):
+            # 篇只是分组，不是知识点（见 `_PART_MARK` 注释）。
+            continue
         # 标记可能连着出现（`第一章 §1 核辐射探测器…`），逐个剥掉再定层级
         hit_ch = hit_sec = hit_sub = False
         while raw:
             mm = _CH_MARK.match(raw)
             if mm:
-                chapter = _chinese_int(mm.group(1))
+                n = _chinese_int(mm.group(1))
+                # 章号必须递增。不递增的「章号」是 OCR 噪声：实测书 19 把
+                # `³He正比计数管` 的上标 `3` 单独认成一行，于是第四章（气体
+                # 电离探测器）中间凭空插入一个「第三章 He正比计数管」，`kp-3`
+                # 撞 id 变成 `kp-3-2`、还挂在根上。
+                if chapter and n <= chapter:
+                    break
+                chapter = n
                 section = sub = 0
                 hit_ch = True
                 raw = raw[mm.end() :].lstrip()
                 continue
             if chapter:
+                mm = _SEC_DASH.match(raw)
+                if mm:
+                    # `§1-1` 形式：第 1 组是章，第 2 组是节。章号对不上就不动，
+                    # 免得把标题里的 `2020-01` 这种数字当节号。
+                    if int(mm.group(1)) == chapter:
+                        section = int(mm.group(2))
+                        sub = 0
+                        hit_sec = True
+                        raw = raw[mm.end() :].lstrip()
+                        continue
                 mm = _SEC_MARK.match(raw)
                 if mm:
                     section = int(mm.group(1))
@@ -1015,7 +1439,27 @@ def _assign_nums(entries: list[tuple[str, str, int]]) -> list[tuple[str, str, in
             sub += 1
             out.append((f'{chapter}.{section}.{sub}', raw.strip()[1:].strip() or title, page))
         else:
-            # 点分编号（`1.2.3`）已经在 `parse_toc_ocr` 里取出来了，这里照抄
+            # 点分编号（`1.2.3`）已经在 `parse_toc_ocr` 里取出来了，这里照抄。
+            #
+            # 但**纯整数编号**不能无条件接受：`_TOC_NUM` 的点分组是 `{0,2}`，
+            # 所以单独一个 `3` 也算编号。实测书 19 的 `³He正比计数管`（上标³
+            # 被 OCR 拆成独立行）就成了 `num='3'`、标题 `He正比计数管`，在第四
+            # 章里凭空插一个第三章。章号必须严格递增，不递增就当噪声。
+            if num.isdigit() and int(num) <= chapter:
+                num = ''
+            # 章标题的**章号整个没被检出来**时（实测书 22 第七章「反馈放大电路」
+            # p325，它前面根本没有裸数字行），靠「紧跟着的那一条是 `7.1`」反推
+            # 章号：只在自己无编号、且**紧邻的下一条**带点分编号时才补，不用
+            # 「下一条非空编号」—— 那样 `小结`（下一条是 `习题`）、`习题`
+            # （下一条是章标题）也会被误补成章。
+            if not num and i + 1 < len(entries):
+                nxt = entries[i + 1][0]
+                head = nxt.split('.')[0]
+                if nxt.count('.') >= 1 and head.isdigit() and int(head) == chapter + 1:
+                    chapter = int(head)
+                    section = sub = 0
+                    out.append((str(chapter), body, page))
+                    continue
             out.append((num, body, page))
     return out
 
@@ -1266,8 +1710,69 @@ def render_page(doc, index: int, dpi: int = OCR_DPI):
     return np.ascontiguousarray(arr)
 
 
-def summarize(pages: list[OcrPage]) -> dict[str, Any]:
-    """页级汇总。`pages` 里每一页都在，缺页无从藏。"""
+def _percentile(values: list[float], q: float) -> float:
+    """线性插值分位数（不引 numpy 依赖，样本量最多几千）。"""
+    if not values:
+        return 0.0
+    xs = sorted(values)
+    if len(xs) == 1:
+        return xs[0]
+    pos = q * (len(xs) - 1)
+    lo = int(pos)
+    hi = min(lo + 1, len(xs) - 1)
+    return xs[lo] + (xs[hi] - xs[lo]) * (pos - lo)
+
+
+def choose_review_threshold(confs: list[float], *, quantile: float = REVIEW_QUANTILE) -> dict[str, Any]:
+    """按页级置信度分布定人工复核阈值。返回阈值和它的来历（要写进 summary）。
+
+    票面写死「低于 0.85 进复核」是下限；换识别模型后置信度整体上移，只按 0.85
+    筛会让复核队列几乎空掉（实测 v3→v4 后王芝英均值 0.876→约 0.91），那不是
+    质量变好而是筛子变粗。所以取 `max(0.85, p15)`：既不会漏标票面要求必标的页，
+    又能让复核量稳定在总页数 10–20%。
+    """
+    if not confs:
+        return {
+            'threshold': REVIEW_THRESHOLD,
+            'ticketThreshold': REVIEW_THRESHOLD,
+            'calibrated': None,
+            'quantile': quantile,
+            'rule': '没有非空页，用票面阈值',
+        }
+    p = _percentile(confs, quantile)
+    used = max(REVIEW_THRESHOLD, round(p, 4))
+    return {
+        'threshold': used,
+        'ticketThreshold': REVIEW_THRESHOLD,
+        'calibrated': round(p, 4),
+        'quantile': quantile,
+        'rule': f'max(票面 {REVIEW_THRESHOLD}, 本模型页级置信度 p{int(quantile * 100)})',
+    }
+
+
+def apply_review_threshold(pages: list[OcrPage], threshold: float) -> int:
+    """按给定阈值重算每页状态（`blank` 不动），返回复核页数。
+
+    状态是**派生值**：页缓存在 `mean_conf` 里存了原始置信度，换阈值不需要重跑
+    OCR，从缓存重算即可。`ocr_page` 里那次赋值只是单页跑时的占位。
+    """
+    review = 0
+    for p in pages:
+        if p.status == 'blank':
+            continue
+        p.status = 'ok' if p.mean_conf >= threshold else 'review'
+        if p.status == 'review':
+            review += 1
+    return review
+
+
+def summarize(pages: list[OcrPage], *, threshold_info: dict[str, Any] | None = None) -> dict[str, Any]:
+    """页级汇总。`pages` 里每一页都在，缺页无从藏。
+
+    `threshold_info` 来自 `choose_review_threshold`，原样写进 summary ——
+    复核阈值是按哪个识别模型的分布算的，必须留在产物里，否则过半年没人知道
+    这个数字怎么来的。
+    """
     total = len(pages)
     ok = [p for p in pages if p.status == 'ok']
     review = [p for p in pages if p.status == 'review']
@@ -1279,11 +1784,14 @@ def summarize(pages: list[OcrPage]) -> dict[str, Any]:
         'reviewPages': len(review),
         'blankPages': len(blank),
         'meanConfidence': round(sum(confs) / len(confs), 4) if confs else 0.0,
-        'threshold': REVIEW_THRESHOLD,
+        'threshold': (threshold_info or {}).get('threshold', REVIEW_THRESHOLD),
         'totalChars': sum(p.char_count for p in pages),
         'totalSeconds': round(sum(p.elapsed for p in pages), 1),
         'secondsPerPage': round(sum(p.elapsed for p in pages) / total, 2) if total else 0.0,
         'blankPageIndexes': [p.page for p in blank],
+        'reviewThresholdRule': (threshold_info or {}).get('rule', '票面阈值'),
+        'reviewThresholdCalibrated': (threshold_info or {}).get('calibrated'),
+        'reviewThresholdQuantile': (threshold_info or {}).get('quantile'),
     }
 
 
@@ -1329,12 +1837,37 @@ def ocr_page(
     return page
 
 
-def save_page(cache_dir: str | Path, page: OcrPage, dpi: int) -> None:
-    out = Path(cache_dir)
+def relayout_page(doc, page: OcrPage, dpi: int = OCR_DPI) -> OcrPage:
+    """用缓存里的原始行重算版式，不重跑识别。
+
+    `boxes_to_blocks` 只需要页宽高和行坐标，页宽高能从 PDF 的 rect 直接算出
+    来（`rect.width * dpi / 72`，实测三本书与渲染位图相差 0.04%），所以改版式
+    规则的代价是每页几毫秒，而不是每页 3 秒的 OCR。
+    """
+    rect = doc[page.page].rect
+    scale = dpi / 72.0
+    width, height = rect.width * scale, rect.height * scale
+    blocks, figures = boxes_to_blocks(page.lines, page.page, width, height)
+    page.blocks = blocks
+    page.figures = figures
+    page.footer_page = _footer_page(page.lines, height)
+    page.layout_stale = False
+    return page
+
+
+def save_page(cache_dir: str | Path, page: OcrPage, dpi: int, rec: str = 'v3') -> None:
+    """把一页结果写进缓存。`rec` 是识别模型名，进目录名也进 payload。
+
+    缓存必须按识别模型分开：v3 与 v4 的同一页识别结果不同，共用一个名字会
+    让换型后的重跑全部命中旧缓存，输出与换型前一模一样而看不出任何异常。
+    """
+    out = Path(cache_dir) / rec
     out.mkdir(parents=True, exist_ok=True)
     payload = {
         'version': CACHE_VERSION,
+        'layout': LAYOUT_VERSION,
         'dpi': dpi,
+        'rec': rec,
         'page': page.page,
         'status': page.status,
         'meanConf': page.mean_conf,
@@ -1354,9 +1887,13 @@ def save_page(cache_dir: str | Path, page: OcrPage, dpi: int) -> None:
     )
 
 
-def load_page(cache_dir: str | Path, index: int, dpi: int) -> OcrPage | None:
-    """缓存命中就返回页对象 —— 断点续跑靠这一条，重跑不碰已完成的页。"""
-    path = Path(cache_dir) / f'page-{index:04d}.json'
+def load_page(cache_dir: str | Path, index: int, dpi: int, rec: str = 'v3') -> OcrPage | None:
+    """缓存命中就返回页对象 —— 断点续跑靠这一条，重跑不碰已完成的页。
+
+    `rec` 参与缓存键（见 `save_page`）：换识别模型后必须重新识别，不能
+    复用另一个模型的结果。
+    """
+    path = Path(cache_dir) / rec / f'page-{index:04d}.json'
     if not path.exists():
         return None
     try:
@@ -1364,6 +1901,8 @@ def load_page(cache_dir: str | Path, index: int, dpi: int) -> OcrPage | None:
     except (OSError, json.JSONDecodeError):
         return None
     if data.get('version') != CACHE_VERSION or data.get('dpi') != dpi:
+        return None
+    if data.get('rec', 'v3') != rec:
         return None
     return OcrPage(
         page=data['page'],
@@ -1379,6 +1918,9 @@ def load_page(cache_dir: str | Path, index: int, dpi: int) -> OcrPage | None:
         figures=data.get('figures', []),
         lines=[OcrLine(**l) for l in data.get('lines', [])],
         error=data.get('error', ''),
+        # 老缓存没有 layout 键（= 第 1 版版式：表格恒为 0）。标出来让调用方
+        # 用现成的 lines 重算块，不必重跑识别。
+        layout_stale=data.get('layout', 1) != LAYOUT_VERSION,
     )
 
 
@@ -1425,9 +1967,14 @@ def write_page_artifacts(
     out_dir: str | Path,
     figure_records: list[dict[str, Any]],
     chunk_index: dict[tuple[int, tuple[float, ...]], str] | None = None,
+    *,
+    threshold_info: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """写 `ocr/pages.jsonl`（全量页账本）、`ocr/review.jsonl`（<0.85）、
-    `ocr/figures.jsonl`（图 + 图注 + 所属 chunk）。"""
+    """写 `ocr/pages.jsonl`（全量页账本）、`ocr/review.jsonl`（低于阈值的页）、
+    `ocr/figures.jsonl`（图 + 图注 + 所属 chunk）。
+
+    `threshold_info` 见 `choose_review_threshold`，随 summary 一起落盘。
+    """
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     with (out / 'pages.jsonl').open('w', encoding='utf-8') as f:
@@ -1446,7 +1993,7 @@ def write_page_artifacts(
                 key = (rec['page'], tuple(round(v, 1) for v in rec['bbox']))
                 rec = {**rec, 'chunkId': chunk_index.get(key)}
             f.write(json.dumps(rec, ensure_ascii=False) + '\n')
-    summary = summarize(pages)
+    summary = summarize(pages, threshold_info=threshold_info)
     (out / 'summary.json').write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding='utf-8'
     )
