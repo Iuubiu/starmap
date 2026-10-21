@@ -34,7 +34,7 @@ import {
 import type { LevelItem } from './flow';
 import type { Feedback } from './flow';
 import type { SubmissionStatus } from './attempts';
-import { plainText } from './markdown';
+import { RichText, plainText } from './markdown';
 
 const useStyles = makeStyles({
   card: {
@@ -390,8 +390,15 @@ export function QuestionView({
               </span>
               {submitted.feedback.correct ? '答对了' : '这条没答对，看下错在哪'}
             </MessageBarTitle>
-            {/* 正文整段来自 spec 里作者预写的 explainCorrect / explainWrong。 */}
-            {submitted.feedback.text}
+            {/**
+              正文整段来自 spec 里作者预写的 explainCorrect / explainWrong。
+
+              必须走 `RichText` 而不是直接插字符串：作者的讲解里带 `$…$`
+              公式（吸收律那段就有四个），直插会把 `$A \oplus A·B$` 原样
+              显示成源码。讲稿（CardView）早就走这个渲染器了，反馈是同一类
+              作者预写内容，没有理由用两套。
+            */}
+            <RichText body={submitted.feedback.text} />
             {submitted.feedback.misconceptionTags.length > 0 && (
               <div className={styles.tags}>
                 {submitted.feedback.misconceptionTags.map((tag) => (

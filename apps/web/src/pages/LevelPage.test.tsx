@@ -397,7 +397,15 @@ describe('LevelPage', () => {
 
     // 点完的那一帧就在 DOM 里：没有 loading、没有 await。
     expect(screen.getByText('答对了')).toBeInTheDocument();
-    expect(screen.getByText(/吸收律 \$A \+ A·B = A\$ 就是这个形状/)).toBeInTheDocument();
+    /*
+      讲解里的 `$…$` 必须已经被渲染成可读文本，不能把源码丢给学生。
+
+      这里断言 `document.body.textContent` 而不是 `getByText`：`InlineRich` 会把
+      公式切成独立的 `<span>`（那是渲染发生了的证据），一个正则无法跨元素匹配。
+    */
+    const bodyText = document.body.textContent ?? '';
+    expect(bodyText).toContain('吸收律 A + A·B = A 就是这个形状');
+    expect(bodyText).not.toContain('$A + A·B = A$');
   });
 
   it('答错后显示的是另一段预写反馈，并列出错因标签', async () => {
@@ -413,7 +421,9 @@ describe('LevelPage', () => {
     await user.click(screen.getByRole('button', { name: '提交答案' }));
 
     expect(screen.getByText('这条没答对，看下错在哪')).toBeInTheDocument();
-    expect(screen.getByText(/多出来的 \$B\$ 被 \$A\$ 吸收了/)).toBeInTheDocument();
+    const bodyText = document.body.textContent ?? '';
+    expect(bodyText).toContain('多出来的 B 被 A 吸收了');
+    expect(bodyText).not.toContain('$B$');
     expect(screen.getByText('吸收律误用')).toBeInTheDocument();
   });
 

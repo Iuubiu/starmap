@@ -649,7 +649,9 @@ function LevelPlayer({
                         {entry.correct ? '✓ 答对了' : '△ 这条没答对'} · 你选了「{choiceText(entry.item, entry.choice)}」
                       </Text>
                       <Text size={200} style={{ color: tokens.colorNeutralForeground2 }}>
-                        {entry.correct ? entry.item.explainCorrect : entry.item.explainWrong}
+                        <RichText
+                          body={entry.correct ? entry.item.explainCorrect : entry.item.explainWrong}
+                        />
                       </Text>
                     </div>
                   ))}
