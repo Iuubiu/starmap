@@ -430,23 +430,37 @@ export function DashboardPage() {
         )}
 
         {summary && summary.available === true && (
-          <Card className={styles.summary}>
-            <div className={styles.stat}>
-              <Caption1 className={styles.meta}>今天答了</Caption1>
-              <Text className={styles.statValue}>{summary.answered}</Text>
-              <Caption1 className={styles.meta}>题</Caption1>
-            </div>
-            <div className={styles.stat}>
-              <Caption1 className={styles.meta}>碰到</Caption1>
-              <Text className={styles.statValue}>{summary.knowledgePoints}</Text>
-              <Caption1 className={styles.meta}>个知识点</Caption1>
-            </div>
-            <div className={styles.stat}>
-              <Caption1 className={styles.meta}>新达到「已掌握」</Caption1>
-              <Text className={styles.statValue}>{summary.newlyMastered}</Text>
-              <Caption1 className={styles.meta}>个</Caption1>
-            </div>
-          </Card>
+          <>
+            <Card className={styles.summary}>
+              <div className={styles.stat}>
+                <Caption1 className={styles.meta}>今天答了</Caption1>
+                <Text className={styles.statValue}>{summary.answered}</Text>
+                <Caption1 className={styles.meta}>题</Caption1>
+              </div>
+              <div className={styles.stat}>
+                <Caption1 className={styles.meta}>碰到</Caption1>
+                <Text className={styles.statValue}>{summary.knowledgePoints}</Text>
+                <Caption1 className={styles.meta}>个知识点</Caption1>
+              </div>
+              <div className={styles.stat}>
+                <Caption1 className={styles.meta}>新达到「已掌握」</Caption1>
+                <Text className={styles.statValue}>{summary.newlyMastered}</Text>
+                <Caption1 className={styles.meta}>个</Caption1>
+              </div>
+            </Card>
+            {/*
+             * 「今天」的边界要说出来。
+             *
+             * 这行字是为了让「今天答了 261 题」这类错数字变得可审计：曾经这里
+             * 按 UTC 日界统计，上海凌晨 0–8 点看到的题数包含了昨天下午那一段，
+             * 而页面上没有任何地方能让人看出它用的是哪个时区 —— 数字只是偏大，
+             * 谁也不会去怀疑它。把口径写在数字旁边，错的时候能一眼对上。
+             */}
+            <Caption1 className={styles.subtle}>
+              统计口径：从本地时间 0 点起算（服务端按 STARMAP_DISPLAY_TIMEZONE 切日，默认
+              Asia/Shanghai）。
+            </Caption1>
+          </>
         )}
       </section>
 

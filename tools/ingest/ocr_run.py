@@ -48,7 +48,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from assign import assign, audit_assignment, review_sample  # noqa: E402
+from assign import assign, assign_front_matter, audit_assignment, review_sample  # noqa: E402
 from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E402
 from frontmatter import demote_front_matter_leaves, report_demotions  # noqa: E402
 from naming import disambiguate_duplicate_names, report_renames, unresolved_duplicates  # noqa: E402
@@ -324,6 +324,12 @@ def main() -> int:
         print(f'丢弃页眉页脚 {len(dropped)} 条，例: {dropped[:2]}')
 
     assign(all_chunks, nodes)
+    # 首个叶节点之前的正文（章首页、章首概述、整版图页）归首章容器。
+    # OCR 书的目录也常把章首小节漏掉（汤彬第1章 1.1 之前有 8 个印刷页），
+    # 这些页有实质内容，留成孤儿就是检索侧不可见。详见 `assign.assign_front_matter`。
+    front_matter = assign_front_matter(all_chunks, nodes)
+    if front_matter:
+        print(f'首个叶节点之前的 {front_matter} 条 chunk 归到首章容器')
     n_ans = sum(1 for c in all_chunks if c.answer_for)
     n_orphan = sum(1 for c in all_chunks if c.micro_kp_id is None)
     print(f'答案块 {n_ans} 条；无归属 {n_orphan} 条')

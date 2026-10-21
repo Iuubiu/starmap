@@ -227,6 +227,12 @@ def _chars_within(page: pymupdf.Page, spans: list[dict[str, Any]]) -> list[dict[
                     ch = c.get('c', '')
                     if not ch.strip():
                         continue
+                    # 控制字符不能进表格单元格：10 Ahmed 的引脚表里有 `BCLR\x01`、
+                    # `DS1\x01`（PDF 用 \x01 标记上划线），15 Lutz 的正文里有
+                    # `0.133\x17μs`。它们进 chunk 文本后 Postgres 直接拒收整本书：
+                    # `invalid byte sequence for encoding "UTF8": 0x00`。
+                    if _CTRL.match(ch):
+                        continue
                     x0, y0, x1, y1 = c['bbox']
                     yc = (y0 + y1) / 2
                     if lo <= yc <= hi:

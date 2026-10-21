@@ -60,6 +60,7 @@ const LEAKY = '泄露推理';
 const CLEAN = '正常提问';
 const LEVEL_CASE = '看关卡';
 const RETRIEVAL_CASE = '前置放大器的噪声来源';
+const FAKE_KP_CASE = '编个不存在的知识点';
 
 const plan = (extra: Record<string, unknown> = {}): string =>
   JSON.stringify({
@@ -93,6 +94,11 @@ const inner = new ScriptedLlm([
   {
     whenUserSays: LEVEL_CASE,
     text: plan({ visibleResponse: '我们可以从这一关开始，先看引导。', cardKind: 'level_card' }),
+  },
+  // 模型自己给了一个 microKpId，但那个 id 在库里不存在（小模型很爱这么干）。
+  {
+    whenUserSays: FAKE_KP_CASE,
+    text: plan({ microKpId: 'kp-does-not-exist', cardKind: 'graph_focus' }),
   },
   { text: plan() },
 ]);
@@ -281,14 +287,81 @@ describe('一轮只产出一张卡，且卡片形状受契约约束', () => {
     expect(body.artifact?.firstStepKind).toBe('probe');
   });
 
-  it('没有知识点时不编事实：给一张让人去选点的空图谱卡', async () => {
+  it('没有知识点时服务端按推荐挑一个焦点，走完整路径而不是占位卡', async () => {
+    // t49：以前这里返回一张「先在知识地图上选一个点」的空图谱卡，而且每一轮都是它。
+    // 现在服务端用推荐（recommend.service.ts，与看板/图谱同源）挑一个焦点。
     const body = await turn(freshSession(), CLEAN, null);
 
     expect(body.degraded).toBe(false);
-    expect(body.artifact?.kind).toBe('graph_focus');
-    // 空上下文不得伪造一个 microKpId
-    expect(body.artifact?.microKpId).toBe('');
-    expect(body.artifact?.neighbors).toEqual([]);
+    expect(body.artifact).not.toBeNull();
+    // 占位卡的唯一特征是 microKpId 为空串 + 标题让人去选点；这里必须不是它。
+    expect(body.artifact?.microKpId).not.toBe('');
+    expect(body.artifact?.title).not.toBe('先在知识地图上选一个点');
+    // 挑出来的必须是真实存在的知识点，而不是模型编的字符串。
+    const picked = body.artifact?.microKpId as string;
+    const rows = await db.query<{ id: string }>(
+      'SELECT id FROM knowledge_points WHERE id = $1',
+      [picked],
+    );
+    expect(rows).toHaveLength(1);
+  });
+
+  it('连续多轮不传知识点，也不该反复得到同一张卡', async () => {
+    const sessionId = freshSession();
+    const cards: string[] = [];
+    const kinds: string[] = [];
+
+    for (const utterance of [CLEAN, CLEAN, CLEAN, CLEAN, CLEAN]) {
+      const body = await turn(sessionId, utterance, null);
+      expect(body.degraded).toBe(false);
+      expect(body.artifact?.microKpId).not.toBe('');
+      // 只比 cardId 是不够的：cardId 等于当轮 turnId，永远唯一 —— 那样这条断言
+      // 在「五轮全是同一张占位卡」的旧实现下也会绿。所以剥掉服务端每次都换的
+      // 两个字段，只比**卡的内容**。
+      const { cardId: _cardId, createdAt: _createdAt, ...content } = body.artifact as Record<
+        string,
+        unknown
+      >;
+      cards.push(JSON.stringify(content));
+      kinds.push(body.artifact?.kind ?? '');
+    }
+
+    expect(kinds).not.toContain('');
+    // 占位卡的内容五轮完全一致；真实焦点的卡至少在 microKpId/title 上有区分。
+    expect(new Set(cards).size).toBeGreaterThan(1);
+  });
+
+  it('推荐也为空时（空库）才给占位卡，并在理由里说清是服务端没得推荐', async () => {
+    // 这里必须换一个**只有表结构、没有内容**的 schema：推荐是按「有内容的叶节点」
+    // 过滤的，只要库里有任何一块 chunk 就挑得出焦点，占位卡分支永远走不到。
+    const emptySchema = await createTestSchema();
+    try {
+      await db.useSchema(emptySchema.name);
+
+      const body = await turn(freshSession(), CLEAN, null);
+
+      expect(body.degraded).toBe(false);
+      expect(body.artifact?.kind).toBe('graph_focus');
+      expect(body.artifact?.microKpId).toBe('');
+      expect(body.artifact?.neighbors).toEqual([]);
+      // 理由必须说清「服务端也没得推荐」，否则学生会以为是按钮坏了。
+      const rationale = (body.artifact as { rationale?: string }).rationale ?? '';
+      expect(rationale).toContain('服务端此刻也没有可推荐的节点');
+    } finally {
+      await db.useSchema(schema.name);
+      await emptySchema.drop();
+    }
+  });
+
+  it('模型编了一个不存在的知识点时，不 500，改用服务端焦点', async () => {
+    // 不校验的话 buildArtifact 会拿这个 id 去 probe.start()，抛 NotFoundException
+    // 变成整轮 500 —— 学生看到的是错误页，而不是「模型跑偏了但卡还在」。
+    const body = await turn(freshSession(), FAKE_KP_CASE);
+
+    expect(body.degraded).toBe(false);
+    expect(body.artifact).not.toBeNull();
+    expect(body.artifact?.microKpId).not.toBe('kp-does-not-exist');
+    expect(body.artifact?.microKpId).toBe('kp-a');
   });
 });
 

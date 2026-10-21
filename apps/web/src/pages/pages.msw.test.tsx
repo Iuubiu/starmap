@@ -38,6 +38,24 @@ describe('页面 × 真实请求（MSW）', () => {
     expect(screen.getByText('66%')).toBeInTheDocument();
   });
 
+  /**
+   * 票 18 验收 6：来源一路从 MSW 的响应到页面上。
+   *
+   * 这条与 NodeDetailPage.test.tsx 里那几条分工不同：那边 mock 掉 query hook，
+   * 只能证明「拿到这个形状后页面长什么样」；这里真跑 fetch + MSW，能抓到
+   * 「契约字段改名了但页面还读旧名字」这类只有真链路才暴露的问题。
+   */
+  it('详情页把「来自哪本书哪一页」一路渲染出来', async () => {
+    renderWith(<NodeDetailPage />);
+    await waitFor(() =>
+      expect(
+        screen.getByText('来源：「辐射探测与测量（Knoll 第4版 2010）」第 12 页'),
+      ).toBeInTheDocument(),
+    );
+    // 反向：不是无来源分支
+    expect(screen.queryByText('示例知识点（无教材出处）')).not.toBeInTheDocument();
+  });
+
   it('404 的 code 被翻译成用户能读的中文，而不是「请求失败」', async () => {
     renderWith(<NodeDetailPage />, '/map/kp-missing');
     await waitFor(() => expect(screen.getByText(/知识点不存在/)).toBeInTheDocument());

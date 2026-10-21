@@ -78,6 +78,14 @@ export interface StageRecord {
   screenshot: string | null;
   /** 这一阶段发生的 console error（新增的，不含之前阶段已计过的）。 */
   consoleErrors: string[];
+  /**
+   * 结构化产物（可选）。
+   *
+   * `evidence` 是给人读的字符串，指标层不该去正则解析它 —— 那会让文案一改
+   * 指标就悄悄变空。需要被计算的阶段把原始数据放这里：`probe` 阶段的逐轮
+   * 泄露观察就走这条路（见 `probe-leak.ts`）。
+   */
+  data?: unknown;
 }
 
 /** 阶段定义：`run` 负责操作，`verify` 负责断言。 */
@@ -89,7 +97,7 @@ export interface StageDefinition {
    * `locator.click` 超时），但**能自己判定的失败应当返回 VerifyFailure**，
    * 那样才有准确的归类。
    */
-  run: (context: StageContext) => Promise<{ result: VerifyResult; evidence: string[] }>;
+  run: (context: StageContext) => Promise<{ result: VerifyResult; evidence: string[]; data?: unknown }>;
 }
 
 /** 阶段能用到的东西。刻意窄：只给页面、API 与 persona 的话术。 */
@@ -99,12 +107,35 @@ export interface StageContext {
   persona: PersonaVoice;
   /** 上一阶段/上一步留下的可复用值（比如挑中的知识点 id）。 */
   carry: Map<string, string>;
+  /** 截图输出目录（与 runner 给阶段截图用的目录一致）。 */
+  outputDir: string;
+  /** 本阶段在旅程里的序号（0 起），截图命名要它与 runner 对齐。 */
+  stageIndex: number;
+}
+
+/** 单次调用的超时覆盖。不传就用 runner 的默认值。 */
+export interface StageApiCallOptions {
+  /**
+   * 这一次调用的超时（毫秒）。
+   *
+   * ## 为什么需要按调用覆盖
+   *
+   * 默认 20 秒是给「查列表 / 查详情」这类快接口定的。但
+   * `POST /agent/probes/:id/replies` 每次要服务端调一次模型改写问句，
+   * 实测单次 16 秒左右 —— 贴着默认值，9 轮里必然有一轮超时。
+   * 超时会让整条 probe 阶段记成 backend_error，看起来像产品坏了。
+   */
+  timeoutMs?: number;
 }
 
 /** 阶段能调的后端接口（由 runner 注入，带超时与错误归类）。 */
 export interface StageApi {
-  getJson(path: string): Promise<{ status: number; body: unknown; rawText: string }>;
-  postJson(path: string, body: unknown): Promise<{ status: number; body: unknown; rawText: string }>;
+  getJson(path: string, options?: StageApiCallOptions): Promise<{ status: number; body: unknown; rawText: string }>;
+  postJson(
+    path: string,
+    body: unknown,
+    options?: StageApiCallOptions,
+  ): Promise<{ status: number; body: unknown; rawText: string }>;
 }
 
 /** persona 的「说话方式」，由 persona JSON 的语言段与话术生成。 */
@@ -129,6 +160,7 @@ export const STAGE_ORDER = [
   'map',
   'node-detail',
   'answer',
+  'probe',
   'board',
   'review',
   'database',

@@ -34,12 +34,59 @@ export const NodeListResponseSchema = z.object({
   nextCursor: z.string().nullable(),
 });
 
+/**
+ * 一个知识点「来自哪本书、哪一页」（票 18 验收 6）。
+ *
+ * ## 为什么 `pageLabel` 由服务端拼好，而不是前端拿 title + page 自己拼
+ *
+ * 因为拼法只有一处该有：`「辐射探测与测量（Knoll 第4版 2010）」第 12 页` 这个
+ * 形状里，书名要不要加书名号、页码要不要带「第」、分隔用什么，都是**文案**。
+ * 放到前端就意味着两个页面（知识点详情、将来的关卡来源提示）各拼一次，改一次
+ * 措辞要改两处，而且没有任何东西会提醒你漏了一处。
+ *
+ * 数值字段仍然原样给（`title` / `page`），因为将来「跳到该书的这一页」或
+ * 「按书筛选」需要的是数据而不是句子。**句子给人看，字段给机器用**，两个都给。
+ *
+ * ## 为什么 `page` 是正数
+ *
+ * `app.knowledge_points.source_page` 实测 7309 行里零个空值、最小值 1。页码 0
+ * 在印刷书里不存在；真出现 0 说明入库把「未知」写成了 0，那时宁可让 Zod 抛错
+ * 也不要让学习者看到「第 0 页」。
+ */
+export const NodeSourceSchema = z.object({
+  /** `app.sources.id`，如 `knoll-4e-2010` */
+  sourceId: z.string(),
+  /** 中文书名，来自 `app.sources.title` */
+  title: z.string(),
+  /** 书里的印刷页码（不是 PDF 页序） */
+  page: z.number().int().positive(),
+  /** 给人看的中文串，如 `「辐射探测与测量（Knoll 第4版 2010）」第 12 页` */
+  pageLabel: z.string(),
+});
+
 /** GET /api/v1/nodes/:microKpId */
 export const NodeDetailResponseSchema = z.object({
   node: NodeStateSchema,
   levels: z.array(LevelSummarySchema),
   /** 一句话说明「为什么推荐这个」，前端直接展示 */
   reasons: z.array(z.string()),
+  /**
+   * 这个知识点出自哪本书哪一页（票 18 验收 6）。
+   *
+   * **必填但可为 null**，两种「没有」必须区分开：
+   *
+   * - `null` = 这条知识点**本来就没有教材出处**。全库只有 3 个这样的节点，
+   *   是手工种的示例知识点（`kp-bool` / `kp-kmap` / `kp-logic`，`source_id`
+   *   为 NULL），它们必须能在界面上被点开，不能因为查不到来源就 404。
+   * - 字段缺失 = 接口没实现这件事。**这才是缺陷。** 所以字段是必填的：
+   *   可选字段（`source?:`）会让前端少写一个 `?.` 就在运行时拿到 `undefined`，
+   *   页面静默不显示来源，而没人会发现 —— 与 `GraphResponse.contentGaps`
+   *   同一个理由。
+   *
+   * 真实书的节点 `source` 为 null 就是数据缺陷（`source_id` 悄悄丢了），
+   * `nodes.controller.test.ts` 有一条 count 断言专门守这件事。
+   */
+  source: NodeSourceSchema.nullable(),
 });
 
 /**
@@ -91,6 +138,46 @@ export const GraphEdgeSchema = z.object({
 });
 
 /**
+ * 一处**资源库里没有对口教材**的内容缺口（票 18 验收第 5 条）。
+ *
+ * ## 为什么缺口要随图谱一起返回，而不是单独一个接口
+ *
+ * 缺口的语义是「你走到这儿，往后就没有教材了」——它只有在**跟节点摆在一起**
+ * 的时候才成立。单独一个 `/content-gaps` 接口要求前端先拉图、再拉缺口、然后
+ * 自己想办法告诉用户「这三个缺口在你现在看到的这张图的哪个位置」，而缺口本身
+ * 并不带坐标：它指向的是「课程表上本该有、资源库里没有」的东西。所以它只能
+ * 贴着图走。
+ *
+ * ## 为什么 `nearestKpIds` 是数组且可能是空
+ *
+ * 它是给学习者的**提示**（「你大概学到这儿了」），不是归属关系，所以：
+ *
+ * - 可以有多条候选（同一主题在不同书里各有一节）；
+ * - 可以为空 —— 数据库里解析不到对应知识点时，缺口照常显示，只是没有可点的
+ *   跳转。**不能**因为解析不到就把整条缺口过滤掉：那样「缺内容」这件事会随
+ *   知识点重导入而静默消失，恰恰是最需要它出现的时刻。
+ *
+ * 顺序有意义：前端只取第一个做跳转入口，所以数组按「最接近课程终点」排。
+ *
+ * ## 为什么 `expectedRole` 是这三个值
+ *
+ * 它回答「这个缺口在课程层里本该是什么角色」，决定界面上那句话怎么写：
+ * `prereq` = 缺了它后面的课没法开始；`core` = 主干缺一节；`advanced` = 课程
+ * 到这儿为止，再往后得另找教材。三条缺口当前全是 `advanced` —— 本科大纲的
+ * 终点就是多道分析器。
+ */
+export const ContentGapSchema = z.object({
+  id: z.string(),
+  /** 缺的是什么（一个名词短语，直接做小标题） */
+  topic: z.string(),
+  /** 为什么算缺口 —— 一句话，带可核验的出处（哪几份大纲、哪门课） */
+  reason: z.string(),
+  expectedRole: z.enum(['prereq', 'core', 'advanced']),
+  /** 图谱上最接近这个缺口的叶节点 id，按接近程度排序；可为空 */
+  nearestKpIds: z.array(z.string()),
+});
+
+/**
  * GET /api/v1/graph —— 一次返回整张图。
  *
  * 为什么不分页：画布要算力导向布局，缺一半节点的图布局会跳；而且两跳邻域
@@ -100,6 +187,19 @@ export const GraphEdgeSchema = z.object({
 export const GraphResponseSchema = z.object({
   nodes: z.array(GraphNodeSchema),
   edges: z.array(GraphEdgeSchema),
+  /**
+   * 资源库的内容缺口（票 18 验收第 5 条）。
+   *
+   * **必填，不是可选。** 可选字段在 TypeScript 里是 `contentGaps?: ...`，前端
+   * 少写一个 `?.` 就会在运行时拿到 `undefined`，然后 `contentGaps.length` 抛错
+   * 或者渲染成空白 —— 而「渲染成空白」与「本来就没有缺口」在界面上长得一模
+   * 一样，这个功能会静默死掉且没人发现。必填意味着后端漏填时 `parse()` 当场
+   * 抛 ZodError（500 + 明确报错），而不是安静地少一块。
+   *
+   * 空数组是合法且常见的一态：资源库补齐之后缺口就该是空的，界面据此不渲染
+   * 这一块。所以「空」与「字段缺失」必须能区分开。
+   */
+  contentGaps: z.array(ContentGapSchema),
   /**
    * 与 `GET /api/v1/recommendations` **同一时刻、同一批**的推荐节点 id。
    *
@@ -239,9 +339,11 @@ export const RedirectResponseSchema = z.object({
 export type MasteryState = z.infer<typeof MasteryStateSchema>;
 export type NodeState = z.infer<typeof NodeStateSchema>;
 export type NodeListResponse = z.infer<typeof NodeListResponseSchema>;
+export type NodeSource = z.infer<typeof NodeSourceSchema>;
 export type NodeDetailResponse = z.infer<typeof NodeDetailResponseSchema>;
 export type GraphNode = z.infer<typeof GraphNodeSchema>;
 export type GraphEdge = z.infer<typeof GraphEdgeSchema>;
+export type ContentGap = z.infer<typeof ContentGapSchema>;
 export type GraphResponse = z.infer<typeof GraphResponseSchema>;
 export type ReasonFact = z.infer<typeof ReasonFactSchema>;
 export type ReasonKind = z.infer<typeof ReasonKindSchema>;

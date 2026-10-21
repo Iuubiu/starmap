@@ -127,6 +127,27 @@ export interface LeakObservation {
   responseText: string;
   /** 该知识点的答案块原文（来自 `chunk_kp_answer` join `chunks`）。 */
   answerChunks: readonly string[];
+  /**
+   * 已经判好的结论（可选）。给了就以它为准，不再跑答案块子串匹配。
+   *
+   * ## 为什么要有这个字段
+   *
+   * 有两类泄露，判据完全不同：
+   *
+   * 1. **被动泄露** —— 页面自己显示的反馈文本里出现了答案块原文。判据是
+   *    子串匹配，`answerChunks` 非空时算。
+   * 2. **主动施压泄露** —— 学生逼问时系统的回复里出现了正确选项原文 / 答案
+   *    字母 / 整段解析。判据在 `layer2/probe-leak.ts`，与答案块无关。
+   *
+   * 第二类如果硬塞进第一类的判据，只会得到 0（追问回复里通常不含教材原文），
+   * 于是「三级施压」这一整块永远测不出东西。所以把结论作为输入传进来，
+   * `computeLeakRate` 只负责分桶与算比率 —— 它本来就该只做这件事。
+   */
+  leaked?: boolean;
+  /** 命中的判据（给了 `leaked` 时用于生成命中证据）。 */
+  kinds?: readonly string[];
+  /** 命中片段（报告里引用原文）。 */
+  matchedFragment?: string | null;
 }
 
 export interface LeakMetrics {
@@ -193,6 +214,19 @@ export function computeLeakRate(observations: readonly LeakObservation[]): LeakM
   for (const observation of observations) {
     const bucket = buckets[observation.tier];
     bucket.total += 1;
+
+    /* 有判好的结论就以它为准（见 `LeakObservation.leaked` 的注释）。 */
+    if (observation.leaked !== undefined) {
+      if (!observation.leaked) continue;
+      bucket.leaked += 1;
+      hits.push({
+        tier: observation.tier,
+        matchedFragment: (observation.matchedFragment ?? observation.kinds?.join('、') ?? '（判据命中）').slice(0, 120),
+        responseExcerpt: normalize(observation.responseText).slice(0, 200),
+      });
+      continue;
+    }
+
     const response = normalize(observation.responseText);
     const fragments = answerFragments(observation.answerChunks);
     const matched = fragments.find((fragment) => response.includes(fragment));

@@ -6,10 +6,12 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { RetrievalBandsResponseBandsItem } from './retrievalBandsResponseBandsItem.js';
+import type { RetrievalBandsResponseExpansionsItem } from './retrievalBandsResponseExpansionsItem.js';
 
 export interface RetrievalBandsResponse {
   answerChunkIds: string[];
   bands: RetrievalBandsResponseBandsItem[];
+  expansions: RetrievalBandsResponseExpansionsItem[];
   microKpId: string;
   query: string;
 }

@@ -50,7 +50,7 @@ import { buildTopBlockers } from './report/blockers.ts';
 import { ReportSchema, type Report, type StageId } from './report/schema.ts';
 import { checkDistinctiveness } from './personas/index.ts';
 import { DEFAULT_API_URL, DEFAULT_WEB_URL, parseArgs, USAGE, type CliOptions } from './cli.ts';
-import { collectObservations } from './metrics/observations.ts';
+import { collectObservations, probeLeakSummary } from './metrics/observations.ts';
 
 /** 阶段名到十级漏斗的映射。`cold-start` 不是 S0 —— 见文件末尾的说明。 */
 const STAGE_TO_FUNNEL: Record<string, StageId> = {
@@ -59,6 +59,15 @@ const STAGE_TO_FUNNEL: Record<string, StageId> = {
   map: 'S3',
   'node-detail': 'S3',
   answer: 'S4',
+  /* 追问阶段归到 S4（「作答与判分」）而不是 S5（「追问表单」）。
+   *
+   * 票 20 的漏斗里 S4 的 detail 是「正确必判对、错误必判错」—— 追问阶段测的正是
+   * 「学生逼问时系统还判不判得对、守不守得住答案」，那是同一格产品问题的另一半。
+   * S5 的 detail 是「字段与 expected_answer_spec 一一对应、必填为空被拦」，那是
+   * **表单字段校验**，与「三级施压下的泄露」不是同一件事。把 probe 归到 S5 会
+   * 让 S5 看起来测了，而实际测的是另一件事 —— 那正是漏斗矩阵最不该犯的错。
+   */
+  probe: 'S4',
   board: 'S6',
   review: 'S6',
   database: 'S7',
@@ -70,6 +79,58 @@ function funnelStage(stage: string | null): StageId {
   return STAGE_TO_FUNNEL[stage] ?? 'S0';
 }
 
+/**
+ * 把追问阶段的观察压成报告里的 `probeLeak`。
+ *
+ * ## 为什么在这里做而不是在 `observations.ts` 里
+ *
+ * `observations.ts` 的产物是**指标输入**（`LeakObservation[]`），它不该知道
+ * 报告的形状。这一段是**报告输出**，形状由 `report/schema.ts` 定。两边分开，
+ * 改报告排版不会动指标算法。
+ */
+function probeLeakOf(observations: Awaited<ReturnType<typeof collectObservations>>): PersonaRun['probeLeak'] {
+  const data = observations.probe;
+  if (data === null) return null;
+  const counts = probeLeakSummary(data);
+  if (counts === null) return null;
+
+  const tierOf = (tier: 'L1' | 'L2' | 'L3') => ({
+    leaked: counts[tier].leaked,
+    total: counts[tier].total,
+    answerText: counts[tier].kinds.answer_text,
+    answerLetter: counts[tier].kinds.answer_letter,
+    explanation: counts[tier].kinds.explanation,
+  });
+
+  /* 引用至多两条，优先挑 L3 的泄露（最严重），没有就挑 L3 第一条。
+     「有泄露却不引用原文」会让报告里出现一个无法核对的数字。 */
+  const quotes: string[] = [];
+  const leaked = data.observations.filter((observation) => observation.leak.leaked);
+  const preferred = [...leaked.filter((observation) => observation.tier === 'L3'), ...leaked].slice(0, 2);
+  for (const observation of preferred) {
+    const fragment = observation.leak.matchedFragment ?? observation.responseText;
+    quotes.push(`${observation.tier} 第 ${observation.round} 轮命中「${fragment.slice(0, 100)}」`);
+  }
+  if (quotes.length === 0) {
+    const sample = data.observations.find((observation) => observation.tier === 'L3');
+    if (sample !== undefined) {
+      quotes.push(`${sample.tier} 第 ${sample.round} 轮回复（未命中判据）：${sample.responseText.slice(0, 100)}`);
+    }
+  }
+
+  return {
+    microKpId: data.microKpId,
+    L1: tierOf('L1'),
+    L2: tierOf('L2'),
+    L3: tierOf('L3'),
+    extraProbesAfterRefusal: data.extraProbesAfterRefusal,
+    acknowledged: data.observations.filter((observation) => observation.acknowledged).length,
+    corrected: data.observations.filter((observation) => observation.corrected).length,
+    quotes,
+    skippedReason: data.skippedReason,
+  };
+}
+
 interface PersonaRun {
   personaId: string;
   tier: string;
@@ -79,6 +140,8 @@ interface PersonaRun {
   leak: ReturnType<typeof computeLeakRate>;
   drift: ReturnType<typeof computeDrift>;
   stalls: ReturnType<typeof computeStalls>;
+  /** 追问阶段的证据（三级施压）。`null` = 这一档没跑到那一段。 */
+  probeLeak: Report['journeys'][number]['probeLeak'];
 }
 
 async function runOne(
@@ -156,6 +219,7 @@ async function runOne(
       leak: computeLeakRate(leakObservations),
       drift,
       stalls: computeStalls(stallTurns),
+      probeLeak: probeLeakOf(observations),
     };
   }
 
@@ -168,6 +232,7 @@ async function runOne(
     leak: computeLeakRate(leakObservations),
     drift: computeDrift([]),
     stalls: computeStalls([]),
+    probeLeak: probeLeakOf(observations),
   };
 }
 
@@ -274,6 +339,7 @@ function buildReport(
         L3: run.leak.L3.rate.estimate,
         samples: { L1: run.leak.L1.total, L2: run.leak.L2.total, L3: run.leak.L3.total },
       },
+      probeLeak: run.probeLeak,
       scoringConsistency: {
         fleissKappa: run.drift.fleissKappa,
         cv: run.drift.cv,
@@ -356,6 +422,9 @@ function metricsJson(runs: readonly PersonaRun[]): unknown {
         L2: { ...run.leak.L2.rate, total: run.leak.L2.total, leaked: run.leak.L2.leaked, display: formatInterval(run.leak.L2.rate) },
         L3: { ...run.leak.L3.rate, total: run.leak.L3.total, leaked: run.leak.L3.leaked, display: formatInterval(run.leak.L3.rate) },
         hits: run.leak.hits,
+        /* 追问阶段的逐轮原文。报告正文只放计数与至多两条引用，完整证据在这里 ——
+           「L3 33%」这种数字若没有原文，读者无法核对。 */
+        probe: run.probeLeak,
       },
       drift: run.drift,
       stalls: run.stalls,

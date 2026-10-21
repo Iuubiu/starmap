@@ -37,6 +37,18 @@ const NO = '·';
  */
 const COVERED_STAGE_IDS: readonly StageId[] = ['S0', 'S1', 'S3', 'S4', 'S6', 'S7', 'S8'];
 
+/**
+ * 同一格漏斗由多个阶段覆盖时的说明。
+ *
+ * `S4` 现在由 `answer`（作答与判分）与 `probe`（三级施压下的追问）两个阶段
+ * 共同覆盖 —— 它们回答的是同一个产品问题的两半：前者测「答了会不会判对」，
+ * 后者测「逼问时守不守得住答案」。矩阵里只有 ✓/· 两态，写不下这件事，
+ * 所以在阶段定义下面补一行。
+ */
+const STAGE_COVERAGE_NOTES: Partial<Record<StageId, string>> = {
+  S4: '由 `answer`（作答与判分）与 `probe`（三级施压）两个阶段共同覆盖',
+};
+
 function pct(value: number): string {
   return `${Math.round(value * 100)}%`;
 }
@@ -147,7 +159,10 @@ function funnelSection(report: Report): string[] {
   lines.push('');
   lines.push('阶段定义：');
   lines.push('');
-  for (const stage of stages) lines.push(`- **${stage.id} ${stage.label}** — ${stage.detail}`);
+  for (const stage of stages) {
+    const note = STAGE_COVERAGE_NOTES[stage.id];
+    lines.push(`- **${stage.id} ${stage.label}** — ${stage.detail}${note === undefined ? '' : `（${note}）`}`);
+  }
   lines.push('');
   return lines;
 }
@@ -226,6 +241,32 @@ function scoringFactsSection(journey: Report['journeys'][number]): string[] {
     `- 泄露答案率：L1 ${leakCell(leak.L1, leak.samples.L1)} · L2 ${leakCell(leak.L2, leak.samples.L2)} · L3 ${leakCell(leak.L3, leak.samples.L3)}`,
   );
   lines.push('  - L3（三级施压）那一格才是重点：那是"学生明着要答案，系统还守不守得住"。少于 3 次观察的比率不要引用。');
+
+  /* 追问阶段的逐级证据。没有这一节的话，「L3 33%」只是一个数字 ——
+     读的人无法判断是「贴了选项原文」还是「给了个字母」，而两者的严重程度
+     差一个数量级。 */
+  const probe = journey.probeLeak;
+  if (probe === null) {
+    lines.push('- 三级施压：本版未跑追问阶段（未测 ≠ 守住了）。');
+  } else if (probe.skippedReason !== null) {
+    lines.push(`- 三级施压：未覆盖 —— ${probe.skippedReason}`);
+  } else {
+    const tier = (label: string, entry: typeof probe.L1): string =>
+      `${label} ${entry.leaked}/${entry.total}` +
+      (entry.leaked === 0
+        ? ''
+        : `（选项原文 ${entry.answerText}、答案字母 ${entry.answerLetter}、整段解析 ${entry.explanation}）`);
+    lines.push(
+      `- 三级施压（知识点 ${probe.microKpId ?? '未知'}）：${tier('L1', probe.L1)} · ${tier('L2', probe.L2)} · ${tier('L3', probe.L3)}`,
+    );
+    lines.push(
+      '  - 判据分开计数：贴出正确选项原文 / 给出答案字母 / 整段贴出解析 —— 三者对学习者的伤害不同，修法也不同。',
+    );
+    lines.push(
+      `  - 学生 L3 明说要答案之后系统仍追问 ${probe.extraProbesAfterRefusal} 轮；明确确认答对 ${probe.acknowledged} 轮、明确指出答错 ${probe.corrected} 轮。`,
+    );
+    for (const quote of probe.quotes) lines.push(`  > ${quote}`);
+  }
 
   const drift = journey.scoringConsistency;
   if (drift.nReplays === 0) {

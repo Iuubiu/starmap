@@ -33,6 +33,83 @@ _FURNITURE = re.compile(r'^[·•●\s]*\d{1,4}\s*[·•●\s]*[\u4e00-\u9fff]{0
 
 _SENTENCE_END = re.compile(r'(?<=[。！？；])')
 
+#: 英文句末：句号/问号/叹号 **后面跟空白**。
+#:
+#: 为什么必须有 `\s+`：英文正文里 `Fig. 3.2`、`10.1109/TNS.2018.2840160`、
+#: `1.5 V`、`M. Moszynski` 全都有句点。只认 `.` 会把它们切成一地碎片。
+_SENTENCE_END_EN = re.compile(r'(?<=[.!?])\s+')
+
+#: 缩写词：这些词后面的句点不是句末。
+#:
+#: 判据只对**紧邻标点的那个词**生效，所以 `et al. 1997.` 的 `al` 被挡掉、
+#: 句末那个 `1997.` 照常切（`1997` 不在表里）。
+_ABBREVIATIONS = frozenset({
+    'fig', 'figs', 'figure', 'figures', 'eq', 'eqs', 'equation', 'equations',
+    'ref', 'refs', 'reference', 'references', 'tab', 'tabs', 'table', 'tables',
+    'no', 'nos', 'vol', 'vols', 'ch', 'chap', 'chaps', 'sec', 'secs', 'sect',
+    'p', 'pp', 'pt', 'pts', 'art', 'app', 'appx', 'al', 'e.g', 'i.e', 'vs',
+    'cf', 'approx', 'ca', 'resp', 'etc', 'ed', 'eds', 'inc', 'ltd', 'co',
+    'corp', 'dept', 'univ', 'min', 'max', 'avg', 'std', 'typ', 'incl', 'excl',
+    'st', 'dr', 'prof', 'mr', 'mrs', 'ms',
+})
+
+#: 句子开头：大写字母、数字、引号或左括号。空白之后不是这些，就说明
+#: 上一处句点不是句末（`1.5 V. the voltage` 里 `the` 是小写）。
+_SENTENCE_START = set('"\'\u201c\u2018([')
+
+
+def _english_cuts(text: str) -> list[int]:
+    """英文句末的切点下标（切点 = 句末标点后那段空白的结束处）。"""
+    cuts: list[int] = []
+    for match in _SENTENCE_END_EN.finditer(text):
+        end = match.end()
+        if end >= len(text):
+            continue
+        nxt = text[end]
+        if not (nxt.isupper() or nxt.isdigit() or nxt in _SENTENCE_START):
+            continue
+        # 紧邻标点的那个词（含标点），去掉尾部标点后查缩写表
+        start = match.start()
+        k = start - 1
+        while k >= 0 and not text[k].isspace():
+            k -= 1
+        token = text[k + 1:start].rstrip('.!?')
+        if token.lower() in _ABBREVIATIONS:
+            continue
+        # 单个大写字母 = 人名首字母（`M. Moszynski`、`J. R. Smith`）
+        if len(token) == 1 and token.isupper():
+            continue
+        cuts.append(end)
+    return cuts
+
+
+def _split_words(text: str) -> list[str]:
+    """二级退化：按词边界切；单个词仍超长就三级硬切。
+
+    `10.1109/TNS.2018.2840160` 这种没有空格的串必然走到硬切 —— 那里**不能**
+    用 `while` 靠「切完还剩多少」推进，长度不缩短就会死循环。
+    """
+    parts: list[str] = []
+    buf = ''
+    for word in re.split(r'(\s+)', text):
+        if not word:
+            continue
+        if len(word) > MAX_CHARS:
+            if buf:
+                parts.append(buf)
+                buf = ''
+            for k in range(0, len(word), MAX_CHARS):
+                parts.append(word[k:k + MAX_CHARS])
+            continue
+        if len(buf) + len(word) > MAX_CHARS and buf:
+            parts.append(buf)
+            buf = word
+        else:
+            buf += word
+    if buf:
+        parts.append(buf)
+    return parts
+
 
 @dataclass
 class Chunk:
@@ -57,17 +134,85 @@ def _stable_id(source_id: str, pdf_page: int, index: int, text: str) -> str:
     return f'ck-{source_id}-{pdf_page:04d}-{index:02d}-{h}'
 
 
-def _split_long(text: str) -> list[str]:
+def _split_long(text: str, *, english_sentences: bool = False) -> list[str]:
+    """超长段落切分。
+
+    ## 为什么 `english_sentences` 默认关闭
+
+    `_SENTENCE_END` 只认中文句末标点（`。！？；`），英文段落一个句号都切不开 ——
+    整页正文会变成一个 2000~6900 字符的巨型 chunk（实测 15 本英文书 6219 个）。
+    但 12 本中文书**已经入库**，chunkCount 是幂等导入的基线（73248），改切分规则
+    必须让它们的产物逐字节不变。所以英文规则是逐本开关：英文书传 True，
+    中文书走下面这条与改前完全一致的旧路径。
+    """
     if len(text) <= MAX_CHARS:
         return [text]
     parts: list[str] = []
     buf = ''
-    for sent in _SENTENCE_END.split(text):
+    if not english_sentences:
+        # 旧路径，逐字节保持（12 本中文书的 chunkCount 靠它不变）
+        for sent in _SENTENCE_END.split(text):
+            if len(buf) + len(sent) > MAX_CHARS and buf:
+                parts.append(buf)
+                buf = sent
+            else:
+                buf += sent
+        if buf:
+            parts.append(buf)
+        return parts
+
+    # 英文：先按句末切，再按词切，最后硬切（三级退化）
+    cuts = _english_cuts(text)
+    sentences: list[str] = []
+    prev = 0
+    for cut in cuts:
+        sentences.append(text[prev:cut])
+        prev = cut
+    sentences.append(text[prev:])
+    for sent in sentences:
+        if not sent:
+            continue
+        if len(sent) > MAX_CHARS:
+            if buf:
+                parts.append(buf)
+                buf = ''
+            parts.extend(_split_words(sent))
+            continue
         if len(buf) + len(sent) > MAX_CHARS and buf:
             parts.append(buf)
             buf = sent
         else:
             buf += sent
+    if buf:
+        parts.append(buf)
+    return parts
+
+
+def _split_table(text: str) -> list[str]:
+    """按行（表格的行）切，每段不超 `MAX_CHARS`。
+
+    表格的 `text` 是 `\n`.join(' | '.join(row))，换行就是行边界。切在行边界
+    上，每段仍是完整的行 —— 在格中间切会把 `| 1.00 | 2.30 |` 劈成两半，
+    下游既看不出列也看不出行。
+
+    单行就超长时（OCR 把整页表格串成一行）退回 `_split_long` 的词级/硬切。
+    """
+    if len(text) <= MAX_CHARS:
+        return [text]
+    parts: list[str] = []
+    buf = ''
+    for line in text.split('\n'):
+        if len(line) > MAX_CHARS:
+            if buf:
+                parts.append(buf)
+                buf = ''
+            parts.extend(_split_long(line, english_sentences=True))
+            continue
+        if len(buf) + len(line) + 1 > MAX_CHARS and buf:
+            parts.append(buf)
+            buf = line
+        else:
+            buf = f'{buf}\n{line}' if buf else line
     if buf:
         parts.append(buf)
     return parts
@@ -79,6 +224,7 @@ def blocks_to_chunks(
     *,
     page_offset: int,
     headings_by_page: dict[int, list[str]] | None = None,
+    english_sentences: bool = False,
 ) -> list[Chunk]:
     """把一页页的块转成 chunk 列表。
 
@@ -112,7 +258,21 @@ def blocks_to_chunks(
             continue
 
         kind = {'table': 'table', 'formula': 'formula', 'figure': 'figure'}.get(b.kind, 'text')
-        pieces = _split_long(text) if kind == 'text' else [text]
+        # `formula` 也要切：`extract.py` 的判据是「含任一数学符号」，实测把大段
+        # **散文**误判成公式（knoll-3e 有 219 个 >1200 字符的 `formula` chunk，
+        # 内容是 `Natural background radiation is an important additional...`）。
+        # 只在 `english_sentences=True` 时切 —— 中文书的 `formula` 保持旧行为，
+        # 否则超长中文公式块会让 chunkCount 基线变动。
+        if english_sentences and kind == 'table':
+            # 表格按行切（保留 `| a | b |` 的网格形状）；中文书不动。
+            pieces = _split_table(text)
+        else:
+            split_kind = kind == 'text' or (english_sentences and kind == 'formula')
+            pieces = (
+                _split_long(text, english_sentences=english_sentences)
+                if split_kind
+                else [text]
+            )
 
         for piece in pieces:
             # 图注不适用正文的长度门槛：`图题1.1.2` 只有 7 个字符，

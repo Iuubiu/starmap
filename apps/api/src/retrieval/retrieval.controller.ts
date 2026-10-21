@@ -85,7 +85,7 @@ export class RetrievalController {
         chunkId: hit.id,
         microKpId: hit.microKpId,
         score: round4(hit.score),
-        snippet: this.retrieval.snippet(hit.text, query),
+        snippet: this.retrieval.snippet(hit.text, query, outcome.extraTerms),
         kind: hit.kind,
         page: hit.page,
         sourceTitle: hit.sourceTitle,
@@ -97,6 +97,7 @@ export class RetrievalController {
       totalMatched: outcome.candidates.length,
       answerChunkCount: outcome.candidates.filter((c) => outcome.answerChunkIds.includes(c.id)).length,
       excludedCount: outcome.excluded.length,
+      expansions: outcome.expansions,
     });
   }
 
@@ -144,6 +145,7 @@ export class RetrievalController {
       microKpId,
       answerChunkIds: outcomes[0]?.answerChunkIds ?? [],
       bands,
+      expansions: outcomes[0]?.expansions ?? [],
     });
   }
 

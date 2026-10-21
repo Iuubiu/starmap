@@ -1,6 +1,7 @@
 import {
   Text,
   Body1,
+  Caption1,
   Spinner,
   makeStyles,
   tokens,
@@ -30,6 +31,10 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: '8px',
+  },
+  /** 来源行：次要信息，弱化但不隐藏（票 18 验收 6） */
+  source: {
+    color: tokens.colorNeutralForeground3,
   },
   title: {
     fontSize: tokens.fontSizeHero700,
@@ -159,7 +164,7 @@ export function NodeDetailPage() {
     );
   }
 
-  const { node: kp, levels, reasons } = node.payload;
+  const { node: kp, levels, reasons, source } = node.payload;
 
   /**
    * 锁着就不让进关（票 06）。
@@ -176,6 +181,19 @@ export function NodeDetailPage() {
         <Text className={styles.title} as="h1">
           {kp.name}
         </Text>
+        {/**
+         * 来源行（票 18 验收 6）：「这个知识点来自哪本书哪一页」。
+         *
+         * 刻意**不做成链接**：本地没有 PDF 阅读器，点了打不开任何东西，
+         * 一个点不动的链接比一行文字更糟 —— 它会让人反复去试。
+         *
+         * `source === null` 只有 3 个手工种的示例知识点（kp-bool / kp-kmap /
+         * kp-logic）。这时说清楚「没有教材出处」而不是省略这一行：省略会让人
+         * 以为「这个页面还没做这个功能」，而事实是「这个知识点确实不来自任何书」。
+         */}
+        <Caption1 className={styles.source}>
+          {source === null ? '示例知识点（无教材出处）' : `来源：${source.pageLabel}`}
+        </Caption1>
         <Body1>
           层级深度 {kp.depth} · 当前状态 {masteryLabel(kp.state)}
         </Body1>

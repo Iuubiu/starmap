@@ -15,6 +15,14 @@ interface EdgeRow extends Record<string, unknown> {
   kind: string;
 }
 
+interface GapRow extends Record<string, unknown> {
+  id: string;
+  topic: string;
+  reason: string;
+  expected_role: string;
+  nearest_kp_ids: string[];
+}
+
 /**
  * 知识地图的数据源：整张图谱一次返回。
  *
@@ -79,6 +87,25 @@ interface EdgeRow extends Record<string, unknown> {
  *
  * 与 `NodesController` 同样的理由：schema 由连接的 `search_path` 决定
  * （生产 `app`，测试 `app_test_*`）。写死前缀会让测试静默读到生产表。
+ *
+ * ## 内容缺口（`contentGaps`）
+ *
+ * 票 18 验收第 5 条要求「资源库没有『数字多道／FPGA／数字脉冲处理』对口教材，
+ * 该缺口在图上可见」。缺口存在 `content_gaps` 表里（迁移 0060），与节点一起
+ * 返回而不是单开一个接口：它只在跟图摆在一起时才有意义（见 `ContentGapSchema`
+ * 的注释）。
+ *
+ * 三条读库约定：
+ *
+ * 1. **表为空就返回空数组**，不是 404 也不是 500。缺口是「内容侧的事实」，
+ *    资源库补齐之后它就应该变空 —— 空是正常终态，不是功能没接通。
+ * 2. **不过滤掉 `nearest_kp_ids` 解析不到的缺口**。迁移里那三个数组是入库时
+ *    按名字解析的；知识点重导入后 id 会漂移，此时 `nearest_kp_ids` 指向的
+ *    节点可能已经不在 `nodes` 里。那种情况下缺口仍然要显示（「这里缺内容」
+ *    是事实），只是跳转入口点不动。前端按「在不在 nodes 里」自己决定渲染
+ *    成链接还是纯文本。
+ * 3. **按 `id` 排序**，不按 `created_at`。迁移是同一毫秒插进去的，`created_at`
+ *    分不出先后；而 `id` 是稳定的，重启后顺序不变。
  */
 @Controller('api/v1')
 @UseFilters(ApiExceptionFilter)
@@ -99,12 +126,20 @@ export class GraphController {
     // 节点事实与推荐 id 来自**同一次** `computeAll`（见 `RecommendService`）：
     // 掌握度数字与推荐标记因此必然属于同一时刻，不是两次计算碰巧一致。
     // 边是纯拓扑数据，与掌握度无关，并行取。
-    const [{ facts, recommendedIds }, edgeRows] = await Promise.all([
+    const [{ facts, recommendedIds }, edgeRows, gapRows] = await Promise.all([
       this.recommendService.graphData(now),
       this.db.query<EdgeRow>(`
         SELECT from_id, to_id, kind
         FROM kp_edges
         ORDER BY from_id, to_id, kind
+      `),
+      // 缺口是静态内容，与掌握度无关，并行取。表不存在时会抛 —— 那是迁移没
+      // 跑完，应该响亮地失败，而不是把缺口静默当成空（否则「缺口在图上可见」
+      // 这条验收会变成一个永远绿的空断言）。
+      this.db.query<GapRow>(`
+        SELECT id, topic, reason, expected_role, nearest_kp_ids
+        FROM content_gaps
+        ORDER BY id
       `),
     ]);
 
@@ -133,6 +168,17 @@ export class GraphController {
 
     // 出口校验：形状由契约定义，这里再 parse 一次保证「后端以为发出去的」
     // 和「契约声明的」是同一件事（类型断言不会在运行时兜底）。
-    return GraphResponseSchema.parse({ nodes, edges, recommendedIds });
+    return GraphResponseSchema.parse({
+      nodes,
+      edges,
+      recommendedIds,
+      contentGaps: gapRows.map((r) => ({
+        id: r.id,
+        topic: r.topic,
+        reason: r.reason,
+        expectedRole: r.expected_role as 'prereq' | 'core' | 'advanced',
+        nearestKpIds: r.nearest_kp_ids,
+      })),
+    });
   }
 }

@@ -24,6 +24,7 @@ import { LLM_PORT, type LlmPort, type LlmMessage } from '../llm/llm.port.js';
 import { RetrievalService, type GatedChunk } from '../retrieval/retrieval.service.js';
 import { SkillsService } from '../skills/skills.service.js';
 import { ProbeService } from '../probe/probe.service.js';
+import { RecommendService } from '../recommend/recommend.service.js';
 import {
   defaultActions,
   formatIssues,
@@ -115,11 +116,61 @@ export class TurnService {
    * 读库：卡片里的事实
    * ---------------------------------------------------------------- */
 
+  /**
+   * 没有显式选定知识点时，服务端替学习者挑一个焦点。
+   *
+   * 为什么不让模型挑：模型不知道谁学过什么、哪个点现在最值得学，它只能
+   * 编一个名字出来。为什么不在前端挑：换一个客户端（CLI、其它前端）就不
+   * 该需要先知道「看板怎么算推荐」。推荐算法的唯一实现在
+   * `apps/api/src/recommend/recommend.service.ts`，这里只取它的第一个。
+   *
+   * 返回值里的 `note` 会写进提示词，让模型知道这个点不是学习者选的 ——
+   * 否则它会把「你刚才说的」安到学习者头上。
+   */
+  private async resolveFocus(sessionId: string, microKpId: string | null): Promise<{
+    microKpId: string | null;
+    name: string | null;
+    note: string | null;
+  }> {
+    if (microKpId) {
+      return { microKpId, name: await this.kpName(microKpId), note: null };
+    }
+
+    try {
+      const recommend = new RecommendService(this.db);
+      const { recommendedIds } = await recommend.graphData(await recommend.now());
+      const picked = recommendedIds[0];
+      if (!picked) return { microKpId: null, name: null, note: null };
+      const name = await this.kpName(picked);
+      this.logger.log(`未选定知识点，按推荐挑焦点：${picked}（${name ?? '无名'}）`);
+      return {
+        microKpId: picked,
+        name,
+        note: `（这个点是服务端按你当前进度挑的推荐，不是你刚说的；要换请在知识地图上选。）`,
+      };
+    } catch (error) {
+      // 推荐算不出来不该让整轮失败：退回到「请先选一个点」，与旧行为一致。
+      this.logger.warn(
+        `推荐失败，本轮无焦点：${error instanceof Error ? error.message : String(error)}`,
+      );
+      return { microKpId: null, name: null, note: null };
+    }
+  }
+
   private async ensureSession(sessionId: string): Promise<void> {
     // 前端不必先建会话：没有会话时回合无处可落（agent_turns 有外键）。
     await this.db.query('INSERT INTO sessions (id) VALUES ($1) ON CONFLICT (id) DO NOTHING', [
       sessionId,
     ]);
+  }
+
+  /** 知识点是否存在（模型给的外部 id 必须过这一关才能进卡）。 */
+  private async knowledgePointExists(microKpId: string): Promise<boolean> {
+    const rows = await this.db.query<{ id: string }>(
+      'SELECT id FROM knowledge_points WHERE id = $1',
+      [microKpId],
+    );
+    return rows.length > 0;
   }
 
   private async nextOrdinal(sessionId: string): Promise<number> {
@@ -331,6 +382,8 @@ export class TurnService {
     tier: LearnerTier;
     microKpId: string | null;
     kpName: string | null;
+    /** 焦点是从推荐里挑的（学习者还没选定）时，给模型一句来源说明 */
+    focusNote: string | null;
     mastery: { achieved: number; current: number; state: string } | null;
     level: { levelId: string; title: string; itemCount: number } | null;
     evidence: GatedChunk[];
@@ -346,8 +399,9 @@ export class TurnService {
     lines.push(`水平档：${input.tier}（P1 入门 / P2 进阶 / P3 综合）`);
     if (input.microKpId) {
       lines.push(`当前知识点：${input.kpName ?? input.microKpId}（${input.microKpId}）`);
+      if (input.focusNote) lines.push(input.focusNote);
     } else {
-      lines.push('当前知识点：未选定');
+      lines.push('当前知识点：未选定（服务端也没有可推荐的节点，这一轮只能请学习者先自己选）');
     }
     if (input.mastery) {
       lines.push(
@@ -418,8 +472,10 @@ export class TurnService {
   async turn(request: AgentTurnRequest): Promise<AgentTurnResponse> {
     await this.ensureSession(request.sessionId);
 
-    const microKpId = request.microKpId;
-    const kpName = microKpId ? await this.kpName(microKpId) : null;
+    // 学习者没选定时由服务端挑焦点：没有焦点的会话只能反复回同一张占位卡。
+    const focus = await this.resolveFocus(request.sessionId, request.microKpId);
+    const microKpId = focus.microKpId;
+    const kpName = focus.name;
     const mastery = microKpId ? await this.currentMastery(microKpId) : null;
     const level = microKpId ? await this.levelFact(microKpId) : null;
     const history = await this.recentTurns(request.sessionId);
@@ -448,6 +504,7 @@ export class TurnService {
       tier: request.tier,
       microKpId,
       kpName,
+      focusNote: focus.note,
       mastery,
       level,
       evidence: allowedEvidence,
@@ -509,16 +566,36 @@ export class TurnService {
       });
     }
 
+    // 模型可以指定这一轮换到另一个知识点，但它给的 id 不一定存在。
+    // 不校验的话 `probe.start()` 会抛 NotFoundException，整轮变成 500 ——
+    // 学生只看到「服务器内部错误」，而模型其实已经把话说完了。
+    let targetKpId = microKpId;
+    let targetName = kpName;
+    let targetMastery = mastery;
+    let targetLevel = level;
+    if (plan.microKpId && plan.microKpId !== microKpId) {
+      if (await this.knowledgePointExists(plan.microKpId)) {
+        targetKpId = plan.microKpId;
+        targetName = await this.kpName(plan.microKpId);
+        targetMastery = await this.currentMastery(plan.microKpId);
+        targetLevel = await this.levelFact(plan.microKpId);
+      } else {
+        this.logger.warn(
+          `模型给了不存在的知识点 ${plan.microKpId}，改用服务端焦点 ${microKpId ?? '（无）'}`,
+        );
+      }
+    }
+
     return this.persistTurn({
       request,
       turnId,
       createdAt,
       retryCount,
       plan,
-      microKpId: plan.microKpId || microKpId,
-      kpName,
-      mastery,
-      level,
+      microKpId: targetKpId,
+      kpName: targetName,
+      mastery: targetMastery,
+      level: targetLevel,
       gated,
     });
   }
@@ -633,8 +710,9 @@ export class TurnService {
     const base = { cardId: input.cardId, createdAt: input.createdAt };
 
     if (!microKpId) {
-      // 没有知识点，图谱/进度/追问都无从谈起；只剩「先选一个点」这种陈述卡。
-      // 契约里没有「纯文本卡」，所以给一张空聚焦卡——比降级卡好：它不是错误。
+      // 走到这里只剩一种可能：学习者没选定，而且推荐也是空的（新库，或所有
+      // 叶节点都还没有内容）。这不是错误，所以给一张陈述卡而不是降级卡 ——
+      // 但理由必须说清「是服务端也没得推荐」，否则学生会以为按钮坏了。
       return {
         ...base,
         kind: 'graph_focus',
@@ -642,7 +720,7 @@ export class TurnService {
         name: '还没有选定知识点',
         neighbors: [],
         title: '先在知识地图上选一个点',
-        rationale: input.plan.rationale,
+        rationale: `${input.plan.rationale}（服务端此刻也没有可推荐的节点：题库还没有内容。）`,
       };
     }
 

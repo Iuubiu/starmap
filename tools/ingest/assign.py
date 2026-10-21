@@ -329,6 +329,47 @@ def assign(chunks: list, flat_nodes: list[dict]) -> list:
     return chunks
 
 
+def assign_front_matter(chunks: list, flat_nodes: list[dict]) -> int:
+    """
+    把「第一个叶节点之前」的正文 chunk 归到首章容器，返回改动条数。
+
+    `assign` 对页码落在所有叶节点区间之前的 chunk 保留 `micro_kp_id=None`
+    （见其 docstring：封面和版权页不该变成「数字逻辑概论」的内容）。但一本书的
+    第一个叶节点之前常常还有**正文**：章首页、章首概述、整版图页，以及目录里
+    没有细目的章首小节 —— 这些页有实质内容，留成孤儿就是检索侧不可见
+    （`content.controller.ts` 的子树 JOIN 直接跳过 `micro_kp_id IS NULL`）。
+
+    两者的区别不是「页码小于首个叶节点」，而是**有没有落在正文范围内**：调用方
+    （`books_batch` / `ocr_run`）已经在抽取阶段把印刷页 < 1 的前置页（前言、
+    致谢、符号表，罗马页码）挡掉了，所以进到这里、页码仍 >= 0 且小于首个叶节点
+    的 chunk 就是正文。
+
+    挂到**章容器**（`depth == 1` 的节点）而不是叶节点：容器不是可掌握知识点，
+    不会把章首页冒充成某个微知识点，也不会稀释叶节点的内容占比
+    （`audit_assignment` 的零 chunk 叶子占比与最大单节点占比都不受影响）。
+
+    这是 opt-in 的独立函数：`assign` 的默认行为不变，所以
+    `test_assign.py::test_chunk_before_first_leaf_gets_no_kp` 仍然成立。
+    """
+    chapters = [n for n in flat_nodes if n.get('depth') == 1]
+    if not chapters:
+        return 0
+    leaf_pages = [n['printedPage'] for n in flat_nodes if n['isLeaf']]
+    if not leaf_pages:
+        return 0
+    first_leaf_page = min(leaf_pages)
+    head = min(chapters, key=lambda n: n['printedPage'])
+    moved = 0
+    for c in chunks:
+        if c.micro_kp_id is not None:
+            continue
+        if 0 <= c.printed_page < first_leaf_page:
+            c.micro_kp_id = head['microKpId']
+            c.answer_for = []
+            moved += 1
+    return moved
+
+
 # 归属自检的判定阈值。两个数都是从两本已知书量出来的，不是拍脑袋：
 #
 # - **零 chunk 叶子占比**：干净的康华光（215 节点、目录排版规范）是 10/165

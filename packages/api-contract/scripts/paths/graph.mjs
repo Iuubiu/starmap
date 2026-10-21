@@ -5,11 +5,13 @@
  * 加 schema 去那边，加路由来这边。两处都只 append。
  */
 import {
+  ContentGapSchema,
   GraphEdgeSchema,
   GraphNodeSchema,
   GraphResponseSchema,
   NodeDetailResponseSchema,
   NodeListResponseSchema,
+  NodeSourceSchema,
   ReasonFactSchema,
   ReasonKindSchema,
   RecommendationListResponseSchema,
@@ -30,12 +32,18 @@ const jsonBody = (schemaName) => ({
 export const components = {
   NodeListResponse: jsonSchema(NodeListResponseSchema),
   NodeDetailResponse: jsonSchema(NodeDetailResponseSchema),
+  // 来源单独声明为组件：前端要写 `NodeSource` 这个类型名（`NodeDetailResponse`
+  // 里的 `source` 字段是可空对象，Orval 只有拿到组件名才会生成独立类型而不是
+  // 一串匿名内联对象）。
+  NodeSource: jsonSchema(NodeSourceSchema),
   // GraphNode / GraphEdge 单独声明为组件（而不只内联在 GraphResponse 里）：
   // 一是让生成的前端类型有独立名字（`GraphNode` 会被 MapPage 直接引用），
   // 二是 emit-openapi 的「死 schema」检查要求每个契约 schema 要么进 components
   // 要么在 openapi.yaml 里以内联形态出现——进 components 是更明确的那条路。
   GraphNode: jsonSchema(GraphNodeSchema),
   GraphEdge: jsonSchema(GraphEdgeSchema),
+  // ContentGap 同理：前端要写 `ContentGap` 这个类型名，而不是一串匿名内联对象。
+  ContentGap: jsonSchema(ContentGapSchema),
   GraphResponse: jsonSchema(GraphResponseSchema),
 
   // ---- 推荐（票 13）----
@@ -59,7 +67,10 @@ export const paths = {
       summary: '整张知识图谱：全部微知识点、先修边与掌握状态',
       description:
         '一次返回全部叶节点（微知识点）与其先修边，供知识地图画布做本地布局与两跳邻域裁剪。' +
-        '不分页：力导向布局需要完整图，缺一半节点会让布局跳变。',
+        '不分页：力导向布局需要完整图，缺一半节点会让布局跳变。' +
+        '同时带上资源库的内容缺口（`contentGaps`）—— 缺口只在跟节点摆在一起时才有意义：' +
+        '它指向的是「课程表上本该有、资源库里没有」的东西，单独拉一份缺口列表反而无法告诉学习者' +
+        '「你现在看到的这张图的哪里断了」。',
       responses: {
         '200': jsonResponse('整张图谱', 'GraphResponse'),
         '500': jsonResponse('服务内部错误', 'ApiError'),

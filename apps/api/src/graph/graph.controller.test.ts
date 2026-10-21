@@ -29,6 +29,14 @@ interface GraphEdgeBody {
   kind: string;
 }
 
+interface ContentGapBody {
+  id: string;
+  topic: string;
+  reason: string;
+  expectedRole: string;
+  nearestKpIds: string[];
+}
+
 /**
  * 知识图谱端点。
  *
@@ -223,5 +231,95 @@ describe('GraphController（集成）', () => {
     const res = await request(app.getHttpServer()).get('/api/v1/graph').expect(200);
     expect(res.body.edges).toEqual([]);
     expect((res.body.nodes as GraphNodeBody[]).length).toBe(3);
+  });
+
+  /**
+   * 内容缺口（票 18 AC5）。
+   *
+   * 这三条断言的是**「缺口指到不存在的知识点」这个具体故障**，而不是
+   * 「响应里有 contentGaps 字段」。后者只能证明字段存在，证明不了它有用：
+   * 数组里填一堆 `kp-does-not-exist` 也照样能通过。
+   *
+   * 迁移 0060 里的 `nearest_kp_ids` 是执行迁移那一刻按名字解析出来的，
+   * 知识点重导入后 id 会漂移 —— 所以这里必须真去 nodes 里查一遍。
+   */
+  describe('内容缺口', () => {
+    /**
+     * 迁移 0060 是「建表 + 种数据」同文件，`test-schema.ts` 的 `hasDdl` 会把
+     * 整份文件放行 —— 所以这三条缺口在测试 schema 里**已经存在**，只是
+     * `nearest_kp_ids` 全空（迁移执行时 `knowledge_points` 还是空的）。
+     *
+     * 这恰好是真实场景的一半：空数组合法、不能因为解析不到就过滤掉。
+     * 下面先把它们指到本文件种的真节点上，再验「指得到」。
+     */
+    it('迁移自带的三条缺口已入 schema，且 nearestKpIds 为空时照常返回', async () => {
+      const res = await request(app.getHttpServer()).get('/api/v1/graph').expect(200);
+      const gaps = res.body.contentGaps as ContentGapBody[];
+      expect(gaps.map((g) => g.id)).toEqual(['gap-digital-mca', 'gap-digital-pulse', 'gap-fpga']);
+      // 空数组，不是被过滤掉、不是 null
+      for (const gap of gaps) {
+        expect(gap.nearestKpIds).toEqual([]);
+        expect(gap.expectedRole).toBe('advanced');
+        expect(gap.topic.length).toBeGreaterThan(0);
+        expect(gap.reason.length).toBeGreaterThan(0);
+      }
+    });
+
+    it('nearestKpIds 指向真节点时能在 nodes 里找到（防「指到不存在的知识点」）', async () => {
+      const db = app.get(DatabaseService);
+      await db.query(`
+        UPDATE ${schema.name}.content_gaps SET nearest_kp_ids = ARRAY['kp-noise']
+         WHERE id = 'gap-digital-mca';
+        UPDATE ${schema.name}.content_gaps SET nearest_kp_ids = ARRAY['kp-cmf', 'kp-bool']
+         WHERE id = 'gap-fpga';
+        UPDATE ${schema.name}.content_gaps SET nearest_kp_ids = ARRAY['kp-bool']
+         WHERE id = 'gap-digital-pulse';
+      `);
+
+      const res = await request(app.getHttpServer()).get('/api/v1/graph').expect(200);
+      const gaps = res.body.contentGaps as ContentGapBody[];
+      expect(gaps).toHaveLength(3);
+
+      const nodeIds = new Set((res.body.nodes as GraphNodeBody[]).map((n) => n.microKpId));
+      for (const gap of gaps) {
+        expect(gap.nearestKpIds.length).toBeGreaterThan(0);
+        for (const kpId of gap.nearestKpIds) {
+          expect(nodeIds, `缺口 ${gap.id} 的 nearestKpIds 指向了不存在的节点 ${kpId}`).toContain(
+            kpId,
+          );
+        }
+      }
+    });
+
+    it('contentGaps 为空数组时也合法（删光后仍 200，不是 500）', async () => {
+      const db = app.get(DatabaseService);
+      await db.query(`DELETE FROM ${schema.name}.content_gaps`);
+
+      const res = await request(app.getHttpServer()).get('/api/v1/graph').expect(200);
+      // 空是**正常终态**（资源库补齐后缺口就该没了），不是功能没接通：
+      // 既不能 404、也不能把字段省掉变成 undefined。
+      expect(res.body.contentGaps).toEqual([]);
+      expect((res.body.nodes as GraphNodeBody[]).length).toBe(3);
+    });
+
+    it('nearestKpIds 指向的节点已不在图里时，缺口照常返回（不过滤）', async () => {
+      const db = app.get(DatabaseService);
+      await db.query(`
+        INSERT INTO ${schema.name}.content_gaps (id, topic, reason, expected_role, nearest_kp_ids)
+        VALUES ('gap-orphan', '数字脉冲处理', '提示已失效但缺口仍存在。', 'advanced',
+                ARRAY['kp-gone-after-reimport'])
+      `);
+
+      const res = await request(app.getHttpServer()).get('/api/v1/graph').expect(200);
+      const gaps = res.body.contentGaps as ContentGapBody[];
+      // 重导入后 id 漂移是真实场景。若实现「解析不到就过滤掉」，这里会空数组
+      // —— 而那一刻恰恰是最需要告诉学习者「这里缺内容」的时候。
+      expect(gaps.map((g) => g.id)).toContain('gap-orphan');
+      expect(gaps.find((g) => g.id === 'gap-orphan')?.nearestKpIds).toEqual([
+        'kp-gone-after-reimport',
+      ]);
+
+      await db.query(`DELETE FROM ${schema.name}.content_gaps WHERE id = 'gap-orphan'`);
+    });
   });
 });

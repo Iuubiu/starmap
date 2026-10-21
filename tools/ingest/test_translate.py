@@ -52,17 +52,18 @@ CONTENT = ROOT / 'content'
 #: 兜底形态的标记。出现在任何 `name` 里都算失败 —— 学生看到的就是这一列。
 FORBIDDEN = ('未收录术语', '未譯', 'TODO', '（原文）')
 
-#: 全库允许的纯 ASCII 名（不含任何汉字）。逐条都是正确的化学式/器件缩写，
-#: 外加两条已知 OCR 噪声（`1131` / `g:1343`，wangjingjin 的页码残片）。
+#: 全库允许的纯 ASCII 名（不含任何汉字）。逐条都是正确的化学式/器件缩写。
 #: 写成 `==` 而不是 `<=`：新增一条就该红，让加书的人回来看一眼是不是漏译。
+#:
+#: 从 17 条降到 15 条是 t45 的结果，不是放宽：原来的 `1131` 与 `g:1343`
+#: 是王经瑾那本书的 OCR 残片（`11.3.1` 丢点号、`§13.4.3` 的 `§` 认成 `g:`），
+#: 已按缺陷 C 合并进真标题 `道宽选择` / `多路脉冲幅度分析`，节点本身被删掉了。
 PURE_ASCII_IDS = {
     'kp-kanghuaguang-5e-p43-SPICE',
     'kp-kanghuaguang-5e-p205-MOSFET',
     'kp-kanghuaguang-5e-p211-MOSFET',
     'kp-kanghuaguang-5e-p467-SPICE7',
     'kp-kanghuaguang-5e-11-2',
-    'kp-wangjingjin-1983-p75-1131',
-    'kp-wangjingjin-1983-p121-g1343',
     'kp-jichangsong-1990-6-2-1',
     'kp-jichangsong-1990-6-2-3',
     'kp-jichangsong-1990-6-2-4',
@@ -95,8 +96,9 @@ def _tocs() -> list[Path]:
         ('B.4 Wilkinson ADC', '未收录术语（Wilkinson ADC）'),
         # 冠词：`The` 要剥掉，剩下的 `ADC` 仍无中文 → 兜底，但不再是 `The ADC`
         ('The ADC', '未收录术语（ADC）'),
-        # 冠词在编号之后：`A.4 The Laplace transform`
-        ('A.4 The Laplace transform', '未收录术语（Laplace transform）'),
+        # 冠词在编号之后：`A.4 The Laplace transform`。t45 给 GLOSSARY 补了
+        # `laplace` 之后，这条不再是兜底串 —— 判据没放宽，是词典补上了。
+        ('A.4 The Laplace transform', '拉普拉斯变换'),
         # 冒号左侧无字母 → 不按主副标题切
         ('6:2 Preservation of timing information', '定时信息的保持'),
         # 冒号左侧有字母 → 仍按主副标题切；但左半边 `MDA` 译不出时先试整串
@@ -182,13 +184,14 @@ def test_no_fallback_name_survives_in_any_book() -> None:
 
 
 @pytest.mark.skipif(not _tocs(), reason='没有已生成的内容目录')
-def test_pure_ascii_names_are_the_known_seventeen() -> None:
-    """纯 ASCII 名（一个汉字都没有）只能是这 17 条，一条都不能多。
+def test_pure_ascii_names_are_the_known_fifteen() -> None:
+    """纯 ASCII 名（一个汉字都没有）只能是这 15 条，一条都不能多。
 
     它们是正确的化学式/器件缩写（`NaI(TI)` / `ZnS(Ag)` / `BiGeO,(BGO)` …）
-    与两条已知 OCR 噪声（`1131` / `g:1343`）。断言用 `==` 不用 `<=`：
+    与康华光那 5 条 `SPICE`/`MOSFET` 系列。断言用 `==` 不用 `<=`：
     新增一条就该红，让加书的人回来看一眼是不是漏译。
     """
+    # 断言集合与 `PURE_ASCII_IDS` 完全相等（见上：`==` 不是 `<=`）
     pure: dict[str, str] = {}
     for path in _tocs():
         toc = json.loads(path.read_text(encoding='utf-8'))

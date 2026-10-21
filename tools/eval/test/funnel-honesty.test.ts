@@ -65,6 +65,7 @@ function report(overrides: { stageReached?: string } = {}): Report {
         quotes: [],
         recognition: { correctTotal: 0, correctRecognized: 0, wrongTotal: 0, wrongRecognized: 0 },
         leakRate: { L1: null, L2: null, L3: null, samples: { L1: 0, L2: 0, L3: 0 } },
+        probeLeak: null,
         scoringConsistency: { fleissKappa: null, cv: null, nReplays: 0 },
         stall: { maxStall: 0, stalls: [], stallsOver2: 0 },
         paasSeries: [],

@@ -16,6 +16,7 @@ import {
   type HealthResponse,
   type NodeDetailResponse,
   type NodeListResponse,
+  type NodeSource,
 } from '@starmap/api-contract';
 import { DatabaseService } from '../db/database.service.js';
 import { ApiExceptionFilter } from '../common/api-exception.filter.js';
@@ -25,6 +26,45 @@ const ListQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(200).default(50),
   cursor: z.string().optional(),
 });
+
+/**
+ * 把「知识点详情那一行」变成契约里的 `source`（票 18 验收 6）。
+ *
+ * ## 为什么三列必须同生同死
+ *
+ * `source_id` 为 NULL 的只有 3 个手工种的示例知识点（`kp-bool` / `kp-kmap` /
+ * `kp-logic`），它们返回 `null`，前端说「示例知识点（无教材出处）」。
+ * （其中 `kp-logic` 是非叶容器，`detail()` 本来就按 `is_leaf = true` 过滤，
+ * 所以真正能走到这里的是 `kp-bool` / `kp-kmap` 两个。）
+ *
+ * 但 `source_id` 有、`source_page` 没有是**数据缺陷**，不是一种合法状态：
+ * 全库 7312 行里，`source_page` 为 NULL 的正好就是那 3 个 `source_id` 也为
+ * NULL 的示例节点（实测无一行只有其中一个）。这里选择抛错而不是拼出
+ * 「第 null 页」或者悄悄降级成 null —— 悄悄降级会让「某本书的 source_id 丢了」
+ * 变成界面上少一行字，而没人会发现。抛错会变成 500 + 日志，这才是数据缺陷
+ * 该有的可见度。
+ */
+function sourceOf(row: {
+  id: string;
+  source_id: string | null;
+  source_title: string | null;
+  source_page: number | null;
+}): NodeSource | null {
+  if (row.source_id === null) return null;
+  if (row.source_title === null || row.source_page === null) {
+    throw new Error(
+      `知识点 ${row.id} 有 source_id（${row.source_id}）却没有书名或页码：` +
+        `source_title=${String(row.source_title)}, source_page=${String(row.source_page)}`,
+    );
+  }
+  return {
+    sourceId: row.source_id,
+    title: row.source_title,
+    page: row.source_page,
+    // 句子只在服务端拼一处（理由见契约里 NodeSourceSchema 的注释）
+    pageLabel: `「${row.source_title}」第 ${row.source_page} 页`,
+  };
+}
 
 /**
  * 只读查询知识点与掌握状态。
@@ -133,13 +173,25 @@ export class NodesController {
 
   @Get('nodes/:microKpId')
   async detail(@Param('microKpId') microKpId: string): Promise<NodeDetailResponse> {
+    // 来源用 LEFT JOIN：`source_id` 为 NULL 的示例知识点（kp-bool / kp-kmap）
+    // 必须能被点开。写成 INNER JOIN 会让它们变成 404 ——
+    // 而它们在看板与图谱上都是可点的，那会变成一个死链接。
+    //
+    // 同理不写 `app.` 前缀：schema 由 `search_path` 决定（见文件头）。
     const rows = await this.db.query<{
       id: string;
       name: string;
       depth: number;
+      source_id: string | null;
+      source_title: string | null;
+      source_page: number | null;
     }>(
-      `SELECT n.id, n.name, n.depth
+      `SELECT n.id, n.name, n.depth,
+              s.id AS source_id,
+              s.title AS source_title,
+              n.source_page
          FROM knowledge_points n
+         LEFT JOIN sources s ON s.id = n.source_id
         WHERE n.id = $1 AND n.is_leaf = true`,
       [microKpId],
     );
@@ -191,6 +243,7 @@ export class NodesController {
         percent,
         depth: row.depth,
       },
+      source: sourceOf(row),
       levels: levels.map((l) => ({
         levelId: l.id,
         microKpId,

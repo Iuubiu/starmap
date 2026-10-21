@@ -43,12 +43,13 @@ import {
   type StageDefinition,
   type VerifyResult,
 } from './stages.ts';
+import { waitForSettled } from './settle.ts';
+import { probeStage } from './stage-probe.ts';
+import { makeReviewDue, pickMasteredKp, readReviewRound, readReviewSchedule } from './sql.ts';
 
 /** 每步的等待上限。地图页在无 GPU 机器上要 6–11 秒（实测），所以给宽一点。 */
 const SLOW_PAGE_TIMEOUT = 30_000;
 const FAST_TIMEOUT = 10_000;
-/** 等页面「静下来」的上限。见 `waitForSettled` 的 docblock。 */
-const SETTLE_TIMEOUT = 20_000;
 
 function heading(page: Page, name: string): Locator {
   return page.getByRole('heading', { level: 1, name });
@@ -74,75 +75,6 @@ async function readHeading(page: Page, timeout = SLOW_PAGE_TIMEOUT): Promise<str
 interface ApiList<T> {
   items?: T[];
   [key: string]: unknown;
-}
-
-/**
- * 等页面「静下来」：所有 `role=progressbar` 都消失。
- *
- * ## 为什么需要它（这是实测出来的缺陷，不是预防性措施）
- *
- * `readHeading(page)` 等的是 `<h1>` 可见，但 h1 往往是**静态标题** —— 它在
- * `usePlacementStatus()` 还是 `isPending` 时就渲染了，加载分支只替换 h1 下面的内容。
- * 于是「H1 已可见」与「页面已就绪」之间差着一个网络往返。
- *
- * 定级页实测时间线：
- *
- * ```
- * t=572ms  h1「初始定级」可见
- * t=572ms  行为自评 group  isVisible = false   ← 页面还在加载态
- * t=572ms  开始/重新定级按钮 isVisible = false  ← 同一个原因
- * t=572ms  body 尾部 = "… 正在读取你的档位…"
- * t=900ms  "正在读取你的档位…" 消失，按钮出现
- * ```
- *
- * 原代码在 572ms 那一刻各问了一次「现在可见吗」，两次都答 false，直接判
- * `locator_failure` —— 报告里因此出现一条**不成立的 blocker**。
- *
- * ## 为什么用 `role=progressbar` 而不是等具体元素
- *
- * Fluent 的 Spinner 自带这个角色，且带可访问名（`aria-labelledby` →
- * 「正在读取你的档位…」）。按角色等不依赖任何页面的具体措辞，也不需要在
- * 每个阶段里重复写「本阶段的就绪元素是什么」。
- *
- * ## 超时不报错
- *
- * 超时了就返回 —— 后面的显式检查会自己报出「没找到 X」。把「等不静」也报成
- * `locator_failure` 会把两种不同的原因（真的没有 vs 一直在转圈）搮成一个。
- *
- * ## 上限为什么是 20 秒
- *
- * 卡的不是应用状态，是渲染：`/map` 要等 1789 个叶节点（约 466 KB）回来再建 sigma
- * 的 WebGL 画布，本机无 GPU 走 SwiftShader，实测 `goto` 到清单首项可见 **6–11 秒**
- *（三采样 9049 / 9888 / 6057 ms）。定级页实测只 900ms。所以上限得比最慢那个
- * 页面宽一些—— 8 秒对 `/map` 是紧的，一次全量跑里会间歇性刚好超时。
- *
- * ## 一个已经修掉的产品缺陷（不要因为注释在这里就以为它还坏着）
- *
- * 早期版本只等 8 秒，是因为 `/database` 页有一个**永远不消失的 Spinner**：
- * `useRetrievalDebug` / `useNodeSources` 这些条件启用的 hook 用了 `isPending`，
- * 而 TanStack Query v5 里禁用查询（`enabled: false`）的 `status` 恒为 `'pending'`，
- * 于是从没检索过时「检索中…」永远在。**captain 已修掉**（改用 `isFetching`，
- * commit `bc32ae3`），三处：`RetrievalDebugger.tsx` 的检索与 bands、
- * `DatabasePage.tsx` 的「读取来源…」。
- *
- * 那条缺陷的回归守卫在 `test/settle.test.ts`：「`/database` 在无选中知识点时
- * 不应有 `role=progressbar`」。之所以不能靠本函数的超时去发现：**超时是静默
- * 返回的**（见下），有人把 `isPending` 用回来时这里只会安静地多等 20 秒。
- */
-async function waitForSettled(page: Page, timeout = SETTLE_TIMEOUT): Promise<void> {
-  const spinners = page.getByRole('progressbar');
-  const deadline = Date.now() + timeout;
-  /* 先让出一帧：刚 goto 完时 Spinner 可能还没挂上，立刻查会得到 0 个而误判
-     为「已经静下来」—— 那正好是上面那个缺陷的另一种写法。 */
-  await page.waitForTimeout(150);
-  while (Date.now() < deadline) {
-    if ((await spinners.count().catch(() => 0)) === 0) return;
-    await spinners
-      .first()
-      .waitFor({ state: 'hidden', timeout: 1000 })
-      .catch(() => undefined);
-    await page.waitForTimeout(80);
-  }
 }
 
 /**
@@ -538,6 +470,39 @@ const answerStage: StageDefinition = {
       };
     }
 
+    /* 进关卡**之前**先读一次掌握度。这是票 20 AC3「看掌握度变化」的前一半：
+       只断言 `attemptCount > 0` 是弱断言 —— 它证明不了这一阶段改变了什么
+       （上一轮旅程留下的作答同样能让它 > 0）。必须比 before/after。 */
+    const kpId = carry.get('microKpId');
+    interface MasterySnapshot {
+      attemptCount: number;
+      current: number | null;
+      achieved: number | null;
+      state: string;
+      evidenceSufficient: boolean;
+      lastEvidenceAt: string | null;
+    }
+    const readMastery = async (): Promise<MasterySnapshot | null> => {
+      if (kpId === undefined) return null;
+      const response = await api.getJson(`/mastery/${encodeURIComponent(kpId)}`);
+      if (response.status !== 200) return null;
+      const body = response.body as Partial<MasterySnapshot>;
+      return {
+        attemptCount: Number(body.attemptCount ?? 0),
+        current: typeof body.current === 'number' ? body.current : null,
+        achieved: typeof body.achieved === 'number' ? body.achieved : null,
+        state: String(body.state ?? 'unseen'),
+        evidenceSufficient: body.evidenceSufficient === true,
+        lastEvidenceAt: typeof body.lastEvidenceAt === 'string' ? body.lastEvidenceAt : null,
+      };
+    };
+    const before = await readMastery();
+    if (before !== null) {
+      evidence.push(
+        `作答前掌握度：attemptCount=${before.attemptCount} current=${String(before.current)} achieved=${String(before.achieved)} state=${before.state} evidenceSufficient=${String(before.evidenceSufficient)}`,
+      );
+    }
+
     // 进入关卡。
     await page.getByRole('button', { name: '开始' }).first().click();
     await page.waitForTimeout(1000);
@@ -648,26 +613,97 @@ const answerStage: StageDefinition = {
     }
     evidence.push(`在关卡内提交 ${answered} 道题`);
 
-    /* 真的写进库了吗？直接查这个知识点的掌握度：只要有一道作答，
-       attemptCount 就该 > 0。这比读页面上的「已作答」文本更硬 ——
-       后者只看前端状态，前端状态错的时候它照样绿。 */
+    /* 真的写进库了吗？再读一次掌握度，与作答前那次比。
+     *
+     * ## 为什么必须比 before/after，而不是只看 attemptCount > 0
+     *
+     * `attemptCount > 0` 是弱断言：三档 persona 共用同一个库，P1 跑完留下的
+     * 作答会让 P2 这一阶段「通过」，哪怕 P2 一次都没落库。它证明的是「库里有
+     * 证据」，不是「这一阶段产生了证据」。
+     *
+     * 断言三条：
+     * 1. `attemptCount` 的增量 == 本阶段实际提交的题数（多一条或少一条都是 bug）；
+     * 2. `current` 发生变化 —— 掌握度是按证据回放的，新证据必然改后验；
+     * 3. 若 `evidenceSufficient` 由 false 变 true，`state` 必须跟着变
+     *    （`deriveState` 在证据不足时恒为 `attempted`，够了才可能升档）。
+     */
     const nodeTitle = carry.get('nodeName') ?? '';
-    const kpId = carry.get('microKpId');
-    if (kpId) {
-      const mastery = await api.getJson(`/mastery/${encodeURIComponent(kpId)}`);
-      if (mastery.status !== 200) {
-        return { result: verify.backend(mastery.status, mastery.rawText, '读取掌握度失败'), evidence };
+    if (before !== null) {
+      const after = await readMastery();
+      if (after === null) {
+        return { result: verify.backend(0, '第二次读取掌握度失败', '作答后读不到掌握度接口'), evidence };
       }
-      const attemptCount = Number((mastery.body as { attemptCount?: number }).attemptCount ?? 0);
-      if (attemptCount === 0) {
+      evidence.push(
+        `作答后掌握度：attemptCount=${after.attemptCount} current=${String(after.current)} achieved=${String(after.achieved)} state=${after.state} evidenceSufficient=${String(after.evidenceSufficient)}`,
+      );
+
+      const delta = after.attemptCount - before.attemptCount;
+      if (delta !== answered) {
         return {
-          result: verify.mismatch('attemptCount > 0', '0', `界面显示已作答 ${answered} 题，但掌握度接口的 attemptCount 仍是 0（作答没落库）`),
+          result: verify.mismatch(
+            `attemptCount 增加 ${answered}`,
+            `增加 ${delta}（${before.attemptCount} → ${after.attemptCount}）`,
+            `界面显示提交 ${answered} 题，掌握度接口的 attemptCount 只增加了 ${delta} —— 有作答没落库，或有重复计数`,
+          ),
           evidence,
         };
       }
-      evidence.push(`掌握度接口 attemptCount = ${attemptCount}`);
+
+      /* ## 为什么先看 `lastEvidenceAt`，而不是直接比 `current`
+       *
+       * 实跑抓到过假红：`kp-bool` 已经掌握，`current = 0.9999984947945203`。
+       * 关卡是 3 道题（对 / 错 / 对），每过一遍正好是 BKT 后验的**长度 3 循环**
+       * —— 三条新证据之后回到同一个数。这时「current 必须变」测的不是
+       * 「掌握度从证据回放」，而是「这个节点还没进饱和区」。断言写错了。
+       *
+       * `lastEvidenceAt` 才是「新证据被读进去了」的直接证据：它由
+       * `replayMastery` 从最后一条证据的时间戳算出，与数值饱不饱和无关。
+       */
+      if (before.lastEvidenceAt !== null && after.lastEvidenceAt !== null && before.lastEvidenceAt === after.lastEvidenceAt) {
+        return {
+          result: verify.mismatch(
+            'lastEvidenceAt 前进',
+            `两次都是 ${after.lastEvidenceAt}`,
+            `新增 ${answered} 条证据后 lastEvidenceAt 没动 —— 新作答没进掌握度回放`,
+          ),
+          evidence,
+        };
+      }
+
+      /* 再看数值。`current` 可能为 null（证据不足时接口刻意不给数字），
+         那时比不了，要在 evidence 里说清而不是当成「没变化」。
+         饱和带（≥ 0.99，高于 `MASTERY_THRESHOLD=0.95` 一档）内允许相等：
+         那里的节点早已远超解锁所需，新证据只是让它继续贴着上界。 */
+      const SATURATION_BAND = 0.99;
+      const saturated =
+        before.current !== null && after.current !== null && before.current >= SATURATION_BAND && after.current >= SATURATION_BAND;
+      if (before.current !== null && after.current !== null && before.current === after.current && !saturated) {
+        return {
+          result: verify.mismatch(
+            'current 发生变化（或已在饱和带）',
+            `两次都是 ${String(after.current)}，且未达 ${SATURATION_BAND}`,
+            `新增 ${answered} 条证据后 current 完全没变 —— 掌握度不是从证据回放的`,
+          ),
+          evidence,
+        };
+      }
+      if (!before.evidenceSufficient && after.evidenceSufficient && before.state === after.state) {
+        return {
+          result: verify.mismatch(
+            '证据从不足变充足时 state 升档',
+            `两次都是 ${after.state}`,
+            'evidenceSufficient 由 false 变 true，但 state 没变 —— deriveState 没接上证据量',
+          ),
+          evidence,
+        };
+      }
+      evidence.push(
+        `掌握度变化：attemptCount +${delta}，current ${String(before.current)} → ${String(after.current)}，state ${before.state} → ${after.state}` +
+          (saturated && before.current === after.current ? '（current 已在饱和带，等值是 BKT 后验的固定循环，不是没回放）' : ''),
+      );
+      evidence.push(`lastEvidenceAt ${String(before.lastEvidenceAt)} → ${String(after.lastEvidenceAt)}`);
     } else {
-      evidence.push(`（没有记下知识点 id，跳过库侧核对；H1=${nodeTitle}）`);
+      evidence.push(`（没有记下知识点 id 或首次读取失败，跳过库侧核对；H1=${nodeTitle}）`);
     }
 
     /* 学生的话也要真的说出来一次：这是 P1/P2/P3 唯一能出现「学生原话」的
@@ -755,31 +791,297 @@ const reviewStage: StageDefinition = {
   stage: 'review',
   label: 'S6 复验',
   async run({ page, api }: StageContext) {
-    const queue = await api.getJson('/review/queue');
-    if (queue.status !== 200) {
-      return { result: verify.backend(queue.status, queue.rawText, '读取复验队列失败'), evidence: [] };
-    }
-    const due = (queue.body as { due?: unknown[] }).due;
-    const dueCount = Array.isArray(due) ? due.length : 0;
+    const evidence: string[] = [];
 
+    /* ## 为什么要「先看队列，空了就主动造一次到期」
+     *
+     * 复验的触发条件是 `app.mastery.next_review_at <= now()`，而票 07 的规则是
+     * 「掌握那一刻起算 +1 天」—— 一个刚学完的库，队列**必然是空的**。旧版阶段
+     * 在这里就 `return passed` 了，于是 `POST /review/rounds` 从来没被调用过，
+     * 票 20 AC3 的「触发一次复验」这一半永远是空的。
+     *
+     * 空队列时段的正确做法不是放弃，而是**制造一次到期**：挑一个已掌握、且
+     * 有 ≥3 道题的叶子知识点，把它的 `next_review_at` 拨到昨天。产品侧没有任何
+     * 接口能做这件事（那是对的 —— 让学生改复验排期等于让复验失效），所以只能
+     * 由评估器直连一次数据库。**这是评估器与产品之间的已知耦合点**，写进报告。
+     */
+    const queueNow = async (): Promise<{
+      status: number;
+      rawText: string;
+      due: Array<{ microKpId: string; name?: string }>;
+    }> => {
+      const response = await api.getJson('/review/queue');
+      const due = Array.isArray((response.body as { due?: unknown[] })?.due)
+        ? (response.body as { due: Array<{ microKpId: string; name?: string }> }).due
+        : [];
+      return { status: response.status, rawText: response.rawText, due };
+    };
+
+    let queue = await queueNow();
+    if (queue.status !== 200) {
+      return { result: verify.backend(queue.status, queue.rawText, '读取复验队列失败'), evidence };
+    }
+    evidence.push(`开始时 /review/queue 到期 ${queue.due.length} 条`);
+
+    let madeDue = false;
+    if (queue.due.length === 0) {
+      const picked = pickMasteredKp();
+      if (picked === null) {
+        /* 本机没有任何「已掌握 + 有 ≥3 道题」的知识点 —— 那是内容/证据不足，
+           不是产品缺陷。明确记成未覆盖，不静默通过。 */
+        return {
+          result: verify.passed('本机没有「已掌握且题目 ≥3 道」的知识点，复验阶段未覆盖（先跑完 answer 阶段或补内容）'),
+          evidence,
+        };
+      }
+      const made = makeReviewDue(picked.microKpId, 1);
+      if (!made.ok) {
+        return { result: verify.backend(0, made.error ?? '', `造复验到期失败：${made.error ?? ''}`), evidence };
+      }
+      if (made.affected === 0) {
+        return {
+          result: verify.passed(`挑中的知识点 ${picked.microKpId} 没有 mastery 行（尚未掌握），复验阶段未覆盖`),
+          evidence,
+        };
+      }
+      madeDue = true;
+      evidence.push(`造到期：把 ${picked.microKpId} 的 next_review_at 拨到 1 天前（UPDATE app.mastery，1 行）`);
+      queue = await queueNow();
+      if (queue.due.length === 0) {
+        return {
+          result: verify.mismatch(
+            '造到期后队列应列出该知识点',
+            'due 仍为空',
+            'next_review_at 已拨到过去，但 /review/queue 没有列出它（队列查询与排期列不同源）',
+          ),
+          evidence,
+        };
+      }
+    }
+
+    const target = queue.due[0];
+    if (target === undefined) {
+      return { result: verify.mismatch('队列里应有 ≥1 条到期', '0 条', '复验队列返回空但状态是 200'), evidence };
+    }
+    const targetKp = target.microKpId;
+    const scheduleBefore = readReviewSchedule(targetKp);
+    evidence.push(
+      `目标知识点 ${targetKp}${target.name !== undefined ? `（${target.name}）` : ''}：复验前 review_stage=${String(scheduleBefore?.reviewStage)} next_review_at=${String(scheduleBefore?.nextReviewAt)}`,
+    );
+
+    /* 页面先打开一次，确认队列态渲染得出来（这是学习者看到的第一屏）。 */
     await page.goto('/review', { waitUntil: 'domcontentloaded' });
     await waitForSettled(page);
-    const title = await readHeading(page, SLOW_PAGE_TIMEOUT);
-    if (title === null) {
-      return { result: verify.locator('h1', '复验页没有渲染出 H1'), evidence: [`接口到期条数 ${dueCount}`] };
+    const queueTitle = await readHeading(page, SLOW_PAGE_TIMEOUT);
+    if (queueTitle === null) {
+      return { result: verify.locator('h1', '复验页没有渲染出 H1'), evidence };
     }
-
-    /* 到期为空是**正常状态**（没到期的日子）。此时页面该说「没有到期」，
-       而不是渲染一个 0 题的空测验。断言这句文案存在。 */
-    if (dueCount === 0) {
-      const bodyText = await page.locator('body').innerText();
-      const saysNone = /没有.*(到期|需要复验)|没有要复验|暂无.*复验|不需要复验/.test(bodyText);
+    const queueBody = await page.locator('body').innerText().catch(() => '');
+    if (!queueBody.includes(targetKp) && (target.name === undefined || !queueBody.includes(target.name))) {
       return {
-        result: verify.passed(`接口 0 条到期；页面 H1「${title}」${saysNone ? '并说明没有到期' : '（未找到「没有到期」文案，见 evidence）'}`),
-        evidence: [`due=0`, `H1=${title}`, saysNone ? '页面有「没有到期」提示' : '页面文案未匹配"没有到期"（可能是措辞不同，不算失败）'],
+        result: verify.mismatch(
+          `页面上出现到期的知识点 ${target.name ?? targetKp}`,
+          '页面文本里找不到它',
+          '接口说它到期，复验页却没有列出它（两处读的不是同一份队列）',
+        ),
+        evidence,
       };
     }
-    return { result: verify.passed(`接口 ${dueCount} 条到期；复验页 H1「${title}」`), evidence: [`due=${dueCount}`, `H1=${title}`] };
+    evidence.push(`复验页 H1「${queueTitle}」并列出到期的 ${target.name ?? targetKp}`);
+
+    /* ## 真开一轮
+     *
+     * `POST /review/rounds` 是显式动作（票 07 的设计：进页面不自动抽题 ——
+     * 学生可能只想看看有没有到期的）。这里按学生的真实路径点页面上的
+     * 「开始复验」按钮，然后断言接口给了 3–5 题。
+     */
+    const startButton = page.getByRole('button', { name: '开始复验' });
+    const canStart = await startButton.isVisible().catch(() => false);
+    if (canStart) {
+      await startButton.click();
+      await waitForSettled(page);
+      evidence.push('点击了页面上的「开始复验」');
+    }
+
+    /* 页面点击的结果与直接打接口要一致。这里**以接口为准**取 roundId：
+       页面的 URL 会带 `?round=`，但那是渲染细节；接口响应才是事实。 */
+    const started = await api.postJson('/review/rounds', {});
+    if (started.status === 409) {
+      return {
+        result: verify.backend(409, started.rawText, `开复验轮次被拒（409）：${started.rawText.slice(0, 200)}`),
+        evidence,
+      };
+    }
+    if (started.status !== 200) {
+      return { result: verify.backend(started.status, started.rawText, '开复验轮次失败'), evidence };
+    }
+    const round = started.body as {
+      round?: { roundId?: string; itemCount?: number };
+      items?: Array<{ itemId: string; microKpId: string; ordinal: number }>;
+    };
+    const roundId = round.round?.roundId ?? '';
+    const items = round.items ?? [];
+    if (roundId === '') {
+      return { result: verify.mismatch('响应里有 roundId', '没有', '开复验轮次的响应缺 roundId'), evidence };
+    }
+    if (items.length < 3 || items.length > 5) {
+      return {
+        result: verify.mismatch('一轮 3–5 题', `${items.length} 题`, '复验抽题数不在 3–5 之间（票 07 验收 1）'),
+        evidence,
+      };
+    }
+    const distinctItems = new Set(items.map((item) => item.itemId)).size;
+    evidence.push(`开了一轮复验 ${roundId}：${items.length} 题（${distinctItems} 个不同题）`);
+
+    const openRound = readReviewRound(roundId);
+    if (openRound === null) {
+      evidence.push('（读不到库里的 review_rounds 行，跳过「open → completed」的库侧断言）');
+    } else if (openRound.verdict !== null) {
+      return {
+        result: verify.mismatch('新开的轮次 verdict 为 null（open）', String(openRound.verdict), '刚开的复验轮次已经有判分结果'),
+        evidence,
+      };
+    } else {
+      evidence.push(`库侧：review_rounds.verdict = null（open），item_count = ${openRound.itemCount}`);
+    }
+
+    /* ## 在页面上真答完
+     *
+     * 直接 goto `?round=<id>`：那是刷新后恢复同一轮题的深链接，也是学生
+     * 「中途离开再回来」的真实路径。比在首页点进面板更贴近要测的东西。
+     */
+    await page.goto(`/review?round=${encodeURIComponent(roundId)}`, { waitUntil: 'domcontentloaded' });
+    await waitForSettled(page);
+
+    let answered = 0;
+    for (let roundIndex = 0; roundIndex < 12; roundIndex += 1) {
+      const groups = page.getByRole('radiogroup');
+      const groupCount = await groups.count();
+      let picked = false;
+      for (let index = 0; index < groupCount; index += 1) {
+        const group = groups.nth(index);
+        if (!(await group.isVisible().catch(() => false))) continue;
+        const radios = group.getByRole('radio');
+        const radioCount = await radios.count();
+        if (radioCount === 0) continue;
+        let alreadyChosen = false;
+        for (let r = 0; r < radioCount; r += 1) {
+          if (await radios.nth(r).isChecked().catch(() => false)) {
+            alreadyChosen = true;
+            break;
+          }
+        }
+        if (alreadyChosen) continue;
+        if (await radios.first().isDisabled().catch(() => false)) continue;
+        await radios.first().click();
+        picked = true;
+        break;
+      }
+      if (!picked) break;
+
+      /* 每选完一题就点它那一张卡的「提交答案」。复验页每题一张 QuestionView，
+         提交后按钮消失，所以循环会收敛。 */
+      const submits = page.getByRole('button', { name: '提交答案' });
+      const submitCount = await submits.count();
+      let clicked = false;
+      for (let index = 0; index < submitCount; index += 1) {
+        const submit = submits.nth(index);
+        if (!(await submit.isVisible().catch(() => false))) continue;
+        if (await submit.isDisabled().catch(() => false)) continue;
+        await submit.click();
+        answered += 1;
+        clicked = true;
+        await page.waitForTimeout(350);
+        break;
+      }
+      if (!clicked) break;
+    }
+
+    if (answered === 0) {
+      return { result: verify.locator('button:提交答案', '复验页没有出现任何可作答的题'), evidence };
+    }
+    evidence.push(`在复验页面上提交 ${answered} 题`);
+
+    const completeButton = page.getByRole('button', { name: '交卷并判分' });
+    const canComplete = await completeButton
+      .waitFor({ state: 'visible', timeout: SLOW_PAGE_TIMEOUT })
+      .then(() => true)
+      .catch(() => false);
+    if (!canComplete) {
+      return { result: verify.locator('button:交卷并判分', '复验页没有出现「交卷并判分」按钮'), evidence };
+    }
+    if (await completeButton.isDisabled().catch(() => false)) {
+      const bodyText = await page.locator('body').innerText().catch(() => '');
+      return {
+        result: verify.mismatch(
+          '答完所有题后「交卷并判分」可点',
+          '按钮仍禁用',
+          `提交了 ${answered}/${items.length} 题，交卷按钮仍 disabled（页面文本：${bodyText.replace(/\s+/g, ' ').slice(0, 160)}）`,
+        ),
+        evidence,
+      };
+    }
+    await completeButton.click();
+    await waitForSettled(page);
+
+    const resultText = await page.locator('body').innerText().catch(() => '');
+    if (!/这一轮复验结束了|通过了|没通过/.test(resultText)) {
+      return {
+        result: verify.mismatch(
+          '判分后页面显示结果',
+          resultText.replace(/\s+/g, ' ').slice(0, 160),
+          '点了交卷后页面没有进入结果态',
+        ),
+        evidence,
+      };
+    }
+    evidence.push('页面上完成判分并显示结果');
+
+    /* ## 库侧：open → completed，且排期真的动了 */
+    const completed = readReviewRound(roundId);
+    if (completed === null) {
+      evidence.push('（读不到库里的 review_rounds 行，跳过终态断言）');
+    } else {
+      if (completed.verdict === null) {
+        return {
+          result: verify.mismatch('review_rounds.verdict 已写入', 'null', '页面上判分完成了，库里的轮次仍是 open'),
+          evidence,
+        };
+      }
+      evidence.push(
+        `库侧：review_rounds.verdict = ${completed.verdict}，correct_count = ${String(completed.correctCount)}/${completed.itemCount}`,
+      );
+    }
+
+    const scheduleAfter = readReviewSchedule(targetKp);
+    if (scheduleBefore !== null && scheduleAfter !== null) {
+      evidence.push(`复验后 review_stage=${scheduleAfter.reviewStage} next_review_at=${scheduleAfter.nextReviewAt}`);
+      const stageChanged = scheduleAfter.reviewStage !== scheduleBefore.reviewStage;
+      const dueChanged = scheduleAfter.nextReviewAt !== scheduleBefore.nextReviewAt;
+      if (!stageChanged && !dueChanged) {
+        return {
+          result: verify.mismatch(
+            '复验后 review_stage 或 next_review_at 至少一个变化',
+            `stage ${scheduleBefore.reviewStage}→${scheduleAfter.reviewStage}，nextDue ${String(scheduleBefore.nextReviewAt)}→${String(scheduleAfter.nextReviewAt)}`,
+            '一轮复验判分完成后，排期没有任何变化 —— advanceReviewSchedule 没接上',
+          ),
+          evidence,
+        };
+      }
+      evidence.push(
+        `排期变化：review_stage ${scheduleBefore.reviewStage} → ${scheduleAfter.reviewStage}；next_review_at ${String(scheduleBefore.nextReviewAt)} → ${String(scheduleAfter.nextReviewAt)}`,
+      );
+    }
+
+    /* 顺带记下「这一轮造到期是评估器改的库」——报告里要写明这个耦合点。 */
+    if (madeDue) evidence.push('注意：本次复验的到期时刻由评估器直连数据库修改（产品侧无此接口），属已知耦合点');
+
+    return {
+      result: verify.passed(
+        `复验链路走通：队列 ${queue.due.length} 条到期${madeDue ? '（评估器造到期 1 条）' : ''} → 抽 ${items.length} 题 → 页面答 ${answered} 题 → 判分完成 → 排期 ${String(scheduleBefore?.reviewStage)}→${String(scheduleAfter?.reviewStage)}`,
+      ),
+      evidence,
+    };
   },
 };
 
@@ -902,6 +1204,7 @@ export const STAGE_DEFINITIONS: readonly StageDefinition[] = [
   mapStage,
   nodeDetail,
   answerStage,
+  probeStage,
   boardStage,
   reviewStage,
   databaseStage,
@@ -917,4 +1220,6 @@ export function assertStageOrder(): void {
 }
 
 export type { StageApi, VerifyResult };
-export { waitForSettled };
+/* 实现搬到了 `settle.ts`（probe 阶段也要用它，而这里要 import probe 阶段，
+   两边互相 import 会触发 no-circular）。这里转出去，老的 import 路径照旧可用。 */
+export { waitForSettled } from './settle.ts';

@@ -25,6 +25,7 @@
 import {
   Badge,
   Body1,
+  Button,
   Caption1,
   Card,
   CardHeader,
@@ -34,6 +35,7 @@ import {
   tokens,
 } from '@fluentui/react-components';
 import type { ReactNode } from 'react';
+import { useNavigate } from 'react-router';
 import type { AgentTurnResponseArtifact } from '../api/generated/model';
 import { InlineRich } from '../level/markdown';
 import { masteryLabel } from '../mastery/labels';
@@ -183,9 +185,22 @@ function CardShell({
   );
 }
 
-/** 关卡卡：这张卡要能让人「决定去不去做」，所以给时长、题量、第一步是什么。 */
+/**
+ * 关卡卡：这张卡要能让人「决定去不去做」，所以给时长、题量、第一步是什么。
+ *
+ * ## 为什么卡里必须有一个「进入关卡」按钮
+ *
+ * 这张卡的全部意义是「让人去做题」。在此之前它只陈列四个数字，学生看完
+ * 只能自己去顶栏点「知识地图」、找到同一个知识点、滚到关卡列表、再点一次
+ * —— 那条路要求他自己记得刚才那张卡说的是哪个点。卡片产出了关卡却没给
+ * 入口，等于把「去做」这一步退回给记忆。
+ *
+ * 门控不受影响：`/level/:levelId` 是 `LevelPage`，它的入口锁与门控判定都在
+ * 服务端（`GatingService.evaluate`），绕过卡片也绕不过门控。
+ */
 function LevelCard({ artifact }: { artifact: Extract<AgentTurnResponseArtifact, { kind: 'level_card' }> }) {
   const styles = useStyles();
+  const navigate = useNavigate();
   return (
     <CardShell kindLabel="关卡" title={artifact.title} rationale={artifact.rationale}>
       <div className={styles.factGrid}>
@@ -193,6 +208,11 @@ function LevelCard({ artifact }: { artifact: Extract<AgentTurnResponseArtifact, 
         <Fact label="题目数" value={`${artifact.itemCount} 题`} />
         <Fact label="第一步" value={STEP_KIND_LABEL[artifact.firstStepKind] ?? artifact.firstStepKind} />
         <Fact label="难度档" value={artifact.tier} />
+      </div>
+      <div>
+        <Button appearance="primary" onClick={() => navigate(`/level/${artifact.levelId}`)}>
+          进入关卡
+        </Button>
       </div>
     </CardShell>
   );

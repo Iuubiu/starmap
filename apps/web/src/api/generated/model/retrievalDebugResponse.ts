@@ -5,6 +5,7 @@
  * 核电子学学习工作站。契约唯一真源：本文件由 packages/api-contract 的 Zod schema 生成，请勿手改。
  * OpenAPI spec version: 1.0.0
  */
+import type { RetrievalDebugResponseExpansionsItem } from './retrievalDebugResponseExpansionsItem.js';
 import type { RetrievalDebugResponseGateTier } from './retrievalDebugResponseGateTier.js';
 import type { RetrievalDebugResponseHitsItem } from './retrievalDebugResponseHitsItem.js';
 
@@ -20,6 +21,7 @@ export interface RetrievalDebugResponse {
      * @maximum 9007199254740991
      */
   excludedCount: number;
+  expansions: RetrievalDebugResponseExpansionsItem[];
   gateTier: RetrievalDebugResponseGateTier;
   hits: RetrievalDebugResponseHitsItem[];
   microKpId: string;

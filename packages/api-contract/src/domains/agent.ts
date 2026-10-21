@@ -290,6 +290,19 @@ export const RetrievalDebugHitSchema = z.object({
   exclusionReason: z.string().nullable(),
 });
 
+/**
+ * 一条跨语言展开记录（t32）：中文 query 里的术语 → 它展开出的英文串。
+ *
+ * 调试器要回答的问题是「一句纯中文的提问，为什么命中了英文正文」。
+ * 没有这条信息时，看到 `sourceTitle: Knoll` 只能靠猜。
+ */
+export const RetrievalExpansionSchema = z.object({
+  /** 命中的中文术语（来自 `content/glossary.json`） */
+  zh: z.string(),
+  /** 由它展开出的英文串 */
+  en: z.string(),
+});
+
 /** GET /api/v1/agent/retrieval/debug */
 export const RetrievalDebugResponseSchema = z.object({
   query: z.string(),
@@ -302,6 +315,15 @@ export const RetrievalDebugResponseSchema = z.object({
   totalMatched: z.number().int().min(0),
   answerChunkCount: z.number().int().min(0),
   excludedCount: z.number().int().min(0),
+  /**
+   * 跨语言扩展记录。空数组表示这次检索没有用到术语表
+   * （纯英文 query，或中文 query 没命中任何术语）。
+   *
+   * **不是可选字段**：可选会让前端写 `expansions?.length` 而把「没有扩展」
+   * 与「老后端」混为一谈。旧客户端拿到多出来的字段不会坏（HTTP JSON 向后兼容），
+   * 但新客户端不该猜。
+   */
+  expansions: z.array(RetrievalExpansionSchema),
 });
 
 export const RetrievalBandSchema = z.object({
@@ -322,6 +344,8 @@ export const RetrievalBandsResponseSchema = z.object({
   microKpId: z.string(),
   answerChunkIds: z.array(z.string()),
   bands: z.array(RetrievalBandSchema),
+  /** 同 `RetrievalDebugResponse.expansions`：三档共用同一批扩展词 */
+  expansions: z.array(RetrievalExpansionSchema),
 });
 
 /* ------------------------------------------------------------------ *
@@ -523,6 +547,7 @@ export type AgentEvidenceChunk = z.infer<typeof AgentEvidenceChunkSchema>;
 export type AgentTurnEvidenceResponse = z.infer<typeof AgentTurnEvidenceResponseSchema>;
 export type GateTierName = z.infer<typeof GateTierSchema>;
 export type RetrievalDebugHit = z.infer<typeof RetrievalDebugHitSchema>;
+export type RetrievalExpansion = z.infer<typeof RetrievalExpansionSchema>;
 export type RetrievalDebugResponse = z.infer<typeof RetrievalDebugResponseSchema>;
 export type RetrievalBand = z.infer<typeof RetrievalBandSchema>;
 export type RetrievalBandsResponse = z.infer<typeof RetrievalBandsResponseSchema>;

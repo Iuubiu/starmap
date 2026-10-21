@@ -98,6 +98,16 @@ export const handlers = [
         },
       ],
       reasons: ['已建立基础，还没有稳定，适合做变式练习。'],
+      // 票 18 验收 6：详情页读 `source`。默认桩给一个有来源的样本 ——
+      // 真库里 `kp-bool` 是示例知识点（source 为 null），但默认桩刻意不沿用
+      // 那个事实：无来源分支的渲染在 NodeDetailPage.test.tsx 里单独覆盖，
+      // 而走 MSW 的这几个用例要验的是「整条链路能拿到并显示来源」。
+      source: {
+        sourceId: 'knoll-4e-2010',
+        title: '辐射探测与测量（Knoll 第4版 2010）',
+        page: 12,
+        pageLabel: '「辐射探测与测量（Knoll 第4版 2010）」第 12 页',
+      },
     });
   }),
 
@@ -267,6 +277,39 @@ export const handlers = [
         { from: 'kp-kmap', to: 'kp-review', kind: 'prereq' },
       ],
       recommendedIds: ['kp-bool'],
+      /**
+       * 内容缺口（票 18 AC5）。
+       *
+       * 三条与真实迁移 0060 同形，但 id 指向本 fixture 里的节点 —— 这样
+       * 「有缺口」的默认渲染路径下，跳转按钮能找到目标。
+       *
+       * ⚠️ 前端测试断言的是「有缺口时渲染三条 topic」与「不在画布容器内」，
+       * 不是这三条文案本身；文案的真相源是迁移里的 `reason`。
+       */
+      contentGaps: [
+        {
+          id: 'gap-digital-mca',
+          topic: '数字多道分析器',
+          reason: '三份本科大纲都止于多道分析器原理，数字多道与 FPGA 在本科大纲里缺席。',
+          expectedRole: 'advanced',
+          nearestKpIds: ['kp-review'],
+        },
+        {
+          id: 'gap-fpga',
+          topic: 'FPGA 可编程器件',
+          reason: '资源库里只有结构与原理，没有设计方法的对口教材。',
+          expectedRole: 'advanced',
+          nearestKpIds: ['kp-bool'],
+        },
+        {
+          id: 'gap-digital-pulse',
+          topic: '数字脉冲处理',
+          reason: '唯一候选接不上多道分析器之后的任何一段课程。',
+          expectedRole: 'advanced',
+          // 刻意指向一个**不存在的**节点：验证「链接失效时缺口仍显示」。
+          nearestKpIds: ['kp-gone'],
+        },
+      ],
     }),
   ),
 
@@ -414,6 +457,9 @@ export const handlers = [
       totalMatched: 2,
       answerChunkCount: 1,
       excludedCount: 1,
+      // t32：默认桩模拟「中文 query 命中了一个术语」。显式写出来是因为
+      // 契约里 `expansions` 是**必填数组**，漏了会让解构直接抛错。
+      expansions: [{ zh: '逻辑代数', en: 'Boolean algebra' }],
       hits: [
         {
           chunkId: 'ck-1',
@@ -451,6 +497,7 @@ export const handlers = [
       query: url.searchParams.get('query') ?? '',
       microKpId: url.searchParams.get('microKpId') ?? 'kp-bool',
       answerChunkIds: ['ck-2'],
+      expansions: [{ zh: '逻辑代数', en: 'Boolean algebra' }],
       bands: [
         { current: 0.2, gateTier: 'background', allowedIds: ['ck-1'], excludedIds: ['ck-2'] },
         { current: 0.55, gateTier: 'scaffold', allowedIds: ['ck-1'], excludedIds: ['ck-2'] },

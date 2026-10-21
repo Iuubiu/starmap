@@ -209,6 +209,25 @@ beforeAll(async () => {
              '题5.2 的参考解法：先列出真值表，再按卡诺图合并相邻项，结果为 Y = A + B。',
              110, 'kp-book2-ref')`,
   );
+  // ---- 第四类：英文语料 + 跨语言扩展（t32） --------------------------------
+  //
+  // 这本「书」的正文全是英文，模拟 t26 入库的 15 本英文教材。中文 query 与它
+  // **没有任何共同 token**（`tokenize` 只做 CJK 二元组 + ASCII 词切分），
+  // 所以只有靠术语表把 `锗探测器` 展开成 `Germanium Detectors` 才能命中。
+  //
+  // 正文刻意让 `Germanium` 与 `detectors` 不连写（中间隔着 `coaxial`），
+  // 用来证明扩展词是按 token 匹配的，而不是拿整串做子串匹配。
+  await q(
+    `INSERT INTO ${schema.name}.sources (id, title, kind)
+     VALUES ('src-3', 'Radiation Detection and Measurement', 'book')`,
+  );
+  await q(
+    `INSERT INTO ${schema.name}.chunks (id, source_id, ordinal, kind, text, page, micro_kp_id)
+     VALUES ('ck-en-ge', 'src-3', 20, 'text',
+             'Germanium coaxial detectors provide excellent energy resolution for gamma-ray spectroscopy. ' ||
+             'The energy resolution of a germanium crystal is typically about 2 keV at 1332 keV.',
+             453, 'kp-a')`,
+  );
 }, 60_000);
 
 afterAll(async () => {
@@ -231,6 +250,7 @@ interface DebugBody {
   totalMatched: number;
   answerChunkCount: number;
   excludedCount: number;
+  expansions: Array<{ zh: string; en: string }>;
 }
 
 async function debug(microKpId: string, query = QUERY): Promise<DebugBody> {
@@ -561,5 +581,68 @@ describe('答案附录：不在 chunk_kp_answer 里的答案块', () => {
     expect(hit.exclusionReason).toBe(
       '该片段包含本知识点的答案内容，当前掌握度不足以查看答案',
     );
+  });
+});
+
+/**
+ * 跨语言查询扩展的接口级测试（t32）。
+ *
+ * ## 这条链要端到端跑的理由
+ *
+ * `expandQuery` 的单测证明「词表命中后返回了 Germanium Detectors」；`bm25.test.ts`
+ * 证明「给 `extraTerms` 就能命中英文 chunk」。但真正会失效的是**中间那一段**：
+ * `RetrievalService.retrieve()` 有没有把展开结果传给 `search()`。漏传时两个
+ * 单测都绿，而中文 query 依旧零命中 —— 这正是修之前的状态。
+ *
+ * ## 词表来源是真实产物
+ *
+ * 这里不造词表：`RetrievalService` 启动时读的是 `content/glossary.json`
+ * （真实产物）。如果那个文件丢了或条目被误删，这组用例会红 —— 而它红的方式
+ * （「中文 query 命中 0 条」）恰好就是真实故障的表现。
+ */
+describe('跨语言：中文 query 能命中英文正文（t32）', () => {
+  it('没有词表覆盖的中文 query 仍命不中英文 chunk（证明命中是扩展带来的）', async () => {
+    // 中文 chunk 里没有「锗」也没有「能量分辨」，英文 chunk 里全是英文 ——
+    // 没有任何共享 token。注意这同时是下面几条的**正向对照**：
+    // 「加了扩展之后命中」只有在「不加时真的不命中」的前提下才有意义。
+    //
+    // 不能直接拿 `锗探测器能量分辨` 当对照 —— 它现在一定会被展开（那正是要测的
+    // 功能）。用一个词表里没有的中文术语，才能证明「命中是扩展带来的」。
+    const body = await debug('kp-a', '量子色动力学禁闭');
+    expect(body.expansions).toEqual([]);
+    expect(body.hits.map((h) => h.chunkId)).not.toContain('ck-en-ge');
+  });
+
+  it('同一句中文 query 现在能命中英文 chunk，且 expansions 说明了原因', async () => {
+    const body = await debug('kp-a', '锗探测器能量分辨');
+    const hit = hitOf(body, 'ck-en-ge');
+    expect(hit.allowed).toBe(true);
+
+    // 调试器要能回答「为什么一句中文命中了英文」
+    expect(body.expansions.length).toBeGreaterThan(0);
+    expect(body.expansions).toContainEqual({ zh: '锗探测器', en: 'Germanium Detectors' });
+  });
+
+  it('纯英文 query 不展开（terms 为空），但照样能命中英文正文', async () => {
+    const body = await debug('kp-a', 'germanium coaxial detectors energy resolution');
+    expect(body.expansions).toEqual([]);
+    expect(body.hits.map((h) => h.chunkId)).toContain('ck-en-ge');
+  });
+
+  it('中文 query 的原有命中不受扩展影响（中文书照样命中）', async () => {
+    const body = await debug('kp-a', QUERY);
+    // `前置放大器噪声` 会被展开成 Preamplifier / Noise，但中文 chunk 的命中
+    // 不能因此减少 —— 扩展是**追加**，不是替换。
+    expect(body.hits.map((h) => h.chunkId)).toContain('ck-ans');
+    expect(body.expansions.map((e) => e.zh)).toContain('前置放大器');
+  });
+
+  it('bands 也带同一批 expansions（三档共用，不是每档各算一遍）', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/api/v1/agent/retrieval/bands')
+      .query({ query: '锗探测器能量分辨', microKpId: 'kp-a' })
+      .expect(200);
+    const body = res.body as { expansions: Array<{ zh: string; en: string }> };
+    expect(body.expansions).toContainEqual({ zh: '锗探测器', en: 'Germanium Detectors' });
   });
 });

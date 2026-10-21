@@ -104,10 +104,38 @@ _EN_APPENDIX_EXACT = frozenset(
 )
 _EN_APPENDIX_PREFIX = re.compile(r'^(appendix|appendices)\b', re.IGNORECASE)
 # 答案附录：整本答案汇编，票 09 的答案块门控要靠它按书取 chunk
+#
+# 旧判据（**整名** 之外的那条 `.*` 分支）保留作退路：`Answers to Selected
+# Problems` 这种带限定词的写法整名正则认不出，但它确实是答案附录。两条都要求
+# 先过 `is_en_appendix` 或整名匹配，所以不会命中正文里以 Solution 开头的句子。
 _EN_ANSWER_KEY = re.compile(
     r'^(answers?|solutions?)\b.*\b(problems?|exercises?)\b|^(answers?|solutions?)$',
     re.IGNORECASE,
 )
+#: 英文答案附录的**整名**判据（票 38）。
+#:
+#: 为什么必须整名而不是包含：15 本英文书里有大量正文小节的名字带
+#: `problems`/`exercises` —— 17 Gilmore 的 `Electronic timing problems`
+#: （p160）、`Assessment of intercomparison exercises`（p311）都是可学知识点，
+#: 不是答案附录。用 `'answers' in title` 这种包含判据会把它们一起降级。
+#: 整名还挡得住 15 Lutz 的 `Numerical Solution of Stationary Situations`。
+_EN_ANSWER_APPENDIX = re.compile(
+    r'^\s*(?:appendix\s*[A-Z0-9]?\s*[:.]?\s*)?'
+    r'(?:answers?|solutions?|answer\s*key|selected\s+(?:answers?|solutions?))'
+    r'(?:\s+(?:to|for))?\s*(?:the\s+)?'
+    r'(?:problems?|exercises?|questions?)?\s*$',
+    re.IGNORECASE,
+)
+
+#: 中文答案附录里必须出现的「学科词」。
+#:
+#: `toc.is_answer_key_title()` 要求标题先被判成附件（在 `_APPENDIX_EXACT` 词表
+#: 里），而郭江 2014 的「习题参考答案」不在那张表里 —— 它一直是个 `isLeaf=true`
+#: 的可学知识点，正文就是整本答案。补这一条：**以答案类词收尾 + 含学科词**
+#: 才算，`答案要点`（正文小节）不会命中。
+_CN_EXERCISE_WORDS = ('习题', '练习题', '思考题', '自测题', '试题', '复习题')
+#: 中文标题尾部的「（上册）」不是标题主体，比对前剥掉（与 `toc._TRAILING_PAREN` 同义）。
+_CN_TRAILING_PAREN = re.compile(r'[（(][^（()）]{1,8}[)）]\s*$')
 
 
 def is_en_appendix(title: str) -> bool:
@@ -119,9 +147,27 @@ def is_en_appendix(title: str) -> bool:
 
 def is_en_answer_key(title: str) -> bool:
     t = re.sub(r'\s+', ' ', title or '').strip()
-    if not is_en_appendix(t):
+    if not t:
         return False
-    return bool(_EN_ANSWER_KEY.match(t))
+    if _EN_ANSWER_APPENDIX.match(t):
+        return True
+    return is_en_appendix(t) and bool(_EN_ANSWER_KEY.match(t))
+
+
+def _cn_answer_key(title: str) -> bool:
+    """中文答案附录：`toc.is_answer_key_title` 之外的补充判据。
+
+    只补一类：**带学科词、以答案类词收尾、但不在 `toc._APPENDIX_EXACT` 词表里**
+    的标题（27 郭江 2014 的「习题参考答案」）。故意**不**接受光杆的「解答」
+    「答案」「题解」：它们自己在中文口径里不被当成附件（`toc.is_appendix_title`
+    返回 False），这里放宽会让正文小节被误降级。09 Grupen 那一本靠英文原名
+    `Solutions` 命中，不靠这一支。
+    """
+    t = re.sub(r'\s+', '', title or '')
+    t = _CN_TRAILING_PAREN.sub('', t)
+    if not t or not t.endswith(('答案', '解答', '题解')):
+        return False
+    return any(word in t for word in _CN_EXERCISE_WORDS)
 
 
 def is_appendix(title: str) -> bool:
@@ -134,8 +180,49 @@ def is_appendix(title: str) -> bool:
     return is_en_appendix(title) or is_appendix_title(title)
 
 
+def is_answer_appendix_title(name: str, name_original: str = '') -> bool:
+    """这条目录条目是不是「答案附录」（整本习题答案/参考解答）。
+
+    ## 为什么要新开一个函数而不是改 `toc.is_answer_key_title`
+
+    `toc.py` 那条是**中文**判据，且被 12 本已入库中文书的 5 个答案附录钉住了；
+    改它等于同时动 5 个既有节点的判定。这里把「中文复用 + 英文整名」合在一处，
+    只影响 `toc_books.py` 解析的 15 本书。
+
+    ## 两个入参的分工
+
+    - `name` 是**译名**（入库后学习者看到的那一列）。中文判据看它。
+    - `name_original` 是原书标题。英文判据看它 —— 中文译名会把 `Solutions`
+      译成「解答」，只靠译名就再也认不出原文是答案附录。
+
+    两个都试、任一中即算：`_build_tree` 挂树时两者都还是原文标题，调用方也只
+    传一个参数；产物补丁脚本拿的是 toc.json 里的两列，各归各位。
+
+    ## 实测覆盖（15 本，2026-10-21）
+
+    - 09 Grupen 的 `Solutions`（p533，章 18）：旧判据漏它，因为它既不在
+      `_EN_APPENDIX_EXACT` 里、也不是 `answers to problems` 这种完整写法。
+      它名下的正文是第 1–16 章习题解答。
+    - 27 郭江 2014 的「习题参考答案」（p221）：旧判据漏它，因为它不在
+      `toc._APPENDIX_EXACT` 词表里。
+    - 反例（必须不命中）：17 Gilmore 的 `Electronic timing problems` /
+      `Assessment of intercomparison exercises`、15 Lutz 的
+      `Numerical Solution of Stationary Situations`。
+
+    两个入参是 **OR** 关系而不是「译名优先」：任一侧能独立判成答案附录就够了，
+    两侧都判不成才是否。译名「解答」单独拿出来不算（它不是附件），但配上原名
+    `Solutions` 就算 —— 这正是 09 Grupen 那一行的形态。
+    """
+    if is_answer_key_title(name):
+        return True
+    if _cn_answer_key(name):
+        return True
+    return is_en_answer_key(name_original) or is_en_answer_key(name)
+
+
 def is_answer_key(title: str) -> bool:
-    return is_en_answer_key(title) or is_answer_key_title(title)
+    """兼容旧调用：只看一个标题时的答案附录判定。"""
+    return is_answer_appendix_title(title, title)
 
 
 # ---------------------------------------------------------------------------
@@ -788,11 +875,21 @@ def _parse_outline_levels(doc: pymupdf.Document) -> list[tuple[int, str, int]]:
     `1.0.1` 这种编号。这里把「出现过的层级」升序映射成 `1..n`。
     """
     raw: list[tuple[int, str, int]] = []
+    drop_below: int | None = None
     for level, title, page in doc.get_toc(simple=True):
         t = _norm(title)
         if not t:
             continue
+        # 已经决定丢掉某个容器的整棵子树：层级比它深的条目全部跳过。
+        # 见 `_OUTLINE_DROP_SUBTREE` 的注释（11 Spieler 的 Index → A..Z）。
+        if drop_below is not None:
+            if int(level) > drop_below:
+                continue
+            drop_below = None
         if t.lower() in _FRONT_MATTER or _looks_like_front_matter(t) or _is_metadata_title(t):
+            continue
+        if t.lower() in _OUTLINE_DROP_SUBTREE:
+            drop_below = int(level)
             continue
         if _PART_TITLE.match(t):
             continue
@@ -802,22 +899,65 @@ def _parse_outline_levels(doc: pymupdf.Document) -> list[tuple[int, str, int]]:
     # 「第N章」的是书名与前言残渣：10 Ahmed 的首条是书名
     # `Physics and Engineering of Radiation Detection`；27 郭江因为 level 1
     # 的 `目录` 被滤掉，`原子及原子核物理`/`绪论` 就从 level 2 浮上来当了一级。
+    # 但**答案附录**是例外：它的标题本来就不带章号（`习题参考答案` / `Solutions`），
+    # 却在最浅一层上，跟书名长得很像。26 郭江 2023 的 `习题参考答案`（PDF p316）
+    # 就这样被当成书名丢掉，它名下 p315-p320 的题解随后被相邻章按页区间吞成正文
+    # —— 产物里连这个节点都不存在，票 41 要识别的答案附录自然也就无从识别。
+    #
+    # 处理办法是给它一个**哨兵层级 0**：不进 `levels` 集合（否则会把章整体压到
+    # 第 2 层），也不动层级计数器（`_assign_numbers_from_levels` 直接跳过它），
+    # 于是它拿到空编号，由 `_build_tree` 的「无编号条目」分支挂到当前章下面 ——
+    # 和 12 本老书的答案附录一样是「章下的一个知识点」。最后按页序插回原位置，
+    # 因为 `stack[0]` 决定它挂在谁下面，位置错了就会挂到附录Ⅰ底下。
+    sentinel: list[tuple[int, str, int]] = []
     if raw:
         top = min(level for level, _t, _p in raw)
-        raw = [
-            (level, title, page)
-            for level, title, page in raw
-            if not (level == top and not _OUTLINE_CHAPTER_TITLE.match(title))
-        ]
+        kept: list[tuple[int, str, int]] = []
+        for level, title, page in raw:
+            if level == top and not _OUTLINE_CHAPTER_TITLE.match(title):
+                if is_answer_appendix_title(title, title):
+                    sentinel.append((0, title, page))
+                    continue
+                continue
+            kept.append((level, title, page))
+        raw = kept
 
     levels = sorted({level for level, _t, _p in raw})
     remap = {level: idx + 1 for idx, level in enumerate(levels)}
-    return [(remap[level], title, page) for level, title, page in raw]
+    out = [(remap[level], title, page) for level, title, page in raw]
+    out.extend(sentinel)
+    # 稳定排序：同页的条目保持书签原顺序。
+    out.sort(key=lambda e: e[2])
+    return out
 
 
 # 书签里「一级标题」的正经长相：`1 Detector systems overview` /
 # `第1章 原子的核式结构` / `Chapter 3 ...`。没有这些前缀的一级标题是书名。
 _OUTLINE_CHAPTER_TITLE = re.compile(r'^(\d{1,3}\b|第\s*\d+\s*章|chapter\s+\d+)', re.IGNORECASE)
+
+# 「容器型附录」：它们的子条目是索引词条/文献列表，不是可学知识点，
+# **子条目要连根丢掉**。
+#
+# 11 Spieler 的书签里 `[1,'Index',495]` 后面跟着 `[2,'A',495]` … `[2,'Z',506]`
+# （索引按首字母分组）。`Index` 不是 chapter 形状 → 被上面「最浅一层过滤」
+# 丢掉；但它的 25 个子条目还挂在 level 2，被 `_build_tree` 按深度栈挂到了
+# **上一个幸存的章（第 9 章）** 下面，产出 9.38=`C`、9.40=`D` 这种假节
+# （实测 spieler 因此多出 25 个 `未收录术语（A）` 叶子，页码 478–489，
+# 而第 9 章正文只到 434 页）。
+#
+# 只收「整名匹配」的终止性附录，不用 `is_en_appendix` 的宽前缀：
+# `Appendix A: Essential electronic measuring devices` 那类是有正文的附录章，
+# 该保留（由 `is_appendix` 标成非叶容器），而不是连子树丢掉。
+_OUTLINE_DROP_SUBTREE = frozenset(
+    {
+        'index',
+        'references',
+        'bibliography',
+        'further reading',
+        'glossary',
+        'symbols and abbreviations',
+    }
+)
 
 
 def _assign_numbers_from_levels(entries: list[tuple[int, str, int]]) -> list[_Raw]:
@@ -829,6 +969,13 @@ def _assign_numbers_from_levels(entries: list[tuple[int, str, int]]) -> list[_Ra
     counters: dict[int, int] = {}
     out: list[_Raw] = []
     for level, title, page in entries:
+        # 层级 0 是 `_parse_outline_levels` 给「最浅一层上的答案附录」留的哨兵：
+        # 它要拿空编号（挂到当前章下面），而且**不能动计数器** —— 一旦
+        # `counters[0] += 1` 就会触发下面「清更深层」的循环，把章计数清零，
+        # 下一个章又变回第 1 章，整本书的编号全撞。
+        if level == 0:
+            out.append(_Raw('', title, page))
+            continue
         counters[level] = counters.get(level, 0) + 1
         for deeper in [d for d in counters if d > level]:
             del counters[deeper]
@@ -938,13 +1085,17 @@ def _build_tree(entries: list[tuple[str, str, int]]) -> list[BookTocEntry]:
     roots: list[BookTocEntry] = []
     stack: list[BookTocEntry] = []
     for num, title, page in entries:
+        # 答案附录同时是章节附件：`assign.leaf_page_ranges` 只让「叶节点或附件」
+        # 当区间所有者，不把答案附录算成附件的话，它的页会被上一个叶子按页区间
+        # 吞成正文（09 Grupen 的 p533–576 就全挂在「术语表」名下）。
+        answer_key = is_answer_appendix_title(title, title)
         node = BookTocEntry(
             num=num,
             title=title,
             printed_page=page,
             depth=num.count('.') + 1 if num else 0,
-            appendix=is_appendix(title),
-            answer_key=is_answer_key(title),
+            appendix=is_appendix(title) or answer_key,
+            answer_key=answer_key,
             name_original=title,
         )
         if not num:

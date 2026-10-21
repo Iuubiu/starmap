@@ -36,10 +36,16 @@ describe('NodesController（集成）', () => {
       `INSERT INTO ${schema.name}.modules (id, subject_id, name, tier, ordinal)
        VALUES ('m-a', 'nuclear', '信号与噪声', 'A', 1)`,
     );
+    // 两本书（票 18 验收 6）：详情页要能说出「来自哪本书哪一页」。种两本而不是
+    // 一本，是为了让「只 JOIN 了一张固定的书」这类错误无法蒙混过关。
     await db.query(
-      `INSERT INTO ${schema.name}.knowledge_points (id, module_id, parent_id, name, is_leaf, depth, ordinal)
-       VALUES ('kp-root', 'm-a', NULL, '前置放大器', false, 0, 1),
-              ('kp-noise', 'm-a', 'kp-root', '电荷灵敏前放的噪声来源', true, 1, 1)`,
+      `INSERT INTO ${schema.name}.sources (id, title, kind)
+       VALUES ('book-a', '测试教材甲', 'book'), ('book-b', '测试教材乙', 'book')`,
+    );
+    await db.query(
+      `INSERT INTO ${schema.name}.knowledge_points (id, module_id, parent_id, name, is_leaf, depth, ordinal, source_id, source_page)
+       VALUES ('kp-root', 'm-a', NULL, '前置放大器', false, 0, 1, NULL, NULL),
+              ('kp-noise', 'm-a', 'kp-root', '电荷灵敏前放的噪声来源', true, 1, 1, 'book-a', 12)`,
     );
     await db.query(
       // spec 显式给空对象，别再依赖列默认值：0004 之后 `levels.spec` 已经
@@ -241,5 +247,119 @@ describe('NodesController（集成）', () => {
     } finally {
       spy.mockRestore();
     }
+  });
+
+  // ---------------------------------------------------------------------------
+  // 票 18 验收 6：每个知识点都能说出「来自哪本书哪一页」
+  // ---------------------------------------------------------------------------
+
+  it('真实书节点带出来源：书名、页码与给人看的 pageLabel 三样都在', async () => {
+    const db = app.get(DatabaseService);
+    // 第二本书（book-b）：只种一本书的话，「把书名写死成第一本」这类错误
+    // 能蒙混过关。
+    await db.query(
+      `INSERT INTO ${schema.name}.knowledge_points
+         (id, module_id, name, is_leaf, depth, ordinal, source_id, source_page)
+       VALUES ('kp-adc', 'm-a', 'ADC 的量化噪声', true, 1, 5, 'book-b', 87)`,
+    );
+
+    const first = await request(app.getHttpServer()).get('/api/v1/nodes/kp-noise').expect(200);
+    expect(first.body.source).toEqual({
+      sourceId: 'book-a',
+      title: '测试教材甲',
+      page: 12,
+      pageLabel: '「测试教材甲」第 12 页',
+    });
+
+    const second = await request(app.getHttpServer()).get('/api/v1/nodes/kp-adc').expect(200);
+    expect(second.body.source).toEqual({
+      sourceId: 'book-b',
+      title: '测试教材乙',
+      page: 87,
+      pageLabel: '「测试教材乙」第 87 页',
+    });
+
+    // 反向对照：两个节点真的来自两本书，不是一个常量被复制了两遍
+    expect(first.body.source.sourceId).not.toBe(second.body.source.sourceId);
+    expect(first.body.source.page).not.toBe(second.body.source.page);
+
+    // page 必须等于库里那一列，不能是「从 chunk 里猜的页码」
+    const rows = await db.query<{ source_page: number }>(
+      `SELECT source_page FROM knowledge_points WHERE id = 'kp-adc'`,
+    );
+    expect(second.body.source.page).toBe(rows[0]!.source_page);
+
+    assertMatchesContract('/api/v1/nodes/{microKpId}', 'get', 200, second.body);
+  });
+
+  it('示例知识点（source_id 为 NULL）返回 source: null，而不是 404 也不是编个假书名', async () => {
+    const db = app.get(DatabaseService);
+    // 与真实库里的 kp-bool / kp-kmap / kp-logic 同一形状：手工种的、不来自任何书。
+    await db.query(
+      `INSERT INTO ${schema.name}.knowledge_points (id, module_id, name, is_leaf, depth, ordinal)
+       VALUES ('kp-seed', 'm-a', '布尔代数基本运算', true, 1, 7)`,
+    );
+
+    const res = await request(app.getHttpServer()).get('/api/v1/nodes/kp-seed').expect(200);
+    expect(res.body.source).toBeNull();
+    // 反向对照：字段存在且是 null，不是「字段缺失」
+    expect('source' in res.body).toBe(true);
+    // 节点本体照常返回 —— 它在界面上可点，不能因为查不到来源就变 404
+    expect(res.body.node.microKpId).toBe('kp-seed');
+
+    assertMatchesContract('/api/v1/nodes/{microKpId}', 'get', 200, res.body);
+  });
+
+  it('全库级核对：source 为 null 的节点数 == 库里 source_id 为 NULL 的节点数', async () => {
+    // 这条防的是「某本书的 source_id 悄悄丢了」。
+    //
+    // 只查一两个节点挡不住这种缺陷：丢的是几百个节点里的某一个，抽查很难恰好
+    // 命中。这里拿**两个独立来源**对账 —— 逐个打接口看 `source`，与直接数库
+    // 里的 `source_id IS NULL`。两者必须相等。
+    //
+    // 注意：这里数的是**测试 schema**，不是生产库的 7312 行。生产库的同一个
+    // 断言靠 `pnpm verify` 里真实后端的 e2e 与人工探针（见票面 Comments）。
+    const db = app.get(DatabaseService);
+    const server = app.getHttpServer();
+
+    const list = await request(server).get('/api/v1/nodes?limit=200').expect(200);
+    const ids: string[] = list.body.items.map((n: { microKpId: string }) => n.microKpId);
+
+    const nullFromApi: string[] = [];
+    for (const id of ids) {
+      const detail = await request(server).get(`/api/v1/nodes/${id}`).expect(200);
+      if (detail.body.source === null) nullFromApi.push(id);
+    }
+
+    const rows = await db.query<{ id: string }>(
+      `SELECT id FROM knowledge_points WHERE is_leaf = true AND source_id IS NULL ORDER BY id`,
+    );
+    const nullFromDb = rows.map((r) => r.id);
+
+    expect(nullFromApi.sort()).toEqual(nullFromDb.sort());
+
+    // 还得证明「有来源」是绝大多数，否则「全部 null 也相等」会让上面那条
+    // 在功能完全没实现时也绿。
+    expect(ids.length - nullFromApi.length).toBeGreaterThan(0);
+  });
+
+  it('有 source_id 但没有页码是数据缺陷：报错，不拼出「第 null 页」', async () => {
+    // `source_page` 与 `source_id` 在生产库里一一对应（7312 行里为 NULL 的
+    // 正好就是那 3 个两者都为 NULL 的示例节点）。真出现「有书没页」说明入库
+    // 坏了，那时宁可 500 也不要让学习者看到「第 0 页」或者一行空白。
+    const db = app.get(DatabaseService);
+    await db.query(
+      `INSERT INTO ${schema.name}.knowledge_points
+         (id, module_id, name, is_leaf, depth, ordinal, source_id, source_page)
+       VALUES ('kp-broken-source', 'm-a', '有书没页码的点', true, 1, 8, 'book-a', NULL)`,
+    );
+
+    const res = await request(app.getHttpServer())
+      .get('/api/v1/nodes/kp-broken-source')
+      .expect(500);
+    expect(res.body.code).toBe('INTERNAL');
+
+    // 清场：后面的用例会遍历全部节点，留着它会让那个循环也 500
+    await db.query(`DELETE FROM ${schema.name}.knowledge_points WHERE id = 'kp-broken-source'`);
   });
 });

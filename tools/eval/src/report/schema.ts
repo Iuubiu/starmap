@@ -163,6 +163,49 @@ export const StallSchema = z.object({
   stallsOver2: z.number().int().min(0).default(0),
 });
 
+/**
+ * 追问阶段（三级施压）的结果。
+ *
+ * ## 为什么单独一块，不并进 `leakRate`
+ *
+ * `leakRate` 只有三个比率 + 三个样本数，它是「指标」。这一段是「证据」：
+ * 每一级命中了哪条判据、系统有没有确认/纠正、学生明说要答案之后系统还问了
+ * 几轮。报告里要写「L3 第 2 轮把正确选项原文贴出来了」—— 那句话需要判据分类，
+ * 一个 `0.33` 写不出来。
+ *
+ * ## 为什么 `observations` 不在这里
+ *
+ * 逐轮原文（每级 3 轮 × 3 级 = 9 条）进 `metrics.json`。报告正文只放计数与
+ * 至多两条引用：再多读者就不看了，而完整证据在 journey JSON 与 metrics.json 里。
+ */
+export const ProbeLeakTierSchema = z.object({
+  /** 该级泄露了几轮。 */
+  leaked: z.number().int().min(0).default(0),
+  /** 该级一共观察了几轮。 */
+  total: z.number().int().min(0).default(0),
+  /** 三条判据各自命中几次（一条回复可同时命中多条）。 */
+  answerText: z.number().int().min(0).default(0),
+  answerLetter: z.number().int().min(0).default(0),
+  explanation: z.number().int().min(0).default(0),
+});
+
+export const ProbeLeakSchema = z.object({
+  microKpId: z.string().nullable().default(null),
+  L1: ProbeLeakTierSchema.default({ leaked: 0, total: 0, answerText: 0, answerLetter: 0, explanation: 0 }),
+  L2: ProbeLeakTierSchema.default({ leaked: 0, total: 0, answerText: 0, answerLetter: 0, explanation: 0 }),
+  L3: ProbeLeakTierSchema.default({ leaked: 0, total: 0, answerText: 0, answerLetter: 0, explanation: 0 }),
+  /** 学生 L3 明说要答案之后，系统还继续追问的轮数。 */
+  extraProbesAfterRefusal: z.number().int().min(0).default(0),
+  /** 系统明确确认学生答对的轮数。 */
+  acknowledged: z.number().int().min(0).default(0),
+  /** 系统明确指出学生答错的轮数。 */
+  corrected: z.number().int().min(0).default(0),
+  /** 每条观察的原文摘录（至多 3 条）。 */
+  quotes: z.array(z.string().min(1)).max(3).default([]),
+  /** 没测到的原因（没有可追问的知识点时）。 */
+  skippedReason: z.string().nullable().default(null),
+});
+
 /** 单个 persona 的一次旅程。 */
 export const JourneySchema = z.object({
   personaId: z.string().min(1),
@@ -180,6 +223,14 @@ export const JourneySchema = z.object({
   /** 判分识别的两组独立埋点（答对/答错分开记，见 RecognitionSchema 注释）。 */
   recognition: RecognitionSchema.default({ correctTotal: 0, correctRecognized: 0, wrongTotal: 0, wrongRecognized: 0 }),
   leakRate: LeakRateSchema.default({ L1: null, L2: null, L3: null, samples: { L1: 0, L2: 0, L3: 0 } }),
+  /**
+   * 追问阶段的证据。`null` = 本版没跑（不是「没泄露」）。
+   *
+   * 与 `leakRate` 的关系：`leakRate` 的 L1/L2/L3 现在**主要**由这一段的观察
+   * 产生（见 `metrics/observations.ts`），但两者不能合并 —— `leakRate` 是
+   * 跨来源的统一比率（还包含被动泄露），这一段是追问阶段独有的证据。
+   */
+  probeLeak: ProbeLeakSchema.nullable().default(null),
   scoringConsistency: ScoringConsistencySchema.default({ fleissKappa: null, cv: null, nReplays: 0 }),
   stall: StallSchema.default({ maxStall: 0, stalls: [], stallsOver2: 0 }),
   paasSeries: z.array(z.number().min(1).max(9)).default([]),

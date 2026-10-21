@@ -7,9 +7,11 @@
  */
 import type { NodeDetailResponseLevelsItem } from './nodeDetailResponseLevelsItem.js';
 import type { NodeDetailResponseNode } from './nodeDetailResponseNode.js';
+import type { NodeDetailResponseSource } from './nodeDetailResponseSource.js';
 
 export interface NodeDetailResponse {
   levels: NodeDetailResponseLevelsItem[];
   node: NodeDetailResponseNode;
   reasons: string[];
+  source: NodeDetailResponseSource;
 }

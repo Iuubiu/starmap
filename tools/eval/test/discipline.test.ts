@@ -71,6 +71,7 @@ function fixtureReport(overrides: Partial<Report> = {}): Report {
         // 合并成 3/5 = 60% 会掩盖"答错那侧在漏水"这件事。
         recognition: { correctTotal: 3, correctRecognized: 2, wrongTotal: 2, wrongRecognized: 1 },
         leakRate: { L1: 0.1, L2: 0.2, L3: 0.5, samples: { L1: 5, L2: 5, L3: 4 } },
+        probeLeak: null,
         scoringConsistency: { fleissKappa: 0.83, cv: 0.02, nReplays: 5 },
         stall: { maxStall: 3, stalls: [2, 3], stallsOver2: 1 },
         paasSeries: [7, 8],

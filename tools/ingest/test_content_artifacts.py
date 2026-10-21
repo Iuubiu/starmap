@@ -1,10 +1,25 @@
-"""产物不变量：`content/*/toc.json` 必须由**当前代码**生成（票 17 / is_answer_key）。
+"""产物不变量：`content/*/toc.json` 必须由**当前代码**生成（票 17 / is_answer_key / t38）。
 
 守的是产物，不是代码。今天这条测试会红一次 —— 已生成的 toc.json 里有 6 本是
 `answerKey` 字段落地之前跑的，字段根本不存在，`import-content.ts` 读
 `n.answerKey === true` 得到 undefined ⇒ false ⇒ 数据库里 `is_answer_key` 整列
 0 行、`kp_answer_key_idx` 索引 0 行，检索侧只能靠 `name ~ '答案|解答'` 的
 第二真源兜底。重出产物后这条变绿；以后改了判定规则而忘记重出，它会立刻再红。
+
+## t38：判据从「只看中文」改成「中英统一」
+
+原来这里只调 `toc.is_answer_key_title()`（中文词表 + 答案收尾）。t38 把英文书
+也纳进来之后，产物里多两个节点它认不出：
+
+- 09 Grupen 的 `kp-grupen-2e-2008-18`（译名「解答」、原名 `Solutions`，p533）——
+  中文词表里没有光杆「解答」，但它确实是第 1–16 章的习题解答；
+- 27 郭江 2014 的 `kp-guojiang-2014-20`（「习题参考答案」，p221）——
+  `toc._APPENDIX_EXACT` 里没有这个写法。
+
+所以断言改成调 `toc_books.is_answer_appendix_title(name, nameOriginal)` —— 它
+第一支就是 `is_answer_key_title(name)`，是原判据的超集，所以中文书那 5 条仍然
+被钉住；多出来的只是英文/补充判据认得的。**用两列而不是只拿 `name`**：
+`Solutions` 译成「解答」后，光看译名认不出原文是答案附录。
 """
 from __future__ import annotations
 
@@ -17,6 +32,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent))
 
 from toc import is_answer_key_title  # noqa: E402
+from toc_books import is_answer_appendix_title  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 CONTENT = ROOT / 'content'
@@ -30,9 +46,23 @@ def _tocs() -> list[Path]:
 def test_answer_key_flag_matches_the_rule_for_every_book() -> None:
     """每本书里 `answerKey===true` 的节点集合，必须等于按标题算出来的集合。
 
-    判据在 `toc.is_answer_key_title()`：附件 **且** 标题以 答案/解答/题解 结尾。
-    实测应命中的 4 条：`部分习题答案`（康华光模拟、阎石）、
-    `部分自测题和习题答案`（童诗白）、`部分习题答案（上册）`（李瀚荪）。
+    判据是 `toc_books.is_answer_appendix_title(name, nameOriginal)`（t38 起）：
+    中文支复用 `toc.is_answer_key_title()`（附件 + 答案/解答/题解 收尾），
+    英文支是**整名**正则（`Solutions` / `Answers to Problems` / `Appendix A: Answers`）。
+
+    实测应命中 8 条：5 条中文书答案附录 + 09 Grupen 的 `解答`(Solutions)
+    + 27 郭江 2014 的「习题参考答案」+ 26 郭江 2023 的「习题参考答案」。
+
+    26 郭江 2023 那条是 t41 才进来的：它的书签顶层是「习题参考答案」而
+    不是「第 N 章」，被 `_parse_outline_levels` 的「最浅一层里不像章的都丢掉」
+    规则连同前言残渣一起丢了，p315–p320 的整本答案于是被上一个叶子
+    `kp-guojiang-2023-15-6` 按页区间吞成「习题正文」。修法是给这种条目一个
+    哨兵层级 0（不进层级 remap、不动编号计数器），由 `_build_tree` 的无编号
+    分支挂到当前章下面 —— 与 12 本老书的答案附录同形。
+
+    断言本身是**按规则对账**（`flagged != expected`），不写死数量；这段只是
+    给人看的实测参考。数量变了不必改断言，但要改这段，否则下一个人会以为
+    规则漏了。
     """
     bad: list[str] = []
     missing_field: list[str] = []
@@ -43,7 +73,11 @@ def test_answer_key_flag_matches_the_rule_for_every_book() -> None:
             missing_field.append(path.parent.name)
             continue
         flagged = {n['microKpId'] for n in nodes if n.get('answerKey') is True}
-        expected = {n['microKpId'] for n in nodes if is_answer_key_title(n.get('name', ''))}
+        expected = {
+            n['microKpId']
+            for n in nodes
+            if is_answer_appendix_title(n.get('name', ''), n.get('nameOriginal') or '')
+        }
         if flagged != expected:
             bad.append(
                 f'{path.parent.name}: 产物 {sorted(flagged)} != 规则 {sorted(expected)}'

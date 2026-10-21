@@ -40,6 +40,7 @@ import {
 import { useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useGraph } from '../api/queries';
+import type { ContentGap } from '../api/generated/model';
 import { GraphCanvas } from '../graph/GraphCanvas';
 import { NodeRoster } from '../graph/NodeRoster';
 import { StatusLegend } from '../graph/StatusLegend';
@@ -68,6 +69,15 @@ import {
   type ViewState,
 } from '../graph/view-state.js';
 import '../graph/graph.css';
+
+/**
+ * 画布区域的最小高度，与 `graph.css` 的 `.graph-canvas { min-height }` 同值。
+ *
+ * 两边必须对得上：这个数写小了，画布会溢出自己的格子去盖住下面的内容；
+ * 写大了，页面会多出一块空白。宽屏 480px / 窄屏（≤1080px）380px，
+ * 取大的那个 —— 窄屏时多出 100px 空白，不会出错；取小的则宽屏会被盖。
+ */
+const CANVAS_MIN_HEIGHT = 480;
 
 const useStyles = makeStyles({
   page: {
@@ -111,11 +121,28 @@ const useStyles = makeStyles({
     fontFamily: 'inherit',
     fontSize: tokens.fontSizeBase300,
   },
+  /**
+   * 画布 + 右侧清单。
+   *
+   * `minHeight` 必须是**带单位的具体值**，两个坑都在这里：
+   * - 写 `0`：这一格会被下面的内容缺口区挤小，而画布本身有 `min-height: 480px`
+   *   （见 `graph.css`），它不会跟着缩，只会溢出自己的格子，**盖住**缺口区 ——
+   *   缺口区在 DOM 里、在无障碍树里、`isVisible()` 也报可见（它只判矩形与
+   *   visibility，不判遮挡），但屏幕上看到的是深色画布。
+   * - 写裸数字 `480`：Griffel（makeStyles）不会给裸数字补 `px`，会生成一条
+   *   无效声明并被浏览器丢弃，计算值仍是 `auto`。而 `minHeight: 0` 能生效是
+   *   因为 0 本来就无需单位 —— 所以这个坑只在非零值上出现。
+   *
+   * 空间不够时是**整页变高、由 `AppShell` 的 `main { overflow: auto }` 滚**，
+   * 而不是画布压住别的内容；右栅清单仍然在格子里自己滚（`.graph-roster`
+   * 是滚动容器）。这里刻意不给 `page` 加 `overflow` —— `main` 已经在滚了，
+   * 再套一层会多出一条滚动条。
+   */
   body: {
     display: 'grid',
     gridTemplateColumns: 'minmax(0, 1fr) 340px',
     gap: '16px',
-    minHeight: 0,
+    minHeight: `${CANVAS_MIN_HEIGHT}px`,
     flex: '1 1 auto',
   },
   side: {
@@ -126,6 +153,31 @@ const useStyles = makeStyles({
   },
   status: {
     color: tokens.colorNeutralForeground3,
+    fontSize: tokens.fontSizeBase200,
+  },
+  /**
+   * 内容缺口区（票 18 AC5）。
+   *
+   * 放在页面最底部、图例与清单之下 —— 它是一句「往后没有教材了」的说明，
+   * 不是当前视野的一部分，所以不该抢画布上方或右侧栏的位置。
+   */
+  gaps: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  gapList: {
+    margin: 0,
+    paddingLeft: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+  },
+  gapTopic: {
+    fontWeight: tokens.fontWeightSemibold,
+  },
+  gapReason: {
+    color: tokens.colorNeutralForeground2,
     fontSize: tokens.fontSizeBase200,
   },
   mainline: {
@@ -189,6 +241,82 @@ const useStyles = makeStyles({
   },
 });
 
+/**
+ * 内容缺口列表（票 18 AC5）。
+ *
+ * ## 为什么不画在 sigma 画布上
+ *
+ * 缺口指向的是「图上不存在的节点」。真要在画布上表示它，要么造一批虚拟节点
+ * （4441 个真实节点的力导向布局会被这些凭空出现的点拉变形，而且它们没有边、
+ * 会漂到外围去），要么画在固定位置（那就与图毫无关系了）。更实际的问题是：
+ * 缺口的语义是「课程到这儿为止」，它不属于任何一个具体节点，不属于任何一条
+ * 边 —— 它属于**整张图**。所以它渲染在图下方，作为一句面向整张图的说明。
+ *
+ * ## 为什么跳转入口取 `nearestKpIds[0]` 而不是渲染全部
+ *
+ * 数组里是同一主题在不同书里的几节（「多道分析器」在 Ahmed / Knoll / Leo 各
+ * 有一节）。三个链接指向三个名字一样的节点，对学习者没有额外信息量。只给
+ * 第一个做入口，其余不渲染 —— 数组顺序就是「最接近课程终点」的顺序（见
+ * `ContentGapSchema`）。
+ *
+ * ## 为什么 id 不在当前图里就不给链接
+ *
+ * `nearestKpIds` 是迁移执行时按名字解析的，知识点重导入后 id 会漂移。那时
+ * 点进去就是一个 404。所以先查一下它在不在 `nodes` 里：在就给按钮，不在就
+ * 只显示 topic + reason。**缺口本身照常显示** —— 「这里缺内容」是内容侧的
+ * 事实，不因为提示链接失效而不再成立。
+ */
+function ContentGaps({
+  gaps,
+  nodeIds,
+  onOpen,
+}: {
+  gaps: readonly ContentGap[];
+  nodeIds: ReadonlySet<string>;
+  onOpen: (microKpId: string) => void;
+}) {
+  const styles = useStyles();
+  if (gaps.length === 0) return null;
+
+  return (
+    <section className={styles.gaps} aria-label="内容缺口" data-content-gaps>
+      <MessageBar intent="warning">
+        <MessageBarBody>
+          <strong>资源库里没有对口教材的几处内容</strong>
+          <br />
+          下面这些主题在本科课程里本该有位置，但资源库没有能支撑它们的教材。
+          缺口不是「还没录完」，而是这门课在本科层面就到这儿为止。
+        </MessageBarBody>
+      </MessageBar>
+      <ul className={styles.gapList}>
+        {gaps.map((gap) => {
+          const nearest = gap.nearestKpIds.find((id) => nodeIds.has(id)) ?? null;
+          return (
+            <li key={gap.id} data-content-gap-id={gap.id}>
+              <span className={styles.gapTopic}>{gap.topic}</span>
+              {' — '}
+              <span className={styles.gapReason}>{gap.reason}</span>
+              {nearest !== null && (
+                <>
+                  {' '}
+                  <Button
+                    appearance="transparent"
+                    size="small"
+                    onClick={() => onOpen(nearest)}
+                    data-content-gap-nearest={nearest}
+                  >
+                    从最接近的知识点看起
+                  </Button>
+                </>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
 /** 状态形状的小 SVG，与图例共用同一套形状名 —— 两处各画一遍迟早会漂。 */
 function ShapeMark({ shape, color }: { shape: string; color: string }) {
   return (
@@ -241,6 +369,16 @@ export function MapPage() {
    */
   const recommended = useMemo(
     () => new Set(graph.payload?.recommendedIds ?? []),
+    [graph.payload],
+  );
+
+  /**
+   * 图里现有的节点 id。内容缺口的 `nearestKpIds` 可能指向已经不在图里的
+   * 知识点（重导入后 id 漂移），这里先建一份集合，缺口区据此决定给不给
+   * 跳转按钮。建一次复用，不在每条的 `find()` 里各扫一遍。
+   */
+  const nodeIdSet = useMemo(
+    () => new Set((graph.payload?.nodes ?? []).map((node) => node.microKpId)),
     [graph.payload],
   );
 
@@ -465,6 +603,15 @@ export function MapPage() {
             />
           </div>
         </div>
+      )}
+
+      {/*
+       * 内容缺口（票 18 AC5）。放在画布与清单之外、页面最底部：它描述的是
+       * **整张图**「往后没有教材了」，而不是当前视野里某几个节点的状态。
+       * 不渲染在 `.graph-canvas` 容器内 —— 画布只画真实节点。
+       */}
+      {index !== null && (
+        <ContentGaps gaps={graph.payload?.contentGaps ?? []} nodeIds={nodeIdSet} onOpen={openNode} />
       )}
     </div>
   );

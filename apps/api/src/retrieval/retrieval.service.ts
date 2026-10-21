@@ -50,6 +50,13 @@ export interface RetrievalOutcome {
   allowed: GatedChunk[];
   excluded: GatedChunk[];
   answerChunkIds: string[];
+  /**
+   * 跨语言扩展记录（t32）。中文 query 命中的术语 → 展开出的英文串。
+   * 调试器用它回答「为什么一条中文提问命中了英文正文」。
+   */
+  expansions: QueryExpansion[];
+  /** 实际参与检索的扩展词（去重后）。摘要取词也用它。 */
+  extraTerms: string[];
 }
 
 /**
@@ -60,8 +67,10 @@ export interface RetrievalOutcome {
  * 而 background 档还要额外排除公式与表格（见 `applyTierShape`）。阈值本身
  * 两边必须同源，所以干脆 import 过来，不自己写数字。
  */
-import { GATE_THRESHOLDS, gateTierFor, filterChunks } from '@starmap/engine';
+import { GATE_THRESHOLDS, gateTierFor, filterChunks, expandQuery } from '@starmap/engine';
+import type { GlossaryEntry, QueryExpansion } from '@starmap/engine';
 import { ChunkIndex, buildSnippet, type IndexedChunk } from './bm25.js';
+import { loadGlossary, type LoadedGlossary } from './glossary-store.js';
 
 export { GATE_THRESHOLDS, gateTierFor };
 
@@ -170,7 +179,24 @@ export class RetrievalService {
   private readonly logger = new Logger(RetrievalService.name);
   private cache: { key: string; index: ChunkIndex } | null = null;
 
+  /**
+   * 中英术语表（t32）。启动时读一次，挂在索引缓存旁。
+   *
+   * 读失败不抛错：没有词表的后果只是「中文 query 搜不到英文正文」，
+   * 与修之前一样；抛错会让整个 API 起不来（包括与检索无关的页面）。
+   */
+  private readonly glossary: LoadedGlossary;
+
   constructor(@Inject(DatabaseService) private readonly db: DatabaseService) {
+    this.glossary = loadGlossary();
+    if (this.glossary.loaded) {
+      this.logger.log(
+        `加载中英术语表：${this.glossary.entries.length} 个术语（${this.glossary.path}）`,
+      );
+    } else {
+      this.logger.warn(`未加载中英术语表，中文 query 不会扩展到英文语料：${this.glossary.error}`);
+    }
+
     const bus = db.connection;
     // 连接池继承 EventEmitter，可以直接挂监听；这样写入方（导入脚本、测试）
     // 只要 `db.connection.emit(CORPUS_CHANGED)`，下一次检索就会重建索引。
@@ -318,7 +344,15 @@ export class RetrievalService {
     const tier = gateTierFor(current);
     const answerIds = await this.answerChunkIdsFor(params.microKpId);
 
-    const matches = index.search(params.query, { hardCap: params.candidateLimit ?? 200 });
+    // 跨语言扩展（t32）：中文 query 在英文正文里零命中，先展开成英文术语。
+    // 纯英文 query 返回空（见 `expandQuery` 文件头），中文书不受影响。
+    const expanded = expandQuery(params.query, this.glossary.entries as readonly GlossaryEntry[]);
+    const extraTerms = expanded.terms;
+
+    const matches = index.search(params.query, {
+      hardCap: params.candidateLimit ?? 200,
+      extraTerms: extraTerms,
+    });
     const candidates: CandidateChunk[] = matches.map((m) => ({
       id: m.chunk.id,
       microKpId: m.chunk.microKpId,
@@ -367,11 +401,18 @@ export class RetrievalService {
       allowed: gated.filter((g) => g.allowed),
       excluded: gated.filter((g) => !g.allowed),
       answerChunkIds: [...answerIds],
+      expansions: expanded.expansions,
+      extraTerms,
     };
   }
 
-  /** 摘要文本（命中词附近取上下文）。 */
-  snippet(text: string, query: string): string {
-    return buildSnippet(text, query);
+  /**
+   * 摘要文本（命中词附近取上下文）。
+   *
+   * `extraTerms` 必传：中文 query 命中的是英文正文，只用中文 token 找命中点
+   * 会找不到，摘要退回「从头截」。默认空数组是为了让旧调用点（无扩展）不变。
+   */
+  snippet(text: string, query: string, extraTerms: readonly string[] = []): string {
+    return buildSnippet(text, query, 160, extraTerms);
   }
 }

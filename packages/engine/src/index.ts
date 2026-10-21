@@ -80,3 +80,11 @@ export * from './review.js';
    它是票 12 的六维渲染参数真源：参数要同时驱动界面与策略，放前端后端读不到、放数据库
    每次改数字都要迁移，而且「P2 的阶梯上限是 4」会与 probe-ladder 变成两份。 */
 export * from './tier.js';
+
+/* glossary 不撞名（GlossaryEntry / QueryExpansion / ExpandedQuery / expandQuery 在这个包里
+   都是首次出现）。它是「中文 query → 英文语料」的术语桥：15 本英文教材入库后英文书占了
+   大半个叶节点池，而 BM25 是纯字面匹配 —— 中文 query 对英文正文零命中，学生看到地图上
+   有节点、搜出来却是空的。词表来自各书 toc.json 的 name/nameOriginal 副产品
+   （content/glossary.json），引擎侧只做最长匹配展开，**不读文件**：读文件是 api 层
+   glossary-store 的事，engine 仍然可以是纯函数。 */
+export * from './glossary.js';

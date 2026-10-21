@@ -51,6 +51,9 @@ _MIN_TITLE_HIT = 0.30
 _MIN_FOOTER_HIT = 0.35
 #: 回验窗口：正文起始页之后这么多页。
 _PROBE_PAGES = 260
+#: 逐页偏移表的最低锚点密度（保留下来的锚点 / 正文页数）。低于它说明这本书的
+#: 页码大多认不出来，逐页表只是把噪声拟合成台阶 —— 退回常数偏移更安全。
+_MIN_ANCHOR_DENSITY = 0.40
 #: 回验时每页只看前 3000 字符：章标题与小节标题都排在页首或页中。
 _PAGE_PROBE_CHARS = 3000
 
@@ -121,6 +124,10 @@ class BookProbe:
         self._probe_pages = pages
         #: 实际探测了多少页。页眉/页脚一致率的分母是它，不是总票数。
         self.probed_pages = 0
+        #: 逐页锚点 `(pdf_index, pdf_index - 印刷页码)`，供 `measure_pages` 用。
+        #: 与 `_footer_votes` 是同一批观测的两种视图：一个是全书汇总，
+        #: 一个是按页保留 —— 逐页偏移必须知道「哪一页说了什么」。
+        self.anchors: list[tuple[int, int]] = []
         doc = pymupdf.open(pdf_path)
         try:
             self.page_count = doc.page_count
@@ -138,6 +145,7 @@ class BookProbe:
                 number = numbers[0]
                 if 1 <= number <= doc.page_count:
                     self._footer_votes[i - number] += 1
+                    self.anchors.append((i, i - number))
         finally:
             doc.close()
 
@@ -194,6 +202,109 @@ class BookProbe:
             if text is not None and key in text:
                 hit += 1
         return (hit / tried if tried else 0.0), hit, tried
+
+
+def measure_pages(
+    pdf_path: str,
+    *,
+    body_start: int,
+    fallback: int,
+    window: int = 15,
+    pages: int | None = None,
+) -> tuple[dict[int, int], dict]:
+    """逐页偏移表：`{pdf_index: offset}`，覆盖 `[body_start, page_count)`。
+
+    与 `ocr.resolve_page_offsets()` 同一套算法（那边是 OCR 路径的实测产物）。
+    每页的 `pdf_index - 印刷页码` 是锚点，对每一页取**附近 ±window 页内**的
+    众数。漂移是分段常数，局部投票能吃掉单页误读；附近没有锚点时用全书众数。
+
+    为什么常数偏移不够：实测 10 Ahmed 的偏移从 7 一路漂到 1、15 Lutz 从 7 漂到
+    2、13 Nakhostin 从 9 漂到 5 —— 书里夹了没编号的插页/整版图，偏移在那一页
+    之后整体平移。常数偏移必然让一侧错页，而 `assign` 按印刷页码分区间，错页
+    = 整章内容挂到邻居知识点上，全程不报错。
+
+    四条清洗规则（照抄 OCR 路径的理由，实测同样成立）：
+
+    1. **丢掉负偏移锚点**。印刷页从 1 开始，`pdf_index - printed < 0` 只可能是
+       把目录页的表格数字当成了页码（03 Knoll 3e 的 pdf 15–18 认出了
+       `163/306/508/730`，偏移是 -148…-712）。
+    2. **只保留离全书众数 ±40 页以内的锚点**（一个都不剩时退回全部）。
+    3. **每页偏移夹到 `min(offset, pdf_index)`**，保证 `printed_page >= 0`。
+    4. **附近没有锚点时用全书众数**，不用「最近的锚点」—— 最近的很可能正是噪声页。
+
+    返回 `(offsets, report)`。`report.drift` 是全书出现过的偏移极差，用来判断
+    这本书到底需不需要逐页表（drift 为 0 时逐页表退化成常数，与 `measure()`
+    完全一致）。
+    """
+    probe = BookProbe(pdf_path, body_start, pages=pages if pages is not None else 10**9)
+    anchors = list(probe.anchors)
+    page_count = probe.page_count
+
+    global_offset = fallback
+    if anchors:
+        global_offset = collections.Counter(off for _, off in anchors).most_common(1)[0][0]
+
+    kept = [(idx, off) for idx, off in anchors if off >= 0]
+    near = [(idx, off) for idx, off in kept if abs(off - global_offset) <= 40]
+    if near:
+        kept = near
+    elif not kept:
+        kept = anchors
+
+    # 锚点太稀时逐页表是**外推**而不是测量，必须退回常数偏移。
+    #
+    # 实测 27 郭江旧版：186 页里有页码的只有 186 个锚点，但清洗后只剩 47 个
+    # （`anchorsKept`），占正文页数的 25%。这点支撑下算出来的「众数」在
+    # 16…25 与 42/43 之间乱跳，drift 报 49 页 —— 而这本书真实偏移是常数 15
+    # （页脚 6 对 PDF 21，逐页都对得上）。逐页表把整本书的印刷页整体推后 10 页，
+    # `assign` 全程不报错，只是每章内容都挂到下一个知识点上。
+    #
+    # 判据用「保留下来的锚点 / 正文页数」而不是「锚点绝对数」：800 页的书有
+    # 200 个锚点仍然可能是稀疏外推，200 页的书有 150 个锚点就是密集实测。
+    # 40% 这个门槛是拿 15 本实测分布定的：最稀的 nakhostin 61%、其余 ≥ 78%，
+    # 而郭江旧版 25%，中间没有样本，取整到 40% 不会误伤任何一本。
+    density = len(kept) / max(1, page_count - body_start)
+    if density < _MIN_ANCHOR_DENSITY:
+        offsets = {i: min(fallback, i) for i in range(body_start, page_count)}
+        report = {
+            'pages': page_count,
+            'anchors': len(anchors),
+            'anchorsKept': len(kept),
+            'globalOffset': fallback,
+            'distinct': 1,
+            'distinctOffsets': [min(fallback, body_start)],
+            'drift': 0,
+            'window': window,
+            'noiseDropped': len(anchors) - len(kept),
+            'firstPageOffset': offsets.get(body_start),
+            'anchorDensity': round(density, 3),
+            'fallbackReason': (
+                f'逐页锚点只覆盖 {density:.0%} 的正文页，逐页表是外推而不是测量，'
+                f'退回自校验过的常数偏移 {fallback}'
+            ),
+        }
+        return offsets, report
+
+    offsets: dict[int, int] = {}
+    for i in range(body_start, page_count):
+        local = [off for idx, off in kept if abs(idx - i) <= window]
+        offset = collections.Counter(local).most_common(1)[0][0] if local else global_offset
+        offsets[i] = min(offset, i)
+
+    distinct = sorted(set(offsets.values()))
+    report = {
+        'pages': page_count,
+        'anchors': len(anchors),
+        'anchorsKept': len(kept),
+        'globalOffset': global_offset,
+        'distinct': len(distinct),
+        'distinctOffsets': distinct[:12],
+        'drift': (distinct[-1] - distinct[0]) if distinct else 0,
+        'window': window,
+        'noiseDropped': len(anchors) - len(kept),
+        'firstPageOffset': offsets.get(body_start),
+    }
+    return offsets, report
 
 
 def measure(

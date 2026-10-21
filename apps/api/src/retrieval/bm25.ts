@@ -105,10 +105,44 @@ export class ChunkIndex {
    * `limit` 只截断**展示**，不参与门控计算：门控必须看到完整候选集，否则
    * 「三档之间允许的集合差异恰好等于答案块集合」这个不变量就会依赖于
    * 「答案块恰好排在前 limit 名」，而它并不总是如此。
+   *
+   * ## `extraTerms`：跨语言扩展词（t32）
+   *
+   * 中文 query 与英文正文没有任何共同 token（`tokenize` 只做 CJK 二元组 +
+   * ASCII 词切分），于是英文书那 60% 的叶知识点对中文提问**零命中**。
+   * `extraTerms` 是 `expandQuery()` 从术语表里展开出来的英文串。
+   *
+   * 实现上用 MiniSearch 的查询表达式树：`{combineWith:'OR', queries:[原 query, ...扩展词]}`。
+   * 每个子查询各自被 `tokenize` 处理，于是 `Germanium Detectors` 会被切成
+   * `germanium` + `detectors` 两个 token —— 这正是要的（正文里不会连写）。
+   *
+   * ## 为什么扩展词不加权
+   *
+   * 派单要求「与 query 同等权重」。给原 query 加权听起来更合理（中文命中优先），
+   * 但这里有个反直觉的事实：中文 query 对英文正文**本来就零命中**，加权只会在
+   * 「中文与英文都能命中」的那少数段落上改变排序，而那种段落两边的相关性差别
+   * 没有可靠依据。等权是可解释的：分数 = 所有命中 token 的 BM25 分数之和。
+   *
+   * ## `extraTerms` 为空时结果必须逐位相同
+   *
+   * 这是回归约束：中文书（12 本）与纯英文 query 走的都是这条路。空数组时
+   * **不进表达式树分支**，直接 `this.mini.search(query)` —— 不依赖 MiniSearch
+   * 「单元素 OR 树 == 字符串查询」这种隐式性质。
    */
-  search(query: string, options: { limit?: number; hardCap?: number } = {}): ChunkMatch[] {
+  search(
+    query: string,
+    options: { limit?: number; hardCap?: number; extraTerms?: readonly string[] } = {},
+  ): ChunkMatch[] {
     const hardCap = options.hardCap ?? 500;
-    const results = this.mini.search(query) as SearchResult[];
+    const extra = (options.extraTerms ?? []).filter((term) => term.trim().length > 0);
+    const results = (
+      extra.length === 0
+        ? this.mini.search(query)
+        : this.mini.search({
+            combineWith: 'OR',
+            queries: [query, ...extra],
+          })
+    ) as SearchResult[];
     const out: ChunkMatch[] = [];
     for (const result of results.slice(0, hardCap)) {
       const chunk = this.byId.get(String(result.id));
@@ -123,12 +157,25 @@ export class ChunkIndex {
 /**
  * 截取可读摘要。命中词附近的上下文比「从头截 120 字」有用得多 ——
  * 检索调试器要回答的是「为什么这一段被命中」。
+ *
+ * `extraTerms` 是跨语言扩展词（t32）：中文 query `锗探测器能量分辨` 命中的是
+ * 英文正文，中文 token 在里面一个都找不到 —— 不把英文词也算进来，摘要会退回
+ * 「从头截 160 字」，而命中点可能在 2000 字之后的段落里。
  */
-export function buildSnippet(text: string, query: string, width = 160): string {
+export function buildSnippet(
+  text: string,
+  query: string,
+  width = 160,
+  extraTerms: readonly string[] = [],
+): string {
   const compact = text.replace(/\s+/g, ' ').trim();
   if (compact.length <= width) return compact;
 
-  const terms = new Set(tokenize(query).filter((t) => t.length >= 2));
+  const terms = new Set(
+    [...tokenize(query), ...extraTerms.flatMap((term) => tokenize(term))].filter(
+      (t) => t.length >= 2,
+    ),
+  );
   let hitIndex = -1;
   const lower = compact.toLowerCase();
   for (const term of terms) {

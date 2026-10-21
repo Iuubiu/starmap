@@ -54,6 +54,15 @@ const nodePayload = (overrides: Record<string, unknown> = {}) => ({
     { levelId: 'lv-1', microKpId: 'kp-bool', title: '布尔代数的三条基本律', itemCount: 1, kind: 'teach' },
   ],
   reasons: ['已建立基础，还没有稳定，适合做变式练习。'],
+  // 票 18 验收 6：默认给一个有来源的样本。`kp-bool` 在真实库里是示例知识点
+  // （source 为 null），但默认桩刻意不沿用那个事实 —— 否则「有来源时渲染页码」
+  // 这条永远走不到，而它才是这个功能的主体。无来源那条单独覆盖。
+  source: {
+    sourceId: 'knoll-4e-2010',
+    title: '辐射探测与测量（Knoll 第4版 2010）',
+    page: 12,
+    pageLabel: '「辐射探测与测量（Knoll 第4版 2010）」第 12 页',
+  },
   ...overrides,
 });
 
@@ -349,5 +358,47 @@ describe('NodeDetailPage', () => {
 
     expect(screen.getByRole('button', { name: '未解锁' })).toBeDisabled();
     expect(screen.getByText(/最近一次还差 1 道题/)).toBeInTheDocument();
+  });
+
+  // -------------------------------------------------------------------------
+  // 票 18 验收 6：这个知识点来自哪本书哪一页
+  // -------------------------------------------------------------------------
+
+  it('显示「来自哪本书哪一页」，用的是服务端拼好的 pageLabel', () => {
+    mockDetail();
+    renderPage();
+
+    // 整句断言而不是分别断言书名与页码：分成两段的话，界面把两者拼错顺序
+    // （例如「第 12 页」在前）也能绿。
+    expect(
+      screen.getByText('来源：「辐射探测与测量（Knoll 第4版 2010）」第 12 页'),
+    ).toBeInTheDocument();
+    // 反向对照：这条路径真的走到了，不是被当成无来源分支
+    expect(screen.queryByText('示例知识点（无教材出处）')).not.toBeInTheDocument();
+  });
+
+  it('示例知识点（source 为 null）说明「无教材出处」，而不是省略这一行', () => {
+    // 真实库里有 3 个这样的节点（kp-bool / kp-kmap / kp-logic），它们必须能
+    // 被点开。省略这一行会让人以为「这个页面还没做来源功能」，而事实是
+    // 「这个知识点确实不来自任何书」—— 两种「没有」含义完全不同。
+    mockNode({ payload: nodePayload({ source: null }) });
+    mockMastery();
+    mockUnlock();
+    renderPage('kp-bool');
+
+    expect(screen.getByText('示例知识点（无教材出处）')).toBeInTheDocument();
+    expect(screen.queryByText(/^来源：/)).not.toBeInTheDocument();
+  });
+
+  it('来源不是链接：本地没有 PDF 阅读器，做成链接是死链', () => {
+    mockDetail();
+    renderPage();
+
+    // 正向对照：那行字确实在页面上
+    expect(screen.getByText(/第 12 页/)).toBeInTheDocument();
+    // 反向：它不能被包在 <a> 里。`queryByRole('link')` 查的是可访问性树，
+    // 比 `closest('a')` 更接近「用户能不能点」这件事。
+    expect(screen.queryByRole('link', { name: /第 12 页/ })).toBeNull();
+    expect(screen.getByText(/第 12 页/).closest('a')).toBeNull();
   });
 });

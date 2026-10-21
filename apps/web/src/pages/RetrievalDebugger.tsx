@@ -83,6 +83,26 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     gap: '8px',
   },
+  expansions: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    padding: '10px 12px',
+    borderRadius: tokens.borderRadiusMedium,
+    border: `1px dashed ${tokens.colorNeutralStroke2}`,
+  },
+  expansionList: {
+    margin: 0,
+    paddingLeft: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+  },  expansionRow: {
+    display: 'flex',
+    gap: '8px',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
   hit: {
     display: 'flex',
     flexDirection: 'column',
@@ -262,6 +282,24 @@ function DebugResult({ payload }: { payload: RetrievalDebugResponse }) {
         </MessageBar>
       )}
 
+      {payload.expansions.length > 0 && (
+        <div className={styles.expansions}>
+          <Caption1 className={styles.subtle}>
+            这句中文里认出了 {new Set(payload.expansions.map((e) => e.zh)).size}{' '}
+            个术语，已按术语表扩展到英文（英文书占全库六成叶知识点，没有这一步中文提问对它们零命中）：
+          </Caption1>
+          <ul className={styles.expansionList} aria-label="中文术语到英文的展开">
+            {payload.expansions.map((expansion) => (
+              <li key={`${expansion.zh}→${expansion.en}`} className={styles.expansionRow}>
+                <code>{expansion.zh}</code>
+                <span aria-hidden="true">→</span>
+                <code>{expansion.en}</code>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className={styles.hitList}>
         {payload.hits.map((hit) => (
           <HitRow key={hit.chunkId} hit={hit} />
@@ -331,8 +369,8 @@ function BandComparison({ payload }: { payload: RetrievalBandsResponse }) {
     <>
       <CardHeader header={<Subtitle1>三档对比</Subtitle1>} />
       <Caption1 className={styles.subtle}>
-        同一次检索在三个掌握度下的去留。**随档位变化的**是结构门控（背景档只留正文与图）；
-        **在所有档位都被排除的**是答案块——它是不是答案不随你学得多好而改变。
+        同一次检索在三个掌握度下的去留。<strong>随档位变化的</strong>是结构门控（背景档只留正文与图）；
+        <strong>在所有档位都被排除的</strong>是答案块——它是不是答案不随你学得多好而改变。
       </Caption1>
 
       <div className={styles.bandGrid}>

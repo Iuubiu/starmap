@@ -332,7 +332,7 @@ export function MarketAuthorPage() {
         <MessageBar intent="error">
           <MessageBarBody>
             <MessageBarTitle>
-              校验没通过（{validationIssues.length} 处），关卡**没有**入库
+              校验没通过（{validationIssues.length} 处），关卡<strong>没有</strong>入库
             </MessageBarTitle>
             <div className={styles.issues}>
               {validationIssues.map((issue, i) => (

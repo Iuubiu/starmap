@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
@@ -102,6 +102,87 @@ describe('调试器能回答「这一条为什么不在上下文里」', () => {
   });
 });
 
+/**
+ * 跨语言展开的展示（t32）。
+ *
+ * ## 为什么这一定要在页面上看得见
+ *
+ * 英文书占全库六成叶知识点，而检索是字面匹配。给中文 query 加英文扩展词之后，
+ * 调试器上会出现一个奇怪现象：**一句纯中文的提问命中了 Knoll 的英文正文**。
+ * 如果不把展开记录摊开，看的人只能怀疑「是不是索引串了」—— 而这一页存在的
+ * 意义恰恰是「不用猜」。
+ */
+describe('跨语言展开要说明「为什么一句中文命中了英文」', () => {
+  it('默认桩带一条展开，页面把它摊开成「中文 → 英文」', async () => {
+    const user = userEvent.setup();
+    renderDebugger();
+    await runQuery(user);
+
+    const list = await screen.findByRole('list', { name: '中文术语到英文的展开' });
+    expect(within(list).getByText('逻辑代数')).toBeInTheDocument();
+    expect(within(list).getByText('Boolean algebra')).toBeInTheDocument();
+    // 说明文字要交代「为什么需要这一步」，否则读者会以为这是噪音
+    expect(screen.getByText(/英文书占全库六成叶知识点/)).toBeInTheDocument();
+  });
+
+  it('没有展开时不渲染这块（纯英文 query 不该看到空框）', async () => {
+    const user = userEvent.setup();
+    server.use(
+      http.get('*/api/v1/agent/retrieval/debug', () =>
+        HttpResponse.json({
+          query: 'germanium detector',
+          microKpId: 'kp-bool',
+          current: 0.66,
+          gateTier: 'scaffold',
+          totalMatched: 1,
+          answerChunkCount: 0,
+          excludedCount: 0,
+          expansions: [],
+          hits: [],
+        }),
+      ),
+    );
+
+    renderDebugger();
+    await runQuery(user, 'germanium detector');
+
+    await waitFor(() => expect(screen.getByText(/候选 1 条/)).toBeInTheDocument());
+    expect(screen.queryByRole('list', { name: '中文术语到英文的展开' })).toBeNull();
+    expect(screen.queryByText(/已按术语表扩展到英文/)).toBeNull();
+  });
+
+  it('同一个术语展开出多个英文写法时逐条列出，条数说的是「术语数」不是「条数」', async () => {
+    const user = userEvent.setup();
+    server.use(
+      http.get('*/api/v1/agent/retrieval/debug', () =>
+        HttpResponse.json({
+          query: '多道分析器',
+          microKpId: 'kp-bool',
+          current: 0.66,
+          gateTier: 'scaffold',
+          totalMatched: 0,
+          answerChunkCount: 0,
+          excludedCount: 0,
+          expansions: [
+            { zh: '多道分析器', en: 'Multichannel analyzer' },
+            { zh: '多道分析器', en: 'THE MULTICHANNEL ANALYZER' },
+            { zh: '死时间', en: 'Dead Time' },
+          ],
+          hits: [],
+        }),
+      ),
+    );
+
+    renderDebugger();
+    await runQuery(user, '多道分析器与死时间');
+
+    const list = await screen.findByRole('list', { name: '中文术语到英文的展开' });
+    expect(within(list).getAllByRole('listitem')).toHaveLength(3);
+    // 3 条展开但只有 2 个术语 —— 标题说的是术语数
+    expect(screen.getByText(/认出了 2\s*个术语/)).toBeInTheDocument();
+  });
+});
+
 describe('三档对比能看出「随档位变化」与「任何档位都排除」的区别', () => {
   it('打开对比后显示三档的采用/排除集合', async () => {
     const user = userEvent.setup();
@@ -180,6 +261,7 @@ describe('边界与错误', () => {
         // 必须给完整形状：`DebugResult` 直接读 `payload.hits.filter(...)`，
         // 少了 hits 会在渲染时抛 TypeError（Vitest 报成 unhandled error）。
         // 同时提醒：这个抛错不会让任何一条测试变红 —— 断言已经先跑完了。
+        // t32 起 `expansions` 也是必填数组，同理。
         return HttpResponse.json({
           query: '布尔代数',
           microKpId: 'kp-bool',
@@ -188,6 +270,7 @@ describe('边界与错误', () => {
           totalMatched: 0,
           answerChunkCount: 0,
           excludedCount: 0,
+          expansions: [],
           hits: [],
         });
       }),

@@ -27,10 +27,27 @@ import {
  *
  * 所以评估时刻统一截断到 UTC 日界。代价是「今天做的题，今天之内 current 不会
  * 衰减」—— 那正好也是我们想表达的：记忆衰减是按天发生的事。
+ *
+ * ---
+ *
+ * **别把这个边界和「用户看见的今天」合并。** 两个边界服务的是两件不同的事：
+ *
+ * - 本函数（UTC 日界）：算法内部的**回放**评估时刻。不能改 —— 改它会让同一串
+ *   作答在不同机器/时区上回放出不同数字，直接破坏票 05 第 7 条。
+ * - `config/display-timezone.ts`（`STARMAP_DISPLAY_TIMEZONE`）：人眼里的**日期
+ *   分界**。必须可配，换部署时区只改配置。
+ *
+ * 反例（曾经的缺陷）：看板的「今天答了几题」为了「与回放同口径」用了 UTC 日界，
+ * 结果在上海凌晨 0–8 点这 8 小时里，昨天下午的作答被算进今天。那个地方要的是
+ * 「学生手机上的今天」，不是「回放用的评估时刻」。两者重叠只是巧合。
  */
 export const MASTERY_TIME_GRANULARITY_MS = 86_400_000;
 
-/** 把 ISO 时刻截断到 UTC 日界。坏时间戳原样返回（不猜）。 */
+/** 把 ISO 时刻截断到 UTC 日界。坏时间戳原样返回（不猜）。
+ *
+ * 这是**回放**边界，不是「今天」边界。用户可见的日期分界在
+ * `config/display-timezone.ts`（按 `STARMAP_DISPLAY_TIMEZONE`）。
+ */
 export function floorToGranularity(iso: string): string {
   const ms = Date.parse(iso);
   if (Number.isNaN(ms)) return iso;

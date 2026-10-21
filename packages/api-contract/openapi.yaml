@@ -730,6 +730,32 @@
         - "attempt"
         - "mastery"
       "type": "object"
+    "ContentGap":
+      "additionalProperties": false
+      "properties":
+        "expectedRole":
+          "enum":
+            - "prereq"
+            - "core"
+            - "advanced"
+          "type": "string"
+        "id":
+          "type": "string"
+        "nearestKpIds":
+          "items":
+            "type": "string"
+          "type": "array"
+        "reason":
+          "type": "string"
+        "topic":
+          "type": "string"
+      "required":
+        - "id"
+        - "topic"
+        - "reason"
+        - "expectedRole"
+        - "nearestKpIds"
+      "type": "object"
     "ContentStatsResponse":
       "additionalProperties": false
       "properties":
@@ -1637,6 +1663,34 @@
     "GraphResponse":
       "additionalProperties": false
       "properties":
+        "contentGaps":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "expectedRole":
+                "enum":
+                  - "prereq"
+                  - "core"
+                  - "advanced"
+                "type": "string"
+              "id":
+                "type": "string"
+              "nearestKpIds":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "reason":
+                "type": "string"
+              "topic":
+                "type": "string"
+            "required":
+              - "id"
+              - "topic"
+              - "reason"
+              - "expectedRole"
+              - "nearestKpIds"
+            "type": "object"
+          "type": "array"
         "edges":
           "items":
             "additionalProperties": false
@@ -1719,6 +1773,7 @@
       "required":
         - "nodes"
         - "edges"
+        - "contentGaps"
         - "recommendedIds"
       "type": "object"
     "HealthResponse":
@@ -2967,10 +3022,32 @@
           "items":
             "type": "string"
           "type": "array"
+        "source":
+          "anyOf":
+            - "additionalProperties": false
+              "properties":
+                "page":
+                  "exclusiveMinimum": 0
+                  "maximum": 9007199254740991
+                  "type": "integer"
+                "pageLabel":
+                  "type": "string"
+                "sourceId":
+                  "type": "string"
+                "title":
+                  "type": "string"
+              "required":
+                - "sourceId"
+                - "title"
+                - "page"
+                - "pageLabel"
+              "type": "object"
+            - "type": "null"
       "required":
         - "node"
         - "levels"
         - "reasons"
+        - "source"
       "type": "object"
     "NodeListResponse":
       "additionalProperties": false
@@ -3016,6 +3093,25 @@
       "required":
         - "items"
         - "nextCursor"
+      "type": "object"
+    "NodeSource":
+      "additionalProperties": false
+      "properties":
+        "page":
+          "exclusiveMinimum": 0
+          "maximum": 9007199254740991
+          "type": "integer"
+        "pageLabel":
+          "type": "string"
+        "sourceId":
+          "type": "string"
+        "title":
+          "type": "string"
+      "required":
+        - "sourceId"
+        - "title"
+        - "page"
+        - "pageLabel"
       "type": "object"
     "NodeSourcesResponse":
       "additionalProperties": false
@@ -4607,6 +4703,19 @@
               - "excludedIds"
             "type": "object"
           "type": "array"
+        "expansions":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "en":
+                "type": "string"
+              "zh":
+                "type": "string"
+            "required":
+              - "zh"
+              - "en"
+            "type": "object"
+          "type": "array"
         "microKpId":
           "type": "string"
         "query":
@@ -4616,6 +4725,7 @@
         - "microKpId"
         - "answerChunkIds"
         - "bands"
+        - "expansions"
       "type": "object"
     "RetrievalDebugResponse":
       "additionalProperties": false
@@ -4634,6 +4744,19 @@
           "maximum": 9007199254740991
           "minimum": 0
           "type": "integer"
+        "expansions":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "en":
+                "type": "string"
+              "zh":
+                "type": "string"
+            "required":
+              - "zh"
+              - "en"
+            "type": "object"
+          "type": "array"
         "gateTier":
           "enum":
             - "background"
@@ -4714,6 +4837,18 @@
         - "totalMatched"
         - "answerChunkCount"
         - "excludedCount"
+        - "expansions"
+      "type": "object"
+    "RetrievalExpansion":
+      "additionalProperties": false
+      "properties":
+        "en":
+          "type": "string"
+        "zh":
+          "type": "string"
+      "required":
+        - "zh"
+        - "en"
       "type": "object"
     "ReviewCompleteResponse":
       "additionalProperties": false
@@ -6832,7 +6967,7 @@
       "summary": "内容库统计：来源、知识点、chunk、答案块、先修边"
   "/api/v1/graph":
     "get":
-      "description": "一次返回全部叶节点（微知识点）与其先修边，供知识地图画布做本地布局与两跳邻域裁剪。不分页：力导向布局需要完整图，缺一半节点会让布局跳变。"
+      "description": "一次返回全部叶节点（微知识点）与其先修边，供知识地图画布做本地布局与两跳邻域裁剪。不分页：力导向布局需要完整图，缺一半节点会让布局跳变。同时带上资源库的内容缺口（`contentGaps`）—— 缺口只在跟节点摆在一起时才有意义：它指向的是「课程表上本该有、资源库里没有」的东西，单独拉一份缺口列表反而无法告诉学习者「你现在看到的这张图的哪里断了」。"
       "operationId": "getGraph"
       "responses":
         "200":

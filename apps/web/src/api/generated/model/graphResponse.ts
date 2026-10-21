@@ -5,10 +5,12 @@
  * 核电子学学习工作站。契约唯一真源：本文件由 packages/api-contract 的 Zod schema 生成，请勿手改。
  * OpenAPI spec version: 1.0.0
  */
+import type { GraphResponseContentGapsItem } from './graphResponseContentGapsItem.js';
 import type { GraphResponseEdgesItem } from './graphResponseEdgesItem.js';
 import type { GraphResponseNodesItem } from './graphResponseNodesItem.js';
 
 export interface GraphResponse {
+  contentGaps: GraphResponseContentGapsItem[];
   edges: GraphResponseEdgesItem[];
   nodes: GraphResponseNodesItem[];
   recommendedIds: string[];

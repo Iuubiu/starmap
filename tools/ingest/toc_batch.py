@@ -29,7 +29,7 @@ from page_offset import measure  # noqa: E402
 from naming import disambiguate_duplicate_names, report_renames  # noqa: E402
 from toc import flatten, nodes_from_flat  # noqa: E402
 from toc_body import parse_body_headings  # noqa: E402
-from toc_books import TocParseError, parse_book  # noqa: E402
+from toc_books import TocParseError, is_answer_appendix_title, parse_book  # noqa: E402
 from translate import load_overrides, make_translator  # noqa: E402
 
 #: 译名词典（`names.zh.json`，由 `translate_titles.mjs` 或人工产出）。
@@ -70,7 +70,7 @@ BOOKS: list[dict] = [
     {'prefix': '17', 'sourceId': 'gilmore-2e-2008', 'title': 'Gilmore 实用γ射线能谱学（第2版 2008）',
      'tocRange': (10, 17), 'parser': 'body', 'bodyStart': 24, 'bodyOffset': 23},
     {'prefix': '20', 'sourceId': 'debertin-1988', 'title': 'Debertin & Helmer γ与X射线能谱学（1988）',
-     'tocRange': (10, 14), 'parser': 'body', 'bodyStart': 17, 'bodyOffset': 17},
+     'tocRange': (10, 14), 'parser': 'body', 'bodyStart': 17, 'bodyOffset': 13},
     {'prefix': '26', 'sourceId': 'guojiang-2023', 'title': '原子及原子核物理（郭江 第2版 2023）',
      'tocRange': (5, 8), 'parser': 'auto', 'outline': True},
     {'prefix': '27', 'sourceId': 'guojiang-2014', 'title': '原子及原子核物理（郭江 2014 旧版）',
@@ -98,6 +98,35 @@ def resolve_page_offset(book: dict, pdf: str, nodes: list[dict]) -> tuple[int, s
     return measure(pdf, nodes, body_start, pages_are_pdf_index=bool(book.get('outline')))
 
 
+def pages_are_derived(book: dict) -> bool:
+    """这本书的 `printedPage` 是不是「PDF 索引 − 偏移」推出来的。
+
+    两类是：书签（outline）与正文标题（body）。目录页（toc）来源的不是 ——
+    它的页码是从书上目录里直接读到的印刷页码，是唯一的第一手真值。
+    """
+    return bool(book.get('outline')) or book['parser'] == 'body'
+
+
+def align_printed_pages(
+    nodes: list[dict], *, constant_offset: int, offsets: dict[int, int]
+) -> list[dict]:
+    """把推导出来的 `printedPage` 换成逐页表口径。
+
+    先还原出 PDF 索引（`printedPage + constant_offset`），再用这一页自己的
+    偏移换算成印刷页。**必须与 `chunk.blocks_to_chunks` 用同一张表**，否则
+    节点的章节区间与 chunk 的页码会差几页，`assign` 静默错配。
+
+    还原不出来的（`pdf_index` 落在表外）保持原值：宁可保留常数口径的旧值，
+    也不要凭空造一个页码。
+    """
+    for node in nodes:
+        pdf_index = node['printedPage'] + constant_offset
+        actual = offsets.get(pdf_index)
+        if actual is not None:
+            node['printedPage'] = max(0, pdf_index - actual)
+    return nodes
+
+
 def build_nodes(book: dict, pdf: str, offset: int) -> tuple[list[dict], str]:
     if book['parser'] == 'body':
         tree = parse_body_headings(
@@ -119,6 +148,34 @@ def build_nodes(book: dict, pdf: str, offset: int) -> tuple[list[dict], str]:
         layout = 'toc/outline'
     flat = flatten(tree, source_id=book['sourceId'])
     return nodes_from_flat(flat), layout
+
+
+def mark_answer_appendixes(nodes: list[dict]) -> list[dict]:
+    """把答案附录补标成 `answerKey=True` / `isLeaf=False` / `appendix=True`。
+
+    ## 为什么产物生成后还要再标一遍
+
+    `nodes_from_flat`（`toc.py`）算的是 `'appendix': bool(n.appendix and not
+    n.children)` —— 有子节点的条目会被算成 False。09 Grupen 的 `Solutions`
+    正好有 6 个子条目（Appendix 1–5 + 一个无名子项），于是它自己不再是
+    「附件」，`assign.leaf_page_ranges()` 的所有者集合（`isLeaf or appendix`）
+    里就没有它了，p533–576 的 62 条解答正文全部被上一个所有者「术语表」
+    （p512）吞掉 —— 实测 `content/grupen-2e-2008/chunks.jsonl` 里
+    `printed_page ∈ [533, 576]` 的 chunk 全部 `micro_kp_id = kp-grupen-2e-2008-17`。
+
+    `toc.py` 不能改（12 本中文书在用它那条判据），所以在解析**之后**补标：
+    与 `fix_answer_key.py` 同一套三个布尔，判据也同一份
+    （`toc_books.is_answer_appendix_title`，名字两列各归各位）。
+
+    补标是幂等的，且不改 `microKpId` —— chunk 归属在重算 `assign` 时自然跟着对。
+    """
+    for node in nodes:
+        if not is_answer_appendix_title(node.get('name') or '', node.get('nameOriginal') or ''):
+            continue
+        node['answerKey'] = True
+        node['isLeaf'] = False
+        node['appendix'] = True
+    return nodes
 
 
 def translate_nodes(nodes: list[dict]) -> list[dict]:
@@ -168,6 +225,10 @@ def main() -> int:
             # **译名要等页偏移定下来再做**：`resolve_page_offset` 靠「目录标题
             # 出现在哪一页」回验偏移，标题一旦译成中文就和书里的英文对不上了。
             nodes = translate_nodes(nodes)
+            # 答案附录的三个布尔要在译名之后补：判据同时看译名与原书标题。
+            # `toc.py` 的 `nodes_from_flat` 只对「没有子节点」的附件置
+            # `appendix=True`，有子条目的 `Solutions` 会漏（详见本函数 docstring）。
+            nodes = mark_answer_appendixes(nodes)
             # 译名之后再做同名消歧：前缀用的是 `num`，与中英文无关，但改名必须
             # 发生在译名之后，否则译名会盖掉刚拼上去的编号。
             print("  " + report_renames(disambiguate_duplicate_names(nodes)))

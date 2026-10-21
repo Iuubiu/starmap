@@ -92,9 +92,13 @@ export interface JourneyResult {
  */
 const UNREACHABLE_DELAYS_MS = [500, 1500];
 
-function makeStageApi(apiUrl: string, timeoutMs = 20_000): StageApi {
+function makeStageApi(apiUrl: string, defaultTimeoutMs = 20_000): StageApi {
   const base = apiUrl.replace(/\/$/, '');
-  const once = async (path: string, init: RequestInit): Promise<{ status: number; body: unknown; rawText: string }> => {
+  const once = async (
+    path: string,
+    init: RequestInit,
+    timeoutMs: number,
+  ): Promise<{ status: number; body: unknown; rawText: string }> => {
     try {
       const response = await fetch(`${base}${path}`, { ...init, signal: AbortSignal.timeout(timeoutMs) });
       const rawText = await response.text();
@@ -110,11 +114,15 @@ function makeStageApi(apiUrl: string, timeoutMs = 20_000): StageApi {
     }
   };
 
-  const call = async (path: string, init: RequestInit): Promise<{ status: number; body: unknown; rawText: string }> => {
-    let last = await once(path, init);
+  const call = async (
+    path: string,
+    init: RequestInit,
+    timeoutMs: number,
+  ): Promise<{ status: number; body: unknown; rawText: string }> => {
+    let last = await once(path, init, timeoutMs);
     for (let attempt = 0; attempt < UNREACHABLE_DELAYS_MS.length && last.status === 0; attempt += 1) {
       await new Promise((resolve) => setTimeout(resolve, UNREACHABLE_DELAYS_MS[attempt]));
-      last = await once(path, init);
+      last = await once(path, init, timeoutMs);
     }
     /* 重试过仍然不通时把次数写进 rawText：报告里看到「重试 2 次仍失败」
        和「一次就失败」是两件事，后者更像真的配错了地址。 */
@@ -124,13 +132,18 @@ function makeStageApi(apiUrl: string, timeoutMs = 20_000): StageApi {
     return last;
   };
   return {
-    getJson: (path) => call(path, { method: 'GET', headers: { accept: 'application/json' } }),
-    postJson: (path, body) =>
-      call(path, {
-        method: 'POST',
-        headers: { accept: 'application/json', 'content-type': 'application/json' },
-        body: JSON.stringify(body),
-      }),
+    getJson: (path, options) =>
+      call(path, { method: 'GET', headers: { accept: 'application/json' } }, options?.timeoutMs ?? defaultTimeoutMs),
+    postJson: (path, body, options) =>
+      call(
+        path,
+        {
+          method: 'POST',
+          headers: { accept: 'application/json', 'content-type': 'application/json' },
+          body: JSON.stringify(body),
+        },
+        options?.timeoutMs ?? defaultTimeoutMs,
+      ),
   };
 }
 
@@ -202,12 +215,14 @@ export async function runJourney(options: JourneyOptions): Promise<JourneyResult
       const consoleBefore = driver.consoleErrors.length;
       let result: VerifyResult;
       let evidence: string[] = [];
+      let data: unknown;
 
-      const context: StageContext = { page, api, persona: voice, carry };
+      const context: StageContext = { page, api, persona: voice, carry, outputDir: options.outputDir, stageIndex: stages.length };
       try {
         const outcome = await definition.run(context);
         result = outcome.result;
         evidence = outcome.evidence;
+        data = outcome.data;
       } catch (error) {
         result = classifyThrown(error);
       }
@@ -236,6 +251,7 @@ export async function runJourney(options: JourneyOptions): Promise<JourneyResult
         evidence,
         screenshot,
         consoleErrors: stageConsole,
+        ...(data === undefined ? {} : { data }),
       });
 
       if (options.settleMs && options.settleMs > 0) await page.waitForTimeout(options.settleMs);

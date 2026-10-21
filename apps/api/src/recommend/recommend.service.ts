@@ -14,6 +14,11 @@ import {
   type RecommendCandidate,
   type RecommendEdge,
 } from '@starmap/engine';
+import {
+  DISPLAY_TIMEZONE_ENV,
+  resolveDisplayTimezone,
+  startOfDisplayDay,
+} from '../config/display-timezone.js';
 import { DatabaseService } from '../db/database.service.js';
 import { groupByMicroKp, snapshotOf } from '../mastery/evidence.js';
 import { floorToGranularity } from '../mastery/mastery.service.js';
@@ -363,15 +368,23 @@ export class RecommendService {
   }
 
   /**
-   * 当天零点（UTC 日界）。
+   * 「用户看见的今天」的零点（按展示时区，默认 Asia/Shanghai）。
    *
-   * 与 `floorToGranularity` 同口径：掌握度的评估时刻一律截到 UTC 日界，所以
-   * 「今天」也必须指同一个边界。不能用 SQL 的 `date_trunc('day', now())` ——
-   * 那个结果取决于连接会话的 TimeZone，换个部署环境「今天答了几题」就会差
-   * 几个小时，而响应里其他数字都是 UTC 日界算的。
+   * 这里曾用 UTC 日界，理由是「与 `floorToGranularity` 同口径」。那个理由
+   * 是错的：两个边界服务的对象不同。
+   *
+   * - `floorToGranularity` 截的是**算法评估时刻**，它必须与运行机器的时区
+   *   无关，否则同一串作答在不同部署上会回放出不同数字（票 05 第 7 条）。
+   * - 本函数算的是**人看见的日期**。「今天答了几题」这句话里的「今天」指的
+   *   是学生手机上的今天。UTC 日界在上海凌晨 0–8 点这 8 小时里仍然停在昨天，
+   *   于是昨天下午的作答被算进今天——数字看起来只是偏大，没人会怀疑它。
+   *
+   * 仍然不用 SQL 的 `date_trunc('day', now())`：那个结果取决于连接会话的
+   * `TimeZone`，是隐式的第二份真源。展示时区必须是显式配置项
+   * （`STARMAP_DISPLAY_TIMEZONE`），换时区只改配置、不改代码。
    */
   private dayStart(evaluatedAt: string): string {
-    return `${evaluatedAt.slice(0, 10)}T00:00:00.000Z`;
+    return startOfDisplayDay(evaluatedAt, resolveDisplayTimezone(process.env[DISPLAY_TIMEZONE_ENV]));
   }
 
   /**
@@ -384,6 +397,12 @@ export class RecommendService {
    * `newlyMastered` 不是查出来的，是**算出来的**：对今天有证据的每个知识点，
    * 分别回放到「今天零点」和「现在」，比较两次的五态。查 `app.mastery.state`
    * 是不行的——那是缓存，昨天写过什么它不记得。
+   *
+   * 这里的「今天零点」是展示时区的零点（见 `dayStart`），回放本身仍是
+   * UTC 日界口径（`snapshotOf` 内部的 `floorToGranularity`）。两者不冲突：
+   * 一个决定「哪些作答算今天」，一个决定「回放到哪个评估时刻」。
+   * 回放到一个非 UTC 日界的时刻是允许的——`floorToGranularity` 会把它截到
+   * 所在 UTC 日，因此 `before` 与 `nowSnapshot` 的比较仍可重复。
    */
   private async summary(
     grouped: Map<string, EvidenceEvent[]>,
