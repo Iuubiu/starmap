@@ -1,0 +1,1059 @@
+{
+  "version": 1,
+  "kind": "cross_book_prereq",
+  "edgeCount": 32,
+  "edges": [
+    {
+      "fromId": "kp-lihansun-5e-vol1-6-3",
+      "toId": "kp-tongshibai-5e-5-6-1",
+      "kind": "prereq",
+      "evidence": "跨书：circuit-analysis-lihansun-5e-vol1·一阶电路 → analog-electronics-tongshibai-5e·放大电路的频率响应（课程层 电路分析 第 2–3 学期 → 模拟电子技术 第 3–4 学期；术语命中「阶跃响应」）。李瀚荪 6.3 从一阶 RC 电路解出阶跃响应（时间常数、上升过程）；童诗白 5.6.1 把同一套一阶响应换算成放大器的上升时间、超调量等指标。没有 RC 阶跃响应的解析式，放大器阶跃指标只能背结论。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "circuit-analysis-lihansun-5e-vol1",
+        "to_book": "analog-electronics-tongshibai-5e",
+        "fromLayer": "circuit-analysis",
+        "toLayer": "analog-electronics",
+        "matchedTerms": [
+          "阶跃响应"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 2 节：电路分析第 2–3 学期 → 模拟电子技术第 3–4 学期"
+      },
+      "from": {
+        "name": "阶跃响应",
+        "num": "6.3",
+        "page": 233,
+        "chapter": "一阶电路"
+      },
+      "to": {
+        "name": "阶跃响应的指标",
+        "num": "5.6.1",
+        "page": 246,
+        "chapter": "放大电路的频率响应"
+      }
+    },
+    {
+      "fromId": "kp-lihansun-5e-vol1-7-3",
+      "toId": "kp-tongshibai-5e-5-1-2",
+      "kind": "prereq",
+      "evidence": "跨书：circuit-analysis-lihansun-5e-vol1·二阶电路 → analog-electronics-tongshibai-5e·放大电路的频率响应（课程层 电路分析 第 2–3 学期 → 模拟电子技术 第 3–4 学期；无共同术语（人工判定的应用关系））。李瀚荪 7.3 的 RLC 串联电路零状态响应给出谐振、品质因数与幅频特性；童诗白 5.1.2 的「频率响应的基本概念」直接建立在这个幅频/相频描述上（波特图之前必须先有幅频特性的概念）。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "circuit-analysis-lihansun-5e-vol1",
+        "to_book": "analog-electronics-tongshibai-5e",
+        "fromLayer": "circuit-analysis",
+        "toLayer": "analog-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 2 节：电路分析 → 模拟电子技术（学期相差 1 个学期）"
+      },
+      "from": {
+        "name": "RLC串联电路的零状态响应和全响应",
+        "num": "7.3",
+        "page": 294,
+        "chapter": "二阶电路"
+      },
+      "to": {
+        "name": "频率响应的基本概念",
+        "num": "5.1.2",
+        "page": 221,
+        "chapter": "放大电路的频率响应"
+      }
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-2-1",
+      "toId": "kp-wangzhiying-1989-p42-电荷灵敏前置放大器的基本电路和实例分析",
+      "kind": "prereq",
+      "evidence": "跨书：analog-electronics-tongshibai-5e·放大电路中的反馈 → nuclear-electronics-wangzhiying-1989·前置放大器（课程层 模拟电子技术 第 3–4 学期 → 核电子学 第 4–6 学期；无共同术语（人工判定的应用关系））。童诗白 6.2.1 给负反馈放大电路的四条分析要点（闭环增益、输入输出电阻、深度负反馈的近似）；王芝英 2.2.4 的电荷灵敏前置放大器就是一个并联电压负反馈放大器，其增益与噪声分析全靠这几条要点。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "analog-electronics-tongshibai-5e",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "analog-electronics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 1 节：南华《核电子学C》先修栏「模拟、数字电子技术，原子核物理」"
+      },
+      "from": {
+        "name": "负反馈放大电路分析要点",
+        "num": "6.2.1",
+        "page": 265,
+        "chapter": "放大电路中的反馈"
+      },
+      "to": {
+        "name": "电荷灵敏前置放大器的基本电路和实例分析",
+        "num": "",
+        "page": 42,
+        "chapter": "前置放大器"
+      }
+    },
+    {
+      "fromId": "kp-tongshibai-5e-6-6-4",
+      "toId": "kp-wangzhiying-1989-3-4",
+      "kind": "prereq",
+      "evidence": "跨书：analog-electronics-tongshibai-5e·放大电路中的反馈 → nuclear-electronics-wangzhiying-1989·放大器（课程层 模拟电子技术 第 3–4 学期 → 核电子学 第 4–6 学期；无共同术语（人工判定的应用关系））。童诗白 6.6.4 讲负反馈放大电路自激振荡的判据与消除（相位补偿）；王芝英 3.4 的通用谱仪放大器是高增益多级放大器，必须做频率补偿才不会自激 —— 直接沿用同一套稳定性判据。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "analog-electronics-tongshibai-5e",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "analog-electronics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 1 节：模拟电子技术是核电子学的先修课（复旦/南华两份大纲）"
+      },
+      "from": {
+        "name": "负反馈放大电路自激振荡的消除方法",
+        "num": "6.6.4",
+        "page": 297,
+        "chapter": "放大电路中的反馈"
+      },
+      "to": {
+        "name": "通用谱仪放大器",
+        "num": "3.4",
+        "page": 101,
+        "chapter": "放大器"
+      }
+    },
+    {
+      "fromId": "kp-tongshibai-5e-5-1-2",
+      "toId": "kp-wangzhiying-1989-p16-时域和频域分析",
+      "kind": "prereq",
+      "evidence": "跨书：analog-electronics-tongshibai-5e·放大电路的频率响应 → nuclear-electronics-wangzhiying-1989·核电子学系统中的信号与噪声（课程层 模拟电子技术 第 3–4 学期 → 核电子学 第 4–6 学期；无共同术语（人工判定的应用关系）；同义对应「频率响应」≈「频域分析」）。童诗白 5.1.2 建立频率响应的概念；王芝英 1.3.1 的「时域和频域分析」用它把核电子学系统的传递函数写成 H(jω)，是后面噪声功率谱与最佳滤波推导的起点。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "analog-electronics-tongshibai-5e",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "analog-electronics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [
+          [
+            "频率响应",
+            "频域分析"
+          ]
+        ],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 1 节：模拟电子技术 → 核电子学"
+      },
+      "from": {
+        "name": "频率响应的基本概念",
+        "num": "5.1.2",
+        "page": 221,
+        "chapter": "放大电路的频率响应"
+      },
+      "to": {
+        "name": "时域和频域分析",
+        "num": "",
+        "page": 16,
+        "chapter": "核电子学系统中的信号与噪声"
+      }
+    },
+    {
+      "fromId": "kp-yanshi-6e-6-3-2",
+      "toId": "kp-wangzhiying-1989-6-1",
+      "kind": "prereq",
+      "evidence": "跨书：digital-electronics-yanshi-6e·时序逻辑电路 → nuclear-electronics-wangzhiying-1989·数据获取和处理（课程层 数字电子技术 第 3–4 学期 → 核电子学 第 4–6 学期；术语命中「计数」）。阎石 6.3.2 的计数器是同步/异步二进制计数电路；王芝英 6.1 的核脉冲计数（定标器）就是把它接在甄别器后面数脉冲，计数容量与计数损失直接由计数器位数决定。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "digital-electronics-yanshi-6e",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "digital-electronics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [
+          "计数"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 1 节：南华先修栏「数字电子技术」；第 7 节结论 1（数字必须先于核电子学）"
+      },
+      "from": {
+        "name": "计数器",
+        "num": "6.3.2",
+        "page": 275,
+        "chapter": "时序逻辑电路"
+      },
+      "to": {
+        "name": "核脉冲计数",
+        "num": "6.1",
+        "page": 252,
+        "chapter": "数据获取和处理"
+      }
+    },
+    {
+      "fromId": "kp-yanshi-6e-8-6-3",
+      "toId": "kp-wangzhiying-1989-4-3-4",
+      "kind": "prereq",
+      "evidence": "跨书：digital-electronics-yanshi-6e·数-模和模-数转换 → nuclear-electronics-wangzhiying-1989·脉冲幅度分析（课程层 数字电子技术 第 3–4 学期 → 核电子学 第 4–6 学期；无共同术语（人工判定的应用关系）；同义对应「逐次逼近」≈「逐次比较」）。阎石 8.6.3 讲逐次逼近型 A/D 的逐位比较算法与转换时间；王芝英 4.3.4 的「逐次比较型模数变换器」是同一算法在谱仪 ADC 上的实现（核电子学叫法不同），连转换位数与线性度的分析都一致。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "digital-electronics-yanshi-6e",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "digital-electronics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [
+          [
+            "逐次逼近",
+            "逐次比较"
+          ]
+        ],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 1 节：数字电子技术 → 核电子学；第 7 节结论 1"
+      },
+      "from": {
+        "name": "逐次逼近型A/D转换器",
+        "num": "8.6.3",
+        "page": 413,
+        "chapter": "数-模和模-数转换"
+      },
+      "to": {
+        "name": "逐次比较型模数变换器",
+        "num": "4.3.4",
+        "page": 164,
+        "chapter": "脉冲幅度分析"
+      }
+    },
+    {
+      "fromId": "kp-yanshi-6e-8-6-4",
+      "toId": "kp-wangzhiying-1989-4-3-3",
+      "kind": "prereq",
+      "evidence": "跨书：digital-electronics-yanshi-6e·数-模和模-数转换 → nuclear-electronics-wangzhiying-1989·脉冲幅度分析（课程层 数字电子技术 第 3–4 学期 → 核电子学 第 4–6 学期；无共同术语（人工判定的应用关系）；同义对应「双积分型A/D转换」≈「线性放电型模数变换」）。阎石 8.6.4 的双积分型 A/D 用积分器 + 计数器把模拟量变成时间比；王芝英 4.3.3 的「线性放电型模数变换」是同一原理的谱仪版本（线性放电到零的时间正比于幅度），是核谱仪 ADC 最经典的方案。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "digital-electronics-yanshi-6e",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "digital-electronics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [
+          [
+            "双积分型A/D转换",
+            "线性放电型模数变换"
+          ]
+        ],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 1 节：数字电子技术 → 核电子学"
+      },
+      "from": {
+        "name": "双积分型A/D转换器",
+        "num": "8.6.4",
+        "page": 415,
+        "chapter": "数-模和模-数转换"
+      },
+      "to": {
+        "name": "线性放电型模数变换",
+        "num": "4.3.3",
+        "page": 151,
+        "chapter": "脉冲幅度分析"
+      }
+    },
+    {
+      "fromId": "kp-yanshi-6e-8-6-1",
+      "toId": "kp-wangzhiying-1989-4-3-5",
+      "kind": "prereq",
+      "evidence": "跨书：digital-electronics-yanshi-6e·数-模和模-数转换 → nuclear-electronics-wangzhiying-1989·脉冲幅度分析（课程层 数字电子技术 第 3–4 学期 → 核电子学 第 4–6 学期；无共同术语（人工判定的应用关系）；同义对应「并联比较」≈「闪电」）。阎石 8.6.1 的并联比较型 A/D 用 2^n−1 个比较器一次性出码；王芝英 4.3.5 的「闪电型模数变换器」就是 flash ADC（英文直译），用于高计数率场合。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "digital-electronics-yanshi-6e",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "digital-electronics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [
+          [
+            "并联比较",
+            "闪电"
+          ]
+        ],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 1 节：数字电子技术 → 核电子学"
+      },
+      "from": {
+        "name": "并联比较型A/D转换器",
+        "num": "8.6.1",
+        "page": 408,
+        "chapter": "数-模和模-数转换"
+      },
+      "to": {
+        "name": "闪电型模数变换器",
+        "num": "4.3.5",
+        "page": 173,
+        "chapter": "脉冲幅度分析"
+      }
+    },
+    {
+      "fromId": "kp-yanshi-6e-7-3-2",
+      "toId": "kp-wangzhiying-1989-4-3-2",
+      "kind": "prereq",
+      "evidence": "跨书：digital-electronics-yanshi-6e·脉冲波形的产生和整形电路 → nuclear-electronics-wangzhiying-1989·脉冲幅度分析（课程层 数字电子技术 第 3–4 学期 → 核电子学 第 4–6 学期；无共同术语（人工判定的应用关系）；同义对应「单稳态」≈「展宽」）。阎石 7.3.2 的集成单稳态电路输出固定宽度脉冲；王芝英 4.3.2 的线性门和模拟展宽器用它把随机到达的核脉冲展宽成固定宽度，供后续 ADC 采样 —— 单稳态宽度直接决定展宽后的脉冲宽度。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "digital-electronics-yanshi-6e",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "digital-electronics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [
+          [
+            "单稳态",
+            "展宽"
+          ]
+        ],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 1 节：数字电子技术 → 核电子学"
+      },
+      "from": {
+        "name": "集成单稳态电路",
+        "num": "7.3.2",
+        "page": 361,
+        "chapter": "脉冲波形的产生和整形电路"
+      },
+      "to": {
+        "name": "线性门和模拟展宽器",
+        "num": "4.3.2",
+        "page": 146,
+        "chapter": "脉冲幅度分析"
+      }
+    },
+    {
+      "fromId": "kp-guojiang-2023-14-1",
+      "toId": "kp-wangzhiying-1989-p10-五核辐射探测器输出信号的数学模拟",
+      "kind": "prereq",
+      "evidence": "跨书：guojiang-2023·*第14章射线与物质的相互作用 → nuclear-electronics-wangzhiying-1989·核电子学系统中的信号与噪声（课程层 原子核物理 第 4–5 学期 → 核电子学 第 4–6 学期；无共同术语（人工判定的应用关系））。郭江 14.1 给出重带电粒子在介质中的能量损失与射程；王芝英 1.1.5 的探测器输出信号数学模拟要按「能量沉积在哪里」算电荷收集时间，射程与比电离是输入参数。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "guojiang-2023",
+        "to_book": "nuclear-electronics-wangzhiying-1989",
+        "fromLayer": "atomic-nuclear-physics",
+        "toLayer": "nuclear-electronics",
+        "matchedTerms": [],
+        "synonymPairs": [],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 1 节：南华先修栏第三项「原子核物理」"
+      },
+      "from": {
+        "name": "14.1重带电粒子与物质的相互作用",
+        "num": "14.1",
+        "page": 275,
+        "chapter": "*第14章射线与物质的相互作用"
+      },
+      "to": {
+        "name": "五、核辐射探测器输出信号的数学模拟",
+        "num": "",
+        "page": 10,
+        "chapter": "核电子学系统中的信号与噪声"
+      }
+    },
+    {
+      "fromId": "kp-guojiang-2023-14-1",
+      "toId": "kp-chenboxian-2011-6-2",
+      "kind": "prereq",
+      "evidence": "跨书：guojiang-2023·*第14章射线与物质的相互作用 → nuclear-radiation-physics-chenboxian-2011·辐射与物质的相互作用（课程层 原子核物理 第 4–5 学期 → 探测与测量方法 第 4–6 学期；术语命中「重带电粒子」、「相互作用」、「物质」）。郭江 14.1 是原子核物理课对重带电粒子相互作用的基础推导；陈伯显 6.2 在探测器语境下重讲同一批公式（Bragg 峰、比电离），是它的直接应用。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "guojiang-2023",
+        "to_book": "nuclear-radiation-physics-chenboxian-2011",
+        "fromLayer": "atomic-nuclear-physics",
+        "toLayer": "radiation-detection",
+        "matchedTerms": [
+          "重带电粒子",
+          "相互作用",
+          "物质"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：郭江（D 先修）→ 陈伯显（B 探测）"
+      },
+      "from": {
+        "name": "14.1重带电粒子与物质的相互作用",
+        "num": "14.1",
+        "page": 275,
+        "chapter": "*第14章射线与物质的相互作用"
+      },
+      "to": {
+        "name": "重带电粒子与物质的相互作用",
+        "num": "6.2",
+        "page": 154,
+        "chapter": "辐射与物质的相互作用"
+      }
+    },
+    {
+      "fromId": "kp-guojiang-2023-14-2",
+      "toId": "kp-chenboxian-2011-6-3",
+      "kind": "prereq",
+      "evidence": "跨书：guojiang-2023·*第14章射线与物质的相互作用 → nuclear-radiation-physics-chenboxian-2011·辐射与物质的相互作用（课程层 原子核物理 第 4–5 学期 → 探测与测量方法 第 4–6 学期；术语命中「相互作用」、「物质」；同义对应「快速电子」≈「快电子」）。郭江 14.2 讲快电子的碰撞与辐射能量损失；陈伯显 6.3 用它解释 β 射线在探测器中的能量沉积与轫致辐射本底。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "guojiang-2023",
+        "to_book": "nuclear-radiation-physics-chenboxian-2011",
+        "fromLayer": "atomic-nuclear-physics",
+        "toLayer": "radiation-detection",
+        "matchedTerms": [
+          "相互作用",
+          "物质"
+        ],
+        "synonymPairs": [
+          [
+            "快速电子",
+            "快电子"
+          ]
+        ],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：郭江（D 先修）→ 陈伯显（B 探测）"
+      },
+      "from": {
+        "name": "14.2快速电子与物质的相互作用",
+        "num": "14.2",
+        "page": 281,
+        "chapter": "*第14章射线与物质的相互作用"
+      },
+      "to": {
+        "name": "快电子与物质的相互作用",
+        "num": "6.3",
+        "page": 165,
+        "chapter": "辐射与物质的相互作用"
+      }
+    },
+    {
+      "fromId": "kp-guojiang-2023-14-3",
+      "toId": "kp-chenboxian-2011-6-4",
+      "kind": "prereq",
+      "evidence": "跨书：guojiang-2023·*第14章射线与物质的相互作用 → nuclear-radiation-physics-chenboxian-2011·辐射与物质的相互作用（课程层 原子核物理 第 4–5 学期 → 探测与测量方法 第 4–6 学期；术语命中「射线」、「相互作用」、「物质」）。郭江 14.3 讲 γ 射线与物质相互作用（光电、康普顿、电子对）；陈伯显 6.4 把三种作用换算成探测器里的能量沉积谱与峰效率 —— 探测层的 γ 能谱分析全部建立在这三个系数上。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "guojiang-2023",
+        "to_book": "nuclear-radiation-physics-chenboxian-2011",
+        "fromLayer": "atomic-nuclear-physics",
+        "toLayer": "radiation-detection",
+        "matchedTerms": [
+          "射线",
+          "相互作用",
+          "物质"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：郭江（D 先修）→ 陈伯显（B 探测）"
+      },
+      "from": {
+        "name": "14.3γ射线与物质的相互作用",
+        "num": "14.3",
+        "page": 284,
+        "chapter": "*第14章射线与物质的相互作用"
+      },
+      "to": {
+        "name": "射线与物质的相互作用",
+        "num": "6.4",
+        "page": 171,
+        "chapter": "辐射与物质的相互作用"
+      }
+    },
+    {
+      "fromId": "kp-guojiang-2023-14-4",
+      "toId": "kp-chenboxian-2011-13-3",
+      "kind": "prereq",
+      "evidence": "跨书：guojiang-2023·*第14章射线与物质的相互作用 → nuclear-radiation-physics-chenboxian-2011·中子及中子探测（课程层 原子核物理 第 4–5 学期 → 探测与测量方法 第 4–6 学期；术语命中「中子」、「相互作用」、「物质」）。郭江 14.4 讲中子与物质的相互作用（弹性/非弹性散射、俘获）；陈伯显 13.3 用它说明中子探测为什么必须靠核反应产物（中子本身不电离）。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "guojiang-2023",
+        "to_book": "nuclear-radiation-physics-chenboxian-2011",
+        "fromLayer": "atomic-nuclear-physics",
+        "toLayer": "radiation-detection",
+        "matchedTerms": [
+          "中子",
+          "相互作用",
+          "物质"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：郭江（D 先修）→ 陈伯显（B 探测）"
+      },
+      "from": {
+        "name": "14.4中子与物质的相互作用",
+        "num": "14.4",
+        "page": 288,
+        "chapter": "*第14章射线与物质的相互作用"
+      },
+      "to": {
+        "name": "中子与物质相互作用",
+        "num": "13.3",
+        "page": 436,
+        "chapter": "中子及中子探测"
+      }
+    },
+    {
+      "fromId": "kp-guojiang-2014-9-5-1",
+      "toId": "kp-chenboxian-2011-1-7",
+      "kind": "prereq",
+      "evidence": "跨书：guojiang-2014·第9章 原子核的基本性质和结构 → nuclear-radiation-physics-chenboxian-2011·原子核的基本性质（课程层 原子核物理 第 4–5 学期 → 探测与测量方法 第 4–6 学期；术语命中「宇称」）。郭江 9.5.1 给出原子核宇称的定义与实验测定；陈伯显 1.7 在「原子核的基本性质」里用它判断衰变与反应的选择定则。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "guojiang-2014",
+        "to_book": "nuclear-radiation-physics-chenboxian-2011",
+        "fromLayer": "atomic-nuclear-physics",
+        "toLayer": "radiation-detection",
+        "matchedTerms": [
+          "宇称"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：郭江（D 先修）→ 陈伯显（B 探测）"
+      },
+      "from": {
+        "name": "9．5．1 原子核的宇称",
+        "num": "9.5.1",
+        "page": 143,
+        "chapter": "第9章 原子核的基本性质和结构"
+      },
+      "to": {
+        "name": "原子核的宇称",
+        "num": "1.7",
+        "page": 29,
+        "chapter": "原子核的基本性质"
+      }
+    },
+    {
+      "fromId": "kp-wangzhiying-1989-5-3",
+      "toId": "kp-methods-1997-p190-第一节符合法的基本原理",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-electronics-wangzhiying-1989·时间分析 → nuclear-physics-experiment-methods-1997·核物理实验中的符合法（课程层 核电子学 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「符合」）。王芝英 5.3 讲符合电路的逻辑与分辨时间；《原子核物理实验方法》第 7 章第一节把它用于测量放射源的绝对活度与角关联 —— 实验层的符合法就是电子学层符合电路的应用。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-electronics-wangzhiying-1989",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "nuclear-electronics",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "符合"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：18《原子核物理实验方法》是先修栏写「核电子学和原子核物理」的后继课"
+      },
+      "from": {
+        "name": "符合",
+        "num": "5.3",
+        "page": 218,
+        "chapter": "时间分析"
+      },
+      "to": {
+        "name": "第一节符合法的基本原理",
+        "num": "",
+        "page": 190,
+        "chapter": "核物理实验中的符合法"
+      }
+    },
+    {
+      "fromId": "kp-wangzhiying-1989-5-5",
+      "toId": "kp-methods-1997-p389-第一节脉冲形状甄别方法",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-electronics-wangzhiying-1989·时间分析 → nuclear-physics-experiment-methods-1997·粒子鉴别技术（课程层 核电子学 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「甄别」；同义对应「脉冲波形甄别」≈「脉冲形状甄别」）。王芝英 5.5 的脉冲波形甄别用上升时间/过零 discrimination 区分粒子；实验方法第 14 章第一节把它用于 n-γ 分辨与粒子鉴别（PSD）。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-electronics-wangzhiying-1989",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "nuclear-electronics",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "甄别"
+        ],
+        "synonymPairs": [
+          [
+            "脉冲波形甄别",
+            "脉冲形状甄别"
+          ]
+        ],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：methods 是核电子学的后继课"
+      },
+      "from": {
+        "name": "脉冲波形甄别",
+        "num": "5.5",
+        "page": 247,
+        "chapter": "时间分析"
+      },
+      "to": {
+        "name": "第一节脉冲形状甄别方法",
+        "num": "",
+        "page": 389,
+        "chapter": "粒子鉴别技术"
+      }
+    },
+    {
+      "fromId": "kp-wangzhiying-1989-5-4-1",
+      "toId": "kp-methods-1997-p422-第二节短核寿命的测量方法",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-electronics-wangzhiying-1989·时间分析 → nuclear-physics-experiment-methods-1997·核寿命的测量（课程层 核电子学 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；无共同术语（人工判定的应用关系））。王芝英 5.4.1 的时间-幅度变换（TAC）把两个信号的时间差变成幅度；实验方法第 15 章第二节的短核寿命测量正是用 TAC + 多道分析器测延迟符合曲线。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-electronics-wangzhiying-1989",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "nuclear-electronics",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [],
+        "synonymPairs": [],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：methods 是核电子学的后继课"
+      },
+      "from": {
+        "name": "时间一幅度变换",
+        "num": "5.4.1",
+        "page": 231,
+        "chapter": "时间分析"
+      },
+      "to": {
+        "name": "第二节短核寿命的测量方法",
+        "num": "",
+        "page": 422,
+        "chapter": "核寿命的测量"
+      }
+    },
+    {
+      "fromId": "kp-wangzhiying-1989-4-2",
+      "toId": "kp-tsoulfanidis-4e-9-4",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-electronics-wangzhiying-1989·脉冲幅度分析 → tsoulfanidis-4e·……导论能谱学（课程层 核电子学 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「单道」）。王芝英 4.2 的单道脉冲幅度分析器用上下甄别器开一个幅度窗；Tsoulfanidis 9.4 的「差分能谱带单道的测量」就是逐点移动这个窗测微分谱 —— 实验层把单道当测量工具用。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-electronics-wangzhiying-1989",
+        "to_book": "tsoulfanidis-4e",
+        "fromLayer": "nuclear-electronics",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "单道"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：测量方法层是核电子学的后继"
+      },
+      "from": {
+        "name": "单道脉冲幅度分析器",
+        "num": "4.2",
+        "page": 136,
+        "chapter": "脉冲幅度分析"
+      },
+      "to": {
+        "name": "差分能谱带单道的测量",
+        "num": "9.4",
+        "page": 272,
+        "chapter": "……导论能谱学"
+      }
+    },
+    {
+      "fromId": "kp-wangzhiying-1989-6-4-1",
+      "toId": "kp-leo-2e-18-1",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-electronics-wangzhiying-1989·数据获取和处理 → leo-2e·电子学：未收录术语（CAMAC）（课程层 核电子学 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；无共同术语（人工判定的应用关系））。王芝英 6.4.1 讲 NIM 数字数据总线与 NIM/GPIB 系统；Leo 第 18 章讲 CAMAC —— 同一代核电子学仪器总线标准，实验层的 CAMAC 机箱就是在 NIM 插件体系上加数字总线。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-electronics-wangzhiying-1989",
+        "to_book": "leo-2e",
+        "fromLayer": "nuclear-electronics",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [],
+        "synonymPairs": [],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：Leo 属实验技术层（后继）"
+      },
+      "from": {
+        "name": "NIM数字数据总线和NIM/GPIB系统",
+        "num": "6.4.1",
+        "page": 319,
+        "chapter": "数据获取和处理"
+      },
+      "to": {
+        "name": "CAMAC系统",
+        "num": "18.1",
+        "page": 336,
+        "chapter": "电子学：未收录术语（CAMAC）"
+      }
+    },
+    {
+      "fromId": "kp-nakhostin-2018-4-4",
+      "toId": "kp-tsoulfanidis-4e-9-3",
+      "kind": "prereq",
+      "evidence": "跨书：nakhostin-2018·能量测量 → tsoulfanidis-4e·……导论能谱学（课程层 核电子学 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；无共同术语（人工判定的应用关系））。Nakhostin 4.4 讲脉冲幅度分析（甄别器 + 峰值保持 + ADC）的电子学实现；Tsoulfanidis 9.3 用它测「带甄别器的能谱」，是同一套电子学在测量现场的使用。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nakhostin-2018",
+        "to_book": "tsoulfanidis-4e",
+        "fromLayer": "nuclear-electronics",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [],
+        "synonymPairs": [],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：测量方法层是核电子学的后继"
+      },
+      "from": {
+        "name": "脉冲幅度分析",
+        "num": "4.4",
+        "page": 234,
+        "chapter": "能量测量"
+      },
+      "to": {
+        "name": "能谱带甄别器的测量",
+        "num": "9.3",
+        "page": 271,
+        "chapter": "……导论能谱学"
+      }
+    },
+    {
+      "fromId": "kp-knoll-4e-2010-17-1",
+      "toId": "kp-tsoulfanidis-4e-9-4",
+      "kind": "prereq",
+      "evidence": "跨书：knoll-4e-2010·多道脉冲分析 → tsoulfanidis-4e·……导论能谱学（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「单道」）。Knoll 17.1 讲单道分析器的方法（窗宽、扫描）；Tsoulfanidis 9.4 用单道逐点测微分能谱，是同一方法在测量实验里的操作步骤。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "knoll-4e-2010",
+        "to_book": "tsoulfanidis-4e",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "单道"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：Knoll（A 主干/探测）→ Tsoulfanidis（B 探测，课程归属测量方法）"
+      },
+      "from": {
+        "name": "单道方法",
+        "num": "17.1",
+        "page": 705,
+        "chapter": "多道脉冲分析"
+      },
+      "to": {
+        "name": "差分能谱带单道的测量",
+        "num": "9.4",
+        "page": 272,
+        "chapter": "……导论能谱学"
+      }
+    },
+    {
+      "fromId": "kp-knoll-4e-2010-17-2",
+      "toId": "kp-methods-1997-p243-三描述谱仪性能的几个量",
+      "kind": "prereq",
+      "evidence": "跨书：knoll-4e-2010·多道脉冲分析 → nuclear-physics-experiment-methods-1997·带电粒子的能量及能谱测量（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；无共同术语（人工判定的应用关系））。Knoll 17.2 讲多道分析器的一般特性（道宽、道数、死时间）；实验方法 9.3 的「描述谱仪性能的几个量」（能量分辨率、峰康比、峰总比）就是拿多道谱算出来的。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "knoll-4e-2010",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [],
+        "synonymPairs": [],
+        "basis": "whitelist",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：methods 是后继课"
+      },
+      "from": {
+        "name": "一般多道特性",
+        "num": "17.2",
+        "page": 707,
+        "chapter": "多道脉冲分析"
+      },
+      "to": {
+        "name": "三、描述谱仪性能的几个量",
+        "num": "",
+        "page": 243,
+        "chapter": "带电粒子的能量及能谱测量"
+      }
+    },
+    {
+      "fromId": "kp-knoll-4e-2010-16-5",
+      "toId": "kp-methods-1997-p389-第一节脉冲形状甄别方法",
+      "kind": "prereq",
+      "evidence": "跨书：knoll-4e-2010·脉冲成形计数与定时 → nuclear-physics-experiment-methods-1997·粒子鉴别技术（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「甄别」）。Knoll 16.5 讲脉冲形状甄别的电子学实现（上升时间、过零、电荷比较）；实验方法第 14 章第一节讲 PSD 在 n-γ 分辨中的实验方法。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "knoll-4e-2010",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "甄别"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：methods 是后继课"
+      },
+      "from": {
+        "name": "脉冲形状甄别",
+        "num": "16.5",
+        "page": 700,
+        "chapter": "脉冲成形计数与定时"
+      },
+      "to": {
+        "name": "第一节脉冲形状甄别方法",
+        "num": "",
+        "page": 389,
+        "chapter": "粒子鉴别技术"
+      }
+    },
+    {
+      "fromId": "kp-knoll-4e-2010-16-4",
+      "toId": "kp-leo-2e-17-4-3",
+      "kind": "prereq",
+      "evidence": "跨书：knoll-4e-2010·脉冲成形计数与定时 → leo-2e·定时方法与系统（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「定时」）。Knoll 16.4 讲系统脉冲定时（前沿、恒比、ARC）；Leo 17.4.3 讲实验中的定时系统（快慢符合、延迟线）—— 后者是前者在实验装置里的落地。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "knoll-4e-2010",
+        "to_book": "leo-2e",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "定时"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 7 节结论 4：Leo 属实验技术层（后继）"
+      },
+      "from": {
+        "name": "系统脉冲定时",
+        "num": "16.4",
+        "page": 680,
+        "chapter": "脉冲成形计数与定时"
+      },
+      "to": {
+        "name": "定时系统",
+        "num": "17.4.3",
+        "page": 333,
+        "chapter": "定时方法与系统"
+      }
+    },
+    {
+      "fromId": "kp-knoll-4e-2010-p641-isPulseShaping",
+      "toId": "kp-tsoulfanidis-4e-10-6",
+      "kind": "prereq",
+      "evidence": "跨书：knoll-4e-2010·脉冲成形计数与定时 → tsoulfanidis-4e·用于辐射计数的电子学（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「脉冲成形」、「成形」）。Knoll 第 16 章讲脉冲成形（CR-RC、高斯成形、极零补偿）的原理；Tsoulfanidis 10.6 讲辐射计数电子学里的脉冲成形电路与参数选择。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "knoll-4e-2010",
+        "to_book": "tsoulfanidis-4e",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "脉冲成形",
+          "成形"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：Knoll（探测）→ Tsoulfanidis（测量方法）"
+      },
+      "from": {
+        "name": "脉冲成形",
+        "num": "",
+        "page": 641,
+        "chapter": "脉冲成形计数与定时"
+      },
+      "to": {
+        "name": "脉冲成形",
+        "num": "10.6",
+        "page": 297,
+        "chapter": "用于辐射计数的电子学"
+      }
+    },
+    {
+      "fromId": "kp-chenboxian-2011-7-2",
+      "toId": "kp-methods-1997-p6-第二节放射性测量的统计误差",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-radiation-physics-chenboxian-2011·辐射探测中的统计学 → nuclear-physics-experiment-methods-1997·放射性测量中的统计学（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「统计误差」）。陈伯显 7.2 从核衰变的统计分布推出放射性测量的统计误差公式；实验方法第 1 章第二节把同一公式用于实验数据处理（误差传递、测量时间分配）。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-radiation-physics-chenboxian-2011",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "统计误差"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：陈伯显（B 探测）→ methods（D 实验，后继）"
+      },
+      "from": {
+        "name": "放射性测量的统计误差",
+        "num": "7.2",
+        "page": 196,
+        "chapter": "辐射探测中的统计学"
+      },
+      "to": {
+        "name": "第二节放射性测量的统计误差",
+        "num": "",
+        "page": 6,
+        "chapter": "放射性测量中的统计学"
+      }
+    },
+    {
+      "fromId": "kp-chenboxian-2011-8-3",
+      "toId": "kp-methods-1997-p82-第三节正比计数器",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-radiation-physics-chenboxian-2011·气体探测器 → nuclear-physics-experiment-methods-1997·气体探测器（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「正比计数器」、「计数器」、「计数」）。陈伯显 8.3 讲正比计数器的工作原理与气体放大；实验方法第 3 章第三节讲正比计数器的实验使用（坪曲线、分辨时间、效率刻度）。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-radiation-physics-chenboxian-2011",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "正比计数器",
+          "计数器",
+          "计数"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：陈伯显（B 探测）→ methods（D 实验，后继）"
+      },
+      "from": {
+        "name": "正比计数器",
+        "num": "8.3",
+        "page": 235,
+        "chapter": "气体探测器"
+      },
+      "to": {
+        "name": "第三节正比计数器",
+        "num": "",
+        "page": 82,
+        "chapter": "气体探测器"
+      }
+    },
+    {
+      "fromId": "kp-chenboxian-2011-11-2",
+      "toId": "kp-methods-1997-p186-第七节热释光探测器",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-radiation-physics-chenboxian-2011·电离辐射的其他探测器 → nuclear-physics-experiment-methods-1997·其它探测器（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「热释光」）。陈伯显 11.2 讲热释光探测器的发光机理与剂量响应；实验方法第 6 章第七节讲它的实验使用方法（退火、刻度、剂量测量）。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-radiation-physics-chenboxian-2011",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "热释光"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：陈伯显（B 探测）→ methods（D 实验，后继）"
+      },
+      "from": {
+        "name": "热释光探测器",
+        "num": "11.2",
+        "page": 373,
+        "chapter": "电离辐射的其他探测器"
+      },
+      "to": {
+        "name": "第七节热释光探测器",
+        "num": "",
+        "page": 186,
+        "chapter": "其它探测器"
+      }
+    },
+    {
+      "fromId": "kp-chenboxian-2011-6-2",
+      "toId": "kp-methods-1997-p30-第二节重带电粒子与物质的相互作用",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-radiation-physics-chenboxian-2011·辐射与物质的相互作用 → nuclear-physics-experiment-methods-1997·射线与物质的相互作用（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「重带电粒子」、「相互作用」、「物质」）。陈伯显 6.2 从探测器角度讲重带电粒子的能量损失；实验方法第 2 章第二节把它作为「射线与物质相互作用」实验课的理论基础（Bragg 曲线测量）。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-radiation-physics-chenboxian-2011",
+        "to_book": "nuclear-physics-experiment-methods-1997",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "重带电粒子",
+          "相互作用",
+          "物质"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：陈伯显（B 探测）→ methods（D 实验，后继）"
+      },
+      "from": {
+        "name": "重带电粒子与物质的相互作用",
+        "num": "6.2",
+        "page": 154,
+        "chapter": "辐射与物质的相互作用"
+      },
+      "to": {
+        "name": "第二节重带电粒子与物质的相互作用",
+        "num": "",
+        "page": 30,
+        "chapter": "射线与物质的相互作用"
+      }
+    },
+    {
+      "fromId": "kp-tangbin-6-4",
+      "toId": "kp-debertin-1988-4-1-2",
+      "kind": "prereq",
+      "evidence": "跨书：nuclear-radiation-measurement-tangbin·射线测量方法 → debertin-1988·效率刻度与发射率测定（课程层 探测与测量方法 第 4–6 学期 → 实验方法与数据处理 第 6–8 学期；术语命中「效率」）。汤彬 6.4 讲 γ 射线能量刻度与探测效率刻度的实验步骤；Debertin 第 4 章讲效率刻度的严谨方法（效率曲线拟合、符合相加修正、不确定度）—— 是同一件事的深入版。",
+      "evidenceDetail": {
+        "type": "cross_book",
+        "from_book": "nuclear-radiation-measurement-tangbin",
+        "to_book": "debertin-1988",
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-measurement-methods",
+        "matchedTerms": [
+          "效率"
+        ],
+        "synonymPairs": [],
+        "basis": "layer_order+term_match",
+        "curriculumSource": "curriculum_report.md 第 5 节：汤彬（探测）→ Debertin（D 实验，后继）"
+      },
+      "from": {
+        "name": "Y射线能量刻度与探测效率刻度",
+        "num": "6.4",
+        "page": 238,
+        "chapter": "射线测量方法"
+      },
+      "to": {
+        "name": "效率测量",
+        "num": "4.1.2",
+        "page": 210,
+        "chapter": "效率刻度与发射率测定"
+      }
+    }
+  ],
+  "rejected": [],
+  "candidateAudit": {
+    "normalizedConcepts": 2932,
+    "conceptsAcrossBooks": 214,
+    "layerOrderOk": 274,
+    "keptByWhitelist": 7,
+    "rejectedSameLayer": 524,
+    "rejectedReverseLayer": 274,
+    "rejectedNotApplication": 267,
+    "rejectedUnmappedBook": 0,
+    "sameLayerTop": [
+      {
+        "fromLayer": "radiation-detection",
+        "toLayer": "radiation-detection",
+        "count": 342
+      },
+      {
+        "fromLayer": "radiation-measurement-methods",
+        "toLayer": "radiation-measurement-methods",
+        "count": 104
+      },
+      {
+        "fromLayer": "nuclear-electronics",
+        "toLayer": "nuclear-electronics",
+        "count": 28
+      },
+      {
+        "fromLayer": "analog-electronics",
+        "toLayer": "analog-electronics",
+        "count": 20
+      },
+      {
+        "fromLayer": "atomic-nuclear-physics",
+        "toLayer": "atomic-nuclear-physics",
+        "count": 16
+      }
+    ],
+    "note": "自动候选只做统计，不产出边：归一化同名大多表示「同一物理概念在两本教材里各讲一遍」，不是先修。真正入图的边全部来自 WHITELIST 并逐条附理由。"
+  }
+}

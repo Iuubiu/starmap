@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-21T11:54:39Z",
+  "layers": [
+    {
+      "id": "circuit-analysis",
+      "name": "电路分析",
+      "semesterFrom": 2,
+      "semesterTo": 3,
+      "ordinal": 10,
+      "kind": "foundation"
+    },
+    {
+      "id": "analog-electronics",
+      "name": "模拟电子技术",
+      "semesterFrom": 3,
+      "semesterTo": 4,
+      "ordinal": 20,
+      "kind": "foundation"
+    },
+    {
+      "id": "digital-electronics",
+      "name": "数字电子技术",
+      "semesterFrom": 3,
+      "semesterTo": 4,
+      "ordinal": 30,
+      "kind": "foundation"
+    },
+    {
+      "id": "atomic-nuclear-physics",
+      "name": "原子核物理",
+      "semesterFrom": 4,
+      "semesterTo": 5,
+      "ordinal": 40,
+      "kind": "core"
+    },
+    {
+      "id": "nuclear-electronics",
+      "name": "核电子学",
+      "semesterFrom": 4,
+      "semesterTo": 6,
+      "ordinal": 50,
+      "kind": "core"
+    },
+    {
+      "id": "radiation-detection",
+      "name": "探测与测量方法",
+      "semesterFrom": 4,
+      "semesterTo": 6,
+      "ordinal": 60,
+      "kind": "core"
+    },
+    {
+      "id": "radiation-measurement-methods",
+      "name": "实验方法与数据处理",
+      "semesterFrom": 6,
+      "semesterTo": 8,
+      "ordinal": 70,
+      "kind": "method"
+    },
+    {
+      "id": "advanced-digital",
+      "name": "数字脉冲处理与可编程逻辑",
+      "semesterFrom": 9,
+      "semesterTo": 10,
+      "ordinal": 80,
+      "kind": "advanced"
+    }
+  ],
+  "books": [
+    {
+      "sourceId": "circuit-analysis-lihansun-5e-vol1",
+      "layerId": "circuit-analysis",
+      "reason": "电路分析是电子技术课的第一门：兰大 2016 版《电子学基础》1403006 在第 3 学期开课，内容以电路分析为起点（curriculum_report.md 第 2 节）。李瀚荪《电路分析基础》上册覆盖集总参数约束关系、网孔/节点分析、一阶与二阶电路 —— 正是核电子学里RC 成形电路的数学基础。"
+    },
+    {
+      "sourceId": "analog-electronics-kanghuaguang-5e",
+      "layerId": "analog-electronics",
+      "reason": "南华 2024 版核专业方向「模拟电子技术」课教材（第 6 版）；南华/复旦两份《核电子学》大纲的先修栏都写明「模拟电子技术」（curriculum_report.md 第 1、2 节）。"
+    },
+    {
+      "sourceId": "analog-electronics-tongshibai-5e",
+      "layerId": "analog-electronics",
+      "reason": "国内工科最通用的模拟电子技术教材之一，兰大 2016 版《电子学基础》列为参考书（curriculum_report.md 第 2 节兰大行）；与康华光同层，覆盖放大电路频率响应与反馈 ——核电子学「最佳滤波」「谱仪放大器」两章的直接先修。"
+    },
+    {
+      "sourceId": "digital-electronics-yanshi-6e",
+      "layerId": "digital-electronics",
+      "reason": "阎石《数字电子技术基础》第 6 版：南华核专业列为参考书、成都理工研究生「核电子学基础」参考书、多所工科院校数字电子技术课选用教材（curriculum_report.md 第 2 节）。**本层（ordinal 30）必须排在 nuclear-electronics（50）之前** —— 票 18 AC2 的核心断言。"
+    },
+    {
+      "sourceId": "digital-kanghua-5e",
+      "layerId": "digital-electronics",
+      "reason": "康华光《电子技术基础·数字部分》第 5 版：南华电类专业「数字电子技术 A」教材（curriculum_report.md 第 2 节）。与阎石同层，两本互补（康华光偏器件与系统设计，阎石偏逻辑代数与经典时序电路）。"
+    },
+    {
+      "sourceId": "guojiang-2014",
+      "layerId": "atomic-nuclear-physics",
+      "reason": "郭江《原子及原子核物理》旧版：覆盖原子结构、原子核性质、放射性衰变、核反应、射线与物质相互作用 —— 南华《核电子学》先修栏第三项「原子核物理」的对口教材（curriculum_report.md 第 1 节南华行）。"
+    },
+    {
+      "sourceId": "guojiang-2023",
+      "layerId": "atomic-nuclear-physics",
+      "reason": "同上的第 2 版。与 2014 旧版同层：两版章节结构一致（第 9 章核性质、第 10–11 章衰变、第 12 章核反应、第 14 章相互作用），保留两版是因为旧版的章节编号更细、新版补了应用。"
+    },
+    {
+      "sourceId": "nuclear-electronics-wangzhiying-1989",
+      "layerId": "nuclear-electronics",
+      "reason": "**本层的基准教材**：兰大 2016/2019 版、南华核工程/核物理/辐射防护三专业、东华理工都把它列为《核电子学》选用教材（curriculum_report.md 第 1 节「关于三本教材的采用面」表）。6 章结构即三校一致的教学顺序：信号与噪声 →前置放大器 → 放大器 → 脉冲幅度分析 → 时间分析 → 数据获取。"
+    },
+    {
+      "sourceId": "nuclear-electronics-wangjingjin-1983",
+      "layerId": "nuclear-electronics",
+      "reason": "王经瑾《核电子学》上册：多数学校列为参考书，华北电力实验课用作教材、兰大《核数据获取与处理》用下册（curriculum_report.md 第 1 节）。上册从第 9 章起（幅度甄别/时间信息/谱仪 ADC/计数设备/多道分析器/计算机多道），与王芝英后四章重叠但更细 —— 同层作为加深读物。"
+    },
+    {
+      "sourceId": "nicholson-1974",
+      "layerId": "nuclear-electronics",
+      "reason": "Nicholson《Nuclear Electronics》1974：书名即课程名，内容为脉冲成形、放大器、甄别器、定时电路 —— 核电子学经典体系的英文源头（书目清单第 16 行 C 专题）。年代早，作为历史参考同层放置。"
+    },
+    {
+      "sourceId": "nakhostin-2018",
+      "layerId": "nuclear-electronics",
+      "reason": "Nakhostin《Signal Processing for Radiation Detectors》2018：10 章里 8 章是核电子学主线（信号产生、噪声与干扰、前置放大器、能量测量、脉冲计数与电流测量、时间测量、位置灵敏、脉冲形状甄别），只有第 9–10 章是数字信号处理。**按主体归核电子学层**：把整本归到 advanced-digital 会让「前置放大器」「噪声」这些核心概念出现在研究生层，与王芝英的同名节点分处两层，学习者按层学习时必然漏掉。第 9–10 章属 advanced-digital —— 该层因此没有整本对口教材，正是 0060_content_gaps 里 gap-digital-pulse 声明的内容缺口。"
+    },
+    {
+      "sourceId": "rivetti-2015",
+      "layerId": "nuclear-electronics",
+      "reason": "Rivetti《CMOS Front-End Electronics for Radiation Sensors》2015：输入级、频域输入级、噪声、时间成形器、甄别器、数据转换器 —— 全是核电子学链路的 ASIC 实现，不是数字逻辑设计。同层作为前端电子学的现代专题（书目清单第 14 行 C 专题）。"
+    },
+    {
+      "sourceId": "knoll-3e-2000",
+      "layerId": "radiation-detection",
+      "reason": "Knoll 第 3 版：探测方法课的通用教材，20 章里 1–15、19–20 是探测器与测量，只有 16–18 章（脉冲处理与成形、线性与逻辑脉冲函数、多道脉冲分析）是电子学（curriculum_report.md 第 5 节分级表 A 主干 = 内容核心度高，但课程归属是探测方法）。"
+    },
+    {
+      "sourceId": "knoll-4e-2010",
+      "layerId": "radiation-detection",
+      "reason": "Knoll 第 4 版：与第 3 版同层，章节重排（15 脉冲处理 / 16 脉冲成形计数与定时 /17 多道脉冲分析）。两版并存是因为第 3 版的章节编号被大量旧文献引用。"
+    },
+    {
+      "sourceId": "nuclear-radiation-physics-chenboxian-2011",
+      "layerId": "radiation-detection",
+      "reason": "陈伯显《核辐射物理及探测学》：前 6 章核物理与相互作用、后 7 章探测器与测量方法 ——课程归属是探测方法（书名即「探测学」）。它同时是原子核物理层的复习材料，但主体在探测（curriculum_report.md 第 5 节 B 探测）。"
+    },
+    {
+      "sourceId": "radiation-detectors-dinghonglin-2010",
+      "layerId": "radiation-detection",
+      "reason": "丁洪林《核辐射探测器》：14 章全部是探测器类型与工艺（气体/闪烁/半导体/硅锂/高纯锗/化合物/低温量热），无核电子学章（书目清单第 7 行 B 探测）。"
+    },
+    {
+      "sourceId": "radiation-detector-handbook-jichangsong-1990",
+      "layerId": "radiation-detection",
+      "reason": "汲长松《核辐射探测器及其实验技术手册》：12 章探测器 + 实验技术 + 数据统计处理，是探测层的手册型参考（书目清单第 19 行 D 实验；按课程归属放探测层，第 11–12 章的实验技术与统计与 methods 层重叠）。"
+    },
+    {
+      "sourceId": "nuclear-radiation-measurement-tangbin",
+      "layerId": "radiation-detection",
+      "reason": "汤彬《核辐射测量原理》：9 章无核电子学章，「核电子学的基础知识」只是第 4 章探测器内容里的一句话；它是「核辐射测量原理」课教材（东华理工 68 学时）（curriculum_report.md 第 1 节「关于三本教材的采用面」表 + 第 6 节反常发现）。**按证据归探测层，不按书目清单的 A 主干** —— 清单的 A/B/C/D 是内容类型，不是课程层（见模块 docstring）。"
+    },
+    {
+      "sourceId": "ahmed-2e",
+      "layerId": "radiation-detection",
+      "reason": "Ahmed《Physics and Engineering of Radiation Detection》第 2 版：13 章里1–7 章探测器与相互作用、8 章信号处理、9–10 章统计与数据分析、11–13 章剂量/能谱/数据获取。主体是探测物理与工程（书目清单第 10 行 B 探测）。"
+    },
+    {
+      "sourceId": "grupen-2e-2008",
+      "layerId": "radiation-detection",
+      "reason": "Grupen《Particle Detectors》第 2 版：探测器特性、径迹探测器、量能器、粒子识别、中微子探测器，仅第 14 章「电子学」一章讲电子学（书目清单第 9 行 B 探测）。"
+    },
+    {
+      "sourceId": "lutz-2007",
+      "layerId": "radiation-detection",
+      "reason": "Lutz《Semiconductor Radiation Detectors》：半导体物理、探测器结构、能量与位置测量、读出电子学（第 7 章）。主体是半导体探测器（书目清单第 15 行 C 专题），第 7 章的读出电子学与核电子学层重叠但只是一章。"
+    },
+    {
+      "sourceId": "spieler-2005",
+      "layerId": "radiation-detection",
+      "reason": "Spieler《Semiconductor Detector Systems》：探测器系统、信号形成、电子学噪声、信号处理、基础数字电子学、晶体管与放大器。**按主体归探测层**（探测器系统），其中第 3–4 章（噪声、信号处理）是核电子学层的重要补充 —— 这也是它与 Nakhostin 分层的理由：Spieler 从探测器出发讲电子学，Nakhostin 从电子学出发讲信号处理。"
+    },
+    {
+      "sourceId": "nuclear-physics-experiment-methods-1997",
+      "layerId": "radiation-measurement-methods",
+      "reason": "《原子核物理实验方法》修订第 3 版：**后继课教材**。兰州大学大纲的先修栏写「核电子学和原子核物理」，即它排在核电子学之后（curriculum_report.md 第 7 节结论 4 明确要求从书目清单的 D 实验层移到后继位置）。15 章覆盖统计、探测器、符合法、活度/能谱/中子/低水平测量、截面与寿命测量。"
+    },
+    {
+      "sourceId": "leo-2e",
+      "layerId": "radiation-measurement-methods",
+      "reason": "Leo《Techniques for Nuclear and Particle Physics Experiments》第 2 版：实验技术总论，18 章里 11、14–18 章是电子学（脉冲信号、脉冲处理电子学、幅度选择与符合、逻辑、定时、CAMAC），其余是探测器与统计。**按主体归实验方法层**：它的组织方式是「怎么做实验」，电子学章节是为实验服务的（书目清单第 12 行 C 专题）。"
+    },
+    {
+      "sourceId": "debertin-1988",
+      "layerId": "radiation-measurement-methods",
+      "reason": "Debertin & Helmer《Gamma- and X-Ray Spectrometry with Semiconductor Detectors》：本底材料、实验装置、能谱分析与能量测量、效率刻度、应用、原子与核数据 —— 典型的测量方法与数据处理（书目清单第 20 行 D 实验）。"
+    },
+    {
+      "sourceId": "gilmore-2e-2008",
+      "layerId": "radiation-measurement-methods",
+      "reason": "Gilmore《Practical Gamma-ray Spectrometry》第 2 版：计数统计、分辨率、谱仪刻度、真符合相加、能谱分析、故障排查、低/高计数率系统 —— 测量方法与数据处理（书目清单第 17 行 C 专题）。"
+    },
+    {
+      "sourceId": "tsoulfanidis-4e",
+      "layerId": "radiation-measurement-methods",
+      "reason": "Tsoulfanidis《Measurement and Detection of Radiation》第 4 版：计数误差、能量损失、各类探测器、相对与绝对测量、能谱学、数据分析方法、活化分析 —— 测量方法课教材（书目清单第 8 行 B 探测，但按课程归属是测量方法）。"
+    }
+  ]
+}

@@ -228,6 +228,71 @@ const SOURCE_META: Record<string, { title: string; path: string }> = {
   },
 };
 
+/**
+ * 课程层映射（`content/course-map.json`，由 `tools/ingest/course_map.py` 生成）。
+ *
+ * ## 为什么模块的层归属不在这个文件里写死
+ *
+ * 「这本书属于哪门课」是内容侧的判断：补一本书就要加一行、改一次课程体系要
+ * 重排。写死在 TS 里意味着每次改都得动 API 代码、重新过 typecheck、重新发版；
+ * 而它是纯数据，应该跟 `toc.json` / `chunks.jsonl` 一样是产物。
+ *
+ * 所以：
+ * - **课程层本身**（学期区间、先后、性质）在迁移 `0061_course_layers.sql` 里，
+ *   因为那是培养方案的事实，变化极慢且必须可回滚；
+ * - **书 → 层** 在 `content/course-map.json` 里，因为它跟着资源库走。
+ *
+ * 两边都由同一条迁移建立的外键连起来：`modules.course_layer_id`。
+ */
+type CourseMap = {
+  version: number;
+  layers: Array<{ id: string; kind: string }>;
+  books: Array<{ sourceId: string; layerId: string | null; reason: string }>;
+};
+
+const COURSE_MAP_PATH = join(here, '..', '..', '..', 'content', 'course-map.json');
+
+let courseMapCache: CourseMap | null | undefined;
+
+/**
+ * 读课程层映射。文件不存在时返回 null（不抛错）。
+ *
+ * 不抛错的理由：这张表是 0061 之后才有的，旧环境（还没跑迁移或还没生成产物）
+ * 仍然应该能把内容导进去 —— 模块的 `course_layer_id` 留 NULL 会在库里显式地
+ * 表现为「未归层」，比让整本书导不进来安全。但**必须打印警告**：静默留 NULL
+ * 会让 27 本书在地图上全部落到「未归层」，而日志里一个字都没有。
+ */
+function loadCourseMap(): CourseMap | null {
+  if (courseMapCache !== undefined) return courseMapCache;
+  if (!existsSync(COURSE_MAP_PATH)) {
+    console.warn(
+      `⚠ 缺少课程层映射 ${COURSE_MAP_PATH}，模块的 course_layer_id 将留空。` +
+        ` 先跑 python tools/ingest/course_map.py`,
+    );
+    courseMapCache = null;
+    return null;
+  }
+  courseMapCache = JSON.parse(readFileSync(COURSE_MAP_PATH, 'utf8')) as CourseMap;
+  return courseMapCache;
+}
+
+/**
+ * 一本书的课程层。返回 `{ layerId, kind }` 或 null。
+ *
+ * `kind` 同时写进 `modules.tier`：`tier` 列原本是 A/B/C/D 的内容分级，但从没有
+ * 任何代码读它（t36 实测 `grep -rn "modules.tier"` 零命中）。课程层的 kind
+ * 是同一列里**唯一有语义的取值**，所以由这里接管；论文模块仍是 'C'，不受影响。
+ */
+function courseLayerOf(sourceId: string): { layerId: string; kind: string } | null {
+  const map = loadCourseMap();
+  if (!map) return null;
+  const book = map.books.find((b) => b.sourceId === sourceId);
+  if (!book || !book.layerId) return null;
+  const layer = map.layers.find((l) => l.id === book.layerId);
+  if (!layer) return null;
+  return { layerId: layer.id, kind: layer.kind };
+}
+
 export async function importContent(
   contentDir: string,
   options: { sourceId?: string; pruneKp?: boolean } = {},
@@ -333,13 +398,18 @@ export async function importContent(
     );
 
     // ---- 模块（每章一个）----
+    // 每章挂到本书所属的课程层（`content/course-map.json`）。`tier` 同时改写为
+    // 课程层的 kind：它原来是写死的 'D'，而 A/B/C/D 那套内容分级从来没有代码读。
+    const layer = courseLayerOf(sourceId);
     for (const [i, ch] of chapters.entries()) {
       const moduleId = `mod-${sourceId}-${ch.microKpId}`;
       await client.query(
-        `INSERT INTO modules (id, subject_id, name, tier, ordinal)
-         VALUES ($1, 'nuclear', $2, 'D', $3)
-         ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, ordinal = EXCLUDED.ordinal`,
-        [moduleId, ch.name, i + 1],
+        `INSERT INTO modules (id, subject_id, name, tier, ordinal, course_layer_id)
+         VALUES ($1, 'nuclear', $2, $3, $4, $5)
+         ON CONFLICT (id) DO UPDATE SET
+           name = EXCLUDED.name, ordinal = EXCLUDED.ordinal,
+           tier = EXCLUDED.tier, course_layer_id = EXCLUDED.course_layer_id`,
+        [moduleId, ch.name, layer?.kind ?? 'D', i + 1, layer?.layerId ?? null],
       );
       // 章节点本身也是 knowledge_points 的一行，它挂在刚建的模块上
       await client.query(

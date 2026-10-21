@@ -1,9 +1,24 @@
 INSERT INTO app.subjects (id, name) VALUES ('nuclear', '核电子学')
 ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO app.modules (id, subject_id, name, tier, ordinal)
-VALUES ('m-digital', 'nuclear', '数字逻辑基础', 'D', 1)
+INSERT INTO app.modules (id, subject_id, name, tier, ordinal, course_layer_id)
+VALUES ('m-digital', 'nuclear', '数字逻辑基础', 'foundation', 1, 'digital-electronics')
 ON CONFLICT (id) DO NOTHING;
+
+-- `m-digital` 是手写 seed 模块，不是任何一本书的章节，所以它不经过
+-- `content/course-map.json`（那份产物只管「书 → 层」）。但「数字逻辑基础」就是
+-- 数字电子技术课的组成部分，必须归层 —— 否则它会与 10 个论文主题模块一起
+-- 落在 `course_layer_id IS NULL` 里，而那 10 个是**正确**的 NULL（文献主题
+-- 分类横跨所有课程层，不属于任何一门课）。两者混在一起就无法区分「漏了」与
+-- 「本来就不该有」。
+--
+-- 这条 UPDATE 单独写一遍是因为上面的 INSERT 带 `ON CONFLICT DO NOTHING`：
+-- 对已经存在的 `m-digital`（0061 之前建的库）它什么也不做，需要这里补上。
+-- 重复执行安全。
+UPDATE app.modules
+   SET course_layer_id = 'digital-electronics', tier = 'foundation'
+ WHERE id = 'm-digital'
+   AND (course_layer_id IS DISTINCT FROM 'digital-electronics' OR tier <> 'foundation');
 
 INSERT INTO app.knowledge_points (id, module_id, parent_id, name, is_leaf, depth, ordinal) VALUES
   ('kp-logic', 'm-digital', NULL, '逻辑代数与门电路', false, 0, 1),
