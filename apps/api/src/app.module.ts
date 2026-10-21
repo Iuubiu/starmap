@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { NulByteGuard } from './common/nul-byte.guard.js';
 import { DatabaseService } from './db/database.service.js';
 import { domainControllers } from './domains.js';
 import { LLM_PORT } from './llm/llm.port.js';
@@ -28,6 +30,11 @@ import { TurnService } from './agent/turn.service.js';
   imports: [StarmapMastraModule.register()],
   controllers: domainControllers,
   providers: [
+    // 全局守卫：拦住含 NUL 字节的路径参数/查询/请求体。
+    // PostgreSQL 不接受 0x00，驱动会抛 DatabaseError —— 不拦的话每个把路径参数
+    // 传给 SQL 的端点都会 500（实测六个端点全部如此）。放全局因为这是所有路由
+    // 都必经、且早于任何 DB 调用的唯一位置（详见 nul-byte.guard.ts 的文件头）。
+    { provide: APP_GUARD, useClass: NulByteGuard },
     DatabaseService,
     {
       provide: LLM_PORT,
