@@ -109,7 +109,7 @@
 - 结果：**747 条 table chunk**（此前 0），逐本 15/10/90/44/121/55/253/20/81/43/15。人眼核对王芝英 p20 `表1.3`/`表1.4`、p223 `表5.1`（21 行 9 列）、p232/233 `表5.3`/`表5.4`、丁洪林 p339 `表10.6`（35 行 6 列）均与扫描原图一致。表题被前置进 chunk 文本（`text = f'{表题}\n{网格}'`），所以「搜表1.3」能搜到。
 - **已知局限（如实记，不假装修好）**：跨页续表/单元格里混排公式的大表只能认出前一段；个别页因首行被判为正文而整表漏检。表题页召回率：wangzhiying 12/12、tangbin 80/82、dinghonglin 83/90、chenboxian 43/46、wangjingjin 8/11。漏检里**大部分是正文句以「表N」开头（正确未当表）**，真漏只有 wangjingjin p187 这类跨页续表。
 - 图文切图：**3459 个 figure 记录，PNG 缺 0、无图注 0、无页号 0**；`figures.jsonl` 每条带 `page/index/image/bbox/caption/chunkId`；`caption` 全部以 `图N.N` 或 `表N.N` 开头（硬校验）。图注行发 `kind='figure'` 块（与电子版 `extract.py` 同构），不新增 chunk kind。
-- chunk 种类分布（11 本合计）：text 57405 / formula 9213 / table 747 / figure 2337。
+- chunk 种类分布（11 本合计，逐个 chunks.jsonl 清点）：text 55998 / formula 9498 / figure 3459 / table 747，合计 69702。图块数 == figures.jsonl 条数（每张图恰好一条 chunk，无重复无遗漏）。
 
 #### AC6 王芝英 345 页可检索 + 抽 20 页与原文核对无明显错字
 
