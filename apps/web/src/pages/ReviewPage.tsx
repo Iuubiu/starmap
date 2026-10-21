@@ -554,12 +554,21 @@ export function ReviewPage() {
 
   const queue = useReviewQueue();
   const start = useStartReviewRound();
-  const round = useReviewRound(roundId);
   const [startedRoundId, setStartedRoundId] = useState<string | undefined>(undefined);
   const [result, setResult] = useState<ReviewCompleteResponse | undefined>(undefined);
   const [startError, setStartError] = useState<string | undefined>(undefined);
 
+  // **必须先算出 activeRoundId，再拿它去读题单。**
+  //
+  // 曾经的写法是 `useReviewRound(roundId)` —— 只认 URL 上的 `?round=`。于是
+  // 「点开始复验」之后 `startedRoundId` 有值、`activeRoundId` 也有值，但 hook
+  // 收到的是 undefined，`enabled: false` 让它永不发请求，`round.isPending` 恒为
+  // true ⇒ 页面永远停在「正在读这一轮复验的题单…」，学生一次复验都做不成
+  // （2026-10-22 浏览器实测发现）。这与票 02 数据库页 `useNodeSources(selected)`
+  // 传默认选中之前的旧值是同一类错误：**数据源参数要取「最终生效的 id」，不能
+  // 取它的某一个来源**。
   const activeRoundId = roundId ?? startedRoundId;
+  const round = useReviewRound(activeRoundId);
   // 刚判完的结果优先；否则读后端那一轮（刷新回来仍是同一份题单/结果）
   const detail: ReviewRoundDetailResponse | undefined = round.payload;
   const finished = useMemo(() => {
