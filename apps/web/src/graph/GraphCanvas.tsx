@@ -226,6 +226,17 @@ export function GraphCanvas({
           minCameraRatio: 0.02,
           maxCameraRatio: 20,
           stagePadding: 40,
+          // `size` 是**屏幕像素**，不随相机缩放。
+          //
+          // sigma 4 把 `itemSizesReference` 的默认值改成了 `'positions'`（v3 是
+          // `'screen'`）：此时 `scaleSize()` 会乘上 `cameraRatio * graphToViewportRatio`，
+          // 也就是「size 的单位是图坐标，不是像素」。本仓的 `NODE_SIZE` 是 7–9 像素、
+          // 布局种子在半径 1 的圆环上（`layout.ts` 的 `SEED_RADIUS`），两个单位一乘，
+          // 一个节点就被放大到 7 × 430 ≈ 3000 像素 —— 整块画布被最后画的那个节点的
+          // 颜色填满。实测现象是地图页画布纯色 `#5A6A80`（`unseen` 的颜色）、
+          // 3 秒与 23 秒的截图字节完全相同（6446 bytes），而右侧清单有 5495 项。
+          // 显式写 `'screen'` 把语义钉回「像素」，不依赖库的默认值。
+          itemSizesReference: 'screen',
         },
         nodeReducer: (key) => {
           const info = displayRef.current.get(key);
