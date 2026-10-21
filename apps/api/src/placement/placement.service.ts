@@ -874,16 +874,45 @@ export class PlacementService {
       record = inserted[0] as unknown as { id: string; created_at: Date } | undefined;
       if (!record) throw new Error('重判日志写入失败：没有返回行');
 
-      await run(
+      // **乐观锁**：只有「基线还是我读到的那个值」时才允许前移。
+      //
+      // 没有这个条件时，同一批并发读（浏览器一次刷新就会并行发好几个
+      // `/placement`）全部看到旧基线、全部判断「该重判」、全部提交成功 ——
+      // 实测 88 条日志里只有 41 个不同秒，最多 4 条完全重复（`04:59:00`
+      // 一次四条、内容一字不差），档位历史页因此把同一次重判显示成 4 行。
+      //
+      // 注释里原先写的「第二次 `since` 为 0 已经挡住」只对**顺序**调用成立：
+      // 并发下四家都在任何一家 COMMIT 之前读到了旧基线。改条件更新后，
+      // 第一个提交者前移基线，其余三家的 UPDATE 匹配 0 行 ⇒ ROLLBACK，
+      // 连同刚插入的那条日志一起撤销，只剩一行。
+      const advanced = await run(
         `UPDATE placement_profile
             SET tier = $1,
                 attempts_baseline = $2,
                 placed_at = now(),
                 last_rejudge_id = $3,
                 updated_at = now()
-          WHERE id = 1`,
-        [next, learned.totalAttempts, record.id],
+          WHERE id = 1
+            AND attempts_baseline = $4
+        RETURNING id`,
+        [next, learned.totalAttempts, record.id, profile.attempts_baseline],
       );
+
+      if (advanced.length === 0) {
+        // 别人已经结算过这次重判。撤销本次插入，读回对方的结果。
+        await client.query('ROLLBACK');
+        const winner = await this.loadProfile();
+        const history = await this.loadRejudgeEvent(winner?.last_rejudge_id ?? null);
+        return {
+          previousTier: history?.previousTier ?? current,
+          tier: (winner?.tier as PlacementTier) ?? next,
+          attemptsSince: since,
+          averageFirstTryRate: learned.averageFirstTryRate,
+          explanation: history?.explanation ?? explanation,
+          at: history?.at ?? new Date().toISOString(),
+          applied: false,
+        };
+      }
 
       // `micro_kp_id` 留 NULL：档位不是某个知识点的属性。写一个「最相关的
       // 知识点」会让 `log_kp_idx` 上多出一条与该知识点无关的事件，回看某张

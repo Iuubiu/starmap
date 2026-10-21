@@ -5,6 +5,7 @@ import type { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../app.module.js';
 import { DatabaseService } from '../db/database.service.js';
+import { PlacementService } from './placement.service.js';
 import { ScriptedLlm } from '../llm/scripted-llm.js';
 import { LLM_PORT } from '../llm/llm.port.js';
 import { createTestSchema, type TestSchema } from '../../test/test-schema.js';
@@ -441,6 +442,25 @@ async function rowCount(table: string): Promise<number> {
   );
   return rows[0]?.n ?? 0;
 }
+
+/** 数一数重判日志有几条。并发结算的回归就靠它看得出来。 */
+async function countRejudges(): Promise<number> {
+  return rowCount('placement_rejudges');
+}
+
+// `applyRejudge` 的入参形状。它们是 service 里的私有类型，测试拿不到，
+// 所以这里手写一份 —— 字段少且不会变（改了 service 里那份而没改这里，
+// 下面的调用会直接编译失败，不会静默错位）。
+type ProfileRow = {
+  tier: string;
+  status: string;
+  session_id: string | null;
+  attempts_baseline: number;
+  placed_at: Date;
+  last_rejudge_id: string | null;
+};
+type LearnedKnowledge = { totalAttempts: number; averageFirstTryRate: number | null };
+type RejudgeOutcome = { applied: boolean; tier: string };
 
 // ---------------------------------------------------------------------------
 
@@ -973,6 +993,59 @@ describe('入参与状态错误', () => {
       .send({ itemId: itemIdOf(CONTAINER_KP.id, 0), answer: 0 })
       .expect(404);
     expect(res.body.code).toBe('NOT_FOUND');
+  });
+
+  it('乐观锁：同一批学习证据只能被结算一次（并发读时不会写多条日志）', async () => {
+    await resetPlacementState();
+    const session = await startSession();
+    await drain(session, 'wrong');
+    expect((await status()).tier).toBe('P1');
+    await learnThreeKnowledgePoints();
+
+    // ## 为什么这里要绕过 HTTP
+    //
+    // 试过两种真并发：HTTP 8 路 / 20 路 curl，以及同进程 8 个 `status()`
+    // 的 Promise.all。**都只写出 1 行** —— 不是锁生效，是没撞上：一方
+    // 的事务几毫秒就跑完，其余请求读 `learnedKnowledge()` 时对方已 COMMIT。
+    // 靠调度运气复现竞态，这种测试会绿得毫无意义。
+    //
+    // 生产库里的历史证据才是真的：88 条日志只落在 41 个不同秒，
+    // `04:59:00` 一秒内 4 条内容一字不差（浏览器刷新时导航/看板/档位
+    // 徽标各发一次 `/placement`）。
+    //
+    // ## 怎么把「同时读到旧基线」造成必然
+    //
+    // 关键是让**两个 `applyRejudge` 都拿着同一份旧 profile 快照**。正常
+    // 路径下第二个调用会自己重新读一次 profile（那时基线已前移），竞态就
+    // 消失了。所以这里直接绕过 `status()`，用同一份快照并发调两次 ——
+    // 这正是并发请求各自读到旧快照时的状态。
+    // `PlacementController` 自己 `new PlacementService(db)`（见其文件头「为什么服务是
+    // 现场 new 的」），AppModule 里没有这个 provider，所以 `app.get()` 取不到。
+    // 这里照同样的方式造一个实例：它与控制器用的那个共享同一个 `DatabaseService`。
+    const service = new PlacementService(db);
+    const internals = service as unknown as {
+      loadProfile: () => Promise<ProfileRow | undefined>;
+      learnedKnowledge: () => Promise<LearnedKnowledge>;
+      applyRejudge: (p: ProfileRow, l: LearnedKnowledge) => Promise<RejudgeOutcome>;
+    };
+
+    const profile = await internals.loadProfile();
+    if (!profile) throw new Error('没有定级档案');
+    const learned = await internals.learnedKnowledge();
+    expect(learned.totalAttempts - profile.attempts_baseline, '门槛已到才谈得上重判').toBeGreaterThanOrEqual(
+      5,
+    );
+
+    const before = await countRejudges();
+    const [first, second] = await Promise.all([
+      internals.applyRejudge(profile, learned),
+      internals.applyRejudge(profile, learned),
+    ]);
+
+    expect((await countRejudges()) - before, '两次结算只能写一条日志').toBe(1);
+    // 一个真结算、一个被乐观锁挡回 —— 两者都不能抛错（学习者不该看到 500）。
+    expect([first.applied, second.applied].filter(Boolean)).toHaveLength(1);
+    expect((await status()).tier, '只升一档，不能因为算了两次就跳两档').toBe('P2');
   });
 
   it('选项下标越界 422，而不是当成判错', async () => {
