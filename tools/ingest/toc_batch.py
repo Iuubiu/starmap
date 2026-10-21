@@ -26,6 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from page_offset import measure  # noqa: E402
+from naming import disambiguate_duplicate_names, report_renames  # noqa: E402
 from toc import flatten, nodes_from_flat  # noqa: E402
 from toc_body import parse_body_headings  # noqa: E402
 from toc_books import TocParseError, parse_book  # noqa: E402
@@ -167,6 +168,9 @@ def main() -> int:
             # **译名要等页偏移定下来再做**：`resolve_page_offset` 靠「目录标题
             # 出现在哪一页」回验偏移，标题一旦译成中文就和书里的英文对不上了。
             nodes = translate_nodes(nodes)
+            # 译名之后再做同名消歧：前缀用的是 `num`，与中英文无关，但改名必须
+            # 发生在译名之后，否则译名会盖掉刚拼上去的编号。
+            print("  " + report_renames(disambiguate_duplicate_names(nodes)))
             chapters = [n for n in nodes if n['depth'] == 1]
             leaves = [n for n in nodes if n['isLeaf']]
             answers = [n for n in nodes if n.get('answerKey')]

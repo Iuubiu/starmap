@@ -210,3 +210,120 @@ def test_same_parent_same_name_leaves_have_distinct_numbers() -> None:
                         f'（{", ".join(n["microKpId"] for n in ns)}）'
                     )
     assert not bad, '同父同名叶节点编号重复或缺失（OCR 丢了编号）：\n' + '\n'.join(bad)
+
+
+# ---- t24：同名叶节点必须可区分（前端 `GraphNode` 不带 `num`）----------------
+
+
+#: 消歧之后**仍然**同名同 depth 的叶节点组，豁免（每条必须写明理由）。
+#:
+#: 豁免不是「测试写不过就加名单」——每一条都必须是「编号真的无法从产物里
+#: 反推」的结构性情形。能推的（有 `num` 的、父前缀不同的、节次在名字里的）
+#: 都已由 `naming.disambiguate_duplicate_names()` 的三遗解决，不走这里。
+DUPLICATE_NAME_ALLOWED: dict[tuple[str | None, str], str] = {
+    # 康华光模拟：章 5 的 5.1 是**非叶**节点「金属-氧化物-半导体（MOS）场效应管」，
+    # 编号在它的 5.1.1–5.1.5 下；这两个「MOSFET」是 OCR 把 5.1 的正文页标题当成
+    # 平级条目（depth=2，与 5.1/5.2 平级）。页码 205/211 分别落在 5.1.2 与 5.2.1
+    # 之内，要「拼回编号」必须同时改 depth 与 parentId —— 那是猜层级，不是补编号。
+    # 已列入 t24 报告交 captain 判断，不猜。
+    ('kp-kanghuaguang-5e-5', 'MOSFET'): '父下 5.1 是非叶，编号缺口为空，补号必须改层级=猜',
+}
+
+
+def test_duplicate_leaf_names_are_disambiguated() -> None:
+    """同书内同名的叶节点，`name` 必须已经把编号拼进去。
+
+    前端拿到的图谱/推荐响应里**没有 `num` 字段**（`graph.controller.ts` 的
+    `GraphNode` 只有 `microKpId / name / state / percent / depth / moduleId /
+    moduleName / moduleOrdinal / ordinal / reviewDueAt`），所以「7.1.1 概述」
+    与「8.1.1 概述」在界面上长得一模一样 —— 学习者在推荐里看到「概述」，点进去
+    不知道是哪一章的概述。把编号拼回 `name` 是**展示信息补全**，不新增字段、
+    不改契约。
+
+    归一化在 `naming.py`，三个入口（`run.py` / `ocr_run.py` / `toc_batch.py`）
+    都调它。这条测试守的是**产物**：以后改了消歧规则而忘记重出，它会立刻红。
+
+    豁免（必须写明理由，见 `naming.unresolved_duplicates` 的调用方日志）：
+    """
+    from naming import unresolved_duplicates
+
+    bad: list[str] = []
+    for path in _tocs():
+        toc = json.loads(path.read_text(encoding='utf-8'))
+        nodes = toc.get('nodes', [])
+        for group in unresolved_duplicates(nodes):
+            ids = group['ids']
+            key = next(
+                ((n.get('parentId'), group['name']) for n in nodes if n['microKpId'] == ids[0]),
+                (None, None),
+            )
+            if key in DUPLICATE_NAME_ALLOWED:
+                continue
+            bad.append(
+                f'{path.parent.name}: {group["name"]!r} ×{len(ids)} '
+                f'ids={ids} pages={group["pages"]}'
+            )
+    assert not bad, (
+        '这些叶节点同书同名，学习者在推荐里分不清是哪一章的：\n'
+        + '\n'.join(bad)
+        + '\n重出产物：python tools/ingest/fix_names.py'
+    )
+
+
+def test_naming_normalization_is_idempotent() -> None:
+    """消歧是幂等的：对已经改过的产物再跑一次，一个都不该再改。
+
+    管线会在每次重跑时调用 `disambiguate_duplicate_names()`，而 `fix_names.py`
+    又把已落盘的旧产物打到同一状态 —— 两条路径都会在**同一份**产物上再跑一次。
+    不幂等就会变成 `1.1 1.1 概述`，每重跑一次多一层前缀。
+    """
+    from naming import disambiguate_duplicate_names
+
+    changed: list[str] = []
+    for path in _tocs():
+        toc = json.loads(path.read_text(encoding='utf-8'))
+        nodes = toc.get('nodes', [])
+        again = disambiguate_duplicate_names(nodes)
+        if again:
+            changed.append(f'{path.parent.name}: {again[:3]}')
+    assert not changed, '产物里的名字还没消歧，或消歧不幂等：\n' + '\n'.join(changed)
+
+
+def test_same_book_same_depth_leaves_have_distinct_names() -> None:
+    """任何书内**同名且同 depth** 的叶节点，`name` 必须互不相同（且 `num` 非空）。
+
+    这是 captain 给 t24 的原话判据，与上一条互补：
+    - 上一条查「同书同名」（不限 depth）—— 更严，但只报**未消歧**的组；
+    - 这一条查「同 depth 同名」的组里 `num` 是否非空且互不相同。
+
+    今天只剩 1 组（康华光 `MOSFET`×2，见 `DUPLICATE_NAME_ALLOWED` 的理由），
+    所以这条测试主要是**防回归**：谁把 `naming.disambiguate_duplicate_names()`
+    从入口摘掉、或重跑产物时忘了走管线，它立刻红 —— 而不是等到学习者在推荐里
+    看到 8 个「概述」才发现。
+
+    `num` 必须非空：只靠 `name` 不同还不够，`num` 是「这条知识点在书里的
+    位置」的机器可读形式，检索/排序/溯源都靠它。
+    """
+    bad: list[str] = []
+    for path in _tocs():
+        nodes = json.loads(path.read_text(encoding='utf-8')).get('nodes', [])
+        groups: dict[tuple[int, str], list[dict]] = {}
+        for n in nodes:
+            if n.get('isLeaf') is True:
+                groups.setdefault((n.get('depth'), n.get('name') or ''), []).append(n)
+        for (depth, name), ns in groups.items():
+            if len(ns) < 2:
+                continue
+            if (ns[0].get('parentId'), name) in DUPLICATE_NAME_ALLOWED:
+                continue
+            nums = [(n.get('num') or '').strip() for n in ns]
+            if any(not x for x in nums) or len(set(nums)) != len(nums):
+                bad.append(
+                    f'{path.parent.name}: depth={depth} {name!r} ×{len(ns)} num={nums} '
+                    f'（{", ".join(n["microKpId"] for n in ns)}）'
+                )
+    assert not bad, (
+        '同书同 depth 的叶节点重名，且 num 不足以区分：\n'
+        + '\n'.join(bad)
+        + '\n重出产物：python tools/ingest/fix_names.py'
+    )

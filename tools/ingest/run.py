@@ -29,6 +29,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from assign import assign, review_sample  # noqa: E402
 from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E402
 from frontmatter import demote_front_matter_leaves, report_demotions  # noqa: E402
+from naming import disambiguate_duplicate_names, report_renames, unresolved_duplicates  # noqa: E402
 from edges import build_edges, summarize, write_edges  # noqa: E402
 from extract import extract_page  # noqa: E402
 from toc import flatten, nodes_from_flat, parse_toc_pages  # noqa: E402
@@ -64,6 +65,11 @@ def main() -> int:
     # depth=0 的叶知识点 —— 它们不是可掌握知识点，降级成容器。chunk 仍挂
     # 在它下面所以内容不丢，但地图/掌握度/出题/推荐四处都只看 is_leaf。
     print(report_demotions(demote_front_matter_leaves(nodes)))
+    # 同书同名的叶节点在界面上分不清（前端 `GraphNode` 不带 `num`）：把编号
+    # 拼回 name。判据与理由见 naming.py 的模块 docstring。
+    print(report_renames(disambiguate_duplicate_names(nodes)))
+    for _g in unresolved_duplicates(nodes):
+        print(f"  ⚠ 仍重名：{_g['name']!r} ids={_g['ids']} pages={_g['pages']}")
 
     # 2. 正文 → chunk
     doc = pymupdf.open(args.pdf)
