@@ -40,6 +40,7 @@ from assign import assign  # noqa: E402
 from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E402
 from edges import build_edges, summarize, write_edges  # noqa: E402
 from extract import extract_page  # noqa: E402
+from naming import disambiguate_duplicate_names, report_renames  # noqa: E402
 from toc_batch import BOOKS, build_nodes, pdf_path, resolve_page_offset, translate_nodes  # noqa: E402
 
 import pymupdf  # noqa: E402
@@ -84,6 +85,9 @@ def build_one(book: dict, *, limit: int | None = None) -> dict:
     offset, how = resolve_page_offset(book, pdf, probe)
     nodes, layout = build_nodes(book, pdf, offset)
     nodes = translate_nodes(nodes)
+    # 译名之后再做同名消歧：前缀用的是 `num`，与中英文无关，但改名必须发生在
+    # 译名之后，否则译名会盖掉刚拼上去的编号（`toc_batch.py` 同一顺序）。
+    print(f"  {sid}: " + report_renames(disambiguate_duplicate_names(nodes)))
     chapters = [n for n in nodes if n['depth'] == 1]
     if not chapters:
         raise RuntimeError(f'{sid}: 章节点 0 个 —— import-content 会静默产出空书')
