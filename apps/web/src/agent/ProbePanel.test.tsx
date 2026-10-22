@@ -218,6 +218,115 @@ describe('揭晓与结束之后不再提问', () => {
     await waitFor(() => expect(screen.getByText('追问已结束')).toBeInTheDocument());
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
+
+  /**
+   * `reteach` 退出（退回重讲）与 `reveal` 一样置 `ladder.exited`，但 `action`
+   * 不是 `reveal`。旧实现只用 `revealed`（`action === 'reveal' || 'exit'`）
+   * 决定要不要收起作答区，于是这条路线上输入框还在、提交按钮却是灰的 ——
+   * 学生可以打字，打完按不动，也没有任何一句话说这一问已经结束。
+   * 这条用例钉住「退出即不再提问」，与退出方式无关。
+   */
+  it('退回重讲（reteach）退出后也不留可打字的输入框', async () => {
+    const user = userEvent.setup();
+    stubReply(
+      replyBody({
+        action: 'reteach',
+        replyKind: 'wrong',
+        actionReason: '连续三次没有推进，退回重讲',
+        question: '看来这条线索走不通，我们换个角度重讲这一段。',
+        ladder: {
+          level: 3,
+          cap: 3,
+          maxLevelUsed: 3,
+          consecutiveUnknown: 3,
+          consecutiveWrong: 3,
+          noProgress: 3,
+          exited: true,
+        },
+      }),
+    );
+    renderPanel();
+
+    await user.type(screen.getByLabelText('追问作答'), '不知道。');
+    await user.click(screen.getByRole('button', { name: '提交这一问的回答' }));
+
+    await waitFor(() => expect(screen.getByText('追问已结束')).toBeInTheDocument());
+    // 结束之后打字没有任何去处：输入框必须消失，不能留一个「能打字、按不动」的框
+    expect(screen.queryByLabelText('追问作答')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: '提交这一问的回答' }),
+    ).not.toBeInTheDocument();
+    // 退出前那一轮仍然留在账目里，学生能回看自己答过什么
+    expect(screen.getByLabelText('追问记录').textContent).toContain('不知道。');
+  });
+});
+
+/**
+ * 答对之后的「确认轮」。
+ *
+ * 服务端在 `action === 'acknowledge'` 时，`question` 字段里放的是**状态陈述**
+ * （「对。这一步的推理是成立的，我们往下走。」），不是问句。旧实现把它当问题
+ * 渲染，于是学生答对了却看到一个等着他作答的输入框和「提交这一问的回答」按钮，
+ * 再点一次还是同一句「对」。这条用例钉住「确认轮不再要求作答」。
+ */
+describe('答对之后的确认轮不再要求作答', () => {
+  it('确认轮不渲染输入框与提交按钮，但把服务端那句话显示出来', async () => {
+    const user = userEvent.setup();
+    stubReply(
+      replyBody({
+        action: 'acknowledge',
+        replyKind: 'correct',
+        actionReason: '答对，确认后继续',
+        question: '对。这一步的推理是成立的，我们往下走。',
+        ladder: {
+          level: 1,
+          cap: 3,
+          maxLevelUsed: 1,
+          consecutiveUnknown: 0,
+          consecutiveWrong: 0,
+          noProgress: 0,
+          exited: false,
+        },
+      }),
+    );
+    renderPanel();
+
+    await user.type(screen.getByLabelText('追问作答'), 'A·B 是多余的');
+    await user.click(screen.getByRole('button', { name: '提交这一问的回答' }));
+
+    // 服务端那句确认语要显示出来（学生得知道「我答对了」）
+    await waitFor(() =>
+      expect(
+        screen.getByText('对。这一步的推理是成立的，我们往下走。'),
+      ).toBeInTheDocument(),
+    );
+    // 但不能再要求作答：输入框与提交按钮都必须消失
+    expect(screen.queryByLabelText('追问作答')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: '提交这一问的回答' }),
+    ).not.toBeInTheDocument();
+    // 取而代之的是一条状态提示，让学生知道「这一问过了」而不是「界面卡住了」
+    expect(screen.getByText('这一问已经答上了')).toBeInTheDocument();
+  });
+
+  it('确认轮之后仍然可以继续往下追问（底部输入框还在）', async () => {
+    const user = userEvent.setup();
+    stubReply(
+      replyBody({
+        action: 'acknowledge',
+        replyKind: 'correct',
+        question: '对。这一步的推理是成立的，我们往下走。',
+      }),
+    );
+    renderPanel();
+
+    await user.type(screen.getByLabelText('追问作答'), 'A·B 是多余的');
+    await user.click(screen.getByRole('button', { name: '提交这一问的回答' }));
+
+    await waitFor(() => expect(screen.getByText('这一问已经答上了')).toBeInTheDocument());
+    // 确认轮不是终点：`exited` 仍是 false，所以不能说「追问已结束」
+    expect(screen.queryByText('追问已结束')).not.toBeInTheDocument();
+  });
 });
 
 describe('选项题用文本作答，不用序号', () => {

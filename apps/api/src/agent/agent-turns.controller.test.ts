@@ -176,7 +176,12 @@ beforeAll(async () => {
             -- 正文里必须带上会被 query 命中的词（前置放大器 / 噪声），否则它根本
             -- 进不了候选集，"不在提示词里"就只是「没检索到」，断言会空过。
             ('ck-formula', 'src-1', 'kp-a', 3, 'formula',
-             '前置放大器噪声的公式估算为 root(4kTRF) 除以成形时间。', 44)`,
+             '前置放大器噪声的公式估算为 root(4kTRF) 除以成形时间。', 44),
+            -- kp-b 也要有内容：推荐只挑「有内容」的叶节点，没有这一条时推荐池
+            -- 只有一个候选，「多轮换焦点」就退化成「只能有一个焦点」，那条
+            -- 用例会因为 probeId 每轮不同而假绿。
+            ('ck-b', 'src-1', 'kp-b', 1, 'text',
+             '成形网络把前放的阶跃响应压成可测量的脉冲形状，时间常数决定脉宽。', 88)`,
   );
   await q(
     `INSERT INTO ${schema.name}.chunk_kp_answer (chunk_id, micro_kp_id) VALUES ('ck-ans', 'kp-a')`,
@@ -195,6 +200,38 @@ beforeAll(async () => {
        (id, level_id, stem, answer, explain_correct, explain_wrong, variant_group, pool)
      VALUES ('it-a', 'lv-a', '等效噪声电荷的量级是多少？',
              '{"value": 120}', '见书', '见书', 'vg-a', 'quiz')`,
+  );
+  // 作答证据要有 3 个变式组，但**不能挂在 lv-a 上**：关卡卡上的 itemCount 来自
+  // lv-a 的真实题目数，往 lv-a 里塞题会让「关卡卡的事实是查库得来的」那条用例
+  // 从 1 变 3 —— 那是测试在替实现改口径。所以另开一关 lv-a2 专门放这两道题。
+  await q(
+    `INSERT INTO ${schema.name}.levels (id, micro_kp_id, title, kind, ordinal, spec)
+     VALUES ('lv-a2', 'kp-a', '前置放大器的噪声（进阶）', 'quiz', 2, $1::jsonb)`,
+    [JSON.stringify({ meta: { estimatedMinutes: 10 }, steps: [{ kind: 'quiz' }] })],
+  );
+  await q(
+    `INSERT INTO ${schema.name}.level_items
+       (id, level_id, stem, answer, explain_correct, explain_wrong, variant_group, pool)
+     VALUES ('it-a2', 'lv-a2', '反馈电容加倍后增益怎么变？',
+             '{"value": 1}', '见书', '见书', 'vg-1', 'quiz'),
+            ('it-a3', 'lv-a2', '成形时间常数增大时脉宽怎么变？',
+             '{"value": 0}', '见书', '见书', 'vg-2', 'quiz')`,
+  );
+  // kp-a 的作答证据：8 条、3 个变式组，模式 CCWWCWWC。这组数字不是随手写的，
+  // 是拿 replayMastery 枚举出来的：它让 evidenceSufficient 成立（>=8 条且 >=3 个
+  // 变式组），同时 current 落在 0.5505 —— 既越过 FAMILIAR_THRESHOLD(0.4) 让 kp-b
+  // 变成合法推荐，又没有越过 PROFICIENT_THRESHOLD(0.7) 把 kp-a 自己挤出推荐池。
+  await q(
+    `INSERT INTO ${schema.name}.attempts
+       (micro_kp_id, item_id, variant_group, correct, counts_toward_mastery, knowledge_kind, created_at)
+     VALUES ('kp-a', 'it-a',  'vg-a', true,  true, 'concept', now() - interval '8 minutes'),
+            ('kp-a', 'it-a2', 'vg-1', true,  true, 'concept', now() - interval '7 minutes'),
+            ('kp-a', 'it-a3', 'vg-2', false, true, 'concept', now() - interval '6 minutes'),
+            ('kp-a', 'it-a',  'vg-a', false, true, 'concept', now() - interval '5 minutes'),
+            ('kp-a', 'it-a2', 'vg-1', true,  true, 'concept', now() - interval '4 minutes'),
+            ('kp-a', 'it-a3', 'vg-2', false, true, 'concept', now() - interval '3 minutes'),
+            ('kp-a', 'it-a',  'vg-a', false, true, 'concept', now() - interval '2 minutes'),
+            ('kp-a', 'it-a2', 'vg-1', true,  true, 'concept', now() - interval '1 minutes')`,
   );
 }, 60_000);
 
@@ -308,26 +345,27 @@ describe('一轮只产出一张卡，且卡片形状受契约约束', () => {
 
   it('连续多轮不传知识点，也不该反复得到同一张卡', async () => {
     const sessionId = freshSession();
+    const focuses: string[] = [];
     const cards: string[] = [];
-    const kinds: string[] = [];
 
     for (const utterance of [CLEAN, CLEAN, CLEAN, CLEAN, CLEAN]) {
       const body = await turn(sessionId, utterance, null);
       expect(body.degraded).toBe(false);
       expect(body.artifact?.microKpId).not.toBe('');
+      focuses.push(body.artifact?.microKpId ?? '');
       // 只比 cardId 是不够的：cardId 等于当轮 turnId，永远唯一 —— 那样这条断言
-      // 在「五轮全是同一张占位卡」的旧实现下也会绿。所以剥掉服务端每次都换的
-      // 两个字段，只比**卡的内容**。
-      const { cardId: _cardId, createdAt: _createdAt, ...content } = body.artifact as Record<
-        string,
-        unknown
-      >;
-      cards.push(JSON.stringify(content));
-      kinds.push(body.artifact?.kind ?? '');
+      // 在「五轮全是同一张占位卡」的旧实现下也会绿。同理 probe_form 卡里有每轮
+      // 新建的 probeId，只比整张卡的内容也会假绿。所以这里只比**焦点**。
+      cards.push(JSON.stringify({ microKpId: body.artifact?.microKpId }));
     }
 
-    expect(kinds).not.toContain('');
-    // 占位卡的内容五轮完全一致；真实焦点的卡至少在 microKpId/title 上有区分。
+    // 推荐池里有两个有内容的叶节点（kp-a / kp-b），轮换必须把它们都用上。
+    expect(new Set(focuses).size).toBeGreaterThan(1);
+    // 更硬的一条：相邻两轮不能是同一个点。只要求「整体不止一个」时，
+    // 1→1→1→1→2 也算通过，而那对学生仍然是「前四轮在讲同一件事」。
+    for (let i = 1; i < focuses.length; i += 1) {
+      expect(focuses[i]).not.toBe(focuses[i - 1]);
+    }
     expect(new Set(cards).size).toBeGreaterThan(1);
   });
 

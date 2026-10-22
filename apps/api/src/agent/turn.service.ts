@@ -139,10 +139,28 @@ export class TurnService {
     try {
       const recommend = new RecommendService(this.db);
       const { recommendedIds } = await recommend.graphData(await recommend.now());
-      const picked = recommendedIds[0];
+      if (recommendedIds.length === 0) return { microKpId: null, name: null, note: null };
+
+      // 同一会话内轮换，而不是每轮都取第一个。
+      //
+      // 推荐列表默认只有 `RECOMMEND_DEFAULT_LIMIT`（3）个，恒取第一个会让整段
+      // 对话的焦点钉死在一个知识点上：学生连说十句话，十张卡讲的是同一件事，
+      // 这和占位卡一样没有推进。
+      //
+      // 选法：**最久没用过的那个**（从没用过的优先）。不用「取第一个没用过的」
+      // ——那样用完 3 个之后就永久钉在第 1 个上（实测第 4–10 轮全是同一个点）。
+      // 用「上次用它的轮次」排序就是轮转 1→2→3→1→…，每一轮都换。
+      // 仍不引入新算法：候选集合、顺序语义都来自 `recommend()`，这里只决定
+      // 「这一轮从它的输出里取哪一个」。
+      const lastUsed = await this.lastFocusOrdinals(sessionId);
+      const picked = [...recommendedIds].sort(
+        (a, b) => (lastUsed.get(a) ?? 0) - (lastUsed.get(b) ?? 0),
+      )[0];
       if (!picked) return { microKpId: null, name: null, note: null };
       const name = await this.kpName(picked);
-      this.logger.log(`未选定知识点，按推荐挑焦点：${picked}（${name ?? '无名'}）`);
+      this.logger.log(
+        `未选定知识点，按推荐挑焦点：${picked}（${name ?? '无名'}；本会话已用过 ${lastUsed.size} 个）`,
+      );
       return {
         microKpId: picked,
         name,
@@ -162,6 +180,27 @@ export class TurnService {
     await this.db.query('INSERT INTO sessions (id) VALUES ($1) ON CONFLICT (id) DO NOTHING', [
       sessionId,
     ]);
+  }
+
+  /**
+   * 本会话里每个焦点**最后一次**被用到的轮次（ordinal）。
+   *
+   * 只读 `agent_turns.micro_kp_id`：那是**实际落卡的**焦点，不是「打算用的」。
+   * 失败的回合也会写一行（降级卡），它的 micro_kp_id 同样记着当轮焦点，所以
+   * 学生看到过的东西不会被下一轮当成「从没提过」重新端上来。
+   *
+   * 返回的是 ordinal 而不是布尔：轮换要的是「谁最久没用过」，只记用没用过
+   * 会让候选用尽后永久钉在第一个上。
+   */
+  private async lastFocusOrdinals(sessionId: string): Promise<Map<string, number>> {
+    const rows = await this.db.query<{ micro_kp_id: string; last_ordinal: number | string }>(
+      `SELECT micro_kp_id, max(ordinal) AS last_ordinal
+         FROM agent_turns
+        WHERE session_id = $1 AND micro_kp_id IS NOT NULL
+        GROUP BY micro_kp_id`,
+      [sessionId],
+    );
+    return new Map(rows.map((row) => [row.micro_kp_id, Number(row.last_ordinal)]));
   }
 
   /** 知识点是否存在（模型给的外部 id 必须过这一关才能进卡）。 */

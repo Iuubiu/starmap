@@ -33,14 +33,14 @@ import { server } from '../test/msw';
  * 文案不该存在 / 组件没渲染 / 组件渲染了但数据不对。
  */
 
-const renderHome = () => {
+const renderHome = (path = '/') => {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
   });
   return render(
     <FluentProvider theme={webLightTheme}>
       <QueryClientProvider client={client}>
-        <MemoryRouter initialEntries={['/']}>
+        <MemoryRouter initialEntries={[path]}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/map" element={<div>知识地图占位</div>} />
@@ -460,5 +460,98 @@ describe('提交回合时带的是当前档位，不是写死的 P1（票 12）'
     expect(seen[0]!.tier).toBe('P1');
     // 反向对照：这句话本身没被降级分支吞掉。
     expect(seen[0]!.utterance).toBe('我想练题');
+  });
+});
+
+/**
+ * 初始焦点（`/?kp=<microKpId>`）：从知识点详情页「问助手」跳过来时，第一轮
+ * 就要围着那个知识点转。
+ *
+ * 在此之前，首页的焦点**只能从上一张卡继承**，而冷启动时一张卡都没有 ——
+ * 实测 10 轮对话都在推荐集里轮换，学生说「我想练布尔代数」不改变焦点。
+ * 那个行为本身由后端的「未选定知识点」任务负责；这里只钉前端这一层：
+ * 地址栏里给了 `kp`，就不能把它丢掉。
+ */
+describe('初始焦点来自地址栏', () => {
+  const captureFocus = () => {
+    const seen: Array<{ microKpId?: string | null; utterance?: string }> = [];
+    server.use(
+      http.post('*/api/v1/agent/turns', async ({ request }) => {
+        seen.push((await request.json()) as { microKpId?: string | null; utterance?: string });
+        return HttpResponse.json(probeTurn());
+      }),
+    );
+    return seen;
+  };
+
+  it('地址栏带了 kp 时，第一轮请求体的 microKpId 就是它', async () => {
+    const user = userEvent.setup();
+    const seen = captureFocus();
+
+    renderHome('/?kp=kp-kmap');
+    await submitTurn(user, '给我一张这个知识点的题');
+
+    await waitFor(() => expect(seen).toHaveLength(1));
+    expect(seen[0]!.microKpId).toBe('kp-kmap');
+    // 反向对照：这句话没被吞掉
+    expect(seen[0]!.utterance).toBe('给我一张这个知识点的题');
+  });
+
+  it('没有 kp 参数时照旧发 null，不是发空串或 undefined', async () => {
+    const user = userEvent.setup();
+    const seen = captureFocus();
+
+    renderHome();
+    await submitTurn(user, '随便看看');
+
+    await waitFor(() => expect(seen).toHaveLength(1));
+    // `undefined` 会在 JSON 序列化时字段消失，契约校验就变成「缺字段」；
+    // 服务端要的是显式的「没有选定」。
+    expect(seen[0]).toHaveProperty('microKpId', null);
+  });
+
+  it('卡片回来之后，卡片自带的点接管 —— 焦点不会死在地址栏上', async () => {
+    const user = userEvent.setup();
+    const seen: Array<{ microKpId?: string | null; utterance?: string }> = [];
+    server.use(
+      http.post('*/api/v1/agent/turns', async ({ request }) => {
+        const body = (await request.json()) as { microKpId?: string | null; utterance?: string };
+        seen.push(body);
+        // 第二轮起，服务端按学生说的话改给了另一个点
+        return HttpResponse.json(probeTurn({ turnId: `turn-${seen.length}` }));
+      }),
+    );
+
+    renderHome('/?kp=kp-kmap');
+    await submitTurn(user, '第一句');
+    await waitFor(() => expect(seen).toHaveLength(1));
+    expect(seen[0]!.microKpId).toBe('kp-kmap');
+
+    await submitTurn(user, '第二句');
+    await waitFor(() => expect(seen).toHaveLength(2));
+    // `probeTurn` 的卡带的是 `kp-bool`。学生换话题后，地址栏里那个旧参数
+    // 不该继续劫持焦点 —— 否则他会一直拿到同一个知识点的题，而屏幕上
+    // 已经写着另一个知识点的名字。
+    expect(seen[1]!.microKpId).toBe('kp-bool');
+  });
+
+  it('焦点点不在节点列表那一页里时，徽标显示名字而不是裸 id', async () => {
+    // 节点列表接口只回两条（`kp-bool` / `kp-kmap`），`kp-far` 不在其中 ——
+    // 这正是真实库的情形：`?kp=` 带进来的点可能落在列表前 N 条之外。
+    server.use(
+      http.get('*/api/v1/nodes/:id', ({ params }) =>
+        HttpResponse.json({
+          node: { microKpId: params.id, name: '触发器与锁存器', state: 'unseen', percent: null, depth: 2 },
+          levels: [],
+        }),
+      ),
+    );
+
+    renderHome('/?kp=kp-far');
+
+    // 徽标里必须是名字。裸 id 对学习者是一串无意义的字符串，
+    // 而「未选定」是错的 —— 学生刚从地图上选了这个点。
+    await waitFor(() => expect(screen.getByText('触发器与锁存器')).toBeTruthy());
+    expect(screen.queryByText('kp-far')).toBeNull();
   });
 });

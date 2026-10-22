@@ -147,9 +147,30 @@ export function ProbePanel({
   const cap = current?.ladder.cap ?? initialCap;
   const exited = current?.ladder.exited ?? false;
   const revealed = current?.action === 'reveal' || current?.action === 'exit';
+  /**
+   * 这一轮服务端只是「收到了、确认了」（答对），没有新问题要问。
+   *
+   * `acknowledge` 的 `question` 字段里放的是**状态陈述**（「对。这一步的推理
+   * 是成立的，我们往下走。」），不是问句。旧实现把它当问题渲染，于是学生看到
+   * 一句肯定语、下面还挂着一个等他作答的输入框和「提交这一轮」按钮 —— 答对了
+   * 却被要求再答一遍，再提交还是同一句「对」。
+   *
+   * 所以确认轮单独处理：陈述照常显示，但**收起作答区**，把「要不要继续」交回
+   * 给页面底部那句可以提交的话。
+   */
+  const acknowledged = current?.action === 'acknowledge';
+  /**
+   * 追问阶梯已经走到头（`reteach` / `exit` 两种退出方式都会置 `ladder.exited`）。
+   *
+   * 旧实现只在「揭晓答案」时才收起作答区，于是 `reteach` 退出后学生看到一个
+   * 仍然可打字的输入框，而「提交这一问的回答」按钮因为 `canSubmit` 里的
+   * `!exited` 是灰的 —— 打字没有任何反应，也没有一句话说这一问已经结束了。
+   * 所以退出与揭晓同等对待：都不再提问。
+   */
+  const closed = exited || revealed;
 
   const trimmed = draft.trim();
-  const canSubmit = trimmed !== '' && !reply.isPending && !exited;
+  const canSubmit = trimmed !== '' && !reply.isPending && !closed && !acknowledged;
 
   const submit = async () => {
     if (!canSubmit) return;
@@ -177,7 +198,7 @@ export function ProbePanel({
     <div className={styles.panel}>
       <Body1 className={styles.question}>{question}</Body1>
 
-      {!revealed && (
+      {!closed && !acknowledged && (
         <div className={styles.progressRow}>
           <Caption1>
             提助等级 {level}/{cap}
@@ -193,7 +214,7 @@ export function ProbePanel({
         </div>
       )}
 
-      {!revealed && inputKind === 'choice' && choices.length > 0 ? (
+      {!closed && !acknowledged && inputKind === 'choice' && choices.length > 0 ? (
         <RadioGroup value={draft} onChange={(_, data) => setDraft(data.value)}>
           {choices.map((choice, index) => (
             <Radio
@@ -206,7 +227,8 @@ export function ProbePanel({
           ))}
         </RadioGroup>
       ) : (
-        !revealed && (
+        !closed &&
+        !acknowledged && (
           <Textarea
             value={draft}
             onChange={(_, data) => setDraft(data.value)}
@@ -227,7 +249,12 @@ export function ProbePanel({
       )}
 
       <div className={styles.actions}>
-        {!exited && (
+        {acknowledged && !exited && (
+          <Badge appearance="tint" color="success">
+            这一问已经答上了
+          </Badge>
+        )}
+        {!closed && !acknowledged && (
           <Button
             appearance="primary"
             onClick={submit}
