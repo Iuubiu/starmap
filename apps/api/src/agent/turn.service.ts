@@ -145,6 +145,8 @@ export interface IntentRecord {
   goal: IntentGoal;
   /** 想先做题（true）/ 先看讲解（false）/ 没说（null） */
   preferPractice: boolean | null;
+  /** 熟练度自评（票 84）：没说或说不清都是 null —— 不猜。 */
+  selfLevel: SelfLevel | null;
   resolvedAt: string;
 }
 
@@ -216,8 +218,43 @@ export function classifyPracticePreference(utterance: string): boolean | null {
   return null;
 }
 
-/** 从 `sessions.meta` 里取出已确立的意图（形状不对就当没有）。 */
-export function readIntent(meta: Record<string, unknown>): IntentRecord | null {
+/**
+ * 熟练度自评的四档（票 84）。学生报的是「我感觉自己什么水平」，
+ * 不是内部档位代号 —— 所以存的是这四个词，再由 `selfLevelToTier` 翻译成 P1/P2/P3。
+ */
+export type SelfLevel = 'none' | 'seen' | 'slow' | 'fluent';
+
+const SELF_LEVEL_PATTERNS: { pattern: RegExp; level: SelfLevel }[] = [
+  { pattern: /完全没学过|没接触过|零基础|从没学过/, level: 'none' },
+  { pattern: /见过.{0,4}不会用|看得懂.{0,4}做不出|不会用/, level: 'seen' },
+  { pattern: /会做但慢|做得慢|不太熟/, level: 'slow' },
+  { pattern: /很熟|比较熟|已经很熟|熟练/, level: 'fluent' },
+];
+
+/** 解析自评；说不清就返回 null（不猜）。顺序即优先级：先说「没见过」最容易被后文覆盖。 */
+export function classifySelfLevel(utterance: string): SelfLevel | null {
+  const text = utterance.trim();
+  for (const rule of SELF_LEVEL_PATTERNS) {
+    if (rule.pattern.test(text)) return rule.level;
+  }
+  return null;
+}
+
+/**
+ * 自评 → 首轮渲染档位。
+ *
+ * 冲突时**以服务端实测为准**（`placement_profile`），这里只回答「没有实测时按自评给哪档」：
+ * 完全没学过 → P1（完整样例）；见过但不会用 → P1（仍需样例，但可略讲）；
+ * 会做但慢 → P2；很熟 → P3（直接出题）。返回 null 表示「不做判断」，交回既有逻辑。
+ */
+export function selfLevelToTier(level: SelfLevel | null): 'P1' | 'P2' | 'P3' | null {
+  if (level === 'none' || level === 'seen') return 'P1';
+  if (level === 'slow') return 'P2';
+  if (level === 'fluent') return 'P3';
+  return null;
+}
+
+/** 从 `sessions.meta` 里取出已确立的意图（形状不对就当没有）。 */export function readIntent(meta: Record<string, unknown>): IntentRecord | null {
   const raw = meta.intent;
   if (!raw || typeof raw !== 'object') return null;
   const record = raw as Partial<IntentRecord>;
@@ -234,6 +271,13 @@ export function readIntent(meta: Record<string, unknown>): IntentRecord | null {
   return {
     goal,
     preferPractice: typeof record.preferPractice === 'boolean' ? record.preferPractice : null,
+    selfLevel:
+      record.selfLevel === 'none' ||
+      record.selfLevel === 'seen' ||
+      record.selfLevel === 'slow' ||
+      record.selfLevel === 'fluent'
+        ? record.selfLevel
+        : null,
     resolvedAt: typeof record.resolvedAt === 'string' ? record.resolvedAt : '',
   };
 }
@@ -823,13 +867,18 @@ export class TurnService {
       });
     }
     if (intentStep.kind === 'resolve') {
+      /* 票 84：自评只在「这一句是答问津」或学生自己说了的时候采信；
+         其它情况返回 null（不猜）。 */
+      const selfLevel = classifySelfLevel(request.utterance);
       await this.writeSessionMetaKey(request.sessionId, 'intent', {
         goal: intentStep.goal,
         preferPractice: intentStep.preferPractice,
+        selfLevel,
         resolvedAt: await this.db.now(),
       });
       this.logger.log(
-        `回合前确立意图：${intentStep.goal}（${intentStep.via}）`,
+        `回合前确立意图：${intentStep.goal}（${intentStep.via}）` +
+          (selfLevel ? `，自评 ${selfLevel}` : ''),
       );
     }
 
@@ -840,6 +889,7 @@ export class TurnService {
         ? {
             goal: intentStep.goal,
             preferPractice: intentStep.preferPractice,
+            selfLevel: classifySelfLevel(request.utterance),
             resolvedAt: '',
           }
         : readIntent(meta);

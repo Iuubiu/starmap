@@ -17,6 +17,8 @@ import {
   classifyPracticePreference,
   hasAskedTheWay,
   readIntent,
+  classifySelfLevel,
+  selfLevelToTier,
   resolveIntentStep,
   saysSkipClarify,
 } from './turn.service.js';
@@ -229,14 +231,36 @@ describe('判定规则（纯函数）', () => {
   it('会话 meta 的读取对脏数据免疫', () => {
     expect(readIntent({})).toBeNull();
     expect(readIntent({ intent: { goal: '瞎写' } })).toBeNull();
+    /* 票 84：`selfLevel` 是新增字段，旧会话没有它 —— 必须读成 null 而不是
+       「形状不对整条丢掉」，否则老会话的意图会突然消失。 */
     expect(readIntent({ intent: { goal: 'exam', preferPractice: true, resolvedAt: 'x' } })).toEqual({
       goal: 'exam',
       preferPractice: true,
+      selfLevel: null,
       resolvedAt: 'x',
     });
+    expect(
+      readIntent({ intent: { goal: 'exam', preferPractice: null, selfLevel: '瞎写', resolvedAt: 'x' } }),
+    ).toEqual({ goal: 'exam', preferPractice: null, selfLevel: null, resolvedAt: 'x' });
+    expect(
+      readIntent({ intent: { goal: 'exam', preferPractice: null, selfLevel: 'slow', resolvedAt: 'x' } }),
+    ).toEqual({ goal: 'exam', preferPractice: null, selfLevel: 'slow', resolvedAt: 'x' });
     expect(hasAskedTheWay({})).toBe(false);
     expect(hasAskedTheWay({ askTheWay: { askedAt: 'x' } })).toBe(true);
     expect(hasAskedTheWay({ askTheWay: { askedAt: 3 } })).toBe(false);
+  });
+
+  it('自评四档的解析与「说不清就 null」', () => {
+    expect(classifySelfLevel('我完全没学过')).toBe('none');
+    expect(classifySelfLevel('见过但不会用')).toBe('seen');
+    expect(classifySelfLevel('会做但慢')).toBe('slow');
+    expect(classifySelfLevel('这条我很熟')).toBe('fluent');
+    expect(classifySelfLevel('我想学布尔代数')).toBeNull();
+    expect(selfLevelToTier('none')).toBe('P1');
+    expect(selfLevelToTier('seen')).toBe('P1');
+    expect(selfLevelToTier('slow')).toBe('P2');
+    expect(selfLevelToTier('fluent')).toBe('P3');
+    expect(selfLevelToTier(null)).toBeNull();
   });
 });
 

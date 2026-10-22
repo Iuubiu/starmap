@@ -145,19 +145,30 @@ const useStyles = makeStyles({
   },
   /**
    * 错：警示底 + 警示边。**边色不是 Fluent 的 palette 黄**（亮主题下
-   * 没有任何 Fluent 黄能到 3:1，最高 1.30），而是本仓的 `--sm-warning`
-   * （深主题偏亮的琥珀、亮主题偏暗的褐，对各自 soft 底 7.98 / 5.67）。
+   * 没有任何 Fluent 黄能到 3:1，最高 1.30）。
    *
-   * 这里用 `colorPaletteDarkOrangeBorder1`（theme.ts 把它映射到
-   * `palette['warning']`）而不是 `colorPaletteYellowBorder1`：两者值相同，
-   * 但「错」在本仓语义里属于警示（DarkOrange），黄色那组只为兼容 Fluent
-   * 的 Badge `color="warning"` 保留。选语义正确的那个，将来有人改黄色组
-   * 不会连带改坏这条反馈条。
+   * 边色直接写 `var(--sm-warning-border)` 而不是走 Fluent token，理由有三：
+   *
+   * 1. **判据不同**。这条边是「一块警示区域的边界」，受 WCAG 1.4.11 管，
+   *    门槛 3:1；`--sm-warning` 原本承担的是警示**文字/图标**，门槛 4.5:1。
+   *    两者今天恰好同值，但将来调文字可读性时不该被迫连边框一起动。
+   *    `tokens.ts` 里因此单列了 `warning-border` 键（语义独立、值当前相同）。
+   * 2. **Fluent 没有这个键**。`colorPaletteDarkOrangeBorder1` 在 `theme.ts`
+   *    里被映射到 `palette['warning']`，拿不到 `warning-border`；而给
+   *    `palette['warning']` 改名会波及所有用它当文字色的地方（警示文字、
+   *    图谱「需复验」节点等），那是更大的改动面。
+   * 3. **本仓已有先例**：`HomePage.tsx` / `LearningPage.tsx` 里 30 处
+   *    `var(--sm-*)` 都是这样直取的 —— 语义 token 是这一层的公开接口，
+   *    不需要每个都经过 Fluent 转译一遍。
+   *
+   * 实测（对三种底取最小）：深主题 7.98（surface 8.92 / canvas 9.63 /
+   * warning-soft 7.98），亮主题 5.46（surface 6.39 / canvas 5.46 /
+   * warning-soft 5.67）。两套主题都远超 3:1。
    */
   wrongBar: {
     background: tokens.colorPaletteDarkOrangeBackground1,
-    border: `1px solid ${tokens.colorPaletteDarkOrangeBorder1}`,
-    borderLeft: `3px solid ${tokens.colorPaletteDarkOrangeBorder1}`,
+    border: '1px solid var(--sm-warning-border)',
+    borderLeft: '3px solid var(--sm-warning-border)',
   },
   /**
    * 已提交、对错未知（复验题）：中性底色，不暗示任何一种结果。

@@ -191,3 +191,75 @@ node .scratch/pw-t63-probes/derive-warning-border.mjs
 ```
 
 脚本只读，不改任何文件。推导全过程与候选表见 `.scratch/qa/t63-baseline/warning-border-derivation.md`。
+
+### 七、验收第 6 条的落地记录（`--sm-warning-border` 已写入，且 §六 的推导输入已过期）
+
+#### 7.1 §六 的推导输入已经不是今天的 token 值 —— 结论要按现值复算
+
+§六 是在 t58 落地**之前**算的，当时读到的 `warning-soft` 是 `#FBF0DF`（亮）/ `#2A1E0C`（深），
+`warning` 是旧的黄。t58 落地后 `apps/web/src/theme/tokens.ts` 的实际值是：
+
+| 键 | 亮 | 深 |
+|---|---|---|
+| `warning` | `#8A5200` | `#F5A524` |
+| `warning-soft` | `#FBF0DF` | `#2A1E0C` |
+
+用**现值**按 §六 同一判据（对 `bg-surface` / `bg-canvas` / `warning-soft` 三个底取最小）复算：
+
+| 候选 | 亮 worst | 深 worst | 判定 |
+|---|---|---|---|
+| `warning` 现值（`#8A5200` / `#F5A524`） | **5.46** | **7.98** | PASS |
+| §六 推导的 `#A87600` / `#E09D00` | 3.54 | 6.97 | PASS（但比现值紧） |
+
+**结论比 §六 更宽松**：现值本身就过 3:1，不需要另造一组更暗/更亮的色。
+
+#### 7.2 仍然单列一个键的理由（不是复述「值不同」，而是「判据不同」）
+
+`warning` 承担的是警示**文字/图标**，受 WCAG 1.4.3 管，门槛 **4.5:1**；
+`warning-border` 承担的是警示**区域边界**，受 WCAG 1.4.11 管，门槛 **3:1**。
+
+两者今天恰好同值，但这是巧合不是约束：将来调警示文字的可读性时，不该被迫连边框一起动；
+调边框可见度时，也不该连带把警示文字变淡。**合并成一个键（`warning-border: warning` 式别名）
+会让这两种调整重新耦合**，而这正是票面要求「键名两套主题一致、值分别定义」的用意。
+
+#### 7.3 落盘位置（4 处，纯增）
+
+| 文件 | 改动 |
+|---|---|
+| `apps/web/src/theme/tokens.ts` | `COLOR_KEYS` 增 `'warning-border'`（带 9 行语义说明）；`darkPalette` 增 `'warning-border': '#F5A524'`；`lightPalette` 增 `'warning-border': '#8A5200'` |
+| `apps/web/src/theme/tokens.css` | `:root[data-sm-theme='dark']` 增 `--sm-warning-border: #f5a524;`；`[data-sm-theme='light']` 增 `--sm-warning-border: #8a5200;`（各带一行注释） |
+| `apps/web/src/level/QuestionView.tsx` | `wrongBar` 的 `border` / `borderLeft` 从 `tokens.colorPaletteDarkOrangeBorder1` 改成 `var(--sm-warning-border)`，注释重写为三条理由（判据不同 / Fluent 没有这个键 / 本仓已有 30 处直取 `var(--sm-*)` 的先例） |
+| `skills/web-design-engineer/references/contrast-check.mjs` | `componentRules()` 增 3 条 `warning-border` 断言（对 surface / canvas / warning-soft，均 ≥3，`WCAG 1.4.11`）；`worstByRole()` 增 `'警示边框 warning-border'` 一行 |
+
+**为什么 `QuestionView` 直写 `var()` 而不是走 Fluent token**：`theme.ts` 把
+`colorPaletteDarkOrangeBorder1` 映射到 `palette['warning']`，拿不到 `warning-border`；
+而给 `palette['warning']` 改名会波及所有拿它当文字色的地方（警示文字、图谱「需复验」节点等），
+改动面远大于收益。`HomePage.tsx` / `LearningPage.tsx` 里已有 30 处 `var(--sm-*)` 直取，
+语义 token 本来就是这个层的公开接口。
+
+#### 7.4 实测（`node skills/web-design-engineer/references/contrast-check.mjs`）
+
+```
+DARK   警示边框 warning-border / bg-surface        8.92  (>= 3)
+DARK   警示边框 warning-border / bg-canvas         9.63  (>= 3)
+DARK   警示边框 warning-border / warning-soft      7.98  (>= 3)   ← 最坏
+LIGHT  警示边框 warning-border / bg-surface        6.39  (>= 3)
+LIGHT  警示边框 warning-border / bg-canvas         5.46  (>= 3)   ← 最坏
+LIGHT  警示边框 warning-border / warning-soft      5.67  (>= 3)
+worst-per-role: "警示边框 warning-border": 7.98 / 5.46
+```
+
+`rules: 53`（原 50 + 新增 3）。镜像守门 `apps/web/src/theme/tokens.test.ts` → **21 passed**
+（它逐条断言 `tokens.css` 里每个 `--sm-*` 与 `tokens.ts` 逐字相等、且两套主题键集相同，
+所以新键在两侧都到位才可能绿）。
+
+#### 7.5 仍然红的那一条（**不在本票范围，需 captain 裁定**）
+
+```
+FAIL 三级 text-tertiary / bg-selected   4.45  (>= 4.5)  WCAG 1.4.3
+```
+
+深主题 `text-tertiary #8F8F9B` / `bg-selected #2A2A33` = **4.447**，差 0.053。
+`bg-selected` 的实际消费点是**知识地图页**（t62 域）的选中行，不是关卡页；
+`tokens.ts` 属 t58 域。**这两处都不在 t63 inScope，所以不放宽断言、不改 token 值**，
+作为 finding 上报，由 captain 决定是调 `text-tertiary`、调 `bg-selected`，还是接受并在票面写明。

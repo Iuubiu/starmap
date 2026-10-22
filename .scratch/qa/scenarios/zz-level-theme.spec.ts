@@ -311,6 +311,82 @@ for (const theme of ['dark', 'light'] as const) {
     // 竖条与边框同色（同一个语义色），否则「加粗」读起来像两种语义
     await page.screenshot({ path: `${SHOTS}/theme-level-feedback-wrong-${theme}.png` });
 
+    /*
+     * 验收第 6 条：**「答错」反馈条的边框在两套主题下都 ≥3:1**。
+     *
+     * 这里量的是浏览器算完后的真实颜色，不是 token 表里的字面值 ——
+     * 两者会分叉的典型场景：`theme.ts` 把某个 Fluent 键映射到了另一组
+     * palette 值，或者某处 `var()` 没解析成功而静默回落。token 层的
+     * 断言在 `skills/web-design-engineer/references/contrast-check.mjs`
+     * 里已经有一条（`warning-border` 对三种底），这里是同一判据在
+     * 真实 DOM 上的复核，两条都要绿才算数。
+     *
+     * 三个底与脚本口径一致：条自身填充（`barBg`）、卡片底、页面底。
+     */
+    const borderPairs = await page.evaluate(() => {
+      const rgbOf = (value: string) => {
+        const m = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+))?\s*\)/.exec(value);
+        if (!m) return null;
+        return { r: +m[1]!, g: +m[2]!, b: +m[3]!, a: m[4] === undefined ? 1 : +m[4]! };
+      };
+      const over = (
+        fg: { r: number; g: number; b: number; a: number },
+        bg: { r: number; g: number; b: number },
+      ) => ({ r: fg.r * fg.a + bg.r * (1 - fg.a), g: fg.g * fg.a + bg.g * (1 - fg.a), b: fg.b * fg.a + bg.b * (1 - fg.a) });
+      const lum = (c: { r: number; g: number; b: number }) => {
+        const ch = (v: number) => {
+          const s = v / 255;
+          return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b);
+      };
+      const ratio = (a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }) =>
+        Math.round(((Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05)) * 100) / 100;
+      const effectiveBg = (el: Element | null) => {
+        const stack: { r: number; g: number; b: number; a: number }[] = [];
+        let node: Element | null = el;
+        while (node) {
+          const c = rgbOf(getComputedStyle(node).backgroundColor);
+          if (c && c.a > 0) {
+            stack.push(c);
+            if (c.a >= 1) break;
+          }
+          node = node.parentElement;
+        }
+        let acc = { r: 255, g: 255, b: 255 };
+        for (let i = stack.length - 1; i >= 0; i -= 1) acc = over(stack[i]!, acc);
+        return acc;
+      };
+
+      const svg = document.querySelector('svg[aria-label="没答对"]');
+      if (!svg) return null;
+      let bar: HTMLElement | null = svg.parentElement as HTMLElement | null;
+      while (bar && getComputedStyle(bar).backgroundColor === 'rgba(0, 0, 0, 0)') bar = bar.parentElement;
+      if (!bar) return null;
+      const barBg = effectiveBg(bar);
+      const pageBg = effectiveBg(document.body);
+      const rawBorder = rgbOf(getComputedStyle(bar).borderLeftColor);
+      if (!rawBorder) return null;
+      const border = over(rawBorder, pageBg);
+      return {
+        borderLeftColor: getComputedStyle(bar).borderLeftColor,
+        vsBarFill: ratio(border, barBg),
+        vsPageCanvas: ratio(border, pageBg),
+        barBg: `rgb(${Math.round(barBg.r)}, ${Math.round(barBg.g)}, ${Math.round(barBg.b)})`,
+        pageBg: `rgb(${Math.round(pageBg.r)}, ${Math.round(pageBg.g)}, ${Math.round(pageBg.b)})`,
+      };
+    });
+    console.log(`WRONG-BORDER ${theme} ${JSON.stringify(borderPairs)}`);
+    expect(borderPairs, '没有量到答错反馈条的边框').not.toBeNull();
+    expect(
+      borderPairs!.vsBarFill,
+      `答错反馈条边框对自己填充只有 ${borderPairs!.vsBarFill}:1（要求 ≥3）border=${borderPairs!.borderLeftColor} barBg=${borderPairs!.barBg}`,
+    ).toBeGreaterThanOrEqual(3);
+    expect(
+      borderPairs!.vsPageCanvas,
+      `答错反馈条边框对页面底只有 ${borderPairs!.vsPageCanvas}:1（要求 ≥3）border=${borderPairs!.borderLeftColor} pageBg=${borderPairs!.pageBg}`,
+    ).toBeGreaterThanOrEqual(3);
+
     // 答**对**的那条：换个新页面重走一遍，验图标与竖条同样存在
     await page.goto(`/level/${LEVEL}`);
     await expect(page.locator('body')).toContainText(/第 \d+ 段 · /, { timeout: 30_000 });

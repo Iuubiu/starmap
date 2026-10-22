@@ -59,6 +59,20 @@ export const COLOR_KEYS = [
   'info',
   'success-soft',
   'warning-soft',
+  /**
+   * 「警示边框」专用色 —— 与 `warning` **语义独立、值当前相同**。
+   *
+   * 为什么单独一个键而不是复用 `warning`：`warning` 承担的是「警示文字 /
+   * 警示图标」这类**填充与前景**角色，`warning-border` 承担的是「一块警示区域
+   * 的边界」这类**描边**角色。描边的判据（WCAG 1.4.11 的 3:1）与文字（4.5:1）
+   * 不同，两者的取值约束也不同 —— 今天恰好算出来同一组值，不代表以后还该相同：
+   * 将来调警示文字的可读性时，不该被迫连边框一起动；调边框的可见度时，也不该
+   * 连带把警示文字变淡。
+   *
+   * 票 t63 验收第 6 条要求「键名两套主题一致、值分别定义」，就是这一条。
+   * 合并掉这个键（`warning-border: warning` 式的别名）会让上面两种调整重新耦合。
+   */
+  'warning-border',
   'danger-soft',
   'info-soft',
   // 图谱画布（专有语义）
@@ -151,6 +165,8 @@ export const darkPalette: Palette = {
   info: '#7AA2FF',
   'success-soft': '#10231A',
   'warning-soft': '#2A1E0C',
+  // 与 `warning` 同值但语义独立（见 COLOR_KEYS 里的说明）。深色 7.98 / 亮色 5.46。
+  'warning-border': '#F5A524',
   'danger-soft': '#2C1414',
   'info-soft': '#101A2E',
 
@@ -232,6 +248,8 @@ export const lightPalette: Palette = {
   info: '#1A5FD0',
   'success-soft': '#E6F5EE',
   'warning-soft': '#FBF0DF',
+  // 与 `warning` 同值但语义独立（见 COLOR_KEYS 里的说明）。亮色 5.46 / 深色 7.98。
+  'warning-border': '#8A5200',
   'danger-soft': '#FBEAEA',
   'info-soft': '#E8F0FC',
 

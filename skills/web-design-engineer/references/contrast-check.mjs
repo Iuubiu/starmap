@@ -209,6 +209,23 @@ function componentRules() {
     { name: '控件边界 border-control / bg-surface', fg: 'border-control', bg: 'bg-surface', min: 3, why: 'WCAG 1.4.11' },
     { name: '控件边界 border-control / bg-canvas', fg: 'border-control', bg: 'bg-canvas', min: 3, why: 'WCAG 1.4.11' },
     { name: '焦点环 border-focus / bg-surface', fg: 'border-focus', bg: 'bg-surface', min: 3, why: 'WCAG 1.4.11' },
+    /*
+     * 警示边框。
+     *
+     * `QuestionView` 的「答错」反馈条用 `var(--sm-warning-border)` 画边与左侧
+     * 3px 竖条，它是「这条是负反馈」在颜色之外的第二重编码 —— 边淡到看不见，
+     * 色弱学习者就只剩色相可用，那正是票 t63 要消灭的东西。
+     *
+     * 三种底都断言：反馈条既可能落在页面底（`bg-canvas`）、卡片底
+     * （`bg-surface`），边与自己的填充之间也要分得开（`warning-soft`）。
+     * 取三者最小。
+     *
+     * 为什么要单独一个键而不是复用 `warning`：`warning` 受 1.4.3 管（文字 4.5:1），
+     * `warning-border` 受 1.4.11 管（非文本 3:1）。今天两者同值，判据不同。
+     */
+    { name: '警示边框 warning-border / bg-surface', fg: 'warning-border', bg: 'bg-surface', min: 3, why: 'WCAG 1.4.11' },
+    { name: '警示边框 warning-border / bg-canvas', fg: 'warning-border', bg: 'bg-canvas', min: 3, why: 'WCAG 1.4.11' },
+    { name: '警示边框 warning-border / warning-soft', fg: 'warning-border', bg: 'warning-soft', min: 3, why: 'WCAG 1.4.11' },
   ]);
 }
 
@@ -287,6 +304,7 @@ function worstByRole(p) {
     '选项未选边 option-idle-border': min([['option-idle-border', 'bg-surface'], ['option-idle-border', 'bg-canvas']]),
     '图谱节点四态': min(['graph-node-unseen', 'graph-node-learning', 'graph-node-mastered', 'graph-node-review'].map((fg) => [fg, 'graph-canvas'])),
     '关卡选项 对/错': min([['option-correct', 'bg-surface'], ['option-wrong', 'bg-surface']]),
+    '警示边框 warning-border': min([['warning-border', 'bg-surface'], ['warning-border', 'bg-canvas'], ['warning-border', 'warning-soft']]),
   };
 }
 

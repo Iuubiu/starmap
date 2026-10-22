@@ -150,6 +150,8 @@
   --sm-info: #7aa2ff;
   --sm-success-soft: #10231a;
   --sm-warning-soft: #2a1e0c;
+  /* 警示边框：与 --sm-warning 同值但语义独立（判据是 1.4.11 的 3:1，不是文字的 4.5:1）。 */
+  --sm-warning-border: #f5a524;
   --sm-danger-soft: #2c1414;
   --sm-info-soft: #101a2e;
 
@@ -215,6 +217,8 @@
   --sm-info: #1a5fd0;
   --sm-success-soft: #e6f5ee;
   --sm-warning-soft: #fbf0df;
+  /* 警示边框：与 --sm-warning 同值但语义独立（判据是 1.4.11 的 3:1，不是文字的 4.5:1）。 */
+  --sm-warning-border: #8a5200;
   --sm-danger-soft: #fbeaea;
   --sm-info-soft: #e8f0fc;
 
