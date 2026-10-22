@@ -42,10 +42,11 @@ import {
   makeStyles,
   tokens,
 } from '@fluentui/react-components';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import {
   useAgentTurn,
   useAgentTurns,
+  useNodeDetail,
   useNodeList,
   useSubmitTurn,
   useTierOverview,
@@ -159,9 +160,27 @@ const useStyles = makeStyles({
 const EMPTY_HINT =
   '还没有选定知识点。可以先在下面的地图上选一个，或者直接说你想学什么 —— 我会先给一张图谱卡。';
 
+/** 日志里有记录、但那一轮还没取回来时说的话（刷新后的一瞬间会经过这里）。 */
+const RESTORING_HINT = '正在把上一轮的卡片取回来…';
+
 export function HomePage() {
   const styles = useStyles();
   const navigate = useNavigate();
+
+  /**
+   * 初始焦点：`/?kp=<microKpId>`。
+   *
+   * 首页的焦点原本**只能从上一张卡继承**（`currentKpId(shown)`），而冷启动时
+   * 一张卡都没有 —— 于是第一轮只能拿到服务端自己挑的那个点。这使「选一个
+   * 知识点 → 要一张关卡」在真实界面上没有入口：地图页的节点详情是终点，
+   * 关卡卡片里的「进入关卡」也只能从一张已经产出过的卡上点。
+   *
+   * 所以焦点多一个来源：URL 参数。它只是**初始值**，不是优先级最高的来源 ——
+   * 一旦首轮提交回来，卡片自带的 `microKpId` 就接管（否则学生换话题后焦点
+   * 会死在 URL 上，而地址栏还挂着他第一次点进来的那个点）。
+   */
+  const [searchParams] = useSearchParams();
+  const initialFocus = searchParams.get('kp');
 
   const [sessionId, setSessionId] = useState<string>(() => currentSessionId());
   const [utterance, setUtterance] = useState('');
@@ -195,9 +214,26 @@ export function HomePage() {
   const tierOverview = useTierOverview();
   const learnerTier = tierOverview.payload?.tier ?? 'P1';
 
-  // 当前展示的卡：优先「刚提交的那张」，否则「日志里点开的那张」。
+  const logItems = history.payload?.items ?? [];
+
+  /**
+   * 当前展示的卡：优先「刚提交的那张」，否则「日志里点开的那张」，
+   * 最后退回「日志里的最后一轮」。
+   *
+   * 第三个来源是**刷新后恢复**用的（票 20 的 S9）。前两个来源都活在内存里：
+   * `submit.data` 是这一次提交的结果，`activeTurnId` 是这一次点击的结果。
+   * 刷新页面（或关掉标签页重开）后两者都归零，而服务端的日志还在 —— 于是
+   * 学生看到一张写着「还没有选定知识点」的空卡，下面却写着「共 1 轮记录」。
+   * 那句话与事实矛盾：他不但有记录，地址栏里 `?kp=` 也还在。
+   *
+   * 所以恢复时把最后一轮当作「点开的那一轮」：日志按 `ordinal ASC` 取，
+   * 最后一轮就是最近的一轮，与「刷新前屏幕上是哪张卡」一致。
+   */
   const submitted: AgentTurnResponse | undefined = submit.data;
-  const selectedTurnId = activeTurnId ?? submitted?.turnId ?? undefined;
+  // `.at(-1)` 而不是 `[length - 1]`：本项目开了 `noUncheckedIndexedAccess`，
+  // 下标访问的结果是 `T | undefined`，直接取 `.turnId` 会报 TS2532。
+  const latestTurnId = logItems.at(-1)?.turnId;
+  const selectedTurnId = activeTurnId ?? submitted?.turnId ?? latestTurnId;
   const recalled = useAgentTurn(
     // 只有「从日志点开」且不是刚提交的那张时才需要回读服务端。
     selectedTurnId && selectedTurnId !== submitted?.turnId ? selectedTurnId : undefined,
@@ -206,7 +242,23 @@ export function HomePage() {
   const shown: AgentTurnResponse | undefined =
     submitted && selectedTurnId === submitted.turnId ? submitted : recalled.payload;
 
+  const focusedKpId = focusKpId(
+    // 只有「刚提交的那张」与「从日志里主动点开的那一轮」才算是学生的选择；
+    // 刷新后自动恢复的卡不算（否则地址栏里的 `?kp=` 会被历史静默劫持）。
+    activeTurnId || (submitted && selectedTurnId === submitted.turnId) ? shown : undefined,
+    initialFocus,
+  );
   const nodeItems = useMemo(() => nodes.payload?.items ?? [], [nodes.payload]);
+  /**
+   * 焦点知识点的名字。
+   *
+   * `?kp=` 带进来的点可能不在 `useNodeList` 取回的那一页里（节点列表按排序取
+   * 前 N 条，`kp-bool` 这类 id 落在后面时取不到），徽标就只剩一串 id —— 对学习者
+   * 是无意义的。所以焦点点不在列表里时，按 id 单独取一次名字。
+   */
+  const focusedNode = useNodeDetail(
+    focusedKpId && !nodeItems.some((n) => n.microKpId === focusedKpId) ? focusedKpId : undefined,
+  );
 
   const onSelectLog = (turnId: string) => {
     setActiveTurnId(turnId);
@@ -224,7 +276,7 @@ export function HomePage() {
     const target = (lastSent || recalled || utterance).trim();
     if (!target) return;
     setShowEvidence(false);
-    submit.mutate({ utterance: target, microKpId: currentKpId(shown), tier: learnerTier });
+    submit.mutate({ utterance: target, microKpId: focusedKpId, tier: learnerTier });
   };
 
   const onSubmit = () => {
@@ -234,7 +286,7 @@ export function HomePage() {
     setShowEvidence(false);
     setLastSent(text);
     submit.mutate(
-      { utterance: text, microKpId: currentKpId(shown), tier: learnerTier },
+      { utterance: text, microKpId: focusedKpId, tier: learnerTier },
       { onSuccess: () => setUtterance('') },
     );
   };
@@ -257,7 +309,6 @@ export function HomePage() {
     setLastSent('');
   };
 
-  const logItems = history.payload?.items ?? [];
   const activeId = shown?.turnId ?? null;
 
   return (
@@ -368,7 +419,14 @@ export function HomePage() {
 
         {!submit.isPending && !shown && (
           <Card>
-            <Body1>{EMPTY_HINT}</Body1>
+            {/*
+             * 空态文案要按「日志里有没有东西」分岔。
+             *
+             * 日志非空时再说「还没有选定知识点」是**误导**：学生有记录、有焦点，
+             * 只是那一轮正在从服务端取回来。这时候该说的是「正在取回上一轮」，
+             * 而不是让他以为记录丢了。
+             */}
+            <Body1>{logItems.length > 0 ? RESTORING_HINT : EMPTY_HINT}</Body1>
             <Caption1 className={styles.subtle}>
               当前会话 {sessionId.slice(0, 12)}… · 共 {logItems.length} 轮记录
             </Caption1>
@@ -398,10 +456,11 @@ export function HomePage() {
       <div className={styles.composer}>
         <div className={styles.contextRow}>
           <Caption1 className={styles.subtle}>当前知识点</Caption1>
-          {currentKpId(shown) ? (
+          {focusedKpId ? (
             <Badge appearance="tint" color="brand">
-              {nodeItems.find((n) => n.microKpId === currentKpId(shown))?.name ??
-                currentKpId(shown)}
+              {nodeItems.find((n) => n.microKpId === focusedKpId)?.name ??
+                focusedNode.payload?.node.name ??
+                focusedKpId}
             </Badge>
           ) : (
             <Badge appearance="outline">未选定</Badge>
@@ -448,6 +507,31 @@ function DispensableHint() {
       每一条是一次真实提交，点开可以回看当时那张卡。
     </Caption1>
   );
+}
+
+/**
+ * 当前聚焦的知识点。
+ *
+ * 两个来源，按可信度排序：
+ *
+ * 1. **学生自己选的那个点** —— 刚提交的那张卡带的，或他从日志里主动点开的
+ *    那一轮带的。这是「我刚才在说这个」的直接证据。
+ * 2. **地址栏的 `?kp=`** —— 从知识点详情页「问助手」跳过来时带的那个点。
+ *
+ * 刷新后**自动恢复**的那张卡不参与：它只是屏幕上显示的东西，不是学生的选择。
+ * 让它参与的话，一个带着 `?kp=触发器` 进来的人，会因为历史里最后一轮恰好是
+ * 布尔代数而被静默拽回旧话题 —— 而地址栏还写着触发器。
+ *
+ * `artifact.microKpId` 可能是空串（服务端也没得推荐时给的那张陈述卡），
+ * 空串要当「没有」而不是当一个知识点 id 发回服务端。
+ */
+function focusKpId(
+  explicitTurn: AgentTurnResponse | undefined,
+  initialFocus: string | null,
+): string | null {
+  const fromCard = currentKpId(explicitTurn);
+  if (fromCard) return fromCard;
+  return initialFocus !== null && initialFocus !== '' ? initialFocus : null;
 }
 
 /** 当前聚焦的知识点：卡里带的那个。 */

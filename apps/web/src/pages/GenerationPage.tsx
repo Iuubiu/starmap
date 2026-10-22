@@ -55,6 +55,14 @@ const useStyles = makeStyles({
     fontWeight: tokens.fontWeightSemibold,
     lineHeight: tokens.lineHeightHero700,
   },
+  /**
+   * 标题 + 说明的容器。
+   *
+   * 必须有：Fluent 的 `Text`/`Body1` 都是 inline 排版，直接并排放在裸 `<div>`
+   * 里会被排进同一个行盒 —— 大字号标题的行高会压到下一段的字上（截图可见
+   * 「AI 批量生成关卡」与「按知识点批量出题…」重叠）。实测过，不是理论风险。
+   */
+  heading: { display: 'flex', flexDirection: 'column', gap: '8px' },
   form: { display: 'flex', flexDirection: 'column', gap: '10px' },
   formRow: { display: 'flex', gap: '10px', alignItems: 'flex-end', flexWrap: 'wrap' },
   badge: { whiteSpace: 'nowrap' },
@@ -152,7 +160,7 @@ export function GenerationPage() {
 
   return (
     <div className={styles.page}>
-      <div>
+      <div className={styles.heading}>
         <Text as="h1" className={styles.title}>
           AI 批量生成关卡
         </Text>
