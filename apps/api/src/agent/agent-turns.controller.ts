@@ -23,6 +23,29 @@ import { ApiExceptionFilter } from '../common/api-exception.filter.js';
 import { TurnService } from './turn.service.js';
 
 /**
+ * 把 zod 的第一条 issue 变成一句能给人看的话。
+ *
+ * 为什么不直接 `JSON.stringify(issues)`：那会把 `{"code":"too_big","maximum":2000,…}`
+ * 整段塞进 MessageBar，学生读不懂。这里只挑最常见的三种（太长/太短/缺字段），
+ * 其余退回 zod 自带的 message —— 它本身就是中文之外的英文短句，但至少有指向性。
+ */
+function firstIssueHint(issues: readonly { path: PropertyKey[]; code: string; message: string; maximum?: number | bigint; minimum?: number | bigint }[]): string {
+  const first = issues[0];
+  if (!first) return '';
+  const field = first.path.join('.') || '请求体';
+  if (first.code === 'too_big' && first.maximum !== undefined) {
+    return `：${field} 最多 ${String(first.maximum)} 字`;
+  }
+  if (first.code === 'too_small' && first.minimum !== undefined) {
+    return `：${field} 至少 ${String(first.minimum)} 字`;
+  }
+  if (first.code === 'invalid_type' || first.code === 'invalid_literal') {
+    return `：${field} 类型不对`;
+  }
+  return `：${field} ${first.message}`;
+}
+
+/**
  * 结构化回合的 HTTP 边界（票 08）。
  *
  * 这里只做三件事：校验入参、调服务、按契约 schema 校验出参。
@@ -57,7 +80,10 @@ export class AgentTurnsController {
     if (!parsed.success) {
       throw new BadRequestException({
         code: 'VALIDATION_FAILED',
-        message: '请求体不合法',
+        // 「请求体不合法」本身没错，但它对使用者零信息量：学生看到这句话无法
+        // 判断是「话说太长」还是「字段少了」。把第一条 issue 拼进来，
+        // 界面上就能显示「请求体不合法：utterance 最多 2000 字」。
+        message: `请求体不合法${firstIssueHint(parsed.error.issues)}`,
         details: parsed.error.issues,
       });
     }

@@ -12,6 +12,7 @@ import { HomePage } from './pages/HomePage';
 import { SkillsPage } from './pages/SkillsPage';
 import { PlacementPage } from './pages/PlacementPage';
 import { ReviewPage } from './pages/ReviewPage';
+import { NotFoundPage, RouteErrorPage } from './pages/NotFoundPage';
 
 /**
  * 路由表 —— **新增页面只改这一个文件**。
@@ -35,6 +36,8 @@ export const appRoutes: RouteObject[] = [
   {
     path: '/',
     element: <AppShell />,
+    // 渲染期异常也落在壳子里，否则整个应用被 React Router 的默认错误页顶掉。
+    errorElement: <RouteErrorPage />,
     children: [
       // `/` 是**智能体主页**，不是知识点列表（spec §9 第 1 条）。
       // 看板（推荐 + 今日摘要）在 `/board`。票 01 时 `/` 一度是知识点列表，
@@ -54,6 +57,9 @@ export const appRoutes: RouteObject[] = [
       { path: 'market/author/:microKpId', element: <MarketAuthorPage /> },
       { path: 'market/generate', element: <GenerationPage /> },
       { path: 'skills', element: <SkillsPage /> },
+      // 兜底：没有它时 React Router 会渲染内置的英文开发者错误页。
+      // 本地单用户的 URL 很容易改错一个字符，那时该看到中文说明而不是 💿。
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
 ];

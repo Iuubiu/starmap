@@ -144,6 +144,12 @@ const useStyles = makeStyles({
     alignItems: 'flex-end',
   },
   grow: { flex: 1, minWidth: 0 },
+  /** 字数接近上限时才出现的剩余字数提示，右对齐在输入框下方。 */
+  counter: {
+    display: 'block',
+    textAlign: 'right',
+    color: tokens.colorNeutralForeground3,
+  },
   contextRow: {
     display: 'flex',
     gap: '8px',
@@ -162,6 +168,12 @@ const EMPTY_HINT =
 
 /** 日志里有记录、但那一轮还没取回来时说的话（刷新后的一瞬间会经过这里）。 */
 const RESTORING_HINT = '正在把上一轮的卡片取回来…';
+
+/**
+ * 一句话的字数上限 —— 与服务端契约 `AgentTurnRequestSchema.utterance` 的
+ * `.max(2000)` 保持一致。改契约时这里必须一起改，否则前端会放过后端要打回的长句。
+ */
+const UTTERANCE_MAX = 2000;
 
 export function HomePage() {
   const styles = useStyles();
@@ -479,6 +491,11 @@ export function HomePage() {
             resize="vertical"
             rows={2}
             aria-label="这一轮想说的话"
+            // 契约里 utterance 上限 2000 字（packages/api-contract/src/domains/agent.ts）。
+            // 不设 maxLength 时超长的话能敲进去，提交后才被后端 400 打回，
+            // 而错误条只说「请求体不合法」—— 学生既不知道为什么，也不知道该删到多少。
+            // 在这里挡住，并给出剩余字数，让人当场看得见边界。
+            maxLength={UTTERANCE_MAX}
             disabled={submit.isPending}
           />
           <Button
@@ -489,6 +506,11 @@ export function HomePage() {
             {submit.isPending ? '生成中…' : '提交这一轮'}
           </Button>
         </div>
+        {utterance.length > UTTERANCE_MAX * 0.8 && (
+          <Text size={200} className={styles.counter}>
+            还可以写 {UTTERANCE_MAX - utterance.length} 字
+          </Text>
+        )}
       </div>
     </div>
   );
