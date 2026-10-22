@@ -38,12 +38,35 @@ import { TurnService } from './agent/turn.service.js';
     DatabaseService,
     {
       provide: LLM_PORT,
-      useFactory: () =>
-        new OpenAiCompatibleLlm(
+      useFactory: () => {
+        // 演示录制专用通道：`DEMO_LLM=1` 时改用官方 key（更快、更贵）。
+        // 为什么用开关而不是让演示时手改 .env：手改要记得改回来，忘了就会
+        // 在后续开发里一直烧贵的那把 key，而且改 .env 要重启才生效、容易
+        // 出现「以为切了其实没切」。开关只有一处判断，缺变量时明确报错
+        // 而不是静默回退到便宜通道 —— 演示当天悄悄变慢比直接报错更难查。
+        if (process.env.DEMO_LLM === '1') {
+          const base = process.env.DEMO_LLM_BASE_URL;
+          const key = process.env.DEMO_LLM_API_KEY;
+          const model = process.env.DEMO_LLM_MODEL;
+          const missing = [
+            !base && 'DEMO_LLM_BASE_URL',
+            !key && 'DEMO_LLM_API_KEY',
+            !model && 'DEMO_LLM_MODEL',
+          ].filter(Boolean);
+          if (missing.length > 0) {
+            throw new Error(
+              `DEMO_LLM=1 但缺少 ${missing.join(' / ')}。演示通道要显式配全三项，` +
+                '不允许一部分走演示、一部分走默认（那会得到一个你以为更快、实际上没换的模型）。',
+            );
+          }
+          return new OpenAiCompatibleLlm(base!, key!, model!);
+        }
+        return new OpenAiCompatibleLlm(
           process.env.LLM_BASE_URL ?? 'https://d1api.xin/v1',
           process.env.LLM_API_KEY ?? '',
           process.env.LLM_MODEL ?? 'deepseek-v4.1-flash',
-        ),
+        );
+      },
     },
     // 领域服务（票 08/09/10/15）。依赖链：TurnService → ProbeService/RetrievalService
     // → DatabaseService，四者必须在同一个模块里才能互相注入。

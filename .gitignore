@@ -62,3 +62,7 @@ apps/web/.scratch/
 .scratch/bgutil/
 .scratch/toc_text/
 tools/eval/.scratch/
+
+# 探针跑完落下的 playwright 运行残留（不要进库）
+apps/.scratch/
+apps/web/.scratch/
