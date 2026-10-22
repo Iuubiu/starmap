@@ -25,20 +25,20 @@
 import {
   Badge,
   Body1,
-  Button,
   Caption1,
   Card,
   CardHeader,
   Divider,
   Text,
   makeStyles,
+  mergeClasses,
   tokens,
 } from '@fluentui/react-components';
 import type { ReactNode } from 'react';
-import { useNavigate } from 'react-router';
 import type { AgentTurnResponseArtifact } from '../api/generated/model';
 import { InlineRich } from '../level/markdown';
 import { masteryLabel } from '../mastery/labels';
+import { openLevelFromCard, useAutoOpenLevel } from './auto-open';
 
 const useStyles = makeStyles({
   card: {
@@ -51,6 +51,26 @@ const useStyles = makeStyles({
     maxWidth: '720px',
     margin: '0 auto',
     boxShadow: tokens.shadow8,
+  },
+  /**
+   * 关卡卡「整卡是入口」的那一档样式（票 72）。
+   *
+   * 没有可见按钮：按钮会被读成「这一步是可选的」，而这张卡的整个意思就是
+   * 「现在练这个」。所以可点性靠三件事表达 —— 手型指针、hover 时表面抬一档、
+   * 键盘焦点时 2px 描边。描边颜色用 Fluent 的 `colorStrokeFocus2`（本仓主题把它
+   * 映射到 `border-focus`），与卡面底色的对比度由 `auto-open.test.ts` 按两套
+   * palette 的真实色值算过（都 ≥ 3:1）。
+   */
+  levelCardEntry: {
+    cursor: 'pointer',
+    ':hover': {
+      backgroundColor: tokens.colorNeutralBackground1Hover,
+      boxShadow: tokens.shadow16,
+    },
+    ':focus-visible': {
+      outline: `2px solid ${tokens.colorStrokeFocus2}`,
+      outlineOffset: '2px',
+    },
   },
   headerRow: {
     display: 'flex',
@@ -155,21 +175,46 @@ function Fact({ label, value }: { label: string; value: string }) {
   );
 }
 
-/** 卡片外壳：标题 + 元信息 + 理由，四张卡共用。 */
+/**
+ * 卡片外壳：标题 + 元信息 + 理由，四张卡共用。
+ *
+ * 给了 `entry` 时整张卡就是入口（票 72 的关卡卡）：`role="button"` + `tabIndex=0`
+ * 让键盘 Tab 到得了，Enter / Space 都能开（`<a>` 语义在这里不合适 —— 它不导航，
+ * 只是打开浮层）。没有 `entry` 的卡保持原样，不可点、不进 Tab 序列。
+ */
 function CardShell({
   kindLabel,
   title,
   rationale,
   children,
+  entry,
 }: {
   kindLabel: string;
   title: string;
   rationale: string;
   children: ReactNode;
+  entry?: { readonly onActivate: () => void };
 }) {
   const styles = useStyles();
+  const activate = entry?.onActivate;
   return (
-    <Card className={styles.card}>
+    <Card
+      className={mergeClasses(styles.card, activate !== undefined && styles.levelCardEntry)}
+      role={activate === undefined ? undefined : 'button'}
+      tabIndex={activate === undefined ? undefined : 0}
+      aria-label={activate === undefined ? undefined : `打开关卡：${title}`}
+      onClick={activate}
+      onKeyDown={
+        activate === undefined
+          ? undefined
+          : (event) => {
+              if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+                event.preventDefault();
+                activate();
+              }
+            }
+      }
+    >
       <div className={styles.headerRow}>
         <Badge appearance="tint" color="brand">
           {kindLabel}
@@ -188,31 +233,47 @@ function CardShell({
 /**
  * 关卡卡：这张卡要能让人「决定去不去做」，所以给时长、题量、第一步是什么。
  *
- * ## 为什么卡里必须有一个「进入关卡」按钮
+ * ## 为什么卡里**没有**「进入关卡」按钮（票 69）
  *
- * 这张卡的全部意义是「让人去做题」。在此之前它只陈列四个数字，学生看完
- * 只能自己去顶栏点「知识地图」、找到同一个知识点、滚到关卡列表、再点一次
- * —— 那条路要求他自己记得刚才那张卡说的是哪个点。卡片产出了关卡却没给
- * 入口，等于把「去做」这一步退回给记忆。
+ * 早先这里有一个主按钮，点了跳整页 `/level/:levelId`。用户看过之后明确要求：
+ * 关卡别再从对话里跳走，判定该练了就直接浮出来；对话里不要「打开」按钮。
+ * 理由不只是审美 —— 一张卡产出了关卡却把「去做」退回给一个按钮，等于承认
+ * 系统不知道他该不该现在练，而按钮还会在「正在打字」的时候和输入框抢注意力。
  *
- * 门控不受影响：`/level/:levelId` 是 `LevelPage`，它的入口锁与门控判定都在
- * 服务端（`GatingService.evaluate`），绕过卡片也绕不过门控。
+ * 现在入口是自动的：卡挂载时 `useAutoOpenLevel` 把「该不该弹」交给
+ * `auto-open.ts` 的纯函数判定（任何 level_card 都算该练了，同会话去重、
+ * 3 秒撤销窗口、草稿挡弹），浮层由 t68 提供。这张卡自己只负责说清
+ * 「练什么、多久、几题」，不再承担跳转。
+ *
+ * ## 没有按钮之后，这张卡还有用吗
+ *
+ * 有，而且它**就是**入口（票 72）。浮层关掉之后它仍留在学习日志里，
+ * 整张卡可点、可 Tab、Enter / Space 就重开 —— 只是没有一颗写在明面上的按钮。
+ * 为什么不做成按钮：卡的内容（多久、几题、第一步）本来就是给人做决定的依据，
+ * 按钮会把它们降级成「按钮上方的说明文字」。要主动重进别的关卡，走地图节点、
+ * 关卡市场、复验或深链 `/level/:id` —— 那四条是学习者自己找上门的，仍整页路由。
+ *
+ * 重开与自动弹是两件事：3 秒内关掉算「这次不练」，`dismissedLevelIds` 只挡自动弹，
+ * `openLevelFromCard` 刻意不看它 —— 撤销的是「被推着练」，不是「能不能进」。
+ *
+ * 门控也不受影响：`/level/:levelId` 的入口锁与门控判定都在服务端
+ * （`GatingService.evaluate`），绕过卡片也绕不过门控。
  */
 function LevelCard({ artifact }: { artifact: Extract<AgentTurnResponseArtifact, { kind: 'level_card' }> }) {
   const styles = useStyles();
-  const navigate = useNavigate();
+  useAutoOpenLevel(artifact);
   return (
-    <CardShell kindLabel="关卡" title={artifact.title} rationale={artifact.rationale}>
+    <CardShell
+      kindLabel="关卡"
+      title={artifact.title}
+      rationale={artifact.rationale}
+      entry={{ onActivate: () => openLevelFromCard(artifact.levelId) }}
+    >
       <div className={styles.factGrid}>
         <Fact label="预计用时" value={`${artifact.estimatedMinutes} 分钟`} />
         <Fact label="题目数" value={`${artifact.itemCount} 题`} />
         <Fact label="第一步" value={STEP_KIND_LABEL[artifact.firstStepKind] ?? artifact.firstStepKind} />
         <Fact label="难度档" value={artifact.tier} />
-      </div>
-      <div>
-        <Button appearance="primary" onClick={() => navigate(`/level/${artifact.levelId}`)}>
-          进入关卡
-        </Button>
       </div>
     </CardShell>
   );
