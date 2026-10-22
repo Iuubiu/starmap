@@ -121,3 +121,22 @@ test.describe('动效底座：真实页面在 reduce 下仍完整可用', () => 
     expect(box?.height ?? 0).toBeGreaterThan(200);
   });
 });
+
+test.describe('动效底座：夹具不进真实应用', () => {
+  test('应用页面没有挂载夹具的全局函数', async ({ page }) => {
+    // `qaHarness.tsx` 在模块顶层写了 `window.__mountMotionHarness`。只要它被
+    // 任何应用入口 import 到，这个函数就会出现在真实页面上——它比「产物里多
+    // 一段代码」更能说明问题，因为它是**运行时可见的**副作用。
+    //
+    // 单元测试 `qaHarness.test.ts` 扫的是源码字符串（静态、快），这条扫的是
+    // 运行结果（动态、真）。两条都要：静态那条能指出是哪个文件干的，动态这条
+    // 能兜住静态扫描看不见的路径（例如某人绕一层再 import）。
+    await page.goto('/');
+    const leaked = await page.evaluate(() => ({
+      mount: typeof (window as unknown as Record<string, unknown>).__mountMotionHarness,
+      ready: typeof (window as unknown as Record<string, unknown>).__motionHarnessReady,
+    }));
+    expect(leaked.mount).toBe('undefined');
+    expect(leaked.ready).toBe('undefined');
+  });
+});
