@@ -69,8 +69,14 @@ const useStyles = makeStyles({
     gridTemplateColumns: 'minmax(0, 1fr) minmax(240px, 300px)',
     gridTemplateRows: '1fr auto',
     gap: '20px',
-    // 减去 AppShell 顶栏高度，让输入框贴在可视区底部而不是页面底部。
-    minHeight: 'calc(100vh - 48px)',
+    // 让输入框贴在可视区底部而不是页面底部。
+    //
+    // 这里曾经是 `calc(100vh - 48px)`（减掉 AppShell 的顶栏）。外壳改成
+    // 左侧导航栏之后顶栏在宽屏上不存在、在窄屏上变成 48px 的顶部窄条，
+    // 任何写死的减数都会在其中一档下错：宽屏少算 48px、窄屏正好。改成
+    // `100%` 由父容器（`main`，高度已由外壳的 grid 行定死）决定，
+    // 两档都对。
+    minHeight: '100%',
     boxSizing: 'border-box',
   },
   stage: {
