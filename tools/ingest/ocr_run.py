@@ -52,6 +52,7 @@ from assign import assign, assign_front_matter, audit_assignment, review_sample 
 from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E402
 from frontmatter import demote_front_matter_leaves, report_demotions  # noqa: E402
 from naming import disambiguate_duplicate_names, report_renames, unresolved_duplicates  # noqa: E402
+from merge_fragments import format_changes, merge_fragments, report_changes  # noqa: E402
 from edges import build_edges, summarize, write_edges  # noqa: E402
 from ocr import (  # noqa: E402
     OCR_DPI,
@@ -282,6 +283,12 @@ def main() -> int:
         # 在它下面所以内容不丢，但地图/掌握度/出题/推荐四处都只看 is_leaf。
         demoted = demote_front_matter_leaves(nodes)
         print(report_demotions(demoted))
+        # 目录碎片：去起首标点 + 合并折行续行。必须在消歧**之前** —— 去标点后
+        # 可能与既有节点重名，要靠消歧拼编号分开（判据见 merge_fragments.py）。
+        _frag = merge_fragments(nodes)
+        print(report_changes(_frag))
+        for _line in format_changes(_frag):
+            print(_line)
         # 同书同名的叶节点在界面上分不清（前端 `GraphNode` 不带 `num`）：把编号
         # 拼回 name。判据与理由见 naming.py 的模块 docstring。
         print(report_renames(disambiguate_duplicate_names(nodes)))

@@ -41,6 +41,7 @@ from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E
 from edges import build_edges, summarize, write_edges  # noqa: E402
 from extract import extract_page  # noqa: E402
 from naming import disambiguate_duplicate_names, report_renames  # noqa: E402
+from merge_fragments import format_changes, merge_fragments, report_changes  # noqa: E402
 from toc_batch import (  # noqa: E402
     BOOKS,
     align_printed_pages,
@@ -110,6 +111,12 @@ def build_one(book: dict, *, limit: int | None = None) -> dict:
     mark_answer_appendixes(nodes)
     # 译名之后再做同名消歧：前缀用的是 `num`，与中英文无关，但改名必须发生在
     # 译名之后，否则译名会盖掉刚拼上去的编号（`toc_batch.py` 同一顺序）。
+    # 碎片修复（去起首标点 + 合并折行续行）在消歧**之前**：去标点后可能与既有
+    # 节点重名，要靠消歧拼编号分开（判据见 merge_fragments.py）。
+    _frag = merge_fragments(nodes)
+    print(f"  {sid}: " + report_changes(_frag))
+    for _line in format_changes(_frag):
+        print(_line)
     print(f"  {sid}: " + report_renames(disambiguate_duplicate_names(nodes)))
     chapters = [n for n in nodes if n['depth'] == 1]
     if not chapters:

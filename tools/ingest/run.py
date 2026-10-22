@@ -30,6 +30,7 @@ from assign import assign, review_sample  # noqa: E402
 from chunk import blocks_to_chunks, drop_furniture, write_content_dir  # noqa: E402
 from frontmatter import demote_front_matter_leaves, report_demotions  # noqa: E402
 from naming import disambiguate_duplicate_names, report_renames, unresolved_duplicates  # noqa: E402
+from merge_fragments import format_changes, merge_fragments, report_changes  # noqa: E402
 from edges import build_edges, summarize, write_edges  # noqa: E402
 from extract import extract_page  # noqa: E402
 from toc import flatten, nodes_from_flat, parse_toc_pages  # noqa: E402
@@ -65,6 +66,12 @@ def main() -> int:
     # depth=0 的叶知识点 —— 它们不是可掌握知识点，降级成容器。chunk 仍挂
     # 在它下面所以内容不丢，但地图/掌握度/出题/推荐四处都只看 is_leaf。
     print(report_demotions(demote_front_matter_leaves(nodes)))
+    # 目录碎片：去起首标点 + 合并折行续行。必须在消歧**之前** —— 去标点后
+    # 可能与既有节点重名，要靠消歧拼编号分开（判据见 merge_fragments.py）。
+    _frag = merge_fragments(nodes)
+    print(report_changes(_frag))
+    for _line in format_changes(_frag):
+        print(_line)
     # 同书同名的叶节点在界面上分不清（前端 `GraphNode` 不带 `num`）：把编号
     # 拼回 name。判据与理由见 naming.py 的模块 docstring。
     print(report_renames(disambiguate_duplicate_names(nodes)))

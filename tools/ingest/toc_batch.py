@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from page_offset import measure  # noqa: E402
 from naming import disambiguate_duplicate_names, report_renames  # noqa: E402
+from merge_fragments import format_changes, merge_fragments, report_changes  # noqa: E402
 from toc import flatten, nodes_from_flat  # noqa: E402
 from toc_body import parse_body_headings  # noqa: E402
 from toc_books import TocParseError, is_answer_appendix_title, parse_book  # noqa: E402
@@ -231,6 +232,12 @@ def main() -> int:
             nodes = mark_answer_appendixes(nodes)
             # 译名之后再做同名消歧：前缀用的是 `num`，与中英文无关，但改名必须
             # 发生在译名之后，否则译名会盖掉刚拼上去的编号。
+            # 碎片修复（去起首标点 + 合并折行续行）要在消歧**之前**：去标点后
+            # 可能与既有节点重名，要靠消歧拼编号分开（判据见 merge_fragments.py）。
+            _frag = merge_fragments(nodes)
+            print("  " + report_changes(_frag))
+            for _line in format_changes(_frag):
+                print(_line)
             print("  " + report_renames(disambiguate_duplicate_names(nodes)))
             chapters = [n for n in nodes if n['depth'] == 1]
             leaves = [n for n in nodes if n['isLeaf']]
