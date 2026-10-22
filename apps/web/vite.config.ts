@@ -35,6 +35,13 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
-    exclude: ['**/node_modules/**', '**/e2e/**'],
+    // `**/.*/**` 排掉所有点号目录：`apps/web/.t63-tmp`、`.scratch` 这类探针
+    // 产物目录里放的是 Playwright 的 `*.spec.ts`，被 vitest 收进来会因为
+    // `test` 与 playwright 的 `test` 撞名而报 `_currentSuite` 空指针，
+    // 表现为「15 个文件 failed / 0 个用例 failed」，看起来像测试炸了。
+    //
+    // 为什么不靠 vitest 默认值：`exclude` 在这里显式给出会**整份替换**默认列表，
+    // 而默认列表只列了 `.git`/`.cache` 这几个固定名字，不覆盖任意点号目录。
+    exclude: ['**/node_modules/**', '**/e2e/**', '**/.*/**'],
   },
 });
