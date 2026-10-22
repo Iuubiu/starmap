@@ -684,3 +684,91 @@ describe('入参校验在边界上拦住，不进服务', () => {
     await request(app.getHttpServer()).get('/api/v1/agent/turns').expect(400);
   });
 });
+
+/**
+ * t56：学习者这句话里的知识点名，优先于「按进度推荐」。
+ *
+ * ## 这一组为什么要打在 HTTP 上
+ *
+ * `matchFocus` 的单测能证明「给它一句话和一串候选，它能挑对」。它证不了
+ * 服务真的把学习者的话读进去了 —— 2026-10-22 的实测就是这样：连说三句
+ * 不同主题（布尔代数 / 中子探测 / 能量分辨率），三张卡的焦点全是推荐列表
+ * 的第一个点，学生说的是「布尔代数」，卡片讲的是「放射性衰变」。
+ *
+ * 所以这里断言的是**可观测的结果**：响应的 `artifact.microKpId` 与提示词里
+ * 那句「这个点是怎么来的」。两条都要，因为焦点对了但提示词没说清来路时，
+ * 模型会把她没说的话安到她头上（「你刚才说的放射性衰变…」）。
+ *
+ * ## 为什么用「连说两轮」和「不在推荐池里的点」来证伪
+ *
+ * - 只断言「说了成形网络就得到 kp-b」不够：推荐轮转恰好轮到 kp-b 时也绿。
+ *   加上「同一句话连说两轮，两轮都是 kp-b」才排掉轮转这个巧合通道。
+ * - `kp-c（能量分辨率）` 故意不给任何 chunk。推荐只挑「有内容的叶节点」，
+ *   所以它**永远进不了推荐池**；它能被选中，只可能是听了原话。
+ */
+describe('学习者这句话里的知识点名优先于推荐（t56）', () => {
+  it('说了库里存在的知识点名，焦点就是它', async () => {
+    const body = await turn(freshSession(), '成形网络这一块我搞不清', null);
+    expect(body.degraded).toBe(false);
+    expect(body.artifact?.microKpId).toBe('kp-b');
+  });
+
+  it('同一句话连说两轮，焦点不因推荐轮换而漂走', async () => {
+    const sessionId = freshSession();
+    const first = await turn(sessionId, '成形网络的脉宽怎么定', null);
+    const second = await turn(sessionId, '成形网络的脉宽怎么定', null);
+
+    expect(first.artifact?.microKpId).toBe('kp-b');
+    expect(second.artifact?.microKpId).toBe('kp-b');
+  });
+
+  it('匹配到的是原话里那个点，而不是推荐池轮到的那个', async () => {
+    // kp-c 没有任何 chunk，永远进不了推荐池（推荐只挑有内容的叶节点）。
+    // 用 try/finally 是为了不让这一行脏数据影响同文件里其它用例的推荐池。
+    await db.query(
+      `INSERT INTO knowledge_points (id, module_id, name, is_leaf, depth, ordinal)
+       VALUES ('kp-c', 'm-a', '能量分辨率', true, 1, 9)`,
+    );
+    try {
+      const chunks = await db.query<{ n: string }>(
+        `SELECT count(*) AS n FROM chunks WHERE micro_kp_id = 'kp-c'`,
+      );
+      expect(Number(chunks[0]?.n)).toBe(0);
+
+      const body = await turn(freshSession(), '能量分辨率受什么影响', null);
+      expect(body.artifact?.microKpId).toBe('kp-c');
+    } finally {
+      await db.query(`DELETE FROM knowledge_points WHERE id = 'kp-c'`);
+    }
+  });
+
+  it('说了一句库里没有的话 → 回落到推荐，且下一轮会换（与匹配分支可区分）', async () => {
+    const sessionId = freshSession();
+    const first = await turn(sessionId, '今天天气不错', null);
+    const second = await turn(sessionId, '今天天气不错', null);
+
+    // 不是占位卡：推荐池里有东西
+    expect(first.artifact?.microKpId).not.toBe('');
+    expect(first.artifact?.microKpId).not.toBeNull();
+    // 推荐分支会轮换 —— 这正是「匹配」与「推荐」两条分支可观测的差别：
+    // 同一句话，匹配到的点两轮不变，推荐挑的点两轮必然不同。
+    expect(second.artifact?.microKpId).not.toBe(first.artifact?.microKpId);
+  });
+
+  it('提示词说明焦点的来路：匹配到就说「她刚才说的」，回落就说「不是她说的」', async () => {
+    // 提示词是模型唯一能看到的「这个焦点是谁定的」。它写错了，模型就会
+    // 把推荐出来的点说成学习者提的 —— 这正是 t56 之前的现象之一。
+    const matchedBefore = inner.calls.length;
+    await turn(freshSession(), '成形网络这一块我搞不清', null);
+    const matchedPrompt =
+      inner.calls[matchedBefore]?.messages.find((m) => m.role === 'user')?.content ?? '';
+    expect(matchedPrompt).toContain('学习者刚才那句话里提到的');
+    expect(matchedPrompt).toContain('成形网络');
+
+    const recommendedBefore = inner.calls.length;
+    await turn(freshSession(), '今天天气不错', null);
+    const recommendedPrompt =
+      inner.calls[recommendedBefore]?.messages.find((m) => m.role === 'user')?.content ?? '';
+    expect(recommendedPrompt).toContain('不是你刚说的');
+  });
+});

@@ -25,6 +25,7 @@ import { RetrievalService, type GatedChunk } from '../retrieval/retrieval.servic
 import { SkillsService } from '../skills/skills.service.js';
 import { ProbeService } from '../probe/probe.service.js';
 import { RecommendService } from '../recommend/recommend.service.js';
+import { matchFocus, type FocusCandidate } from './focus-matcher.js';
 import {
   defaultActions,
   formatIssues,
@@ -127,13 +128,35 @@ export class TurnService {
    * 返回值里的 `note` 会写进提示词，让模型知道这个点不是学习者选的 ——
    * 否则它会把「你刚才说的」安到学习者头上。
    */
-  private async resolveFocus(sessionId: string, microKpId: string | null): Promise<{
+  private async resolveFocus(
+    sessionId: string,
+    microKpId: string | null,
+    utterance: string,
+  ): Promise<{
     microKpId: string | null;
     name: string | null;
     note: string | null;
   }> {
     if (microKpId) {
       return { microKpId, name: await this.kpName(microKpId), note: null };
+    }
+
+    // 先听学习者说了什么（t56）。
+    //
+    // 顺序不能反：推荐是「按你的历史进度猜」，而学习者刚刚明说了想学什么。
+    // 先推荐再匹配，等于把学生的话当补充信息，实测结果是连说十句不同主题都拿到
+    // 同一张卡（推荐列表全库第一条固定）。匹配是确定性的字符串比较，没有模型
+    // 参与，也没有额外网络往返。
+    const matched = await this.matchUtterance(utterance);
+    if (matched) {
+      this.logger.log(
+        `未选定知识点，按学习者原话匹配到：${matched.microKpId}（${matched.name}；命中「${matched.matchedText}」）`,
+      );
+      return {
+        microKpId: matched.microKpId,
+        name: matched.name,
+        note: `（这个点是学习者刚才那句话里提到的「${matched.matchedText}」，服务端按知识点名字匹配到的。）`,
+      };
     }
 
     try {
@@ -172,6 +195,36 @@ export class TurnService {
         `推荐失败，本轮无焦点：${error instanceof Error ? error.message : String(error)}`,
       );
       return { microKpId: null, name: null, note: null };
+    }
+  }
+
+  /**
+   * 把学习者这句话对到某个知识点上；对不上返回 null（调用方回落到推荐）。
+   *
+   * 每次现查 4030 个知识点的名字：这条查询 ~5ms，而加缓存会引入「知识点改名后
+   * 匹配表是旧的」这类静默故障 —— 匹配错了比慢一点难查得多。
+   */
+  private async matchUtterance(utterance: string): Promise<ReturnType<typeof matchFocus>> {
+    try {
+      const rows = await this.db.query<{
+        id: string;
+        name: string;
+        is_leaf: boolean;
+        depth: number | string;
+      }>('SELECT id, name, is_leaf, depth FROM knowledge_points');
+      const candidates: FocusCandidate[] = rows.map((row) => ({
+        microKpId: row.id,
+        name: row.name,
+        isLeaf: row.is_leaf,
+        depth: Number(row.depth),
+      }));
+      return matchFocus(utterance, candidates);
+    } catch (error) {
+      // 匹配失败不该让整轮失败：退回推荐即可，学习者仍然拿到一张卡。
+      this.logger.warn(
+        `按原话匹配知识点失败，回落到推荐：${error instanceof Error ? error.message : String(error)}`,
+      );
+      return null;
     }
   }
 
@@ -512,7 +565,11 @@ export class TurnService {
     await this.ensureSession(request.sessionId);
 
     // 学习者没选定时由服务端挑焦点：没有焦点的会话只能反复回同一张占位卡。
-    const focus = await this.resolveFocus(request.sessionId, request.microKpId);
+    const focus = await this.resolveFocus(
+      request.sessionId,
+      request.microKpId,
+      request.utterance,
+    );
     const microKpId = focus.microKpId;
     const kpName = focus.name;
     const mastery = microKpId ? await this.currentMastery(microKpId) : null;
