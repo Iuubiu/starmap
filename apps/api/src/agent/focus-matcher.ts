@@ -219,13 +219,22 @@ export function matchFocus(
 /**
  * 排序规则（全部是确定性的，同样输入永远同一结果）：
  *
- * 1. 命中片段更长者优先 —— 「电离室」三字胜过只沾两字的候选；
- * 2. 覆盖率更高者优先 —— 「卡诺图化简」在「卡诺图」上覆盖 0.6，赢过覆盖 0.5 的
- *    「卡诺图化简法」；
- * 3. 叶节点优先 —— 焦点要能打开关卡，挂在章节上的节点点进去是空的；
- * 4. 层级更浅者优先；
- * 5. 名字更短者优先 —— 短名字通常更具体；
- * 6. `microKpId` 字典序兜底，保证同名同分时结果稳定（不依赖数据库返回顺序）。
+ * 1. **整名命中优先**（`coverage === 1`）—— 两字及以上的名字被整段说出来，
+ *    是最强信号，不该输给某个更长的名字里的偶然片段；
+ * 2. 命中片段更长者优先；
+ * 3. 覆盖率更高者优先；
+ * 4. 叶节点优先 —— 焦点要能打开关卡，挂在章节上的节点点进去是空的；
+ * 5. 层级更浅者优先；
+ * 6. 名字更短者优先 —— 短名字通常更具体；
+ * 7. `microKpId` 字典序兜底，保证同名同分时结果稳定（不依赖数据库返回顺序）。
+ *
+ * ## 为什么第 1 条必须排在「片段更长」前面
+ *
+ * 真实库实测（2026-10-22，4030 个知识点）：说「我想了解电离室的工作原理」时，
+ * 只按片段长度排序会选中 `一、火花放电室的工作原理` —— 它和这句话的公共片段是
+ * 「室的工作原理」（6 字），而真正的 `电离室` 只有 3 字。结果学习者说要电离室，
+ * 卡片讲的是火花放电室。长度优先在「长名字恰好沾了一串常用词」时会系统性出错，
+ * 而整名命中不会。
  */
 function isBetter(
   match: FocusMatch,
@@ -233,6 +242,10 @@ function isBetter(
   bestMatch: FocusMatch,
   best: { match: FocusMatch; isLeaf: boolean; depth: number },
 ): boolean {
+  const exact = match.coverage >= 1;
+  const bestExact = bestMatch.coverage >= 1;
+  if (exact !== bestExact) return exact;
+
   if (match.matchedText.length !== bestMatch.matchedText.length) {
     return match.matchedText.length > bestMatch.matchedText.length;
   }

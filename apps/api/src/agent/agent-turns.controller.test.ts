@@ -771,4 +771,19 @@ describe('学习者这句话里的知识点名优先于推荐（t56）', () => {
       inner.calls[recommendedBefore]?.messages.find((m) => m.role === 'user')?.content ?? '';
     expect(recommendedPrompt).toContain('不是你刚说的');
   });
+
+  it('显式传了 microKpId 时，说的话不能把它挤掉（显式选择最高优先）', async () => {
+    // 「成形网络」会被匹配到 kp-b，但请求里点名要 kp-a —— 以点名为准。
+    const body = await turn(freshSession(), '成形网络这一块我搞不清', 'kp-a');
+    expect(body.artifact?.microKpId).toBe('kp-a');
+  });
+
+  it('同一会话里改口，焦点跟着改（不锁死在第一次匹配上）', async () => {
+    const sessionId = freshSession();
+    const first = await turn(sessionId, '成形网络这一块我搞不清', null);
+    const second = await turn(sessionId, '前置放大器的噪声怎么算', null);
+
+    expect(first.artifact?.microKpId).toBe('kp-b');
+    expect(second.artifact?.microKpId).toBe('kp-a');
+  });
 });

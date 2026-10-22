@@ -30,6 +30,14 @@ const candidates: FocusCandidate[] = [
   { microKpId: 'kp-dinghonglin-2010-3-2', name: '电离室', isLeaf: true, depth: 2 },
   { microKpId: 'kp-jichangsong-1990-4-2', name: '气体电离室', isLeaf: false, depth: 2 },
   { microKpId: 'kp-methods-1997-p237-一电离室', name: '一电离室', isLeaf: true, depth: 3 },
+  // 真库里那条把「电离室」顶掉的节点：名字里恰好沾了「放电室的工作原理」这一串。
+  // 少了它，这个排序缺陷在单测里测不出来（第一版夹具就漏了它，接口级实测才暴露）。
+  {
+    microKpId: 'kp-methods-1997-p174-一火花放电室的工作原理',
+    name: '一、火花放电室的工作原理',
+    isLeaf: true,
+    depth: 3,
+  },
   { microKpId: 'kp-pulse-shaping', name: '脉冲成形', isLeaf: false, depth: 2 },
   { microKpId: 'kp-knoll-4e-2010-10-5', name: '密度修正与Fano因子', isLeaf: true, depth: 2 },
   // 习题/小结这类整名通用词：库里 85 个「习题」、20 个「小结」
@@ -74,6 +82,21 @@ describe('跟着说的话挑焦点', () => {
     const match = matchFocus('我想了解电离室的工作原理', candidates);
     expect(match?.microKpId).not.toBe('kp-jichangsong-1990-p204-：工作原理');
     expect(match?.name).toBe('电离室');
+  });
+
+  it('整名命中赢过「更长的名字恰好沾了一串常用词」', () => {
+    // 真实库回归（2026-10-22，接口级实测抓到的）：只说片段长度时，这句话会被
+    // `一、火花放电室的工作原理` 抢走 —— 它与原话的公共片段是「室的工作原理」
+    // （6 字），而真正的 `电离室` 整名命中只有 3 字。结果是学习者说要电离室，
+    // 卡片讲的是火花放电室。
+    const match = matchFocus('我想了解电离室的工作原理', candidates);
+    expect(match?.microKpId).not.toBe('kp-methods-1997-p174-一火花放电室的工作原理');
+    // 命中片段必须就是那个整名，而不是某个更长的偶然片段。
+    expect(match?.matchedText).toBe('电离室');
+    expect(match?.coverage).toBeCloseTo(1, 5);
+
+    // 三个都叫「电离室」的叶节点里选哪个由 depth → microKpId 定序，必须稳定。
+    expect(match?.microKpId).toBe('kp-chenboxian-2011-8-2');
   });
 
   it('整名是通用词的候选一律不进结果（即使句子里原样出现）', () => {
