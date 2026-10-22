@@ -773,6 +773,303 @@ for (const theme of ['dark', 'light'] as const) {
 }
 
 // ---------------------------------------------------------------------------
+// 用例 8：小结面板的三层级、门控面板、公式、以及亮主题的深色残留块
+// ---------------------------------------------------------------------------
+
+/**
+ * 小结那一屏是关卡页信息密度最高的地方：本关证据卡的四个数、掌握度双字段、
+ * 出口门控面板全挤在一起。前面几条用例只把它当「能走到」的终点，这条专门量
+ * 它**读不读得清**。
+ *
+ * ## 为什么按可见文字定位而不是按 class
+ *
+ * `makeStyles` 产出的类名是原子类（`f1x2y3z` 这种），跨组件共享且随构建变化，
+ * 拿它当选择器会在下次改样式时静默失配。这里一律「先找到写着『作答』的那个
+ * 元素，再往上取它所在的那一列」—— 与学习者看到的层级一致。
+ *
+ * ## 三个层级各量一次
+ *
+ * 标题（`作答` 这类说明文字）/ 数值（`5` 这类大字）/ 说明（`这一趟走的是…`）
+ * 三者的前景色与字号都不同，WCAG 的判据也不同（正文 4.5:1，大字 3:1）。
+ * 逐层给数，而不是给一个「整块都挺清楚」的结论。
+ */
+interface LevelPair {
+  name: string;
+  ratio: number;
+  fg: string;
+  bg: string;
+  min: number;
+  fontSize: string;
+}
+
+async function measureSummary(page: Page): Promise<{ pairs: LevelPair[]; darkBlocks: string[] }> {
+  return page.evaluate(() => {
+    const rgbOf = (value: string) => {
+      const m = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+))?\s*\)/.exec(value);
+      if (!m) return null;
+      return { r: +m[1]!, g: +m[2]!, b: +m[3]!, a: m[4] === undefined ? 1 : +m[4]! };
+    };
+    const over = (
+      fg: { r: number; g: number; b: number; a: number },
+      bg: { r: number; g: number; b: number },
+    ) => ({ r: fg.r * fg.a + bg.r * (1 - fg.a), g: fg.g * fg.a + bg.g * (1 - fg.a), b: fg.b * fg.a + bg.b * (1 - fg.a) });
+    const lum = (c: { r: number; g: number; b: number }) => {
+      const ch = (v: number) => {
+        const s = v / 255;
+        return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+      };
+      return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b);
+    };
+    const ratio = (a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }) =>
+      Math.round(((Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05)) * 100) / 100;
+    const effectiveBg = (el: Element | null) => {
+      const stack: { r: number; g: number; b: number; a: number }[] = [];
+      let node: Element | null = el;
+      while (node) {
+        const c = rgbOf(getComputedStyle(node).backgroundColor);
+        if (c && c.a > 0) {
+          stack.push(c);
+          if (c.a >= 1) break;
+        }
+        node = node.parentElement;
+      }
+      let acc = { r: 255, g: 255, b: 255 };
+      for (let i = stack.length - 1; i >= 0; i -= 1) acc = over(stack[i]!, acc);
+      return acc;
+    };
+
+    /** 页面上**恰好**写着某段文字的最后一个叶子元素（避免命中容器）。 */
+    const leafWithText = (text: string): Element | null => {
+      const all = Array.from(document.querySelectorAll('span, div, p, button'));
+      const hits = all.filter(
+        (el) => (el.textContent ?? '').trim() === text && el.children.length === 0,
+      );
+      return hits[hits.length - 1] ?? null;
+    };
+
+    const pairs: LevelPair[] = [];
+    const push = (name: string, el: Element | null, min: number) => {
+      if (!el) return;
+      const cs = getComputedStyle(el);
+      const raw = rgbOf(cs.color);
+      if (!raw) return;
+      const bg = effectiveBg(el);
+      const fg = over(raw, bg);
+      pairs.push({
+        name,
+        ratio: ratio(fg, bg),
+        fg: `rgb(${Math.round(fg.r)}, ${Math.round(fg.g)}, ${Math.round(fg.b)})`,
+        bg: `rgb(${Math.round(bg.r)}, ${Math.round(bg.g)}, ${Math.round(bg.b)})`,
+        min,
+        fontSize: cs.fontSize,
+      });
+    };
+
+    // ① 本关证据卡：标题（说明文字）/ 数值
+    push('证据卡·标题「作答」', leafWithText('作答'), 4.5);
+    push('证据卡·标题「答对」', leafWithText('答对'), 4.5);
+    push('证据卡·标题「计入掌握度」', leafWithText('计入掌握度'), 4.5);
+    const statValue = ((): Element | null => {
+      const label = leafWithText('作答');
+      return label?.parentElement?.querySelector('span:last-child') ?? null;
+    })();
+    push('证据卡·数值', statValue, 3);
+
+    // ② 掌握度双字段：两个 meterLabel + 两个 value
+    push('掌握度·标题「历史最高（不回落，用于解锁）」', leafWithText('历史最高（不回落，用于解锁）'), 4.5);
+    push('掌握度·标题「当前熟练度（会随时间回落，用于推荐）」', leafWithText('当前熟练度（会随时间回落，用于推荐）'), 4.5);
+    push('掌握度·标题「状态」', leafWithText('状态'), 4.5);
+    const masteryValue = ((): Element | null => {
+      const label = leafWithText('历史最高（不回落，用于解锁）');
+      return label?.parentElement?.querySelector('span:last-child') ?? null;
+    })();
+    push('掌握度·数值（历史最高）', masteryValue, 3);
+    const stateBadge = ((): Element | null => {
+      const label = leafWithText('状态');
+      return label?.parentElement?.querySelector('span:last-child') ?? null;
+    })();
+    push('掌握度·状态徽章', stateBadge, 3);
+
+    // ③ 说明层：小结正文那段话
+    const hint = Array.from(document.querySelectorAll('span, div, p')).find((el) =>
+      /这一趟没触发深究|这一趟走了深究路径/.test(el.textContent ?? ''),
+    );
+    push('小结·说明正文', hint ?? null, 4.5);
+
+    // ④ 出口门控面板：模式徽章 + 说明
+    push('门控·模式徽章', leafWithText('不设门控') ?? leafWithText('章末出口'), 3);
+    const gateNote = Array.from(document.querySelectorAll('span, div, p')).find((el) =>
+      /这一关不设门控|达标线|还差 \d+ 道/.test(el.textContent ?? ''),
+    );
+    push('门控·说明', gateNote ?? null, 4.5);
+
+    /**
+     * ⑤ 亮主题下不得出现「嵌入的暗块」。
+     *
+     * 判据与 t63 早前那次普查一致：`backgroundColor` 的 alpha ≥ 0.5、相对亮度
+     * < 0.18、尺寸 ≥ 8×8。`0.18` 是经验值 —— 深色主题的 `bg-surface #111419`
+     * 亮度约 0.006，浅色主题里任何「看起来是深色块」的东西都远低于 0.18，
+     * 而正常浅底（`#ECEDF0`）亮度 0.83，两者差一个数量级，边界不敏感。
+     *
+     * 主按钮（`accent-fill` 珊瑚红）会命中，这是**正确**的：浅色页面上的实心
+     * 主按钮本来就该是深色块。所以这里把 `button` 元素排除在外，只在**非交互
+     * 容器**上普查 —— 要抓的是「反馈条 / 代码块 / 徽章」这类内容块。
+     */
+    const darkBlocks: string[] = [];
+    for (const el of Array.from(document.querySelectorAll('div, span, pre, code, blockquote'))) {
+      if (el.closest('button')) continue;
+      const cs = getComputedStyle(el);
+      const bg = rgbOf(cs.backgroundColor);
+      if (!bg || bg.a < 0.5) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width < 8 || r.height < 8) continue;
+      if (lum(bg) < 0.18) {
+        darkBlocks.push(
+          `${el.tagName.toLowerCase()}.${(el.className || '').toString().split(' ')[0] ?? ''} ` +
+            `bg=${cs.backgroundColor} ${Math.round(r.width)}x${Math.round(r.height)} ` +
+            `"${(el.textContent ?? '').trim().slice(0, 24)}"`,
+        );
+      }
+    }
+
+    return { pairs, darkBlocks };
+  });
+}
+
+for (const theme of ['dark', 'light'] as const) {
+  test(`${theme}：小结三层级、门控面板与公式都对得上 token`, async ({ page }) => {
+    await openLevel(page, theme, 'P1');
+    for (let guard = 0; guard < 10; guard += 1) {
+      try {
+        await currentSegment(page);
+      } catch {
+        break;
+      }
+      await answerSegment(page, 'first');
+      if (!(await nextSegment(page))) break;
+    }
+    await expect(page.getByText('本关小结').first()).toBeVisible({ timeout: 10_000 });
+
+    const { pairs, darkBlocks } = await measureSummary(page);
+    console.log(`SUMMARY ${theme} ${JSON.stringify(pairs, null, 1)}`);
+    console.log(`DARKBLOCKS ${theme} ${JSON.stringify(darkBlocks)}`);
+
+    // 三层级至少各量到一条，否则说明选择器失配了（宁可红，也不要「跳过即通过」）
+    const groups = ['证据卡·', '掌握度·', '小结·说明', '门控·'];
+    for (const group of groups) {
+      expect(
+        pairs.filter((p) => p.name.startsWith(group)).length,
+        `${theme} 下没有量到「${group}」这一组`,
+      ).toBeGreaterThan(0);
+    }
+
+    for (const p of pairs) {
+      expect(
+        p.ratio,
+        `${theme} ${p.name} 只有 ${p.ratio}:1（要求 ≥${p.min}）fg=${p.fg} bg=${p.bg} fontSize=${p.fontSize}`,
+      ).toBeGreaterThanOrEqual(p.min);
+    }
+
+    /*
+     * 验收第 8 条：亮主题下「嵌入的暗块」不超过 2 处，且每处都要能说清理由。
+     * 深主题下这条不适用（整个页面本来就是暗的），只打印数字不设限。
+     */
+    if (theme === 'light') {
+      expect(
+        darkBlocks.length,
+        `亮主题下出现了 ${darkBlocks.length} 个暗块（上限 2）：\n${darkBlocks.join('\n')}`,
+      ).toBeLessThanOrEqual(2);
+    }
+  });
+}
+
+/**
+ * 验收第 7 条：题干与讲解里的公式两套主题下都从 token 取，且与正文一致。
+ *
+ * 本仓**没有 KaTeX**（`markdown.tsx` 文件头写明「没有 KaTeX 也不打算有」：
+ * 它需要字体文件与 CSS，还要处理 CJK 排版），公式是 `$…$` 包起来的等宽衬线
+ * 文本块，底色 `colorNeutralBackground3`（= `--sm-bg-elevated`）。所以这条
+ * 验收要证的其实是同一件事：**公式的前景色与正文同源，底色也是语义 token，
+ * 两套主题下都达标**。
+ *
+ * 直接扫页面里所有 `[translate="no"]` 的公式块（`markdown.tsx:154` 给它们加了
+ * 这个属性），而不是找某个具体公式的文本 —— 换关卡、换讲解都不用改探针。
+ */
+for (const theme of ['dark', 'light'] as const) {
+  test(`${theme}：公式与正文同源且两套主题都达标`, async ({ page }) => {
+    await openLevel(page, theme, 'P1');
+    /** 走到第 2 段「展示细节」—— 讲解卡在那里，公式最密。 */
+    for (let guard = 0; guard < 4; guard += 1) {
+      const seg = await currentSegment(page);
+      if (seg.name === '展示细节') break;
+      await answerSegment(page, 'first');
+      expect(await nextSegment(page), '走不到「展示细节」段').toBe(true);
+    }
+    expect((await currentSegment(page)).name).toBe('展示细节');
+
+    const formulas = await page.evaluate(() => {
+      const rgbOf = (value: string) => {
+        const m = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+))?\s*\)/.exec(value);
+        if (!m) return null;
+        return { r: +m[1]!, g: +m[2]!, b: +m[3]!, a: m[4] === undefined ? 1 : +m[4]! };
+      };
+      const over = (
+        fg: { r: number; g: number; b: number; a: number },
+        bg: { r: number; g: number; b: number },
+      ) => ({ r: fg.r * fg.a + bg.r * (1 - fg.a), g: fg.g * fg.a + bg.g * (1 - fg.a), b: fg.b * fg.a + bg.b * (1 - fg.a) });
+      const lum = (c: { r: number; g: number; b: number }) => {
+        const ch = (v: number) => {
+          const s = v / 255;
+          return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b);
+      };
+      const ratio = (a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }) =>
+        Math.round(((Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05)) * 100) / 100;
+      const effectiveBg = (el: Element | null) => {
+        const stack: { r: number; g: number; b: number; a: number }[] = [];
+        let node: Element | null = el;
+        while (node) {
+          const c = rgbOf(getComputedStyle(node).backgroundColor);
+          if (c && c.a > 0) {
+            stack.push(c);
+            if (c.a >= 1) break;
+          }
+          node = node.parentElement;
+        }
+        let acc = { r: 255, g: 255, b: 255 };
+        for (let i = stack.length - 1; i >= 0; i -= 1) acc = over(stack[i]!, acc);
+        return acc;
+      };
+
+      const nodes = Array.from(document.querySelectorAll('[translate="no"]'));
+      return nodes.slice(0, 6).map((el) => {
+        const cs = getComputedStyle(el);
+        const raw = rgbOf(cs.color);
+        const bg = effectiveBg(el);
+        const fg = raw ? over(raw, bg) : bg;
+        const body = document.querySelector('body');
+        const bodyColor = body ? getComputedStyle(body).color : '';
+        return {
+          text: (el.textContent ?? '').trim().slice(0, 24),
+          color: cs.color,
+          bg: `rgb(${Math.round(bg.r)}, ${Math.round(bg.g)}, ${Math.round(bg.b)})`,
+          ratio: ratio(fg, bg),
+          sameAsBody: cs.color === bodyColor,
+        };
+      });
+    });
+
+    console.log(`FORMULA ${theme} ${JSON.stringify(formulas, null, 1)}`);
+    expect(formulas.length, '这一段里没有找到任何公式').toBeGreaterThan(0);
+    for (const f of formulas) {
+      expect(f.ratio, `公式「${f.text}」只有 ${f.ratio}:1（要求 ≥4.5）color=${f.color} bg=${f.bg}`).toBeGreaterThanOrEqual(4.5);
+      expect(f.sameAsBody, `公式「${f.text}」的前景色 ${f.color} 与正文不一致，公式应随正文取同一个 token`).toBe(true);
+    }
+  });
+}
+
+// ---------------------------------------------------------------------------
 // 用例 5：字面颜色不回流
 // ---------------------------------------------------------------------------
 

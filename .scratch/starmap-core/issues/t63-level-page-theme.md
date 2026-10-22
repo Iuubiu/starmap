@@ -24,17 +24,17 @@
 
 ## 验收
 
-- [ ] `apps/web/src/level/**` 与 `LevelPage.tsx` 里不再出现字面 hex：`grep -rn "#[0-9a-fA-F]\{6\}" apps/web/src/level apps/web/src/pages/LevelPage.tsx` 为空（注释除外，需逐条列出）
-- [ ] 七段导航条、题目卡、选项按钮、作答后反馈条（对/错两态）在两套主题下都满足：正文对比度 ≥ 4.5:1、对错两态各自与底色的对比度 ≥ 3:1，且「对」与「错」**不能只靠色相区分**（同时有图标或描边差异），逐元素输出最小比值
-- [ ] 本关证据卡（作答/答对/已入档/计入掌握度四个数）与掌握度双字段（历史最高 / 当前熟练度 / 状态徽章）在两套主题下层级清楚：三个层级（标题/数值/说明）各给一个对比度数值
-- [ ] 出口门控面板（含「不设门控」徽章、达标线 x/y、还差 N 题）在两套主题下都可读
-- [ ] `QuestionView` 的选项在 `:focus-visible` 下两套主题都有清晰焦点环，键盘 Tab 走完四个选项能看出焦点在哪（探针给出焦点环颜色与对比度）
-- [ ] **「答错」反馈条的边框在两套主题下都 ≥3:1，且不许用 `colorPaletteYellowBorder2` / `colorPaletteMarigoldBorder1` 的原始值**（实测 1.15 / 1.13，等于没有边框）。必须自定义 `--sm-warning-border`，键名两套主题一致、值分别定义；判据是对 `bg-surface`、`bg-canvas`、`warning-soft` **三个底分别** ≥3:1 取最小者。交付时给出推导过程与复算命令
-- [ ] 题干与讲解里的公式（KaTeX）在两套主题下颜色都从 token 取，且与正文一致；不允许出现亮主题下公式仍是浅灰看不清
-- [ ] 亮主题下关卡页不得出现深色残留块（如反馈条、代码块、徽章）—— 探针逐元素取 `backgroundColor` 的明度，断言没有「亮页面里嵌入的暗块」超过 2 处且每处都在报告里说明理由
-- [ ] `pnpm --filter @starmap/web test` 全绿、`pnpm --filter @starmap/web typecheck` 6/6
-- [ ] `cd apps/web && npx playwright test e2e/smoke.spec.ts` 全绿
-- [ ] 截图存证 `.scratch/qa/shots/leveltheme-<dark|light>-<question|feedback-right|feedback-wrong|summary>.png` 八张
+- [x] `apps/web/src/level/**` 与 `LevelPage.tsx` 里不再出现字面 hex：`grep -rn "#[0-9a-fA-F]\{6\}" apps/web/src/level apps/web/src/pages/LevelPage.tsx` 为空（注释除外，需逐条列出）
+- [x] 七段导航条、题目卡、选项按钮、作答后反馈条（对/错两态）在两套主题下都满足：正文对比度 ≥ 4.5:1、对错两态各自与底色的对比度 ≥ 3:1，且「对」与「错」**不能只靠色相区分**（同时有图标或描边差异），逐元素输出最小比值
+- [x] 本关证据卡（作答/答对/已入档/计入掌握度四个数）与掌握度双字段（历史最高 / 当前熟练度 / 状态徽章）在两套主题下层级清楚：三个层级（标题/数值/说明）各给一个对比度数值
+- [x] 出口门控面板（含「不设门控」徽章、达标线 x/y、还差 N 题）在两套主题下都可读
+- [x] `QuestionView` 的选项在 `:focus-visible` 下两套主题都有清晰焦点环，键盘 Tab 走完四个选项能看出焦点在哪（探针给出焦点环颜色与对比度）
+- [x] **「答错」反馈条的边框在两套主题下都 ≥3:1，且不许用 `colorPaletteYellowBorder2` / `colorPaletteMarigoldBorder1` 的原始值**（实测 1.15 / 1.13，等于没有边框）。必须自定义 `--sm-warning-border`，键名两套主题一致、值分别定义；判据是对 `bg-surface`、`bg-canvas`、`warning-soft` **三个底分别** ≥3:1 取最小者。交付时给出推导过程与复算命令
+- [x] 题干与讲解里的公式（KaTeX）在两套主题下颜色都从 token 取，且与正文一致；不允许出现亮主题下公式仍是浅灰看不清
+- [x] 亮主题下关卡页不得出现深色残留块（如反馈条、代码块、徽章）—— 探针逐元素取 `backgroundColor` 的明度，断言没有「亮页面里嵌入的暗块」超过 2 处且每处都在报告里说明理由
+- [x] `pnpm --filter @starmap/web test` 全绿、`pnpm --filter @starmap/web typecheck` 6/6
+- [x] `cd apps/web && npx playwright test e2e/smoke.spec.ts` 全绿
+- [x] 截图存证 `.scratch/qa/shots/leveltheme-<dark|light>-<question|feedback-right|feedback-wrong|summary>.png` 八张
 
 ---
 
@@ -263,3 +263,145 @@ FAIL 三级 text-tertiary / bg-selected   4.45  (>= 4.5)  WCAG 1.4.3
 `bg-selected` 的实际消费点是**知识地图页**（t62 域）的选中行，不是关卡页；
 `tokens.ts` 属 t58 域。**这两处都不在 t63 inScope，所以不放宽断言、不改 token 值**，
 作为 finding 上报，由 captain 决定是调 `text-tertiary`、调 `bg-selected`，还是接受并在票面写明。
+
+### 八、逐条验收的实测证据（探针 17 条全绿，2.6 分钟）
+
+复现：
+
+```bash
+cd apps/web && npx playwright test --config=../../.scratch/qa/playwright.config.ts \
+  zz-level-theme --output=../../.scratch/pw-leveltheme
+# → 17 passed (2.6m)
+```
+
+探针文件 `.scratch/qa/scenarios/zz-level-theme.spec.ts`（约 1100 行）现在是 8 组用例：
+
+| 用例 | 覆盖验收 | 结果 |
+|---|---|---|
+| 1. 七段全链路可读并出图（两主题） | 2、3、4 | 2 passed |
+| 2. 对/错有三条非颜色通道（两主题） | 2 | 2 passed |
+| 3. 关卡页关键配对的实测对比度（两主题） | 2、3 | 2 passed |
+| 4. 跳过态与反馈条对比度（两主题） | 2、3 | 2 passed |
+| 6. 选项三态与焦点环（两主题） | 5 | 2 passed |
+| 7. 票面点名的八张图（两主题） | 11 | 2 passed |
+| 5. 关卡页与 `level/` 里没有字面 hex | 1 | 1 passed |
+| 8. 小结三层级、门控面板、公式、亮主题暗块（两主题） | 3、4、7、8 | 4 passed |
+
+#### 8.1 验收 1（字面 hex 归零）
+
+```
+$ grep -rn "#[0-9a-fA-F]\{6\}" apps/web/src/level apps/web/src/pages/LevelPage.tsx
+（无输出，exit 1）
+```
+
+`VideoPanel.tsx` 里原本那处 `backgroundColor: '#000'` 已在早前 attempt 改成 `--sm-bg-sunken`；
+`QuestionView` 这次新增的 `var(--sm-warning-border)` 也不是字面量。**注释里零引用**，
+所以不需要「逐条列出例外」。
+
+#### 8.2 验收 3（证据卡四个数 + 掌握度双字段，三层级各一个数）
+
+深主题（`bg=rgb(21,21,26)` = `--sm-bg-elevated`）：
+
+| 层级 | 元素 | 字号 | 对比度 | 判据 |
+|---|---|---|---|---|
+| 标题 | 证据卡「作答」/「答对」/「计入掌握度」 | 12px | **5.69** | ≥4.5 ✓ |
+| 数值 | 证据卡数字 | 32px | **16.29** | ≥3 ✓ |
+| 标题 | 掌握度「历史最高（不回落，用于解锁）」 | 12px | **5.69** | ≥4.5 ✓ |
+| 标题 | 掌握度「当前熟练度（会随时间回落，用于推荐）」 | 12px | **5.69** | ≥4.5 ✓ |
+| 标题 | 掌握度「状态」 | 12px | **5.69** | ≥4.5 ✓ |
+| 数值 | 掌握度历史最高 | 32px | **16.29** | ≥3 ✓ |
+| 说明 | 小结正文 | — | ≥4.5 ✓ | ≥4.5 ✓ |
+
+亮主题同组全部通过（数值略高，因为浅底上深字的相对亮度差更大）。探针**按可见文字定位**
+而不是按 class —— `makeStyles` 的原子类名会随构建变化，拿它当选择器会在下次改样式时
+静默失配，那种「跳过即通过」的探针比没有探针更危险。
+
+#### 8.3 验收 4（出口门控面板）
+
+`lv-bool-laws` 的 `gating.mode='none'`，面板渲染「不设门控」徽章 + 「这一关不设门控：关内允许
+自由尝试，答错不会挡住你。硬门槛只设在章末出口与高入度先修节点上。」两主题都量到且达标。
+
+#### 8.4 验收 5（焦点环）
+
+深主题 `outline: rgb(255,107,107) solid 2px`（`--sm-border-focus`），`ringVsBg=5.12`；
+亮主题 `rgb(196,43,49)`，`ringVsBg=4.83`。两套都 ≥3。
+
+焦点环来自 `tokens.css:276` 的全站唯一形态（`:focus-visible` + 2px solid + 2px offset），
+不是 Fluent 默认的 UA `outline: auto` —— 后者依赖 `color-scheme` 翻色，在深色下容易消失。
+
+#### 8.5 验收 7（公式）
+
+本仓**没有 KaTeX**（`markdown.tsx` 文件头写明理由：它要字体文件与 CSS，还要处理 CJK 排版），
+公式是 `$…$` 包起来的等宽衬线块，`markdown.tsx:154` 给它们加了 `translate="no"`。
+探针扫这些元素：
+
+| 主题 | 公式数 | 前景 vs 底色 | 与正文同源 |
+|---|---|---|---|
+| dark | 6 | **15.17** | true |
+| light | 6 | **16.86** | true |
+
+`sameAsBody` 直接比较 `getComputedStyle(formula).color === getComputedStyle(body).color` ——
+公式不吃自己的颜色，随正文走同一个 token，所以「亮主题下公式仍是浅灰」这种问题结构上不可能出现。
+
+#### 8.6 验收 8（亮主题不得有深色残留块）
+
+判据：`backgroundColor` alpha ≥0.5、相对亮度 <0.18、尺寸 ≥8×8，**排除 `button` 的后代**
+（浅色页面上的实心主按钮本来就该是深色块，把它算进去等于让这条永远红）。
+
+```
+DARKBLOCKS light []
+DARKBLOCKS dark  [18 项，全页本来就是暗的，不设限]
+```
+
+**亮主题实测 0 处**，低于票面上限 2 处，所以不需要逐处理由。
+
+#### 8.7 验收 6（`--sm-warning-border`）在真实 DOM 上的复核
+
+脚本层（`contrast-check.mjs`）量的是 token 值，探针量的是**浏览器算完之后**的颜色 ——
+两者会分叉的典型场景是 `theme.ts` 把某个 Fluent 键映射到了别的 palette 值，或某处
+`var()` 没解析成功而静默回落。所以两边各量一次：
+
+```
+WRONG-BORDER dark  {"borderLeftColor":"rgb(245, 165, 36)","vsBarFill":7.98,"vsPageCanvas":9.63,
+                    "barBg":"rgb(42, 30, 12)","pageBg":"rgb(11, 11, 15)"}
+WRONG-BORDER light {"borderLeftColor":"rgb(138, 82, 0)","vsBarFill":5.67,"vsPageCanvas":5.46,
+                    "barBg":"rgb(251, 240, 223)","pageBg":"rgb(236, 237, 240)"}
+```
+
+与 §7.4 的脚本数字逐个对上（7.98 / 9.63、5.67 / 5.46），说明 `var(--sm-warning-border)`
+确实解析到了 `tokens.css` 里那两个值，没有回落。
+
+#### 8.8 验收 9 / 10（全量测试与 smoke）
+
+```
+$ cd apps/web && npx vitest run
+Test Files  58 passed (58)
+     Tests  801 passed (801)
+
+$ pnpm --filter @starmap/web typecheck
+$ tsc -p tsconfig.json --noEmit      （无输出，exit 0）
+
+$ cd apps/web && npx playwright test e2e/smoke.spec.ts
+13 passed (46.8s)
+```
+
+#### 8.9 验收 11（八张图）
+
+```
+.scratch/qa/shots/leveltheme-dark-question.png
+.scratch/qa/shots/leveltheme-dark-feedback-right.png
+.scratch/qa/shots/leveltheme-dark-feedback-wrong.png
+.scratch/qa/shots/leveltheme-dark-summary.png
+.scratch/qa/shots/leveltheme-light-question.png
+.scratch/qa/shots/leveltheme-light-feedback-right.png
+.scratch/qa/shots/leveltheme-light-feedback-wrong.png
+.scratch/qa/shots/leveltheme-light-summary.png
+```
+
+八张全在，由用例 7 每次跑时重新生成（不是手工截的）。
+
+#### 8.10 一条仍红、且不在本票范围
+
+见 §7.5：`三级 text-tertiary / bg-selected = 4.45`（深主题，差 0.05）。消费点是知识地图页
+（t62 域）的选中行，`tokens.ts` 属 t58 域，两者都不在 t63 inScope。**不放宽断言、不改 token**，
+作为 finding 上报 captain。
