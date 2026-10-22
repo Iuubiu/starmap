@@ -87,6 +87,15 @@ const useStyles = makeStyles({
     gap: '16px',
     height: '100%',
     minHeight: 0,
+    /**
+     * `page` 是 `AppShell` 的 `main`（`overflow: auto`）里唯一的块级子元素，
+     * 默认宽度是 `auto`（撑满），但它的**内容**（工具栏、缺口区、清单）里有
+     * 若干 `white-space: nowrap` 的短标签，`min-width: auto` 会把它顶到
+     * min-content 宽度 —— 实测 320px 视口下整页宽 395px、横向滚动条出现。
+     * 写 0 之后 `page` 老实收到 320px，内部靠 `body`/`side` 自己的 `minWidth: 0`
+     * 和画布的 `min-width: 240px` 兜底。
+     */
+    minWidth: 0,
   },
   heading: {
     display: 'flex',
@@ -144,12 +153,72 @@ const useStyles = makeStyles({
     gap: '16px',
     minHeight: `${CANVAS_MIN_HEIGHT}px`,
     flex: '1 1 auto',
+    /**
+     * 窄视口把清单落到画布**下方**，而不是继续挤在同一行。
+     *
+     * 这一条是票 47 的正解：`minmax(0, 1fr)` 允许第一列缩到 0，而右列
+     * 固定 340px —— 视口 400px 时左列算出来是 `400 - 64(padding) - 16(gap)
+     * - 340 = -20`，被 `minmax(0, …)` 夹到 0，画布容器宽度归零，sigma 在
+     * `resize()` 里抛 `Sigma: Container has no width`（在 window resize
+     * 回调链里，React 错误边界接不住 → 真 pageerror）。
+     *
+     * 为什么不直接把 340px 那一列在窄屏藏掉：清单是地图页的另一半（票 03
+     * 第 7 条：画布的等价文本在清单里，键盘可达）。藏掉等于把无障碍出口
+     * 一起删了。改单列后画布拿到整行宽度（320px 视口 → 256px），清单仍在
+     * 文档流里、仍在无障碍树里，只是换了一行。
+     *
+     * 阈值 1080px 与 `graph.css` 里那条 `@media (max-width: 1080px)` 一致：
+     * 同一档宽度下，画布的最小高度和栅格列数一起切换，不会出现「高度已经
+     * 按窄屏算了、列数还是两列」的错位。
+     */
+    '@media (max-width: 1080px)': {
+      gridTemplateColumns: 'minmax(0, 1fr)',
+    },
+    /**
+     * 允许栅格**本身**收缩到父级宽度以内。
+     *
+     * `minmax(0, 1fr)` 只约束「列」，不约束「栅格容器」。`body` 是 `page`
+     * 这个 flex 列里的一个 flex 项，flex 项默认 `min-width: auto`，也就是
+     * 「不小于内容的 min-content 宽度」—— 清单里那条「状态 / 百分比」两列
+     * 加一条长知识点名，就能把整个栅格撑到 331px。实测 320px 视口（可用
+     * 256px）与 375px 视口（可用 311px）下画布与清单**都是 331px**，整页
+     * 横向滚动。写 `minWidth: 0` 之后栅格才真的收到可用宽度，画布靠自己的
+     * `min-width: 240px` 兜底（见 `graph.css`）。
+     */
+    minWidth: 0,
   },
   side: {
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
     minHeight: 0,
+    /**
+     * 单列时给侧栏一个**具体高度**，否则清单会塌成 0。
+     *
+     * 两列时 `side` 与画布同处一行，行高由 `body` 的 `minHeight: 480px`
+     * 撑出来，`side` 拿到 480px，里面的 `.graph-roster`（`flex: 1 1 auto`
+     * 配 `min-height: 0`）自然分到剩余高度（实测 348px）。切到单列后画布
+     * 与侧栏各占一行，第二行是 `auto` —— 而 `auto` 行的固有高度来自内容，
+     * 内容里的清单是滚动容器（`overflow-y: auto` + `min-height: 0`），对
+     * 固有高度的贡献是 0，于是行高只剩图例 32 + 按钮 34 + 两个 gap，清单
+     * 被压成 0px。实测 1024 / 900 / 375 三档：`ul.graph-roster` 高度都是
+     * 0（宽度 720 / 636 / 311 正确、400 条 `li` 也都在 DOM 与无障碍树里），
+     * 屏幕上只剩「图例 + 显示更多按钮」，中间一片空白 —— 票 47 第 3 条
+     * 「清单始终可浏览」在视觉层其实没达成。
+     *
+     * 写 `min-height` 之后这个 flex 列有了确定高度，清单才分得到空间。阈值
+     * 320px 的理由：窄屏下画布已经是 380px，清单再占 320px 刚好让「一屏
+     * 看得到十行左右」，同时不会把页面撑得太长（整页本来就可以滚）。
+     */
+    '@media (max-width: 1080px)': {
+      minHeight: '320px',
+    },
+    /**
+     * 同理：`side` 是栅格项，`min-width: auto` 会让它的 min-content（清单里
+     * 「状态 / 百分比」两列都是 `white-space: nowrap`）反过来撑大整列。
+     * 实测 320px 视口下这一条不做，栅格列被撑到 331px、整页横向滚动。
+     */
+    minWidth: 0,
   },
   status: {
     color: tokens.colorNeutralForeground3,

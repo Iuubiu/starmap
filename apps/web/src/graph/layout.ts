@@ -248,6 +248,60 @@ export const FA2_SETTINGS = {
 } as const;
 
 /**
+ * 把解算图的坐标按帧率级节奏同步回渲染图，而不是每轮迭代都同步。
+ *
+ * ## 为什么必须节流
+ *
+ * `FA2LayoutSupervisor` 每收到一轮 worker 结果就调 `helpers.assignLayoutChanges`
+ * → `graph.updateEachNodeAttributes(...)`。sigma 在 `bindGraphHandlers` 里监听
+ * `eachNodeAttributesUpdated`：
+ *
+ * ```js
+ * var updatedFields = e.hints?.attributes;
+ * var layoutChanged = !updatedFields || updatedFields.some((f) => LAYOUT_IMPACTING_FIELDS.has(f));
+ * ctx.refresh({ partialGraph: { nodes: graph.nodes() }, skipIndexation: !layoutChanged, schedule: true });
+ * ```
+ *
+ * `updateEachNodeAttributes` 不带 `hints`，所以 `updatedFields` 是 `undefined`，
+ * `layoutChanged` 恒为 `true`，`skipIndexation` 恒为 `false` → **每一轮迭代都
+ * 在主线程对全部节点重跑一遍 `updateNode()`（reducer + 样式 + 程序索引）**。
+ * 3086 节点实测每轮约 74ms，一轮 worker 迭代本身只要几毫秒 —— 也就是说布局
+ * 期间的主线程开销几乎全部花在这个写回上。
+ *
+ * ## 修法
+ *
+ * 让 FA2 在**副本图**上解算，主线程每 `RENDER_SYNC_MS` 把副本坐标批量搬回
+ * 渲染图一次。写回次数从「每轮一次」降到「每秒 5 次」，每次写回仍然只触发
+ * 一次 sigma 重索引（`syncLayoutPositions` 用带 hints 的
+ * `updateEachNodeAttributes`，语义与原来一致）。
+ *
+ * 实测（生产构建，3086 节点，默认 4s 预算）：见票 03 的 t53 记录。
+ * 可复现：`apps/web/probe-t53-timeline.mjs`。
+ */
+const RENDER_SYNC_MS = 200;
+
+/**
+ * 把 `from` 里的坐标搬到 `to`，只碰 `x`/`y`，并且**只发一次**更新事件。
+ *
+ * 用 `updateEachNodeAttributes`（而不是逐节点 `mergeNode`）是因为它会带上
+ * `hints.attributes` 发一次 `eachNodeAttributesUpdated`：sigma 据此只重索引
+ * 一次（`x`/`y` 在 `LAYOUT_IMPACTING_FIELDS` 里，所以 `skipIndexation` 为
+ * false，语义与逐轮写回完全一致），而 `mergeNode` 不发事件 —— 那样画布会
+ * 停在种子位置不动。
+ */
+function syncLayoutPositions(from: LayoutGraph, to: LayoutGraph): void {
+  if (from === to) return;
+  to.updateEachNodeAttributes(
+    (key, attributes) => {
+      if (!from.hasNode(key)) return attributes;
+      const source = from.getNodeAttributes(key);
+      return { ...attributes, x: source.x, y: source.y };
+    },
+    { attributes: ['x', 'y'] },
+  );
+}
+
+/**
  * 启动力导向布局。
  *
  * 参数挑选的理由（都在真实 `/api/v1/graph` 快照上量过：5495 节点 / 241 条
@@ -293,15 +347,33 @@ export function startLayout(graph: LayoutGraph): LayoutHandle {
   }
 
   let supervisor: FA2LayoutSupervisor | null = null;
+  let syncTimer: number | null = null;
+  // 解算图：FA2 每轮写回的是这张副本，不是 sigma 正在渲染的那张图。
+  let solver: LayoutGraph = graph;
+
+  const stopSync = (): void => {
+    if (syncTimer !== null) {
+      window.clearInterval(syncTimer);
+      syncTimer = null;
+    }
+  };
+
   try {
-    supervisor = new FA2LayoutSupervisor(graph, { settings: { ...FA2_SETTINGS } });
+    // 为什么要用副本解算，见 `RENDER_SYNC_MS` 的注释。
+    solver = graph.copy();
+    supervisor = new FA2LayoutSupervisor(solver, { settings: { ...FA2_SETTINGS } });
     supervisor.start();
+    syncTimer = window.setInterval(() => {
+      syncLayoutPositions(solver, graph);
+    }, RENDER_SYNC_MS);
   } catch {
     // Worker 不可用（CSP 禁 blob:、隐私模式等）时降级：向日葵盘种子布局仍然可看。
     // 静默失败比白屏好 —— 票 03 的性能要求是「不阻塞主线程」，降级后确实
     // 不阻塞（因为根本没算），只是没有力导向的美感。
+    stopSync();
     supervisor?.kill();
     supervisor = null;
+    solver = graph;
   }
 
   let stopped = false;
@@ -310,11 +382,15 @@ export function startLayout(graph: LayoutGraph): LayoutHandle {
     stop: () => {
       if (stopped) return;
       stopped = true;
+      stopSync();
       // kill() 之后不能再 start()，所以句柄也不该被复用
       supervisor?.kill();
       supervisor = null;
+      solver = graph;
     },
     stopConverging: () => {
+      // 收尾这一帧的坐标要落地，否则最后几百毫秒的位移会丢
+      syncLayoutPositions(solver, graph);
       // stop() 只是停下「问下一轮」，worker 与矩阵都还在，可再 start()
       supervisor?.stop();
     },

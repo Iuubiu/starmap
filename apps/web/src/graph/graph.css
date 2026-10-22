@@ -11,6 +11,20 @@
 .graph-canvas {
   position: relative;
   min-height: 480px;
+  /*
+   * 宽度地板（票 47）。
+   *
+   * sigma 的 `resize()` 在 `offsetWidth === 0` 时抛
+   * `Sigma: Container has no width`，而它是在 window resize 的回调链里被
+   * 调用的 —— 那个异常落在 React 错误边界之外，是真正的未捕获错误。栅格
+   * 已经在 ≤1080px 改成单列（见 MapPage 的 `body`），这里再加一条地板：
+   * 只要父级还有一点点空间，画布就不会被挤成 0。
+   *
+   * 240px 的来由：最窄的目标视口 320px 减去页面左右 padding 64px = 256px，
+   * 留 16px 余量。比这更窄的视口会让画布轻微溢出格子 —— 那仍然远好过
+   * 宽度归零导致的整页崩溃。
+   */
+  min-width: 240px;
   height: 100%;
   border-radius: 12px;
   background-color: #12161c;
@@ -30,6 +44,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+  color: #8fa0b8;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/*
+ * 画布容器暂时量不出宽度时的占位（票 47）。
+ *
+ * sigma 的 `resize()` 在 `offsetWidth === 0` 时直接抛
+ * `Sigma: Container has no width`，而 `resize()` 是从 window 的 resize
+ * 回调链里调过来的 —— 那个异常落在 React 的错误边界之外，会变成真正的
+ * 未捕获错误。所以 `GraphCanvas` 在构造 sigma 之前先量宽度，量不到就
+ * 渲染这段占位，等 `ResizeObserver` 报出非零尺寸再构造。
+ *
+ * 它是**正常流**里的块（不是 absolute），因为容器这时往往只有几十像素宽，
+ * 绝对定位的文字会被裁掉；`position: relative` 只是为了让 z-index 生效、
+ * 盖在 `inset: 0` 的 webgl 层之上。
+ */
+.graph-canvas-blocked {
+  position: relative;
+  z-index: 1;
+  margin: 0;
   padding: 24px;
   color: #8fa0b8;
   font-size: 14px;
