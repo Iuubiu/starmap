@@ -40,6 +40,11 @@ import type {
   GraphResponse,
   HealthResponse,
   LevelDetailResponse,
+  LevelExportFile,
+  LevelImportResponse,
+  LevelTemplateListResponse,
+  LevelTemplatePreviewRequest,
+  LevelTemplatePreviewResponse,
   LevelVideoClipListResponse,
   ListAgentTurnsParams,
   ListNodesParams,
@@ -2455,6 +2460,421 @@ export function useGetHealth<TData = Awaited<ReturnType<typeof getHealth>>, TErr
 
 
 
+export type listLevelTemplatesResponse200 = {
+  data: LevelTemplateListResponse
+  status: 200
+}
+
+export type listLevelTemplatesResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type listLevelTemplatesResponseSuccess = (listLevelTemplatesResponse200) & {
+  headers: Headers;
+};
+export type listLevelTemplatesResponseError = (listLevelTemplatesResponse500) & {
+  headers: Headers;
+};
+
+export type listLevelTemplatesResponse = (listLevelTemplatesResponseSuccess | listLevelTemplatesResponseError)
+
+export const getListLevelTemplatesUrl = () => {
+
+
+
+
+  return `/api/v1/level-templates`
+}
+
+/**
+ * 返回 3 个内置模板（teaching / practice / review）。每个模板带 `segments`（有哪些段、每段几张卡几道题、这一段为什么存在）与 `slots`（从段展开的槽位，前端据此枚举「这一关有哪些坑、哪些是必填」）。\n\n`segments[].tiers` 是三档差异的结构表达：同一模板在 P1/P2/P3 下填出来的 `steps` 段数不同（教学模板是 7 / 6 / 5 段），差异发生在骨架上而不是参数上。
+ * @summary 内置关卡模板列表
+ */
+export const listLevelTemplates = async ( options?: Parameters<typeof customFetch>[1]): Promise<listLevelTemplatesResponse> => {
+
+  return customFetch<listLevelTemplatesResponse>(getListLevelTemplatesUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListLevelTemplatesQueryKey = () => {
+    return [
+    `/api/v1/level-templates`
+    ] as const;
+    }
+
+
+export const getListLevelTemplatesQueryOptions = <TData = Awaited<ReturnType<typeof listLevelTemplates>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelTemplates>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListLevelTemplatesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listLevelTemplates>>> = ({ signal }) => listLevelTemplates({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listLevelTemplates>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListLevelTemplatesQueryResult = NonNullable<Awaited<ReturnType<typeof listLevelTemplates>>>
+export type ListLevelTemplatesQueryError = ApiError
+
+
+export function useListLevelTemplates<TData = Awaited<ReturnType<typeof listLevelTemplates>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelTemplates>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLevelTemplates>>,
+          TError,
+          Awaited<ReturnType<typeof listLevelTemplates>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListLevelTemplates<TData = Awaited<ReturnType<typeof listLevelTemplates>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelTemplates>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLevelTemplates>>,
+          TError,
+          Awaited<ReturnType<typeof listLevelTemplates>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListLevelTemplates<TData = Awaited<ReturnType<typeof listLevelTemplates>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelTemplates>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 内置关卡模板列表
+ */
+
+export function useListLevelTemplates<TData = Awaited<ReturnType<typeof listLevelTemplates>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLevelTemplates>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListLevelTemplatesQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type previewLevelTemplateResponse200 = {
+  data: LevelTemplatePreviewResponse
+  status: 200
+}
+
+export type previewLevelTemplateResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type previewLevelTemplateResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type previewLevelTemplateResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type previewLevelTemplateResponseSuccess = (previewLevelTemplateResponse200) & {
+  headers: Headers;
+};
+export type previewLevelTemplateResponseError = (previewLevelTemplateResponse400 | previewLevelTemplateResponse404 | previewLevelTemplateResponse500) & {
+  headers: Headers;
+};
+
+export type previewLevelTemplateResponse = (previewLevelTemplateResponseSuccess | previewLevelTemplateResponseError)
+
+export const getPreviewLevelTemplateUrl = (templateId: string,) => {
+
+
+
+
+  return `/api/v1/level-templates/${templateId}/preview`
+}
+
+/**
+ * 按 `microKpId` 与 `tier` 把模板填成一份 `LevelSpec` 草稿。草稿里的讲解卡与题目都是**占位内容**（正文写清「这里该放什么」），作者拿到后替换成真正的讲解。\n\n响应里的 `persisted: false` 是字面量：它提醒调用方「你手里的东西还没进库」。草稿本身能通过 `validateLevelSpec`（服务端在返回前跑过一遍），所以可以直接丢进播放器预览。\n\n`tier` 缺省 P1；未知值同样回落 P1（与引擎 `tierParams()` 的容错一致）。
+ * @summary 用模板填一份关卡草稿（未持久化）
+ */
+export const previewLevelTemplate = async (templateId: string,
+    levelTemplatePreviewRequest: LevelTemplatePreviewRequest, options?: Parameters<typeof customFetch>[1]): Promise<previewLevelTemplateResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<previewLevelTemplateResponse>(getPreviewLevelTemplateUrl(templateId),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(levelTemplatePreviewRequest)
+  }
+);}
+
+
+
+
+
+export const getPreviewLevelTemplateQueryKey = (templateId: string,
+    levelTemplatePreviewRequest?: LevelTemplatePreviewRequest,) => {
+    return [
+    'POST', `/api/v1/level-templates/${templateId}/preview`, levelTemplatePreviewRequest
+    ] as const;
+    }
+
+
+export const getPreviewLevelTemplateQueryOptions = <TData = Awaited<ReturnType<typeof previewLevelTemplate>>, TError = ApiError>(templateId: string,
+    levelTemplatePreviewRequest: LevelTemplatePreviewRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof previewLevelTemplate>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getPreviewLevelTemplateQueryKey(templateId,levelTemplatePreviewRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof previewLevelTemplate>>> = ({ signal }) => previewLevelTemplate(templateId,levelTemplatePreviewRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: templateId !== null && templateId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof previewLevelTemplate>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type PreviewLevelTemplateQueryResult = NonNullable<Awaited<ReturnType<typeof previewLevelTemplate>>>
+export type PreviewLevelTemplateQueryError = ApiError
+
+
+export function usePreviewLevelTemplate<TData = Awaited<ReturnType<typeof previewLevelTemplate>>, TError = ApiError>(
+ templateId: string,
+    levelTemplatePreviewRequest: LevelTemplatePreviewRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof previewLevelTemplate>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof previewLevelTemplate>>,
+          TError,
+          Awaited<ReturnType<typeof previewLevelTemplate>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePreviewLevelTemplate<TData = Awaited<ReturnType<typeof previewLevelTemplate>>, TError = ApiError>(
+ templateId: string,
+    levelTemplatePreviewRequest: LevelTemplatePreviewRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof previewLevelTemplate>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof previewLevelTemplate>>,
+          TError,
+          Awaited<ReturnType<typeof previewLevelTemplate>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePreviewLevelTemplate<TData = Awaited<ReturnType<typeof previewLevelTemplate>>, TError = ApiError>(
+ templateId: string,
+    levelTemplatePreviewRequest: LevelTemplatePreviewRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof previewLevelTemplate>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 用模板填一份关卡草稿（未持久化）
+ */
+
+export function usePreviewLevelTemplate<TData = Awaited<ReturnType<typeof previewLevelTemplate>>, TError = ApiError>(
+ templateId: string,
+    levelTemplatePreviewRequest: LevelTemplatePreviewRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof previewLevelTemplate>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getPreviewLevelTemplateQueryOptions(templateId,levelTemplatePreviewRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type importLevelResponse201 = {
+  data: LevelImportResponse
+  status: 201
+}
+
+export type importLevelResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type importLevelResponse422 = {
+  data: ApiError
+  status: 422
+}
+
+export type importLevelResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type importLevelResponseSuccess = (importLevelResponse201) & {
+  headers: Headers;
+};
+export type importLevelResponseError = (importLevelResponse400 | importLevelResponse422 | importLevelResponse500) & {
+  headers: Headers;
+};
+
+export type importLevelResponse = (importLevelResponseSuccess | importLevelResponseError)
+
+export const getImportLevelUrl = () => {
+
+
+
+
+  return `/api/v1/levels/import`
+}
+
+/**
+ * 请求体就是导出的响应体本身（同一个 schema 双向校验，形状不会漂移）。\n\n导入会**重编 id**（`level_items.id` 与 `levels.id` 都是全局主键，沿用原 id 会撞车）。重编是确定性的：关卡 id 是 `lv-import-<share_hash 前 12 位>`，其余 id 加 `--<前 8 位>` 后缀。所以同一个文件连导两次落到同一张关卡上，而不是两张内容一样的关卡。\n\n响应里的 `created` 区分「新建了一张」与「同一份内容已经在了，返回已有那张」。
+ * @summary 从 .level 文件导入一张关卡
+ */
+export const importLevel = async (levelExportFile: LevelExportFile, options?: Parameters<typeof customFetch>[1]): Promise<importLevelResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<importLevelResponse>(getImportLevelUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(levelExportFile)
+  }
+);}
+
+
+
+
+
+export const getImportLevelQueryKey = (levelExportFile?: LevelExportFile,) => {
+    return [
+    'POST', `/api/v1/levels/import`, levelExportFile
+    ] as const;
+    }
+
+
+export const getImportLevelQueryOptions = <TData = Awaited<ReturnType<typeof importLevel>>, TError = ApiError>(levelExportFile: LevelExportFile, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof importLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getImportLevelQueryKey(levelExportFile);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof importLevel>>> = ({ signal }) => importLevel(levelExportFile, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof importLevel>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ImportLevelQueryResult = NonNullable<Awaited<ReturnType<typeof importLevel>>>
+export type ImportLevelQueryError = ApiError
+
+
+export function useImportLevel<TData = Awaited<ReturnType<typeof importLevel>>, TError = ApiError>(
+ levelExportFile: LevelExportFile, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof importLevel>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof importLevel>>,
+          TError,
+          Awaited<ReturnType<typeof importLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useImportLevel<TData = Awaited<ReturnType<typeof importLevel>>, TError = ApiError>(
+ levelExportFile: LevelExportFile, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof importLevel>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof importLevel>>,
+          TError,
+          Awaited<ReturnType<typeof importLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useImportLevel<TData = Awaited<ReturnType<typeof importLevel>>, TError = ApiError>(
+ levelExportFile: LevelExportFile, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof importLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 从 .level 文件导入一张关卡
+ */
+
+export function useImportLevel<TData = Awaited<ReturnType<typeof importLevel>>, TError = ApiError>(
+ levelExportFile: LevelExportFile, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof importLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getImportLevelQueryOptions(levelExportFile,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 export type getLevelResponse200 = {
   data: LevelDetailResponse
   status: 200
@@ -2576,6 +2996,131 @@ export function useGetLevel<TData = Awaited<ReturnType<typeof getLevel>>, TError
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetLevelQueryOptions(levelId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type exportLevelResponse200 = {
+  data: LevelExportFile
+  status: 200
+}
+
+export type exportLevelResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type exportLevelResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type exportLevelResponseSuccess = (exportLevelResponse200) & {
+  headers: Headers;
+};
+export type exportLevelResponseError = (exportLevelResponse404 | exportLevelResponse500) & {
+  headers: Headers;
+};
+
+export type exportLevelResponse = (exportLevelResponseSuccess | exportLevelResponseError)
+
+export const getExportLevelUrl = (levelId: string,) => {
+
+
+
+
+  return `/api/v1/levels/${levelId}/export`
+}
+
+/**
+ * 把一张关卡序列化成 `starmap.level/1` 文件：`format` / `exportedAt` / `source` / `spec` / `items`。\n\n`items` 与 `spec.items` 内容相同 —— 刻意的冗余：`spec` 是嵌套结构（题挂在步骤里），外部工具或人工审阅要先读懂嵌套才能列出题目，摊平一份是给「不是 StarMap 的读者」的。导入时会校验两者一致，不一致说明文件被手改坏了，宁可拒绝也不猜。\n\n幂等：同一个关卡连按两次导出，除 `exportedAt` 外逐字节相同（序列化按 key 排序）。
+ * @summary 导出一张关卡为 .level 文件
+ */
+export const exportLevel = async (levelId: string, options?: Parameters<typeof customFetch>[1]): Promise<exportLevelResponse> => {
+
+  return customFetch<exportLevelResponse>(getExportLevelUrl(levelId),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+
+export const getExportLevelQueryKey = (levelId: string,) => {
+    return [
+    'POST', `/api/v1/levels/${levelId}/export`
+    ] as const;
+    }
+
+
+export const getExportLevelQueryOptions = <TData = Awaited<ReturnType<typeof exportLevel>>, TError = ApiError>(levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getExportLevelQueryKey(levelId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof exportLevel>>> = ({ signal }) => exportLevel(levelId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: levelId !== null && levelId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof exportLevel>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ExportLevelQueryResult = NonNullable<Awaited<ReturnType<typeof exportLevel>>>
+export type ExportLevelQueryError = ApiError
+
+
+export function useExportLevel<TData = Awaited<ReturnType<typeof exportLevel>>, TError = ApiError>(
+ levelId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportLevel>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof exportLevel>>,
+          TError,
+          Awaited<ReturnType<typeof exportLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useExportLevel<TData = Awaited<ReturnType<typeof exportLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportLevel>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof exportLevel>>,
+          TError,
+          Awaited<ReturnType<typeof exportLevel>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useExportLevel<TData = Awaited<ReturnType<typeof exportLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 导出一张关卡为 .level 文件
+ */
+
+export function useExportLevel<TData = Awaited<ReturnType<typeof exportLevel>>, TError = ApiError>(
+ levelId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportLevel>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getExportLevelQueryOptions(levelId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

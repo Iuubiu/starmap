@@ -12,7 +12,12 @@ import {
   GateHistoryResponseSchema,
   GateResponseSchema,
   LevelDetailResponseSchema,
+  LevelExportFileSchema,
+  LevelImportResponseSchema,
   LevelSummarySchema,
+  LevelTemplateListResponseSchema,
+  LevelTemplatePreviewRequestSchema,
+  LevelTemplatePreviewResponseSchema,
   MasteryViewSchema,
   ReviewCompleteResponseSchema,
   ReviewQueueResponseSchema,
@@ -20,7 +25,7 @@ import {
   ReviewRoundStartResponseSchema,
   UnlockStateSchema,
 } from '../../dist/index.js';
-import { LevelSpecSchema } from '@starmap/shared';
+import { LevelItemSchema, LevelSpecSchema, LevelTemplateSchema } from '@starmap/shared';
 import { jsonResponse, jsonSchema, pathParam } from './_shared.mjs';
 
 export const components = {
@@ -44,6 +49,19 @@ export const components = {
   ReviewRoundStartResponse: jsonSchema(ReviewRoundStartResponseSchema),
   ReviewCompleteResponse: jsonSchema(ReviewCompleteResponseSchema),
   ReviewRoundDetailResponse: jsonSchema(ReviewRoundDetailResponseSchema),
+  // 票 66：关卡模板与导入导出
+  //
+  // 模板与题目列表都直接由 shared 的 Zod 渲染：它们是对外形状（前端要枚举槽位、
+  // 要摊平列出题目），不进组件就只能拿到 `additionalProperties: true` 去猜。
+  LevelTemplate: jsonSchema(LevelTemplateSchema),
+  LevelTemplateListResponse: jsonSchema(LevelTemplateListResponseSchema),
+  // 预览请求也要进组件：它不是 `additionalProperties: true` 的随便什么对象 ——
+  // `tier` 的取值域是 P1/P2/P3，前端要按它画三档对比的按钮。
+  LevelTemplatePreviewRequest: jsonSchema(LevelTemplatePreviewRequestSchema),
+  LevelTemplatePreviewResponse: jsonSchema(LevelTemplatePreviewResponseSchema),
+  LevelItem: jsonSchema(LevelItemSchema),
+  LevelExportFile: jsonSchema(LevelExportFileSchema),
+  LevelImportResponse: jsonSchema(LevelImportResponseSchema),
 };
 
 /** 错误体统一走 `ApiError`（common 领域已定义，这里只引用不重定义） */
@@ -338,6 +356,130 @@ export const paths = {
       responses: {
         '200': jsonResponse('复验会话', 'ReviewRoundDetailResponse'),
         '404': err('复验会话不存在'),
+        '500': err('服务内部错误'),
+      },
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // 票 66：关卡模板与导入导出
+  // -------------------------------------------------------------------------
+
+  /**
+   * 内置模板列表。
+   *
+   * 模板存在代码里而不是数据库里 —— 它要跟着代码一起版本化。所以这条路由不碰库，
+   * 是纯读常量：改模板 = 发版，不是改数据。
+   */
+  '/api/v1/level-templates': {
+    get: {
+      operationId: 'listLevelTemplates',
+      summary: '内置关卡模板列表',
+      description:
+        '返回 3 个内置模板（teaching / practice / review）。每个模板带 `segments`（有哪些段、' +
+        '每段几张卡几道题、这一段为什么存在）与 `slots`（从段展开的槽位，前端据此枚举' +
+        '「这一关有哪些坑、哪些是必填」）。\\n\\n' +
+        '`segments[].tiers` 是三档差异的结构表达：同一模板在 P1/P2/P3 下填出来的 `steps` ' +
+        '段数不同（教学模板是 7 / 6 / 5 段），差异发生在骨架上而不是参数上。',
+      responses: {
+        '200': jsonResponse('模板列表', 'LevelTemplateListResponse'),
+        '500': err('服务内部错误'),
+      },
+    },
+  },
+
+  /**
+   * 按学习者状态填一份草稿（不落库）。
+   *
+   * `POST` 而不是 `GET`：虽然不写库，但它读的是「这个知识点 + 这个档位」下的
+   * 组合状态，而 `GET` 会被浏览器与 CDN 缓存 —— 学生换了档位之后拿到的还是
+   * 上一份草稿，看起来像「档位没生效」。
+   */
+  '/api/v1/level-templates/{templateId}/preview': {
+    post: {
+      operationId: 'previewLevelTemplate',
+      summary: '用模板填一份关卡草稿（未持久化）',
+      description:
+        '按 `microKpId` 与 `tier` 把模板填成一份 `LevelSpec` 草稿。草稿里的讲解卡与题目' +
+        '都是**占位内容**（正文写清「这里该放什么」），作者拿到后替换成真正的讲解。\\n\\n' +
+        '响应里的 `persisted: false` 是字面量：它提醒调用方「你手里的东西还没进库」。' +
+        '草稿本身能通过 `validateLevelSpec`（服务端在返回前跑过一遍），所以可以直接' +
+        '丢进播放器预览。\\n\\n' +
+        '`tier` 缺省 P1；未知值同样回落 P1（与引擎 `tierParams()` 的容错一致）。',
+      parameters: [pathParam('templateId')],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/LevelTemplatePreviewRequest' },
+          },
+        },
+      },
+      responses: {
+        '200': jsonResponse('草稿（未持久化）', 'LevelTemplatePreviewResponse'),
+        '400': err('缺少 microKpId'),
+        '404': err('模板不存在'),
+        '500': err('模板填出的草稿不合法（模板有 bug）'),
+      },
+    },
+  },
+
+  /**
+   * 导出一张关卡为 `starmap.level/1` 文件。
+   *
+   * `POST` 而不是 `GET`：导出会把「这一次导出的时刻」写进文件（`exportedAt`），
+   * 而 `GET` 应该是可缓存、可预取的 —— 带时间戳的读请求在预取时会被静默重放，
+   * 拿到的文件时间戳各不相同，「同一关卡连按两次导出，除时间戳外字节相同」这条
+   * 验收在浏览器缓存下就不可验证了。
+   */
+  '/api/v1/levels/{levelId}/export': {
+    post: {
+      operationId: 'exportLevel',
+      summary: '导出一张关卡为 .level 文件',
+      description:
+        '把一张关卡序列化成 `starmap.level/1` 文件：`format` / `exportedAt` / `source` / ' +
+        '`spec` / `items`。\\n\\n' +
+        '`items` 与 `spec.items` 内容相同 —— 刻意的冗余：`spec` 是嵌套结构（题挂在步骤里），' +
+        '外部工具或人工审阅要先读懂嵌套才能列出题目，摊平一份是给「不是 StarMap 的读者」的。' +
+        '导入时会校验两者一致，不一致说明文件被手改坏了，宁可拒绝也不猜。\\n\\n' +
+        '幂等：同一个关卡连按两次导出，除 `exportedAt` 外逐字节相同（序列化按 key 排序）。',
+      parameters: [pathParam('levelId')],
+      responses: {
+        '200': jsonResponse('导出文件', 'LevelExportFile'),
+        '404': err('关卡不存在'),
+        '500': err('库里存的关卡规范不合法'),
+      },
+    },
+  },
+
+  /**
+   * 从 `starmap.level/1` 文件导入一张新关卡。
+   *
+   * 422 与 400 的分界：**文件形状**不对（`format` 不是 `starmap.level/1`、缺字段）
+   * 是 400 —— 请求体本身不是这个接口的输入；**关卡内容**不合法（spec 校验不过、
+   * 摊平题表与 spec 不一致）是 422 —— 形状对，但内容违反业务规则。
+   */
+  '/api/v1/levels/import': {
+    post: {
+      operationId: 'importLevel',
+      summary: '从 .level 文件导入一张关卡',
+      description:
+        '请求体就是导出的响应体本身（同一个 schema 双向校验，形状不会漂移）。\\n\\n' +
+        '导入会**重编 id**（`level_items.id` 与 `levels.id` 都是全局主键，沿用原 id 会撞车）。' +
+        '重编是确定性的：关卡 id 是 `lv-import-<share_hash 前 12 位>`，其余 id 加 ' +
+        '`--<前 8 位>` 后缀。所以同一个文件连导两次落到同一张关卡上，而不是两张内容' +
+        '一样的关卡。\\n\\n' +
+        '响应里的 `created` 区分「新建了一张」与「同一份内容已经在了，返回已有那张」。',
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': { schema: { $ref: '#/components/schemas/LevelExportFile' } },
+        },
+      },
+      responses: {
+        '201': jsonResponse('导入结果', 'LevelImportResponse'),
+        '400': err('文件形状不对（不是 starmap.level/1）'),
+        '422': err('关卡内容不合法（details 是字段级路径）'),
         '500': err('服务内部错误'),
       },
     },

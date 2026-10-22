@@ -2062,6 +2062,431 @@
         - "level"
         - "spec"
       "type": "object"
+    "LevelExportFile":
+      "additionalProperties": false
+      "properties":
+        "exportedAt":
+          "type": "string"
+        "format":
+          "const": "starmap.level/1"
+          "type": "string"
+        "items":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "answer":
+                "anyOf":
+                  - "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                  - "minLength": 1
+                    "type": "string"
+              "explainCorrect":
+                "minLength": 1
+                "type": "string"
+              "explainWrong":
+                "minLength": 1
+                "type": "string"
+              "hintLadder":
+                "items":
+                  "type": "string"
+                "maxItems": 4
+                "type": "array"
+              "id":
+                "minLength": 1
+                "type": "string"
+              "kind":
+                "enum":
+                  - "fact"
+                  - "concept"
+                  - "comprehensive"
+                "type": "string"
+              "misconceptionTags":
+                "items":
+                  "type": "string"
+                "type": "array"
+              "options":
+                "items":
+                  "type": "string"
+                "maxItems": 6
+                "type": "array"
+              "pool":
+                "enum":
+                  - "core"
+                  - "practice"
+                "type": "string"
+              "sourceRef":
+                "type":
+                  - "string"
+                  - "null"
+              "stem":
+                "minLength": 1
+                "type": "string"
+              "variantGroup":
+                "minLength": 1
+                "type": "string"
+            "required":
+              - "id"
+              - "kind"
+              - "stem"
+              - "options"
+              - "answer"
+              - "variantGroup"
+              - "explainCorrect"
+              - "explainWrong"
+              - "misconceptionTags"
+              - "sourceRef"
+              - "pool"
+              - "hintLadder"
+            "type": "object"
+          "type": "array"
+        "source":
+          "additionalProperties": false
+          "properties":
+            "page":
+              "anyOf":
+                - "maximum": 9007199254740991
+                  "minimum": 0
+                  "type": "integer"
+                - "type": "null"
+            "title":
+              "type": "string"
+          "required":
+            - "title"
+            - "page"
+          "type": "object"
+        "spec":
+          "additionalProperties": false
+          "properties":
+            "cards":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "body":
+                    "type": "string"
+                  "figureRef":
+                    "type":
+                      - "string"
+                      - "null"
+                  "id":
+                    "type": "string"
+                  "title":
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "title"
+                  - "body"
+                  - "figureRef"
+                "type": "object"
+              "type": "array"
+            "gating":
+              "additionalProperties": false
+              "properties":
+                "itemCount":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "mode":
+                  "enum":
+                    - "none"
+                    - "exit"
+                    - "prereq"
+                  "type": "string"
+                "passCount":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+              "required":
+                - "mode"
+                - "itemCount"
+                - "passCount"
+              "type": "object"
+            "items":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "answer":
+                    "anyOf":
+                      - "maximum": 9007199254740991
+                        "minimum": 0
+                        "type": "integer"
+                      - "minLength": 1
+                        "type": "string"
+                  "explainCorrect":
+                    "minLength": 1
+                    "type": "string"
+                  "explainWrong":
+                    "minLength": 1
+                    "type": "string"
+                  "hintLadder":
+                    "items":
+                      "type": "string"
+                    "maxItems": 4
+                    "type": "array"
+                  "id":
+                    "minLength": 1
+                    "type": "string"
+                  "kind":
+                    "enum":
+                      - "fact"
+                      - "concept"
+                      - "comprehensive"
+                    "type": "string"
+                  "misconceptionTags":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "options":
+                    "items":
+                      "type": "string"
+                    "maxItems": 6
+                    "type": "array"
+                  "pool":
+                    "enum":
+                      - "core"
+                      - "practice"
+                    "type": "string"
+                  "sourceRef":
+                    "type":
+                      - "string"
+                      - "null"
+                  "stem":
+                    "minLength": 1
+                    "type": "string"
+                  "variantGroup":
+                    "minLength": 1
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "kind"
+                  - "stem"
+                  - "options"
+                  - "answer"
+                  - "variantGroup"
+                  - "explainCorrect"
+                  - "explainWrong"
+                  - "misconceptionTags"
+                  - "sourceRef"
+                  - "pool"
+                  - "hintLadder"
+                "type": "object"
+              "type": "array"
+            "meta":
+              "additionalProperties": false
+              "properties":
+                "author":
+                  "enum":
+                    - "system"
+                    - "teacher"
+                    - "self"
+                    - "ai"
+                  "type": "string"
+                "estimatedMinutes":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "id":
+                  "minLength": 1
+                  "type": "string"
+                "isEntry":
+                  "default": false
+                  "type": "boolean"
+                "microKpId":
+                  "minLength": 1
+                  "type": "string"
+                "nextLevelId":
+                  "anyOf":
+                    - "minLength": 1
+                      "type": "string"
+                    - "type": "null"
+                  "default": null
+                "tier":
+                  "default": "P1"
+                  "enum":
+                    - "P1"
+                    - "P2"
+                    - "P3"
+                  "type": "string"
+                "title":
+                  "minLength": 1
+                  "type": "string"
+                "type":
+                  "enum":
+                    - "teaching"
+                    - "quiz"
+                  "type": "string"
+              "required":
+                - "id"
+                - "microKpId"
+                - "title"
+                - "type"
+                - "tier"
+                - "estimatedMinutes"
+                - "author"
+                - "isEntry"
+                - "nextLevelId"
+              "type": "object"
+            "schemaVersion":
+              "const": 1
+              "type": "number"
+            "sources":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "locator":
+                    "type":
+                      - "string"
+                      - "null"
+                  "ref":
+                    "type": "string"
+                "required":
+                  - "ref"
+                  - "locator"
+                "type": "object"
+              "type": "array"
+            "steps":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "cardIds":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "id":
+                    "type": "string"
+                  "itemIds":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "kind":
+                    "enum":
+                      - "guide"
+                      - "detail"
+                      - "probe"
+                      - "deepen"
+                      - "reteach"
+                      - "quiz"
+                      - "summary"
+                    "type": "string"
+                  "requiredCorrect":
+                    "default": 0
+                    "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                  "title":
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "kind"
+                  - "title"
+                  - "cardIds"
+                  - "itemIds"
+                  - "requiredCorrect"
+                "type": "object"
+              "type": "array"
+          "required":
+            - "schemaVersion"
+            - "meta"
+            - "sources"
+            - "cards"
+            - "steps"
+            - "items"
+            - "gating"
+          "type": "object"
+      "required":
+        - "format"
+        - "exportedAt"
+        - "source"
+        - "spec"
+        - "items"
+      "type": "object"
+    "LevelImportResponse":
+      "additionalProperties": false
+      "properties":
+        "created":
+          "type": "boolean"
+        "itemCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "levelId":
+          "type": "string"
+        "shareHash":
+          "type": "string"
+      "required":
+        - "levelId"
+        - "created"
+        - "shareHash"
+        - "itemCount"
+      "type": "object"
+    "LevelItem":
+      "additionalProperties": false
+      "properties":
+        "answer":
+          "anyOf":
+            - "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            - "minLength": 1
+              "type": "string"
+        "explainCorrect":
+          "minLength": 1
+          "type": "string"
+        "explainWrong":
+          "minLength": 1
+          "type": "string"
+        "hintLadder":
+          "items":
+            "type": "string"
+          "maxItems": 4
+          "type": "array"
+        "id":
+          "minLength": 1
+          "type": "string"
+        "kind":
+          "enum":
+            - "fact"
+            - "concept"
+            - "comprehensive"
+          "type": "string"
+        "misconceptionTags":
+          "items":
+            "type": "string"
+          "type": "array"
+        "options":
+          "items":
+            "type": "string"
+          "maxItems": 6
+          "type": "array"
+        "pool":
+          "enum":
+            - "core"
+            - "practice"
+          "type": "string"
+        "sourceRef":
+          "type":
+            - "string"
+            - "null"
+        "stem":
+          "minLength": 1
+          "type": "string"
+        "variantGroup":
+          "minLength": 1
+          "type": "string"
+      "required":
+        - "id"
+        - "kind"
+        - "stem"
+        - "options"
+        - "answer"
+        - "variantGroup"
+        - "explainCorrect"
+        - "explainWrong"
+        - "misconceptionTags"
+        - "sourceRef"
+        - "pool"
+        - "hintLadder"
+      "type": "object"
     "LevelSpec":
       "additionalProperties": false
       "properties":
@@ -2325,6 +2750,584 @@
         - "title"
         - "itemCount"
         - "kind"
+      "type": "object"
+    "LevelTemplate":
+      "additionalProperties": false
+      "properties":
+        "gating":
+          "additionalProperties": false
+          "properties":
+            "itemCount":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+            "mode":
+              "enum":
+                - "none"
+                - "exit"
+                - "prereq"
+              "type": "string"
+            "passCount":
+              "maximum": 9007199254740991
+              "minimum": 1
+              "type": "integer"
+          "required":
+            - "mode"
+            - "itemCount"
+            - "passCount"
+          "type": "object"
+        "name":
+          "minLength": 1
+          "type": "string"
+        "segments":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "cardCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "itemCount":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "kind":
+                "enum":
+                  - "guide"
+                  - "detail"
+                  - "probe"
+                  - "deepen"
+                  - "reteach"
+                  - "quiz"
+                  - "summary"
+                "type": "string"
+              "purpose":
+                "minLength": 1
+                "type": "string"
+              "requiredCorrect":
+                "default": 0
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "tiers":
+                "items":
+                  "enum":
+                    - "P1"
+                    - "P2"
+                    - "P3"
+                  "type": "string"
+                "minItems": 1
+                "type": "array"
+              "title":
+                "minLength": 1
+                "type": "string"
+            "required":
+              - "kind"
+              - "title"
+              - "cardCount"
+              - "itemCount"
+              - "requiredCorrect"
+              - "tiers"
+              - "purpose"
+            "type": "object"
+          "minItems": 1
+          "type": "array"
+        "slots":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "index":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "key":
+                "minLength": 1
+                "type": "string"
+              "kind":
+                "enum":
+                  - "card"
+                  - "item"
+                "type": "string"
+              "label":
+                "minLength": 1
+                "type": "string"
+              "required":
+                "type": "boolean"
+              "segmentKind":
+                "enum":
+                  - "guide"
+                  - "detail"
+                  - "probe"
+                  - "deepen"
+                  - "reteach"
+                  - "quiz"
+                  - "summary"
+                "type": "string"
+            "required":
+              - "key"
+              - "kind"
+              - "segmentKind"
+              - "index"
+              - "label"
+              - "required"
+            "type": "object"
+          "minItems": 1
+          "type": "array"
+        "summary":
+          "minLength": 1
+          "type": "string"
+        "templateId":
+          "minLength": 1
+          "type": "string"
+        "type":
+          "enum":
+            - "teaching"
+            - "quiz"
+          "type": "string"
+        "version":
+          "maximum": 9007199254740991
+          "minimum": 1
+          "type": "integer"
+      "required":
+        - "templateId"
+        - "version"
+        - "name"
+        - "summary"
+        - "type"
+        - "segments"
+        - "slots"
+        - "gating"
+      "type": "object"
+    "LevelTemplateListResponse":
+      "additionalProperties": false
+      "properties":
+        "templates":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "gating":
+                "additionalProperties": false
+                "properties":
+                  "itemCount":
+                    "maximum": 9007199254740991
+                    "minimum": 1
+                    "type": "integer"
+                  "mode":
+                    "enum":
+                      - "none"
+                      - "exit"
+                      - "prereq"
+                    "type": "string"
+                  "passCount":
+                    "maximum": 9007199254740991
+                    "minimum": 1
+                    "type": "integer"
+                "required":
+                  - "mode"
+                  - "itemCount"
+                  - "passCount"
+                "type": "object"
+              "name":
+                "minLength": 1
+                "type": "string"
+              "segments":
+                "items":
+                  "additionalProperties": false
+                  "properties":
+                    "cardCount":
+                      "maximum": 9007199254740991
+                      "minimum": 0
+                      "type": "integer"
+                    "itemCount":
+                      "maximum": 9007199254740991
+                      "minimum": 0
+                      "type": "integer"
+                    "kind":
+                      "enum":
+                        - "guide"
+                        - "detail"
+                        - "probe"
+                        - "deepen"
+                        - "reteach"
+                        - "quiz"
+                        - "summary"
+                      "type": "string"
+                    "purpose":
+                      "minLength": 1
+                      "type": "string"
+                    "requiredCorrect":
+                      "default": 0
+                      "maximum": 9007199254740991
+                      "minimum": 0
+                      "type": "integer"
+                    "tiers":
+                      "items":
+                        "enum":
+                          - "P1"
+                          - "P2"
+                          - "P3"
+                        "type": "string"
+                      "minItems": 1
+                      "type": "array"
+                    "title":
+                      "minLength": 1
+                      "type": "string"
+                  "required":
+                    - "kind"
+                    - "title"
+                    - "cardCount"
+                    - "itemCount"
+                    - "requiredCorrect"
+                    - "tiers"
+                    - "purpose"
+                  "type": "object"
+                "minItems": 1
+                "type": "array"
+              "slots":
+                "items":
+                  "additionalProperties": false
+                  "properties":
+                    "index":
+                      "maximum": 9007199254740991
+                      "minimum": 0
+                      "type": "integer"
+                    "key":
+                      "minLength": 1
+                      "type": "string"
+                    "kind":
+                      "enum":
+                        - "card"
+                        - "item"
+                      "type": "string"
+                    "label":
+                      "minLength": 1
+                      "type": "string"
+                    "required":
+                      "type": "boolean"
+                    "segmentKind":
+                      "enum":
+                        - "guide"
+                        - "detail"
+                        - "probe"
+                        - "deepen"
+                        - "reteach"
+                        - "quiz"
+                        - "summary"
+                      "type": "string"
+                  "required":
+                    - "key"
+                    - "kind"
+                    - "segmentKind"
+                    - "index"
+                    - "label"
+                    - "required"
+                  "type": "object"
+                "minItems": 1
+                "type": "array"
+              "summary":
+                "minLength": 1
+                "type": "string"
+              "templateId":
+                "minLength": 1
+                "type": "string"
+              "type":
+                "enum":
+                  - "teaching"
+                  - "quiz"
+                "type": "string"
+              "version":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+            "required":
+              - "templateId"
+              - "version"
+              - "name"
+              - "summary"
+              - "type"
+              - "segments"
+              - "slots"
+              - "gating"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "templates"
+      "type": "object"
+    "LevelTemplatePreviewRequest":
+      "additionalProperties": false
+      "properties":
+        "microKpId":
+          "minLength": 1
+          "type": "string"
+        "microKpName":
+          "minLength": 1
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "microKpId"
+      "type": "object"
+    "LevelTemplatePreviewResponse":
+      "additionalProperties": false
+      "properties":
+        "persisted":
+          "const": false
+          "type": "boolean"
+        "spec":
+          "additionalProperties": false
+          "properties":
+            "cards":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "body":
+                    "type": "string"
+                  "figureRef":
+                    "type":
+                      - "string"
+                      - "null"
+                  "id":
+                    "type": "string"
+                  "title":
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "title"
+                  - "body"
+                  - "figureRef"
+                "type": "object"
+              "type": "array"
+            "gating":
+              "additionalProperties": false
+              "properties":
+                "itemCount":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "mode":
+                  "enum":
+                    - "none"
+                    - "exit"
+                    - "prereq"
+                  "type": "string"
+                "passCount":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+              "required":
+                - "mode"
+                - "itemCount"
+                - "passCount"
+              "type": "object"
+            "items":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "answer":
+                    "anyOf":
+                      - "maximum": 9007199254740991
+                        "minimum": 0
+                        "type": "integer"
+                      - "minLength": 1
+                        "type": "string"
+                  "explainCorrect":
+                    "minLength": 1
+                    "type": "string"
+                  "explainWrong":
+                    "minLength": 1
+                    "type": "string"
+                  "hintLadder":
+                    "items":
+                      "type": "string"
+                    "maxItems": 4
+                    "type": "array"
+                  "id":
+                    "minLength": 1
+                    "type": "string"
+                  "kind":
+                    "enum":
+                      - "fact"
+                      - "concept"
+                      - "comprehensive"
+                    "type": "string"
+                  "misconceptionTags":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "options":
+                    "items":
+                      "type": "string"
+                    "maxItems": 6
+                    "type": "array"
+                  "pool":
+                    "enum":
+                      - "core"
+                      - "practice"
+                    "type": "string"
+                  "sourceRef":
+                    "type":
+                      - "string"
+                      - "null"
+                  "stem":
+                    "minLength": 1
+                    "type": "string"
+                  "variantGroup":
+                    "minLength": 1
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "kind"
+                  - "stem"
+                  - "options"
+                  - "answer"
+                  - "variantGroup"
+                  - "explainCorrect"
+                  - "explainWrong"
+                  - "misconceptionTags"
+                  - "sourceRef"
+                  - "pool"
+                  - "hintLadder"
+                "type": "object"
+              "type": "array"
+            "meta":
+              "additionalProperties": false
+              "properties":
+                "author":
+                  "enum":
+                    - "system"
+                    - "teacher"
+                    - "self"
+                    - "ai"
+                  "type": "string"
+                "estimatedMinutes":
+                  "maximum": 9007199254740991
+                  "minimum": 1
+                  "type": "integer"
+                "id":
+                  "minLength": 1
+                  "type": "string"
+                "isEntry":
+                  "default": false
+                  "type": "boolean"
+                "microKpId":
+                  "minLength": 1
+                  "type": "string"
+                "nextLevelId":
+                  "anyOf":
+                    - "minLength": 1
+                      "type": "string"
+                    - "type": "null"
+                  "default": null
+                "tier":
+                  "default": "P1"
+                  "enum":
+                    - "P1"
+                    - "P2"
+                    - "P3"
+                  "type": "string"
+                "title":
+                  "minLength": 1
+                  "type": "string"
+                "type":
+                  "enum":
+                    - "teaching"
+                    - "quiz"
+                  "type": "string"
+              "required":
+                - "id"
+                - "microKpId"
+                - "title"
+                - "type"
+                - "tier"
+                - "estimatedMinutes"
+                - "author"
+                - "isEntry"
+                - "nextLevelId"
+              "type": "object"
+            "schemaVersion":
+              "const": 1
+              "type": "number"
+            "sources":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "locator":
+                    "type":
+                      - "string"
+                      - "null"
+                  "ref":
+                    "type": "string"
+                "required":
+                  - "ref"
+                  - "locator"
+                "type": "object"
+              "type": "array"
+            "steps":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "cardIds":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "id":
+                    "type": "string"
+                  "itemIds":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "kind":
+                    "enum":
+                      - "guide"
+                      - "detail"
+                      - "probe"
+                      - "deepen"
+                      - "reteach"
+                      - "quiz"
+                      - "summary"
+                    "type": "string"
+                  "requiredCorrect":
+                    "default": 0
+                    "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                  "title":
+                    "type": "string"
+                "required":
+                  - "id"
+                  - "kind"
+                  - "title"
+                  - "cardIds"
+                  - "itemIds"
+                  - "requiredCorrect"
+                "type": "object"
+              "type": "array"
+          "required":
+            - "schemaVersion"
+            - "meta"
+            - "sources"
+            - "cards"
+            - "steps"
+            - "items"
+            - "gating"
+          "type": "object"
+        "templateId":
+          "type": "string"
+        "tier":
+          "enum":
+            - "P1"
+            - "P2"
+            - "P3"
+          "type": "string"
+      "required":
+        - "persisted"
+        - "templateId"
+        - "tier"
+        - "spec"
       "type": "object"
     "LevelVideoClipListResponse":
       "additionalProperties": false
@@ -6994,6 +7997,102 @@
                 "$ref": "#/components/schemas/HealthResponse"
           "description": "服务正常"
       "summary": "健康检查"
+  "/api/v1/level-templates":
+    "get":
+      "description": "返回 3 个内置模板（teaching / practice / review）。每个模板带 `segments`（有哪些段、每段几张卡几道题、这一段为什么存在）与 `slots`（从段展开的槽位，前端据此枚举「这一关有哪些坑、哪些是必填」）。\\n\\n`segments[].tiers` 是三档差异的结构表达：同一模板在 P1/P2/P3 下填出来的 `steps` 段数不同（教学模板是 7 / 6 / 5 段），差异发生在骨架上而不是参数上。"
+      "operationId": "listLevelTemplates"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/LevelTemplateListResponse"
+          "description": "模板列表"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "内置关卡模板列表"
+  "/api/v1/level-templates/{templateId}/preview":
+    "post":
+      "description": "按 `microKpId` 与 `tier` 把模板填成一份 `LevelSpec` 草稿。草稿里的讲解卡与题目都是**占位内容**（正文写清「这里该放什么」），作者拿到后替换成真正的讲解。\\n\\n响应里的 `persisted: false` 是字面量：它提醒调用方「你手里的东西还没进库」。草稿本身能通过 `validateLevelSpec`（服务端在返回前跑过一遍），所以可以直接丢进播放器预览。\\n\\n`tier` 缺省 P1；未知值同样回落 P1（与引擎 `tierParams()` 的容错一致）。"
+      "operationId": "previewLevelTemplate"
+      "parameters":
+        - "in": "path"
+          "name": "templateId"
+          "required": true
+          "schema":
+            "type": "string"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/LevelTemplatePreviewRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/LevelTemplatePreviewResponse"
+          "description": "草稿（未持久化）"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "缺少 microKpId"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "模板不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "模板填出的草稿不合法（模板有 bug）"
+      "summary": "用模板填一份关卡草稿（未持久化）"
+  "/api/v1/levels/import":
+    "post":
+      "description": "请求体就是导出的响应体本身（同一个 schema 双向校验，形状不会漂移）。\\n\\n导入会**重编 id**（`level_items.id` 与 `levels.id` 都是全局主键，沿用原 id 会撞车）。重编是确定性的：关卡 id 是 `lv-import-<share_hash 前 12 位>`，其余 id 加 `--<前 8 位>` 后缀。所以同一个文件连导两次落到同一张关卡上，而不是两张内容一样的关卡。\\n\\n响应里的 `created` 区分「新建了一张」与「同一份内容已经在了，返回已有那张」。"
+      "operationId": "importLevel"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/LevelExportFile"
+        "required": true
+      "responses":
+        "201":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/LevelImportResponse"
+          "description": "导入结果"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "文件形状不对（不是 starmap.level/1）"
+        "422":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡内容不合法（details 是字段级路径）"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "从 .level 文件导入一张关卡"
   "/api/v1/levels/{levelId}":
     "get":
       "description": "返回关卡的完整规范。播放器靠它一次性拿到卡片、七段步骤与全部题目：每题的选项、正确答案与**预写反馈**都在里面，作答后不需要再请求后端、也不需要等模型生成解释。
@@ -7033,6 +8132,36 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "关卡详情（含完整 level.spec）"
+  "/api/v1/levels/{levelId}/export":
+    "post":
+      "description": "把一张关卡序列化成 `starmap.level/1` 文件：`format` / `exportedAt` / `source` / `spec` / `items`。\\n\\n`items` 与 `spec.items` 内容相同 —— 刻意的冗余：`spec` 是嵌套结构（题挂在步骤里），外部工具或人工审阅要先读懂嵌套才能列出题目，摊平一份是给「不是 StarMap 的读者」的。导入时会校验两者一致，不一致说明文件被手改坏了，宁可拒绝也不猜。\\n\\n幂等：同一个关卡连按两次导出，除 `exportedAt` 外逐字节相同（序列化按 key 排序）。"
+      "operationId": "exportLevel"
+      "parameters":
+        - "in": "path"
+          "name": "levelId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/LevelExportFile"
+          "description": "导出文件"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "关卡不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "库里存的关卡规范不合法"
+      "summary": "导出一张关卡为 .level 文件"
   "/api/v1/levels/{levelId}/gate":
     "post":
       "description": "读 `attempts` 里本关卡范围内已有的作答，用**二项下界**判定：章末出口 n=8、≥7 对；高入度先修 n=10、≥9 对。题量不足时返回 `verdict=undetermined`，不当作通过也不当作失败。判定结果写入学习日志（可回看每次用了哪几题）；通过时解锁该知识点的下游先修节点，解锁状态落库，刷新不丢。"

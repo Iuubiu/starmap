@@ -457,3 +457,273 @@ function describeZodIssue(issue: z.core.$ZodIssue): string {
   }
   return `字段 ${where} 不合法。`;
 }
+
+// ---------------------------------------------------------------------------
+// 关卡模板（票 66）
+// ---------------------------------------------------------------------------
+
+/**
+ * 模板是**关卡骨架**，不是关卡。
+ *
+ * 区别在于「谁决定内容」：关卡里的卡片正文与题目是内容作者的产物，模板只决定
+ * 「有哪些段、每段几张卡几道题、什么顺序」。所以模板填出来的东西是一份**草稿**
+ * （`meta.author = 'system'`），作者拿到它之后要替换掉占位正文 —— 这正是
+ * 「按学习者状态填充预览」的用途：先看见结构，再往里填内容。
+ *
+ * ## 为什么模板也要走校验器
+ *
+ * 模板自己是一份数据（会被前端枚举、会存进 `levels.template_id`），但它填出来的
+ * 是 `LevelSpec`。如果模板能拼出非法关卡，错误会以「播放器白屏」的形式出现在
+ * 学习者面前，而不是在作者点「预览」的时候。所以 `fillLevelTemplate()` 的产物
+ * 一律再过 `validateLevelSpec()`（调用方负责，见 `LevelsController#preview`）。
+ */
+
+/** 槽位装的是卡还是题。前端据此决定渲染成卡片位还是题目位。 */
+export const LevelTemplateSlotKindSchema = z.enum(['card', 'item']);
+export type LevelTemplateSlotKind = z.infer<typeof LevelTemplateSlotKindSchema>;
+
+/**
+ * 一段：在填出来的关卡里对应一个 `LevelStep`。
+ *
+ * `tiers` 决定这一段**在哪些档位出现** —— 这是三档差异的结构表达。P3 直接出题，
+ * 不需要「进一步讲解」这种为补全式学习准备的段落，于是 `reteach` 的 `tiers`
+ * 里没有 P3，填出来的 `steps` 就少一段。差异发生在**骨架**上，不是给同一份骨架
+ * 换个数字 —— 后者会让人以为三档只是参数不同。
+ */
+export const LevelTemplateSegmentSchema = z.object({
+  kind: LevelStepKindSchema,
+  title: z.string().min(1),
+  /** 这一段要几张卡。0 表示纯题目段 */
+  cardCount: z.number().int().min(0),
+  /** 这一段要几道题。0 表示纯讲解段 */
+  itemCount: z.number().int().min(0),
+  /** 与 `LevelStep.requiredCorrect` 同义；深究段必须为 0（校验器会查） */
+  requiredCorrect: z.number().int().min(0).default(0),
+  /** 这一段在哪些档位出现。三档都在也要显式写出来，缺省值会让「谁漏了」看不出来 */
+  tiers: z.array(z.enum(['P1', 'P2', 'P3'])).min(1),
+  /** 这一段为什么存在。写进模板 JSON，前端可以直接展示给作者看 */
+  purpose: z.string().min(1),
+});
+export type LevelTemplateSegment = z.infer<typeof LevelTemplateSegmentSchema>;
+
+/**
+ * 一个槽位 = 关卡里的一个坑。
+ *
+ * 槽位是**派生**的（由 `expandTemplateSlots()` 从 `segments` 展开），但它必须
+ * 出现在响应里：前端要枚举「这一关有哪些坑、哪些是必填」，而不是自己去数
+ * `cardCount`。派生关系留在代码里，形状留在 JSON 里。
+ */
+export const LevelTemplateSlotSchema = z.object({
+  key: z.string().min(1),
+  kind: LevelTemplateSlotKindSchema,
+  /** 这个槽位属于哪一段 */
+  segmentKind: LevelStepKindSchema,
+  /** 段内序号（0 基） */
+  index: z.number().int().min(0),
+  label: z.string().min(1),
+  /** 必填槽位缺内容时，填出来的关卡会缺段 —— 作者不能跳过 */
+  required: z.boolean(),
+});
+export type LevelTemplateSlot = z.infer<typeof LevelTemplateSlotSchema>;
+
+/**
+ * 模板本体。
+ *
+ * `version` 是**模板自己的**版本号，与导出格式的 `starmap.level/1` 无关：前者随
+ * 骨架变化（加一段、改题量）而升，后者只在整个文件格式不兼容时升。两个数字
+ * 混在一起会让「只是加了一段」变成一次格式迁移。
+ */
+export const LevelTemplateSchema = z.object({
+  templateId: z.string().min(1),
+  version: z.number().int().min(1),
+  name: z.string().min(1),
+  summary: z.string().min(1),
+  /** 填出来的关卡是教学型还是题目型 —— 校验规则按它分派 */
+  type: LevelTypeSchema,
+  segments: z.array(LevelTemplateSegmentSchema).min(1),
+  slots: z.array(LevelTemplateSlotSchema).min(1),
+  /** 门控预设。填出来的关卡用它，作者可以改 */
+  gating: LevelGatingSchema,
+});
+export type LevelTemplate = z.infer<typeof LevelTemplateSchema>;
+
+/**
+ * 从段展开槽位。
+ *
+ * 键的形态是 `<段类型>-<序号>`：段类型在模板里唯一（同一个模板不会有两段
+ * 「判定」），所以这个键既稳定又可读。真要出现同类型两段，键会撞 —— 这一点由
+ * `level-template.test.ts` 守着，而不是在这里悄悄加一层去重后缀（那样前端拿到的
+ * 键会变成 `quiz-1-2` 这种猜不出含义的东西）。
+ */
+export function expandTemplateSlots(
+  segments: readonly LevelTemplateSegment[],
+): LevelTemplateSlot[] {
+  const slots: LevelTemplateSlot[] = [];
+  for (const segment of segments) {
+    for (let index = 0; index < segment.cardCount; index += 1) {
+      slots.push({
+        key: `${segment.kind}-card-${index}`,
+        kind: 'card',
+        segmentKind: segment.kind,
+        index,
+        label: `${segment.title}：第 ${index + 1} 张讲解卡`,
+        // 每段的第一张卡必填：整段没有卡时「展示细节」就没有内容可展示
+        required: index === 0,
+      });
+    }
+    for (let index = 0; index < segment.itemCount; index += 1) {
+      slots.push({
+        key: `${segment.kind}-item-${index}`,
+        kind: 'item',
+        segmentKind: segment.kind,
+        index,
+        label: `${segment.title}：第 ${index + 1} 道题`,
+        required: index === 0,
+      });
+    }
+  }
+  return slots;
+}
+
+/** 填充模板所需的外部输入。`cards`/`items` 给了就用真的，没给就合成占位。 */
+export interface LevelTemplateFillContext {
+  microKpId: string;
+  microKpName: string;
+  /** 缺省 P1。未知值同样回落 P1（与 `tierParams()` 的容错一致） */
+  tier?: string | null;
+  title?: string;
+  cards?: readonly LevelCard[];
+  items?: readonly LevelItem[];
+  sources?: readonly { ref: string; locator: string | null }[];
+}
+
+/** 档位归一：只认 P1/P2/P3，其余回落 P1。 */
+function normalizeTier(tier: string | null | undefined): 'P1' | 'P2' | 'P3' {
+  return tier === 'P2' || tier === 'P3' ? tier : 'P1';
+}
+
+/** 占位讲解卡的正文。**必须 ≥ `TEACHING_CARD_MIN_BODY`**，否则教学关卡校验不过。 */
+function placeholderCardBody(segment: LevelTemplateSegment, kpName: string): string {
+  return (
+    `这里是「${kpName}」在「${segment.title}」这一段要讲的内容（草稿占位）。` +
+    `${segment.purpose}作者需要把这段话替换成真正的讲解：一段完整的推导或一个工程例子，` +
+    '而不是一句结论。讲解卡里可以写公式与图文引用，播放器会按 Markdown 渲染。'
+  );
+}
+
+/** 占位题目的题干。 */
+function placeholderStem(segment: LevelTemplateSegment, kpName: string, index: number): string {
+  return `（草稿占位）关于「${kpName}」的「${segment.title}」第 ${index + 1} 题：下面哪一项最符合本段讲的内容？`;
+}
+
+/**
+ * 用模板 + 学习者状态填出一份 `LevelSpec` 草稿。
+ *
+ * 三条刻意的设计：
+ *
+ * 1. **占位内容是「能跑的」而不是空的**。空题干会让播放器渲染出空白卡片，作者
+ *    看不出结构对不对；占位正文写清楚「这里该放什么」，既通过校验器（正文有下限）
+ *    又提示了下一步动作。
+ * 2. **`meta.author = 'system'`**。模板填出来的不是 AI 产物，不该受「AI 只能进
+ *    练习池」那条约束；同时它也不是 `teacher`，因为还没有人写过。
+ * 3. **深究段的题一律 `pool: 'practice'`、`requiredCorrect: 0`**。这不是可选项：
+ *    「未掌握分支不扣掌握度」的结构表达就在这两处，模板必须天生满足它。
+ */
+export function fillLevelTemplate(
+  template: LevelTemplate,
+  context: LevelTemplateFillContext,
+): LevelSpec {
+  const tier = normalizeTier(context.tier);
+  const kpName = context.microKpName;
+  const specId = `${context.microKpId}--${template.templateId}--${tier}`;
+  const sources = [...(context.sources ?? [])];
+  if (sources.length === 0) {
+    // 判定题必须有 sourceRef（校验器强制），所以草稿也要有一个可追溯的出处占位。
+    sources.push({ ref: `草稿：${kpName}`, locator: null });
+  }
+  const firstSourceRef = sources[0]?.ref ?? null;
+
+  const cards: LevelCard[] = [];
+  const items: LevelItem[] = [];
+  const steps: LevelStep[] = [];
+
+  template.segments
+    .filter((segment) => segment.tiers.includes(tier))
+    .forEach((segment) => {
+      const stepId = `${specId}-s-${segment.kind}`;
+      const stepCardIds: string[] = [];
+      const stepItemIds: string[] = [];
+
+      for (let index = 0; index < segment.cardCount; index += 1) {
+        const real = context.cards?.[cards.length];
+        const cardId = `${stepId}-c${index + 1}`;
+        cards.push(
+          real
+            ? { ...real, id: cardId }
+            : {
+                id: cardId,
+                title: `${segment.title}：${kpName}`,
+                body: placeholderCardBody(segment, kpName),
+                figureRef: null,
+              },
+        );
+        stepCardIds.push(cardId);
+      }
+
+      for (let index = 0; index < segment.itemCount; index += 1) {
+        const real = context.items?.[items.length];
+        const itemId = `${stepId}-q${index + 1}`;
+        const pool: LevelItemPool = segment.kind === 'deepen' ? 'practice' : 'core';
+        items.push(
+          real
+            ? { ...real, id: itemId, pool }
+            : {
+                id: itemId,
+                kind: 'concept',
+                stem: placeholderStem(segment, kpName, index),
+                options: ['（占位）正确选项', '（占位）干扰项 A', '（占位）干扰项 B', '（占位）干扰项 C'],
+                answer: 0,
+                variantGroup: `${specId}-${segment.kind}-vg${index + 1}`,
+                explainCorrect: `答对了。这一段讲的是「${segment.title}」；真正的解析要由作者写清「为什么是它」。`,
+                explainWrong: `没答对。回到「${segment.title}」那张讲解卡，先找出题干问的是哪一步，再看选项。`,
+                misconceptionTags: [],
+                sourceRef: firstSourceRef,
+                pool,
+                hintLadder: [],
+              },
+        );
+        stepItemIds.push(itemId);
+      }
+
+      steps.push({
+        id: stepId,
+        kind: segment.kind,
+        title: segment.title,
+        cardIds: stepCardIds,
+        itemIds: stepItemIds,
+        requiredCorrect: segment.requiredCorrect,
+      });
+    });
+
+  const minutes = Math.max(1, Math.round(cards.length * 2 + items.length * 1.5));
+
+  return {
+    schemaVersion: 1,
+    meta: {
+      id: specId,
+      microKpId: context.microKpId,
+      title: context.title ?? `${kpName}（${template.name}）`,
+      type: template.type,
+      tier,
+      estimatedMinutes: minutes,
+      author: 'system',
+      isEntry: false,
+      nextLevelId: null,
+    },
+    sources,
+    cards,
+    steps,
+    items,
+    gating: { ...template.gating },
+  };
+}

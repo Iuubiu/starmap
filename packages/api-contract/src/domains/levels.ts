@@ -9,7 +9,13 @@
  * 里出现的那一层摘要。
  */
 import { z } from 'zod';
-import { LevelSpecSchema } from '@starmap/shared';
+import {
+  LevelItemSchema,
+  LevelSpecSchema,
+  // 别名：本文件下面也要导出一个叫 `LevelTemplateSchema` 的组件名（OpenAPI 的
+  // component 名由它决定），两者同名会让「导入的」被「导出的」覆盖。
+  LevelTemplateSchema as LevelTemplateSourceSchema,
+} from '@starmap/shared';
 
 export const LevelSummarySchema = z.object({
   levelId: z.string(),
@@ -484,3 +490,120 @@ export type ReviewRoundStartResponse = z.infer<typeof ReviewRoundStartResponseSc
 export type ReviewOutcome = z.infer<typeof ReviewOutcomeSchema>;
 export type ReviewCompleteResponse = z.infer<typeof ReviewCompleteResponseSchema>;
 export type ReviewRoundDetailResponse = z.infer<typeof ReviewRoundDetailResponseSchema>;
+
+// ---------------------------------------------------------------------------
+// 票 66：关卡模板与导入导出
+// ---------------------------------------------------------------------------
+
+/**
+ * 模板的形状直接引用 `@starmap/shared`。
+ *
+ * 与 `LevelSpec` 同理：模板的真源在 shared（`fillLevelTemplate()` 要在纯函数
+ * 环境里跑，还要被校验器约束），契约层只负责把**同一个**形状暴露给前端。
+ * 抄一份的后果是「后端填模板用一套规则、前端画槽位用另一套」。
+ */
+export const LevelTemplateSchema = LevelTemplateSourceSchema;
+export type LevelTemplateView = z.infer<typeof LevelTemplateSchema>;
+
+/**
+ * 模板列表。
+ *
+ * 用对象包一层 `templates` 而不是裸数组：裸数组的响应没有地方加「以后可能要
+ * 有的分页/版本信息」，而改成对象是一次破坏性变更。这条经验来自 `review/queue`
+ * ——它当初也是裸数组，后来只能靠加字段绕过。
+ */
+export const LevelTemplateListResponseSchema = z.object({
+  templates: z.array(LevelTemplateSchema),
+});
+
+export type LevelTemplateListResponse = z.infer<typeof LevelTemplateListResponseSchema>;
+
+/**
+ * 预览请求：模板 × 学习者状态 → 草稿。
+ *
+ * `tier` 可省（缺省 P1），但**显式传**是本接口的主要用途：同一模板在三档下
+ * 填出的 `steps` 段数不同（P1 七段 / P2 六段 / P3 五段），前端要能对比。
+ * `microKpId` 必填：草稿的 `meta.microKpId` 与所有 id 都从它派生。
+ */
+export const LevelTemplatePreviewRequestSchema = z.object({
+  microKpId: z.string().min(1),
+  tier: z.enum(['P1', 'P2', 'P3']).optional(),
+  /** 知识点名。给了就用它写进占位正文，没给由服务端查库 */
+  microKpName: z.string().min(1).optional(),
+});
+
+export type LevelTemplatePreviewRequest = z.infer<typeof LevelTemplatePreviewRequestSchema>;
+
+/**
+ * 预览响应：一份**未持久化**的 `LevelSpec` 草稿。
+ *
+ * `persisted: false` 是字面量而不是 boolean：这个字段的作用是提醒调用方
+ * 「你手里的东西还没进库」，写成可变的 boolean 会让人以为预览也能返回已存关卡。
+ * 草稿本身能被 `validateLevelSpec` 通过（服务端在返回前跑过一遍），所以前端
+ * 可以直接丢进播放器预览。
+ */
+export const LevelTemplatePreviewResponseSchema = z.object({
+  persisted: z.literal(false),
+  templateId: z.string(),
+  tier: z.enum(['P1', 'P2', 'P3']),
+  spec: LevelSpecSchema,
+});
+
+export type LevelTemplatePreviewResponse = z.infer<typeof LevelTemplatePreviewResponseSchema>;
+
+/** 导出文件里的内容出处。`page` 认不出来就是 null —— 猜一个页码比没有更糟。 */
+export const LevelExportSourceSchema = z.object({
+  title: z.string(),
+  page: z.number().int().min(0).nullable(),
+});
+
+export type LevelExportSource = z.infer<typeof LevelExportSourceSchema>;
+
+/**
+ * 导出文件（`starmap.level/1`）。
+ *
+ * `items` 与 `spec.items` 内容相同 —— 刻意的冗余，理由见
+ * `apps/api/src/levels/levels.export.ts` 的文件头：嵌套结构对「不是 StarMap 的
+ * 读者」不友好，摊平一份让文件能被人直接读懂。导入时校验两者一致，不一致说明
+ * 文件被手改坏了，宁可拒绝也不猜。
+ */
+export const LevelExportFileSchema = z.object({
+  format: z.literal('starmap.level/1'),
+  exportedAt: z.string(),
+  source: LevelExportSourceSchema,
+  spec: LevelSpecSchema,
+  items: z.array(LevelItemSchema),
+});
+
+export type LevelExportFileView = z.infer<typeof LevelExportFileSchema>;
+
+/**
+ * 导入请求 = 导出响应体本身。
+ *
+ * 直接复用 `LevelExportFileSchema` 而不是另立一个「导入格式」：两个形状一旦分开，
+ * 「导出能过、导入不能过」就会成为一个只在用户手里发生的 bug。round-trip
+ * 测试用同一份 schema 双向校验，形状漂移会立刻红。
+ *
+ * `format` 用 `z.literal` 锁死版本：未来格式不兼容时升到 `starmap.level/2`，
+ * 老文件会被 422 拒绝并说清楚「这个版本我不认识」，而不是被半懂地读进来。
+ */
+export const LevelImportRequestSchema = LevelExportFileSchema;
+
+export type LevelImportRequest = z.infer<typeof LevelImportRequestSchema>;
+
+/**
+ * 导入结果。
+ *
+ * `created` 区分「新建了一张」与「同一份内容已经在了，返回已有的那张」——
+ * 前者是用户期待的，后者是幂等去重的结果，两者的提示语不同。`levelId` 两种
+ * 情况都给出，前端可以直接跳过去。
+ */
+export const LevelImportResponseSchema = z.object({
+  levelId: z.string(),
+  created: z.boolean(),
+  /** 内容指纹（sha256 前 12 位），同一份内容连导两次相同 */
+  shareHash: z.string(),
+  itemCount: z.number().int().min(0),
+});
+
+export type LevelImportResponse = z.infer<typeof LevelImportResponseSchema>;
