@@ -1012,6 +1012,19 @@ export class TurnService {
     const clarify: AgentClarify = {
       question: ASK_THE_WAY_QUESTION,
       options: [...ASK_THE_WAY_OPTIONS],
+      /* 票 84：同一张卡上再要一次**熟练度自评**。
+         为什么不是再问一轮 —— 目标与自评是同一件事的两半：
+         「为了考试」配「完全没学过」与配「很熟」会导向完全不同的首轮渲染
+         （P1 完整样例 vs P3 直接出题）。拆成两轮要学生多等一次往返，
+         而这两个答案本可以在一屏里同时给出。
+         四个档位的措辞刻意用「学生的说法」而不是 P1/P2/P3 这类内部代号：
+         学生不知道自己的档位，只能报「我大概是什么水平」。 */
+      selfLevelOptions: [
+        '完全没学过',
+        '见过但不会用',
+        '会做但慢',
+        '很熟',
+      ],
       why: ASK_THE_WAY_WHY,
     };
     const languageCheck: AgentLanguageCheck = (() => {

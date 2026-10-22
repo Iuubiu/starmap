@@ -496,6 +496,13 @@
             "question":
               "minLength": 1
               "type": "string"
+            "selfLevelOptions":
+              "items":
+                "minLength": 1
+                "type": "string"
+              "maxItems": 4
+              "minItems": 2
+              "type": "array"
             "why":
               "minLength": 1
               "type": "string"

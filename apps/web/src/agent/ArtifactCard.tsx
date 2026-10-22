@@ -35,6 +35,7 @@ import {
   tokens,
 } from '@fluentui/react-components';
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import type {
   AgentTurnResponseArtifact,
   AgentTurnResponseClarify,
@@ -382,6 +383,108 @@ function ProgressChangeCard({
  * 这里不渲染作答控件 —— 作答走 `ProbePanel`（它要发 `POST /agent/probes/:id/replies`
  * 并拿回下一轮状态）。这张卡负责说清「问你什么、这是第几级提示、上限几级」。
  */
+/**
+ * 问津卡的两组选项：**为什么学** + **自评熟练度**（票 84）。
+ *
+ * 为什么不各自立刻回调：两组答案要一起才成立。「为了考试」配上「完全没学过」
+ * 与配上「很熟」会导向完全不同的首轮渲染（P1 完整样例 vs P3 直接出题），
+ * 只拿到一半就发请求，等于让服务端猜另一半。
+ *
+ * 所以这里先在客户端选中，两组都选完才合成**一句可编辑的话**交回页面：
+ * 学生仍能在输入框里改措辞再发，而不是被卡片替他把话说死。
+ */
+function ClarifyChoices({
+  clarify,
+  artifact,
+  busy,
+  onDone,
+}: {
+  clarify: AgentTurnResponseClarify;
+  artifact: Extract<AgentTurnResponseArtifact, { kind: 'probe_form' }>;
+  busy: boolean;
+  onDone: (text: string) => void;
+}) {
+  const styles = useStyles();
+  const [goal, setGoal] = useState<string | null>(null);
+  const [level, setLevel] = useState<string | null>(null);
+  const levels = clarify.selfLevelOptions ?? [];
+
+  /* 没有自评组时退回 t79 的行为：点一下就提交，不多一步「继续」。 */
+  if (levels.length === 0) {
+    return (
+      <div className={styles.choiceList} role="group" aria-label="问津选项">
+        {artifact.choices.map((choice, index) => (
+          <button
+            key={index}
+            type="button"
+            className={styles.choiceButton}
+            aria-label={`选择：${choice}`}
+            disabled={busy}
+            onClick={() => onDone(choice)}
+          >
+            <span className={styles.choiceLetter} aria-hidden="true">
+              {`${String.fromCharCode(65 + index)}.`}
+            </span>
+            <span>{choice}</span>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  const ready = goal !== null && level !== null;
+
+  const group = (
+    label: string,
+    choices: string[],
+    picked: string | null,
+    pick: (v: string) => void,
+    groupLabel: string,
+  ) => (
+    <div className={styles.choiceList} role="group" aria-label={groupLabel}>
+      <Caption1>{label}</Caption1>
+      {choices.map((choice, index) => (
+        <button
+          key={index}
+          type="button"
+          className={styles.choiceButton}
+          aria-pressed={picked === choice}
+          aria-label={`${groupLabel}：${choice}`}
+          disabled={busy}
+          onClick={() => pick(choice)}
+        >
+          <span className={styles.choiceLetter} aria-hidden="true">
+            {picked === choice ? '✓' : String.fromCharCode(65 + index) + '.'}
+          </span>
+          <span>{choice}</span>
+        </button>
+      ))}
+    </div>
+  );
+
+  return (
+    <>
+      {group('你想拿它来做什么', artifact.choices, goal, setGoal, '学习目标')}
+      {group('这件事你现在的水平', levels, level, setLevel, '熟练度自评')}
+      <button
+        type="button"
+        className={styles.choiceButton}
+        disabled={busy || !ready}
+        onClick={() => {
+          if (goal === null || level === null) return;
+          /* 合成一句人话交回页面填进输入框 —— 学生可改再发。 */
+          onDone(`我${goal}，自评「${level}」。`);
+        }}
+      >
+        <span className={styles.choiceLetter} aria-hidden="true">
+          →
+        </span>
+        <span>{ready ? '就这样开始' : '先选完上面两组'}</span>
+      </button>
+    </>
+  );
+}
+
 function ProbeFormCard({
   artifact,
   clarify,
@@ -427,25 +530,12 @@ function ProbeFormCard({
       )}
       {artifact.choices.length > 0 &&
         (clarify && onClarifyChoice ? (
-          <div className={styles.choiceList} role="group" aria-label="问津选项">
-            {artifact.choices.map((choice, index) => (
-              <button
-                key={index}
-                type="button"
-                className={styles.choiceButton}
-                /* aria-label 里放选项原文，方便读屏与探针按名字点；
-                   可见文字仍带 A/B/C/D 前缀，与下方的追问卡一致。 */
-                aria-label={`选择：${choice}`}
-                disabled={clarifyChoiceBusy}
-                onClick={() => onClarifyChoice(choice)}
-              >
-                <span className={styles.choiceLetter} aria-hidden="true">
-                  {`${String.fromCharCode(65 + index)}.`}
-                </span>
-                <span>{choice}</span>
-              </button>
-            ))}
-          </div>
+          <ClarifyChoices
+            clarify={clarify}
+            artifact={artifact}
+            busy={clarifyChoiceBusy}
+            onDone={onClarifyChoice}
+          />
         ) : (
           <div className={styles.neighborList}>
             {artifact.choices.map((choice, index) => (

@@ -15,6 +15,12 @@ export type AgentTurnResponseClarify = {
   options: string[];
   /** @minLength 1 */
   question: string;
+  /**
+     * @minItems 2
+     * @maxItems 4
+     * @items.minLength 1
+     */
+  selfLevelOptions?: string[];
   /** @minLength 1 */
   why: string;
 };

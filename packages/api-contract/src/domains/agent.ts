@@ -197,6 +197,18 @@ export const AgentClarifySchema = z.object({
   question: z.string().min(1),
   /** 2–4 个可点选项；自由作答仍走输入框 */
   options: z.array(z.string().min(1)).min(2).max(4),
+  /**
+   * 第二组选项：**熟练度自评**（票 84）。
+   *
+   * 为什么放在同一张卡上而不是再问一轮：目标与自评是同一件事的两半——
+   * 「为了考试」配上「完全没学过」和配上「很熟」会导向完全不同的首轮渲染
+   * （P1 完整样例 vs P3 直接出题）。拆成两轮要学生多等一次模型往返，
+   * 而这两个答案本可以在一屏里同时给出。
+   *
+   * 为空/缺省表示这张卡只问意图，不要求自评（保持 t79 的行为不变）。
+   */
+  selfLevelOptions: z.array(z.string().min(1)).min(2).max(4).optional(),
+
   /** 一句「为什么问这个」——学生要知道这问题有什么用 */
   why: z.string().min(1),
 });

@@ -605,6 +605,98 @@ for (const theme of ['dark', 'light'] as const) {
 }
 
 // ---------------------------------------------------------------------------
+// 用例 7：票面第 11 条点名的八张图
+// ---------------------------------------------------------------------------
+
+/**
+ * 上面那些用例的截图是按「第 N 段 · 段名」命名的（`theme-level-1-引导-dark.png`），
+ * 便于按段落顺序复核；但票面第 11 条点名要的是**按语义命名**的八张：
+ *
+ *     .scratch/qa/shots/leveltheme-<dark|light>-<question|feedback-right|feedback-wrong|summary>.png
+ *
+ * 两者不是重复：段名命名回答「七段各长什么样」，语义命名回答「同一屏在两套
+ * 主题下是否成立」—— 后者才是评审要逐张对照看的那一组（把 dark 与 light
+ * 的同名文件并排放，差异一眼可见）。所以这里单独出图，不做任何断言之外的
+ * 副作用：每张图都发生在**断言已经确认该状态确实渲染出来之后**，不是
+ * 「先截图再碰运气」。
+ */
+for (const theme of ['dark', 'light'] as const) {
+  test(`${theme}：票面点名的四张图`, async ({ page }) => {
+    /** 走到「简单问题」段 —— 这是全页唯一同时有题干、选项、反馈条的位置。 */
+    const toProbe = async (): Promise<void> => {
+      for (let guard = 0; guard < 4; guard += 1) {
+        const seg = await currentSegment(page);
+        if (seg.name === '简单问题') break;
+        await answerSegment(page, 'first');
+        expect(await nextSegment(page), '走不到「简单问题」段').toBe(true);
+      }
+      expect((await currentSegment(page)).name).toBe('简单问题');
+    };
+
+    // ① question：还没作答的干净形态（选项未选中、无反馈条）
+    await openLevel(page, theme, 'P1');
+    await toProbe();
+    await page.screenshot({ path: `${SHOTS}/leveltheme-${theme}-question.png` });
+
+    /**
+     * 反馈条渲染在**选项下方**，1280×800 的首屏里它压在折线以下；更麻烦的是
+     * 关卡页底部有一条 sticky 的「进入下一段」工具条，`scrollIntoViewIfNeeded`
+     * 只保证元素在滚动容器可见区内，**不躲这条覆盖层** —— 第一版出图时两张
+     * 反馈条正好被工具条压掉一半。这里改成 `block: 'center'`：把它放到视口
+     * 正中，远离底部工具条。这张图要证明的是「反馈条本身长什么样」，不是
+     * 「它在第几屏」。
+     */
+    const showFeedback = async (label: '答对' | '没答对'): Promise<void> => {
+      const icon = page.locator(`svg[aria-label="${label}"]`).first();
+      await expect(icon).toBeVisible({ timeout: 10_000 });
+      await icon.evaluate((el) => el.scrollIntoView({ block: 'center', inline: 'nearest' }));
+      await page.waitForTimeout(250);
+    };
+
+    // ② feedback-right：答对后的反馈条
+    await page.getByRole('radio').first().click();
+    await page.locator('button:has-text("提交答案")').first().click();
+    await showFeedback('答对');
+    await page.screenshot({ path: `${SHOTS}/leveltheme-${theme}-feedback-right.png` });
+
+    // ③ feedback-wrong：答错后的反馈条（新开一页，上一题已经锁定，改不了答案）
+    await openLevel(page, theme, 'P1');
+    await toProbe();
+    const radios = page.getByRole('radio');
+    const total = await radios.count();
+    expect(total, '「简单问题」段没有选项题').toBeGreaterThan(1);
+    await radios.nth(total - 1).click();
+    await page.locator('button:has-text("提交答案")').first().click();
+    await showFeedback('没答对');
+    await page.screenshot({ path: `${SHOTS}/leveltheme-${theme}-feedback-wrong.png` });
+
+    // ④ summary：小结面板（证据卡 + 掌握度双字段 + 门控面板都在这一屏）
+    await openLevel(page, theme, 'P1');
+    let reached = false;
+    for (let guard = 0; guard < 10; guard += 1) {
+      try {
+        await currentSegment(page);
+      } catch {
+        // 第 7 段没有段标题：`flow.finished` 时直接渲染结算面板（见用例 1 的注释）
+        reached = true;
+        break;
+      }
+      await answerSegment(page, 'first');
+      if (!(await nextSegment(page))) break;
+    }
+    expect(reached, '没走到小结段').toBe(true);
+    await expect(page.getByText('本关小结').first()).toBeVisible({ timeout: 10_000 });
+    /**
+     * 小结要**从头看**：上面的反馈条滚动位置会残留，第一版出图时标题
+     * 「本关小结」被顶出视口，图里第一行是半截卡片。
+     */
+    await page.getByText('本关小结').first().evaluate((el) => el.scrollIntoView({ block: 'start', inline: 'nearest' }));
+    await page.waitForTimeout(250);
+    await page.screenshot({ path: `${SHOTS}/leveltheme-${theme}-summary.png` });
+  });
+}
+
+// ---------------------------------------------------------------------------
 // 用例 5：字面颜色不回流
 // ---------------------------------------------------------------------------
 

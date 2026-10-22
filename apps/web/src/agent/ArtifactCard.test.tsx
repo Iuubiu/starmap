@@ -113,3 +113,65 @@ describe('问津卡：给了回调时选项是按钮', () => {
     expect(onClarifyChoice).not.toHaveBeenCalled();
   });
 });
+
+/**
+ * 票 84：两张组（目标 + 熟练度自评）必须同时选完才合成一句可编辑的话。
+ *
+ * 关键断言是「选一半不回调」——只拿到目标就发请求，等于让服务端替学生
+ * 猜另一半自评，首轮渲染会赌在错误的档位上。
+ */
+describe('票 84 问津卡的两组选项', () => {
+  const CLARIFY_WITH_LEVELS: AgentTurnResponseClarify = {
+    ...CLARIFY,
+    selfLevelOptions: ['完全没学过', '见过但不会用', '会做但慢', '很熟'],
+  };
+
+  it('两组都渲染，未选完时「就这样开始」不可用', () => {
+    const onClarifyChoice = vi.fn();
+    renderCard({ clarify: CLARIFY_WITH_LEVELS, onClarifyChoice });
+
+    expect(screen.getByRole('group', { name: '学习目标' })).toBeTruthy();
+    expect(screen.getByRole('group', { name: '熟练度自评' })).toBeTruthy();
+    const start = screen.getByRole('button', { name: /先选完上面两组/ }) as HTMLButtonElement;
+    expect(start.disabled).toBe(true);
+  });
+
+  it('只选目标不回调，两组都选完才合成一句话', () => {
+    const onClarifyChoice = vi.fn();
+    renderCard({ clarify: CLARIFY_WITH_LEVELS, onClarifyChoice });
+
+    fireEvent.click(screen.getByRole('button', { name: '学习目标：为了考试' }));
+    expect(onClarifyChoice).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: '熟练度自评：见过但不会用' }));
+    expect(onClarifyChoice).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: /就这样开始/ }));
+    expect(onClarifyChoice).toHaveBeenCalledTimes(1);
+    const sent = onClarifyChoice.mock.calls[0]?.[0] ?? '';
+    // 两个答案都要在句子里，且不带 A./✓ 这类渲染前缀。
+    expect(sent).toContain('为了考试');
+    expect(sent).toContain('见过但不会用');
+    expect(sent).not.toContain('A.');
+    expect(sent).not.toContain('✓');
+  });
+
+  it('选中项 aria-pressed 为真，切换后原项恢复', () => {
+    renderCard({ clarify: CLARIFY_WITH_LEVELS, onClarifyChoice: vi.fn() });
+    const first = screen.getByRole('button', { name: '熟练度自评：完全没学过' });
+    const second = screen.getByRole('button', { name: '熟练度自评：很熟' });
+
+    fireEvent.click(first);
+    expect(first.getAttribute('aria-pressed')).toBe('true');
+    fireEvent.click(second);
+    expect(first.getAttribute('aria-pressed')).toBe('false');
+    expect(second.getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('没有自评组时退回 t79 行为：点一下就提交', () => {
+    const onClarifyChoice = vi.fn();
+    renderCard({ clarify: CLARIFY, onClarifyChoice });
+    fireEvent.click(screen.getByRole('button', { name: '选择：为了补基础' }));
+    expect(onClarifyChoice).toHaveBeenCalledWith('为了补基础');
+  });
+});
