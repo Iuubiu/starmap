@@ -1,0 +1,146 @@
+[
+  {
+    "page": "home",
+    "width": 1280,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 946,
+    "mainWidth": 946
+  },
+  {
+    "page": "learning",
+    "width": 1280,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 946,
+    "mainWidth": 946
+  },
+  {
+    "page": "market",
+    "width": 1280,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 946,
+    "mainWidth": 946
+  },
+  {
+    "page": "map",
+    "width": 1280,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 946,
+    "mainWidth": 946
+  },
+  {
+    "page": "home",
+    "width": 1440,
+    "left": 28,
+    "right": 28,
+    "gap": 0,
+    "contentWidth": 1080,
+    "mainWidth": 1106
+  },
+  {
+    "page": "learning",
+    "width": 1440,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 1106,
+    "mainWidth": 1106
+  },
+  {
+    "page": "market",
+    "width": 1440,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 1106,
+    "mainWidth": 1106
+  },
+  {
+    "page": "map",
+    "width": 1440,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 1106,
+    "mainWidth": 1106
+  },
+  {
+    "page": "home",
+    "width": 1920,
+    "left": 268,
+    "right": 268,
+    "gap": 0,
+    "contentWidth": 1080,
+    "mainWidth": 1586
+  },
+  {
+    "page": "learning",
+    "width": 1920,
+    "left": 208,
+    "right": 208,
+    "gap": 0,
+    "contentWidth": 1200,
+    "mainWidth": 1586
+  },
+  {
+    "page": "market",
+    "width": 1920,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 1586,
+    "mainWidth": 1586
+  },
+  {
+    "page": "map",
+    "width": 1920,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 1586,
+    "mainWidth": 1586
+  },
+  {
+    "page": "home",
+    "width": 2560,
+    "left": 588,
+    "right": 588,
+    "gap": 0,
+    "contentWidth": 1080,
+    "mainWidth": 2226
+  },
+  {
+    "page": "learning",
+    "width": 2560,
+    "left": 531.6,
+    "right": 531.6,
+    "gap": 0,
+    "contentWidth": 1200,
+    "mainWidth": 2226
+  },
+  {
+    "page": "market",
+    "width": 2560,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 2226,
+    "mainWidth": 2226
+  },
+  {
+    "page": "map",
+    "width": 2560,
+    "left": 15,
+    "right": 15,
+    "gap": 0,
+    "contentWidth": 2226,
+    "mainWidth": 2226
+  }
+]

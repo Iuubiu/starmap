@@ -657,31 +657,33 @@
  * 因此失败）。写死 100% 后高度链重新接通；内容更高的页面靠 `main` 的
  * `overflow: auto` 照常滚动（溢出内容仍计入 scrollHeight）。
  */
+/*
+ * 票 83：内容列不再有固定上限。
+ *
+ * 从票 76 的 `1fr minmax(0, 760px) 1fr` 改成**单列铺满**：760px 的上限在
+ * 2560 宽的窗口上会留下两片各 900px 的空白，而不同页面想要的宽度并不一样
+ * —— 学习页是阅读区（1080 就够）、市场要四列、学习记录是 `320px + 1fr`
+ * 的两栏、地图要整幅。把这些宽度写在页面的 `max-width` 里，外壳只负责
+ * 「一列、可拉伸、左右不留偏心」。
+ */
 .sm-page-in {
   height: 100%;
-  /*
-   * 票 76：中间内容区 `1fr min(760px, 100%) 1fr`，页面根元素一律落在第 2 列。
-   * 这样「正文左右间隙相等」不需要任何居中算式：两侧 1fr 天然等宽，滚动条
-   * 的槽位由 `main` 的 `scrollbar-gutter: both-edges` 两侧对称预留。
-   * 行模板写 `minmax(0, 1fr)` 而不是 auto：页面根元素普遍带 `height: 100%`，
-   * 百分比高度必须有确定高度的包含块（否则地图页会撑成内容高度）。
-   */
   display: grid;
-  /*
-   * 票 76：中间内容区 `1fr min(760px, 100%) 1fr`，页面根元素一律落在第 2 列。
-   * 这里写成 `minmax(0, 760px)` 而不是 `min(760px, 100%)`：百分比在网格里要
-   * 先解析包含块宽度，窄屏 + 滚动条槽位下会解析出「比容器还宽 39px」的结果
-   * （实测 /board 在 375px 下 page 宽 304、`#main.clientWidth` 265，横向溢出）。
-   * `minmax(0, 760px)` 的基准是 0、上限是 760：容器宽 265 时就用 265，容器
-   * 宽 1008 时用 760 并把余量平分给两侧 1fr —— 两种宽度都不需要再算一次。
-   */
-  grid-template-columns: 1fr minmax(0, 760px) 1fr;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
   animation: sm-liquid-page-in var(--sm-glass-dur) var(--sm-glass-ease) both;
 }
 
+/*
+ * 地图页的 wide 模式：`AppShell` 按路径写 `data-wide`，这里只清掉阅读列
+ * 需要的约束。页面内部自己是 `minmax(0,1fr) 340px` 的两栏（画布 + 清单），
+ * 所以整幅宽度会全部交给画布那一列。
+ */
+.sm-page-in[data-wide='true'] > * {
+  max-width: 100%;
+}
+
 .sm-page-in > * {
-  grid-column: 2;
   min-width: 0;
   /*
    * `max-width: 100%` 不是冗余：页面根元素自己带 `padding: 32px` 且
@@ -694,14 +696,277 @@
 }
 
 /*
- * 页面根元素自己常带 `margin: 0 auto`（Fluent 原子类，注入顺序在外壳样式
- * 之后）。网格项一旦有 auto 外边距就不再 stretch，宽度退回 fit-content
- * —— min-content 比轨道宽时直接溢出（375px /board 实测 304 vs 265）。
- * 这里用 `:first-child` 提一级特异性压过它：居中已经由两侧 1fr 轨道完成，
- * 页面自己不需要再居中一次。
+ * 票 83：Composer（唯一输入条）。
+ *
+ * 三层由里到外：`.sm-composer-box`（大圆角玻璃框）→ 里面 `.sm-composer-row`
+ * （＋ / 档位 / 模型 / 麦克风 / 圆形发送）→ 框下 `.sm-composer-toolbar`。
+ * 工具条**只在聚焦时可见**，用 `:focus-within` 而不是 JS 状态：焦点是浏览器的
+ * 事实，抄进 React state 就多一份真相，键盘用户按 Tab 进来的那一瞬间会闪。
  */
-.sm-page-in > :first-child {
-  margin-inline: 0;
+.sm-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+}
+
+.sm-composer-context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sm-composer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 12px 8px;
+  border-radius: var(--sm-liquid-r-panel);
+  background-color: var(--sm-glass-fill-strong);
+  box-shadow: var(--sm-liquid-hi), var(--sm-liquid-deposit), var(--sm-liquid-shadow);
+}
+
+.sm-composer-input {
+  width: 100%;
+  min-height: 52px;
+  padding: 4px 6px;
+  border: 0;
+  outline: none;
+  resize: vertical;
+  background: transparent;
+  color: var(--sm-text-primary);
+  font: inherit;
+  font-size: 15px;
+  line-height: 22px;
+  box-sizing: border-box;
+}
+
+.sm-composer-input::placeholder {
+  color: var(--sm-text-tertiary, var(--sm-text-secondary));
+}
+
+.sm-composer-input:disabled {
+  opacity: 0.6;
+}
+
+.sm-composer-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+}
+
+.sm-composer-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--sm-liquid-r-pill);
+  background-color: var(--sm-glass-fill-soft);
+  color: var(--sm-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sm-composer-grow {
+  flex: 1 1 auto;
+}
+
+.sm-composer-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background-color: var(--sm-accent-fill, var(--sm-accent));
+  color: #fff;
+  cursor: pointer;
+  transition: transform var(--sm-glass-dur-fast) var(--sm-glass-ease),
+    opacity var(--sm-glass-dur-fast) var(--sm-glass-ease);
+}
+
+.sm-composer-send:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.sm-composer-send:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sm-composer-send:focus-visible {
+  outline: 2px solid var(--sm-border-focus);
+  outline-offset: 2px;
+}
+
+.sm-composer-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+  opacity: 0;
+  transition: opacity var(--sm-glass-dur-fast) var(--sm-glass-ease);
+}
+
+.sm-composer:focus-within .sm-composer-toolbar {
+  opacity: 1;
+}
+
+.sm-composer-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--sm-liquid-r-pill);
+  background: transparent;
+  color: var(--sm-text-secondary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sm-composer-tool:hover {
+  background-color: var(--sm-glass-fill-soft);
+  color: var(--sm-text-primary);
+}
+
+.sm-composer-tool:focus-visible {
+  outline: 2px solid var(--sm-border-focus);
+  outline-offset: 2px;
+}
+
+.sm-composer-hint {
+  min-height: 18px;
+  padding: 0 8px;
+  color: var(--sm-text-secondary);
+  font-size: 12px;
+}
+
+/*
+ * 学习页右侧栏（票 83）：本知识点进度 + 实时建议。
+ *
+ * 两张卡都用 `.sm-glass`，与外壳其它面板同一种材质；这里只写内部排版。
+ */
+.sm-study-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sm-study-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+}
+
+.sm-study-kp {
+  color: var(--sm-text-secondary);
+}
+
+.sm-study-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sm-study-row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.sm-study-row-label {
+  color: var(--sm-text-secondary);
+}
+
+.sm-study-track {
+  height: 6px;
+  border-radius: var(--sm-liquid-r-pill);
+  background-color: var(--sm-glass-fill-soft);
+  overflow: hidden;
+}
+
+.sm-study-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--sm-accent);
+}
+
+.sm-study-row-value {
+  font-variant-numeric: tabular-nums;
+  color: var(--sm-text-primary);
+}
+
+.sm-study-note {
+  color: var(--sm-text-secondary);
+}
+
+.sm-study-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sm-study-suggestion {
+  padding: 8px 10px;
+  border: 1px solid var(--sm-glass-stroke-a);
+  border-radius: var(--sm-liquid-r-inset);
+  background-color: var(--sm-glass-fill-soft);
+  color: var(--sm-text-primary);
+  font: inherit;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sm-study-suggestion:hover {
+  background-color: var(--sm-glass-fill);
+}
+
+.sm-study-suggestion:focus-visible {
+  outline: 2px solid var(--sm-border-focus);
+  outline-offset: 2px;
+}
+
+/*
+ * 市场页四列（票 83）。卡片本来就按行排，一列时 2560 宽的窗口只显示一条
+ * 卡片带、下面全是空白；四列让「一屏能看到多少个关卡」与窗口宽度成正比。
+ */
+.sm-market-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 1600px) {
+  .sm-market-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1180px) {
+  .sm-market-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .sm-market-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @keyframes sm-liquid-page-in {

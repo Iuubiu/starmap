@@ -253,6 +253,15 @@ export function AppShell() {
   useLowFxProbe();
 
   const selected = selectedNavValue(location.pathname);
+  /*
+   * 票 83：地图页走 wide 模式。
+   *
+   * 「wide」只表示**不进阅读式列**：内容区不再给自己加阅读宽度上限，整幅交给
+   * 页面（地图页内部是 `minmax(0,1fr) 340px`：画布 + 右侧节点清单）。
+   * 这里按路径判断而不是给 `Outlet` 传 context：只有一个页面需要 wide，
+   * 为它引入一层路由上下文会把「外壳不知道页面」这条线弄脏。
+   */
+  const wide = location.pathname === '/map' || location.pathname.startsWith('/map/');
 
   /* 回到宽屏时抽屉没有意义了（那时导航是常驻侧栏），顺手收起状态，
      否则下次缩到窄屏会突然发现抽屉是开着的。 */
@@ -416,7 +425,11 @@ export function AppShell() {
           {status}
           <div className="sm-stage">
             <main className="sm-main" id="main">
-              <div className="sm-page-in" key={location.pathname}>
+              <div
+                className="sm-page-in"
+                key={location.pathname}
+                data-wide={wide ? 'true' : undefined}
+              >
                 <Outlet />
               </div>
             </main>

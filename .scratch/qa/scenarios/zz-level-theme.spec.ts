@@ -429,6 +429,182 @@ for (const theme of ['dark', 'light'] as const) {
 }
 
 // ---------------------------------------------------------------------------
+// 用例 6：选项三态与焦点环（验收 6 / 7）
+// ---------------------------------------------------------------------------
+
+/**
+ * 选项三态必须**靠边界就能分辨**，而且边界对底 ≥3:1。
+ *
+ * ## 为什么要读 `.fui-Radio` 外层而不是 `[data-option-state]` 那个元素
+ *
+ * `data-option-state` 是我们透传的未知 props，Fluent 把它落在**内层
+ * `<input type="radio">`** 上；而 `styles.option` 的边框画在**外层
+ * `.fui-Radio`** 上。第一版探针读 input，得到 `0px none`，误判「样式没生效」。
+ *
+ * ## 为什么禁用态也要量
+ *
+ * `optionLocked` 刻意不用低对比度的禁用色，而是用虚线边框（形状通道）+
+ * `text-secondary`。WCAG 1.4.11 对禁用控件本可豁免，本仓不豁免 —— 交卷后
+ * 「我刚才选了哪个」正是最该看清的信息。
+ */
+for (const theme of ['dark', 'light'] as const) {
+  test(`${theme}：选项三态与焦点环`, async ({ page }) => {
+    await openLevel(page, theme, 'P1');
+    for (let guard = 0; guard < 4; guard += 1) {
+      const seg = await currentSegment(page);
+      if (seg.name === '简单问题') break;
+      await answerSegment(page, 'first');
+      expect(await nextSegment(page), '走不到「简单问题」段').toBe(true);
+    }
+    expect((await currentSegment(page)).name).toBe('简单问题');
+
+    /** 读某个状态下的真实边框/底色/文字色，并在页内算对比度。 */
+    const readState = (state: 'idle' | 'selected') =>
+      page.evaluate((tag) => {
+        const input = document.querySelector(`[data-option-state="${tag}"]`);
+        if (!input) return null;
+        const wrap = input.closest('.fui-Radio');
+        if (!wrap) return { error: 'no .fui-Radio wrapper' };
+        const rgbOf = (value: string) => {
+          const m = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+))?\s*\)/.exec(value);
+          if (!m) return null;
+          return { r: +m[1]!, g: +m[2]!, b: +m[3]!, a: m[4] === undefined ? 1 : +m[4]! };
+        };
+        const over = (fg: { r: number; g: number; b: number; a: number }, bg: { r: number; g: number; b: number }) => ({
+          r: fg.r * fg.a + bg.r * (1 - fg.a),
+          g: fg.g * fg.a + bg.g * (1 - fg.a),
+          b: fg.b * fg.a + bg.b * (1 - fg.a),
+          a: 1,
+        });
+        const lum = (c: { r: number; g: number; b: number }) => {
+          const ch = (v: number) => {
+            const s = v / 255;
+            return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+          };
+          return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b);
+        };
+        const ratio = (a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }) =>
+          (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05);
+        /** 沿 DOM 往上合成，直到遇到不透明底。 */
+        const effectiveBg = (el: Element) => {
+          const stack: { r: number; g: number; b: number; a: number }[] = [];
+          let node: Element | null = el;
+          while (node) {
+            const c = rgbOf(getComputedStyle(node).backgroundColor);
+            if (c && c.a > 0) {
+              stack.push(c);
+              if (c.a >= 1) break;
+            }
+            node = node.parentElement;
+          }
+          let acc = { r: 255, g: 255, b: 255, a: 1 };
+          for (let i = stack.length - 1; i >= 0; i -= 1) acc = { ...over(stack[i]!, acc), a: 1 };
+          return acc;
+        };
+        const cs = getComputedStyle(wrap);
+        const bg = effectiveBg(wrap);
+        const border = over(rgbOf(cs.borderTopColor) ?? { r: 0, g: 0, b: 0, a: 1 }, bg);
+        const text = over(rgbOf(cs.color) ?? { r: 0, g: 0, b: 0, a: 1 }, bg);
+        const round = (n: number) => Math.round(n * 100) / 100;
+        return {
+          state: tag,
+          borderStyle: cs.borderTopStyle,
+          border: `rgb(${Math.round(border.r)}, ${Math.round(border.g)}, ${Math.round(border.b)})`,
+          bg: `rgb(${Math.round(bg.r)}, ${Math.round(bg.g)}, ${Math.round(bg.b)})`,
+          borderVsBg: round(ratio(border, bg)),
+          textVsBg: round(ratio(text, bg)),
+        };
+      }, state);
+
+    const idle = await readState('idle');
+    await page.getByRole('radio').first().click();
+    await page.waitForTimeout(150);
+    const selected = await readState('selected');
+
+    /**
+     * 焦点环：按 Tab 走到第一个 radio。读的是**浏览器 UA 的 outline**
+     * （Fluent 在 wrapper 上 `outline-style: none`，环画在 input 上）。
+     * 深色下 UA 环能翻白，前提是主题设了 `color-scheme: dark` —— 这条断言
+     * 同时守住了那个前提。
+     */
+    await page.locator('h1').first().click();
+    let focused = false;
+    for (let i = 0; i < 80; i += 1) {
+      await page.keyboard.press('Tab');
+      focused = await page.evaluate(() => {
+        const a = document.activeElement as HTMLElement | null;
+        return Boolean(a && a.tagName === 'INPUT' && (a as HTMLInputElement).type === 'radio');
+      });
+      if (focused) break;
+    }
+    const ring = await page.evaluate(() => {
+      const a = document.activeElement as HTMLElement | null;
+      if (!a) return null;
+      const cs = getComputedStyle(a);
+      const rgbOf = (value: string) => {
+        const m = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+))?\s*\)/.exec(value);
+        if (!m) return null;
+        return { r: +m[1]!, g: +m[2]!, b: +m[3]!, a: m[4] === undefined ? 1 : +m[4]! };
+      };
+      const lum = (c: { r: number; g: number; b: number }) => {
+        const ch = (v: number) => {
+          const s = v / 255;
+          return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b);
+      };
+      const ratio = (a2: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }) =>
+        (Math.max(lum(a2), lum(b)) + 0.05) / (Math.min(lum(a2), lum(b)) + 0.05);
+      let node: Element | null = a;
+      let bg = { r: 255, g: 255, b: 255 };
+      while (node) {
+        const c = rgbOf(getComputedStyle(node).backgroundColor);
+        if (c && c.a >= 1) {
+          bg = c;
+          break;
+        }
+        node = node.parentElement;
+      }
+      const ringColor = rgbOf(cs.outlineColor);
+      return {
+        outline: cs.outline,
+        outlineStyle: cs.outlineStyle,
+        outlineWidth: cs.outlineWidth,
+        colorScheme: getComputedStyle(document.documentElement).colorScheme,
+        ringVsBg: ringColor ? Math.round(ratio(ringColor, bg) * 100) / 100 : 0,
+      };
+    });
+
+    // 交卷 → 锁定态
+    await page.locator('button:has-text("提交答案")').first().click().catch(() => {});
+    await page.waitForTimeout(300);
+    const locked = await readState('selected');
+
+    console.log(`OPTIONS ${theme} ${JSON.stringify({ idle, selected, locked, ring }, null, 1)}`);
+
+    for (const s of [idle, selected, locked]) {
+      expect(s, `${theme} 没读到某个选项态`).not.toBeNull();
+      expect(s && 'error' in s, `${theme} 读不到 .fui-Radio 外层`).toBe(false);
+      if (!s || 'error' in s) continue;
+      expect(s.borderVsBg, `${theme} ${s.state} 态边界只有 ${s.borderVsBg}:1（要求 ≥3）border=${s.border} bg=${s.bg}`).toBeGreaterThanOrEqual(3);
+      expect(s.textVsBg, `${theme} ${s.state} 态文字只有 ${s.textVsBg}:1（要求 ≥4.5）`).toBeGreaterThanOrEqual(4.5);
+    }
+    // 三态必须**靠形状也能分**：锁定态是虚线，另两态实线。
+    expect(locked && !('error' in locked) ? locked.borderStyle : '', '锁定态没有用虚线（形状通道）').toBe('dashed');
+    expect(idle && !('error' in idle) ? idle.borderStyle : '', '未选中态不该是虚线').toBe('solid');
+
+    expect(focused, 'Tab 走不到选项 radio').toBe(true);
+    expect(ring, '读不到焦点环').not.toBeNull();
+    if (ring) {
+      expect(ring.outlineStyle, `焦点环被清掉了（outline-style=${ring.outlineStyle}）`).not.toBe('none');
+      expect(ring.ringVsBg, `焦点环只有 ${ring.ringVsBg}:1（要求 ≥3）`).toBeGreaterThanOrEqual(3);
+      // 验收 7 的前提：深色主题必须设 color-scheme: dark，UA 环才会翻白。
+      expect(ring.colorScheme, `color-scheme 不是 ${theme}，UA 焦点环不会跟着换色`).toBe(theme);
+    }
+  });
+}
+
+// ---------------------------------------------------------------------------
 // 用例 5：字面颜色不回流
 // ---------------------------------------------------------------------------
 

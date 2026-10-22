@@ -1843,6 +1843,15 @@
       "properties":
         "dbNow":
           "type": "string"
+        "semanticSearch":
+          "enum":
+            - "on"
+            - "off"
+          "type": "string"
+        "semanticSearchReason":
+          "type":
+            - "string"
+            - "null"
         "status":
           "const": "ok"
           "type": "string"
@@ -1852,6 +1861,8 @@
         - "status"
         - "dbNow"
         - "version"
+        - "semanticSearch"
+        - "semanticSearchReason"
       "type": "object"
     "LearnerBackground":
       "enum":

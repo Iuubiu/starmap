@@ -66,3 +66,11 @@ tools/eval/.scratch/
 # 探针跑完落下的 playwright 运行残留（不要进库）
 apps/.scratch/
 apps/web/.scratch/
+
+# 语义检索向量库（t82）：本机生成、体积大，不进仓库
+content/embeddings/
+
+# 外部 clone 进来的仓库，不入版本库
+.scratch/skill-dl/
+# 向量索引产物（78k×1024 float32 ≈ 320MB）
+content/embeddings/

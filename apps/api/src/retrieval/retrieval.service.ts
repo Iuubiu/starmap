@@ -57,6 +57,20 @@ export interface RetrievalOutcome {
   expansions: QueryExpansion[];
   /** 实际参与检索的扩展词（去重后）。摘要取词也用它。 */
   extraTerms: string[];
+  /**
+   * 语义重排的状态（t82）。
+   *
+   * 为什么要把「关掉了」这件事放进返回值而不是只写日志：调试器要能回答
+   * 「为什么这条排在前面」—— 如果语义悄悄失效、排序退回纯 BM25，看到的
+   * 名次差异就无从解释。`reason` 与 `/health` 的 `semanticSearchReason`
+   * 是同一个字符串。
+   */
+  semantic: {
+    enabled: boolean;
+    reason: string | null;
+    /** 参与重排的候选条数（向量库返回的交集大小） */
+    reranked: number;
+  };
 }
 
 /**
@@ -71,6 +85,7 @@ import { GATE_THRESHOLDS, gateTierFor, filterChunks, expandQuery } from '@starma
 import type { GlossaryEntry, QueryExpansion } from '@starmap/engine';
 import { ChunkIndex, buildSnippet, type IndexedChunk } from './bm25.js';
 import { loadGlossary, type LoadedGlossary } from './glossary-store.js';
+import { SemanticSearch, blendScores } from './semantic-search.js';
 
 export { GATE_THRESHOLDS, gateTierFor };
 
@@ -186,6 +201,12 @@ export class RetrievalService {
    * 与修之前一样；抛错会让整个 API 起不来（包括与检索无关的页面）。
    */
   private readonly glossary: LoadedGlossary;
+
+  /**
+   * 语义检索（t82）。可选增强：构造是同步且不抛错的，只有第一次 `query()`
+   * 才碰磁盘与网关。它不可用时 `retrieve()` 的结果与接语义之前逐位相同。
+   */
+  private readonly semantic = new SemanticSearch();
 
   constructor(@Inject(DatabaseService) private readonly db: DatabaseService) {
     this.glossary = loadGlossary();
@@ -353,6 +374,34 @@ export class RetrievalService {
       hardCap: params.candidateLimit ?? 200,
       extraTerms: extraTerms,
     });
+
+    // 语义重排（t82）：**只改顺序、不新增候选**。
+    //
+    // 候选集仍由 BM25 决定，向量只在这同一批候选上给出「像不像」的分。
+    // 这样做有两个后果，都是刻意的：
+    // ①「三档允许集合之差恰好等于答案块集合」这条门控不变量不受影响
+    //   （它只依赖候选集与答案块集合，不依赖顺序）；
+    // ② 语义检索失效时（向量库没建、网关不通）结果与接之前逐位相同，
+    //   而不是「少了几条」—— 降级必须是可对照的。
+    const semanticStatus = this.semantic.status();
+    let semanticReranked = 0;
+    if (semanticStatus.enabled && matches.length > 0) {
+      const hits = await this.semantic.query(params.query, Math.max(matches.length, 50));
+      if (hits.length > 0) {
+        const vectorById = new Map(hits.map((h) => [h.chunkId, h.score]));
+        const maxLexical = matches.reduce((max, m) => Math.max(max, m.score), 0);
+        let touched = 0;
+        for (const match of matches) {
+          const vector = vectorById.get(match.chunk.id);
+          if (vector === undefined) continue;
+          match.score = blendScores(match.score, vector, maxLexical);
+          touched += 1;
+        }
+        semanticReranked = touched;
+        if (touched > 0) matches.sort((a, b) => b.score - a.score);
+      }
+    }
+
     const candidates: CandidateChunk[] = matches.map((m) => ({
       id: m.chunk.id,
       microKpId: m.chunk.microKpId,
@@ -403,6 +452,11 @@ export class RetrievalService {
       answerChunkIds: [...answerIds],
       expansions: expanded.expansions,
       extraTerms,
+      semantic: {
+        enabled: semanticStatus.enabled,
+        reason: semanticStatus.reason,
+        reranked: semanticReranked,
+      },
     };
   }
 

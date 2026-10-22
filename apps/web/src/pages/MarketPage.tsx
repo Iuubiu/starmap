@@ -37,9 +37,12 @@ import { describeApiError } from '../market/describe-error';
 
 const useStyles = makeStyles({
   page: {
+    /*
+     * 票 83：不再收在 980px 里。市场是「挑一个关卡」的页面，一屏能看到的
+     * 卡片数应当随窗口宽度增长 —— 4 列由 `glass.css` 的 `.sm-market-list`
+     * 统一给（窄屏自动降 3/2/1 列），页面本身只负责留白。
+     */
     padding: '32px',
-    maxWidth: '980px',
-    margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
     gap: '18px',
@@ -60,9 +63,8 @@ const useStyles = makeStyles({
     gap: '10px',
   },
   list: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
+    /* 见 `glass.css` 的 `.sm-market-list`：四列 + 三档自适应。 */
+    minWidth: 0,
   },
   metaRow: {
     display: 'flex',
@@ -335,7 +337,7 @@ export function MarketPage() {
             </MessageBarBody>
           </MessageBar>
         ) : (
-          <div className={styles.list}>
+          <div className={`sm-market-list ${styles.list}`}>
             {saved.map((level) => (
               <LevelCard
                 key={level.levelId}
@@ -364,7 +366,7 @@ export function MarketPage() {
             <MessageBarBody>还没有预制关卡。</MessageBarBody>
           </MessageBar>
         ) : (
-          <div className={styles.list}>
+          <div className={`sm-market-list ${styles.list}`}>
             {presets.map((level) => (
               <LevelCard
                 key={level.levelId}

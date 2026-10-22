@@ -151,8 +151,16 @@ const useStyles = makeStyles({
    */
   body: {
     display: 'grid',
+    /*
+     * 票 83：画布 = 内容区宽度 − 340px。
+     *
+     * 列间距写在右侧清单自己的 `padding-inline-start` 上，而不是 `columnGap`：
+     * 判据是「画布宽度 = 100% − 340px」，有 columnGap 就会多减一次 16px，
+     * 数字对不上。视觉上的空隙一点没少，只是它属于清单列的内部留白。
+     */
     gridTemplateColumns: 'minmax(0, 1fr) 340px',
-    gap: '16px',
+    columnGap: 0,
+    rowGap: '16px',
     minHeight: `${CANVAS_MIN_HEIGHT}px`,
     flex: '1 1 auto',
     /**
@@ -194,6 +202,9 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     gap: '12px',
     minHeight: 0,
+    /* 与画布之间的那条 16px 空隙（原 `body` 的 columnGap）。 */
+    paddingInlineStart: '16px',
+    boxSizing: 'border-box',
     /**
      * 单列时给侧栏一个**具体高度**，否则清单会塌成 0。
      *

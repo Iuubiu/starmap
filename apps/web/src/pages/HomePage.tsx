@@ -46,8 +46,11 @@ import { useNavigate, useSearchParams } from 'react-router';
 import {
   useAgentTurn,
   useAgentTurns,
+  useGateHistory,
+  useMastery,
   useNodeDetail,
   useNodeList,
+  useNodeUnlock,
   useSubmitTurn,
   useTierOverview,
 } from '../api/queries';
@@ -56,6 +59,8 @@ import { EvidencePanel } from '../agent/EvidencePanel';
 import { ProbePanel } from '../agent/ProbePanel';
 import { SessionPlanCard } from '../agent/SessionPlanCard';
 import { TurnLog } from '../agent/TurnLog';
+import { Composer } from '../components/Composer';
+import { StudySidebar } from '../components/StudySidebar';
 import { currentSessionId, resetSessionId } from '../agent/session';
 import type { AgentTurnResponse } from '../api/generated/model';
 
@@ -75,6 +80,17 @@ const useStyles = makeStyles({
     // 票 76：宽度由外壳的第 2 列（`min(760px, 100%)`）决定。
     // 页面自己再写一个 maxWidth + margin auto，就会与外壳的居中叠成两层算式 ——
     // 那正是「左右间隙不等」的来源之一。这里只负责列内布局。
+    // 票 83：外壳不再给固定上限，阅读宽度由页面自己定。1080 是「正文 +
+    // 学习日志」两栏都能舒展的宽度；2560 的窗口上左右各留 ~700px 的呼吸，
+    // 且两侧相等（`marginInline: auto` + `#main` 的 scrollbar-gutter 对称）。
+    maxWidth: 'min(1080px, 100%)',
+    marginInline: 'auto',
+    /*
+     * `marginInline: auto` 会让这个网格项**失去 stretch**，宽度退回
+     * fit-content（实测 2560 下只有 980px，max-width 根本没机会生效）。
+     * 显式 `width: 100%` 把宽度压回包含块，再由 max-width 收口、auto 边距居中。
+     */
+    width: '100%',
     padding: '22px 0 0',
     display: 'grid',
     // 主工作区 + 学习日志。日志窄、固定，因为它是参照物不是主体。
@@ -154,7 +170,15 @@ const useStyles = makeStyles({
   },
   /* 输入区是「沉在玻璃里」的一条，不是一条带边框的横杠。 */
   composer: {
-    gridColumn: '1 / -1',
+    /*
+     * 只占正文那一列，不再横跨右侧栏。
+     *
+     * 票 83 把右侧栏加高了两张卡（本知识点进度 + 实时建议），日志条数一多就要
+     * 自己滚。横跨全宽的吸底输入条会盖住右栏底部：玻璃是半透明的，底下
+     * 「今天 00:05「还好吧…」会从输入框里透出来，读起来像叠影。收进正文列后，
+     * 右栏自己滚自己的，输入条只在正文下方吸底。
+     */
+    gridColumn: '1',
     position: 'sticky',
     bottom: 0,
     display: 'flex',
@@ -328,6 +352,26 @@ export function HomePage() {
   const focusedNode = useNodeDetail(
     focusedKpId && !nodeItems.some((n) => n.microKpId === focusedKpId) ? focusedKpId : undefined,
   );
+
+  /*
+   * 票 83 右侧栏的数据：全部来自已有接口，不新增。
+   *
+   * - `useMastery`：三门槛里的作答 / 变式是它的 `attemptCount` / `variantCount`；
+   * - `useNodeUnlock`：前置未解锁的建议来自 `blockers[]`；
+   * - `useGateHistory`：连对（尾部连续答对）来自最近一次门控判定的
+   *   `itemIds` 减去 `wrongItemIds`。节点详情给关卡 id，这里才拿得到判定历史。
+   *
+   * 三个 hook 都传 `undefined` 也能调（内部 `enabled: false`），所以不需要
+   * 条件调用 —— 条件调用 hook 会让 hook 顺序随焦点变化，React 直接报错。
+   */
+  const masteryKpId = focusedKpId ?? undefined;
+  const focusedMastery = useMastery(masteryKpId);
+  const focusedUnlock = useNodeUnlock(masteryKpId);
+  const focusedLevelId = focusedNode.payload?.levels[0]?.levelId;
+  const focusedGates = useGateHistory(focusedLevelId);
+  /* 「上次追问」当作错因线索：逐题错因目前没有按知识点读取的接口（已知缺口）。 */
+  const lastProbeQuestion =
+    shown?.artifact?.kind === 'probe_form' ? shown.artifact.question : undefined;
 
   const onSelectLog = (turnId: string) => {
     setActiveTurnId(turnId);
@@ -544,6 +588,23 @@ export function HomePage() {
       </div>
 
       <div className={styles.side}>
+        <StudySidebar
+          microKpName={
+            focusedKpId
+              ? (nodeItems.find((n) => n.microKpId === focusedKpId)?.name ??
+                focusedNode.payload?.node.name ??
+                focusedKpId)
+              : null
+          }
+          mastery={focusedMastery.payload}
+          unlock={focusedUnlock.payload}
+          gateHistory={focusedGates.payload}
+          lastProbe={lastProbeQuestion}
+          /* 没选知识点时 `useMastery(undefined)` 是 disabled，`isPending` 恒 true ——
+             那不是「正在读」，是没有对象可读。 */
+          pending={Boolean(masteryKpId) && focusedMastery.isPending}
+          onAsk={(text) => setUtterance(text)}
+        />
         <div className={styles.sideTitle}>
           <Text weight="semibold">学习日志</Text>
           <Button appearance="subtle" size="small" onClick={newSession}>
@@ -563,51 +624,41 @@ export function HomePage() {
       </div>
 
       <div className={styles.composer}>
-        <div className={styles.contextRow}>
-          <Caption1 className={styles.subtle}>当前知识点</Caption1>
-          {focusedKpId ? (
-            <Badge appearance="tint" color="brand">
-              {nodeItems.find((n) => n.microKpId === focusedKpId)?.name ??
-                focusedNode.payload?.node.name ??
-                focusedKpId}
-            </Badge>
-          ) : (
-            <Badge appearance="outline">未选定</Badge>
-          )}
-          <Button appearance="subtle" size="small" onClick={() => navigate('/map')}>
-            去地图选
-          </Button>
-        </div>
-        <div className={styles.composerRow}>
-          <Textarea
-            className={styles.grow}
-            value={utterance}
-            onChange={(_, data) => setUtterance(data.value)}
-            onKeyDown={onKeyDown}
-            placeholder="说说你想学什么，或者你卡在哪一步。（Enter 提交，Shift+Enter 换行）"
-            resize="vertical"
-            rows={2}
-            aria-label="这一轮想说的话"
-            // 契约里 utterance 上限 2000 字（packages/api-contract/src/domains/agent.ts）。
-            // 不设 maxLength 时超长的话能敲进去，提交后才被后端 400 打回，
-            // 而错误条只说「请求体不合法」—— 学生既不知道为什么，也不知道该删到多少。
-            // 在这里挡住，并给出剩余字数，让人当场看得见边界。
-            maxLength={UTTERANCE_MAX}
-            disabled={submit.isPending}
-          />
-          <Button
-            appearance="primary"
-            onClick={onSubmit}
-            disabled={submit.isPending || utterance.trim() === ''}
-          >
-            {submit.isPending ? '生成中…' : '提交这一轮'}
-          </Button>
-        </div>
-        {utterance.length > UTTERANCE_MAX * 0.8 && (
-          <Text size={200} className={styles.counter}>
-            还可以写 {UTTERANCE_MAX - utterance.length} 字
-          </Text>
-        )}
+        <Composer
+          value={utterance}
+          onChange={setUtterance}
+          onSubmit={onSubmit}
+          placeholder="说说你想学什么，或者你卡在哪一步。（Enter 提交，Shift+Enter 换行）"
+          ariaLabel="这一轮想说的话"
+          busy={submit.isPending}
+          maxLength={UTTERANCE_MAX}
+          tierLabel={learnerTier}
+          modelLabel="默认模型"
+          context={
+            <>
+              <Caption1 className={styles.subtle}>当前知识点</Caption1>
+              {focusedKpId ? (
+                <Badge appearance="tint" color="brand">
+                  {nodeItems.find((n) => n.microKpId === focusedKpId)?.name ??
+                    focusedNode.payload?.node.name ??
+                    focusedKpId}
+                </Badge>
+              ) : (
+                <Badge appearance="outline">未选定</Badge>
+              )}
+              <Button appearance="subtle" size="small" onClick={() => navigate('/map')}>
+                去地图选
+              </Button>
+            </>
+          }
+          hint={
+            utterance.length > UTTERANCE_MAX * 0.8 ? (
+              <Text size={200} className={styles.counter}>
+                还可以写 {UTTERANCE_MAX - utterance.length} 字
+              </Text>
+            ) : undefined
+          }
+        />
       </div>
     </div>
   );

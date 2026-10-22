@@ -1,0 +1,11 @@
+{
+  "canvasWidth": 1822,
+  "contentWidth": 2226,
+  "pagePaddingX": 64,
+  "innerWidth": 2162,
+  "mainWidth": 2226,
+  "windowWidth": 2560,
+  "deltaInnerMinusCanvas": 340,
+  "deltaContentMinusCanvas": 404,
+  "deltaWindowMinusCanvas": 738
+}

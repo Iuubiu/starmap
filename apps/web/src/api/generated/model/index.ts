@@ -105,6 +105,7 @@ export * from './graphResponseEdgesItemKind.js';
 export * from './graphResponseNodesItem.js';
 export * from './graphResponseNodesItemState.js';
 export * from './healthResponse.js';
+export * from './healthResponseSemanticSearch.js';
 export * from './learnerBackground.js';
 export * from './learnerProfile.js';
 export * from './learnerProfileBackground.js';

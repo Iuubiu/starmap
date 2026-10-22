@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import {
   Button,
@@ -9,10 +9,11 @@ import {
   makeStyles,
   tokens,
 } from '@fluentui/react-components';
-import { Add24Regular, Send24Regular } from '@fluentui/react-icons';
+import { Add24Regular } from '@fluentui/react-icons';
 import { useListAgentSessions } from '../api/generated/default/default';
 import type { AgentSessionListResponse, AgentSessionListResponseSessionsItem } from '../api/generated/model';
 import { resetSessionId } from '../agent/session';
+import { Composer } from '../components/Composer';
 
 /**
  * 「学习记录」页（票 76 第 3 项）。
@@ -47,10 +48,19 @@ const LIST_LIMIT = 100;
 
 const useStyles = makeStyles({
   page: {
-    // 宽度由外壳第 2 列决定（与首页同一条规则），这里只管列内两栏。
+    // 票 83：外壳不再给固定列宽，这里自己定阅读宽度；两栏是票面要求的
+    // `320px + 1fr`（会话列表 + 空态/输入区）。
+    maxWidth: 'min(1200px, 100%)',
+    marginInline: 'auto',
+    /*
+     * `marginInline: auto` 会让这个网格项**失去 stretch**，宽度退回
+     * fit-content（实测 2560 下只有 980px，max-width 根本没机会生效）。
+     * 显式 `width: 100%` 把宽度压回包含块，再由 max-width 收口、auto 边距居中。
+     */
+    width: '100%',
     padding: '22px 0 0',
     display: 'grid',
-    gridTemplateColumns: 'minmax(200px, 280px) minmax(0, 1fr)',
+    gridTemplateColumns: '320px minmax(0, 1fr)',
     gap: '18px',
     height: '100%',
     minHeight: 0,
@@ -263,8 +273,11 @@ export function LearningPage() {
     navigate('/');
   }
 
-  function submitDraft(event: FormEvent) {
-    event.preventDefault();
+  /**
+   * 从空态直接开始一句：把话写进草稿位再跳 `/`，由首页的 Composer 取走
+   * （首页的 `takeDraft` 读后即删，草稿只被消费一次）。
+   */
+  function submitDraft() {
     const text = draft.trim();
     if (text === '') return;
     stashDraft(text);
@@ -336,18 +349,17 @@ export function LearningPage() {
           左边的每一条都是一次真实会话：点进去会回到那一轮，学习日志与卡片都还在。
           也可以在这里写下第一句话，回车即可开始。
         </Text>
-        <form className={styles.askRow} onSubmit={submitDraft}>
-          <Input
-            className={styles.askInput}
-            aria-label="这一轮想说的话"
-            placeholder="说一句你想学什么，比如「我想学布尔代数」"
+        <div className={styles.askRow}>
+          <Composer
             value={draft}
-            onChange={(_, data) => setDraft(data.value)}
+            onChange={setDraft}
+            onSubmit={submitDraft}
+            placeholder="说一句你想学什么，比如「我想学布尔代数」"
+            ariaLabel="这一轮想说的话"
+            tierLabel="新会话"
+            modelLabel="默认模型"
           />
-          <Button appearance="primary" type="submit" icon={<Send24Regular />}>
-            开始
-          </Button>
-        </form>
+        </div>
       </div>
     </div>
   );

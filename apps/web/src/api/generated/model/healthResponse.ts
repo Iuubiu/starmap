@@ -5,9 +5,13 @@
  * 核电子学学习工作站。契约唯一真源：本文件由 packages/api-contract 的 Zod schema 生成，请勿手改。
  * OpenAPI spec version: 1.0.0
  */
+import type { HealthResponseSemanticSearch } from './healthResponseSemanticSearch.js';
 
 export interface HealthResponse {
   dbNow: string;
+  semanticSearch: HealthResponseSemanticSearch;
+  /** @nullable */
+  semanticSearchReason: string | null;
   status: 'ok';
   version: string;
 }

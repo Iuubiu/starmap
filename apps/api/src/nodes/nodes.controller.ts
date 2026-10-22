@@ -21,6 +21,7 @@ import {
 import { DatabaseService } from '../db/database.service.js';
 import { ApiExceptionFilter } from '../common/api-exception.filter.js';
 import { MasteryService } from '../mastery/mastery.service.js';
+import { SemanticSearch } from '../retrieval/semantic-search.js';
 
 const ListQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(200).default(50),
@@ -100,6 +101,14 @@ function sourceOf(row: {
 export class NodesController {
   private readonly mastery: MasteryService;
 
+  /**
+   * 健康检查里报语义检索状态（t82）。**不注入 `RetrievalService`**：
+   * 那会把整个 BM25 索引（78k chunk 的 MiniSearch）拖进只想知道「连没连上
+   * 库」的路径里，而 `/health` 是最常被轮询的端点。`SemanticSearch` 的
+   * `status()` 只看磁盘与环境变量，构造也只是一次字符串拼接。
+   */
+  private readonly semantic = new SemanticSearch();
+
   constructor(@Inject(DatabaseService) private readonly db: DatabaseService) {
     // 与 `AttemptsController` / `MarketController` 同一做法：控制器在自己文件里
     // 现场构造服务，避免为加 provider 去改共享的 `app.module.ts`。
@@ -109,7 +118,17 @@ export class NodesController {
   @Get('health')
   async health(): Promise<HealthResponse> {
     const dbNow = await this.db.now();
-    return HealthResponseSchema.parse({ status: 'ok', dbNow, version: '0.1.0' });
+    // 语义检索状态（t82）。`status()` 只看磁盘与环境变量，不发网络请求，
+    // 所以健康检查不会因为网关慢而变慢；具体原因由 `SemanticSearch` 保证
+    // 是「人话」（「向量库文件不存在：…」），这里原样透出，不加工、不兜底。
+    const semantic = this.semantic.status();
+    return HealthResponseSchema.parse({
+      status: 'ok',
+      dbNow,
+      version: '0.1.0',
+      semanticSearch: semantic.enabled ? 'on' : 'off',
+      semanticSearchReason: semantic.reason,
+    });
   }
 
   @Get('nodes')

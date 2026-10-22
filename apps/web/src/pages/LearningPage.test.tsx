@@ -188,7 +188,7 @@ describe('LearningPage：会话列表', () => {
 
     const input = await screen.findByRole('textbox', { name: '这一轮想说的话' });
     await user.type(input, '我想学卡诺图');
-    await user.click(screen.getByRole('button', { name: '开始' }));
+    await user.click(screen.getByRole('button', { name: '提交这一轮' }));
 
     await waitFor(() => expect(screen.getByText('首页内容')).toBeInTheDocument());
     expect(window.sessionStorage.getItem('starmap.draft')).toBe('我想学卡诺图');
