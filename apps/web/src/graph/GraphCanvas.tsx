@@ -155,6 +155,15 @@ export function GraphCanvas({
   const [highlighted, setHighlighted] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   /**
+   * 容器暂时量不出宽度（票 47）。
+   *
+   * 与 `error` 分开：`error` 是「这个环境永远画不出图」（没有 WebGL2），
+   * 一旦置位就不再重试；而宽度是**会变回来**的 —— 窗口拉宽、或栅格在
+   * ≤1080px 切成单列之后，同一块画布就该正常建起来。所以它是独立的状态，
+   * 由 `ResizeObserver` 负责翻回去。
+   */
+  const [needsWidth, setNeedsWidth] = useState(false);
+  /**
    * 布局跑在哪：`worker` 还是退化后的 `static`。
    *
    * 露在 DOM 上不是为了调试，而是票 03 第 1 条「物理模拟不得阻塞主线程」
@@ -214,6 +223,42 @@ export function GraphCanvas({
     const container = containerRef.current;
     if (!container) return;
 
+    /**
+     * 宽度为 0 时**不构造 sigma**，等它长出宽度再来（票 47）。
+     *
+     * `new Sigma()` 的构造器里就会 `resize()`，而 sigma 的 `resize()` 在
+     * `offsetWidth === 0` 时抛 `Sigma: Container has no width`。更麻烦的是
+     * 它还把 `handleResize` 挂在 `window` 上：`scheduleRefresh()` → 下一帧
+     * `render()` → `this.resize()`，所以**每一次窗口 resize 都会再抛一次**，
+     * 而且整条链在 React 的错误边界之外 —— `try/catch` 只接得住第一次，
+     * 后面每次 resize 都是一条真实的未捕获错误（e2e 里就是 pageerror）。
+     *
+     * 两个备选：
+     * - `allowInvalidContainer: true`：sigma 会把宽度当成 1px 继续跑。错误
+     *   是没了，但画布真的只有 1px 宽 —— 用户看到的仍然是「什么都没有」，
+     *   只是我们不再知道这件事。**把异常藏起来不等于修好**。
+     * - 先量宽度、量不到就不建：画布真的窄的时候，我们如实告诉用户
+     *   「这里放不下」，并把节点清单（它的等价文本）留在页面上。宽度一旦
+     *   出现（窗口拉宽、或栅格在 ≤1080px 切成单列），`ResizeObserver` 立刻
+     *   把画布建起来。
+     *
+     * 这里选后者。`needsWidth` 是唯一的额外状态：它只在这条降级路径上
+     * 翻一次面，正常宽度下 effect 一次就跑完，不会多一次重建。
+     */
+    if (container.offsetWidth === 0) {
+      setNeedsWidth(true);
+      const observer = new ResizeObserver(() => {
+        if (container.offsetWidth > 0) {
+          observer.disconnect();
+          setNeedsWidth(false);
+        }
+      });
+      observer.observe(container);
+      return () => {
+        observer.disconnect();
+      };
+    }
+
     let cancelled = false;
     const graph = buildLayoutGraph(nodes, edges);
     const layout = startLayout(graph);
@@ -232,6 +277,12 @@ export function GraphCanvas({
           // 标签显隐完全由 label-threshold.ts 按相机 ratio 决定。把 sigma 自带
           // 的尺寸阈值关掉，避免两套规则同时生效、互相打架。
           labelRenderedSizeThreshold: 0,
+          // 标签去重的网格边长（sigma 默认 60px）。默认值只管「两个标签中心别落在
+          // 同一格」，但中文知识点名动辄 10 个字、宽 140px 上下，60px 的格子挡不住
+          // 互相压盖：默认视野下实测画出 22 个标签，中央密区糊成一片，一个也读不出。
+          // 160px 让画出来的标签彼此至少隔开一个标签宽度，860×480 的画布上大约
+          // 留下十几个，够看且不重叠。
+          labelGridCellSize: 160,
           hideLabelsOnMove: true,
           enableCameraPanning: true,
           enableCameraZooming: true,
@@ -404,8 +455,10 @@ export function GraphCanvas({
       layout.stop();
       layoutRef.current = null;
     };
+    // `needsWidth` 必须在依赖里：宽度从 0 变成非 0 时，是它把 effect 叫醒、
+    // 真正把 sigma 建起来的那一下。少了它，ResizeObserver 翻完状态就没人接手。
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodes, edges]);
+  }, [nodes, edges, needsWidth]);
 
   /**
    * 焦点变化时把相机移到该节点。
@@ -463,23 +516,38 @@ export function GraphCanvas({
       data-layout-source={layoutSource}
     >
       <div className="graph-canvas-webgl" ref={containerRef} aria-hidden="true" />
-      <div className="graph-canvas-zoom">
-        <button type="button" aria-label="放大图谱" onClick={() => zoom('in')}>
-          ＋
-        </button>
-        <button type="button" aria-label="缩小图谱" onClick={() => zoom('out')}>
-          －
-        </button>
-        <button type="button" aria-label="复位图谱视野" onClick={() => zoom('reset')}>
-          ⌂
-        </button>
-      </div>
-      <p className="graph-canvas-hint">
-        拖动平移、滚轮缩放、点击节点进入关卡。
-        <span className="graph-canvas-hint-a11y">
-          （画布的等价文本在右侧节点清单里，可用 Tab 逐个浏览、Enter 打开。）
-        </span>
-      </p>
+      {needsWidth ? (
+        /*
+         * 宽度不足时如实说明（票 47）。
+         *
+         * 不渲染缩放按钮：这时根本没有相机，三个按钮点下去全是空操作 ——
+         * 留着只会让人以为「按了没反应」。而「画布不可用、清单还在」这句话
+         * 本身是有用的信息，比一块空画布强。
+         */
+        <p className="graph-canvas-blocked" data-graph-blocked="width">
+          这块屏幕放不下图谱画布（宽度不足）。节点清单仍然可以逐个打开；把窗口拉宽一些，画布会自动出现。
+        </p>
+      ) : (
+        <>
+          <div className="graph-canvas-zoom">
+            <button type="button" aria-label="放大图谱" onClick={() => zoom('in')}>
+              ＋
+            </button>
+            <button type="button" aria-label="缩小图谱" onClick={() => zoom('out')}>
+              －
+            </button>
+            <button type="button" aria-label="复位图谱视野" onClick={() => zoom('reset')}>
+              ⌂
+            </button>
+          </div>
+          <p className="graph-canvas-hint">
+            拖动平移、滚轮缩放、点击节点进入关卡。
+            <span className="graph-canvas-hint-a11y">
+              （画布的等价文本在右侧节点清单里，可用 Tab 逐个浏览、Enter 打开。）
+            </span>
+          </p>
+        </>
+      )}
     </div>
   );
 }
