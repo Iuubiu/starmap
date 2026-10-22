@@ -192,8 +192,10 @@ function Row({ row }: { row: ProgressRow }) {
       <span className="sm-study-track" aria-hidden>
         <span className="sm-study-fill" style={{ width: `${ratio * 100}%` }} />
       </span>
-      <span className="sm-study-row-value">
-        {row.value === null ? '证据不足' : `${row.value} / ${row.target}`}
+      <span className="sm-study-row-value" title={row.value === null ? undefined : `累计 ${row.value} 次，本关需 ≥${row.target}`}>
+        {row.value === null
+          ? '证据不足'
+          : `${Math.min(row.value, row.target)} / ${row.target}`}
       </span>
     </div>
   );
