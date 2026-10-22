@@ -1,0 +1,21 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+  # 票 20 的评估工具：不是产品运行时（不部署、不进 build），但要参与
+  # typecheck/test/boundaries，所以作为 workspace 包存在。放在 tools/ 而不是
+  # apps/ 是为了不让人误以为它可以被前端 import。
+  - "tools/eval"
+
+onlyBuiltDependencies:
+  - "@swc/core"
+  - esbuild
+  - tsx
+
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@tanstack/query-core@5.104.5'
+  - '@tanstack/react-query@5.104.5'
+  - dependency-cruiser@18.7.0

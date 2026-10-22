@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>动效夹具</title>
+  </head>
+  <body>
+    <!--
+      给 Playwright 探针用的**空页面**：只挂动效夹具，不挂应用。
+
+      为什么不直接在被测页面里挂夹具：验收要断言 `document.getAnimations()
+      .length === 0`，而这个数是**全文档**口径。真实页面里有 Fluent UI 的
+      TabList、MessageBar、侧栏抽屉——它们自己也可能有 CSS 过渡。一旦那些
+      动画在采样那一刻恰好还在跑，失败原因就和「我们的动效没关掉」混在一起，
+      排查要花的时间比多写一个 HTML 多得多。
+
+      这个页面由 Vite dev server 直接服务（`/src/motion/qaHarness.html`），
+      内联模块脚本会被 Vite 转换，所以 `./qaHarness.tsx` 里的 `react` 走的是
+      同一份预打包依赖。它不在 `build.rollupOptions.input` 里，**不会进产物**。
+    -->
+    <div id="host"></div>
+    <script type="module">
+      import { mountMotionHarness } from './qaHarness.tsx';
+      window.__mountMotionHarness = mountMotionHarness;
+      window.__motionHarnessReady = true;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+import { chromium } from '@playwright/test';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1280, height: 800 } });
+await p.goto('http://localhost:5173/');
+await p.waitForTimeout(2500);
+const box = p.getByLabel('这一轮想说的话');
+await box.fill('我想学布尔代数');
+await box.press('Enter');
+await p.waitForTimeout(20000);
+const text = await p.getByRole('main').innerText();
+const m = /当前知识点[\s\S]{0,24}/.exec(text);
+console.log('MATCH:', JSON.stringify(m?.[0]));
+console.log('OK:', /当前知识点[\s\S]{0,24}布尔/.test(text));
+await b.close();

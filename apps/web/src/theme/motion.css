@@ -1,0 +1,151 @@
+/*
+ * 动效层：View Transitions 的 CSS 侧。
+ *
+ * ## 为什么转场是「连续缩放」而不是淡入淡出
+ *
+ * SKILL.md §3.4。一句话：淡入淡出把前后两帧拆成两张互不相干的图，学习者
+ * 丢了「我在整张图的哪里、刚才是从哪个分支钻进来的」；连续缩放让同一个
+ * 元素从旧位置长到新位置，动画本身就是「怎么回去」的答案。
+ *
+ * 实现上分两层：
+ *   1. 整页的 `::view-transition-old/new(root)` 做缩放 + 轻微位移；
+ *   2. 带 `view-transition-name` 的元素（被点的那个节点）由浏览器自己
+ *      配对，从旧矩形连续动画到新矩形 —— 这一层不需要我们写任何 CSS，
+ *      只要名字在前后两页一致。
+ *
+ * ## 为什么 root 的动画要按 data-sm-transition 分档
+ *
+ * 「钻进去」和「退出来」在空间上是相反的：进入分支时新内容从**外**往里
+ * 推近（放大），退出时从**内**往后退远（缩小）。两者都用同一组关键帧会
+ * 让回退看起来像又一次前进，方向感立刻消失。
+ */
+
+/* 整页转场默认不吃事件：动画期间点到的应该是新页面，而不是半透明旧层。 */
+::view-transition {
+  pointer-events: none;
+}
+
+/*
+ * 默认（未标注类型）：整页交叉淡入。
+ *
+ * 这一档只服务「同层级换页」——比如从看板切到复验。这里淡入淡出是对的：
+ * 两者没有纵深关系，硬做缩放会编造一个不存在的空间。
+ */
+::view-transition-old(root) {
+  animation: sm-fade-out var(--sm-dur-base) var(--sm-ease-out) both;
+}
+
+::view-transition-new(root) {
+  animation: sm-fade-in var(--sm-dur-base) var(--sm-ease-out) both;
+}
+
+/* 钻进去：旧画面放大并淡出（像镜头穿过它），新画面从略小处推近到 1。 */
+:root[data-sm-transition='zoom-in']::view-transition-old(root) {
+  animation: sm-zoom-in-out var(--sm-dur-scene) var(--sm-ease-in-out) both;
+}
+
+:root[data-sm-transition='zoom-in']::view-transition-new(root) {
+  animation: sm-zoom-in-in var(--sm-dur-scene) var(--sm-ease-in-out) both;
+}
+
+/* 退出来：反向。旧画面缩小退远，新画面从略大处收回来。 */
+:root[data-sm-transition='zoom-out']::view-transition-old(root) {
+  animation: sm-zoom-out-out var(--sm-dur-scene) var(--sm-ease-in-out) both;
+}
+
+:root[data-sm-transition='zoom-out']::view-transition-new(root) {
+  animation: sm-zoom-out-in var(--sm-dur-scene) var(--sm-ease-in-out) both;
+}
+
+@keyframes sm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sm-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/*
+ * 缩放只做到 1.06 / 0.94，不做 2 倍那种夸张推镜：
+ * 幅度越大，文字在动画中越糊（浏览器是按位图缩放快照的），而学习者要读的
+ * 恰恰是标题与题干。小幅度 + 长缓动已经足够表达「进去了」。
+ */
+@keyframes sm-zoom-in-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes sm-zoom-in-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sm-zoom-out-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes sm-zoom-out-in {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/*
+ * 共享元素（被点的那个节点）：不写关键帧，浏览器负责从旧矩形插值到新矩形。
+ * 这里只调缓动与时长，让它和整页缩放**同步**——不同步会出现「元素先到、
+ * 背景后到」的撕裂感。
+ */
+::view-transition-group(*) {
+  animation-duration: var(--sm-dur-scene);
+  animation-timing-function: var(--sm-ease-in-out);
+}
+
+/*
+ * 减少动效：所有转场瞬时完成。
+ *
+ * 注意是「瞬时」不是「淡入」——SKILL.md §3.5 明确禁止用更柔和的过渡冒充
+ * 降级。用户要求减少动效，任何看得见的过渡都是违背。
+ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
