@@ -1,9 +1,37 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-sm-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
     <title>StarMap · 核电子学学习工作站</title>
+    <!--
+      主题必须在**首次绘制之前**定下来，否则深色用户会看到一次白闪。
+
+      这段脚本是内联的、同步的、放在 <head> 里：它比任何样式表与 React 都早。
+      它只做一件事——把 data-sm-theme 写到 <html> 上，颜色本身由 tokens.css
+      按属性选择器命中，因此不需要等脚本执行完才有颜色。
+
+      顺序：用户显式选择 → 系统偏好 → 深色（默认）。
+      全程 try/catch：隐私模式下 localStorage 读取会抛 SecurityError，
+      主题读不出来不该让整个页面白屏。
+    -->
+    <script>
+      (function () {
+        var theme = 'dark';
+        try {
+          var stored = window.localStorage.getItem('starmap.theme');
+          if (stored === 'dark' || stored === 'light') theme = stored;
+          else if (window.matchMedia) {
+            if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dark';
+          }
+        } catch (error) {
+          /* 读不到就用默认深色 */
+        }
+        document.documentElement.setAttribute('data-sm-theme', theme);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
