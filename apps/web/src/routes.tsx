@@ -9,6 +9,7 @@ import { MarketPage } from './pages/MarketPage';
 import { MarketAuthorPage } from './pages/MarketAuthorPage';
 import { GenerationPage } from './pages/GenerationPage';
 import { HomePage } from './pages/HomePage';
+import { LibraryPage } from './pages/LibraryPage';
 import { SkillsPage } from './pages/SkillsPage';
 import { PlacementPage } from './pages/PlacementPage';
 import { ReviewPage } from './pages/ReviewPage';
@@ -73,6 +74,7 @@ export const appRoutes: RouteObject[] = [
       { path: 'market/author/:microKpId', element: <MarketAuthorPage /> },
       { path: 'market/generate', element: <GenerationPage /> },
       { path: 'skills', element: <SkillsPage /> },
+      { path: 'library', element: <LibraryPage /> },
       // 兜底：没有它时 React Router 会渲染内置的英文开发者错误页。
       // 本地单用户的 URL 很容易改错一个字符，那时该看到中文说明而不是 💿。
       { path: '*', element: <NotFoundPage /> },

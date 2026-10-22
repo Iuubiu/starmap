@@ -7,6 +7,8 @@ import {
   Board24Filled,
   Board24Regular,
   BrainCircuit24Filled,
+  BookOpen24Filled,
+  BookOpen24Regular,
   BrainCircuit24Regular,
   Clock24Filled,
   Clock24Regular,
@@ -82,6 +84,13 @@ const NAV_ITEMS = [
     sub: '教材与索引',
     Icon: Database24Regular,
     IconActive: Database24Filled,
+  },
+  {
+    value: '/library',
+    label: '内容库',
+    sub: '教材·期刊·题库·技能',
+    Icon: BookOpen24Regular,
+    IconActive: BookOpen24Filled,
   },
   {
     value: '/skills',

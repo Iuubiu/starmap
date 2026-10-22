@@ -168,20 +168,23 @@ export async function indexEmbeddings(options: IndexOptions = {}): Promise<Index
   const queue = options.limit !== undefined ? pending.slice(0, options.limit) : pending;
   if (queue.length !== pending.length) log(`--limit ${options.limit}：本轮只做前 ${queue.length} 条`);
 
+  // **索引必须先于 LibSQLVector 构造**：它的构造函数里就把
+  // `sqlite_master` 里 `%_vector_idx` 的名单读进 `vectorIndexes`，之后 query 才走
+  // `vector_top_k`。后建索引会让本次进程一直走暴力扫描。
+  //
+  // 也不能用 `store.createIndex()`：Mastra 只会建默认参数的 DiskANN 索引
+  // （213,824 B/行 → 78k 行 16.7 GB）。压缩参数只能写在 CREATE INDEX 里，
+  // 所以走 `ensureCompressedIndex` 的原始 DDL，建完 Mastra 照样认得（按名字发现）。
+  await ensureCompressedIndex({
+    dbPath,
+    indexName: DEFAULT_INDEX_NAME,
+    dimension: ledger.dimension || FALLBACK_DIMENSION,
+    log,
+  });
+
   const { LibSQLVector } = await import('@mastra/libsql');
   const store = new LibSQLVector({ id: 'starmap-chunks', url: `file:${dbPath}` });
   const model_ = await createEmbedder();
-
-  // 向量库里的总条数：用它判断「要不要新建索引」以及最后的计数。
-  const indexes = await store.listIndexes();
-  if (!indexes.includes(DEFAULT_INDEX_NAME)) {
-    await store.createIndex({
-      indexName: DEFAULT_INDEX_NAME,
-      dimension: ledger.dimension || FALLBACK_DIMENSION,
-      metric: 'cosine',
-    });
-    log(`新建索引 ${DEFAULT_INDEX_NAME}（dimension=${ledger.dimension || FALLBACK_DIMENSION}，cosine）`);
-  }
 
   let embedded = 0;
   const batchMs: number[] = [];
