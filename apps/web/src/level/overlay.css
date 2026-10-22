@@ -1,0 +1,185 @@
+/*
+ * 关卡浮层的材质与布局（票 68）。
+ *
+ * ## 为什么单独一个文件，不并进 graph.css / glass.css
+ *
+ * `graph.css` 只在 `MapPage` 里 import（图谱画布专用），`glass.css` 是外壳的
+ * 毛玻璃材质层。浮层要能被**任意路由**唤出（对话页、地图页、错误页），把它
+ * 的样式挂在任何一条页面链路上都会变成「换个路由就丢样式」。所以它自己一份，
+ * 由 `LevelOverlay.tsx` 直接 import。
+ *
+ * ## 与外壳（Glassmorphism 重写）对齐的三条
+ *
+ * 1. **不用 1px 白边做分界**。外壳的规则是「层次靠透明度差 + 投影」，浮层照抄：
+ *    面板的边界由 `--sm-shadow-lg` 与它比遮罩更亮/更暗的表面色共同交代。
+ * 2. 表面色、遮罩色、圆角、投影**全部**来自 `theme/tokens.css` 的变量，
+ *    不在本文件里写颜色字面量 —— 两套主题各自成立由 token 层保证（深色
+ *    `--sm-bg-scrim: rgba(5,5,8,0.72)`、明亮 `rgba(18,18,22,0.32)`）。
+ * 3. 时长与缓动来自 `--sm-dur-*` / `--sm-ease-*`（它们镜像
+ *    `src/motion/tokens.ts`，全站唯一真源）。**本文件不写字面量毫秒数。**
+ *
+ * ## 为什么模糊值写在这里而不是复用 `--sm-liquid-blur`
+ *
+ * 外壳的 `--sm-liquid-blur: 34px` 会随 `data-sm-lowfx` 降级被关掉（省电模式）。
+ * 浮层的验收要求是「reduce 下模糊仍然生效」—— 但 reduce 与 lowfx 是两回事：
+ * reduce 降级的是**动画**，不是可见性。浮层自己声明 `--sm-overlay-blur`，
+ * 就不会被外壳的省电开关顺带关掉，也不会把 34px 这种大面积值套在一个
+ * 只占屏幕一部分的面板上（模糊半径越大越贵，8–14px 已经能读出「背后还有东西」）。
+ */
+
+.level-overlay {
+  --sm-overlay-blur: 12px;
+  --sm-overlay-gutter: 24px;
+
+  position: fixed;
+  inset: 0;
+  /* 外壳的侧栏是 z-index 2、抽屉遮罩 1（见 AppShell）。浮层要盖住它们，
+     但仍低于命令面板（那是最高优先级的临时层）。 */
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sm-overlay-gutter);
+}
+
+/*
+ * 遮罩：半透明压暗 + 背景模糊。
+ *
+ * `backdrop-filter` 放在遮罩上而不是面板上：面板本身是不透明表面，模糊它背后
+ * 的东西只会让边缘发糊；要「背景模糊」的语义是**遮罩区域**整体模糊，也就是
+ * 背后那整页内容。
+ *
+ * `-webkit-` 前缀是 Safari 15 以前唯一认的写法，写在这里不产生第二份真源。
+ */
+.level-overlay-scrim {
+  position: absolute;
+  inset: 0;
+  background-color: var(--sm-bg-scrim);
+  backdrop-filter: blur(var(--sm-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--sm-overlay-blur));
+  /*
+   * 不支持 backdrop-filter 时的兜底：把遮罩调厚一档，保证「背后内容退到后面」
+   * 这件事仍然成立。用 `@supports not` 而不是再加一层半透明 div —— 后者在
+   * 支持模糊的浏览器上会叠加成两倍暗度，两套主题各自都要重新调参。
+   */
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .level-overlay-scrim {
+    background-color: var(--sm-bg-scrim);
+    /* 兜底时把压暗加深：没有模糊就必须靠不透明度把背后内容压下去。 */
+    opacity: 1;
+    background-image: linear-gradient(var(--sm-bg-scrim), var(--sm-bg-scrim));
+  }
+}
+
+/*
+ * 面板。
+ *
+ * `max-height` + `overflow` 是必须的：关卡内容（讲解卡 + 多道题 + 总结）比
+ * 一屏高得多。没有上限时面板会顶出视口，而浮层是 `position: fixed`，超出的
+ * 部分直接不可见也滚不到。
+ *
+ * `overscroll-behavior: contain` 防止滚到面板尽头后继续滚背景页 —— 背景页在
+ * 浮层打开时是 `inert` 的，但它仍然会滚（inert 只管交互不管滚动），滚走了
+ * 关闭浮层就会看到一个陌生的位置。
+ */
+.level-overlay-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(960px, 100%);
+  max-height: 100%;
+  border-radius: var(--sm-radius-xl);
+  background-color: var(--sm-bg-elevated);
+  box-shadow: var(--sm-shadow-lg);
+  overflow: hidden;
+  overscroll-behavior: contain;
+  /*
+   * 焦点移入面板容器（`tabIndex={-1}`）时浏览器会给它画一圈焦点环。那不是
+   * 用户用键盘走到的位置，画出来只会让人以为「整个面板被选中了」。真正的
+   * 键盘焦点由面板内的第一个可聚焦控件承担。
+   */
+  outline: none;
+}
+
+.level-overlay-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px 12px;
+  /*
+   * 标题区与内容区之间**不画分隔线**（外壳「不用 1px 白线」的同一条规则）。
+   * 用一层极浅的表面色差交代「这是头部」：elevated 之上再叠 canvas 色。
+   */
+  background-color: var(--sm-bg-surface);
+}
+
+.level-overlay-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--sm-title2-size, 20px);
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--sm-text-primary);
+  /* 关卡标题可能很长（含知识点全名），单行截断，完整名字在面板内的正文里。 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.level-overlay-close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--sm-radius-md, 8px);
+  background-color: transparent;
+  color: var(--sm-text-secondary);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.level-overlay-close:hover {
+  background-color: var(--sm-bg-hover);
+  color: var(--sm-text-primary);
+}
+
+.level-overlay-close:focus-visible {
+  outline: 2px solid var(--sm-border-focus);
+  outline-offset: 2px;
+}
+
+.level-overlay-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 4px 20px 20px;
+}
+
+.level-overlay-status {
+  margin: 0;
+  padding: 24px 20px;
+  color: var(--sm-text-secondary);
+}
+
+.level-overlay-error {
+  margin: 16px 20px;
+  color: var(--sm-danger);
+}
+
+/*
+ * 关闭按钮的 `aria-label="关闭关卡"` 在组件里给，不在这里。
+ *
+ * 这里只保留一条与 reduce 有关的规则：**reduce 降级的是动画，不是可见性**。
+ * 面板与遮罩在 reduce 下照常出现（模糊、压暗都还在），只是不播 WAAPI 动画 ——
+ * 动画本身由 `LevelOverlay.tsx` 用 `element.animate()` 播，reduce 时干脆不调。
+ * 所以本文件里没有 `@media (prefers-reduced-motion: reduce)` 块：一旦写了，
+ * 读者会以为降级发生在 CSS 层，而真正的判据是「有没有调用 animate」。
+ */

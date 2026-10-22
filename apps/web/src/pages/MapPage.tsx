@@ -37,11 +37,13 @@ import {
   makeStyles,
   tokens,
 } from '@fluentui/react-components';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useGraph } from '../api/queries';
 import type { ContentGap } from '../api/generated/model';
+import { provideFlightCamera } from '../motion/camera-flight';
 import { GraphCanvas } from '../graph/GraphCanvas';
+import type { CinematicCamera } from '../graph/camera.js';
 import { NodeRoster } from '../graph/NodeRoster';
 import { useGraphColors } from '../graph/palette.js';
 import { StatusLegend } from '../graph/StatusLegend';
@@ -413,6 +415,23 @@ export function MapPage() {
 
   const view = useMemo(() => parseViewState(searchParams), [searchParams]);
 
+  /**
+   * 把画布的相机交给「镜头通道」（票 68）。
+   *
+   * 关卡浮层挂在应用根上，与地图页不在同一棵子树里 —— 它拿不到这里的 ref。
+   * `motion/camera-flight.ts` 就是那条单向通道：地图页登记「此刻活跃的相机」，
+   * 浮层开合时问一句「现在有没有相机可飞」。
+   *
+   * 登记的是 **ref 本身**而不是相机实例：`GraphCanvas` 在重建画布时会把
+   * `cameraRef.current` 换成新实例、卸载时置 `null`，浮层永远读到「此刻」的
+   * 那台，不会飞给一个已经被 kill 的幽灵。
+   */
+  const cameraRef = useRef<CinematicCamera | null>(null);
+  useEffect(() => {
+    provideFlightCamera(cameraRef);
+    return () => provideFlightCamera(null);
+  }, []);
+
   const index = useMemo(
     () => (graph.payload ? buildGraphIndex(graph.payload.nodes, graph.payload.edges) : null),
     [graph.payload],
@@ -604,6 +623,7 @@ export function MapPage() {
               edges={visible.edges}
               focusId={visible.focusVisible ? view.focus : null}
               onOpenNode={openNode}
+              cameraRef={cameraRef}
             />
           ) : (
             <div className={styles.mainline} data-mainline>

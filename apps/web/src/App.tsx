@@ -1,5 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router';
+import { CommandPaletteHost } from './command/CommandPaletteHost';
+import { LevelOverlayHost } from './level/LevelOverlay';
 import { appRoutes } from './routes';
 
 /**
@@ -14,6 +16,11 @@ import { appRoutes } from './routes';
  * 在一次会话内变动不频繁，切页面就重新拉会把后端打满且造成闪烁。
  *
  * 本文件**不认识任何页面**：路由表在 `routes.tsx`，加页面改那里。
+ *
+ * `CommandPaletteHost` 挂在 `RouterProvider` **旁边**而不是里面：它要在任何
+ * 页面上都能被 `Cmd/Ctrl+K` 唤起（包括 404 与错误页），而挂进路由树意味着
+ * 「每个布局都得记得再挂一次」。宿主自己用 `router.subscribe` 拿地址，不需要
+ * 路由上下文。
  */
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +38,8 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <CommandPaletteHost router={router} />
+      <LevelOverlayHost />
     </QueryClientProvider>
   );
 }
