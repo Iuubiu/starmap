@@ -46,6 +46,10 @@ export class ContentController {
            FROM sources s
            LEFT JOIN chunks c ON c.source_id = s.id
            LEFT JOIN chunk_kp_answer a ON a.chunk_id = c.id
+          -- 只列参与学习的来源。停用（enabled=false）的书整本书的知识点与
+          -- chunk 都已从库里移除，只剩 sources 行留痕；把它们列出来会得到
+          -- 一串「0 个切片、页码范围 空」的行，看的人会以为是导入失败。
+          WHERE s.enabled
           GROUP BY s.id, s.title, s.kind
           ORDER BY s.id`,
       ),

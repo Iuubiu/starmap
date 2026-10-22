@@ -613,6 +613,44 @@ function findChapterId(nodes: TocNode[], id: string): string | null {
   return null;
 }
 
+/**
+ * 停用来源的重导守卫。
+ *
+ * `sources.enabled = false` 表示这本书被有意移出学习界面（本版本：13 本英文
+ * 教材，内容质量问题推迟到下版本）。`content/` 下的产物仍然保留，因此批量
+ * 脚本或习惯性重跑很容易把它们导回来，而没有任何地方会报警。
+ *
+ * 这里在导入前查一次库：来源存在且已停用 → 抛出，要求 `--force`。
+ */
+async function guardDisabledSource(dir: string, force: boolean): Promise<void> {
+  if (force) return;
+  const tocPath = join(dir, 'toc.json');
+  if (!existsSync(tocPath)) return;
+  const sourceId = (JSON.parse(readFileSync(tocPath, 'utf8')) as { sourceId?: string })
+    .sourceId;
+  if (!sourceId) return;
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    options: '-c search_path=app,public',
+  });
+  await client.connect();
+  try {
+    const { rows } = await client.query<{ enabled: boolean }>(
+      'SELECT enabled FROM sources WHERE id = $1',
+      [sourceId],
+    );
+    if (rows.length > 0 && rows[0].enabled === false) {
+      throw new Error(
+        `来源 ${sourceId} 已被停用（sources.enabled = false），拒绝重导。\n` +
+          `  停用意味着它的知识点与 chunk 已从库里移除，重导会让它们回到学习界面。\n` +
+          `  确实要恢复就加 --force。`,
+      );
+    }
+  } finally {
+    await client.end();
+  }
+}
+
 const isMain = process.argv[1]?.replace(/\\/g, '/').includes('import-content');
 if (isMain) {
   // 参数解析：第一个非 flag 参数是内容目录。
@@ -621,9 +659,12 @@ if (isMain) {
   // 所以它必须是一个人要显式敲下的意图，而不是导入的副作用。不开时只报告。
   const rawArgs = process.argv.slice(2);
   const pruneKp = rawArgs.includes('--prune-kp');
+  const force = rawArgs.includes('--force');
   const positional = rawArgs.filter((a) => !a.startsWith('--'));
   const dir = positional[0] ?? join(here, '..', '..', '..', 'content', 'digital-kanghua-5e');
-  importContent(dir, { pruneKp })
+  // 停用的来源默认不允许重导，理由见 guardDisabledSource。
+  guardDisabledSource(dir, force)
+    .then(() => importContent(dir, { pruneKp }))
     .then((r) => {
       const digest = createHash('sha256')
         .update(JSON.stringify(r))
