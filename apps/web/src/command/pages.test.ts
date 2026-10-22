@@ -10,14 +10,16 @@ import { appRoutes } from '../routes';
  * 加名字时，这里会红在**具体缺哪个路径**上，而不是等用户发现面板里少一项。
  */
 describe('buildPageActions', () => {
-  it('真路由表生成 12 个页面动作，路径与路由表一致', () => {
+  it('真路由表生成 13 个页面动作，路径与路由表一致', () => {
     const actions = buildPageActions(appRoutes);
-    // 票 78 加了 /welcome 与 /me（9→11）；票 76 加了 /learning（11→12）。
+    // 票 78 加了 /welcome 与 /me（9→11）；票 76 加了 /learning（11→12）；
+    // 内容库加了 /library（12→13）。
     expect(actions.map((action) => action.path).sort()).toEqual([
       '/',
       '/board',
       '/database',
       '/learning',
+      '/library',
       '/map',
       '/market',
       '/market/generate',
@@ -41,6 +43,7 @@ describe('buildPageActions', () => {
         '初识',
         '我的',
         '学习记录',
+        '内容库',
       ]),
     );
   });

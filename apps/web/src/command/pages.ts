@@ -50,6 +50,7 @@ const PAGE_LABELS: Record<string, { label: string; hint: string }> = {
   '/market': { label: '关卡市场', hint: '浏览与生成关卡' },
   '/market/generate': { label: '生成关卡', hint: '按知识点现场生成' },
   '/database': { label: '数据库', hint: '题库与内容统计' },
+  '/library': { label: '内容库', hint: '教材·期刊·题库·技能' },
   '/skills': { label: '技能库', hint: '智能体技能' },
   // 票 78 新增的两页：欢迎页「初识」与「我的」。
   '/welcome': { label: '初识', hint: '八问建立学习者画像' },

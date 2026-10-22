@@ -73,7 +73,7 @@ const selectedTabLabel = (): string | null => {
 };
 
 describe('AppShell 顶栏选中态', () => {
-  it('八个标签按顺序渲染，且可访问名正确', () => {
+  it('九个标签按顺序渲染，且可访问名正确', () => {
     renderAt('/');
     // 顺序 + 可访问名一次断言。`getAllByRole` 返回的是文档顺序，正是标签的
     // 视觉顺序；用可访问名而不是 textContent，理由见文件头。
@@ -90,7 +90,7 @@ describe('AppShell 顶栏选中态', () => {
     // 「复验」跟在「定级」之后：两者都是「系统叫你去做一件事」的入口，
     // 不是查询工具。复验的依据是到期了（`next_review_at <= now`），
     // 而不是学生自己想看什么。
-    const names = ['学习记录', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库'];
+    const names = ['学习记录', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '内容库', '技能库'];
     const tabs = screen.getAllByRole('tab');
     expect(tabs).toHaveLength(names.length);
     for (const name of names) {
@@ -228,11 +228,11 @@ describe('AppShell 侧栏与抽屉', () => {
     expect(screen.queryByRole('button', { name: '收起导航' })).toBeNull();
   });
 
-  it('侧栏是带名字的 navigation 地标，八个入口都在它里面', () => {
+  it('侧栏是带名字的 navigation 地标，九个入口都在它里面', () => {
     renderAt('/');
     const nav = screen.getByRole('navigation', { name: '主导航' });
     const tabs = within(nav).getAllByRole('tab');
-    expect(tabs).toHaveLength(8);
+    expect(tabs).toHaveLength(9);
     // 全部入口必须在导航地标内，不能散落在页面其它地方 —— 否则屏幕阅读器
     // 的「跳到导航」会漏掉一部分。
     for (const name of ['学习记录', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库']) {
