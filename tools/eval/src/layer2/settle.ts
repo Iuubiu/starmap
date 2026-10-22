@@ -1,5 +1,5 @@
 /**
- * 等页面「静下来」：所有 `role=progressbar` 都消失。
+ * 等页面「静下来」：所有**不确定态** `role=progressbar` 都消失。
  *
  * 从 `stages-impl.ts` 抽出来单独一个文件，是因为 `probe` 阶段要用它，而
  * `stages-impl.ts` 又要 import `probe` 阶段 —— 两者互相 import 会成环，
@@ -30,6 +30,9 @@
  * Fluent 的 Spinner 自带这个角色，且带可访问名。按角色等不依赖任何页面的
  * 具体措辞，也不需要在每个阶段里重复写「本阶段的就绪元素是什么」。
  *
+ * 但**必须排除定值进度条**：`ProbePanel` 那条「提示等级 1/5」带
+ * `aria-valuenow`，它是量尺不是 loading，等它消失永远等不到。
+ *
  * ## 超时不报错
  *
  * 超时了就返回 —— 后面的显式检查会自己报出「没找到 X」。把「等不静」也报成
@@ -46,8 +49,18 @@ import type { Page } from '@playwright/test';
 /** 等页面静下来的默认上限。 */
 export const SETTLE_TIMEOUT = 20_000;
 
+/**
+ * 「还在转圈」的 progressbar：**没有** `aria-valuenow` 的那些。
+ *
+ * 定值进度条（如 `ProbePanel` 的「提示等级 1/5」，实测 `aria-valuenow="0.2"`）
+ * 是一条量尺，它会一直在，等它消失等于等页面永不稳定。Fluent 的不确定态
+ * ProgressBar 不输出 `aria-valuenow`，所以这个判据同时覆盖 Spinner 与
+ * 不确定态 ProgressBar，且不需要按页面措辞写例外。
+ */
+const PENDING_BARS = '[role="progressbar"]:not([aria-valuenow])';
+
 export async function waitForSettled(page: Page, timeout = SETTLE_TIMEOUT): Promise<void> {
-  const spinners = page.getByRole('progressbar');
+  const spinners = page.locator(PENDING_BARS);
   const deadline = Date.now() + timeout;
   /* 先让出一帧：刚 goto 完时 Spinner 可能还没挂上，立刻查会得到 0 个而误判
      为「已经静下来」。 */

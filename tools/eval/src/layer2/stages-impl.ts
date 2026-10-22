@@ -1122,7 +1122,7 @@ const databaseStage: StageDefinition = {
        为什要在测评里写这条：`waitForSettled` 超时是**静默返回**的，有人把
        `isPending` 用回来时，测评只会安静地多等 20 秒，然后一切如常地绿。
        这个缺陷不会把任何阶段变成红 —— 只能显式断言。 */
-    const lingering = await page.getByRole('progressbar').count();
+    const lingering = await page.locator('[role="progressbar"]:not([aria-valuenow])').count();
     if (lingering > 0) {
       const labels = await page
         .getByRole('progressbar')
