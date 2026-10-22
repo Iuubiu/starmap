@@ -12,12 +12,27 @@ import type { LlmCompleteOptions, LlmPort, LlmResult } from './llm.port.js';
 export class OpenAiCompatibleLlm implements LlmPort {
   readonly id: string;
 
+  /**
+   * 单次调用的超时毫秒，默认值可以用 `LLM_TIMEOUT_MS` 改。
+   *
+   * 为什么需要它：`fetch` 没有任何默认超时，上游一旦半天不回（d1api 这种中转会
+   * 这样），请求就干挂着。实测 12 轮长对话里四轮等了 63–78 秒，其中一轮直接
+   * 降级成「模型暂时不可用」—— 学生看到的是一个转 70 秒的 spinner。
+   *
+   * 为什么是 45 秒：慢但成功的轮次落在 63–78 秒，设 45 秒会把它们也判失败。
+   * 这里不追求「尽量成功」，而是「不再无限等」：超过 45 秒的等待对学习者
+   * 已经不是延迟，是卡死。要更宽由部署方调环境变量，不在代码里拍得更长。
+   */
+  private readonly timeoutMs: number;
+
   constructor(
     private readonly baseUrl: string,
     private readonly apiKey: string,
     private readonly model: string,
+    timeoutMs = Number(process.env.LLM_TIMEOUT_MS ?? 45_000),
   ) {
     this.id = `openai-compatible:${model}`;
+    this.timeoutMs = Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 45_000;
   }
 
   async complete(options: LlmCompleteOptions): Promise<LlmResult> {
@@ -29,6 +44,11 @@ export class OpenAiCompatibleLlm implements LlmPort {
     if (options.maxTokens) body.max_tokens = options.maxTokens;
     if (options.schema) body.response_format = { type: 'json_object' };
 
+    // 两个信号都要生效：调用方给的（客户端断开、上层取消）与本地超时。
+    // `AbortSignal.any` 在 Node 20+ 可用；任一触发都让 fetch 抛 AbortError。
+    const signals = [AbortSignal.timeout(this.timeoutMs)];
+    if (options.signal) signals.push(options.signal);
+
     const res = await fetch(`${this.baseUrl.replace(/\/$/, '')}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -36,7 +56,7 @@ export class OpenAiCompatibleLlm implements LlmPort {
         authorization: `Bearer ${this.apiKey}`,
       },
       body: JSON.stringify(body),
-      ...(options.signal ? { signal: options.signal } : {}),
+      signal: AbortSignal.any(signals),
     });
 
     if (!res.ok) {
