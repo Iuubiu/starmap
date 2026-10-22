@@ -27,7 +27,7 @@ import Sigma from 'sigma';
 import { sdfCircle, sdfDiamond, sdfSquare, sdfTriangle } from 'sigma/rendering';
 import type { GraphEdge, GraphNode } from '../api/generated/model';
 import { shouldShowLabels, shouldShowNodeLabel } from './label-threshold.js';
-import { buildLayoutGraph, startLayout, type LayoutHandle } from './layout.js';
+import { buildLayoutGraph, nodeDiameter, startLayout, type LayoutHandle } from './layout.js';
 import {
   nodeAccessibleLabel,
   STATUS_COLOR,
@@ -79,17 +79,32 @@ export interface GraphCanvasProps {
 }
 
 /**
- * 深色画布的节点尺寸。
+ * 节点尺寸的**相对**权重（状态第二编码之外的注意力引导）。
  *
  * 差异刻意但克制：需复验略大（需要被看见），未学与已掌握略小。差别不足以
  * 替代形状编码，只是让注意力有个轻微方向。
+ *
+ * 注意这里是**权重**不是像素 —— 真正的像素直径由 `nodeDiameter(节点数)` 决定
+ * （定义在 `layout.ts`：它的依据是布局跑完之后节点之间的实际间距）。
+ * `review` 的权重是分母，即「最大状态拿满直径」。
  */
-const NODE_SIZE: Record<DisplayStatus, number> = {
+const NODE_SIZE_RATIO: Record<DisplayStatus, number> = {
   unseen: 7,
   learning: 8,
   mastered: 7,
   review: 9,
 };
+
+/**
+ * 把状态权重归一化到目标直径：`review` 拿满直径，其余按比例小一点。
+ *
+ * 以最大权重为分母（而不是以 unseen 为分母）是有意的：这样
+ * `nodeDiameter()` 算出的值就是画布上**最大**的那个节点，可分辨度指标
+ * （用直径当阈值）才是保守估计 —— 小节点只会更容易分开。
+ */
+function nodeSize(count: number, status: DisplayStatus): number {
+  return (nodeDiameter(count) * NODE_SIZE_RATIO[status]) / NODE_SIZE_RATIO.review;
+}
 
 const EDGE_COLOR = '#2E3A4A';
 
@@ -158,6 +173,7 @@ export function GraphCanvas({
    */
   const display = useMemo(() => {
     const now = new Date();
+    const count = nodes.length;
     const map = new Map<
       string,
       { status: DisplayStatus; color: string; shape: string; size: number }
@@ -168,7 +184,7 @@ export function GraphCanvas({
         status,
         color: STATUS_COLOR[status],
         shape: STATUS_SHAPE[status],
-        size: NODE_SIZE[status],
+        size: nodeSize(count, status),
       });
     }
     return map;
@@ -230,13 +246,21 @@ export function GraphCanvas({
           //
           // sigma 4 把 `itemSizesReference` 的默认值改成了 `'positions'`（v3 是
           // `'screen'`）：此时 `scaleSize()` 会乘上 `cameraRatio * graphToViewportRatio`，
-          // 也就是「size 的单位是图坐标，不是像素」。本仓的 `NODE_SIZE` 是 7–9 像素、
-          // 布局种子在半径 1 的圆环上（`layout.ts` 的 `SEED_RADIUS`），两个单位一乘，
-          // 一个节点就被放大到 7 × 430 ≈ 3000 像素 —— 整块画布被最后画的那个节点的
-          // 颜色填满。实测现象是地图页画布纯色 `#5A6A80`（`unseen` 的颜色）、
-          // 3 秒与 23 秒的截图字节完全相同（6446 bytes），而右侧清单有 5495 项。
+          // 也就是「size 的单位是图坐标，不是像素」。两个单位一乘，一个节点就被
+          // 放大到几千像素 —— 整块画布被最后画的那个节点的颜色填满。实测现象是
+          // 地图页画布纯色 `#5A6A80`（`unseen` 的颜色）、3 秒与 23 秒的截图字节
+          // 完全相同（6446 bytes），而右侧清单有 5495 项。
           // 显式写 `'screen'` 把语义钉回「像素」，不依赖库的默认值。
           itemSizesReference: 'screen',
+          // 节点直径按节点数缩到 2–9px（见 `nodeDiameter()`）。5495 节点时只有
+          // 3.26px，靠指针去点它是不现实的 —— 把**拾取用的 quad** 向外撑 8px。
+          //
+          // 这不会改变视觉尺寸：sigma 的 picking pass 是独立的 framebuffer，
+          // `u_pickingPadding` 只在 `#ifdef PICKING_MODE` 里生效（顶点着色器把
+          // quad 外扩、片元着色器放宽 SDF 阈值）。等价于「可见的点小、能点的
+          // 范围大」，比叠一层透明热区 DOM 便宜，也不会破坏 `aria-hidden` 的
+          // 画布边界（票 03 第 2 条禁止在画布上叠可交互的透明层）。
+          nodePickingPadding: 8,
         },
         nodeReducer: (key) => {
           const info = displayRef.current.get(key);
