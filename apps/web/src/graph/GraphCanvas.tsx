@@ -506,8 +506,58 @@ export function GraphCanvas({
       setHighlighted(null);
     });
 
+    /**
+     * 容器变宽/变窄后重新取景（2560 下图谱挤在中间一团的修复）。
+     *
+     * 背景：sigma 在窗口 resize 时自己会 `resize()`，但**相机 ratio 不变** ——
+     * 视口变大只意味着「看到的世界更多」，于是原本取好景的图缩在正中一小块。
+     * 实测 2560 宽下 3085 个点只占画布中间约 40%。
+     *
+     * 只在 `ratio <= 1.05`（仍处于「全图适配」状态）时才重置：学生自己放大
+     * 到某一块后拉窗口，不该被拽回全图。这个判据比「有没有交互过」更简单，
+     * 也覆盖了「缩放后又缩小回全图」的情形。
+     */
+    let lastWidth = container.offsetWidth;
+    const resizeObserver =
+      typeof ResizeObserver === 'undefined'
+        ? null
+        : new ResizeObserver(() => {
+            const width = container.offsetWidth;
+            if (Math.abs(width - lastWidth) < 24) return;
+            lastWidth = width;
+            if (ratioRef.current > 1.05) return;
+            /* sigma 的 ratio=1 并不是「铺满画布」，而是 1 世界单位 = 1 像素：
+               图有多大就画多大。所以视口变宽后必须**算一个真正的适配比例**，
+               `camera.reset()` 只会回到 ratio 1（实测 2560 下 3085 个点仍只占
+               画布中间约三分之一）。这里按节点包围盒与画布尺寸取较小者。 */
+            let minX = Infinity;
+            let minY = Infinity;
+            let maxX = -Infinity;
+            let maxY = -Infinity;
+            graph.forEachNode((_id, attrs) => {
+              const x = typeof attrs.x === 'number' ? attrs.x : 0;
+              const y = typeof attrs.y === 'number' ? attrs.y : 0;
+              if (x < minX) minX = x;
+              if (y < minY) minY = y;
+              if (x > maxX) maxX = x;
+              if (y > maxY) maxY = y;
+            });
+            const bw = maxX - minX;
+            const bh = maxY - minY;
+            const ch = container.offsetHeight;
+            if (!(bw > 0) || !(bh > 0) || ch <= 0) return;
+            const fit = Math.min(width / bw, ch / bh) * 0.92;
+            created.getCamera().setState({
+              x: (minX + maxX) / 2,
+              y: (minY + maxY) / 2,
+              ratio: Number.isFinite(fit) && fit > 0 ? fit : 1,
+            });
+          });
+    resizeObserver?.observe(container);
+
     return () => {
       cancelled = true;
+      resizeObserver?.disconnect();
       window.clearTimeout(budgetTimer);
       // 尾部补发计时器必须清：它会在组件卸载后调 setState（React 会警告，
       // 而建-拆画布在切视图时是常态，不是异常路径）。
