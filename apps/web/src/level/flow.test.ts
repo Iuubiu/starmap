@@ -489,7 +489,15 @@ describe('真实手写关卡（content/levels/lv-bool-laws.spec.json）', () => 
     expect(state.finished).toBe(true);
   });
 
-  it('一次通过的分支：简单问题答对则跳过深究与进一步讲解', () => {
+  /**
+   * 用例名说的是**路径**，不是成绩。
+   *
+   * 原来叫「一次通过的分支」，读起来像在评价表现；而这个用例真正验证的是
+   * 状态机的一条分支：简单问题达标 → 跳过深究与进一步讲解。`tookRemediation`
+   * 记的也只是「有没有进过深究段」，与答对几题无关（`lv-ai-kp-tangbin-1-2`
+   * 这类题目关卡没有深究段，答对 1 题它也是 false）。
+   */
+  it('直达路径的分支：简单问题答对则跳过深究与进一步讲解', () => {
     const state = walkTo(realSpec, 'quiz', true);
     expect(currentStep(realSpec, state)?.kind).toBe('quiz');
     expect(state.skippedStepIds).toEqual(['s-deepen', 's-reteach']);

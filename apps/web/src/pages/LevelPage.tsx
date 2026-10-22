@@ -685,6 +685,28 @@ function LevelPlayer({
   );
 }
 
+/**
+ * 小结徽章的文案与颜色。
+ *
+ * 抽成纯函数只为一件事：让「这一趟走的路线」与「这一趟的成绩」在代码里
+ * 也是两个东西。返回值类型**刻意写死**成 `'subtle' | 'informative'`，
+ * 于是 `success`（绿色）在这里连编译都过不去 —— 绿色是在替学习者下
+ * 「你考得不错」的结论，而这条路径标志根本不知道答对率，它只记得
+ * 「有没有进过深究段」。
+ *
+ * 两个措辞都只说路线：`直达路径` = 简单问题一次达标、跳过了深究；
+ * `走了深究路径` = 简单问题没过、进了深究与进一步讲解。两句都不含
+ * 「通过」「全部答对」这类评价词。
+ */
+export function summaryPathBadge(tookRemediation: boolean): {
+  label: string;
+  color: 'subtle' | 'informative';
+} {
+  return tookRemediation
+    ? { label: '走了深究路径', color: 'informative' }
+    : { label: '直达路径', color: 'subtle' };
+}
+
 /** 小结段：把这一关的证据摊开，评一次出口门控，并给出「下一关 / 回知识点」的出口。 */
 function SummaryPanel({
   spec,
@@ -728,6 +750,11 @@ function SummaryPanel({
   const mastery = useMastery(spec.meta.microKpId);
 
   /**
+   * 小结徽章：说路线，不说成绩。见 `summaryPathBadge` 的注释。
+   */
+  const pathBadge = summaryPathBadge(flow.tookRemediation);
+
+  /**
    * 门控判定与历史（票 06）。判定是**显式动作**：进小结不自动 POST，
    * 否则「翻到最后一段」就等于「被考一次」，而学习者可能只是想看看小结。
    */
@@ -765,12 +792,25 @@ function SummaryPanel({
     <>
       <div className={styles.sectionHeader}>
         <Text className={styles.sectionTitle}>本关小结</Text>
+        {/*
+          徽章说的是**这一趟走的路线**，不是这一趟的成绩。
+
+          `flow.tookRemediation` 的语义只有一件事：有没有进入过「深究」段
+          （`flow.ts` 的 `advance()` 在简单问题未达标时置真）。它与答对率无关 ——
+          像 `lv-ai-kp-tangbin-1-2` 这类题目关卡只有「判定 → 小结」两段，压根没有
+          简单问题 / 深究 / 进一步讲解段，这个标志**恒为 false**。原来在这里写
+          「一次通过」，等于给一个只答对 1 题的人盖章说「你通过了」，而同一屏的
+          「本关证据」正写着「作答 5 / 答对 1」—— 两句话互相打脸。
+
+          颜色同理：绿色（success）是在替学习者下「你考得不错」的结论。两种路线
+          都不评价，所以两种都不用 success，只用中性的 informative / subtle。
+        */}
         <Badge
           appearance="tint"
-          color={flow.tookRemediation ? 'informative' : 'success'}
+          color={pathBadge.color}
           style={{ whiteSpace: 'nowrap' }}
         >
-          {flow.tookRemediation ? '走了深究路径' : '一次通过'}
+          {pathBadge.label}
         </Badge>
       </div>
 
@@ -802,7 +842,7 @@ function SummaryPanel({
           <Body1>
             {flow.tookRemediation
               ? `这一趟走了深究路径。深究与进一步讲解里的作答不计入掌握度，所以真正进 BKT 证据序列的是 ${counted} 道。`
-              : `一次通过，${counted} 道作答全部计入掌握度。`}
+              : `这一趟没触发深究，走的是直达路径。${counted} 道作答都计入掌握度（答错也算证据）。这一关判没判过，看下面的出口门控。`}
           </Body1>
           {missed > 0 && (
             <Text className={styles.warn}>

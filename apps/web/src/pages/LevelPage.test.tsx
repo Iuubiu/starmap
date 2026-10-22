@@ -10,7 +10,7 @@ import type {
   LevelDetailResponse,
   MasteryView,
 } from '../api/generated/model';
-import { LevelPage } from './LevelPage';
+import { LevelPage, summaryPathBadge } from './LevelPage';
 import * as queries from '../api/queries';
 import { ApiClientError } from '../api/fetcher';
 
@@ -188,6 +188,85 @@ const makeSpec = (
       },
     ],
     gating,
+  },
+});
+
+/**
+ * 一份**题目关卡**（`meta.type: 'quiz'`），与库里 8 张 `lv-ai-*` 同构。
+ *
+ * 为什么要专门造它：教学关卡的「简单问题」答错会掉进深究段，
+ * `tookRemediation` 因此变 true，就测不到「没进深究却答错」这个组合了。
+ * 而真实缺陷恰恰出在题目关卡上 —— 它只有「判定 → 小结」两段，压根没有
+ * 简单问题 / 深究 / 进一步讲解，`tookRemediation` **恒为 false**，于是
+ * 无论答对几题，小结都盖章说「一次通过」。
+ *
+ * 两道题的正确项都是 0，所以「全选最后一项」= 全错，且不需要改任何状态机代码。
+ */
+const makeQuizSpec = (): LevelDetailResponse => ({
+  level: {
+    levelId: 'lv-ai-kp-tangbin-1-2',
+    microKpId: 'kp-bool',
+    title: '康普顿散射与光电效应的分界',
+    itemCount: 2,
+    kind: 'quiz',
+  },
+  spec: {
+    schemaVersion: 1,
+    meta: {
+      id: 'lv-ai-kp-tangbin-1-2',
+      microKpId: 'kp-bool',
+      title: '康普顿散射与光电效应的分界',
+      type: 'quiz',
+      tier: 'P1',
+      estimatedMinutes: 6,
+      author: 'ai',
+      isEntry: false,
+      nextLevelId: null,
+    },
+    sources: [{ ref: '核电子学·王经瑾', locator: 'p.12' }],
+    cards: [
+      {
+        id: 'c-summary',
+        title: '带走一条判据',
+        body: '看入射光子能量与原子结合能的比值：远大于时以康普顿散射为主，接近时以光电效应为主。\n\n两种效应在能谱上留下的形状完全不同，所以分界点决定了探测器该选什么材料。',
+        figureRef: null,
+      },
+    ],
+    steps: [
+      { id: 's-quiz', kind: 'quiz', title: '判定', cardIds: [], itemIds: ['i-q1', 'i-q2'], requiredCorrect: 0 },
+      { id: 's-summary', kind: 'summary', title: '小结', cardIds: ['c-summary'], itemIds: [], requiredCorrect: 0 },
+    ],
+    items: [
+      {
+        id: 'i-q1',
+        kind: 'concept',
+        stem: '入射光子能量远大于原子结合能时，主导的相互作用是？',
+        options: ['康普顿散射', '光电效应', '两者各占一半'],
+        answer: 0,
+        variantGroup: 'vg-compton',
+        explainCorrect: '对：能量远大于结合能时，电子近似自由，康普顿散射占主导。',
+        explainWrong: '结合能不再约束电子，光电效应需要电子被束缚住才能整体吸收光子。',
+        misconceptionTags: ['把光电效应当成普遍情形'],
+        sourceRef: '核电子学·王经瑾·p.12',
+        pool: 'practice',
+        hintLadder: [],
+      },
+      {
+        id: 'i-q2',
+        kind: 'concept',
+        stem: '光电效应在能谱上留下的是哪种形状？',
+        options: ['全能峰', '连续康普顿平台', '两者都会出现'],
+        answer: 0,
+        variantGroup: 'vg-peak',
+        explainCorrect: '对：光子被整体吸收，沉积能量等于光子能量，形成全能峰。',
+        explainWrong: '连续平台来自康普顿散射里逃逸的那部分能量，不是光电效应。',
+        misconceptionTags: ['把康普顿平台当成光电峰'],
+        sourceRef: '核电子学·王经瑾·p.14',
+        pool: 'practice',
+        hintLadder: [],
+      },
+    ],
+    gating: { mode: 'none', itemCount: 2, passCount: 2 },
   },
 });
 
@@ -534,9 +613,10 @@ describe('LevelPage', () => {
     await user.click(screen.getByRole('button', { name: '进入下一段' }));
 
     expect(screen.getByText('本关小结')).toBeInTheDocument();
-    expect(screen.getByText('一次通过')).toBeInTheDocument();
+    // 徽章说的是这一趟走的**路线**（没进深究段），不是这一趟的成绩。
+    expect(screen.getByText('直达路径')).toBeInTheDocument();
     expect(screen.getByText('本关证据')).toBeInTheDocument();
-    expect(screen.getByText(/一次通过，2 道作答全部计入掌握度/)).toBeInTheDocument();
+    expect(screen.getByText(/这一趟没触发深究，走的是直达路径/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '回到知识点' })).toBeInTheDocument();
 
     // 双栏：历史最高（不衰减）与当前熟练度（会衰减）都必须出现，且是两个不同的数。
@@ -544,6 +624,78 @@ describe('LevelPage', () => {
     expect(screen.getByText('当前熟练度（会随时间回落，用于推荐）')).toBeInTheDocument();
     expect(screen.getByText('93%')).toBeInTheDocument();
     expect(screen.getByText('74%')).toBeInTheDocument();
+  });
+
+  it('题目关卡一道没答对、也没触发深究时，小结不能说「通过」或「全部答对」', async () => {
+    /*
+      这条是防回归用例，对应一个真实缺陷。
+
+      `lv-ai-*` 这类题目关卡只有「判定 → 小结」两段，没有简单问题 / 深究 /
+      进一步讲解，所以 `flow.tookRemediation` **恒为 false**。原来小结用它决定
+      徽章与正文，于是「答对 0 题」和「答对 5 题」看到的是同一句「一次通过，
+      N 道作答全部计入掌握度」—— 而同屏「本关证据」正写着「作答 2 / 答对 0」。
+
+      修法是让文案只陈述**路径**。这条用例就是钉住那件事：全错的情况下，
+      小结里不许出现任何评价性说法。
+    */
+    const user = userEvent.setup();
+    mockLevel(makeQuizSpec());
+    renderPage();
+
+    // 两道题的正确项都是 0，全选最后一项 = 全错；题目关卡没有简单问题段，
+    // 所以一路点下来 `tookRemediation` 保持 false。
+    //
+    // 两道题同屏渲染，各有各的「提交答案」按钮，所以分两步：先把每道题都选成
+    // 错项（选选项不会移除按钮），再逐个点提交 —— 边选边点的话，第二次查询时
+    // 上一次的按钮已经随重渲染消失了。
+    for (const group of screen.queryAllByRole('radiogroup')) {
+      const radios = within(group).getAllByRole('radio');
+      await user.click(radios[radios.length - 1]!);
+    }
+    for (let guard = 0; guard < 4; guard += 1) {
+      const [submit] = screen.queryAllByRole('button', { name: '提交答案' });
+      if (!submit) break;
+      await user.click(submit);
+    }
+    await user.click(screen.getByRole('button', { name: /进入下一段|完成本关/ }));
+
+    expect(screen.getByText('本关小结')).toBeInTheDocument();
+
+    // 前提成立：这一趟确实一道没答对（否则这条用例测的就不是它想测的东西）。
+    const summaryCard = screen.getByText('本关证据').closest('.fui-Card');
+    expect(summaryCard).not.toBeNull();
+    const summaryText = summaryCard?.textContent ?? '';
+    // 「作答 2 / 答对 0」—— 同一张卡里明写着 0 题答对。
+    expect(summaryText).toMatch(/作答2/);
+    expect(summaryText).toMatch(/答对0/);
+
+    // 徽章说的是路线（徽章在标题行，不在证据卡里）。
+    expect(screen.getByText('直达路径')).toBeInTheDocument();
+    // 证据卡里不许有把「路线」说成「成绩」的词。
+    for (const banned of ['一次通过', '全部答对', '通过了', '恭喜']) {
+      expect(summaryText).not.toContain(banned);
+    }
+    // 「直达路径」只说明没进深究段，不解释成答得好。
+    expect(screen.getByText(/这一趟没触发深究/)).toBeInTheDocument();
+  });
+
+  it('小结徽章只用中性色：路线标志拿不到「绿色=表现好」这个结论', () => {
+    /*
+      颜色也是文案。原来「没进深究」用 `success`（绿），等于替学习者下
+      「你考得不错」的结论 —— 而这条标志根本不知道答对率。
+
+      断言方式：`summaryPathBadge` 的返回类型里没有 `success`，两种路线
+      都落在中性的 `subtle` / `informative`。这条用例跑的是真函数，不是
+      复制一份期望值 —— 若有人把绿色加回去，类型先红，这条再红一次。
+    */
+    expect(summaryPathBadge(false).color).toBe('subtle');
+    expect(summaryPathBadge(true).color).toBe('informative');
+    expect(['subtle', 'informative']).toContain(summaryPathBadge(false).color);
+    expect(['subtle', 'informative']).toContain(summaryPathBadge(true).color);
+    // 两种路线的措辞都不含评价词。
+    for (const took of [false, true]) {
+      expect(summaryPathBadge(took).label).not.toMatch(/通过|全对|答对/);
+    }
   });
 
   it('小结段的掌握度取自后端；证据不足时显示「证据不足」而不是 0%', async () => {
