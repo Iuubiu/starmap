@@ -63,6 +63,12 @@ export const COLOR_KEYS = [
   'info-soft',
   // 图谱画布（专有语义）
   'graph-canvas',
+  'graph-canvas-grid',
+  'graph-edge',
+  'graph-label',
+  'graph-label-muted',
+  'graph-node-backdrop',
+  'graph-focus-ring',
   'graph-node-unseen',
   'graph-node-learning',
   'graph-node-mastered',
@@ -148,7 +154,25 @@ export const darkPalette: Palette = {
   'danger-soft': '#2C1414',
   'info-soft': '#101A2E',
 
+  /*
+   * 图谱画布 —— **两套主题都是一种浅底深色的「图表面板」**（票 62）。
+   *
+   * 这不是偷懒地把亮色主题做成深色：整张图有数千个 2–9px 的点，浅底上
+   * 深点会糊成噪点，而深底上的浅点才读得出「星图」这个隐喻。所以画布自己
+   * 带一组六件套（底/网格/连线/正文标签/弱标签/焦点底衬/焦点环），页面
+   * 的图例与清单仍走 bg-* / text-* 这些页面语义键 —— 两套主题差在 chrome，
+   * 不差在画布上那数千个点。
+   *
+   * 每个值的对比度下限写在 `src/graph/palette.ts` 的 docblock 里，测试
+   * `src/graph/palette.test.ts` 按 WCAG 公式逐对复算（正文 4.5:1、图形 3:1）。
+   */
   'graph-canvas': '#0B0B0F',
+  'graph-canvas-grid': '#1E2632',
+  'graph-edge': '#55637A',
+  'graph-label': '#E6E6EC',
+  'graph-label-muted': '#9AA0AC',
+  'graph-node-backdrop': '#1C1C22',
+  'graph-focus-ring': '#FF6B6B',
   'graph-node-unseen': '#6E6E79',
   'graph-node-learning': '#7AA2FF',
   'graph-node-mastered': '#4ADE80',
@@ -211,11 +235,26 @@ export const lightPalette: Palette = {
   'danger-soft': '#FBEAEA',
   'info-soft': '#E8F0FC',
 
-  'graph-canvas': '#ECEDF0',
-  'graph-node-unseen': '#71717D',
-  'graph-node-learning': '#1A5FD0',
-  'graph-node-mastered': '#0E7A4A',
-  'graph-node-review': '#8A5200',
+  /*
+   * 明亮主题的图谱画布：**也是深色**，但比深色主题那一档浅一阶（#14181F
+   * 对 #0B0B0F）。理由见 darkPalette 上方那段 —— 差的是「面板在页面里的
+   * 层次」，不是「这张图变成白底」。
+   *
+   * 节点四色因此不是 light 语义色（#1A5FD0 这类深蓝压在 #14181F 上只有
+   * 1.6:1），而是专为深底调亮的一套；连线（#64728C）与标签（#ECEFF4）
+   * 同样按深底重算，实测比值见 src/graph/palette.test.ts。
+   */
+  'graph-canvas': '#14181F',
+  'graph-canvas-grid': '#242A33',
+  'graph-edge': '#64728C',
+  'graph-label': '#ECEFF4',
+  'graph-label-muted': '#9AA4B2',
+  'graph-node-backdrop': '#1F2530',
+  'graph-focus-ring': '#FF8A8A',
+  'graph-node-unseen': '#8A93A3',
+  'graph-node-learning': '#8FAEFF',
+  'graph-node-mastered': '#5FD79A',
+  'graph-node-review': '#FFC061',
 
   'option-idle-border': '#71717D',
   'option-hover-bg': '#F1F1F4',

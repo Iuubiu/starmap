@@ -43,11 +43,11 @@ import { useGraph } from '../api/queries';
 import type { ContentGap } from '../api/generated/model';
 import { GraphCanvas } from '../graph/GraphCanvas';
 import { NodeRoster } from '../graph/NodeRoster';
+import { useGraphColors } from '../graph/palette.js';
 import { StatusLegend } from '../graph/StatusLegend';
 import {
   formatPercent,
   nodeAccessibleLabel,
-  STATUS_COLOR,
   STATUS_LABEL,
   STATUS_SHAPE,
   toDisplayStatus,
@@ -408,6 +408,8 @@ export function MapPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const graph = useGraph();
+  // 线性主线视图里的形状色与画布同源（票 62）
+  const colors = useGraphColors();
 
   const view = useMemo(() => parseViewState(searchParams), [searchParams]);
 
@@ -640,7 +642,7 @@ export function MapPage() {
                         aria-current={isFocus ? 'true' : undefined}
                         onClick={() => openNode(node.microKpId)}
                       >
-                        <ShapeMark shape={STATUS_SHAPE[status]} color={STATUS_COLOR[status]} />
+                        <ShapeMark shape={STATUS_SHAPE[status]} color={colors.nodes[status]} />
                         <span className={styles.rowName}>{node.name}</span>
                         {isRecommended && (
                           <span className="graph-roster-rec" aria-hidden="true">

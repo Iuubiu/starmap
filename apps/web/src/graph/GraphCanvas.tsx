@@ -26,11 +26,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Sigma from 'sigma';
 import { sdfCircle, sdfDiamond, sdfSquare, sdfTriangle } from 'sigma/rendering';
 import type { GraphEdge, GraphNode } from '../api/generated/model';
+import { CinematicCamera } from './camera.js';
 import { shouldShowLabels, shouldShowNodeLabel } from './label-threshold.js';
 import { buildLayoutGraph, nodeDiameter, startLayout, type LayoutHandle } from './layout.js';
+import { useGraphColors } from './palette.js';
 import {
   nodeAccessibleLabel,
-  STATUS_COLOR,
   STATUS_SHAPE,
   toDisplayStatus,
   type DisplayStatus,
@@ -45,8 +46,13 @@ import {
  * 版本时改动点一目了然。
  */
 interface CameraSurface {
-  getState(): { ratio: number };
+  getState(): { ratio: number; x: number; y: number };
+  setState(state: Partial<{ x: number; y: number; ratio: number }>): unknown;
   on(event: 'updated', listener: (state: { ratio: number }) => void): unknown;
+  animate(
+    state: Partial<{ x: number; y: number; ratio: number }>,
+    options?: { duration?: number },
+  ): Promise<void>;
   zoomIn(options?: { factor?: number }): Promise<void>;
   zoomOut(options?: { factor?: number }): Promise<void>;
   reset(): Promise<void>;
@@ -76,6 +82,14 @@ export interface GraphCanvasProps {
   onOpenNode: (microKpId: string) => void;
   /** 相机 ratio 变化时上报，供页面显示当前缩放 */
   onRatioChange?: (ratio: number) => void;
+  /**
+   * 交出程序化相机的挂点（票 62 验收第 5 条）。
+   *
+   * 挂载后 `ref.current` 是一台可 `animate`/`setState`/`getState` 的相机；
+   * 卸载（或画布重建）后置回 `null`。不传时行为与以前完全一致 —— 没有
+   * 全局注册表，也没有模块级单例：生命周期跟着这块画布走。
+   */
+  cameraRef?: React.RefObject<CinematicCamera | null>;
 }
 
 /**
@@ -106,7 +120,14 @@ function nodeSize(count: number, status: DisplayStatus): number {
   return (nodeDiameter(count) * NODE_SIZE_RATIO[status]) / NODE_SIZE_RATIO.review;
 }
 
-const EDGE_COLOR = '#2E3A4A';
+/**
+ * 画布上的颜色**全部**来自 `useGraphColors()`（票 62）：连线、标签、焦点底衬
+ * 与四类节点色各自是一个 `graph-*` token。这里曾经把连线色与焦点底衬色写成
+ * 两个字面量常量 —— 它们的问题不是「写死了一个值」，
+ * 而是那个值在亮色主题下没有对应的版本，于是切主题时只有节点色变、连线还是
+ * 旧暗色。颜色进 palette 之后，「两套主题」变成数据上的两行，而不是代码里的
+ * 两个分支。
+ */
 
 /**
  * 画布状态上报的最小间隔（毫秒）。
@@ -145,10 +166,21 @@ export function GraphCanvas({
   focusId,
   onOpenNode,
   onRatioChange,
+  cameraRef,
 }: GraphCanvasProps): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const sigmaRef = useRef<SigmaSurface | null>(null);
   const layoutRef = useRef<LayoutHandle | null>(null);
+  /**
+   * 画布颜色（票 62）。随 `<html data-sm-theme>` 变，不需要 ThemeProvider。
+   *
+   * sigma 的 reducer 是构造时抓走的闭包，拿不到后来的值 —— 所以除了下面的
+   * `displayRef`，再留一个 `colorsRef` 给连线与焦点底衬这两个也在闭包里的
+   * 角色用。reducer 里读 ref，主题变化时再整图 `refresh()` 一次。
+   */
+  const colors = useGraphColors();
+  const colorsRef = useRef(colors);
+  colorsRef.current = colors;
 
   const [ratio, setRatio] = useState(1);
   const [displayedLabels, setDisplayedLabels] = useState(0);
@@ -185,19 +217,28 @@ export function GraphCanvas({
     const count = nodes.length;
     const map = new Map<
       string,
-      { status: DisplayStatus; color: string; shape: string; size: number }
+      {
+        status: DisplayStatus;
+        color: string;
+        labelColor: string;
+        shape: string;
+        size: number;
+      }
     >();
     for (const node of nodes) {
       const status = toDisplayStatus(node, now);
       map.set(node.microKpId, {
         status,
-        color: STATUS_COLOR[status],
+        color: colors.nodes[status],
+        // sigma 的默认标签色是纯黑。深色画布上那是「有标签但看不见」——
+        // 实测比没有标签更糟：它会挤掉邻近节点本可以显示的名字。
+        labelColor: colors.label,
         shape: STATUS_SHAPE[status],
         size: nodeSize(count, status),
       });
     }
     return map;
-  }, [nodes]);
+  }, [nodes, colors]);
 
   // reducer 是 sigma 在构造时抓走的闭包，读 ref 才能拿到最新值而不重建 sigma
   const focusRef = useRef<string | null>(focusId);
@@ -299,8 +340,8 @@ export function GraphCanvas({
           // `'screen'`）：此时 `scaleSize()` 会乘上 `cameraRatio * graphToViewportRatio`，
           // 也就是「size 的单位是图坐标，不是像素」。两个单位一乘，一个节点就被
           // 放大到几千像素 —— 整块画布被最后画的那个节点的颜色填满。实测现象是
-          // 地图页画布纯色 `#5A6A80`（`unseen` 的颜色）、3 秒与 23 秒的截图字节
-          // 完全相同（6446 bytes），而右侧清单有 5495 项。
+          // 地图页画布被单个节点的颜色填满（`unseen` 那种灰蓝）、3 秒与 23 秒
+          // 的截图字节完全相同（6446 bytes），而右侧清单有 5495 项。
           // 显式写 `'screen'` 把语义钉回「像素」，不依赖库的默认值。
           itemSizesReference: 'screen',
           // 节点直径按节点数缩到 2–9px（见 `nodeDiameter()`）。5495 节点时只有
@@ -320,6 +361,7 @@ export function GraphCanvas({
           const isHighlighted = highlightRef.current === key;
           return {
             color: info.color,
+            labelColor: info.labelColor,
             // 第二编码：形状随状态变，缩到很小、色盲、灰度打印下都还在
             shape: info.shape,
             size: isHighlighted ? info.size * 1.7 : isFocus ? info.size * 1.4 : info.size,
@@ -327,12 +369,13 @@ export function GraphCanvas({
             zIndex: isFocus ? 3 : isHighlighted ? 2 : 1,
             // 焦点带一圈底衬，缩到全图也认得出它在哪（票 03 第 4 条的视觉面）
             backdropVisibility: isFocus ? 'visible' : 'hidden',
-            backdropColor: '#12161C',
+            backdropColor: colorsRef.current.backdrop,
             backdropPadding: 4,
             backdropCornerRadius: 6,
           };
         },
-        edgeReducer: () => ({ color: EDGE_COLOR, size: 1 }),
+        // 连线颜色同样来自 token：两套主题各一档，闭包读 ref 拿最新值
+        edgeReducer: () => ({ color: colorsRef.current.edge, size: 1 }),
       }) as unknown as SigmaSurface;
     } catch (cause) {
       // WebGL 不可用（禁用硬件加速、远程桌面、无 GPU 的容器）。这是真实的
@@ -345,6 +388,27 @@ export function GraphCanvas({
     sigmaRef.current = created;
     setLayoutSource(layout.usesWorker ? 'worker' : 'static');
     const camera = created.getCamera();
+
+    /**
+     * 把真实相机接到「程序化相机」上（票 62 验收第 5 条）。
+     *
+     * 适配器只转发三个东西：读状态、立即跳转、平滑移动。sigma 的
+     * `Camera.setState()` 接受 Partial，这里补上完整状态由 `CinematicCamera`
+     * 负责合并 —— 适配器保持「原样转发」，语义集中在相机类里，才能在
+     * jsdom 里测。
+     */
+    if (cameraRef) {
+      cameraRef.current = new CinematicCamera({
+        getState: () => {
+          const state = camera.getState();
+          return { x: state.x, y: state.y, ratio: state.ratio };
+        },
+        setState: (next) => {
+          camera.setState(next);
+        },
+        animate: (next, options) => camera.animate(next, options),
+      });
+    }
 
     /**
      * 到点就停 worker：停止**位置写回**，也就停止了 sigma 的整图重索引。
@@ -404,7 +468,7 @@ export function GraphCanvas({
     /**
      * 只在**跨过标签阈值**时刷新显示数据。
      *
-     * `refresh()` 会让 sigma 重新跑每个节点的 reducer 并重算显示集合（1789
+     * `refresh()` 会让 sigma 重新跑每个节点的 reducer 并重算显示集合（数千
      * 个节点实测 40–80ms，2000 节点更久）。而相机动画每帧都发 `updated`：
      * 滚一格滚轮就是几十帧，逐帧刷新等于把主线程占满 —— e2e 里表现为
      * `mouse.wheel` / `expect.poll` 超时，用户侧表现为「滚轮拖手」，正是
@@ -452,6 +516,10 @@ export function GraphCanvas({
       created.removeAllListeners();
       created.kill();
       sigmaRef.current = null;
+      // 相机随画布一起消失：调用方手里的 ref 必须变回 null，否则它会在
+      // 一块已经不存在的画布上 animate（sigma 的 Camera 不会报错，只是
+      // 悄悄改不到任何东西——比抛错更难查）。
+      if (cameraRef) cameraRef.current = null;
       layout.stop();
       layoutRef.current = null;
     };
@@ -459,6 +527,27 @@ export function GraphCanvas({
     // 真正把 sigma 建起来的那一下。少了它，ResizeObserver 翻完状态就没人接手。
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, edges, needsWidth]);
+
+  /**
+   * 主题变化时整图刷一次（票 62 验收第 2 条）。
+   *
+   * 为什么必须整图 `refresh()`（不带 `skipIndexation`）：节点色与标签色在
+   * `nodeReducer` 里，靠 `refresh()` 重跑就能换；但**连线颜色在
+   * `edgeReducer` 里**，只有完整刷新才会重新算一遍边的显示数据。这里刻意
+   * 不动建 sigma 的 effect 依赖 —— 重建画布会把相机、worker、布局全推倒
+   * 重来，而换主题不该让地图「重新加载」。
+   *
+   * 首次渲染跳过一次：建画布那一下内部已经刷新过，再刷一次是白花 40–80ms
+   * （数千节点的实测值）。
+   */
+  const themeRefreshSkipped = useRef(false);
+  useEffect(() => {
+    if (!themeRefreshSkipped.current) {
+      themeRefreshSkipped.current = true;
+      return;
+    }
+    sigmaRef.current?.refresh();
+  }, [colors]);
 
   /**
    * 焦点变化时把相机移到该节点。

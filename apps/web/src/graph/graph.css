@@ -1,11 +1,19 @@
 /*
- * 知识图谱的深色画布样式。
+ * 知识图谱的画布样式。
  *
  * 这些规则刻意**不**走 Fluent 的 makeStyles：画布是 spec 定下的独立视觉语言
  * （深色图谱 vs 浅色学术工作台），它需要自己的底色、自己的对比度基线、以及
  * sigma 在 `<canvas>` 上叠加元素时的绝对定位。混进 Fluent 的 token 体系会让
  * 「画布是另一个世界」这件事变得含糊，而且 sigma 的容器尺寸必须由 CSS 明确
  * 给定（否则 canvas 高度为 0，什么都画不出来）。
+ *
+ * 但「独立视觉语言」不等于「写死颜色」（票 62）。两套主题下画布**都是深色
+ * 面板** —— 一千多个 2–9px 的点压在浅色底上会糊成噪点，而节点四态色是按
+ * 深底调的 —— 所以这里变的是「用哪一套深色」而不是「深色变浅色」：
+ * 底色、网格、连线、标签、焦点环全部走 `--sm-graph-*`，画布周边的 chrome
+ * （图例、清单、按钮）走页面语义键。两套主题的取值都在
+ * `apps/web/src/theme/tokens.ts` 的 darkPalette / lightPalette 里，
+ * `tokens.test.ts` 逐字比对它们与 tokens.css 一致。
  */
 
 .graph-canvas {
@@ -26,11 +34,23 @@
    */
   min-width: 240px;
   height: 100%;
-  border-radius: 12px;
-  background-color: #12161c;
+  /*
+   * 画布面板的边界（票 62，captain 要求）。
+   *
+   * 亮主题下地图区域内是一块深色面板，它必须看起来**像一块被放进去的面板**，
+   * 而不是页面被挖了个洞：圆角 + 1px 细边框把边界说清楚。边框用
+   * `--sm-border-control` 而不是 hairline —— hairline 在深色页面上几乎看不见，
+   * 而这条边框两套主题下都要负责「框住一块不同深度的底」。
+   *
+   * 注意这 1px 会占布局：sigma 的 canvas 是 `inset: 0` 铺在内容盒里，
+   * `clientWidth` 不含边框，`resize()` 拿到的宽度仍然是内容宽度，安全。
+   */
+  border: 1px solid var(--sm-border-control);
+  border-radius: var(--sm-radius-lg);
+  background-color: var(--sm-graph-canvas);
   /* 极淡的网格暗示「这是一张图」而不是一块黑背景，同时不干扰节点的颜色判断 */
   background-image:
-    radial-gradient(circle at 1px 1px, #1e2632 1px, transparent 0);
+    radial-gradient(circle at 1px 1px, var(--sm-graph-canvas-grid) 1px, transparent 0);
   background-size: 28px 28px;
   overflow: hidden;
 }
@@ -45,7 +65,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  color: #8fa0b8;
+  color: var(--sm-graph-label-muted);
   font-size: 14px;
   line-height: 1.6;
 }
@@ -68,7 +88,7 @@
   z-index: 1;
   margin: 0;
   padding: 24px;
-  color: #8fa0b8;
+  color: var(--sm-graph-label-muted);
   font-size: 14px;
   line-height: 1.6;
 }
@@ -82,29 +102,43 @@
   gap: 6px;
 }
 
+/*
+ * 悬浮在画布上的缩放按钮。
+ *
+ * 底色用 `--sm-bg-elevated` 而不是画布色：按钮要能从深色画布上「浮起来」，
+ * 亮主题下它是深底上的浅块、深主题下是更深底色上的一档浅灰 —— 两个方向
+ * 都成立，所以不需要为按钮单独加一套键。
+ */
 .graph-canvas-zoom button {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  border: 1px solid #2e3644;
-  background-color: #1e242d;
-  color: #e8ecf2;
+  border: 1px solid var(--sm-border-control);
+  background-color: var(--sm-bg-elevated);
+  color: var(--sm-text-primary);
   font-size: 16px;
   line-height: 1;
   cursor: pointer;
 }
 
 .graph-canvas-zoom button:hover {
-  border-color: #4c8dff;
+  border-color: var(--sm-accent);
 }
 
 /*
- * 焦点环。深色画布上浏览器的默认焦点环（通常是深蓝）几乎看不见，而票 03 第
- * 7 条要求全键盘可达 —— 看得见的焦点是可达性的一半。
+ * 焦点环（票 03 第 7 条：全键盘可达）。
+ *
+ * 分两种底色：画布上的按钮用 `--sm-graph-focus-ring`（对着深色画布算过
+ * 对比度），清单项在页面底上，用页面的 `--sm-border-focus`。一条规则管两处
+ * 会让其中一处必然低对比 —— 这正是票 62 要修的毛病。
  */
-.graph-canvas-zoom button:focus-visible,
+.graph-canvas-zoom button:focus-visible {
+  outline: 2px solid var(--sm-graph-focus-ring);
+  outline-offset: 2px;
+}
+
 .graph-roster-item:focus-visible {
-  outline: 2px solid #4c8dff;
+  outline: 2px solid var(--sm-border-focus);
   outline-offset: 2px;
 }
 
@@ -113,7 +147,7 @@
   left: 12px;
   bottom: 10px;
   margin: 0;
-  color: #6b7785;
+  color: var(--sm-graph-label-muted);
   font-size: 12px;
   pointer-events: none;
 }
@@ -141,8 +175,8 @@
   gap: 6px;
   padding: 5px 9px;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  background-color: #ffffff;
+  border: 1px solid var(--sm-border-hairline);
+  background-color: var(--sm-bg-surface);
   color: inherit;
   font: inherit;
   font-size: 13px;
@@ -150,22 +184,22 @@
 }
 
 .graph-legend-item[aria-pressed='true'] {
-  border-color: #4c8dff;
-  background-color: #eef4ff;
+  border-color: var(--sm-accent);
+  background-color: var(--sm-accent-soft);
 }
 
 .graph-legend-item:focus-visible {
-  outline: 2px solid #4c8dff;
+  outline: 2px solid var(--sm-border-focus);
   outline-offset: 2px;
 }
 
 .graph-legend-count {
-  color: #616161;
+  color: var(--sm-text-secondary);
   font-variant-numeric: tabular-nums;
 }
 
 .graph-legend-total {
-  color: #9e9e9e;
+  color: var(--sm-text-tertiary);
 }
 
 /* ── 节点清单（画布的等价文本替代） ────────────────────────────────── */
@@ -188,22 +222,22 @@
   flex: 0 0 auto;
   margin-top: 4px;
   padding: 6px 8px;
-  border: 1px dashed #2e3644;
+  border: 1px dashed var(--sm-border-control);
   border-radius: 6px;
   background: transparent;
-  color: #9fb0c8;
+  color: var(--sm-text-secondary);
   font: inherit;
   font-size: 13px;
   cursor: pointer;
 }
 
 .graph-roster-more:hover {
-  border-color: #4c8dff;
-  color: #e8ecf2;
+  border-color: var(--sm-accent);
+  color: var(--sm-text-primary);
 }
 
 .graph-roster-more:focus-visible {
-  outline: 2px solid #4c8dff;
+  outline: 2px solid var(--sm-border-focus);
   outline-offset: 2px;
 }
 
@@ -227,11 +261,11 @@
 }
 
 .graph-roster-item:hover {
-  background-color: #f3f3f3;
+  background-color: var(--sm-bg-hover);
 }
 
 .graph-roster-item[data-focus='true'] {
-  background-color: #eef4ff;
+  background-color: var(--sm-bg-selected);
   font-weight: 600;
 }
 
@@ -245,9 +279,9 @@
   display: inline-block;
   padding: 0 5px;
   border-radius: 4px;
-  background-color: #fff1d6;
-  border: 1px solid #e8a33d;
-  color: #7a4a02;
+  background-color: var(--sm-warning-soft);
+  border: 1px solid var(--sm-warning);
+  color: var(--sm-warning);
   font-size: 11px;
   line-height: 16px;
   white-space: nowrap;
@@ -285,17 +319,17 @@
 }
 
 .graph-roster-state {
-  color: #616161;
+  color: var(--sm-text-secondary);
   font-size: 12px;
   white-space: nowrap;
 }
 
 .graph-roster-fine {
-  color: #9e9e9e;
+  color: var(--sm-text-tertiary);
 }
 
 .graph-roster-percent {
-  color: #616161;
+  color: var(--sm-text-secondary);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;

@@ -154,6 +154,12 @@
   --sm-info-soft: #101a2e;
 
   --sm-graph-canvas: #0b0b0f;
+  --sm-graph-canvas-grid: #1e2632;
+  --sm-graph-edge: #55637a;
+  --sm-graph-label: #e6e6ec;
+  --sm-graph-label-muted: #9aa0ac;
+  --sm-graph-node-backdrop: #1c1c22;
+  --sm-graph-focus-ring: #ff6b6b;
   --sm-graph-node-unseen: #6e6e79;
   --sm-graph-node-learning: #7aa2ff;
   --sm-graph-node-mastered: #4ade80;
@@ -212,11 +218,17 @@
   --sm-danger-soft: #fbeaea;
   --sm-info-soft: #e8f0fc;
 
-  --sm-graph-canvas: #ecedf0;
-  --sm-graph-node-unseen: #71717d;
-  --sm-graph-node-learning: #1a5fd0;
-  --sm-graph-node-mastered: #0e7a4a;
-  --sm-graph-node-review: #8a5200;
+  --sm-graph-canvas: #14181f;
+  --sm-graph-canvas-grid: #242a33;
+  --sm-graph-edge: #64728c;
+  --sm-graph-label: #eceff4;
+  --sm-graph-label-muted: #9aa4b2;
+  --sm-graph-node-backdrop: #1f2530;
+  --sm-graph-focus-ring: #ff8a8a;
+  --sm-graph-node-unseen: #8a93a3;
+  --sm-graph-node-learning: #8faeff;
+  --sm-graph-node-mastered: #5fd79a;
+  --sm-graph-node-review: #ffc061;
 
   --sm-option-idle-border: #71717d;
   --sm-option-hover-bg: #f1f1f4;

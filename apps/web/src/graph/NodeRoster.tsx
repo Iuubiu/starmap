@@ -46,11 +46,11 @@
  */
 import { useState } from 'react';
 import type { GraphNode } from '../api/generated/model';
+import { useGraphColors } from './palette.js';
 import {
   FINE_LABEL,
   formatPercent,
   nodeAccessibleLabel,
-  STATUS_COLOR,
   STATUS_LABEL,
   STATUS_SHAPE,
   toDisplayStatus,
@@ -89,6 +89,8 @@ export function NodeRoster({
   onOpen,
   recommendedIds,
 }: NodeRosterProps): React.JSX.Element {
+  // 清单里的形状色与画布同源（票 62）：两处各写一份 hex 时，切主题会只换一边
+  const colors = useGraphColors();
   // 语义顺序：模块 → 树深 → 模块内序。与线性主线视图一致，见上方注释。
   const ordered = orderMainline(nodes);
   const now = new Date();
@@ -128,7 +130,7 @@ export function NodeRoster({
               >
                 <span
                   className="graph-roster-glyph"
-                  style={{ backgroundColor: STATUS_COLOR[status] }}
+                  style={{ backgroundColor: colors.nodes[status] }}
                   data-shape={STATUS_SHAPE[status]}
                   aria-hidden="true"
                 />

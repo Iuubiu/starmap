@@ -97,3 +97,328 @@
 - `apps/web/src/graph/topology.ts:155` `visibleSubgraph(index, focusId, hops)` 已经把「全图 / 邻域」做成同一条通路；`MapPage.tsx:352` 调它、`:410` 用 `hops: view.hops ?? 2`。
 - 要加「只画有边子图 + 每簇代表节点」，就是在 `visibleSubgraph` 里多一个策略分支（按 `moduleId` 分簇，孤立节点降级为无标签小点），**不需要动 `GraphCanvas`**。
 - **不许为好看编造先修边**：真实数据只有 241 条去重边、322 个有边节点，这是数据现状（票 18 的「无证据不建边」）。
+
+### 5. t47：窄视口下画布宽度归零 → sigma 未捕获异常，降级后又发现清单高度为 0
+
+**症状（修复前，视口 400/375/320px）**：`.graph-canvas` 宽度 0、`.graph-canvas-webgl` 量不到（`-1`），控制台 `pageerror` 每次 resize 抛一次 `Error: Sigma: Container has no width. You can set the allowInvalidContainer setting to true to stop seeing this error.`。
+
+**三个独立成因，缺一个都修不好**：
+
+1. **栅格右列固定 340px，左列 `minmax(0, 1fr)` 允许归零**。`MapPage` 的 `body` 是 `grid-template-columns: minmax(0, 1fr) 340px`；视口 400px 时左列算出来 `400 − 64(padding) − 16(gap) − 340 = −20`，被 `minmax(0, …)` 夹到 0。→ 窄视口改单列（`@media (max-width: 1080px) { gridTemplateColumns: 'minmax(0, 1fr)' }`），清单落到画布下方而不是藏掉（票 03 第 7 条：画布的等价文本在清单里，藏清单等于删无障碍出口）。
+2. **`body` / `side` / `page` 都没写 `min-width: 0`**，flex/grid 项的 `min-width: auto` 让清单里 `white-space: nowrap` 的两列把整格顶到 min-content。实测 320px 视口下画布与清单**都是 331px**、整页横向滚动。→ 三处补 `minWidth: 0`，画布再靠 `.graph-canvas { min-width: 240px }` 兜底（320 − 64 = 256，留 16px 余量）。
+3. **`GraphCanvas` 在容器宽度为 0 时仍 `new Sigma()`**。sigma 的 `resize()` 是从 window resize 回调链里调的（`scheduleRefresh` → `render` → `resize`），异常落在 React 错误边界之外，`try/catch` 只能接住构造期那一次。→ 构造前先量 `container.offsetWidth`，为 0 就渲染 `.graph-canvas-blocked` 占位，并用 `ResizeObserver` 等它变宽再建；`needsWidth` 进 effect 依赖，拉宽后画布自己回来。
+
+**为什么不用 `allowInvalidContainer: true`**：它只是把 `width` 顶成 1px 继续渲染，画布仍然不可见、`camera` 比例全错，且把「这里其实量不出尺寸」这个事实藏起来。宁可显式降级并说明「这块屏幕放不下」，也不留一块 1px 的假画布。
+
+**降级分支不能只做「画布不可用」**：占位文案写「节点清单仍然可以逐个打开；把窗口拉宽一些，画布会自动出现」，且**不渲染缩放按钮**（按钮对空画布没有意义，还会成为键盘陷阱）。这条在 `.scratch/qa` 的强制零宽场景里验证过：`blockedText` 正确、`rosterItems=400` 仍在。
+
+**修好前两条后又暴露的第三个缺陷（我自己引入的）**：切单列后 `.graph-roster` 高度塌成 **0px**。单列时画布与侧栏各占一行，第二行是 `auto`，而清单是滚动容器（`overflow-y: auto` + `min-height: 0`），对 `auto` 行的固有高度贡献是 0 —— 于是行高只剩图例 32 + 按钮 34 + 两个 gap，中间一片空白。**宽度 720/636/311 都正确、400 条 `li` 也在 DOM 与无障碍树里、`isVisible()` 也报可见**，所以只断言宽度是假绿。→ `side` 在 `@media (max-width: 1080px)` 补 `minHeight: '320px'`；`narrow.spec.ts` 补一条 `rosterHeight > 120`。反向验证：删掉 `minHeight` → `width=1080：清单高度 0px，视觉上不可浏览` 立刻红。
+
+**修前 / 修后（节点数已按 `945c456` 之后的真实规模 3086 重测）**：
+
+| 视口 | 修前 canvas / webgl | 修后 canvas / webgl | 修前 roster | 修后 roster |
+|---|---|---|---|---|
+| 1440 | 780 / 780 | 780 / 780 | 340×348 | 340×348 |
+| 1080 | **420 / 420**（两列，左列被挤） | 776 / 776（单列） | 340×348 | 776×226 |
+| 900 | **280 / 280** | 636 / 636 | 340×348 | 636×226 |
+| 600 | **180 / 180** | 536 / 536 | 340×348 | 536×226 |
+| 400 | **0 / 0，`blocked`** | 336 / 336 | 340×348 | 336×188 |
+| 375 | **0 / 0，`blocked`** | 311 / 311 | 340×348 | 311×188 |
+| 320 | **0 / 0，`blocked`** | 256 / 256 | 340×348 | 256×188 |
+
+七档 `pageErrors = 0`、`documentElement.scrollWidth − innerWidth = 0`（无横向滚动）、`rosterItems = 400` 全程不变。注：节点数从 5495 掉到 3086 后，**缺陷本身没有消失** —— 窄视口下画布仍归零、sigma 仍抛错（`Sigma` 的宽度检查与节点数无关），只是 600px 档从「180px 的窄条」变成「180px 的窄条」而已；上表修前列就是证据。
+
+**测试**：`apps/web/e2e/narrow.spec.ts`（新文件）七档宽度逐一断言 `outerWidth > 0`、`webglWidth > 0`、`rosterItems > 0`、`rosterWidth > 0`、`rosterHeight > 120`、`≤1080px 时 rosterTop ≥ outerBottom − 1`（单列的直接证据）、全程 `pageErrors` 为空；另有一条「从窄视口拉宽后画布自动恢复」钉住 `needsWidth` 不是一次性判定。**这些断言只能在 Playwright 里做**：jsdom 没有布局（`offsetWidth` 恒 0）也没有 WebGL，`new Sigma()` 根本起不来。
+
+**一处如实记录（未修，属边界）**：把**已经建好**的 sigma 容器用注入样式强行压到 0 宽（人造场景，不是自然视口），window resize 仍会让已存在的 sigma 抛 `Container has no width` —— `needsWidth` 只在「构造前」把关，已经建好的实例没有二次守卫。自然路径（视口 ≤400px 冷加载 + 拉宽恢复）实测 `pageErrors = 0`，所以不构成本票的失败项；真要彻底消除，得在 sigma 的 `resize` 之前挂一层 `ResizeObserver` 强制 `kill()`，代价是每次拖窗口都重建布局，收益不成比例。
+
+### 6. t53：`/map` 冷加载 6.7s 的长任务里，72% 是「每轮布局写回都重索引整张图」
+
+**测量环境（先声明，因为它是本次归因的关键）**：以下除标注「生产构建」的行外，都是 `pnpm dev`（Vite dev server，`:5173`）+ 真实 `/api/v1/graph`（当时 **3086 节点 / 269 边**，`945c456` 语料分离之后的规模）。dev 与 production build 的成本结构**完全不同**，用 dev 数字估用户体感会高估近一倍 —— 见下面的 dev-vs-prod 对照。
+
+#### 6.1 三块成因分解
+
+用 `.scratch/qa/scenarios/zz-perf.spec.ts`（新增）跑五组对照，每组量 `PerformanceObserver('longtask')` 的条数 / 合计 / 最长，以及画布就绪（`.graph-canvas-webgl` 出现）与清单就绪时刻：
+
+| 组 | nodes | longtask 条数 | longSum | longMax | canvasAt | layout |
+|---|---|---|---|---|---|---|
+| `/board`（外壳基线） | 0 | 2 | 887 | 837 | — | none |
+| `/map` 100 节点 | 100 | 2 | 1264 | 931 | 3364 | **worker** |
+| `/map` 3086 短名（名字全是「甲」） | 3086 | 13 | 2123 | 845 | 3514 | worker |
+| `/map` 全量 | 3086 | 14 | 4178 | 2057 | 5393 | worker |
+| `/map` 无 WebGL（降级） | 0 | 3 | 1401 | 919 | — | none |
+
+改前同一脚本的对应数字（`longSum` 6115 / 条数 41 / canvasAt 4999），分解为：
+
+```
+外壳公共（/board 也有）        887      16%
+地图页 React（无 WebGL − 外壳）  514      10%
+画布固定（100 节点 − 无 WebGL）    -137     ≈0（在噪声内）
+随节点数增长（全量 − 100 节点）   2914     53%
+其余（3086 短名组揭示的标签文字量） 2055    38%  ← 见 6.2，这条在生产下不成立
+```
+
+三块里两块当场就被排除：
+- **FA2 确实在 Worker 里**：五组的 `data-layout-source` 全是 `worker`，主线程 profile 里 FA2 的 `iterate()` 采样为 0。票 03 第 1 条的要求成立，`zz-perf.spec.ts` 把它作为断言钉住。
+- **画布/WebGL 固定成本可忽略**：100 节点组已经付过一遍 program 编译与字体图集初始化，与「无 WebGL」组相比是负数（噪声）。
+
+#### 6.2 两个「看起来像原因」的假设，都被实验否掉了
+
+**假设 A：sigma 为全部 3086 个标签预生成 SDF 字形，而屏幕上只显示十几个。**
+`sigma.esm.js:2882` 的 `processWebGLLabels` docstring 明写 "Pre-generate glyphs for all node labels"，且内部只跳过 `visibility === 'hidden'` 或空标签，**不检查 `labelVisibility`**；调用点 `:4839` 传的是 `graph.nodes()` 全量。dev 的 CPU profile 也支持它：`generateSDFGlyph 7.3% + edt1d 6.3% + _defineProperty 4.1% + generateTextures 1.7% + ownKeys 1.4% = 25.6%`。
+
+**决定性实验**：保持 3086 个节点不变，把每个节点的 `name` 换成单字「甲」（`/map 3086短名` 组）。dev 下 longSum 6115 → 4588（-25%），看起来假设成立。**但换成 production build 后，同一实验是 4260 → 4334 → 4170（全名 / 单字 / 空名，差 <4%）** —— 生产下标签文字量几乎不影响。dev 那 25% 是 Vite 的模块加载与源码映射开销被算进了字形生成的采样里。
+
+**假设 B：dev 下 `<StrictMode>` 让画布建了两遍。** 这个成立，但只是 dev-only 成本：包一层 `getContext` 计数，dev 是 `webgl2: 2`（`kill @ sigma.js:7161` 占 2.9% 采样），production 是 `webgl2: 1`。
+
+**dev vs production（同一份 3086 节点数据、同一台机器）**：
+
+| | webgl2 上下文 | longtask 条数 | longSum | longMax | 画布就绪 |
+|---|---|---|---|---|---|
+| `pnpm dev` | 2 | 41 | 6115ms | 1905ms | 4999ms |
+| production build | 1 | 43 | 4260ms | 1002ms | **1595ms** |
+
+dev 的 6115ms 里约 1855ms（30%）是 StrictMode 双构建 + Vite dev 开销。**用户实际吃到的是生产那一行。**
+
+#### 6.3 真正的成因：布局每迭代一轮，主线程就重索引整张图
+
+生产构建下的长任务时间线（`probe-t53-timeline.mjs`）给出形态：
+
+```
+0-1s   2 条  合计 1170ms  最长 1109ms   ← 首屏构建
+1-2s   1 条  合计  222ms
+2-3s   9 条  合计  693ms  最长   81ms
+3-4s  12 条  合计  886ms  最长   76ms
+4-5s  11 条  合计  814ms  最长   77ms
+5-6s   9 条  合计  670ms  最长   77ms
+6s+    0 条
+```
+
+2.07s 到 5.8s 之间是 **39 条 72–81ms 的等间隔长任务**，间隔正好等于一轮 worker 迭代的往返时间。
+
+**源码因果链**（三处逐字）：
+
+1. `graphology-layout-forceatlas2/worker.js` 的 `handleMessage` 每收到一轮结果就调 `helpers.assignLayoutChanges(this.graph, matrix, this.outputReducer)`；
+2. `helpers.js` 的 `assignLayoutChanges` 用 `graph.updateEachNodeAttributes(...)` 逐节点写 `x`/`y`；
+3. sigma `sigma.esm.js:2104` 的 `bindGraphHandlers` 监听 `eachNodeAttributesUpdated`：
+   ```js
+   var updatedFields = e.hints?.attributes;
+   var layoutChanged = !updatedFields || updatedFields.some((f) => LAYOUT_IMPACTING_FIELDS.has(f));
+   ctx.refresh({ partialGraph: { nodes: graph.nodes() }, skipIndexation: !layoutChanged, schedule: true });
+   ```
+   `updateEachNodeAttributes` **不带 hints** → `updatedFields` 是 `undefined` → `layoutChanged` 恒 `true` → `skipIndexation` 恒 `false` → `refresh` 走进 `updateNode()` 的循环，**对全部 3086 个节点重跑 reducer + 样式 + 程序索引**。
+
+3086 节点实测每轮约 74ms，而一轮 worker 迭代本身只要几毫秒 —— **布局期间的主线程开销几乎全部花在这个写回重索引上，而不是布局计算**。
+
+**决定性实验（A/B）**：把 `LAYOUT_BUDGET_MS` 临时改成 `0`（布局到点立刻停）：
+
+```
+44 条 / 约 4800ms  →  2 条 / 1296ms（1052ms + 244ms）
+```
+
+**约 3500–3700ms（≈72%）全部来自布局写回循环**；首屏固有成本只有约 1300ms。中间档 `1_500` 是 16 条 / 末尾 3.2s，与预算线性相关。
+
+#### 6.4 落盘的改动：副本图解算 + 节流写回
+
+`apps/web/src/graph/layout.ts`（唯一改动的文件，+8/−1 之外主要是新增的 `syncLayoutPositions` 与注释）：
+
+- `startLayout(graph)` 里先 `solver = graph.copy()`，把 FA2 的 supervisor 绑到**副本**上；副本上的 `updateEachNodeAttributes` 不经过 sigma，不触发任何重索引。
+- 新增 `syncLayoutPositions(from, to)`：用带 hints 的 `to.updateEachNodeAttributes(fn, { attributes: ['x', 'y'] })` 一次性把副本坐标搬回渲染图 —— **只发一次事件、只重索引一次**，语义与原来逐轮写回完全一致（`x`/`y` 在 `LAYOUT_IMPACTING_FIELDS` 里，`skipIndexation` 仍是 false）。
+- 用 `window.setInterval(sync, RENDER_SYNC_MS)` 驱动，`RENDER_SYNC_MS = 400`（2.5 次/秒；先试过 200，长任务仍偏多）。
+- `stopConverging()` **先 `stopSync()` 再补一次最终写回**，然后才 `supervisor.stop()`。漏掉这一步时 worker 停了但定时器还在，把同一份冻结坐标反复写回，长任务从 13 条涨回 38 条、末尾拖到 9s —— 这是实现过程中实测到的坑，注释里写明了。
+- `stop()` 同样先 `stopSync()` 再 `kill()`。
+
+**为什么不用 `mergeNode` 逐节点搬**：`mergeNode` 不发 `eachNodeAttributesUpdated`，画布会停在种子位置一动不动（试过，`probe-t53-move.mjs` 会显示 0 帧变化）。必须让 sigma 收到**恰好一次**更新通知。
+
+#### 6.5 改前 / 改后
+
+**生产构建，3086 节点，默认 4s 预算**（`probe-t53-timeline.mjs`）：
+
+| | longtask 条数 | longSum | longMax | 布局期长任务 | 末尾 |
+|---|---|---|---|---|---|
+| 改前 | 44 | ~4800ms | 1109ms | 39 条 × 72–81ms | 5.8s |
+| 改后 | **13** | **~2200ms** | **1030ms** | 8 条（每 400ms 一次写回） | **5.6s** |
+
+**`pnpm dev`，同一份数据**（`zz-perf.spec.ts`）：
+
+| | longtask 条数 | longSum | longMax | 画布就绪 |
+|---|---|---|---|---|
+| 改前 | 41 | 6115ms | 1905ms | 4999ms |
+| 改后 | **14** | **4178ms** | 2057ms | 5393ms |
+
+longSum 降 32%（dev）/ 54%（prod），条数降 66%（dev）/ 70%（prod）。**画布就绪时刻没有变快**（dev 还略慢 0.4s，在轮次噪声内）—— 因为首屏那条 1.0–1.1s 的长任务没动，它来自 sigma 自身的节点索引与 WebGL 初始化，本票没碰。
+
+**确认写回真的在生效，而不是「什么都不动所以很快」**（`probe-t53-move.mjs`）：布局期间每 400ms 截画布取 sha1，`201ms → 3798ms` 之间连续 7 帧各不相同，`4286ms` 之后完全冻结 —— 与 4s 预算吻合。如果退回 `mergeNode` 方案，这段会显示 0 帧变化。
+
+#### 6.6 t44 的可分辨度验收没有破
+
+| | 1x blobs | 1x 最大块占比 | 3x blobs | 3x 最大块占比 |
+|---|---|---|---|---|
+| 改前 | 2130 | 0.4% | 97 | 28.3% |
+| 改后 | **2151** | **0.6%** | **97** | **32.2%** |
+
+（`e2e/t44-shots.spec.ts` 实跑，3086 节点。差异在噪声内：布局在 4s 内停，最终坐标与逐轮写回只差最后一帧。）`layout.test.ts` 的 16 条（含 `separable > 0.75`、`inner > 0.05` 那条 5000 节点回归）全绿；`probe-t53-iters.mjs` 复算 40 轮 81.2% / 60 轮 82.9%，与改前一致。
+
+#### 6.7 为什么没做更彻底的优化
+
+- **把 `LAYOUT_BUDGET_MS` 调小**（如 1.5s）：长任务能降到 16 条，但 t44 的可分辨度是「40 轮 81.2%、60 轮 82.9%」才过线，1.5s 大约只跑 60–80 轮，余量变薄；而且用户会看到布局「突然停住」。4s 保留。
+- **改成预置坐标（不跑 FA2）**：`probe-t53-iters.mjs` 的 `iters=0` 行是可分辨度 100%，但那是**向日葵盘种子本身**，没有任何拓扑信息（孤立点均匀铺开、有边的点不聚）。等于把 t44 的力导向成果扔掉，不划算。
+- **首屏那条 1.0–1.1s 的长任务**：来自 sigma 构造时的节点索引 + WebGL 初始化（`processNodes` / `loadShader` / 首帧 program 编译），要拆只能把画布改成异步分片构建，改动面远超本票且会破坏「画布就绪」的可测试性。**它是固有成本，已在票面标注。**
+
+#### 6.8 复现方式
+
+```
+pnpm dev                                   # 或 pnpm build && pnpm preview --port 4173
+node apps/web/probe-t53-timeline.mjs       # 生产：长任务时间线
+node apps/web/probe-t53-move.mjs           # 确认坐标在写回（帧指纹）
+node apps/web/probe-t53-iters.mjs          # 迭代轮数 vs 可分辨度
+cd .scratch/qa && PERF_ROUNDS=1 npx playwright test scenarios/zz-perf.spec.ts --reporter=line
+```
+
+四个探针都是本次新增、**用完即删**的临时脚本；`zz-perf.spec.ts` 留在 `.scratch/qa/scenarios/` 作为可复跑的对照实验。
+
+### 7. t43：`layout.ts` 的 `RENDER_SYNC_MS 200→400` 与 `stopConverging()` 补 `stopSync()` 的归属与证据
+
+> 归属说明：这两处改动是 t53 实现过程中调出来的，但**落在 t53 关闭之后**（t53 票面第 6 节写的是当时的状态）。按 captain 要求归进 t43（「浏览器深度验收，发现并修复全部缺陷」），在此补齐三项证据。t53 第 6 节仍是那次优化的主体记录，本节只补这两行的**改前/改后数字、视觉影响评估与反向验证**。
+
+#### 7.1 改了什么（`apps/web/src/graph/layout.ts`，`git diff --stat` = 8 插入 / 1 删除）
+
+```diff
+-const RENDER_SYNC_MS = 200;
++const RENDER_SYNC_MS = 400;
+
+     stopConverging: () => {
++      // 先停同步定时器：`supervisor.stop()` 只是不再「问下一轮」，副本坐标
++      // 就此冻结，定时器再跑也只是把同一份坐标反复写回、白白重索引。
++      stopSync();
+       // 收尾这一帧的坐标要落地，否则最后几百毫秒的位移会丢
+       syncLayoutPositions(solver, graph);
+```
+另外 8 行里还有 `stopConverging` docstring 里的一段说明（同一个理由，写给下一个读代码的人）。
+
+#### 7.2 ① 改前/改后的长任务条数与总时长
+
+**测量条件**：生产构建（`npx vite build` + `npx vite preview --port 4173`），3086 节点 / 231 边（用 `page.route` 造数与真实规模同形），1280×720，`LAYOUT_BUDGET_MS = 4_000` 不变，每档跑 **3 轮取中位数**。生产构建而非 `pnpm dev`：dev 下 `<StrictMode>` 会把画布建两次、Vite 还会把模块加载算进采样（见第 6.6 节），噪声远大于本改动的效果。
+
+| `RENDER_SYNC_MS` | longtask 条数 | longSum | longMax | 布局期条数 | 布局期合计 | 末尾时刻 | 4s 之后残留 |
+|---|---|---|---|---|---|---|---|
+| **200（改前）** | 21 | 1868ms | 234ms | 20 | 1648ms | 4555ms | 0 |
+| **400（改后）** | **12** | **1040ms** | 224ms | **11** | **803ms** | 4553ms | 0 |
+
+**条数 −43%、布局期总时长 −51%。** 首屏那条固有长任务（约 224–234ms，sigma 节点索引 + WebGL 初始化）不变，所以 longMax 几乎不动 —— 符合预期：这次改的是「布局期每轮写回」，不是首屏。
+
+复现：
+```bash
+cd apps/web && npx vite build && npx vite preview --port 4173 --strictPort &
+node apps/web/probe-t43-longtask.mjs          # 打印 median + 每轮明细
+sed -i 's/RENDER_SYNC_MS = 400/RENDER_SYNC_MS = 200/' src/graph/layout.ts && npx vite build
+node apps/web/probe-t43-longtask.mjs          # 改前
+```
+
+#### 7.3 ② 400ms 一次写回，会不会看起来「一顿一顿」
+
+这是本次改动最该被质疑的地方，所以分开量了**视觉**与**相机**两件事。
+
+**(a) 写回的视觉步长**（`apps/web/probe-t43-step.mjs`，真实快照 `.scratch/graph-3086.json`，本地跑 FA2，按两种写回间隔取快照后算**净位移** —— 不是逐轮步长累加，节点会来回晃，累加会高估）：
+
+| 写回间隔 | 第 1 次 | 第 2 次 | 第 3 次 | 第 4 次 | 第 5 次 | 稳态中位数 |
+|---|---|---|---|---|---|---|
+| 200ms（≈20 轮/次） | 23.72px | 2.50px | 1.47px | 1.08px | 0.86px | **0.86px** |
+| 400ms（≈40 轮/次） | 22.51px | 2.51px | 1.58px | 1.14px | 0.94px | **1.58px** |
+
+（单位：一次写回后节点**平均**移动的屏幕像素；`max` 见脚本输出，第 1 次写回单点最大约 250px。）
+
+**结论**：唯一的大跳变是**第一次写回**（种子盘 → 第一次力导向结果），两种间隔下都是 22–24px 平均、几乎一样大 —— 那是「布局开始」的固有观感，与 200/400 无关。进入稳态后，400ms 的步长中位数是 **1.58px**，人眼在 860×480 的画布上分辨不出这是一次跳变，观感仍是连续微动（而 200ms 是 0.86px，差别远小于「一顿一顿」的阈值）。**代价是每秒 2.5 次 vs 5 次的刷新，收益是长任务条数减半** —— 在「布局本来就只是 4 秒的过场动画」这个前提下，这笔交换划算。
+
+**(b) 拖动画布会不会滞后**：不会，且与 `RENDER_SYNC_MS` 无关。相机变换（`camera.animate/zoom`）走的是 sigma 的独立 camera 状态与 `requestAnimationFrame`，**不经过节点坐标写回**；节点坐标只影响「点在哪儿」，不影响「视口看哪儿」。所以布局期间按住拖动，画布跟随鼠标是每帧的，与 400ms 的写回节拍完全解耦。这一点是结构性的，不需要实测支撑；真正会被 400ms 影响的是「布局过程中节点的移动是否平滑」，即 (a)。
+
+#### 7.4 ③ 反向验证：两行分别改回去，长任务都真的涨回来
+
+| 配置 | longtask 条数 | longSum | 布局期条数 | 末尾时刻 | 4s 后残留 |
+|---|---|---|---|---|---|
+| 400 + `stopSync()`（**当前**） | 12 | 1040ms | 11 | 4553ms | 0 |
+| 200 + `stopSync()` | 21 | 1868ms | 20 | 4555ms | 0 |
+| 400 + **删掉 `stopSync()`** | 18 | 1673ms | 12 | **6866ms** | **5 条** |
+
+两行各自独立有效：
+- **`RENDER_SYNC_MS` 200→400**：条数 21→12、布局期 1648→803ms。
+- **`stopSync()`**：删掉后虽然布局期条数变化不大（12），但**末尾从 4.5s 拖到 6.9s、4s 预算之后还残留 5 条长任务** —— 因为 worker 停了、副本坐标冻结，定时器还在把同一份坐标反复写回、白白重索引，直到组件卸载才停。这正是 t53 票面第 6.4 节记录的「13 条涨回 38 条、末尾拖到 9s」那个坑（当时是在 dev 环境下量的，绝对数字不同，方向一致）。
+
+复现（第三行）：
+```bash
+python - <<'PY'
+import io; p='apps/web/src/graph/layout.ts'; s=io.open(p,encoding='utf-8').read()
+old="""      // 先停同步定时器：`supervisor.stop()` 只是不再「问下一轮」，副本坐标
+      // 就此冻结，定时器再跑也只是把同一份坐标反复写回、白白重索引。
+      stopSync();
+"""
+assert old in s; io.open(p,'w',encoding='utf-8',newline='\n').write(s.replace(old,'',1))
+PY
+cd apps/web && npx vite build && node probe-t43-longtask.mjs   # → 18 条 / 末尾 6866ms / 残留 5
+```
+
+#### 7.5 `apps/web/src/graph/` 下的未申报改动
+
+**只有 `layout.ts` 这一个**（`git status --short apps/web/src/graph/` → `M apps/web/src/graph/layout.ts`）。该目录其余文件（`GraphCanvas.tsx`、`graph.css`、`status.ts`、`topology.ts`、`label-threshold.ts`、`layout.test.ts` 等）在工作区里都是干净的 —— t44/t47/t53 的改动都已由各自 commit 落主干。`git diff --cached --name-only` 为空（未 `git add` 任何东西）。
+
+三个探针 `probe-t43-longtask.mjs` / `probe-t43-step.mjs` / `probe-t43-sync.mjs` 是本节的取证脚本，**取证完即删**（与 t53 的四个探针同一处理方式）；本节正文保留了完整命令，任何人可随时重建。
+
+## 8. Comments：t62 双主题适配（2026-10-22）
+
+### 8.1 方案选择：两套主题画布**都是深色面板**（选了 t62 票面的 a 方案）
+
+票面给的 b 方案（亮主题浅底深点）被否决，理由是**可量化**的：
+- 图里 3085 个点，直径 2–9px；浅底深点后，点的边缘只剩面积差，形状编码（圆/方/菱/三角）先糊掉；
+- 视觉反相后，四态色要在浅底上重新调一套（明度差比色相差更重要），等于两套配色各自维护，t63 无法复用键名；
+- a 方案把差异压在**一个维度**（画布的深浅档位），页面 chrome 仍是正常的亮/暗主题，图例、清单、按钮走页面语义键。
+
+亮主题下面板是 `#14181F`（不是 t58 初版的 `#ECEDF0`），深主题是 `#0B0B0F`；两者都要求 < 0.05 相对亮度（`palette.test.ts` 断言），且**不相等**（探针断言）。面板四周加了 1px `--sm-border-control` 细边框 + `--sm-radius-lg` 圆角：亮主题下它必须看起来像「被放进去的一块面板」，而不是页面挖了个洞。
+
+### 8.2 映射表（旧写死值 → 语义键 → dark / light）
+
+| 角色 | 旧值（写死） | 键 | dark | light |
+|---|---|---|---|---|
+| 画布底 | `#12161c` | `graph-canvas` | `#0B0B0F` | `#14181F` |
+| 网格 | `#1e2632` | `graph-canvas-grid` | `#1E2632` | `#242A33` |
+| 连线 | `#2E3A4A`（`EDGE_COLOR`） | `graph-edge` | `#55637A` | `#64728C` |
+| 节点标签 | sigma 默认 `#000` | `graph-label` | `#E6E6EC` | `#ECEFF4` |
+| hint / broken / blocked | `#6b7785` / `#8fa0b8` | `graph-label-muted` | `#9AA0AC` | `#9AA4B2` |
+| 焦点底衬 | `#12161C` | `graph-node-backdrop` | `#1C1C22` | `#1F2530` |
+| 画布焦点环 | `#4c8dff` | `graph-focus-ring` | `#FF6B6B` | `#FF8A8A` |
+| 四态节点 | `STATUS_COLOR` 常量 | `graph-node-*` | 不变（`#6E6E79` / `#7AA2FF` / `#4ADE80` / `#F5A524`） | `#8A93A3` / `#8FAEFF` / `#5FD79A` / `#FFC061` |
+| zoom 按钮 | `#2e3644` / `#1e242d` / `#e8ecf2` | `border-control` / `bg-elevated` / `text-primary` | — | — |
+| 图例底 / 边 / 数字 | `#ffffff` / `#e0e0e0` / `#616161` / `#9e9e9e` | `bg-surface` / `border-hairline` / `text-secondary` / `text-tertiary` | — | — |
+| 图例按下 | `#4c8dff` / `#eef4ff` | `accent` / `accent-soft` | — | — |
+| 清单 hover / 当前项 | `#f3f3f3` / `#eef4ff` | `bg-hover` / `bg-selected` | — | — |
+| 推荐徽标 | `#fff1d6` / `#e8a33d` / `#7a4a02` | `warning-soft` / `warning` / `warning` | — | — |
+
+关键点：**sigma 的默认标签色是纯黑**（node 与 edge 的 `labelColor` 默认值），深色画布上等于读不出 —— 这是既有缺陷，本次在 `nodeReducer` 里显式返回 `labelColor: colors.label` 修掉。标签色、连线色、焦点底衬色通过 `colorsRef` 读最新值，主题切换时整图 `refresh()` 一次（不重建画布，`data-node-count` 不变）。
+
+### 8.3 实测对比度（`zz-graph-contrast.spec.ts`，浏览器里读 `--sm-*` 现算）
+
+| 角色 | dark | light | 下限 |
+|---|---|---|---|
+| 节点标签 | 15.80:1 | 15.44:1 | 4.5 |
+| 次要标签（hint/降级文案） | 7.48:1 | 7.06:1 | 4.5 |
+| 连线 | 3.23:1 | 3.67:1 | 3 |
+| 未学 / 在学 / 已掌握 / 需复验 | 3.90 / 7.89 / 11.27 / 9.63 | 5.75 / 8.19 / 9.89 / 10.99 | 3 |
+| 画布焦点环 | 7.08:1 | 7.84:1 | 3 |
+| 页面正文 / 次要文字（vs 卡片底） | 16.29 / 7.73 | 18.04 / 7.38 | 4.5 |
+| 网格（装饰，仅记录） | 1.29:1 | 1.23:1 | — |
+
+### 8.4 事故记录：块注释里的 glob 喂出了注释终止符（全站白屏）
+
+t62 改 `apps/web/src/theme/tokens.ts` 时，docblock 里写了一句「图例与清单仍走 `bg-*/text-*` 这些页面语义键」。其中 `bg-*` 后面紧跟的 `/` 与星号组成 `*/`，**块注释在 `bg-*` 后就闭合了**，剩下的半句变成代码落进 `darkPalette` 的对象字面量里，120 行的 `{` 一直不闭合。
+
+症状与坑：
+- Vite 报 `[PARSE_ERROR] Expected ',' or '}' but found '-'`，**指到的是注释正文那一行**，与真正的缺失右括号完全无关；
+- `tsc --noEmit` 与单测也报同样的下游语法错，但**单测根本跑不到**，所以「测试全绿」在这里没有任何保护作用；
+- 开发服务器 `GET /src/theme/tokens.ts` 直接 **500**，React 一个模块都加载不了，**全站白屏**（不只地图页）；
+- 这个缺陷只在「开发服务器 + 该文件被请求」的路径上炸，构建产物与已提交版本都正常 —— 典型的「只在某人工作区里出现」的玄学。
+
+修法：`bg-* / text-*`（加空格断开 `*/`）。教训：**注释里写 glob 通配（`bg-*/text-*`、`**/*.ts`、`src/**/*.ts`）会喂出注释终止符**；写这类例子时要么加空格，要么用行注释。
+
+### 8.5 相机挂点的证据边界
+
+`cameraRef` 的挂载赋值、卸载置 null 目前只有代码 + `typecheck` + 既有 e2e 回归（28/28）作为证据：jsdom 没有 WebGL，`GraphCanvas` 在单测环境里走的是 `.graph-canvas-broken` 分支，拿不到 sigma 实例，因此**没有组件级单测**直接断言这个 ref。这条边界由 **t68（关卡浮层）在真浏览器里首次验证** —— 它要驱动「地图 → 近景」的连续缩放，挂点没接上会立刻暴露，而不是等到演示时。
+

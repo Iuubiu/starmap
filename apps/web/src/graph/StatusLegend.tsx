@@ -14,8 +14,8 @@
  * 回答，比让人在画布上数点靠谱。
  */
 import type { GraphNode } from '../api/generated/model';
+import { useGraphColors } from './palette.js';
 import {
-  STATUS_COLOR,
   STATUS_LABEL,
   STATUS_ORDER,
   STATUS_SHAPE,
@@ -23,9 +23,15 @@ import {
   type DisplayStatus,
 } from './status.js';
 
-/** 一个状态形状的 SVG 图形。尺寸固定 14px，与画布上的点视觉重量相当。 */
+/**
+ * 一个状态形状的 SVG 图形。尺寸固定 14px，与画布上的点视觉重量相当。
+ *
+ * 颜色来自 `useGraphColors()`（票 62）：图例必须与画布上那颗点同色，否则
+ * 学习者按图例找颜色会找不到 —— 两处各自硬编码时它们就是这样漂开的。
+ */
 function StatusGlyph({ status }: { status: DisplayStatus }): React.JSX.Element {
-  const color = STATUS_COLOR[status];
+  const colors = useGraphColors();
+  const color = colors.nodes[status];
   const shape = STATUS_SHAPE[status];
   // 统一在 14×14 的框里画，视觉重量一致；各形状的几何差异正是要传递的编码
   if (shape === 'square') {

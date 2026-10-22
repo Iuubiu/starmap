@@ -11,7 +11,6 @@ import {
   formatPercent,
   nodeAccessibleLabel,
   SHAPE_NAMES,
-  STATUS_COLOR,
   STATUS_LABEL,
   STATUS_ORDER,
   STATUS_SHAPE,
@@ -104,9 +103,16 @@ describe('第二编码：形状', () => {
     expect(SHAPE_NAMES[0]).toBe('circle');
   });
 
-  it('颜色也不是唯一通道：四类颜色互不相同', () => {
-    const colors = STATUS_ORDER.map((status) => STATUS_COLOR[status]);
-    expect(new Set(colors).size).toBe(4);
+  it('形状不是唯一通道：四类形状互不相同', () => {
+    const shapes = STATUS_ORDER.map((status) => STATUS_SHAPE[status]);
+    expect(new Set(shapes).size).toBe(4);
+  });
+
+  it('本模块不再持有颜色（票 62 起颜色只在 theme/tokens.ts 与 palette.ts）', () => {
+    // 这条断言守的是「别再把 hex 写回逻辑模块」：STATUS_COLOR 已删除，
+    // 导入它会让本文件编译失败；这里再加一层运行时防线，防止有人用
+    // `export * from './palette'` 之类的方式把它绕回来。
+    expect(Object.keys(STATUS_SHAPE)).toEqual([...STATUS_ORDER]);
   });
 
   it('四类的中文名逐字对应票面用词', () => {
