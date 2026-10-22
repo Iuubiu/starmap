@@ -199,6 +199,10 @@ export interface LayoutHandle {
    * `start()`），本方法是「这一轮排布就到这儿」—— 画布已经能看，继续迭代
    * 只是像素级微调，却会让主线程持续承担坐标写回的重索引成本。
    *
+   * 除了停 worker，本方法还会**停掉坐标同步定时器**并补一次最终写回：worker
+   * 停了之后副本坐标就冻结了，定时器再跑也只是把同一份坐标反复写回、白白
+   * 重索引（实测漏掉这一步会让长任务从 13 条涨回 38 条、末尾拖到 9s）。
+   *
    * 见 `GraphCanvas.tsx` 里 `LAYOUT_BUDGET_MS` 的注释：不设预算时，2000 节点
    * 的收敛期会持续产出 70–200ms 的长任务。
    */
@@ -278,7 +282,7 @@ export const FA2_SETTINGS = {
  * 实测（生产构建，3086 节点，默认 4s 预算）：见票 03 的 t53 记录。
  * 可复现：`apps/web/probe-t53-timeline.mjs`。
  */
-const RENDER_SYNC_MS = 200;
+const RENDER_SYNC_MS = 400;
 
 /**
  * 把 `from` 里的坐标搬到 `to`，只碰 `x`/`y`，并且**只发一次**更新事件。
@@ -389,6 +393,9 @@ export function startLayout(graph: LayoutGraph): LayoutHandle {
       solver = graph;
     },
     stopConverging: () => {
+      // 先停同步定时器：`supervisor.stop()` 只是不再「问下一轮」，副本坐标
+      // 就此冻结，定时器再跑也只是把同一份坐标反复写回、白白重索引。
+      stopSync();
       // 收尾这一帧的坐标要落地，否则最后几百毫秒的位移会丢
       syncLayoutPositions(solver, graph);
       // stop() 只是停下「问下一轮」，worker 与矩阵都还在，可再 start()
