@@ -1,0 +1,18 @@
+[analog-electronics-tongshibai-5e] 碎片 1 处（去标点 1、合并续行 0）
+  去标点 kp-tongshibai-5e-p598-晶体三极管模型及其参数: '、晶体三极管模型及其参数' → '晶体三极管模型及其参数'
+[nuclear-physics-experiment-methods-1997] 碎片 6 处（去标点 6、合并续行 0）
+  去标点 kp-methods-1997-p20-倍增过程统计学: '、倍增过程统计学' → '倍增过程统计学'
+  去标点 kp-methods-1997-p28-带电粒子在靶物质中的慢化: '、带电粒子在靶物质中的慢化' → '带电粒子在靶物质中的慢化'
+  去标点 kp-methods-1997-p30-重带电粒子在物质中的能量损失: '、重带电粒子在物质中的能量损失' → '重带电粒子在物质中的能量损失'
+  去标点 kp-methods-1997-p44-重离子的电子阻止本领: '、重离子的电子阻止本领' → '重离子的电子阻止本领'
+  去标点 kp-methods-1997-p325-概述: '、概述' → '概述'
+  去标点 kp-methods-1997-p375-中子全截面测量: '、中子全截面测量' → '中子全截面测量'
+[nuclear-radiation-physics-chenboxian-2011] 碎片 1 处（去标点 1、合并续行 0）
+  去标点 kp-chenboxian-2011-13-4: '。中子探测方法和常用探测器' → '中子探测方法和常用探测器'
+[radiation-detector-handbook-jichangsong-1990] 碎片 2 处（去标点 2、合并续行 0）
+  去标点 kp-jichangsong-1990-4-2-1: '：工作原理' → '工作原理'
+  去标点 kp-jichangsong-1990-p472-光导纤维光导: '，光导纤维光导' → '光导纤维光导'
+[radiation-detectors-dinghonglin-2010] 碎片 1 处（去标点 0、合并续行 1）
+  合并续行 kp-dinghonglin-2010-p1-作用与地位 → kp-dinghonglin-2010-1-1: '作用与地位' 并入 '核探测技术在核科学研究、核试验测试、核技术应用中的作用与地位'
+
+合计 11 处（已重写产物）

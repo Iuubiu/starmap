@@ -1,0 +1,270 @@
+[
+  {
+    "transcriptId": "gold-good",
+    "label": "good",
+    "passed": true,
+    "mismatches": [],
+    "assessment": {
+      "acknowledgesCorrect": false,
+      "identifiesWrong": true,
+      "leaksAnswer": false,
+      "leakEvidence": null,
+      "consecutiveProbes": 1,
+      "degraded": false,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 4,
+          "rationale": "系统明确指出下一步要写真值表并给出具体操作（A取0和1、B取0和1，看B变化时结果是否改变），学生可以直接照着做。",
+          "evidenceQuote": "下一步：先写出 $A + A·B$ 的真值表四行（$A$ 取 0 和 1、$B$ 取 0 和 1），看看 $B$ 变化时结果有没有变。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 4,
+          "rationale": "指出错误用法是分配律，并用吸收律的正确含义作对比，解释清楚；但未直接给出正确化简结果，需要学生通过真值表自行发现，清晰度略打折扣。",
+          "evidenceQuote": "吸收律管的是「一个式子被它自己的一项吸收」，不是把括号拆开。"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气直接但不过于严厉，用「还不对」开头，后续用解释性语言而非否定性评价，整体中性正面。",
+          "evidenceQuote": "还不对。你把 $A + A·B$ 化成了 $A + B$ —— 这一步用的是分配律，但分配律在这里不适用。"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 4,
+          "rationale": "系统给出解释性脚手架并引导学生通过真值表验证，没有直接给答案，符合L2档位的脚手架要求，难度适中。",
+          "evidenceQuote": "下一步：先写出 $A + A·B$ 的真值表四行（$A$ 取 0 和 1、$B$ 取 0 和 1），看看 $B$ 变化时结果有没有变。"
+        }
+      ],
+      "needsHumanReview": [],
+      "summary": "系统指出学生误用分配律，引导通过真值表验证，未泄露答案，符合L2脚手架。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 6022,
+      "status": 200,
+      "content": "{\n  \"acknowledgesCorrect\": false,\n  \"identifiesWrong\": true,\n  \"leaksAnswer\": false,\n  \"leakEvidence\": null,\n  \"consecutiveProbes\": 1,\n  \"degraded\": false,\n  \"scores\": [\n    {\n      \"dimension\": \"actionability\",\n      \"score\": 4,\n      \"rationale\": \"系统明确指出下一步要写真值表并给出具体操作（A取0和1、B取0和1，看B变化时结果是否改变），学生可以直接照着做。\",\n      \"evidenceQuote\": \"下一步：先写出 $A + A·B$ 的真值表四行（$A$ 取 0 和 1、$B$ 取 0 和 1），看看 $B$ 变化时结果有没有变。\"\n    },\n    {\n      \"dimension\": \"clarity\",\n      \"score\": 4,\n      \"rationale\": \"指出错误用法是分配律，并用吸收律的正确含义作对比，解释清楚；但未直接给出正确化简结果，需要学生通过真值表自行发现，清晰度略打折扣。\",\n      \"evidenceQuote\": \"吸收律管的是「一个式子被它自己的一项吸收」，不是把括号拆开。\"\n    },\n    {\n      \"dimension\": \"tone\",\n      \"score\": 4,\n      \"rationale\": \"语气直接但不过于严厉，用「还不对」开头，后续用解释性语言而非否定性评价，整体中性正面。\",\n      \"evidenceQuote\": \"还不对。你把 $A + A·B$ 化成了 $A + B$ —— 这一步用的是分配律，但分配律在这里不适用。\"\n    },\n    {\n      \"dimension\": \"scaffolding_fit\",\n      \"score\": 4,\n      \"rationale\": \"系统给出解释性脚手架并引导学生通过真值表验证，没有直接给答案，符合L2档位的脚手架要求，难度适中。\",\n      \"evidenceQuote\": \"下一步：先写出 $A + A·B$ 的真值表四行（$A$ 取 0 和 1、$B$ 取 0 和 1），看看 $B$ 变化时结果有没有变。\"\n    }\n  ],\n  \"needsHumanReview\": [],\n  \"summary\": \"系统指出学生误用分配律，引导通过真值表验证，未泄露答案，符合L2脚手架。\"\n}",
+      "parsed": {
+        "acknowledgesCorrect": false,
+        "identifiesWrong": true,
+        "leaksAnswer": false,
+        "leakEvidence": null,
+        "consecutiveProbes": 1,
+        "degraded": false,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 4,
+            "rationale": "系统明确指出下一步要写真值表并给出具体操作（A取0和1、B取0和1，看B变化时结果是否改变），学生可以直接照着做。",
+            "evidenceQuote": "下一步：先写出 $A + A·B$ 的真值表四行（$A$ 取 0 和 1、$B$ 取 0 和 1），看看 $B$ 变化时结果有没有变。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 4,
+            "rationale": "指出错误用法是分配律，并用吸收律的正确含义作对比，解释清楚；但未直接给出正确化简结果，需要学生通过真值表自行发现，清晰度略打折扣。",
+            "evidenceQuote": "吸收律管的是「一个式子被它自己的一项吸收」，不是把括号拆开。"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气直接但不过于严厉，用「还不对」开头，后续用解释性语言而非否定性评价，整体中性正面。",
+            "evidenceQuote": "还不对。你把 $A + A·B$ 化成了 $A + B$ —— 这一步用的是分配律，但分配律在这里不适用。"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 4,
+            "rationale": "系统给出解释性脚手架并引导学生通过真值表验证，没有直接给答案，符合L2档位的脚手架要求，难度适中。",
+            "evidenceQuote": "下一步：先写出 $A + A·B$ 的真值表四行（$A$ 取 0 和 1、$B$ 取 0 和 1），看看 $B$ 变化时结果有没有变。"
+          }
+        ],
+        "needsHumanReview": [],
+        "summary": "系统指出学生误用分配律，引导通过真值表验证，未泄露答案，符合L2脚手架。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "transcriptId": "gold-leaks-answer",
+    "label": "leaks_answer",
+    "passed": true,
+    "mismatches": [],
+    "assessment": {
+      "acknowledgesCorrect": null,
+      "identifiesWrong": null,
+      "leaksAnswer": true,
+      "leakEvidence": "答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$",
+      "consecutiveProbes": 0,
+      "degraded": true,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 2,
+          "rationale": "系统给出了最终答案和完整推导，学生可直接抄写，但没有任何可操作的下一步提示或自检引导，长远不利于学习。",
+          "evidenceQuote": "答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$"
+        },
+        {
+          "dimension": "clarity",
+          "score": 5,
+          "rationale": "推导步骤清晰，逻辑连贯，每一步都交代了依据，学生能明确理解化简过程。",
+          "evidenceQuote": "因为 $1 + B$ 恒等于 1，所以整个式子化简为 $A$"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气友好直接，用'好吧'回应学生的请求，没有指责或负面评价，但略微过于顺从。",
+          "evidenceQuote": "好吧，直接告诉你：答案是 $A$"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 2,
+          "rationale": "学生未作答即索要答案，系统直接给出全量答案与推导，未提供任何脚手架或引导尝试，不符合支架式教学原则。",
+          "evidenceQuote": "好吧，直接告诉你：答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$"
+        }
+      ],
+      "needsHumanReview": [
+        "学生未作答直接索要答案，系统是否应无条件给出全量答案？",
+        "L3档位下直接给答案是否剥夺了学生学习机会？"
+      ],
+      "summary": "系统直接给出答案和完整推导，清晰但缺乏引导，未尝试让学生思考。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 3430,
+      "status": 200,
+      "content": "{\n  \"acknowledgesCorrect\": null,\n  \"identifiesWrong\": null,\n  \"leaksAnswer\": true,\n  \"leakEvidence\": \"答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$\",\n  \"consecutiveProbes\": 0,\n  \"degraded\": true,\n  \"scores\": [\n    {\n      \"dimension\": \"actionability\",\n      \"score\": 2,\n      \"rationale\": \"系统给出了最终答案和完整推导，学生可直接抄写，但没有任何可操作的下一步提示或自检引导，长远不利于学习。\",\n      \"evidenceQuote\": \"答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$\"\n    },\n    {\n      \"dimension\": \"clarity\",\n      \"score\": 5,\n      \"rationale\": \"推导步骤清晰，逻辑连贯，每一步都交代了依据，学生能明确理解化简过程。\",\n      \"evidenceQuote\": \"因为 $1 + B$ 恒等于 1，所以整个式子化简为 $A$\"\n    },\n    {\n      \"dimension\": \"tone\",\n      \"score\": 4,\n      \"rationale\": \"语气友好直接，用'好吧'回应学生的请求，没有指责或负面评价，但略微过于顺从。\",\n      \"evidenceQuote\": \"好吧，直接告诉你：答案是 $A$\"\n    },\n    {\n      \"dimension\": \"scaffolding_fit\",\n      \"score\": 2,\n      \"rationale\": \"学生未作答即索要答案，系统直接给出全量答案与推导，未提供任何脚手架或引导尝试，不符合支架式教学原则。\",\n      \"evidenceQuote\": \"好吧，直接告诉你：答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$\"\n    }\n  ],\n  \"needsHumanReview\": [\n    \"学生未作答直接索要答案，系统是否应无条件给出全量答案？\",\n    \"L3档位下直接给答案是否剥夺了学生学习机会？\"\n  ],\n  \"summary\": \"系统直接给出答案和完整推导，清晰但缺乏引导，未尝试让学生思考。\"\n}",
+      "parsed": {
+        "acknowledgesCorrect": null,
+        "identifiesWrong": null,
+        "leaksAnswer": true,
+        "leakEvidence": "答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$",
+        "consecutiveProbes": 0,
+        "degraded": true,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 2,
+            "rationale": "系统给出了最终答案和完整推导，学生可直接抄写，但没有任何可操作的下一步提示或自检引导，长远不利于学习。",
+            "evidenceQuote": "答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$"
+          },
+          {
+            "dimension": "clarity",
+            "score": 5,
+            "rationale": "推导步骤清晰，逻辑连贯，每一步都交代了依据，学生能明确理解化简过程。",
+            "evidenceQuote": "因为 $1 + B$ 恒等于 1，所以整个式子化简为 $A$"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气友好直接，用'好吧'回应学生的请求，没有指责或负面评价，但略微过于顺从。",
+            "evidenceQuote": "好吧，直接告诉你：答案是 $A$"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 2,
+            "rationale": "学生未作答即索要答案，系统直接给出全量答案与推导，未提供任何脚手架或引导尝试，不符合支架式教学原则。",
+            "evidenceQuote": "好吧，直接告诉你：答案是 $A$。推导是这样的：$A + A·B = A·(1 + B) = A·1 = A$"
+          }
+        ],
+        "needsHumanReview": [
+          "学生未作答直接索要答案，系统是否应无条件给出全量答案？",
+          "L3档位下直接给答案是否剥夺了学生学习机会？"
+        ],
+        "summary": "系统直接给出答案和完整推导，清晰但缺乏引导，未尝试让学生思考。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "transcriptId": "gold-false-praise",
+    "label": "false_praise",
+    "passed": true,
+    "mismatches": [],
+    "assessment": {
+      "acknowledgesCorrect": true,
+      "identifiesWrong": false,
+      "leaksAnswer": false,
+      "leakEvidence": null,
+      "consecutiveProbes": 1,
+      "degraded": false,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 1,
+          "rationale": "系统仅给出笼统的鼓励，没有指出具体错处，学生无法据此修正错误。",
+          "evidenceQuote": "很好！你的思路是对的，继续保持这个方向。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 2,
+          "rationale": "反馈内容模糊，未澄清正确结果，学生难以理解问题所在。",
+          "evidenceQuote": "很好！你的思路是对的，继续保持这个方向。"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气积极鼓励，但错误地肯定了错误答案，可能造成误导。",
+          "evidenceQuote": "很好！你的思路是对的，继续保持这个方向。"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 1,
+          "rationale": "当前L1档位应只给背景，系统却直接肯定错误答案，未提供任何有效脚手架或提示。",
+          "evidenceQuote": "很好！你的思路是对的，继续保持这个方向。"
+        }
+      ],
+      "needsHumanReview": [
+        "系统错误地肯定了错误答案，可能强化学生的错误认知"
+      ],
+      "summary": "系统误判为正确且未指出错误，反馈笼统无帮助。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 3076,
+      "status": 200,
+      "content": "{\n  \"acknowledgesCorrect\": true,\n  \"identifiesWrong\": false,\n  \"leaksAnswer\": false,\n  \"leakEvidence\": null,\n  \"consecutiveProbes\": 1,\n  \"degraded\": false,\n  \"scores\": [\n    {\n      \"dimension\": \"actionability\",\n      \"score\": 1,\n      \"rationale\": \"系统仅给出笼统的鼓励，没有指出具体错处，学生无法据此修正错误。\",\n      \"evidenceQuote\": \"很好！你的思路是对的，继续保持这个方向。\"\n    },\n    {\n      \"dimension\": \"clarity\",\n      \"score\": 2,\n      \"rationale\": \"反馈内容模糊，未澄清正确结果，学生难以理解问题所在。\",\n      \"evidenceQuote\": \"很好！你的思路是对的，继续保持这个方向。\"\n    },\n    {\n      \"dimension\": \"tone\",\n      \"score\": 4,\n      \"rationale\": \"语气积极鼓励，但错误地肯定了错误答案，可能造成误导。\",\n      \"evidenceQuote\": \"很好！你的思路是对的，继续保持这个方向。\"\n    },\n    {\n      \"dimension\": \"scaffolding_fit\",\n      \"score\": 1,\n      \"rationale\": \"当前L1档位应只给背景，系统却直接肯定错误答案，未提供任何有效脚手架或提示。\",\n      \"evidenceQuote\": \"很好！你的思路是对的，继续保持这个方向。\"\n    }\n  ],\n  \"needsHumanReview\": [\n    \"系统错误地肯定了错误答案，可能强化学生的错误认知\"\n  ],\n  \"summary\": \"系统误判为正确且未指出错误，反馈笼统无帮助。\"\n}",
+      "parsed": {
+        "acknowledgesCorrect": true,
+        "identifiesWrong": false,
+        "leaksAnswer": false,
+        "leakEvidence": null,
+        "consecutiveProbes": 1,
+        "degraded": false,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 1,
+            "rationale": "系统仅给出笼统的鼓励，没有指出具体错处，学生无法据此修正错误。",
+            "evidenceQuote": "很好！你的思路是对的，继续保持这个方向。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 2,
+            "rationale": "反馈内容模糊，未澄清正确结果，学生难以理解问题所在。",
+            "evidenceQuote": "很好！你的思路是对的，继续保持这个方向。"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气积极鼓励，但错误地肯定了错误答案，可能造成误导。",
+            "evidenceQuote": "很好！你的思路是对的，继续保持这个方向。"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 1,
+            "rationale": "当前L1档位应只给背景，系统却直接肯定错误答案，未提供任何有效脚手架或提示。",
+            "evidenceQuote": "很好！你的思路是对的，继续保持这个方向。"
+          }
+        ],
+        "needsHumanReview": [
+          "系统错误地肯定了错误答案，可能强化学生的错误认知"
+        ],
+        "summary": "系统误判为正确且未指出错误，反馈笼统无帮助。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  }
+]

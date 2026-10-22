@@ -1,0 +1,16 @@
+########## 资源库/books/24_模拟电子技术基础_童诗白_华成英_第5版.pdf  pages=651
+--- needle '晶体三极管模型': pages [] (total 0)
+########## 资源库/books/18_原子核物理实验方法_修订第3版_1997.pdf  pages=483
+--- needle '带电粒子在靶物质中的慢化': pages [] (total 0)
+--- needle '重带电粒子在物质中的能量损失': pages [] (total 0)
+--- needle '重离子的电子阻止本领': pages [] (total 0)
+--- needle '倍增过程统计学': pages [] (total 0)
+--- needle '中子全截面测量': pages [] (total 0)
+--- needle '概述': pages [] (total 0)
+########## 资源库/books/06_核辐射物理及探测学_陈伯显_张智_哈工程2011.pdf  pages=490
+--- needle '中子探测方法和常用探测器': pages [] (total 0)
+########## 资源库/books/19_核辐射探测器及其实验技术手册_汲长松_1990.pdf  pages=577
+--- needle '光导纤维光导': pages [] (total 0)
+--- needle '工作原理': pages [] (total 0)
+########## 资源库/books/07_核辐射探测器_丁洪林_哈工程2010.pdf  pages=525
+--- needle '作用与地位': pages [] (total 0)

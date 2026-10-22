@@ -1,0 +1,11 @@
+import { createRequire } from 'node:module';
+import { join } from 'node:path';
+const requireApi = createRequire(join(process.cwd(), 'apps', 'api', 'package.json'));
+const { Client } = requireApi('pg');
+const url = process.env.DATABASE_URL ?? 'postgres://postgres:postgres@127.0.0.1:5432/starmap';
+const c = new Client({ connectionString: url });
+await c.connect();
+const v = await c.query('SELECT version, applied_at FROM app.schema_migrations ORDER BY version');
+console.log('applied count:', v.rows.length);
+for (const r of v.rows) console.log(' ', r.version, r.applied_at.toISOString?.() ?? r.applied_at);
+await c.end();

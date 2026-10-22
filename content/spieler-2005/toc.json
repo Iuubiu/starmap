@@ -160,7 +160,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-1-7-3",
-      "name": "电荷收集",
+      "name": "传感器物理 电荷收集",
       "num": "1.7.3",
       "printedPage": 16,
       "depth": 3,
@@ -244,7 +244,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-1-9",
-      "name": "电子学",
+      "name": "探测器系统概述 电子学",
       "num": "1.9",
       "printedPage": 29,
       "depth": 2,
@@ -268,7 +268,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-1-10-1",
-      "name": "电子学噪声",
+      "name": "探测限与分辨率 电子学噪声",
       "num": "1.10.1",
       "printedPage": 31,
       "depth": 3,
@@ -472,7 +472,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-2-3-3",
-      "name": "PN结",
+      "name": "信号形成 PN结",
       "num": "2.3.3",
       "printedPage": 59,
       "depth": 3,
@@ -712,7 +712,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-2",
-      "name": "电子学噪声（3.2 节）",
+      "name": "电子学噪声",
       "num": "3.2",
       "printedPage": 107,
       "depth": 2,
@@ -904,7 +904,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-3-7-2",
-      "name": "等效噪声电荷",
+      "name": "信号等效噪声测度 等效噪声电荷",
       "num": "3.7.2",
       "printedPage": 116,
       "depth": 3,
@@ -2140,7 +2140,7 @@
     },
     {
       "microKpId": "kp-spieler-2005-7-5-3",
-      "name": "小结",
+      "name": "缓解技术 小结",
       "num": "7.5.3",
       "printedPage": 309,
       "depth": 3,

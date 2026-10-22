@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import { decodeBuffer } from './lib_log.mjs';
+const SRC = 'C:/Users/Yhwhy/.dsh/sessions/--D-DeepSeek-starmap--/session-55c776d2-6df9-450c-abcf-db3fe6001ef9/session.v4.jsonl.zstd';
+const buf = fs.readFileSync(SRC);
+const { rows } = decodeBuffer(buf);
+const parsed = rows.map((l) => JSON.parse(l));
+const ends = parsed.filter((r) => r.type === 'turn/end');
+const tail = ends.slice(-12).map((r) => ({ turn: r.data.turn, reason: r.data.reason && r.data.reason.kind, msg: (r.data.reason && r.data.reason.error && r.data.reason.error.message || '').slice(0, 80) }));
+console.log('turns ended=' + ends.length + ' maxTurn=' + (ends.length ? ends[ends.length - 1].data.turn : 0));
+console.log(JSON.stringify(tail, null, 0));
+const last = parsed[parsed.length - 1];
+console.log('last event ' + last.type + ' seq=' + last.seq + ' at ' + new Date(last.time).toISOString());
+const now = Date.now();
+const recent = parsed.filter((r) => r.time > now - 3600e3 && r.type === 'turn/end');
+console.log('turn/end in last hour=' + recent.length + ' kinds=' + JSON.stringify(recent.map((r) => r.data.reason && r.data.reason.kind)));

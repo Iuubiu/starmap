@@ -422,3 +422,89 @@ t62 改 `apps/web/src/theme/tokens.ts` 时，docblock 里写了一句「图例�
 
 `cameraRef` 的挂载赋值、卸载置 null 目前只有代码 + `typecheck` + 既有 e2e 回归（28/28）作为证据：jsdom 没有 WebGL，`GraphCanvas` 在单测环境里走的是 `.graph-canvas-broken` 分支，拿不到 sigma 实例，因此**没有组件级单测**直接断言这个 ref。这条边界由 **t68（关卡浮层）在真浏览器里首次验证** —— 它要驱动「地图 → 近景」的连续缩放，挂点没接上会立刻暴露，而不是等到演示时。
 
+
+## 9. Comments：t73 `graph.spec.ts` 并行抖动量化（2026-10-22）
+
+### 9.1 先回答两个问题：失败率多少、是固定几条还是随机几条
+
+5 次串行连跑（`npx playwright test e2e/graph.spec.ts --workers=1`，每次独立 `PLAYWRIGHT_OUTPUT_DIR`）：
+
+| RUN | 结果 | 耗时 | 失败用例 |
+|---|---|---|---|
+| 1 | 28 passed | 3.5m | — |
+| 2 | 28 passed | 2.8m | — |
+| 3 | **4 failed / 24 passed** | 7.7m | 见下 |
+| 4 | 28 passed | 3.1m | — |
+| 5 | 28 passed | 5.6m | — |
+
+**失败率 4/(28×5) = 2.9%，但 4 条红全部集中在同一次 run**，不是随机散布在五次里。四条分别是：
+
+```
+graph.spec.ts:651  从地图点进详情，再返回地图时落到该节点为焦点的视图
+                   → locator('.graph-roster-item').first() toBeVisible 超时 60s，element(s) not found
+graph.spec.ts:680  顶栏切到知识地图后画布就绪
+                   → locator.click 超时 120s（getByRole('tab', {name:'知识地图'})）
+graph.spec.ts:689  清单项的可访问名是「名称，状态，百分比/证据不足」 → 同上 toBeVisible 超时
+graph.spec.ts:706  清单上看得见的状态文字只能来自五态词表           → 同上 toBeVisible 超时
+```
+
+### 9.2 三种可能的分辨（判据 + 证据）
+
+| 可能 | 判据 | 实测 | 结论 |
+|---|---|---|---|
+| 真实竞态（产品代码有同步 bug） | 同一用例在无外部干扰时能稳定复现失败 | 5 次里 4 次全绿，且失败集中在一次 run 的**不同**用例 | **排除** |
+| 资源竞争（抢 CPU / 抢真实库 / 抢 dev server） | 人为加压后失败率上升 | 并发双泳道（两个 Playwright 进程同时跑同一份 spec，共用 3001 库 + 5173 dev server）跑 4 次：**全部 28 passed**（lane A 4.1m/4.1m，lane B 4.2m/4.0m） | **排除** |
+| 断言对时间敏感 + 共享 checkout 的源文件写入竞态 | 失败目录的 `error-context.md` 里应能看到「不是断言，是页面根本没起来」的痕迹 | 四个失败目录 `grep -o "PARSE_ERROR\|tokens.ts:163\|Transform failed"` **三个关键词全部命中** | **成立** |
+
+决定性证据（RUN 3 某个失败目录的 page snapshot 原文）：
+
+```
+text: "[plugin:vite:oxc] Transform failed with 1 error: [PARSE_ERROR] Expected `,` or `}` but found `-`
+╭─[ src/theme/tokens.ts:163:24 ]
+│ 163 │ * 的图例与清单仍走 bg-*/text-*- 这些页面语义键 —— 两套主题差在 chrome，
+│     ┴ `,` or `}` expected
+D:/DeepSeek/starmap/apps/web/src/theme/tokens.ts"
+code: server.hmr.overlay
+```
+
+即：**RUN 3 期间另一个泳道把 `apps/web/src/theme/tokens.ts` 写成了语法错误的半成品**（块注释里 `bg-*/text-*` 的 `*/` 提前闭合了注释，见 §8.4）。vite dev 是按需 transform，所以只有那几条「RUN 3 期间才第一次加载 `/map`」的用例撞上编译错误，前 24 条用的是更早的模块图缓存 —— **这正好解释「每次挂的是不同的几条」**：失败点跟着「哪几条恰好在那几秒加载模块」走。`stat` 显示 `tokens.ts` mtime = `18:36:06`，落在 RUN 3 时间窗内；RUN 3 结束后复核 `tsc --noEmit tokens.ts` → exit 0（对方已修好）。
+
+### 9.3 修法（只改判据，不抬预算、不加 retry）
+
+改的只有 `apps/web/e2e/graph.spec.ts` 一个文件（+94/−27）：
+
+1. **新增 `waitForGraph(page)`**：先等 `.graph-canvas` 可见，再 `expect.poll` 等 `data-node-count > 0`。
+   原先是 15 处 `await expect(canvas(page)).toBeVisible({ timeout: READY })` —— 「容器可见」只证明组件挂上了，`GraphCanvas` 对空数组也渲染，不证明图已经来了。`data-node-count` 是画布从 props 直接渲染出的真实数字。
+2. **新增 `legendTotals(page)`**：先 `toHaveCount(4)` 等图例四格齐，再读计数。
+   原写法 `allTextContents()` 在图例未渲染时返回空数组 → 累加得 0 → `expect(total).toBeGreaterThan(0)` 报的是「图例数据不对」，实际只是「还没画出来」。
+3. **切回图谱视图后的单次读改成 `expect.poll(...).toBe(before)`**：切视图会重建画布，单次读会读到重建前/中途的值。
+4. **文件头补「并行泳道下不稳定」一节**：写明 5 次连跑的实测分布、四条红的真实原因（别人在写 `tokens.ts`）、并发双泳道 4 次全绿的对照、以及「跑它要独占 checkout / 不引入 retry」的结论。
+
+**没做的事**（对照票面约束）：
+- `READY` 仍是 `60_000`，**没有**把 60s 改成 120s；
+- **没有**加 `retries`（`playwright.config.ts` 保持 `retries: process.env.CI ? 1 : 0`）；
+- **没有**动 `GraphCanvas.tsx` / `layout.ts`（不在 inScope）；
+- `--workers=1` 本来就在 `playwright.config.ts` 里，本票没有改配置，只在文件头写清「它是让失败可复现，不是稳定性开关」。
+
+### 9.4 修后复跑
+
+| 阶段 | 命令 | 结果 |
+|---|---|---|
+| 冒烟 | `npx playwright test e2e/graph.spec.ts --workers=1` | 28 passed (4.9m) |
+| 连跑 5 次 | 同上 ×5，各自独立 outputDir | 见下表 |
+
+| RUN | 结果 | 耗时 | EXIT |
+|---|---|---|---|
+| 1 | 28 passed | 4.3m | 0 |
+| 2 | 28 passed | 5.6m | 0 |
+| 3 | 28 passed | 3.6m | 0 |
+| 4 | 28 passed | 3.4m | 0 |
+| 5 | 28 passed | 3.6m | 0 |
+
+**失败率 0/140 = 0%。**
+
+### 9.5 如实记录的边界
+
+- **本票不能消除「别人正在写源文件」这类假红** —— 那是共享 checkout 的物理事实，只能靠「跑 e2e 前确认没人在改 `apps/web/src/**`」或 CI 独占来规避。文件头已把这条写死。
+- 修后的判据仍然依赖 `data-node-count` 这个 DOM 属性。若将来有人把它改成异步延迟写入，`waitForGraph` 会跟着变慢但不会假绿（poll 到 60s 才红，报的是「节点数一直为 0」，比原来报「容器不可见」更接近真相）。
+- 冒烟那一次跑（4.9m）比后续 5 次（3.9–4.4m）慢，是冷启动；本票没有把它算进失败率。

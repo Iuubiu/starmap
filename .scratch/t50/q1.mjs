@@ -1,0 +1,13 @@
+import { createRequire } from 'node:module';
+import { join } from 'node:path';
+const requireApi = createRequire(join(process.cwd(), 'apps', 'api', 'package.json'));
+const { Client } = requireApi('pg');
+const c = new Client({ connectionString: process.env.DATABASE_URL ?? 'postgres://postgres:postgres@127.0.0.1:5432/starmap', options: '-c search_path=app,public' });
+await c.connect();
+const s = await c.query(`SELECT id, title, kind, lang, enabled, (SELECT count(*) FROM knowledge_points k WHERE k.source_id=s.id) kp FROM sources s ORDER BY kind, lang NULLS LAST, id`);
+for (const r of s.rows) console.log(`${r.kind}\t${r.lang ?? '-'}\t${r.enabled?'on ':'off'}\tkp=${String(r.kp).padStart(5)}\t${r.id}`);
+const t = await c.query(`SELECT count(*) kp, count(*) FILTER (WHERE is_leaf) leaf FROM knowledge_points`);
+console.log('TOTAL', t.rows[0]);
+const ch = await c.query(`SELECT count(*) FROM chunks`);
+console.log('chunks', ch.rows[0].count);
+await c.end();

@@ -1,0 +1,6 @@
+formula 总数: 10899
+仍像散文的 formula: 15
+
+逐本 (sourceId, formula, prose-like):
+  ahmed-2e                                            2    0
+  analog-electronics-kanghuaguang-5e               1619    0

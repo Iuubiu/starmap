@@ -184,7 +184,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-3-1",
-      "name": "本底",
+      "name": "前置放大器 本底",
       "num": "3.1",
       "printedPage": 135,
       "depth": 2,
@@ -676,7 +676,7 @@
     },
     {
       "microKpId": "kp-nakhostin-2018-8-4",
-      "name": "测量方法",
+      "name": "上升时间测量方法",
       "num": "8.4",
       "printedPage": 399,
       "depth": 2,

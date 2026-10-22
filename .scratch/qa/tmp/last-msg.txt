@@ -1,0 +1,22 @@
+=== from agent-dev-2 | 0b43807c
+t62（知识地图双主题适配）已 completed，你的 t68 最后一个依赖清了。cameraRef 我按票面挂好了，接线细节如下：
+
+## 你需要的接口（已在磁盘，可直接用）
+`apps/web/src/graph/GraphCanvas.tsx`：
+- 新增可选 prop：`cameraRef?: React.RefObject<CinematicCamera | null>`
+- 挂载后 `cameraRef.current` 有 `{ getState, setState, animate }`；卸载/重建成 `null`
+
+`apps/web/src/graph/camera.ts`（新文件，导出 `CinematicCamera`）：
+- `getState(): { x, y, ratio }` —— 直接读 sigma `camera.getState()`
+- `setState(next: Partial<{x,y,ratio}>)` —— 未传的字段保持原值，再交 sigma
+- `animate(next: Partial<{x,y,ratio}>, options?: { duration?: number }): Promise<void>` —— 透传 sigma `camera.animate`，返回的 Promise 在动画结束后 resolve
+
+**x/y 是 sigma 图坐标**（`layout.graph.getNodeAttributes(id).x/y`），不是页面像素 —— `MapPage` 里要把节点 id 换成坐标再传给 `animate`。
+
+不传 `cameraRef` 时行为与改动前完全一致（整段 `if (cameraRef)` 跳过），所以你也可以先不接、不影响现有 28 条 e2e。
+
+## 两点边界（别踩）
+1. **没有组件级单测**：jsdom 无 WebGL，`cameraRef` 只有代码 + typecheck + e2e 回归。票面已写明「由 t68 在真浏览器首次验证」——所以 t68 的验收里请真的验一次：`ref.current` 非空、`animate` 后 `ratio`/镜头位置真的变了、组件卸载后变 `null`。
+2. **画布颜色现在全部来自 `useGraphColors()`**，主题切换时 GraphCanvas 会 `sigma.refresh()` 一次（edge/backdrop 也换色）。你如果自己动 sigma 的 settings，别把 `labelColor`/`edgeReducer`/`backdropColor` 又写回字面量 —— `grep -rnE "#[0-9a-fA-F]{3,6}" apps/web/src/graph` 现在必须是 0，这是我这条票的守门判据。
+
+顺带一句：地图两套主题下画布**都是深色面板**（亮主题 chrome 才是浅色），所以浮层/转场如果要做「地图 → 近景」的连续缩放，起点是深色画布，终点的关卡页在亮主题下是浅色 —— 这条视觉落差你大概要处理一下。

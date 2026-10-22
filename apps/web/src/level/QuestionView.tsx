@@ -29,8 +29,10 @@ import {
   Text,
   Textarea,
   makeStyles,
+  mergeClasses,
   tokens,
 } from '@fluentui/react-components';
+import { CheckmarkCircleFilled, DismissCircleFilled } from '@fluentui/react-icons';
 import type { LevelItem } from './flow';
 import type { Feedback } from './flow';
 import type { SubmissionStatus } from './attempts';
@@ -64,9 +66,63 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     gap: '4px',
   },
+  /**
+   * 单个选项。**未选中态必须有可见边界**：单选项没有边界时，学习者只能靠
+   * 「圆点在不在」判断选没选中，而圆点只有 16px —— 一屏四五个选项时，
+   * 视线要先找圆点再回到文字，成本比一条边框高得多。
+   *
+   * 描边色用 `colorNeutralStrokeAccessible`（= `--sm-border-control`，
+   * 深 3.61 / 亮 4.82 对 `bg-surface`），不用 `colorNeutralStroke2`
+   * （= `border-hairline`，深 1.09 / 亮 1.23，等于没有边界）。
+   */
   option: {
     padding: '6px 8px',
     borderRadius: tokens.borderRadiusMedium,
+    /**
+     * 用 `border` 简写，**不能写 `borderColor` / `borderStyle` 这类长写**：
+     * Griffel 的类型层禁止同一次 `makeStyles` 里混用简写与长写（长写会被
+     * 标成 `undefined`），这条规则在 `apps/web/src/agent/EvidencePanel.tsx:54`
+     * 已有先例。所以下面 `optionSelected` / `optionLocked` 也全部重写整条
+     * `border`，而不是只改其中一段。
+     */
+    border: `1px solid ${tokens.colorNeutralStrokeAccessible}`,
+    /**
+     * 焦点环交给 UA 的 `outline: auto`（`color-scheme` 已由主题层设好，
+     * 深色下 UA 会画浅色环）。这里**不写 `outline: none`** —— 覆盖它就得
+     * 自己重画一套，而自画的环在 Windows 高对比度模式下会被抹掉。
+     * 内阴影是**补充**（画在边框内侧，不与 outline 抢同一圈像素）。
+     */
+    ':focus-within': {
+      boxShadow: `inset 0 0 0 2px ${tokens.colorStrokeFocus2}`,
+    },
+  },
+  /**
+   * 已选中。背景换成 `colorNeutralBackground1Selected`（= `--sm-bg-selected`，
+   * 深底近黑 / 亮底近粉），描边换成品牌色 —— 底色 + 描边 + 圆点
+   * 三重编码，色弱学习者即使分不出底色也能看见描边变粗。
+   */
+  optionSelected: {
+    background: tokens.colorNeutralBackground1Selected,
+    border: `1px solid ${tokens.colorBrandStroke1}`,
+  },
+  /**
+   * 已锁定（交卷后）。**刻意不让它「变淡」**：把禁用态画成低对比度是
+   * 最省事的做法，代价是低视力学习者读不出自己刚选了什么 —— 而「我刚才
+   * 选了哪个」正是交卷后最该能看清的信息。
+   *
+   * 所以禁用靠**虚线边框**（形状通道）表示。WCAG 1.4.11 对禁用控件本可
+   * 豁免，这里不豁免。
+   *
+   * 颜色用 `colorNeutralForeground2`（= `--sm-text-secondary`）而不是
+   * `colorNeutralStrokeAccessible`（= `border-control`）：锁定态可能落在
+   * `bg-selected` 上（刚选中的那一项），而 `border-control` 对深色
+   * `bg-selected` 只有 **2.82:1**，正好卡在 3:1 之下。`text-secondary`
+   * 对 `bg-surface` 7.73 / 6.04（深）、`bg-selected` 6.04 / 6.34（浅），
+   * 两种底、两套主题全部远超 3:1。
+   */
+  optionLocked: {
+    border: `1px dashed ${tokens.colorNeutralForeground2}`,
+    color: tokens.colorNeutralForeground2,
   },
   actions: {
     display: 'flex',
@@ -74,23 +130,61 @@ const useStyles = makeStyles({
     alignItems: 'center',
     flexWrap: 'wrap',
   },
-  /** 对：绿底。错：红底但**不写「错误」两个大字**——写「再想一下这条规则」。 */
+  /**
+   * 对：绿底 + 绿边。边用 `colorPaletteGreenBorder1`（= `--sm-success`，
+   * 深 9.43 / 亮 4.78 对各自 soft 底，均 ≥3）。
+   *
+   * **左侧 3px 竖条**是第二重编码：颜色之外给一个形状信号，色弱学习者
+   * 靠「左边有一条粗线」也能认出这是结果条。用 `border-left` 而不是
+   * 伪元素，是因为它在打印与高对比度模式下都不会被丢掉。
+   */
   correctBar: {
     background: tokens.colorPaletteGreenBackground1,
     border: `1px solid ${tokens.colorPaletteGreenBorder1}`,
+    borderLeft: `3px solid ${tokens.colorPaletteGreenBorder1}`,
   },
+  /**
+   * 错：警示底 + 警示边。**边色不是 Fluent 的 palette 黄**（亮主题下
+   * 没有任何 Fluent 黄能到 3:1，最高 1.30），而是本仓的 `--sm-warning`
+   * （深主题偏亮的琥珀、亮主题偏暗的褐，对各自 soft 底 7.98 / 5.67）。
+   *
+   * 这里用 `colorPaletteDarkOrangeBorder1`（theme.ts 把它映射到
+   * `palette['warning']`）而不是 `colorPaletteYellowBorder1`：两者值相同，
+   * 但「错」在本仓语义里属于警示（DarkOrange），黄色那组只为兼容 Fluent
+   * 的 Badge `color="warning"` 保留。选语义正确的那个，将来有人改黄色组
+   * 不会连带改坏这条反馈条。
+   */
   wrongBar: {
-    background: tokens.colorPaletteYellowBackground1,
-    border: `1px solid ${tokens.colorPaletteYellowBorder1}`,
+    background: tokens.colorPaletteDarkOrangeBackground1,
+    border: `1px solid ${tokens.colorPaletteDarkOrangeBorder1}`,
+    borderLeft: `3px solid ${tokens.colorPaletteDarkOrangeBorder1}`,
   },
-  /** 已提交、对错未知（复验题）：中性底色，不暗示任何一种结果。 */
+  /**
+   * 已提交、对错未知（复验题）：中性底色，不暗示任何一种结果。
+   *
+   * 边框用 `colorNeutralStrokeAccessible`（= `border-control`）而不是
+   * `colorNeutralStroke2`（= `border-hairline`，深 1.09 / 亮 1.23）：
+   * 这条 bar 是「你的答案已经交上去了，正在等结果」的唯一提示，边框若
+   * 淡到看不见，它就和普通的段落块没区别了。对 `bg-elevated` 是
+   * 深 3.37 / 亮 4.50，两套主题都达标。
+   */
   pendingBar: {
     background: tokens.colorNeutralBackground3,
-    border: `1px solid ${tokens.colorNeutralStroke2}`,
+    border: `1px solid ${tokens.colorNeutralStrokeAccessible}`,
   },
+  /**
+   * 结果图标。**不再 `aria-hidden`**：色弱用户、屏幕阅读器用户、以及
+   * 「扫一眼就知道对错」的所有人都靠它。图标自带 `role="img"` +
+   * `aria-label`，读屏会念「答对」/「没答对」。
+   *
+   * 字号跟着标题走（`1em`），不写死 px —— 它现在是标题行的一部分，
+   * 不是装饰。
+   */
   checkIcon: {
-    fontFamily: tokens.fontFamilyMonospace,
-    fontWeight: tokens.fontWeightBold,
+    display: 'inline-flex',
+    alignItems: 'center',
+    marginRight: '6px',
+    verticalAlign: '-0.125em',
   },
   tags: {
     display: 'flex',
@@ -290,14 +384,37 @@ export function QuestionView({
           onChange={(_, data) => setDraftChoice(data.value)}
           disabled={locked}
         >
-          {item.options.map((option, index) => (
-            <Radio
-              key={index}
-              className={styles.option}
-              value={String(index)}
-              label={plainText(option)}
-            />
-          ))}
+          {item.options.map((option, index) => {
+            const value = String(index);
+            /**
+             * 三态由 `value` 与锁定状态推出，不用额外 state：
+             * - 已选中 = `draftChoice === value`（受控，React 单一真源）
+             * - 锁定 = 交卷后（`locked`），此时仍要显示「选了哪个」
+             */
+            const selected = draftChoice === value;
+            return (
+              <Radio
+                key={index}
+                /**
+                 * **必须用 `mergeClasses` 而不是字符串拼接**：Fluent 的 `Radio`
+                 * 内部会对传入的 `className` 再跑一次 `mergeClasses`，如果传进去
+                 * 的是几个原子类拼成的字符串，它会打警告
+                 * 「a passed string contains multiple identifiers of atomic classes」，
+                 * 并且**无法正确去重** —— 两个类都声明 `border` 时谁赢取决于
+                 * 样式表顺序，而不是调用顺序。
+                 */
+                className={mergeClasses(
+                  styles.option,
+                  selected && styles.optionSelected,
+                  locked && styles.optionLocked,
+                )}
+                value={value}
+                label={plainText(option)}
+                data-option-state={selected ? 'selected' : 'idle'}
+                data-option-locked={locked ? 'true' : undefined}
+              />
+            );
+          })}
         </RadioGroup>
       ) : (
         <Textarea
@@ -385,8 +502,21 @@ export function QuestionView({
         >
           <MessageBarBody>
             <MessageBarTitle>
-              <span className={styles.checkIcon} aria-hidden>
-                {submitted.feedback.correct ? '✓ ' : '△ '}
+              {/**
+               * 图标是**语义的一部分**，不再 `aria-hidden`。
+               *
+               * 修复的缺陷：改之前这里是 `<span aria-hidden>✓ / △</span>`，
+               * 而 ✓ 与 △ 在色弱用户眼里只差一点点形状、屏幕阅读器则完全
+               * 拿不到 —— 对错只能靠底色区分（旧底 1.05:1）。现在图标带
+               * `role="img"` + `aria-label`，读屏念「答对」/「没答对」；
+               * 视觉上还有左侧 3px 竖条与整段文字兜底，三重通道。
+               */}
+              <span className={styles.checkIcon}>
+                {submitted.feedback.correct ? (
+                  <CheckmarkCircleFilled role="img" aria-label="答对" />
+                ) : (
+                  <DismissCircleFilled role="img" aria-label="没答对" />
+                )}
               </span>
               {submitted.feedback.correct ? '答对了' : '这条没答对，看下错在哪'}
             </MessageBarTitle>

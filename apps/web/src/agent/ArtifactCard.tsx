@@ -35,7 +35,10 @@ import {
   tokens,
 } from '@fluentui/react-components';
 import type { ReactNode } from 'react';
-import type { AgentTurnResponseArtifact } from '../api/generated/model';
+import type {
+  AgentTurnResponseArtifact,
+  AgentTurnResponseClarify,
+} from '../api/generated/model';
 import { InlineRich } from '../level/markdown';
 import { masteryLabel } from '../mastery/labels';
 import { openLevelFromCard, useAutoOpenLevel } from './auto-open';
@@ -132,6 +135,47 @@ const useStyles = makeStyles({
     padding: '12px 14px',
     backgroundColor: tokens.colorNeutralBackground3,
     borderRadius: tokens.borderRadiusMedium,
+  },
+  /* 票 81：问津的选项可以直接点。做成带边框的整行按钮而不是小 chip ——
+     四个选项是整句话（「为了看懂论文或教材」），chip 会折成两行且点击面积小。 */
+  choiceList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+  },
+  choiceButton: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: '8px',
+    width: '100%',
+    padding: '8px 10px',
+    textAlign: 'left',
+    fontFamily: tokens.fontFamilyBase,
+    fontSize: tokens.fontSizeBase300,
+    lineHeight: tokens.lineHeightBase300,
+    color: tokens.colorNeutralForeground1,
+    backgroundColor: tokens.colorNeutralBackground2,
+    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke1}`,
+    borderRadius: tokens.borderRadiusMedium,
+    cursor: 'pointer',
+    ':hover': {
+      backgroundColor: tokens.colorNeutralBackground2Hover,
+      /* 用 `border` 而不是 `borderColor`：Griffel 的类型把「已声明 border 简写
+         之后的长手属性」收成 undefined，混用会直接编译失败（这里踩过）。 */
+      border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke1Hover}`,
+    },
+    ':focus-visible': {
+      outline: `2px solid ${tokens.colorStrokeFocus2}`,
+      outlineOffset: '2px',
+    },
+    ':disabled': {
+      cursor: 'not-allowed',
+      opacity: 0.55,
+    },
+  },
+  choiceLetter: {
+    color: tokens.colorNeutralForeground3,
+    fontWeight: tokens.fontWeightSemibold,
   },
 });
 
@@ -340,30 +384,77 @@ function ProgressChangeCard({
  */
 function ProbeFormCard({
   artifact,
+  clarify,
+  onClarifyChoice,
+  clarifyChoiceBusy = false,
 }: {
   artifact: Extract<AgentTurnResponseArtifact, { kind: 'probe_form' }>;
+  clarify?: AgentTurnResponseClarify;
+  /* 票 81：给了回调**且这是问津卡**才把选项渲染成按钮。没给（或不是问津卡）
+     时保持纯文本行 ——
+     追问卡的选项是**提示等级的可选答案**，学生要能自由组织措辞，不该被
+     「点一下就提交」绑架；问津卡的四个选项是封闭答案，点一下才是最短路径。 */
+  onClarifyChoice?: (text: string) => void;
+  clarifyChoiceBusy?: boolean;
 }) {
   const styles = useStyles();
   return (
-    <CardShell kindLabel="追问" title={artifact.title} rationale={artifact.rationale}>
+    <CardShell
+      /* 问津卡复用追问卡的外壳：区别只在标题与「为什么问」的位置少了提示
+         等级的噪声 —— 确认意图不是解题，没有第几级提示可言。 */
+      kindLabel={clarify ? '问津' : '追问'}
+      title={artifact.title}
+      rationale={artifact.rationale}
+    >
       <Text className={styles.question}>{artifact.question}</Text>
-      <div className={styles.metaRow}>
-        <Badge appearance="tint" color="warning">
-          提示等级 {artifact.ladderLevel}/{artifact.ladderCap}
-        </Badge>
-        <Caption1>
-          {artifact.inputKind === 'choice' ? '选择题' : '自由作答'}
-        </Caption1>
-      </div>
-      {artifact.choices.length > 0 && (
-        <div className={styles.neighborList}>
-          {artifact.choices.map((choice, index) => (
-            <Text key={index} className={styles.body}>
-              {`${String.fromCharCode(65 + index)}. ${choice}`}
-            </Text>
-          ))}
+      {clarify ? (
+        <div className={styles.metaRow}>
+          <Badge appearance="tint" color="brand">
+            先确认一下
+          </Badge>
+          {/* 「为什么问」已经由 CardShell 的 rationale 渲染一次，这里不再重复。 */}
+          <Caption1>答完立刻给关卡</Caption1>
+        </div>
+      ) : (
+        <div className={styles.metaRow}>
+          <Badge appearance="tint" color="warning">
+            提示等级 {artifact.ladderLevel}/{artifact.ladderCap}
+          </Badge>
+          <Caption1>
+            {artifact.inputKind === 'choice' ? '选择题' : '自由作答'}
+          </Caption1>
         </div>
       )}
+      {artifact.choices.length > 0 &&
+        (clarify && onClarifyChoice ? (
+          <div className={styles.choiceList} role="group" aria-label="问津选项">
+            {artifact.choices.map((choice, index) => (
+              <button
+                key={index}
+                type="button"
+                className={styles.choiceButton}
+                /* aria-label 里放选项原文，方便读屏与探针按名字点；
+                   可见文字仍带 A/B/C/D 前缀，与下方的追问卡一致。 */
+                aria-label={`选择：${choice}`}
+                disabled={clarifyChoiceBusy}
+                onClick={() => onClarifyChoice(choice)}
+              >
+                <span className={styles.choiceLetter} aria-hidden="true">
+                  {`${String.fromCharCode(65 + index)}.`}
+                </span>
+                <span>{choice}</span>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.neighborList}>
+            {artifact.choices.map((choice, index) => (
+              <Text key={index} className={styles.body}>
+                {`${String.fromCharCode(65 + index)}. ${choice}`}
+              </Text>
+            ))}
+          </div>
+        ))}
     </CardShell>
   );
 }
@@ -374,7 +465,18 @@ function ProbeFormCard({
  * `switch` 覆盖契约里全部四种 `kind`；`never` 分支让「契约新增了第五种卡
  * 但这里忘了渲染」变成编译错误而不是运行时的空白卡片。
  */
-export function ArtifactCard({ artifact }: { artifact: AgentTurnResponseArtifact }) {
+export function ArtifactCard({
+  artifact,
+  clarify,
+  onClarifyChoice,
+  clarifyChoiceBusy = false,
+}: {
+  artifact: AgentTurnResponseArtifact;
+  clarify?: AgentTurnResponseClarify;
+  /* 票 81：问津卡选项的一键作答。不传时选项仍是文本行（向后兼容）。 */
+  onClarifyChoice?: (text: string) => void;
+  clarifyChoiceBusy?: boolean;
+}) {
   if (!artifact) return null;
   switch (artifact.kind) {
     case 'level_card':
@@ -384,7 +486,14 @@ export function ArtifactCard({ artifact }: { artifact: AgentTurnResponseArtifact
     case 'progress_change':
       return <ProgressChangeCard artifact={artifact} />;
     case 'probe_form':
-      return <ProbeFormCard artifact={artifact} />;
+      return (
+        <ProbeFormCard
+          artifact={artifact}
+          clarify={clarify}
+          onClarifyChoice={onClarifyChoice}
+          clarifyChoiceBusy={clarifyChoiceBusy}
+        />
+      );
     default: {
       const exhaustive: never = artifact;
       return exhaustive;

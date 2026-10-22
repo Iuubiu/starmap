@@ -1,0 +1,47 @@
+  CardView:51 卡片正文                           light=18.15 ok    dark=15.83 ok    need>=4.5
+  CardView:58 figure 左侧竖条                    light= 4.80 ok    dark= 6.52 ok    need>=3
+  CardView:59 figure 底                       light= 1.12 ok    dark= 1.18 ok    need>=1.1
+  CardView:62 figure 文字                      light= 6.74 ok    dark= 6.95 ok    need>=4.5
+  CardView:71 折叠链接                           light= 5.38 ok    dark= 7.71 ok    need>=4.5
+  CardView:78 折叠提示                           light= 5.72 ok    dark= 6.30 ok    need>=4.5
+  GatePanel:67/91 说明                         light= 5.72 ok    dark= 5.89 ok    need>=4.5
+  GatePanel:81 小卡底                           light= 1.12 ok    dark= 1.11 ok    need>=1.1
+  GatePanel:96 警示文字                          light= 6.39 ok    dark= 8.01 ok    need>=4.5
+X markdown:26/34 代码块底                        light= 1.18 ok    dark= 1.09 FAIL  need>=1.1
+  markdown:26/34 代码文字                        light=15.33 ok    dark=17.18 ok    need>=4.5
+  MasteryMeter:53/69/74 说明                   light= 5.72 ok    dark= 6.30 ok    need>=4.5
+  QuestionView:79 对条底                        light= 1.13 ok    dark= 1.13 ok    need>=1.1
+  QuestionView:79 对条文字                       light=16.12 ok    dark=13.96 ok    need>=4.5
+  QuestionView:80 对条描边                       light= 4.78 ok    dark= 6.95 ok    need>=3
+  QuestionView:83 错条底                        light= 1.13 ok    dark= 1.13 ok    need>=1.1
+  QuestionView:83 错条文字                       light=16.10 ok    dark=13.97 ok    need>=4.5
+  QuestionView:84 错条描边                       light= 4.99 ok    dark= 6.45 ok    need>=3
+  QuestionView:88 待提交底                       light= 1.12 ok    dark= 1.18 ok    need>=1.1
+  QuestionView:88 待提交文字                      light= 6.74 ok    dark= 6.95 ok    need>=4.5
+  QuestionView:89 待提交描边                      light= 3.29 ok    dark= 3.43 ok    need>=3
+  QuestionView:106 题目说明                      light= 7.56 ok    dark= 8.22 ok    need>=4.5
+  QuestionView:115/123 提示                    light= 5.72 ok    dark= 6.30 ok    need>=4.5
+  QuestionView:130/335 警示                    light= 6.39 ok    dark= 8.56 ok    need>=4.5
+  QuestionView:280 选项文字                      light= 7.56 ok    dark= 8.22 ok    need>=4.5
+  QuestionView:329 提示                        light= 5.72 ok    dark= 6.30 ok    need>=4.5
+  StepRail:29 chip 描边                        light= 3.35 ok    dark= 4.30 ok    need>=3
+  StepRail:35-36 已完成 底/字                     light= 6.74 ok    dark= 6.95 ok    need>=4.5
+X StepRail:40 当前段底                           light= 1.05 FAIL  dark= 1.15 ok    need>=1.1
+  StepRail:41 当前段描边                          light= 4.89 ok    dark= 8.18 ok    need>=3
+  StepRail:42 当前段文字                          light=15.63 ok    dark=14.63 ok    need>=4.5
+  StepRail:46-47 未到段文字                       light= 5.19 ok    dark= 6.68 ok    need>=4.5
+  StepRail:51-52 跳过段文字                       light= 3.72 ok    dark= 4.63 ok    need>=3
+  VideoPanel:71 卡底                           light= 1.12 ok    dark= 1.18 ok    need>=1.1
+  VideoPanel:80/95 说明                        light= 5.10 ok    dark= 5.32 ok    need>=4.5
+  VideoPanel:84 说明                           light= 6.74 ok    dark= 6.95 ok    need>=4.5
+X VideoPanel:102 视频容器                        light= 1.18 ok    dark= 1.09 FAIL  need>=1.1
+  LevelPage:149/194/508/671/676/881 说明       light= 5.72 ok    dark= 6.30 ok    need>=4.5
+X LevelPage:175 卡片底 vs 画布                    light= 1.10 ok    dark= 1.06 FAIL  need>=1.1
+  LevelPage:213 警示                           light= 6.39 ok    dark= 8.56 ok    need>=4.5
+  LevelPage:498/651 次级文字                     light= 7.56 ok    dark= 8.22 ok    need>=4.5
+  徽章 直达路径 accent on accent-soft              light= 4.63 ok    dark= 7.13 ok    need>=4.5
+  徽章 深究路径 text on accent-soft                light=15.63 ok    dark=14.63 ok    need>=4.5
+  焦点环 border-focus / surface                 light= 5.38 ok    dark= 7.71 ok    need>=3
+  焦点环 border-focus / canvas                  light= 4.89 ok    dark= 8.18 ok    need>=3
+
+TOTAL 45 pairs x 2 themes, FAILURES 4

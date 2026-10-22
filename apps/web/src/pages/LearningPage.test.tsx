@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -23,6 +23,17 @@ import { server } from '../test/msw';
  */
 
 const NOW = new Date('2026-10-22T12:00:00');
+
+/**
+ * 组件用例必须把「现在」钉住：夹具里的 session 时间写死在 2026-10-22，而
+ * `LearningPage` 自己调 `new Date()`。真实时钟一旦跨过本地零点（本仓就是
+ * 00:02 跑测试时红的），「今天」组里那条会整体掉到「昨天」，用例随机器时间
+ * 时红时绿。只伪造 `Date`、不伪造定时器 —— React Query 与 MSW 仍用真实时钟。
+ */
+function pinClock() {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(NOW);
+}
 
 function iso(date: Date): string {
   return date.toISOString();
@@ -67,10 +78,18 @@ function renderPage() {
   );
 }
 
+beforeAll(pinClock);
+
+afterAll(() => {
+  vi.useRealTimers();
+});
+
 beforeEach(() => {
   window.localStorage.clear();
   window.sessionStorage.clear();
   stubSessions([]);
+  // beforeAll 里 setSystemTime 一次就够，但 userEvent 等库可能推进时钟，逐个用例再钉一次。
+  vi.setSystemTime(NOW);
 });
 
 afterEach(() => {

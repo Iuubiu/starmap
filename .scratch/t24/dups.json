@@ -1,0 +1,1005 @@
+[
+  {
+    "sourceId": "analog-electronics-kanghuaguang-5e",
+    "depth": 2,
+    "name": "MOSFET",
+    "count": 2,
+    "emptyNum": 2,
+    "nodes": [
+      {
+        "microKpId": "kp-kanghuaguang-5e-p205-MOSFET",
+        "name": "MOSFET",
+        "num": "",
+        "printedPage": 205,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-5",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-p211-MOSFET",
+        "name": "MOSFET",
+        "num": "",
+        "printedPage": 211,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-5",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "analog-electronics-kanghuaguang-5e",
+    "depth": 2,
+    "name": "SPICE",
+    "count": 2,
+    "emptyNum": 1,
+    "nodes": [
+      {
+        "microKpId": "kp-kanghuaguang-5e-p43-SPICE",
+        "name": "SPICE",
+        "num": "",
+        "printedPage": 43,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-11-2",
+        "name": "SPICE",
+        "num": "11.2",
+        "printedPage": 534,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-11",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "analog-electronics-kanghuaguang-5e",
+    "depth": 2,
+    "name": "SPICE仿真例题",
+    "count": 7,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-kanghuaguang-5e-3-6",
+        "name": "SPICE仿真例题",
+        "num": "3.6",
+        "printedPage": 93,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-4-9",
+        "name": "SPICE仿真例题",
+        "num": "4.9",
+        "printedPage": 182,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-4",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-5-6",
+        "name": "SPICE仿真例题",
+        "num": "5.6",
+        "printedPage": 244,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-5",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-6-8",
+        "name": "SPICE仿真例题",
+        "num": "6.8",
+        "printedPage": 311,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-6",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-7-9",
+        "name": "SPICE仿真例题",
+        "num": "7.9",
+        "printedPage": 370,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-7",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-8-6",
+        "name": "SPICE仿真例题",
+        "num": "8.6",
+        "printedPage": 404,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-8",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-10-4",
+        "name": "SPICE仿真例题",
+        "num": "10.4",
+        "printedPage": 516,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-10",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "analog-electronics-kanghuaguang-5e",
+    "depth": 2,
+    "name": "仿真例题",
+    "count": 2,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-kanghuaguang-5e-2-5",
+        "name": "仿真例题",
+        "num": "2.5",
+        "printedPage": 46,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-kanghuaguang-5e-9-9",
+        "name": "仿真例题",
+        "num": "9.9",
+        "printedPage": 467,
+        "depth": 2,
+        "parentId": "kp-kanghuaguang-5e-9",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "analog-electronics-tongshibai-5e",
+    "depth": 2,
+    "name": "Multisim应用举例",
+    "count": 5,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-tongshibai-5e-1-7",
+        "name": "Multisim应用举例",
+        "num": "1.7",
+        "printedPage": 63,
+        "depth": 2,
+        "parentId": "kp-tongshibai-5e-1",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-tongshibai-5e-5-7",
+        "name": "Multisim应用举例",
+        "num": "5.7",
+        "printedPage": 249,
+        "depth": 2,
+        "parentId": "kp-tongshibai-5e-5",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-tongshibai-5e-6-8",
+        "name": "Multisim应用举例",
+        "num": "6.8",
+        "printedPage": 312,
+        "depth": 2,
+        "parentId": "kp-tongshibai-5e-6",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-tongshibai-5e-9-5",
+        "name": "Multisim应用举例",
+        "num": "9.5",
+        "printedPage": 501,
+        "depth": 2,
+        "parentId": "kp-tongshibai-5e-9",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-tongshibai-5e-10-7",
+        "name": "Multisim应用举例",
+        "num": "10.7",
+        "printedPage": 563,
+        "depth": 2,
+        "parentId": "kp-tongshibai-5e-10",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "analog-electronics-tongshibai-5e",
+    "depth": 3,
+    "name": "概述",
+    "count": 3,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-tongshibai-5e-7-1-1",
+        "name": "概述",
+        "num": "7.1.1",
+        "printedPage": 324,
+        "depth": 3,
+        "parentId": "kp-tongshibai-5e-7-1",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-tongshibai-5e-8-1-1",
+        "name": "概述",
+        "num": "8.1.1",
+        "printedPage": 401,
+        "depth": 3,
+        "parentId": "kp-tongshibai-5e-8-1",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-tongshibai-5e-8-2-1",
+        "name": "概述",
+        "num": "8.2.1",
+        "printedPage": 423,
+        "depth": 3,
+        "parentId": "kp-tongshibai-5e-8-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "digital-electronics-yanshi-6e",
+    "depth": 2,
+    "name": "概述",
+    "count": 8,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-yanshi-6e-1-1",
+        "name": "概述",
+        "num": "1.1",
+        "printedPage": 4,
+        "depth": 2,
+        "parentId": "kp-yanshi-6e-1",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-yanshi-6e-2-1",
+        "name": "概述",
+        "num": "2.1",
+        "printedPage": 20,
+        "depth": 2,
+        "parentId": "kp-yanshi-6e-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-yanshi-6e-3-1",
+        "name": "概述",
+        "num": "3.1",
+        "printedPage": 62,
+        "depth": 2,
+        "parentId": "kp-yanshi-6e-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-yanshi-6e-4-1",
+        "name": "概述",
+        "num": "4.1",
+        "printedPage": 146,
+        "depth": 2,
+        "parentId": "kp-yanshi-6e-4",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-yanshi-6e-5-1",
+        "name": "概述",
+        "num": "5.1",
+        "printedPage": 207,
+        "depth": 2,
+        "parentId": "kp-yanshi-6e-5",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-yanshi-6e-6-1",
+        "name": "概述",
+        "num": "6.1",
+        "printedPage": 261,
+        "depth": 2,
+        "parentId": "kp-yanshi-6e-6",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-yanshi-6e-7-1",
+        "name": "概述",
+        "num": "7.1",
+        "printedPage": 349,
+        "depth": 2,
+        "parentId": "kp-yanshi-6e-7",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-yanshi-6e-8-1",
+        "name": "概述",
+        "num": "8.1",
+        "printedPage": 388,
+        "depth": 2,
+        "parentId": "kp-yanshi-6e-8",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "nuclear-electronics-wangjingjin-1983",
+    "depth": 3,
+    "name": "概述",
+    "count": 2,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-wangjingjin-1983-9-1-1",
+        "name": "概述",
+        "num": "9.1.1",
+        "printedPage": 1,
+        "depth": 3,
+        "parentId": "kp-wangjingjin-1983-9",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-wangjingjin-1983-9-2-1",
+        "name": "概述",
+        "num": "9.2.1",
+        "printedPage": 14,
+        "depth": 3,
+        "parentId": "kp-wangjingjin-1983-9",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "nuclear-electronics-wangzhiying-1989",
+    "depth": 2,
+    "name": "概述",
+    "count": 4,
+    "emptyNum": 2,
+    "nodes": [
+      {
+        "microKpId": "kp-wangzhiying-1989-2-1",
+        "name": "概述",
+        "num": "2.1",
+        "printedPage": 34,
+        "depth": 2,
+        "parentId": "kp-wangzhiying-1989-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-wangzhiying-1989-p117-概述",
+        "name": "概述",
+        "num": "",
+        "printedPage": 117,
+        "depth": 2,
+        "parentId": "kp-wangzhiying-1989-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-wangzhiying-1989-5-1",
+        "name": "概述",
+        "num": "5.1",
+        "printedPage": 189,
+        "depth": 2,
+        "parentId": "kp-wangzhiying-1989-5",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-wangzhiying-1989-p267-概述",
+        "name": "概述",
+        "num": "",
+        "printedPage": 267,
+        "depth": 2,
+        "parentId": "kp-wangzhiying-1989-6",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "nuclear-physics-experiment-methods-1997",
+    "depth": 2,
+    "name": "一、工作原理",
+    "count": 2,
+    "emptyNum": 2,
+    "nodes": [
+      {
+        "microKpId": "kp-methods-1997-p397-一工作原理",
+        "name": "一、工作原理",
+        "num": "",
+        "printedPage": 397,
+        "depth": 2,
+        "parentId": "kp-methods-1997-14",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-methods-1997-p404-一工作原理",
+        "name": "一、工作原理",
+        "num": "",
+        "printedPage": 404,
+        "depth": 2,
+        "parentId": "kp-methods-1997-14",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "nuclear-physics-experiment-methods-1997",
+    "depth": 2,
+    "name": "一、概述",
+    "count": 3,
+    "emptyNum": 3,
+    "nodes": [
+      {
+        "microKpId": "kp-methods-1997-p74-一概述",
+        "name": "一、概述",
+        "num": "",
+        "printedPage": 74,
+        "depth": 2,
+        "parentId": "kp-methods-1997-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-methods-1997-p82-一概述",
+        "name": "一、概述",
+        "num": "",
+        "printedPage": 82,
+        "depth": 2,
+        "parentId": "kp-methods-1997-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-methods-1997-p88-一概述",
+        "name": "一、概述",
+        "num": "",
+        "printedPage": 88,
+        "depth": 2,
+        "parentId": "kp-methods-1997-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "nuclear-physics-experiment-methods-1997",
+    "depth": 2,
+    "name": "第--节",
+    "count": 2,
+    "emptyNum": 2,
+    "nodes": [
+      {
+        "microKpId": "kp-methods-1997-p165-第节",
+        "name": "第--节",
+        "num": "",
+        "printedPage": 165,
+        "depth": 2,
+        "parentId": "kp-methods-1997-6",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-methods-1997-p358-第节",
+        "name": "第--节",
+        "num": "",
+        "printedPage": 358,
+        "depth": 2,
+        "parentId": "kp-methods-1997-13",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "nuclear-physics-experiment-methods-1997",
+    "depth": 2,
+    "name": "第一节概述",
+    "count": 2,
+    "emptyNum": 2,
+    "nodes": [
+      {
+        "microKpId": "kp-methods-1997-p99-第一节概述",
+        "name": "第一节概述",
+        "num": "",
+        "printedPage": 99,
+        "depth": 2,
+        "parentId": "kp-methods-1997-4",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-methods-1997-p210-第一节概述",
+        "name": "第一节概述",
+        "num": "",
+        "printedPage": 210,
+        "depth": 2,
+        "parentId": "kp-methods-1997-8",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "nuclear-radiation-measurement-tangbin",
+    "depth": 2,
+    "name": "概述",
+    "count": 2,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-tangbin-4-1",
+        "name": "概述",
+        "num": "4.1",
+        "printedPage": 115,
+        "depth": 2,
+        "parentId": "kp-tangbin-4",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-tangbin-6-1",
+        "name": "概述",
+        "num": "6.1",
+        "printedPage": 216,
+        "depth": 2,
+        "parentId": "kp-tangbin-6",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "radiation-detector-handbook-jichangsong-1990",
+    "depth": 2,
+    "name": "A．闪烁体",
+    "count": 2,
+    "emptyNum": 2,
+    "nodes": [
+      {
+        "microKpId": "kp-jichangsong-1990-p293-A闪烁体",
+        "name": "A．闪烁体",
+        "num": "",
+        "printedPage": 293,
+        "depth": 2,
+        "parentId": "kp-jichangsong-1990-6",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-p468-A闪烁体",
+        "name": "A．闪烁体",
+        "num": "",
+        "printedPage": 468,
+        "depth": 2,
+        "parentId": "kp-jichangsong-1990-11",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "radiation-detector-handbook-jichangsong-1990",
+    "depth": 2,
+    "name": "概念与术语",
+    "count": 3,
+    "emptyNum": 3,
+    "nodes": [
+      {
+        "microKpId": "kp-jichangsong-1990-p189-概念与术语",
+        "name": "概念与术语",
+        "num": "",
+        "printedPage": 189,
+        "depth": 2,
+        "parentId": "kp-jichangsong-1990-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-p384-概念与术语",
+        "name": "概念与术语",
+        "num": "",
+        "printedPage": 384,
+        "depth": 2,
+        "parentId": "kp-jichangsong-1990-7",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-p443-概念与术语",
+        "name": "概念与术语",
+        "num": "",
+        "printedPage": 443,
+        "depth": 2,
+        "parentId": "kp-jichangsong-1990-9",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "radiation-detector-handbook-jichangsong-1990",
+    "depth": 3,
+    "name": "使用要点",
+    "count": 3,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-jichangsong-1990-11-1-9",
+        "name": "使用要点",
+        "num": "11.1.9",
+        "printedPage": 481,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-11-1",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-11-2-5",
+        "name": "使用要点",
+        "num": "11.2.5",
+        "printedPage": 509,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-11-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-11-3-4",
+        "name": "使用要点",
+        "num": "11.3.4",
+        "printedPage": 516,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-11-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "radiation-detector-handbook-jichangsong-1990",
+    "depth": 3,
+    "name": "工作原理",
+    "count": 13,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-jichangsong-1990-4-3-1",
+        "name": "工作原理",
+        "num": "4.3.1",
+        "printedPage": 214,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-4-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-4-4-1",
+        "name": "工作原理",
+        "num": "4.4.1",
+        "printedPage": 234,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-4-4",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-4-5-1",
+        "name": "工作原理",
+        "num": "4.5.1",
+        "printedPage": 240,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-4-5",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-5-2-1",
+        "name": "工作原理",
+        "num": "5.2.1",
+        "printedPage": 253,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-5-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-5-3-1",
+        "name": "工作原理",
+        "num": "5.3.1",
+        "printedPage": 257,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-5-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-6-6-1",
+        "name": "工作原理",
+        "num": "6.6.1",
+        "printedPage": 329,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-6-6",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-8-1-1",
+        "name": "工作原理",
+        "num": "8.1.1",
+        "printedPage": 402,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-8-1",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-8-2-1",
+        "name": "工作原理",
+        "num": "8.2.1",
+        "printedPage": 410,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-8-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-8-3-1",
+        "name": "工作原理",
+        "num": "8.3.1",
+        "printedPage": 414,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-8-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-8-4-1",
+        "name": "工作原理",
+        "num": "8.4.1",
+        "printedPage": 416,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-8-4",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-9-1-1",
+        "name": "工作原理",
+        "num": "9.1.1",
+        "printedPage": 421,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-9-1",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-9-2-1",
+        "name": "工作原理",
+        "num": "9.2.1",
+        "printedPage": 424,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-9-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-9-3-1",
+        "name": "工作原理",
+        "num": "9.3.1",
+        "printedPage": 430,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-9-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "radiation-detector-handbook-jichangsong-1990",
+    "depth": 3,
+    "name": "能量分辨",
+    "count": 2,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-jichangsong-1990-5-7-6",
+        "name": "能量分辨",
+        "num": "5.7.6",
+        "printedPage": 283,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-5-7",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-11-4-1",
+        "name": "能量分辨",
+        "num": "11.4.1",
+        "printedPage": 517,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-11-4",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "radiation-detector-handbook-jichangsong-1990",
+    "depth": 3,
+    "name": "脉冲形状",
+    "count": 3,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-jichangsong-1990-4-2-4",
+        "name": "脉冲形状",
+        "num": "4.2.4",
+        "printedPage": 197,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-4-2",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-4-3-3",
+        "name": "脉冲形状",
+        "num": "4.3.3",
+        "printedPage": 214,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-4-3",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-jichangsong-1990-5-7-7",
+        "name": "脉冲形状",
+        "num": "5.7.7",
+        "printedPage": 285,
+        "depth": 3,
+        "parentId": "kp-jichangsong-1990-5-7",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  },
+  {
+    "sourceId": "radiation-detectors-dinghonglin-2010",
+    "depth": 2,
+    "name": "概述",
+    "count": 2,
+    "emptyNum": 0,
+    "nodes": [
+      {
+        "microKpId": "kp-dinghonglin-2010-10-1",
+        "name": "概述",
+        "num": "10.1",
+        "printedPage": 296,
+        "depth": 2,
+        "parentId": "kp-dinghonglin-2010-10",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      },
+      {
+        "microKpId": "kp-dinghonglin-2010-14-1",
+        "name": "概述",
+        "num": "14.1",
+        "printedPage": 443,
+        "depth": 2,
+        "parentId": "kp-dinghonglin-2010-14",
+        "isLeaf": true,
+        "appendix": false,
+        "answerKey": false
+      }
+    ]
+  }
+]

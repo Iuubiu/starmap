@@ -1,0 +1,105 @@
+=== knoll-3e-2000 (840 pages, 130 nodes, printedPage 3..805) ===
+  diffs(pdfIdx - printedPage) = [19, 21, 18, 19]
+    kp-knoll-3e-2000-1               printed=3     pdfIdx=22    RADIATION SOURCES
+    kp-knoll-3e-2000-4-6             printed=141   pdfIdx=None  DISTRIBUTION OF TIME INTERVALS
+    kp-knoll-3e-2000-8-2             printed=254   pdfIdx=275   INORGANIC SCINTILLATORS
+    kp-knoll-3e-2000-12-2            printed=419   pdfIdx=437   FUNDAMENTAL CHARACTERISTICS OF
+    kp-knoll-3e-2000-17-3            printed=647   pdfIdx=666   SUMMARY OF PULSE PROCESSING UN
+=== knoll-4e-2010 (866 pages, 131 nodes, printedPage 1..819) ===
+  diffs(pdfIdx - printedPage) = [21, 23, 27, 27, -620]
+    kp-knoll-4e-2010-1               printed=1     pdfIdx=22    Radiation Sources
+    kp-knoll-4e-2010-4-10            printed=146   pdfIdx=169   Radiation Dose Measurement wit
+    kp-knoll-4e-2010-8-4             printed=283   pdfIdx=310   Photomultiplier Tube Character
+    kp-knoll-4e-2010-12              printed=467   pdfIdx=494   Other Solid-State Detectors
+    kp-knoll-4e-2010-16-2            printed=647   pdfIdx=27    Pulse Height Analysis Systems
+=== tsoulfanidis-4e (595 pages, 439 nodes, printedPage 1..561) ===
+  diffs(pdfIdx - printedPage) = [33, -185]
+    kp-tsoulfanidis-4e-1             printed=1     pdfIdx=34    Introduction to Radiation Meas
+    kp-tsoulfanidis-4e-3-5           printed=79    pdfIdx=None  Nuclear Binding Energy
+    kp-tsoulfanidis-4e-7-1           printed=217   pdfIdx=32    Introduction
+    kp-tsoulfanidis-4e-10-15         printed=314   pdfIdx=None  Digital Processing
+    kp-tsoulfanidis-4e-14-11         printed=447   pdfIdx=None  Concluding Remarks
+=== grupen-2e-2008 (677 pages, 205 nodes, printedPage 1..599) ===
+  diffs(pdfIdx - printedPage) = [25, 25, 25, -195, 25]
+    kp-grupen-2e-2008-1              printed=1     pdfIdx=26    Interactions of particles and 
+    kp-grupen-2e-2008-5-6            printed=142   pdfIdx=167   Cherenkov counters
+    kp-grupen-2e-2008-8-2            printed=249   pdfIdx=274   Hadron calorimeters
+    kp-grupen-2e-2008-13-2           printed=379   pdfIdx=184   Particle identiﬁcation
+    kp-grupen-2e-2008-15-3           printed=439   pdfIdx=464   Analysis challenges
+=== ahmed-2e (763 pages, 637 nodes, printedPage 1..759) ===
+  diffs(pdfIdx - printedPage) = [6, 5, 19]
+    kp-ahmed-2e-1                    printed=1     pdfIdx=None  1 Properties and sources of ra
+    kp-ahmed-2e-3-4                  printed=179   pdfIdx=185   3.4 Ionization chambers
+    kp-ahmed-2e-6                    printed=330   pdfIdx=335   6 Scintillation detectors and 
+    kp-ahmed-2e-8-8                  printed=523   pdfIdx=542   8.8 Digital signal processing
+    kp-ahmed-2e-11-1                 printed=621   pdfIdx=None  11.1 Importance of dosimetry
+=== spieler-2005 (506 pages, 324 nodes, printedPage 1..489) ===
+  diffs(pdfIdx - printedPage) = [19, 17, 16, 17]
+    kp-spieler-2005-1                printed=1     pdfIdx=20    1 Detector systems overview
+    kp-spieler-2005-3-4              printed=110   pdfIdx=127   3.4 Derivation of spectral den
+    kp-spieler-2005-6-3              printed=243   pdfIdx=259   6.3 Noise in transistors
+    kp-spieler-2005-9-4              printed=398   pdfIdx=415   9.4 Shared current paths – gro
+    kp-spieler-2005-9-34             printed=467   pdfIdx=None  F.4 The origin of recombinatio
+=== leo-2e (384 pages, 360 nodes, printedPage 1..371) ===
+  diffs(pdfIdx - printedPage) = [19, 10, 8, 7]
+    kp-leo-2e-1                      printed=1     pdfIdx=20    Basic Nuclear Processes in Rad
+    kp-leo-2e-p98-NullExperimentsSettingConfidenceLimitsWhenNoCountsAreObserved printed=98    pdfIdx=None  Null Experiments. Setting Conf
+    kp-leo-2e-8-4                    printed=181   pdfIdx=191   The Electron-Multiplier Sectio
+    kp-leo-2e-12-3                   printed=258   pdfIdx=266   NIM Logic Signals
+    kp-leo-2e-15                     printed=303   pdfIdx=310   Pulse Height Selection and Coi
+=== nakhostin-2018 (520 pages, 72 nodes, printedPage 1..503) ===
+  diffs(pdfIdx - printedPage) = [8, -3, 10]
+    kp-nakhostin-2018-1              printed=1     pdfIdx=None  Signal Generation in Radiation
+    kp-nakhostin-2018-3              printed=135   pdfIdx=143   Preamplifiers
+    kp-nakhostin-2018-4-3            printed=203   pdfIdx=200   Amplifier/Shaper
+    kp-nakhostin-2018-6-2            printed=300   pdfIdx=None  Time Pick-Off Techniques
+    kp-nakhostin-2018-8-3            printed=393   pdfIdx=403   Zero-Crossing Method
+=== rivetti-2015 (717 pages, 247 nodes, printedPage 1..683) ===
+  diffs(pdfIdx - printedPage) = [26]
+    kp-rivetti-2015-1                printed=1     pdfIdx=27    Front-end Speciﬁcations and Ar
+    kp-rivetti-2015-3-5              printed=158   pdfIdx=None  Source degenerated common sour
+    kp-rivetti-2015-5-2              printed=278   pdfIdx=None  Thermal and shot noise spectra
+    kp-rivetti-2015-8-1              printed=429   pdfIdx=None  Transistor level design of cha
+    kp-rivetti-2015-10-2             printed=586   pdfIdx=None  ADC architectures
+=== lutz-2007 (351 pages, 180 nodes, printedPage 1..349) ===
+  diffs(pdfIdx - printedPage) = [88, 7, 4, 4, 3]
+    kp-lutz-2007-1                   printed=1     pdfIdx=89    Introduction
+    kp-lutz-2007-3-2                 printed=56    pdfIdx=63    Metal–Semiconductor Contact
+    kp-lutz-2007-6                   printed=109   pdfIdx=113   Detectors for Position and Ene
+    kp-lutz-2007-7-6                 printed=207   pdfIdx=211   Integrated Circuits for Strip 
+    kp-lutz-2007-10-3                printed=266   pdfIdx=269   Technology Simulation
+=== nicholson-1974 (412 pages, 158 nodes, printedPage 1..379) ===
+  diffs(pdfIdx - printedPage) = [19, 18, 17, 17]
+    kp-nicholson-1974-1              printed=1     pdfIdx=20    An Outline of Detection Method
+    kp-nicholson-1974-4              printed=122   pdfIdx=140   Resolution in Spectroscopy Sys
+    kp-nicholson-1974-p170-XSPreamplifierconfigurations printed=170   pdfIdx=None  XS Preamplifier configurations
+    kp-nicholson-1974-7              printed=248   pdfIdx=265   Timing Circuits
+    kp-nicholson-1974-8-2            printed=307   pdfIdx=324   ADCs
+=== gilmore-2e-2008 (416 pages, 260 nodes, printedPage 1..340) ===
+  diffs(pdfIdx - printedPage) = [23, 23]
+    kp-gilmore-2e-2008-1             printed=1     pdfIdx=24    Radioactive Decay and the Orig
+    kp-gilmore-2e-2008-4-2           printed=66    pdfIdx=None  DETECTOR BIAS SUPPLIES
+    kp-gilmore-2e-2008-8             printed=165   pdfIdx=188   True Coincidence Summing
+    kp-gilmore-2e-2008-9-15          printed=201   pdfIdx=None  SETTING UP NUCLIDE AND GAMMA-R
+    kp-gilmore-2e-2008-13-3          printed=257   pdfIdx=None  THE EFFECT OF DETECTOR SHAPE
+=== debertin-1988 (420 pages, 103 nodes, printedPage 5..345) ===
+  diffs(pdfIdx - printedPage) = [16, 13, 14, 13, -127]
+    kp-debertin-1988-1               printed=5     pdfIdx=21    Background material
+    kp-debertin-1988-2               printed=71    pdfIdx=84    Experimental setup
+    kp-debertin-1988-3-1             printed=152   pdfIdx=166   The shape of spectra and peaks
+    kp-debertin-1988-4-2             printed=213   pdfIdx=226   Efficiency calibration in spec
+    kp-debertin-1988-5               printed=291   pdfIdx=164   Applications
+=== guojiang-2023 (334 pages, 94 nodes, printedPage 5..317) ===
+  diffs(pdfIdx - printedPage) = [7, -30, 6, 6]
+    kp-guojiang-2023-1               printed=5     pdfIdx=None  第1章原子的核式结构及氢原子的玻尔理论
+    kp-guojiang-2023-3-2             printed=58    pdfIdx=65    3.2原子实的极化和轨道贯穿
+    kp-guojiang-2023-6-1             printed=102   pdfIdx=72    6.1原子的磁矩
+    kp-guojiang-2023-9-2             printed=163   pdfIdx=169   9.2原子核的组成与核素图
+    kp-guojiang-2023-12-1            printed=232   pdfIdx=238   12.1核反应概述
+=== guojiang-2014 (252 pages, 285 nodes, printedPage 5..231) ===
+  diffs(pdfIdx - printedPage) = []
+    kp-guojiang-2014-1               printed=5     pdfIdx=None  第1章 原子的核式结构及氢原子的玻尔理论
+    kp-guojiang-2014-3-5             printed=58    pdfIdx=None  3．5 单电子辐射跃迁的选择定则
+    kp-guojiang-2014-7-3             printed=104   pdfIdx=None  7．3 原子内壳层电子电离的能级———X射线标识谱产生机制
+    kp-guojiang-2014-11-1            printed=163   pdfIdx=None  11．1 α衰变的条件及能量分配
+    kp-guojiang-2014-15-1            printed=190   pdfIdx=None  15．1 核反应及遵循的守恒定律

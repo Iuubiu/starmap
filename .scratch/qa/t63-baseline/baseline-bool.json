@@ -1,0 +1,630 @@
+{
+  "level": "/level/lv-bool-laws",
+  "measuredAt": "2026-10-22T06:20:29.927Z",
+  "rows": [
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=1引导✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=1引导✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=2展示细节✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=2展示细节✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·current（文字）",
+      "fg": "#115ea3 rgb(17, 94, 163)",
+      "bg": "#ebf3fc rgb(235, 243, 252)",
+      "ratio": 5.95,
+      "note": "chip=3简单问题 deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·current（chip 边）",
+      "fg": "#0f6cbd rgb(15, 108, 189)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 3.9,
+      "note": "chip=3简单问题"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·upcoming（文字）",
+      "fg": "#707070 rgb(112, 112, 112)",
+      "bg": "#ffffff rgb(255, 255, 255)",
+      "ratio": 4.95,
+      "note": "chip=4深究 deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·upcoming（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=4深究"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·upcoming（文字）",
+      "fg": "#707070 rgb(112, 112, 112)",
+      "bg": "#ffffff rgb(255, 255, 255)",
+      "ratio": 4.95,
+      "note": "chip=5进一步讲解 deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·upcoming（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=5进一步讲解"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·upcoming（文字）",
+      "fg": "#707070 rgb(112, 112, 112)",
+      "bg": "#ffffff rgb(255, 255, 255)",
+      "ratio": 4.95,
+      "note": "chip=6判定 deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·upcoming（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=6判定"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·upcoming（文字）",
+      "fg": "#707070 rgb(112, 112, 112)",
+      "bg": "#ffffff rgb(255, 255, 255)",
+      "ratio": 4.95,
+      "note": "chip=7小结 deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·upcoming（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=7小结"
+    },
+    {
+      "theme": "light",
+      "element": "公式/代码「A + A·B」",
+      "fg": "#242424 rgb(36, 36, 36)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 14.24,
+      "note": "markdown.tsx"
+    },
+    {
+      "theme": "light",
+      "element": "公式/代码「A + B·C」",
+      "fg": "#242424 rgb(36, 36, 36)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 14.24,
+      "note": "markdown.tsx"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=1引导✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=1引导✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=2展示细节✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=2展示细节✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=3简单问题✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=3简单问题✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·skipped（文字）",
+      "fg": "#bdbdbd rgb(189, 189, 189)",
+      "bg": "#ffffff rgb(255, 255, 255)",
+      "ratio": 1.88,
+      "note": "chip=4深究⤼ deco=line-through"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·skipped（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=4深究⤼"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·skipped（文字）",
+      "fg": "#bdbdbd rgb(189, 189, 189)",
+      "bg": "#ffffff rgb(255, 255, 255)",
+      "ratio": 1.88,
+      "note": "chip=5进一步讲解⤼ deco=line-through"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·skipped（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=5进一步讲解⤼"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=6判定✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=6判定✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·current（文字）",
+      "fg": "#115ea3 rgb(17, 94, 163)",
+      "bg": "#ebf3fc rgb(235, 243, 252)",
+      "ratio": 5.95,
+      "note": "chip=7小结 deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·current（chip 边）",
+      "fg": "#0f6cbd rgb(15, 108, 189)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 3.9,
+      "note": "chip=7小结"
+    },
+    {
+      "theme": "dark",
+      "element": "公式/代码「A + A·B」",
+      "fg": "#ffffff rgb(255, 255, 255)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 18.42,
+      "note": "markdown.tsx"
+    },
+    {
+      "theme": "dark",
+      "element": "公式/代码「A + B·C」",
+      "fg": "#ffffff rgb(255, 255, 255)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 18.42,
+      "note": "markdown.tsx"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（文字）",
+      "fg": "#d6d6d6 rgb(214, 214, 214)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 12.68,
+      "note": "chip=1引导✓ deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=1引导✓"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（文字）",
+      "fg": "#d6d6d6 rgb(214, 214, 214)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 12.68,
+      "note": "chip=2展示细节✓ deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=2展示细节✓"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（文字）",
+      "fg": "#d6d6d6 rgb(214, 214, 214)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 12.68,
+      "note": "chip=3简单问题✓ deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=3简单问题✓"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·skipped（文字）",
+      "fg": "#5c5c5c rgb(92, 92, 92)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 2.18,
+      "note": "chip=4深究⤼ deco=line-through"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·skipped（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=4深究⤼"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·skipped（文字）",
+      "fg": "#5c5c5c rgb(92, 92, 92)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 2.18,
+      "note": "chip=5进一步讲解⤼ deco=line-through"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·skipped（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=5进一步讲解⤼"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（文字）",
+      "fg": "#d6d6d6 rgb(214, 214, 214)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 12.68,
+      "note": "chip=6判定✓ deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=6判定✓"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·current（文字）",
+      "fg": "#62abf5 rgb(98, 171, 245)",
+      "bg": "#082338 rgb(8, 35, 56)",
+      "ratio": 6.62,
+      "note": "chip=7小结 deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·current（chip 边）",
+      "fg": "#479ef5 rgb(71, 158, 245)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 5.18,
+      "note": "chip=7小结"
+    },
+    {
+      "theme": "dark",
+      "element": "公式/代码「A + A·B」",
+      "fg": "#ffffff rgb(255, 255, 255)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 18.42,
+      "note": "markdown.tsx"
+    },
+    {
+      "theme": "dark",
+      "element": "公式/代码「A + B·C」",
+      "fg": "#ffffff rgb(255, 255, 255)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 18.42,
+      "note": "markdown.tsx"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（文字）",
+      "fg": "#d6d6d6 rgb(214, 214, 214)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 12.68,
+      "note": "chip=1引导✓ deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=1引导✓"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（文字）",
+      "fg": "#d6d6d6 rgb(214, 214, 214)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 12.68,
+      "note": "chip=2展示细节✓ deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=2展示细节✓"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（文字）",
+      "fg": "#d6d6d6 rgb(214, 214, 214)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 12.68,
+      "note": "chip=3简单问题✓ deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=3简单问题✓"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·skipped（文字）",
+      "fg": "#5c5c5c rgb(92, 92, 92)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 2.18,
+      "note": "chip=4深究⤼ deco=line-through"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·skipped（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=4深究⤼"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·skipped（文字）",
+      "fg": "#5c5c5c rgb(92, 92, 92)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 2.18,
+      "note": "chip=5进一步讲解⤼ deco=line-through"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·skipped（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=5进一步讲解⤼"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（文字）",
+      "fg": "#d6d6d6 rgb(214, 214, 214)",
+      "bg": "#141414 rgb(20, 20, 20)",
+      "ratio": 12.68,
+      "note": "chip=6判定✓ deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#525252 rgb(82, 82, 82)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 1.86,
+      "note": "chip=6判定✓"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·current（文字）",
+      "fg": "#62abf5 rgb(98, 171, 245)",
+      "bg": "#082338 rgb(8, 35, 56)",
+      "ratio": 6.62,
+      "note": "chip=7小结 deco=none"
+    },
+    {
+      "theme": "dark",
+      "element": "StepRail·current（chip 边）",
+      "fg": "#479ef5 rgb(71, 158, 245)",
+      "bg": "#292929 rgb(41, 41, 41)",
+      "ratio": 5.18,
+      "note": "chip=7小结"
+    },
+    {
+      "theme": "light",
+      "element": "公式/代码「A + A·B」",
+      "fg": "#242424 rgb(36, 36, 36)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 14.24,
+      "note": "markdown.tsx"
+    },
+    {
+      "theme": "light",
+      "element": "公式/代码「A + B·C」",
+      "fg": "#242424 rgb(36, 36, 36)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 14.24,
+      "note": "markdown.tsx"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=1引导✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=1引导✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=2展示细节✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=2展示细节✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=3简单问题✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=3简单问题✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·skipped（文字）",
+      "fg": "#bdbdbd rgb(189, 189, 189)",
+      "bg": "#ffffff rgb(255, 255, 255)",
+      "ratio": 1.88,
+      "note": "chip=4深究⤼ deco=line-through"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·skipped（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=4深究⤼"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·skipped（文字）",
+      "fg": "#bdbdbd rgb(189, 189, 189)",
+      "bg": "#ffffff rgb(255, 255, 255)",
+      "ratio": 1.88,
+      "note": "chip=5进一步讲解⤼ deco=line-through"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·skipped（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=5进一步讲解⤼"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（文字）",
+      "fg": "#424242 rgb(66, 66, 66)",
+      "bg": "#f5f5f5 rgb(245, 245, 245)",
+      "ratio": 9.22,
+      "note": "chip=6判定✓ deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·done（chip 边）",
+      "fg": "#e0e0e0 rgb(224, 224, 224)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 15.91,
+      "note": "chip=6判定✓"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·current（文字）",
+      "fg": "#115ea3 rgb(17, 94, 163)",
+      "bg": "#ebf3fc rgb(235, 243, 252)",
+      "ratio": 5.95,
+      "note": "chip=7小结 deco=none"
+    },
+    {
+      "theme": "light",
+      "element": "StepRail·current（chip 边）",
+      "fg": "#0f6cbd rgb(15, 108, 189)",
+      "bg": "#000000 rgba(0, 0, 0, 0)",
+      "ratio": 3.9,
+      "note": "chip=7小结"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+import { createRequire } from 'node:module';
+const require = createRequire(new URL('../../apps/api/package.json', import.meta.url));
+const pg = require('pg');
+const c = new pg.Client({ connectionString: 'postgres://postgres:postgres@127.0.0.1:5432/starmap' });
+await c.connect();
+const q = async (s) => (await c.query(s)).rows;
+console.log('nodes', await q(`select count(*)::int n, count(*) filter (where is_leaf)::int leaf from app.knowledge_points`));
+console.log('levels', await q(`select id, micro_kp_id, kind from app.levels order by id`));
+console.log('attempts', await q(`select count(*)::int n from app.attempts`));
+console.log('mastery', await q(`select count(*)::int n from app.mastery`));
+console.log('gaps', await q(`select id, topic from app.content_gaps`));
+console.log('videos', await q(`select count(*)::int n from app.video_clips`));
+console.log('placement', await q(`select tier, status from app.placement_profile`));
+console.log('review_sched', await q(`select count(*)::int n from app.review_schedule`));
+console.log('turns', await q(`select count(*)::int n from app.agent_turns`).catch(e=>({err:e.message})));
+await c.end();

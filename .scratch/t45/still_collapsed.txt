@@ -1,0 +1,33 @@
+ahmed-2e | 中子
+    '1.6.E Neutrons' -> '中子'
+    '2.6.A Neutrons' -> '中子'
+ahmed-2e | 猝灭
+    '3.6.D Quenching' -> '猝灭'
+    '6.1.D Quenching' -> '猝灭'
+ahmed-2e | 闪烁机制
+    '6.2.A Scintillation mechanism' -> '闪烁机制'
+    '6.3.A Scintillation mechanism' -> '闪烁机制'
+ahmed-2e | 效率
+    '7.1.B Efficiency' -> '效率'
+    'A.8 Efficiency' -> '效率'
+ahmed-2e | 信号输运
+    '8.2 Signal transport' -> '信号输运'
+    'A.4 Signal transport' -> '信号输运'
+ahmed-2e | 脉冲计数
+    '13.1.A Pulse counting' -> '脉冲计数'
+    '8.6.A Pulse counting' -> '脉冲计数'
+ahmed-2e | 射线能谱学
+    '12.1.A γ-ray spectroscopy' -> '射线能谱学'
+    '12.1.C X-ray spectroscopy' -> '射线能谱学'
+gilmore-2e-2008 | 真符合相加
+    'True Coincidence Summing' -> '真符合相加'
+    'True coincidence summing' -> '真符合相加'
+spieler-2005 | 时间测量
+    '1.10.3 Timing measurements' -> '时间测量'
+    '4.9 Timing measurements' -> '时间测量'
+spieler-2005 | 双极性晶体管
+    '6.1 Bipolar transistors' -> '双极性晶体管'
+    '7.3.1 Bipolar transistors' -> '双极性晶体管'
+tsoulfanidis-4e | 参考文献
+    'Bibliography' -> '参考文献'
+    'References' -> '参考文献'

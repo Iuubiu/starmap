@@ -1,0 +1,188 @@
+{
+  "personaId": "p1-novice",
+  "tier": "P1",
+  "displayName": "小陈",
+  "startedAt": "2026-10-21T04:36:01.168Z",
+  "durationMs": 68226,
+  "webUrl": "http://localhost:5173",
+  "apiUrl": "http://127.0.0.1:3001/api/v1",
+  "stages": [
+    {
+      "stage": "cold-start",
+      "label": "S0 冷启动",
+      "url": "http://localhost:5173/",
+      "startedAt": "2026-10-21T04:36:02.444Z",
+      "durationMs": 3352,
+      "result": {
+        "status": "passed",
+        "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）"
+      },
+      "evidence": [
+        "H1 = 学习",
+        "输入框 aria-label = 这一轮想说的话"
+      ],
+      "screenshot": "00-cold-start.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "placement",
+      "label": "S1 初始定级",
+      "url": "http://localhost:5173/placement",
+      "startedAt": "2026-10-21T04:36:05.797Z",
+      "durationMs": 3138,
+      "result": {
+        "status": "passed",
+        "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）"
+      },
+      "evidence": [
+        "入口按钮：「重新定级」",
+        "自评 4 题已作答",
+        "已提交自评",
+        "定级第 1 题已判定，判定区文案：回答错误 正确答案：$\\overline{A} + \\overline{B}$ 正确：$\\overline{A·B} = \\overline{A} + \\overline{B}$。非号越过运算符时运算符要翻转（· 变 +），并且每个变量各自加非号。 你选的那一项：这是最容易踩的坑：把 $\\overline{A·B}$ "
+      ],
+      "screenshot": "01-placement.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "map",
+      "label": "S3 知识图谱",
+      "url": "http://localhost:5173/map",
+      "startedAt": "2026-10-21T04:36:08.935Z",
+      "durationMs": 13185,
+      "result": {
+        "status": "backend_error",
+        "httpStatus": 0,
+        "responseBody": "网络错误：fetch failed",
+        "detail": "读取推荐列表失败"
+      },
+      "evidence": [
+        "清单节点数 400"
+      ],
+      "screenshot": "02-map.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "node-detail",
+      "label": "S3 节点详情",
+      "url": "http://localhost:5173/map/kp-bool",
+      "startedAt": "2026-10-21T04:36:22.120Z",
+      "durationMs": 31005,
+      "result": {
+        "status": "locator_failure",
+        "selector": "h1",
+        "detail": "节点详情页没有渲染出 H1"
+      },
+      "evidence": [],
+      "screenshot": "03-node-detail.png",
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+        "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+        "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+        "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+        "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+        "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+      ]
+    },
+    {
+      "stage": "answer",
+      "label": "S4 作答与判分",
+      "url": "http://localhost:5173/map/kp-bool",
+      "startedAt": "2026-10-21T04:36:53.124Z",
+      "durationMs": 46,
+      "result": {
+        "status": "passed",
+        "detail": "本节点没有可进入的关卡（内容不足），本阶段未覆盖"
+      },
+      "evidence": [
+        "跳过原因：上一阶段未找到可进入的关卡"
+      ],
+      "screenshot": "04-answer.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "board",
+      "label": "S6 看板推荐",
+      "url": "http://localhost:5173/board",
+      "startedAt": "2026-10-21T04:36:53.171Z",
+      "durationMs": 2612,
+      "result": {
+        "status": "passed",
+        "detail": "看板推荐 3 条，与接口一致；今日摘要区存在"
+      },
+      "evidence": [
+        "推荐卡 3 条 / 接口 3 条",
+        "今日摘要区可见"
+      ],
+      "screenshot": "05-board.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "review",
+      "label": "S6 复验",
+      "url": "http://localhost:5173/review",
+      "startedAt": "2026-10-21T04:36:55.783Z",
+      "durationMs": 1848,
+      "result": {
+        "status": "passed",
+        "detail": "接口 0 条到期；页面 H1「复验」并说明没有到期"
+      },
+      "evidence": [
+        "due=0",
+        "H1=复验",
+        "页面有「没有到期」提示"
+      ],
+      "screenshot": "06-review.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "database",
+      "label": "S7 数据库检视",
+      "url": "http://localhost:5173/database",
+      "startedAt": "2026-10-21T04:36:57.631Z",
+      "durationMs": 9741,
+      "result": {
+        "status": "passed",
+        "detail": "数据库页 H1「数据库」；图谱节点 1940 个，页面统计卡上出现同一数字"
+      },
+      "evidence": [
+        "H1=数据库",
+        "图谱节点数 1940",
+        "页面文本包含该数字"
+      ],
+      "screenshot": "07-database.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "skills",
+      "label": "S8 技能库",
+      "url": "http://localhost:5173/skills",
+      "startedAt": "2026-10-21T04:37:07.371Z",
+      "durationMs": 1856,
+      "result": {
+        "status": "passed",
+        "detail": "技能库 H1「技能库」；2 个技能全部渲染"
+      },
+      "evidence": [
+        "接口技能数 2"
+      ],
+      "screenshot": "08-skills.png",
+      "consoleErrors": []
+    }
+  ],
+  "failures": {
+    "locatorFailure": 1,
+    "backendError": 1,
+    "assertionMismatch": 0
+  },
+  "lastPassedStage": "skills",
+  "firstFailureStage": "map",
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+    "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+    "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+    "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+    "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+    "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+  ],
+  "browserLaunched": true
+}

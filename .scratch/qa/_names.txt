@@ -1,0 +1,3 @@
+kp-bool	布尔代数基本运算
+kp-kmap	卡诺图化简
+kp-tangbin-1-2	放射性衰变和衰变规律

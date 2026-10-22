@@ -1,0 +1,3 @@
+kp-grupen-2e-2008-13 | 示例的一般探测器 | Example of a general-purpose detector: Belle
+kp-grupen-2e-2008-p584-Appendix4MonteCarloeventgenerators | 附录：蒙特卡罗事件发生器 | Appendix 4: Monte Carlo event generators
+kp-leo-2e-18 | 电子学CAMAC | Computer Controlled Electronics: CAMAC

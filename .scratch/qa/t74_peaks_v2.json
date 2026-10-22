@@ -1,0 +1,134 @@
+[
+ {
+  "path": ".scratch/pw-t74g-manual/t74g/before-canvas.png",
+  "canvas": [
+   340,
+   481
+  ],
+  "bg": [
+   20,
+   24,
+   31
+  ],
+  "nodes": 3085,
+  "thr": 60,
+  "inkShare": 0.3469,
+  "blobs": 48,
+  "largestShare": 0.887,
+  "peaks": 599,
+  "nodeDiameter": 4.34,
+  "nn": {
+   "n": 599,
+   "median": 4.0,
+   "p10": 2.0,
+   "p25": 3.0,
+   "p50": 4.0,
+   "p90": 9.22
+  },
+  "separable": {
+   "at_4.34": 0.439,
+   "at_3.26": 0.634,
+   "at_5.00": 0.394
+  },
+  "tag": "current-340x480"
+ },
+ {
+  "path": ".scratch/pw-t74g-manual/t74g/after-canvas.png",
+  "canvas": [
+   686,
+   481
+  ],
+  "bg": [
+   20,
+   24,
+   31
+  ],
+  "nodes": 3085,
+  "thr": 60,
+  "inkShare": 0.2562,
+  "blobs": 425,
+  "largestShare": 0.293,
+  "peaks": 3167,
+  "nodeDiameter": 4.34,
+  "nn": {
+   "n": 3167,
+   "median": 5.32,
+   "p10": 3.0,
+   "p25": 4.53,
+   "p50": 5.32,
+   "p90": 6.18
+  },
+  "separable": {
+   "at_4.34": 0.78,
+   "at_3.26": 0.886,
+   "at_5.00": 0.613
+  },
+  "tag": "widened-686x480"
+ },
+ {
+  "path": ".scratch/pw-t44e-1792675615/t44e/early-canvas.png",
+  "canvas": [
+   932,
+   481
+  ],
+  "bg": [
+   20,
+   24,
+   31
+  ],
+  "nodes": 5495,
+  "thr": 60,
+  "inkShare": 0.1912,
+  "blobs": 382,
+  "largestShare": 0.34,
+  "peaks": 3194,
+  "nodeDiameter": 3.26,
+  "nn": {
+   "n": 3194,
+   "median": 5.22,
+   "p10": 3.0,
+   "p25": 4.5,
+   "p50": 5.22,
+   "p90": 6.18
+  },
+  "separable": {
+   "at_3.26": 0.885,
+   "at_4.34": 0.786,
+   "at_5.00": 0.58
+  },
+  "tag": "t44-era-932x481"
+ },
+ {
+  "path": ".scratch/pw-t44f-revert-1792676062/t44e/early-canvas.png",
+  "canvas": [
+   932,
+   481
+  ],
+  "bg": [
+   20,
+   24,
+   31
+  ],
+  "nodes": 5495,
+  "thr": 60,
+  "inkShare": 0.2654,
+  "blobs": 121,
+  "largestShare": 0.872,
+  "peaks": 895,
+  "nodeDiameter": 3.26,
+  "nn": {
+   "n": 895,
+   "median": 3.61,
+   "p10": 2.0,
+   "p25": 2.79,
+   "p50": 3.61,
+   "p90": 10.3
+  },
+  "separable": {
+   "at_3.26": 0.591,
+   "at_4.34": 0.323,
+   "at_5.00": 0.25
+  },
+  "tag": "reverted-932x481"
+ }
+]

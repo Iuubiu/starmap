@@ -1,0 +1,170 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>学习界面 · 三版打样</title>
+<style>
+:root{
+  --bg:radial-gradient(900px 600px at 12% 16%,#b9c6ff 0%,transparent 62%),radial-gradient(820px 700px at 88% 6%,#ffc9e8 0%,transparent 62%),linear-gradient(140deg,#dfe7ff,#f6e8ff 55%,#e6f2ff);
+  --panel:rgba(255,255,255,.42);--surface:rgba(255,255,255,.55);--line:rgba(255,255,255,.7);
+  --text:#131629;--muted:#5b6178;--accent:#5566ff;--ok:#1f9d63;
+  --cboxrad:22px;--cardrad:14px;--btnrad:14px;
+  --sh1:0 8px 24px rgba(60,70,140,.10);--sh2:0 10px 30px rgba(70,80,160,.18);--sh3:0 24px 60px rgba(12,16,26,.16);
+  --font:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:#eef1f7;color:var(--text);padding:8px}
+.stage{width:1232px;height:694px;background:var(--bg);border-radius:20px;overflow:hidden;position:relative;display:flex;margin:0 auto 40px;box-shadow:var(--sh3)}
+.tag{position:absolute;left:20px;top:-0px;font:600 12px/1 var(--font);color:#8b90a8}
+.glass{background:var(--panel);backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);border:1px solid var(--line);border-radius:18px}
+/* ---- shared bits ---- */
+.rail{width:76px;padding:16px 0;display:flex;flex-direction:column;align-items:center;gap:10px;background:rgba(255,255,255,.34);backdrop-filter:blur(26px) saturate(160%);border-right:1px solid var(--line)}
+.ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:18px;color:#4a4f66;cursor:pointer;transition:.18s}
+.ic:hover{background:rgba(255,255,255,.72);box-shadow:var(--sh1)}
+.ic.on{background:rgba(85,102,255,.14);color:var(--accent);box-shadow:inset 0 0 0 1px rgba(85,102,255,.25)}
+.ic .lbl{position:absolute;left:64px;white-space:nowrap;font-size:13px;background:rgba(255,255,255,.9);padding:6px 10px;border-radius:10px;opacity:0;pointer-events:none;transition:.16s;box-shadow:var(--sh1)}
+.ic:hover .lbl{opacity:1}
+.chat{flex:1;display:flex;flex-direction:column;min-width:0;padding:0}
+.head{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:rgba(255,255,255,.28);border-bottom:1px solid var(--line)}
+.head b{font-size:15px;letter-spacing:.2px}
+.pill{font-size:12px;color:var(--muted);background:rgba(255,255,255,.6);padding:5px 10px;border-radius:999px;box-shadow:var(--sh1)}
+.scroll{flex:1;overflow:auto;padding:22px 28px;display:flex;flex-direction:column;gap:14px}
+.me{align-self:flex-end;max-width:66%;background:var(--accent);color:#fff;padding:12px 16px;border-radius:18px 18px 6px 18px;font-size:14px;line-height:1.65;box-shadow:var(--sh2)}
+.ai{align-self:flex-start;max-width:74%;background:rgba(255,255,255,.6);backdrop-filter:blur(12px);padding:14px 16px;border-radius:18px 18px 18px 6px;font-size:14px;line-height:1.75;box-shadow:var(--sh1);border:1px solid var(--line)}
+.ai .from{font-size:11px;color:var(--muted);margin-bottom:6px;letter-spacing:.4px}
+.card{align-self:flex-start;width:100%;max-width:560px;background:var(--surface);backdrop-filter:blur(18px) saturate(150%);border:1px solid var(--line);border-radius:var(--cardrad);padding:16px 18px;box-shadow:var(--sh1)}
+.card .ct{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600}
+.badge{font-size:11px;padding:3px 8px;border-radius:8px;background:rgba(85,102,255,.12);color:var(--accent);font-weight:600}
+.meta{display:flex;gap:26px;margin:14px 0 12px}
+.meta div{font-size:11px;color:var(--muted)}
+.meta s{display:block;font-size:15px;color:var(--text);font-weight:600;text-decoration:none;margin-top:4px}
+.cta{background:var(--accent);color:#fff;border:0;border-radius:var(--btnrad);padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--sh2)}
+.ghost{background:transparent;border:1px solid rgba(85,102,255,.3);color:var(--accent);border-radius:var(--btnrad);padding:10px 16px;font-size:13px;cursor:pointer}
+.foot{padding:10px 28px 20px;background:transparent}
+.cbox{background:var(--surface);backdrop-filter:blur(22px) saturate(150%);border-radius:var(--cboxrad);box-shadow:var(--sh2);padding:14px 14px 14px 18px;display:flex;align-items:flex-end;gap:12px;border:0}
+.cbox textarea{flex:1;border:0;background:transparent;resize:none;font:14px/1.6 var(--font);color:var(--text);outline:none;min-height:24px;max-height:96px}
+.cbox textarea::placeholder{color:#8b90a8}
+.send{width:38px;height:38px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer;box-shadow:var(--sh1)}
+.sbar{display:flex;align-items:center;justify-content:space-between;padding:8px 28px 0;font-size:11px;color:var(--muted)}
+.sbar .l{display:flex;align-items:center;gap:8px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(31,157,99,.15)}
+/* ---- variant B ---- */
+.right{width:300px;border-left:1px solid var(--line);background:rgba(255,255,255,.3);backdrop-filter:blur(26px) saturate(160%);padding:16px}
+.right h4{font-size:12px;color:var(--muted);letter-spacing:.4px;margin-bottom:10px}
+.logi{font-size:12px;background:rgba(255,255,255,.55);border-radius:12px;padding:9px 11px;margin-bottom:8px;box-shadow:var(--sh1);line-height:1.55}
+.logi b{color:var(--accent);font-weight:600}
+/* ---- variant C ---- */
+.split{display:flex;flex:1;min-height:0}
+.left{width:420px;border-right:1px solid var(--line);display:flex;flex-direction:column}
+.big{flex:1;padding:26px 30px;overflow:auto}
+.big h2{font-size:22px;margin-bottom:8px}
+.step{display:flex;gap:8px;margin:16px 0}
+.step i{font-style:normal;font-size:11px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.55);color:var(--muted)}
+.step i.on{background:var(--accent);color:#fff}
+.q{background:var(--surface);border-radius:var(--cardrad);padding:18px;box-shadow:var(--sh1);border:1px solid var(--line);margin-top:8px}
+.opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.5);margin-top:8px;font-size:14px;cursor:pointer}
+.opt:hover{box-shadow:var(--sh1);background:rgba(255,255,255,.75)}
+.on-dot{width:14px;height:14px;border-radius:50%;border:2px solid #b9bed3}
+.on-dot.sel{border-color:var(--accent);background:radial-gradient(circle,var(--accent) 0 45%,transparent 46%)}
+</style>
+
+<!-- ============ A：单栏沉浸式 ============ -->
+<div style="position:relative;margin-bottom:16px"><span class="tag">A · 单栏沉浸式（无侧栏，内容吃满屏宽）</span></div>
+<div class="stage">
+  <div class="rail" style="position:relative">
+    <div class="ic on">◧<span class="lbl">学习</span></div>
+    <div class="ic">◎<span class="lbl">定级</span></div>
+    <div class="ic">↻<span class="lbl">复验</span></div>
+    <div class="ic">▤<span class="lbl">看板</span></div>
+    <div class="ic">⌗<span class="lbl">知识地图</span></div>
+    <div class="ic">◇<span class="lbl">关卡市场</span></div>
+    <div class="ic">▦<span class="lbl">数据库</span></div>
+    <div class="ic">✦<span class="lbl">技能库</span></div>
+  </div>
+  <div class="chat">
+    <div class="head"><b>学习</b><span class="pill">难度档 P2 · 第 2 轮</span></div>
+    <div class="scroll">
+      <div class="me">我想学布尔代数的基本运算</div>
+      <div class="ai"><div class="from">STARMAP</div>你卡在「化简看不出从哪一步开始」，还是「两条律老是记反」？这两处的练法不一样。</div>
+      <div class="card">
+        <div class="ct"><span class="badge">关卡</span>逻辑代数基本律：吸收律与德摩根律</div>
+        <div class="meta"><div>预计用时<s>14 分钟</s></div><div>题目数<s>4 题</s></div><div>第一步<s>引导</s></div><div>难度档<s>P2</s></div></div>
+        <button class="cta">进入关卡</button>
+        <button class="ghost" style="margin-left:8px">看依据</button>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="cbox"><textarea rows="1" placeholder="说说你想学什么，或者你卡在哪一步…"></textarea><button class="send">↑</button></div>
+      <div class="sbar"><div class="l"><span class="dot"></span>数据库已连接 · 3085 个微知识点</div><div>Enter 提交 · Shift+Enter 换行</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ B：双栏 + 学习日志 ============ -->
+<div style="position:relative;margin-bottom:16px;margin-top:8px"><span class="tag">B · 双栏（右侧常驻学习日志，能看到「系统记住了什么」）</span></div>
+<div class="stage">
+  <div class="rail" style="position:relative">
+    <div class="ic on">◧<span class="lbl">学习</span></div><div class="ic">◎<span class="lbl">定级</span></div>
+    <div class="ic">↻<span class="lbl">复验</span></div><div class="ic">▤<span class="lbl">看板</span></div>
+    <div class="ic">⌗<span class="lbl">知识地图</span></div><div class="ic">◇<span class="lbl">关卡市场</span></div>
+    <div class="ic">▦<span class="lbl">数据库</span></div><div class="ic">✦<span class="lbl">技能库</span></div>
+  </div>
+  <div class="chat">
+    <div class="head"><b>学习</b><span class="pill">难度档 P1 · 一次最多推进 2 个新点</span></div>
+    <div class="scroll">
+      <div class="me">我完全没学过，从哪开始</div>
+      <div class="ai"><div class="from">STARMAP</div>那就从「与、或、非」三件事开始。先看一个完整例子，再自己动手——这样你不会一上来就卡住。</div>
+      <div class="card">
+        <div class="ct"><span class="badge">关卡</span>布尔代数基本运算</div>
+        <div class="meta"><div>预计用时<s>12 分钟</s></div><div>题目数<s>5 题</s></div><div>首轮<s>完整样例</s></div><div>难度档<s>P1</s></div></div>
+        <button class="cta">进入关卡</button>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="cbox"><textarea rows="1" placeholder="说说你想学什么，或者你卡在哪一步…"></textarea><button class="send">↑</button></div>
+      <div class="sbar"><div class="l"><span class="dot"></span>当前知识点 布尔代数基本运算</div><div>Enter 提交</div></div>
+    </div>
+  </div>
+  <div class="right">
+    <h4>本次会话新知识点</h4>
+    <div class="logi"><b>布尔代数基本运算</b> · 有现成关卡</div>
+    <div class="logi">作用与地位 · 还没有关卡</div>
+    <h4 style="margin-top:18px">每一轮都可回溯</h4>
+    <div class="logi">01 · 关卡卡 <b style="color:#8b90a8">10:35</b><br>布尔代数基本运算</div>
+    <div class="logi">02 · 追问 <b style="color:#8b90a8">10:41</b><br>你更想先练记律还是先练化简？</div>
+  </div>
+</div>
+
+<!-- ============ C：对话 + 大面板分栏 ============ -->
+<div style="position:relative;margin-bottom:16px;margin-top:8px"><span class="tag">C · 对话窄栏 + 大面板（学习时题目占主场，对话退到左侧）</span></div>
+<div class="stage">
+  <div class="rail" style="position:relative">
+    <div class="ic on">◧<span class="lbl">学习</span></div><div class="ic">◎<span class="lbl">定级</span></div>
+    <div class="ic">↻<span class="lbl">复验</span></div><div class="ic">▤<span class="lbl">看板</span></div>
+    <div class="ic">⌗<span class="lbl">知识地图</span></div><div class="ic">◇<span class="lbl">关卡市场</span></div>
+    <div class="ic">▦<span class="lbl">数据库</span></div><div class="ic">✦<span class="lbl">技能库</span></div>
+  </div>
+  <div class="split">
+    <div class="left">
+      <div class="head"><b>对话</b><span class="pill">P3</span></div>
+      <div class="scroll" style="padding:16px 18px">
+        <div class="me" style="max-width:88%;font-size:13px">直接给我题，我做过这类</div>
+        <div class="ai" style="max-width:92%;font-size:13px">好，跳过讲解直接第 3 段。答完这一段的题再统一给反馈。</div>
+        <div class="logi" style="margin-top:4px">已跳过第 1–2 段 · 你选了直达路径</div>
+      </div>
+      <div class="foot" style="padding:10px 14px 14px">
+        <div class="cbox" style="padding:10px 10px 10px 14px"><textarea rows="1" placeholder="继续提问…" style="font-size:13px"></textarea><button class="send" style="width:32px;height:32px">↑</button></div>
+      </div>
+    </div>
+    <div class="big">
+      <h2>逻辑代数基本律：吸收律与德摩根律</h2>
+      <div style="font-size:12px;color:var(--muted)">知识点 kp-bool · 共 7 段 · 这一档直接从第 3 段开始</div>
+      <div class="step"><i>1 引导</i><i>2 展示细节</i><i class="on">3 简单问题</i><i>4 深究</i><i>5 进一步讲解</i><i>6 判定</i><i>7 小结</i></div>
+      <div class="q">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px">判定题 · 先确认你看懂了这两条律</div>
+        <div style="font-size:16px;font-weight:600">下列哪一个式子恒等于 A？</div>
+        <div class="opt"><span class="on-dot sel"></span>A + A·B</div>
+        <div class="opt"><span class="on-dot"></span>A ⊕ A·B</div>
+        <div class="opt"><span class="on-dot"></span>A·(A + B)·Ā</div>
+        <button class="cta" style="margin-top:16px">提交答案</button>
+      </div>
+    </div>
+  </div>
+</div>
+</html>

@@ -5,9 +5,9 @@
   "type": "module",
   "main": "./dist/main.js",
   "scripts": {
-    "dev": "tsx watch --env-file=../../.env src/main.ts",
+    "dev": "tsx --env-file=../../.env ./scripts/prepare-db.ts && tsx watch --env-file=../../.env src/main.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "tsx --env-file=../../.env src/main.ts",
+    "start": "tsx --env-file=../../.env ./scripts/prepare-db.ts && tsx --env-file=../../.env src/main.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "contract:emit": "node ./scripts/emit-openapi.mjs",
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@mastra/core": "1.78.0",
+    "@mastra/libsql": "1.27.0",
     "@mastra/nestjs": "0.2.37",
     "@mastra/pg": "1.31.2",
     "@nestjs/core": "12.1.3",

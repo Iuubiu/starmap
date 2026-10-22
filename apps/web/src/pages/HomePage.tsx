@@ -25,7 +25,7 @@
  * 顶部输入框会让人以为这是搜索框（问一句、看一眼结果、关掉）；底部常驻
  * 输入框是「继续说」的位置，与卡片的对话关系一致。它不随内容滚动消失。
  */
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   Badge,
   Body1,
@@ -360,6 +360,35 @@ export function HomePage() {
     );
   };
 
+  /**
+   * 票 81：问津卡上点选一项 = 把那一项当成这一轮的话发出去。
+   *
+   * 用 `clarifyGuard` 而不是只看 `submit.isPending`：`mutate` 之后到 React 重渲
+   * （按钮变 disabled）之间有一个窗口，连点两次会在同一个窗口里各发一次。这个
+   * ref 在点击回调里**同步**置位，等这一轮结束（无论成功失败）再放开。
+   *
+   * 不走 `onSubmit`：它读的是输入框里的字。这里发的是选项原文，输入框不该被
+   * 写入任何东西；成功后照旧清空（上一轮提交已经清过一次，这里再清一次是幂等的）。
+   */
+  const clarifyGuard = useRef(false);
+  const onClarifyChoice = (text: string) => {
+    const value = text.trim();
+    if (!value || clarifyGuard.current || submit.isPending) return;
+    clarifyGuard.current = true;
+    setActiveTurnId(null);
+    setShowEvidence(false);
+    setLastSent(value);
+    submit.mutate(
+      { utterance: value, microKpId: focusedKpId, tier: learnerTier },
+      {
+        onSuccess: () => setUtterance(''),
+        onSettled: () => {
+          clarifyGuard.current = false;
+        },
+      },
+    );
+  };
+
   const onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // Enter 提交、Shift+Enter 换行 —— 这是输入框不是聊天窗，但底部的行为约定
     // 和聊天框一致，不一致才是意外。
@@ -424,7 +453,12 @@ export function HomePage() {
             )}
 
             {shown.artifact && (
-              <ArtifactCard artifact={shown.artifact} clarify={shown.clarify} />
+              <ArtifactCard
+                artifact={shown.artifact}
+                clarify={shown.clarify}
+                onClarifyChoice={onClarifyChoice}
+                clarifyChoiceBusy={submit.isPending}
+              />
             )}
 
             {shown.errorCard && (
@@ -447,7 +481,11 @@ export function HomePage() {
               </MessageBar>
             )}
 
-            {shown.artifact?.kind === 'probe_form' && (
+            {/* 问津卡不走 ProbePanel：回答它不需要「提交一次追问答复」这个仪式，
+                选项已经在卡片里点一下就发下一轮。而 `probeId` 是 `clarify-<turnId>`
+                这种伪 id，服务端没有对应记录，把它交给 ProbePanel 只会在学生
+                面前摆出第二组一模一样的选项、点下去还 404。 */}
+            {shown.artifact?.kind === 'probe_form' && !shown.clarify && (
               <ProbePanel
                 key={shown.artifact.probeId}
                 probeId={shown.artifact.probeId}

@@ -1,0 +1,116 @@
+=== knoll-3e-2000 (03_Knoll_Radiation_Detection_and_Measurement_3rd_2000.pdf, 840 pages) ===
+  offset votes: [(11, 1), (-57, 1), (-90, 1), (-148, 1), (-204, 1), (-239, 1)]
+    kp-knoll-3e-2000-1                 printed=3     pdfIdx=14    diff=11
+    kp-knoll-3e-2000-2-4               printed=71    pdfIdx=14    diff=-57
+    kp-knoll-3e-2000-4                 printed=104   pdfIdx=14    diff=-90
+    kp-knoll-3e-2000-5-4               printed=163   pdfIdx=15    diff=-148
+    kp-knoll-3e-2000-7-1               printed=219   pdfIdx=15    diff=-204
+    kp-knoll-3e-2000-8-2               printed=254   pdfIdx=15    diff=-239
+=== knoll-4e-2010 (04_Knoll_Radiation_Detection_and_Measurement_4th_2010.pdf, 866 pages) ===
+  offset votes: [(21, 1), (-32, 1), (-88, 1), (-144, 1), (-191, 1), (-258, 1)]
+    kp-knoll-4e-2010-1                 printed=1     pdfIdx=22    diff=21
+    kp-knoll-4e-2010-p56-RadiationExposureandDose printed=56    pdfIdx=24    diff=-32
+    kp-knoll-4e-2010-4-2               printed=112   pdfIdx=24    diff=-88
+    kp-knoll-4e-2010-5-3               printed=169   pdfIdx=25    diff=-144
+    kp-knoll-4e-2010-6-6               printed=216   pdfIdx=25    diff=-191
+    kp-knoll-4e-2010-8-4               printed=283   pdfIdx=25    diff=-258
+=== tsoulfanidis-4e (08_Tsoulfanidis_Measurement_and_Detection_of_Radiation_4th.pdf, 595 pages) ===
+  offset votes: [(7, 1), (-31, 1), (-15, 1), (-153, 1), (-193, 1), (-232, 1)]
+    kp-tsoulfanidis-4e-1               printed=1     pdfIdx=8     diff=7
+    kp-tsoulfanidis-4e-2-13            printed=40    pdfIdx=9     diff=-31
+    kp-tsoulfanidis-4e-3-4             printed=77    pdfIdx=62    diff=-15
+    kp-tsoulfanidis-4e-p163-References printed=163   pdfIdx=10    diff=-153
+    kp-tsoulfanidis-4e-6-5             printed=205   pdfIdx=12    diff=-193
+    kp-tsoulfanidis-4e-8-2             printed=245   pdfIdx=13    diff=-232
+=== grupen-2e-2008 (09_Grupen_Particle_Detectors_2nd_2008.pdf, 677 pages) ===
+  offset votes: [(7, 1), (-56, 1), (-79, 1), (-151, 1), (-173, 1), (-239, 1)]
+    kp-grupen-2e-2008-1                printed=1     pdfIdx=8     diff=7
+    kp-grupen-2e-2008-2-5              printed=65    pdfIdx=9     diff=-56
+    kp-grupen-2e-2008-p88-Mainphysicalphenomenausedforparticle printed=88    pdfIdx=9     diff=-79
+    kp-grupen-2e-2008-6-1              printed=160   pdfIdx=9     diff=-151
+    kp-grupen-2e-2008-p181-References  printed=181   pdfIdx=8     diff=-173
+    kp-grupen-2e-2008-8-2              printed=249   pdfIdx=10    diff=-239
+=== ahmed-2e (10_Ahmed_Physics_and_Engineering_of_Radiation_Detection_2nd.pdf, 763 pages) ===
+  offset votes: [(7, 2), (-75, 1), (-224, 1), (-17, 1), (-168, 1), (-16, 1)]
+    kp-ahmed-2e-1                      printed=1     pdfIdx=8     diff=7
+    kp-ahmed-2e-2                      printed=65    pdfIdx=72    diff=7
+    kp-ahmed-2e-3                      printed=156   pdfIdx=81    diff=-75
+    kp-ahmed-2e-3-9                    printed=228   pdfIdx=4     diff=-224
+    kp-ahmed-2e-4-7                    printed=255   pdfIdx=238   diff=-17
+    kp-ahmed-2e-5-5                    printed=328   pdfIdx=160   diff=-168
+=== spieler-2005 (11_Spieler_Semiconductor_Detector_Systems_2005.pdf, 506 pages) ===
+  offset votes: [(8, 1), (-31, 1), (-93, 1), (-116, 1), (-170, 1), (15, 1)]
+    kp-spieler-2005-1                  printed=1     pdfIdx=9     diff=8
+    kp-spieler-2005-1-12               printed=40    pdfIdx=9     diff=-31
+    kp-spieler-2005-2-10               printed=102   pdfIdx=9     diff=-93
+    kp-spieler-2005-3-11               printed=127   pdfIdx=11    diff=-116
+    kp-spieler-2005-4-9                printed=179   pdfIdx=9     diff=-170
+    kp-spieler-2005-6-4                printed=256   pdfIdx=271   diff=15
+=== leo-2e (12_Leo_Techniques_for_Nuclear_and_Particle_Physics_Experiments_2nd.pdf, 384 pages) ===
+  offset votes: [(6, 3), (11, 2), (13, 1), (12, 1), (-147, 1), (9, 1)]
+    kp-leo-2e-1                        printed=1     pdfIdx=7     diff=6
+    kp-leo-2e-2-2                      printed=21    pdfIdx=34    diff=13
+    kp-leo-2e-4                        printed=81    pdfIdx=93    diff=12
+    kp-leo-2e-5-4                      printed=119   pdfIdx=130   diff=11
+    kp-leo-2e-7                        printed=157   pdfIdx=10    diff=-147
+    kp-leo-2e-8-6                      printed=190   pdfIdx=201   diff=11
+=== nakhostin-2018 (13_Nakhostin_Signal_Processing_for_Radiation_Detectors_2018.pdf, 520 pages) ===
+  offset votes: [(4, 1), (-72, 1), (-125, 1), (-157, 1), (-185, 1), (-243, 1)]
+    kp-nakhostin-2018-1                printed=1     pdfIdx=5     diff=4
+    kp-nakhostin-2018-2                printed=77    pdfIdx=5     diff=-72
+    kp-nakhostin-2018-2-6              printed=130   pdfIdx=5     diff=-125
+    kp-nakhostin-2018-3-4              printed=162   pdfIdx=5     diff=-157
+    kp-nakhostin-2018-4                printed=191   pdfIdx=6     diff=-185
+    kp-nakhostin-2018-4-6              printed=249   pdfIdx=6     diff=-243
+=== rivetti-2015 (14_Rivetti_CMOS_FrontEnd_Electronics_for_Radiation_Sensors_2015.pdf, 717 pages) ===
+  offset votes: [(9, 1), (-61, 1), (-123, 1), (-179, 1), (-270, 1), (23, 1)]
+    kp-rivetti-2015-1                  printed=1     pdfIdx=10    diff=9
+    kp-rivetti-2015-2-3                printed=72    pdfIdx=11    diff=-61
+    kp-rivetti-2015-3-1                printed=135   pdfIdx=12    diff=-123
+    kp-rivetti-2015-3-10               printed=191   pdfIdx=12    diff=-179
+    kp-rivetti-2015-5-3                printed=283   pdfIdx=13    diff=-270
+    kp-rivetti-2015-6-5                printed=341   pdfIdx=364   diff=23
+=== lutz-2007 (15_Lutz_Semiconductor_Radiation_Detectors_2007.pdf, 351 pages) ===
+  offset votes: [(4, 2), (3, 1), (-9, 1), (7, 1), (-73, 1), (-46, 1)]
+    kp-lutz-2007-1                     printed=1     pdfIdx=4     diff=3
+    kp-lutz-2007-2-4                   printed=14    pdfIdx=5     diff=-9
+    kp-lutz-2007-3-1                   printed=39    pdfIdx=46    diff=7
+    kp-lutz-2007-4                     printed=79    pdfIdx=6     diff=-73
+    kp-lutz-2007-5-1                   printed=95    pdfIdx=49    diff=-46
+    kp-lutz-2007-6-3                   printed=116   pdfIdx=121   diff=5
+=== nicholson-1974 (16_Nicholson_Nuclear_Electronics_1974.pdf, 412 pages) ===
+  offset votes: [(11, 1), (-12, 1), (-75, 1), (-109, 1), (-135, 1), (-176, 1)]
+    kp-nicholson-1974-1                printed=1     pdfIdx=12    diff=11
+    kp-nicholson-1974-1-4              printed=20    pdfIdx=8     diff=-12
+    kp-nicholson-1974-3                printed=88    pdfIdx=13    diff=-75
+    kp-nicholson-1974-4-1              printed=122   pdfIdx=13    diff=-109
+    kp-nicholson-1974-4-5              printed=149   pdfIdx=14    diff=-135
+    kp-nicholson-1974-p190-529RequirementsonmainamplifiersforSees printed=190   pdfIdx=14    diff=-176
+=== gilmore-2e-2008 (17_Gilmore_Practical_Gamma-ray_Spectrometry_2nd_2008.pdf, 416 pages) ===
+  offset votes: [(23, 3), (9, 1), (-15, 1), (-39, 1), (-152, 1), (-165, 1)]
+    kp-gilmore-2e-2008-1               printed=1     pdfIdx=10    diff=9
+    kp-gilmore-2e-2008-2-1             printed=25    pdfIdx=10    diff=-15
+    kp-gilmore-2e-2008-3-6             printed=50    pdfIdx=11    diff=-39
+    kp-gilmore-2e-2008-4-11            printed=97    pdfIdx=120   diff=23
+    kp-gilmore-2e-2008-6-2             printed=133   pdfIdx=156   diff=23
+    kp-gilmore-2e-2008-8               printed=165   pdfIdx=13    diff=-152
+=== debertin-1988 (20_Debertin_Helmer_Gamma_and_XRay_Spectrometry_1988.pdf, 420 pages) ===
+  offset votes: [(13, 3), (5, 1), (-2, 1), (-71, 1), (-96, 1), (-141, 1)]
+    kp-debertin-1988-1                 printed=5     pdfIdx=10    diff=5
+    kp-debertin-1988-1-2               printed=7     pdfIdx=20    diff=13
+    kp-debertin-1988-1-4               printed=29    pdfIdx=42    diff=13
+    kp-debertin-1988-1-6               printed=54    pdfIdx=52    diff=-2
+    kp-debertin-1988-2-1               printed=71    pdfIdx=0     diff=-71
+    kp-debertin-1988-2-3               printed=107   pdfIdx=11    diff=-96
+=== guojiang-2023 (26_原子及原子核物理_郭江_第2版_2023.pdf, 334 pages) ===
+  offset votes: [(-24, 1), (-49, 1), (7, 1), (-82, 1), (-152, 1), (-199, 1)]
+    kp-guojiang-2023-1-7               printed=29    pdfIdx=5     diff=-24
+    kp-guojiang-2023-2-5               printed=54    pdfIdx=5     diff=-49
+    kp-guojiang-2023-3-6               printed=70    pdfIdx=77    diff=7
+    kp-guojiang-2023-4-5               printed=88    pdfIdx=6     diff=-82
+    kp-guojiang-2023-8-4               printed=157   pdfIdx=5     diff=-152
+    kp-guojiang-2023-10-4              printed=204   pdfIdx=5     diff=-199
+=== guojiang-2014 (27_原子及原子核物理_郭江_2014_旧版.pdf, 252 pages) ===
+  offset votes: [(-106, 1), (-157, 1)]
+    kp-guojiang-2014-7-5               printed=111   pdfIdx=5     diff=-106
+    kp-guojiang-2014-10-3              printed=162   pdfIdx=5     diff=-157

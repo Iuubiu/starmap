@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import type {
+  LevelExportFile,
   MarketDraftResponse,
   MarketLevelListResponseItemsItem,
   MarketSaveLevelResponse,
@@ -12,6 +13,8 @@ import type {
 import { MarketPage } from './MarketPage';
 import { MarketAuthorPage, toIssues } from './MarketAuthorPage';
 import * as queries from '../api/queries';
+import * as downloadModule from '../market/download';
+import { ApiClientError } from '../api/fetcher';
 
 /**
  * 关卡市场页与自制关卡编辑页的渲染测试。
@@ -26,6 +29,14 @@ vi.mock('../api/queries', () => ({
   useMarketLevel: vi.fn(),
   useCreateMarketDraft: vi.fn(),
   useSaveMarketLevel: vi.fn(),
+  // 票 67 新增的五个 hook：页面每多用一 hook 就必须补进这个工厂，
+  // 否则整页在 render 时就抛「No "useXxx" export is defined on the mock」，
+  // 连带把与本票无关的旧用例一起弄红。
+  useLevelTemplates: vi.fn(),
+  usePreviewLevelTemplate: vi.fn(),
+  useExportLevel: vi.fn(),
+  useImportLevel: vi.fn(),
+  useTierOverview: vi.fn(),
 }));
 
 const mocked = vi.mocked(queries);
@@ -38,6 +49,93 @@ const queryStub = <T,>(payload: T | undefined) => ({
   isSuccess: payload !== undefined,
   error: null,
 });
+
+/**
+ * mutation 的桩。
+ *
+ * 与 `queryStub` 分开写是因为两者的形状没有交集：mutation 没有 `data/payload`，
+ * query 没有 `mutate`。硬套一个「万能 stub」会让类型断言撒谎，测试也就查不出
+ * 「页面读了 mutation 上并不存在的字段」这类错。
+ */
+const mutationStub = () => ({
+  mutate: vi.fn(),
+  mutateAsync: vi.fn(),
+  isPending: false,
+  isSuccess: false,
+  isError: false,
+  error: null,
+  data: undefined,
+  reset: vi.fn(),
+});
+
+const teachingTemplate = {
+  templateId: 'teaching',
+  version: 1,
+  name: '教学关',
+  summary: '先讲再练：引导、展示细节、简单问题、深究、进一步讲解、判定、小结七段。',
+  type: 'teaching' as const,
+  gating: { mode: 'none' as const, itemCount: 2, passCount: 2 },
+  segments: [
+    { kind: 'guide', title: '引导', cardCount: 1, itemCount: 0, requiredCorrect: 0, tiers: ['P1', 'P2', 'P3'], purpose: '先把这一关要解决的问题说清楚。' },
+    { kind: 'detail', title: '展示细节', cardCount: 2, itemCount: 0, requiredCorrect: 0, tiers: ['P1', 'P2', 'P3'], purpose: '把定义、公式与适用条件摊开。' },
+    { kind: 'probe', title: '简单问题', cardCount: 0, itemCount: 1, requiredCorrect: 1, tiers: ['P1', 'P2', 'P3'], purpose: '用一道小题探一探卡在哪。' },
+    { kind: 'deepen', title: '深究', cardCount: 0, itemCount: 1, requiredCorrect: 0, tiers: ['P1', 'P2'], purpose: '没答对就往下追一层。' },
+    { kind: 'reteach', title: '进一步讲解', cardCount: 1, itemCount: 0, requiredCorrect: 0, tiers: ['P1'], purpose: '换一个角度重讲一遍。' },
+    { kind: 'quiz', title: '判定', cardCount: 0, itemCount: 2, requiredCorrect: 1, tiers: ['P1', 'P2', 'P3'], purpose: '判定这一关过没过。' },
+    { kind: 'summary', title: '小结', cardCount: 0, itemCount: 0, requiredCorrect: 0, tiers: ['P1', 'P2', 'P3'], purpose: '把这一趟的证据与路线摊给学生看。' },
+  ],
+  slots: [
+    { key: 'guide-card-0', kind: 'card' as const, segmentKind: 'guide' as const, index: 0, label: '引导卡', required: true },
+  ],
+};
+
+const practiceTemplate = {
+  ...teachingTemplate,
+  templateId: 'practice',
+  name: '练习关',
+  summary: '直接练：五道判定题加一段小结。',
+  type: 'quiz' as const,
+  gating: { mode: 'none' as const, itemCount: 5, passCount: 3 },
+  segments: [
+    { kind: 'quiz', title: '判定', cardCount: 0, itemCount: 5, requiredCorrect: 3, tiers: ['P1', 'P2', 'P3'], purpose: '五道题看掌握到什么程度。' },
+    { kind: 'summary', title: '小结', cardCount: 0, itemCount: 0, requiredCorrect: 0, tiers: ['P1', 'P2', 'P3'], purpose: '摊出证据。' },
+  ],
+};
+
+const reviewTemplate = {
+  ...teachingTemplate,
+  templateId: 'review',
+  name: '复习关',
+  summary: '隔一段时间回来复查：三道题加一段小结。',
+  type: 'quiz' as const,
+  gating: { mode: 'none' as const, itemCount: 3, passCount: 2 },
+  segments: [
+    { kind: 'quiz', title: '判定', cardCount: 0, itemCount: 3, requiredCorrect: 2, tiers: ['P1', 'P2', 'P3'], purpose: '复查还记得多少。' },
+    { kind: 'summary', title: '小结', cardCount: 0, itemCount: 0, requiredCorrect: 0, tiers: ['P1', 'P2', 'P3'], purpose: '摊出证据。' },
+  ],
+};
+
+/** 模板预览响应：段数随档位变化（P1 七段 / P2 六段 / P3 五段），与后端一致。 */
+function makePreview(tier: 'P1' | 'P2' | 'P3') {
+  const segments = teachingTemplate.segments.filter((segment) => segment.tiers.includes(tier));
+  return {
+    persisted: false as const,
+    templateId: 'teaching',
+    tier,
+    spec: {
+      ...makeDraftSpec(),
+      meta: { ...makeDraftSpec().meta, id: `kp-bool--teaching--${tier}`, tier, type: 'teaching' as const },
+      steps: segments.map((segment, index) => ({
+        id: `s-${segment.kind}-${index}`,
+        kind: segment.kind,
+        title: segment.title,
+        cardIds: [],
+        itemIds: [],
+        requiredCorrect: segment.requiredCorrect,
+      })),
+    },
+  };
+}
 
 function renderPage(ui: React.ReactNode, path = '/market', route = '/market') {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -143,6 +241,38 @@ beforeEach(() => {
   } as unknown as ReturnType<typeof queries.useCreateMarketDraft>);
   mocked.useMarketLevel.mockReturnValue(
     queryStub(undefined) as unknown as ReturnType<typeof queries.useMarketLevel>,
+  );
+  // 票 67：默认给三个模板 + 空预览，让与模板无关的旧用例不受影响。
+  mocked.useLevelTemplates.mockReturnValue(
+    queryStub({ templates: [teachingTemplate, practiceTemplate, reviewTemplate] }) as unknown as ReturnType<
+      typeof queries.useLevelTemplates
+    >,
+  );
+  mocked.usePreviewLevelTemplate.mockReturnValue(mutationStub() as unknown as ReturnType<
+    typeof queries.usePreviewLevelTemplate
+  >);
+  mocked.useExportLevel.mockReturnValue(mutationStub() as unknown as ReturnType<
+    typeof queries.useExportLevel
+  >);
+  mocked.useImportLevel.mockReturnValue(mutationStub() as unknown as ReturnType<
+    typeof queries.useImportLevel
+  >);
+  mocked.useTierOverview.mockReturnValue(
+    queryStub({
+      tier: 'P2',
+      source: 'placement',
+      params: {
+        tier: 'P2',
+        firstRoundShape: 'completion',
+        ladder: { start: 2, cap: 4 },
+        sessionNewKpLimit: 3,
+        feedbackTiming: 'step_immediate_with_summary',
+        attemptsPerItem: 2,
+        masteryRule: { consecutiveCorrect: 2, requiresTransferItem: true },
+      },
+      label: '标准节奏',
+      description: '关卡给部分步骤，剩下由你补。',
+    }) as unknown as ReturnType<typeof queries.useTierOverview>,
   );
 });
 
@@ -574,5 +704,352 @@ describe('toIssues', () => {
       { path: '', message: '路径是个对象', code: 'invalid' },
       { path: '', message: '未知问题', code: 'invalid' },
     ]);
+  });
+});
+
+/**
+ * 票 67：模板预览 / 保存 / 导出 / 导入。
+ *
+ * 这些用例都只替换 hook，不碰网络 —— 请求形状与状态码由
+ * `apps/api/src/levels/levels.templates.test.ts` 与 openapi 校验覆盖。
+ * 这里要钉住的是**页面在拿到这些数据之后的反应**：
+ * 三档差异肉眼可见、导出交给下载层的是服务端原样返回体、
+ * 导入把用户选的文件原样发出去、错误把字段路径摊开。
+ */
+describe('MarketPage · 关卡模板与导入导出（票 67）', () => {
+  const renderMarket = (items: MarketLevelListResponseItemsItem[] = [presetLevel]) => {
+    mocked.useMarketLevels.mockReturnValue(
+      queryStub({ items }) as unknown as ReturnType<typeof queries.useMarketLevels>,
+    );
+    return renderPage(<MarketPage />);
+  };
+
+  it('列出三个模板，每个都说清几段、几题、适合谁', () => {
+    renderMarket();
+
+    // 三张模板卡都在（role=radio 是给键盘与读屏用的，不是装饰）
+    const group = screen.getByRole('radiogroup', { name: '关卡模板' });
+    const cards = within(group).getAllByRole('radio');
+    expect(cards.map((card) => card.getAttribute('aria-label'))).toEqual([
+      '教学关',
+      '练习关',
+      '复习关',
+    ]);
+
+    // 「几段 · 几题」是 facts 现算的，不是写死的文案
+    const teaching = within(cards[0]!);
+    expect(teaching.getByText(/7 段 · 4 题/)).toBeInTheDocument();
+    expect(teaching.getByText(/适合谁：/)).toBeInTheDocument();
+    const practice = within(cards[1]!);
+    expect(practice.getByText(/2 段 · 5 题/)).toBeInTheDocument();
+    const review = within(cards[2]!);
+    expect(review.getByText(/2 段 · 3 题/)).toBeInTheDocument();
+  });
+
+  it('模板接口读不到时给解释，而不是空白区', () => {
+    mocked.useLevelTemplates.mockReturnValue({
+      ...queryStub(undefined),
+      isError: true,
+      error: new Error('模板接口挂了'),
+    } as unknown as ReturnType<typeof queries.useLevelTemplates>);
+    renderMarket();
+
+    expect(screen.getByText(/无法读取关卡模板：模板接口挂了/)).toBeInTheDocument();
+  });
+
+  it('选模板 + 填知识点 + 点预览，把三档差异摊开', async () => {
+    const user = userEvent.setup();
+    const mutate = vi.fn(
+      (
+        vars: { templateId: string; request: { microKpId: string; tier: string } },
+        handlers?: { onSuccess?: (data: ReturnType<typeof makePreview>) => void },
+      ) => {
+        handlers?.onSuccess?.(makePreview(vars.request.tier as 'P1' | 'P2' | 'P3'));
+      },
+    );
+    mocked.usePreviewLevelTemplate.mockReturnValue({ ...mutationStub(), mutate } as unknown as ReturnType<
+      typeof queries.usePreviewLevelTemplate
+    >);
+    renderMarket();
+
+    await user.click(screen.getByRole('radio', { name: '教学关' }));
+    await user.type(screen.getByLabelText('模板预览的知识点 id'), 'kp-bool');
+    await user.click(screen.getByRole('button', { name: '预览' }));
+
+    // 请求带的是选中的模板 + 知识点 + 默认档位
+    expect(mutate).toHaveBeenCalledWith(
+      { templateId: 'teaching', request: { microKpId: 'kp-bool', tier: 'P1' } },
+      expect.anything(),
+    );
+
+    // 预览卡：段数、题数、未落库、首屏形态
+    expect(await screen.findByText('7 段')).toBeInTheDocument();
+    expect(screen.getByText('未落库')).toBeInTheDocument();
+    expect(screen.getByText(/首屏先看讲解/)).toBeInTheDocument();
+    const steps = screen.getByRole('list', { name: '预览的段' });
+    expect(within(steps).getAllByRole('listitem')).toHaveLength(7);
+  });
+
+  it('没选模板或没填知识点时「预览」是禁用的', async () => {
+    const user = userEvent.setup();
+    renderMarket();
+    const preview = screen.getByRole('button', { name: '预览' });
+    expect(preview).toBeDisabled();
+
+    await user.click(screen.getByRole('radio', { name: '练习关' }));
+    expect(preview).toBeDisabled(); // 还差知识点
+
+    await user.type(screen.getByLabelText('模板预览的知识点 id'), 'kp-bool');
+    expect(preview).toBeEnabled();
+  });
+
+  it('保存把预览草稿原样交给 save，并把 levelId 回显', async () => {
+    const user = userEvent.setup();
+    const previewMutate = vi.fn(
+      (
+        _vars: unknown,
+        handlers?: { onSuccess?: (data: ReturnType<typeof makePreview>) => void },
+      ) => {
+        handlers?.onSuccess?.(makePreview('P2'));
+      },
+    );
+    mocked.usePreviewLevelTemplate.mockReturnValue({
+      ...mutationStub(),
+      mutate: previewMutate,
+    } as unknown as ReturnType<typeof queries.usePreviewLevelTemplate>);
+
+    const saveMutate = vi.fn(
+      (_spec: unknown, handlers?: { onSuccess?: (data: MarketSaveLevelResponse) => void }) => {
+        handlers?.onSuccess?.({
+          created: true,
+          level: {
+            levelId: 'kp-bool--teaching--P2',
+            microKpId: 'kp-bool',
+            microKpName: '布尔代数基本运算',
+            title: '布尔代数基本运算（教学关）',
+            kind: 'teach',
+            author: 'system',
+            itemCount: 3,
+            savedAt: null,
+            tags: [],
+            origin: 'saved',
+          },
+        });
+      },
+    );
+    mocked.useSaveMarketLevel.mockReturnValue({
+      ...mutationStub(),
+      mutate: saveMutate,
+    } as unknown as ReturnType<typeof queries.useSaveMarketLevel>);
+
+    renderMarket();
+    await user.click(screen.getByRole('radio', { name: '教学关' }));
+    await user.type(screen.getByLabelText('模板预览的知识点 id'), 'kp-bool');
+    await user.click(screen.getByRole('button', { name: '预览' }));
+    await screen.findByText('6 段');
+
+    await user.click(screen.getByRole('button', { name: '保存为我的关卡' }));
+
+    // 交给 save 的是**预览里那份 spec**，不是重新构造的一份
+    const [requestArg] = saveMutate.mock.calls[0]!;
+    expect((requestArg as { spec: { meta: { id: string } } }).spec.meta.id).toBe(
+      'kp-bool--teaching--P2',
+    );
+    expect(await screen.findByText(/已保存成新关卡：kp-bool--teaching--P2/)).toBeInTheDocument();
+  });
+
+  it('保存被服务端拒时把字段路径摊开', async () => {
+    const user = userEvent.setup();
+    mocked.usePreviewLevelTemplate.mockReturnValue({
+      ...mutationStub(),
+      mutate: vi.fn((_v: unknown, h?: { onSuccess?: (d: unknown) => void }) => {
+        h?.onSuccess?.(makePreview('P1'));
+      }),
+    } as unknown as ReturnType<typeof queries.usePreviewLevelTemplate>);
+
+    const error = new ApiClientError(422, 'VALIDATION_FAILED', '关卡规范校验不通过（1 处），未写入关卡库', [
+      { path: 'steps.0.itemIds.0', message: '步骤 s-guide 引用了不存在的题目 i-x', code: 'invalid' },
+    ]);
+    mocked.useSaveMarketLevel.mockReturnValue({
+      ...mutationStub(),
+      error,
+    } as unknown as ReturnType<typeof queries.useSaveMarketLevel>);
+
+    renderMarket();
+    await user.click(screen.getByRole('radio', { name: '教学关' }));
+    await user.type(screen.getByLabelText('模板预览的知识点 id'), 'kp-bool');
+    await user.click(screen.getByRole('button', { name: '预览' }));
+    await screen.findByText('7 段');
+
+    expect(screen.getByText(/保存失败：/)).toBeInTheDocument();
+    // 字段级路径必须出现 —— 只说「保存失败」等于让用户自己猜
+    expect(screen.getByText(/steps\.0\.itemIds\.0/)).toBeInTheDocument();
+  });
+
+  it('每张关卡卡都有「导出」，点了把服务端返回体原样交给下载层', async () => {
+    const user = userEvent.setup();
+    const exported: unknown[] = [];
+    const spy = vi
+      .spyOn(downloadModule, 'downloadLevelFile')
+      .mockImplementation((file) => {
+        exported.push(file);
+      });
+
+    const file = {
+      format: 'starmap.level/1' as const,
+      exportedAt: '2026-10-22T10:00:00.000Z',
+      source: { title: '康华光·电子技术基础（数字部分）第5版', page: 34 },
+      spec: { ...makeDraftSpec(), meta: { ...makeDraftSpec().meta, id: 'lv-bool-laws' } },
+      items: makeDraftSpec().items,
+    };
+    const mutate = vi.fn((_id: string, handlers?: { onSuccess?: (data: typeof file) => void }) => {
+      handlers?.onSuccess?.(file);
+    });
+    mocked.useExportLevel.mockReturnValue({ ...mutationStub(), mutate } as unknown as ReturnType<
+      typeof queries.useExportLevel
+    >);
+
+    renderMarket();
+    await user.click(screen.getByRole('button', { name: '导出' }));
+
+    expect(mutate).toHaveBeenCalledWith('lv-bool-laws', expect.anything());
+    // 交给下载层的是**同一个对象**，中间没有加工 —— 加工会破坏往返一致
+    expect(exported).toHaveLength(1);
+    expect(exported[0]).toBe(file);
+    spy.mockRestore();
+  });
+
+  it('导出失败时给可读错误，不静默', async () => {
+    const user = userEvent.setup();
+    // 页面把错误存在本地 state 里（mutation 的 error 只在下次 mutate 前清掉，
+    // 而导出是「点了才知道」的动作），所以这里走 onError 回调而不是塞 error 字段。
+    const mutate = vi.fn((_id: string, handlers?: { onError?: (error: unknown) => void }) => {
+      handlers?.onError?.(new ApiClientError(404, 'NOT_FOUND', '关卡不存在: lv-bool-laws'));
+    });
+    mocked.useExportLevel.mockReturnValue({ ...mutationStub(), mutate } as unknown as ReturnType<
+      typeof queries.useExportLevel
+    >);
+    renderMarket();
+
+    await user.click(screen.getByRole('button', { name: '导出' }));
+    expect(await screen.findByText(/导出失败：关卡不存在: lv-bool-laws/)).toBeInTheDocument();
+  });
+
+  it('选文件后把解析出的 JSON 原样发给导入接口，成功后回显 levelId', async () => {
+    const user = userEvent.setup();
+    const mutate = vi.fn(
+      (_file: unknown, handlers?: { onSuccess?: (data: { created: boolean; levelId: string; itemCount: number; shareHash: string }) => void }) => {
+        handlers?.onSuccess?.({
+          created: true,
+          levelId: 'lv-import-abc123def456',
+          itemCount: 2,
+          shareHash: 'abc123def456789',
+        });
+      },
+    );
+    mocked.useImportLevel.mockReturnValue({ ...mutationStub(), mutate } as unknown as ReturnType<
+      typeof queries.useImportLevel
+    >);
+
+    renderMarket();
+    const payload = {
+      format: 'starmap.level/1',
+      exportedAt: '2026-10-22T10:00:00.000Z',
+      source: { title: '康华光', page: 34 },
+      spec: makeDraftSpec(),
+      items: makeDraftSpec().items,
+    };
+    const file = new File([JSON.stringify(payload)], 'lv-bool-laws__kp-bool.level.json', {
+      type: 'application/json',
+    });
+    await user.upload(screen.getByLabelText('选择关卡文件'), file);
+
+    await waitFor(() => expect(mutate).toHaveBeenCalledTimes(1));
+    // 原样透传：不做规范化、不重排字段
+    expect(mutate.mock.calls[0]![0]).toEqual(payload);
+    expect(await screen.findByText(/导入成功/)).toBeInTheDocument();
+    expect(screen.getByText('lv-import-abc123def456')).toBeInTheDocument();
+  });
+
+  it('选了非 JSON 文件时本地就给出人话，不发请求', async () => {
+    // `applyAccept: false` 是必须的：file input 上有 accept=".json,application/json"，
+    // userEvent 默认会照着它过滤掉 .html 文件，于是这个用例会「通过」但什么都没测到。
+    const user = userEvent.setup({ applyAccept: false });
+    const mutate = vi.fn();
+    mocked.useImportLevel.mockReturnValue({ ...mutationStub(), mutate } as unknown as ReturnType<
+      typeof queries.useImportLevel
+    >);
+
+    renderMarket();
+    const file = new File(['<html>不是 JSON</html>'], 'page.html', { type: 'text/html' });
+    await user.upload(screen.getByLabelText('选择关卡文件'), file);
+
+    expect(await screen.findByText(/这个文件不是 JSON/)).toBeInTheDocument();
+    expect(mutate).not.toHaveBeenCalled();
+  });
+
+  it('导入被服务端拒时把字段路径摊开', () => {
+    mocked.useImportLevel.mockReturnValue({
+      ...mutationStub(),
+      error: new ApiClientError(422, 'VALIDATION_FAILED', '关卡规范校验不通过（1 处）', [
+        { path: 'steps.2.itemIds.0', message: '步骤 s-quiz 引用了不存在的题目 i-q9', code: 'invalid' },
+      ]),
+    } as unknown as ReturnType<typeof queries.useImportLevel>);
+
+    renderMarket();
+    expect(screen.getByText(/导入被拒/)).toBeInTheDocument();
+    expect(screen.getByText(/steps\.2\.itemIds\.0/)).toBeInTheDocument();
+  });
+
+  it('导入同一份文件第二次时说明复用了上次那张关卡', async () => {
+    const user = userEvent.setup();
+    const mutate = vi.fn(
+      (
+        _file: unknown,
+        handlers?: { onSuccess?: (data: { created: boolean; levelId: string; itemCount: number; shareHash: string }) => void },
+      ) => {
+        handlers?.onSuccess?.({
+          created: false,
+          levelId: 'lv-import-abc123def456',
+          itemCount: 2,
+          shareHash: 'abc123',
+        });
+      },
+    );
+    mocked.useImportLevel.mockReturnValue({ ...mutationStub(), mutate } as unknown as ReturnType<
+      typeof queries.useImportLevel
+    >);
+
+    renderMarket();
+    const payload = {
+      format: 'starmap.level/1',
+      exportedAt: '2026-10-22T10:00:00.000Z',
+      source: { title: '康华光', page: 34 },
+      spec: makeDraftSpec(),
+      items: makeDraftSpec().items,
+    };
+    await user.upload(
+      screen.getByLabelText('选择关卡文件'),
+      new File([JSON.stringify(payload)], 'again.level.json', { type: 'application/json' }),
+    );
+
+    expect(await screen.findByText(/这份文件之前导入过/)).toBeInTheDocument();
+    expect(screen.getByText(/不会重复堆一份/)).toBeInTheDocument();
+  });
+});
+
+describe('downloadLevelFile（票 67 验收④）', () => {
+  it('写出的文件名带关卡名与知识点，且清掉非法字符', async () => {
+    const { exportFileName } = await import('../api/queries/levels');
+    // 夹具是手写的字面量，kind/pool 是宽 string；这里只关心文件名，
+    // 不打算为了取一个文件名去构造完整契约类型，所以显式窄化一次。
+    const file = {
+      format: 'starmap.level/1' as const,
+      exportedAt: '2026-10-22T10:00:00.000Z',
+      source: { title: 'x', page: null },
+      spec: { ...makeDraftSpec(), meta: { ...makeDraftSpec().meta, title: 'A/B: 吸收律?', microKpId: 'kp-bool' } },
+      items: makeDraftSpec().items,
+    } as unknown as LevelExportFile;
+    expect(exportFileName(file)).toBe('A_B_ 吸收律___kp-bool.level.json');
   });
 });

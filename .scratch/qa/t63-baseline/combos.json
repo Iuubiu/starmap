@@ -1,0 +1,1080 @@
+{
+  "level": "/level/lv-bool-laws",
+  "measuredAt": "2026-10-22T06:21:42.733Z",
+  "stages": {
+    "guide": {
+      "light": {
+        "pageBg": "#ffffff",
+        "combos": [
+          {
+            "fg": "#bdbdbd",
+            "bg": "#f0f0f0",
+            "ratio": 1.65,
+            "count": 2,
+            "samples": [
+              "提交答案",
+              "进入下一段"
+            ],
+            "tag": "button",
+            "fontPx": "14px",
+            "bold": true
+          },
+          {
+            "fg": "#707070",
+            "bg": "#ffffff",
+            "ratio": 4.95,
+            "count": 8,
+            "samples": [
+              "深究",
+              "4",
+              "进一步讲解"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#0f6cbd",
+            "bg": "#fafafa",
+            "ratio": 5.16,
+            "count": 2,
+            "samples": [
+              "P1 · 约 14 分钟",
+              "简单问题：先确认你看懂了这两条律"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#f0f0f0",
+            "ratio": 5.43,
+            "count": 1,
+            "samples": [
+              "按 P3 档渲染"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#fafafa",
+            "ratio": 5.93,
+            "count": 6,
+            "samples": [
+              "知识点 kp-bool · 共 7 段 · 这一档直接从第 3 段开始",
+              "掌握判定：连对 1 次 + 一道迁移题；按本档判定，这个知识点已经达标。",
+              "A + A·B"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#115ea3",
+            "bg": "#ebf3fc",
+            "ratio": 5.95,
+            "count": 4,
+            "samples": [
+              "教学关卡",
+              "简单问题",
+              "3"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#ffffff",
+            "ratio": 6.19,
+            "count": 3,
+            "samples": [
+              "核电子学学习工作站",
+              "数据库 06:21:44",
+              "本段还有题没答（已答对 0 道），答完才能继续"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#f5f5f5",
+            "ratio": 9.22,
+            "count": 6,
+            "samples": [
+              "引导",
+              "1",
+              "✓"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#fafafa",
+            "ratio": 9.63,
+            "count": 5,
+            "samples": [
+              "讲解默认收起，需要时展开",
+              "每题只有 1 次机会",
+              "整段提交后统一给反馈"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#ffffff",
+            "ratio": 10.05,
+            "count": 7,
+            "samples": [
+              "定级",
+              "复验",
+              "看板"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#242424",
+            "bg": "#fafafa",
+            "ratio": 14.87,
+            "count": 3,
+            "samples": [
+              "逻辑代数基本律：吸收律与德摩根律",
+              "第 3 段 · 简单问题",
+              "下列哪一个式子恒等于 A？"
+            ],
+            "tag": "h1",
+            "fontPx": "28px",
+            "bold": true
+          },
+          {
+            "fg": "#242424",
+            "bg": "#ffffff",
+            "ratio": 15.52,
+            "count": 3,
+            "samples": [
+              "跳到主要内容",
+              "StarMap",
+              "学习"
+            ],
+            "tag": "a",
+            "fontPx": "14px",
+            "bold": false
+          }
+        ],
+        "total": 50
+      },
+      "dark": {
+        "pageBg": "#292929",
+        "combos": [
+          {
+            "fg": "#5c5c5c",
+            "bg": "#141414",
+            "ratio": 2.76,
+            "count": 2,
+            "samples": [
+              "提交答案",
+              "进入下一段"
+            ],
+            "tag": "button",
+            "fontPx": "14px",
+            "bold": true
+          },
+          {
+            "fg": "#999999",
+            "bg": "#292929",
+            "ratio": 5.11,
+            "count": 8,
+            "samples": [
+              "深究",
+              "4",
+              "进一步讲解"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#479ef5",
+            "bg": "#1f1f1f",
+            "ratio": 5.87,
+            "count": 2,
+            "samples": [
+              "P1 · 约 14 分钟",
+              "简单问题：先确认你看懂了这两条律"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#292929",
+            "ratio": 6.48,
+            "count": 3,
+            "samples": [
+              "核电子学学习工作站",
+              "数据库 06:21:44",
+              "本段还有题没答（已答对 0 道），答完才能继续"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#62abf5",
+            "bg": "#082338",
+            "ratio": 6.62,
+            "count": 4,
+            "samples": [
+              "教学关卡",
+              "简单问题",
+              "3"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#1f1f1f",
+            "ratio": 7.34,
+            "count": 6,
+            "samples": [
+              "知识点 kp-bool · 共 7 段 · 这一档直接从第 3 段开始",
+              "掌握判定：连对 1 次 + 一道迁移题；按本档判定，这个知识点已经达标。",
+              "A + A·B"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#0a0a0a",
+            "ratio": 8.82,
+            "count": 1,
+            "samples": [
+              "按 P3 档渲染"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#292929",
+            "ratio": 10.01,
+            "count": 7,
+            "samples": [
+              "定级",
+              "复验",
+              "看板"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#1f1f1f",
+            "ratio": 11.34,
+            "count": 5,
+            "samples": [
+              "讲解默认收起，需要时展开",
+              "每题只有 1 次机会",
+              "整段提交后统一给反馈"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#141414",
+            "ratio": 12.68,
+            "count": 6,
+            "samples": [
+              "引导",
+              "1",
+              "✓"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#ffffff",
+            "bg": "#292929",
+            "ratio": 14.55,
+            "count": 3,
+            "samples": [
+              "跳到主要内容",
+              "StarMap",
+              "学习"
+            ],
+            "tag": "a",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#ffffff",
+            "bg": "#1f1f1f",
+            "ratio": 16.48,
+            "count": 3,
+            "samples": [
+              "逻辑代数基本律：吸收律与德摩根律",
+              "第 3 段 · 简单问题",
+              "下列哪一个式子恒等于 A？"
+            ],
+            "tag": "h1",
+            "fontPx": "28px",
+            "bold": true
+          }
+        ],
+        "total": 50
+      }
+    },
+    "detail": {
+      "light": {
+        "pageBg": "#ffffff",
+        "combos": [
+          {
+            "fg": "#bdbdbd",
+            "bg": "#ffffff",
+            "ratio": 1.88,
+            "count": 6,
+            "samples": [
+              "深究",
+              "4",
+              "⤼"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#0f6cbd",
+            "bg": "#fafafa",
+            "ratio": 5.16,
+            "count": 2,
+            "samples": [
+              "P1 · 约 14 分钟",
+              "不设门控"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#0f6cbd",
+            "bg": "#ffffff",
+            "ratio": 5.38,
+            "count": 1,
+            "samples": [
+              "0 段"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#f0f0f0",
+            "ratio": 5.43,
+            "count": 1,
+            "samples": [
+              "按 P3 档渲染"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#fafafa",
+            "ratio": 5.93,
+            "count": 2,
+            "samples": [
+              "知识点 kp-bool · 共 7 段 · 这一档直接从第 3 段开始",
+              "掌握判定：连对 1 次 + 一道迁移题；按本档判定，这个知识点已经达标。"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#115ea3",
+            "bg": "#ebf3fc",
+            "ratio": 5.95,
+            "count": 4,
+            "samples": [
+              "教学关卡",
+              "小结",
+              "7"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#ffffff",
+            "ratio": 6.19,
+            "count": 12,
+            "samples": [
+              "核电子学学习工作站",
+              "数据库 06:21:44",
+              "直达路径"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#f5f5f5",
+            "ratio": 9.22,
+            "count": 12,
+            "samples": [
+              "引导",
+              "1",
+              "✓"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#fafafa",
+            "ratio": 9.63,
+            "count": 3,
+            "samples": [
+              "讲解默认收起，需要时展开",
+              "每题只有 1 次机会",
+              "整段提交后统一给反馈"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#ffffff",
+            "ratio": 10.05,
+            "count": 7,
+            "samples": [
+              "定级",
+              "复验",
+              "看板"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#242424",
+            "bg": "#f5f5f5",
+            "ratio": 14.24,
+            "count": 3,
+            "samples": [
+              "A + A·B",
+              "A + B·C",
+              "这个知识点还没有配讲解视频。视频是按知识点名对齐的，没有对齐上的片段不会显示在这"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#242424",
+            "bg": "#fafafa",
+            "ratio": 14.87,
+            "count": 9,
+            "samples": [
+              "逻辑代数基本律：吸收律与德摩根律",
+              "本关小结",
+              "这一关留下了什么"
+            ],
+            "tag": "h1",
+            "fontPx": "28px",
+            "bold": true
+          },
+          {
+            "fg": "#242424",
+            "bg": "#ffffff",
+            "ratio": 15.52,
+            "count": 15,
+            "samples": [
+              "跳到主要内容",
+              "StarMap",
+              "学习"
+            ],
+            "tag": "a",
+            "fontPx": "14px",
+            "bold": false
+          }
+        ],
+        "total": 77
+      },
+      "dark": {
+        "pageBg": "#292929",
+        "combos": [
+          {
+            "fg": "#5c5c5c",
+            "bg": "#292929",
+            "ratio": 2.18,
+            "count": 6,
+            "samples": [
+              "深究",
+              "4",
+              "⤼"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#479ef5",
+            "bg": "#292929",
+            "ratio": 5.18,
+            "count": 1,
+            "samples": [
+              "0 段"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#479ef5",
+            "bg": "#1f1f1f",
+            "ratio": 5.87,
+            "count": 2,
+            "samples": [
+              "P1 · 约 14 分钟",
+              "不设门控"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#292929",
+            "ratio": 6.48,
+            "count": 12,
+            "samples": [
+              "核电子学学习工作站",
+              "数据库 06:21:44",
+              "直达路径"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#62abf5",
+            "bg": "#082338",
+            "ratio": 6.62,
+            "count": 4,
+            "samples": [
+              "教学关卡",
+              "小结",
+              "7"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#1f1f1f",
+            "ratio": 7.34,
+            "count": 2,
+            "samples": [
+              "知识点 kp-bool · 共 7 段 · 这一档直接从第 3 段开始",
+              "掌握判定：连对 1 次 + 一道迁移题；按本档判定，这个知识点已经达标。"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#0a0a0a",
+            "ratio": 8.82,
+            "count": 1,
+            "samples": [
+              "按 P3 档渲染"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#292929",
+            "ratio": 10.01,
+            "count": 7,
+            "samples": [
+              "定级",
+              "复验",
+              "看板"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#1f1f1f",
+            "ratio": 11.34,
+            "count": 3,
+            "samples": [
+              "讲解默认收起，需要时展开",
+              "每题只有 1 次机会",
+              "整段提交后统一给反馈"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#141414",
+            "ratio": 12.68,
+            "count": 12,
+            "samples": [
+              "引导",
+              "1",
+              "✓"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#ffffff",
+            "bg": "#292929",
+            "ratio": 14.55,
+            "count": 15,
+            "samples": [
+              "跳到主要内容",
+              "StarMap",
+              "学习"
+            ],
+            "tag": "a",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#ffffff",
+            "bg": "#1f1f1f",
+            "ratio": 16.48,
+            "count": 9,
+            "samples": [
+              "逻辑代数基本律：吸收律与德摩根律",
+              "本关小结",
+              "这一关留下了什么"
+            ],
+            "tag": "h1",
+            "fontPx": "28px",
+            "bold": true
+          },
+          {
+            "fg": "#ffffff",
+            "bg": "#141414",
+            "ratio": 18.42,
+            "count": 3,
+            "samples": [
+              "A + A·B",
+              "A + B·C",
+              "这个知识点还没有配讲解视频。视频是按知识点名对齐的，没有对齐上的片段不会显示在这"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          }
+        ],
+        "total": 77
+      }
+    },
+    "summary": {
+      "light": {
+        "pageBg": "#ffffff",
+        "combos": [
+          {
+            "fg": "#bdbdbd",
+            "bg": "#ffffff",
+            "ratio": 1.88,
+            "count": 6,
+            "samples": [
+              "深究",
+              "4",
+              "⤼"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#0f6cbd",
+            "bg": "#fafafa",
+            "ratio": 5.16,
+            "count": 2,
+            "samples": [
+              "P1 · 约 14 分钟",
+              "不设门控"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#0f6cbd",
+            "bg": "#ffffff",
+            "ratio": 5.38,
+            "count": 1,
+            "samples": [
+              "0 段"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#f0f0f0",
+            "ratio": 5.43,
+            "count": 1,
+            "samples": [
+              "按 P3 档渲染"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#fafafa",
+            "ratio": 5.93,
+            "count": 2,
+            "samples": [
+              "知识点 kp-bool · 共 7 段 · 这一档直接从第 3 段开始",
+              "掌握判定：连对 1 次 + 一道迁移题；按本档判定，这个知识点已经达标。"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#115ea3",
+            "bg": "#ebf3fc",
+            "ratio": 5.95,
+            "count": 4,
+            "samples": [
+              "教学关卡",
+              "小结",
+              "7"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#616161",
+            "bg": "#ffffff",
+            "ratio": 6.19,
+            "count": 12,
+            "samples": [
+              "核电子学学习工作站",
+              "数据库 06:21:44",
+              "直达路径"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#f5f5f5",
+            "ratio": 9.22,
+            "count": 12,
+            "samples": [
+              "引导",
+              "1",
+              "✓"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#fafafa",
+            "ratio": 9.63,
+            "count": 3,
+            "samples": [
+              "讲解默认收起，需要时展开",
+              "每题只有 1 次机会",
+              "整段提交后统一给反馈"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#424242",
+            "bg": "#ffffff",
+            "ratio": 10.05,
+            "count": 7,
+            "samples": [
+              "定级",
+              "复验",
+              "看板"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#242424",
+            "bg": "#f5f5f5",
+            "ratio": 14.24,
+            "count": 3,
+            "samples": [
+              "A + A·B",
+              "A + B·C",
+              "这个知识点还没有配讲解视频。视频是按知识点名对齐的，没有对齐上的片段不会显示在这"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#242424",
+            "bg": "#fafafa",
+            "ratio": 14.87,
+            "count": 9,
+            "samples": [
+              "逻辑代数基本律：吸收律与德摩根律",
+              "本关小结",
+              "这一关留下了什么"
+            ],
+            "tag": "h1",
+            "fontPx": "28px",
+            "bold": true
+          },
+          {
+            "fg": "#242424",
+            "bg": "#ffffff",
+            "ratio": 15.52,
+            "count": 15,
+            "samples": [
+              "跳到主要内容",
+              "StarMap",
+              "学习"
+            ],
+            "tag": "a",
+            "fontPx": "14px",
+            "bold": false
+          }
+        ],
+        "total": 77
+      },
+      "dark": {
+        "pageBg": "#292929",
+        "combos": [
+          {
+            "fg": "#5c5c5c",
+            "bg": "#292929",
+            "ratio": 2.18,
+            "count": 6,
+            "samples": [
+              "深究",
+              "4",
+              "⤼"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#479ef5",
+            "bg": "#292929",
+            "ratio": 5.18,
+            "count": 1,
+            "samples": [
+              "0 段"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#479ef5",
+            "bg": "#1f1f1f",
+            "ratio": 5.87,
+            "count": 2,
+            "samples": [
+              "P1 · 约 14 分钟",
+              "不设门控"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#292929",
+            "ratio": 6.48,
+            "count": 12,
+            "samples": [
+              "核电子学学习工作站",
+              "数据库 06:21:44",
+              "直达路径"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#62abf5",
+            "bg": "#082338",
+            "ratio": 6.62,
+            "count": 4,
+            "samples": [
+              "教学关卡",
+              "小结",
+              "7"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#1f1f1f",
+            "ratio": 7.34,
+            "count": 2,
+            "samples": [
+              "知识点 kp-bool · 共 7 段 · 这一档直接从第 3 段开始",
+              "掌握判定：连对 1 次 + 一道迁移题；按本档判定，这个知识点已经达标。"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#adadad",
+            "bg": "#0a0a0a",
+            "ratio": 8.82,
+            "count": 1,
+            "samples": [
+              "按 P3 档渲染"
+            ],
+            "tag": "div",
+            "fontPx": "12px",
+            "bold": true
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#292929",
+            "ratio": 10.01,
+            "count": 7,
+            "samples": [
+              "定级",
+              "复验",
+              "看板"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#1f1f1f",
+            "ratio": 11.34,
+            "count": 3,
+            "samples": [
+              "讲解默认收起，需要时展开",
+              "每题只有 1 次机会",
+              "整段提交后统一给反馈"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#d6d6d6",
+            "bg": "#141414",
+            "ratio": 12.68,
+            "count": 12,
+            "samples": [
+              "引导",
+              "1",
+              "✓"
+            ],
+            "tag": "span",
+            "fontPx": "12px",
+            "bold": false
+          },
+          {
+            "fg": "#ffffff",
+            "bg": "#292929",
+            "ratio": 14.55,
+            "count": 15,
+            "samples": [
+              "跳到主要内容",
+              "StarMap",
+              "学习"
+            ],
+            "tag": "a",
+            "fontPx": "14px",
+            "bold": false
+          },
+          {
+            "fg": "#ffffff",
+            "bg": "#1f1f1f",
+            "ratio": 16.48,
+            "count": 9,
+            "samples": [
+              "逻辑代数基本律：吸收律与德摩根律",
+              "本关小结",
+              "这一关留下了什么"
+            ],
+            "tag": "h1",
+            "fontPx": "28px",
+            "bold": true
+          },
+          {
+            "fg": "#ffffff",
+            "bg": "#141414",
+            "ratio": 18.42,
+            "count": 3,
+            "samples": [
+              "A + A·B",
+              "A + B·C",
+              "这个知识点还没有配讲解视频。视频是按知识点名对齐的，没有对齐上的片段不会显示在这"
+            ],
+            "tag": "span",
+            "fontPx": "14px",
+            "bold": false
+          }
+        ],
+        "total": 77
+      }
+    }
+  }
+}

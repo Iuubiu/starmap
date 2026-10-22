@@ -16,7 +16,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-1-1",
-      "name": "引言",
+      "name": "γ与辐射的放射性衰变与起源 引言",
       "num": "1.1",
       "printedPage": 1,
       "depth": 2,
@@ -256,7 +256,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-2-2",
-      "name": "康普顿散射",
+      "name": "引言 康普顿散射",
       "num": "2.2.2",
       "printedPage": 28,
       "depth": 3,
@@ -268,7 +268,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-2-2-3",
-      "name": "电子对产生",
+      "name": "引言 电子对产生",
       "num": "2.2.3",
       "printedPage": 29,
       "depth": 3,
@@ -748,7 +748,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-4-4-6",
-      "name": "极点零消除",
+      "name": "探测器偏置电源 极点零消除",
       "num": "4.4.6",
       "printedPage": 75,
       "depth": 3,
@@ -1444,7 +1444,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-7-6-2",
-      "name": "全能能量峰效率",
+      "name": "效率刻度 全能能量峰效率",
       "num": "7.6.2",
       "printedPage": 151,
       "depth": 3,
@@ -1468,7 +1468,7 @@
     },
     {
       "microKpId": "kp-gilmore-2e-2008-7-6-5",
-      "name": "刻度误差由于",
+      "name": "刻度误差由于差分",
       "num": "7.6.5",
       "printedPage": 153,
       "depth": 3,

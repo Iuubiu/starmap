@@ -1,0 +1,10 @@
+import { DatabaseSync } from 'node:sqlite';
+const db = new DatabaseSync('C:/Users/Yhwhy/.local/share/billion-context/sessions/index.db', { readOnly: true });
+const SID = 'session-55c776d2-6df9-450c-abcf-db3fe6001ef9';
+const top = db.prepare('select block_id, ord, start_seq, end_seq, tier, active, created_at, length(payload_json) plen from blocks where session_id=? order by length(payload_json) desc limit 6').all();
+for (const b of top) console.log('BLOCK ' + JSON.stringify({ id: b.block_id, ord: b.ord, s: b.start_seq, e: b.end_seq, tier: b.tier, active: b.active, at: new Date(b.created_at).toISOString().slice(11, 19), plen: b.plen }));
+const sum = db.prepare('select sum(length(payload_json)) s from blocks where session_id=?').get(SID);
+console.log('sum payload bytes=' + sum.s);
+const recent = db.prepare('select block_id, ord, start_seq, end_seq, tier, active, created_at, length(payload_json) plen from blocks where session_id=? order by created_at desc limit 6').all();
+console.log('--- recent ---');
+for (const b of recent) console.log('R ' + JSON.stringify({ id: b.block_id, ord: b.ord, s: b.start_seq, e: b.end_seq, tier: b.tier, active: b.active, at: new Date(b.created_at).toISOString().slice(11, 19), plen: b.plen }));

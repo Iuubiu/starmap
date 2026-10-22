@@ -38,6 +38,7 @@ import {
   makeStyles,
   tokens,
 } from '@fluentui/react-components';
+import { cssVar } from '../theme/tokens';
 import { OpenRegular, PlayRegular } from '@fluentui/react-icons';
 import { clipSrc, formatClipTime, useLevelVideoClips } from '../api/queries';
 import type { VideoClip } from '../api/queries';
@@ -95,11 +96,24 @@ const useStyles = makeStyles({
     color: tokens.colorNeutralForeground4,
     fontSize: tokens.fontSizeBase100,
   },
+  /**
+   * 视频容器底色。
+   *
+   * 改之前这里是写死的黑色：深色主题下看着没问题，但**明亮主题下视频
+   * 上下会出现两条硬黑边** —— 播放器比画面高时，`<video>` 的留白区露出的
+   * 就是这层底色，在黑边与浅色卡片之间形成一道割裂的横线。
+   *
+   * 换成 `--sm-bg-sunken`（深主题近纯黑、亮主题浅灰）：两套主题下它都
+   * 比所在卡片的 `bg-surface` 更「沉」一档，留白区读起来是「播放器的一部分」
+   * 而不是「一个洞」。这也是 `apps/web/src/level/` 与 `LevelPage.tsx` 里
+   * 最后一个字面颜色值 —— 改完这个文件，`grep -rnE '#[0-9a-fA-F]{6}'` 在这
+   * 两个路径下必须是 0。
+   */
   video: {
     width: '100%',
     maxHeight: '360px',
     borderRadius: tokens.borderRadiusMedium,
-    backgroundColor: '#000',
+    backgroundColor: cssVar('bg-sunken'),
   },
 });
 

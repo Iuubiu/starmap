@@ -1,0 +1,207 @@
+{
+  "generatedAt": "2026-10-21T02:14:53.211Z",
+  "personas": [
+    {
+      "personaId": "p1-novice",
+      "tier": "P1",
+      "failures": {
+        "locatorFailure": 2,
+        "backendError": 0,
+        "assertionMismatch": 3,
+        "total": 5,
+        "byStage": [
+          {
+            "stage": "placement",
+            "label": "S1 初始定级",
+            "status": "locator_failure",
+            "detail": "定级页既没有自评区也没有开始按钮"
+          },
+          {
+            "stage": "map",
+            "label": "S3 知识图谱",
+            "status": "assertion_mismatch",
+            "detail": "图谱里的推荐标记数与 /recommendations 的条数不一致"
+          },
+          {
+            "stage": "answer",
+            "label": "S4 作答与判分",
+            "status": "locator_failure",
+            "detail": "阶段抛超时异常：locator.click: Timeout 30000ms exceeded."
+          },
+          {
+            "stage": "board",
+            "label": "S6 看板推荐",
+            "status": "assertion_mismatch",
+            "detail": "看板推荐卡上的 data-recommended 数量与 /recommendations 条数不一致"
+          },
+          {
+            "stage": "skills",
+            "label": "S8 技能库",
+            "status": "assertion_mismatch",
+            "detail": "技能库里少了接口返回的技能"
+          }
+        ]
+      },
+      "recognition": {
+        "correct": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "wrong": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "unjudged": 0
+      },
+      "leak": {
+        "L1": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L2": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L3": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "hits": []
+      },
+      "drift": {
+        "fleissKappa": null,
+        "fleissReason": "没有任何一个样本收到 ≥2 个评分",
+        "cv": null,
+        "nSamples": 0,
+        "nReplays": 0,
+        "pairwise": []
+      },
+      "stalls": {
+        "maxStall": 0,
+        "stalls": [],
+        "stallsOver2": 0
+      },
+      "stages": [
+        {
+          "stage": "cold-start",
+          "label": "S0 冷启动",
+          "status": "passed",
+          "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）",
+          "evidence": [
+            "H1 = 学习",
+            "输入框 aria-label = 这一轮想说的话"
+          ],
+          "screenshot": "00-cold-start.png"
+        },
+        {
+          "stage": "placement",
+          "label": "S1 初始定级",
+          "status": "locator_failure",
+          "detail": "定级页既没有自评区也没有开始按钮",
+          "evidence": [
+            "自评区不在（可能已经定过级），继续看能否开始答题"
+          ],
+          "screenshot": "01-placement.png"
+        },
+        {
+          "stage": "map",
+          "label": "S3 知识图谱",
+          "status": "assertion_mismatch",
+          "detail": "图谱里的推荐标记数与 /recommendations 的条数不一致",
+          "evidence": [
+            "清单节点数 400"
+          ],
+          "screenshot": "02-map.png"
+        },
+        {
+          "stage": "node-detail",
+          "label": "S3 节点详情",
+          "status": "passed",
+          "detail": "详情页 H1「布尔代数基本运算」与清单项一致；可用关卡区有 1 个入口按钮（可进入）",
+          "evidence": [
+            "H1 = 布尔代数基本运算",
+            "关卡入口按钮 1 个",
+            "至少一个可进入"
+          ],
+          "screenshot": "03-node-detail.png"
+        },
+        {
+          "stage": "answer",
+          "label": "S4 作答与判分",
+          "status": "locator_failure",
+          "detail": "阶段抛超时异常：locator.click: Timeout 30000ms exceeded.",
+          "evidence": [],
+          "screenshot": "04-answer.png"
+        },
+        {
+          "stage": "board",
+          "label": "S6 看板推荐",
+          "status": "assertion_mismatch",
+          "detail": "看板推荐卡上的 data-recommended 数量与 /recommendations 条数不一致",
+          "evidence": [],
+          "screenshot": "05-board.png"
+        },
+        {
+          "stage": "review",
+          "label": "S6 复验",
+          "status": "passed",
+          "detail": "接口 0 条到期；页面 H1「复验」（未找到「没有到期」文案，见 evidence）",
+          "evidence": [
+            "due=0",
+            "H1=复验",
+            "页面文案未匹配\"没有到期\"（可能是措辞不同，不算失败）"
+          ],
+          "screenshot": "06-review.png"
+        },
+        {
+          "stage": "database",
+          "label": "S7 数据库检视",
+          "status": "passed",
+          "detail": "数据库页 H1「数据库」；图谱节点 1789 个（页面未直接出现该数字，见 evidence）",
+          "evidence": [
+            "H1=数据库",
+            "图谱节点数 1789",
+            "页面文本未包含该数字（统计卡可能使用不同口径）"
+          ],
+          "screenshot": "07-database.png"
+        },
+        {
+          "stage": "skills",
+          "label": "S8 技能库",
+          "status": "assertion_mismatch",
+          "detail": "技能库里少了接口返回的技能",
+          "evidence": [
+            "接口技能数 2"
+          ],
+          "screenshot": "08-skills.png"
+        }
+      ]
+    }
+  ]
+}

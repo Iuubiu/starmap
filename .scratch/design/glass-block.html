@@ -1,0 +1,251 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>整块毛玻璃 · 三版</title>
+<style>
+:root{--text:#141726;--muted:#565d76;--accent:#5b63ff;
+--font:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--text);padding:8px;
+background:
+ radial-gradient(700px 520px at 8% 4%,#8fb4ff 0%,transparent 60%),
+ radial-gradient(760px 600px at 96% 10%,#ffb6d5 0%,transparent 62%),
+ radial-gradient(900px 700px at 60% 100%,#a8f0e0 0%,transparent 60%),
+ radial-gradient(600px 500px at 20% 90%,#ffd9a8 0%,transparent 62%),
+ linear-gradient(135deg,#c9d8ff,#f3d9ff 55%,#d9f3ff);}
+.stage{width:1232px;height:694px;position:relative;overflow:hidden;border-radius:10px;margin:0 auto 34px}
+.tag{font:600 12px/1 var(--font);color:#40476a;margin:6px 0 8px;display:block}
+/* ============ 整块玻璃 ============ */
+.win{position:absolute;inset:16px;border-radius:26px;overflow:hidden;
+ background:rgba(255,255,255,.30);backdrop-filter:blur(46px) saturate(190%);-webkit-backdrop-filter:blur(46px) saturate(190%);
+ box-shadow:0 30px 80px rgba(20,26,58,.26),inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(255,255,255,.35);
+ display:flex;flex-direction:column}
+.win.full{inset:0;border-radius:0;border:0}
+/* 顶部条：与窗同体，只有一条极淡分隔 */
+.top{display:flex;align-items:center;gap:14px;padding:14px 22px;}
+.brand{font-size:14px;font-weight:700;letter-spacing:.3px}
+.dots{display:flex;gap:6px;margin-right:6px}
+.dots i{width:10px;height:10px;border-radius:50%;background:rgba(20,26,58,.14)}
+.seg{display:flex;gap:4px;padding:3px;border-radius:12px;background:rgba(255,255,255,.34)}
+.seg b{font-size:12px;font-weight:600;padding:6px 12px;border-radius:9px;color:#4a5170}
+.seg b.on{background:rgba(255,255,255,.92);box-shadow:0 2px 6px rgba(20,26,58,.10)}
+.right{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+/* 左侧图标导轨：透明，只有悬浮时才有一块淡面 */
+.shell{flex:1;display:flex;min-height:0}
+.nav{width:56px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 0;
+ background:linear-gradient(90deg,rgba(255,255,255,.16),rgba(255,255,255,0))}
+.nav a{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:17px;color:#4c5273;position:relative;cursor:pointer;transition:.16s}
+.nav a:hover{background:rgba(255,255,255,.75);box-shadow:0 6px 16px rgba(20,26,58,.12)}
+.nav a.on{background:rgba(255,255,255,.9);color:var(--accent);box-shadow:0 6px 16px rgba(20,26,58,.12)}
+.nav a span.tip{position:absolute;left:52px;white-space:nowrap;font-size:12px;background:rgba(255,255,255,.96);
+ padding:6px 10px;border-radius:10px;box-shadow:0 8px 20px rgba(20,26,58,.16);opacity:0;pointer-events:none;transition:.14s;color:#2a2f45}
+.nav a:hover span.tip{opacity:1}
+/* 主区：完全透明，靠内容自身的“纸面”层次区分，不再叠第二层玻璃 */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+.scroll{flex:1;overflow:auto;scrollbar-width:none;padding:26px 0;width:100%;max-width:760px;margin-inline:auto;align-self:center;display:flex;flex-direction:column;gap:14px}
+.me{align-self:flex-end;max-width:64%;background:linear-gradient(135deg,#5b63ff,#7b6bff);color:#fff;
+ padding:12px 16px;border-radius:20px 20px 6px 20px;font-size:14px;line-height:1.65;box-shadow:0 10px 24px rgba(91,99,255,.32)}
+.ai{align-self:stretch;max-width:none;font-size:14px;line-height:1.8;padding:2px 0}
+.ai .from{font-size:10px;letter-spacing:1.2px;color:#7c83a3;margin-bottom:7px;font-weight:600}
+/* 内容卡：纸面（半透白，不透明到底），不是玻璃 */
+.paper{align-self:stretch;width:auto;max-width:none;background:rgba(255,255,255,.72);
+ border-radius:16px;padding:16px 18px;box-shadow:0 10px 26px rgba(20,26,58,.09)}
+.paper .ct{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700}
+.badge{font-size:11px;padding:3px 9px;border-radius:8px;background:rgba(91,99,255,.12);color:#4b51d6;font-weight:700}
+.meta{display:flex;gap:24px;margin:14px 0 12px}
+.meta div{font-size:11px;color:#7c83a3}
+.meta s{display:block;font-size:15px;font-weight:700;color:var(--text);text-decoration:none;margin-top:4px}
+.cta{background:linear-gradient(135deg,#5b63ff,#7b6bff);color:#fff;border:0;border-radius:13px;padding:11px 19px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 10px 22px rgba(91,99,255,.30)}
+/* 输入区：整块里唯一凸起的“第二层”，玻璃感最强 */
+.dock{padding:6px 0 18px;width:100%;max-width:760px;margin-inline:auto;align-self:center}
+.cbox{display:flex;align-items:flex-end;gap:12px;padding:14px 14px 14px 20px;border-radius:22px;
+ background:rgba(255,255,255,.58);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
+ box-shadow:0 14px 34px rgba(20,26,58,.16)}
+.cbox textarea{flex:1;border:0;background:transparent;resize:none;font:14px/1.6 var(--font);outline:none;min-height:24px}
+.cbox textarea::placeholder{color:#858cab}
+.send{width:38px;height:38px;border-radius:13px;border:0;color:#fff;font-size:16px;cursor:pointer;
+ background:linear-gradient(135deg,#5b63ff,#7b6bff);box-shadow:0 8px 18px rgba(91,99,255,.36)}
+.sbar{display:flex;justify-content:space-between;padding:9px 8px 0;font-size:11px;color:#6d7492}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1f9d63;margin-right:6px;box-shadow:0 0 0 3px rgba(31,157,99,.16)}
+/* ===== 变体：内嵌纸面（两层不超过二级）===== */
+.sheet{margin:0;flex:1;display:flex;flex-direction:column;background:rgba(255,255,255,.55);border-radius:22px;
+ margin:18px 22px 8px;box-shadow:0 18px 44px rgba(20,26,58,.12);border:1px solid rgba(255,255,255,.8);overflow:hidden}
+/* ===== 变体：悬浮竖条导航（不占整列）===== */
+.floatnav{position:absolute;left:16px;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:4px;
+ padding:8px;border-radius:20px;background:rgba(255,255,255,.5);backdrop-filter:blur(24px) saturate(180%);
+ box-shadow:0 14px 34px rgba(20,26,58,.16),inset 0 1px 0 rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.7)}
+.floatnav a{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:16px;color:#4c5273;position:relative}
+.floatnav a.on{background:#fff;color:var(--accent);box-shadow:0 4px 12px rgba(20,26,58,.14)}
+
+/* 输入区功能条 */
+.cbox{flex-direction:column;align-items:stretch;gap:10px}
+.ctl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;border-radius:11px;
+ background:rgba(255,255,255,.55);font:600 12px/1 var(--font);color:#3d4460;cursor:pointer;
+ box-shadow:0 2px 8px rgba(20,26,58,.07)}
+.chip:hover{background:rgba(255,255,255,.85);box-shadow:0 6px 16px rgba(20,26,58,.12)}
+.chip b{font-weight:700;color:#1d2340}
+.chip .caret{font-size:9px;color:#7c83a3}
+.chip.icon{padding:0;width:30px;justify-content:center;font-size:14px}
+.ctl .grow{margin-left:auto;font-size:11px;color:#7c83a3}
+.row{display:flex;align-items:flex-end;gap:12px}
+.row textarea{flex:1}
+
+.side{width:216px;padding:12px 10px;display:flex;flex-direction:column;gap:2px;overflow:auto}
+.newchat{height:32px;border-radius:10px;background:rgba(255,255,255,.62);font:600 12.5px/1 var(--font);color:#2c3350;box-shadow:0 2px 8px rgba(20,26,58,.06);margin-bottom:8px;text-align:left;padding:0 12px}
+.grp{font:600 10.5px/1 var(--font);color:#8a90ad;letter-spacing:.06em;margin:14px 8px 6px;text-transform:none}
+.sess{padding:8px 10px;border-radius:10px;cursor:pointer}
+.sess:hover{background:rgba(255,255,255,.55)}
+.st{font:500 12.5px/1.35 var(--font);color:#232a44;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm{font:400 11px/1.4 var(--font);color:#8a90ad;margin-top:2px}
+.scroll::-webkit-scrollbar{width:0;height:0}
+
+/* 最后一层覆写：正文与输入区都必须落在同一条 760px 居中列上 */
+.scroll{width:100%!important;max-width:760px!important;margin-inline:auto!important;align-self:center!important;padding-left:0!important;padding-right:0!important}
+.dock{width:100%!important;max-width:760px!important;margin-inline:auto!important;align-self:center!important;padding-left:0!important;padding-right:0!important}
+</style>
+
+<span class="tag">① 整块毛玻璃 · 浮动窗（背景完全在窗外，窗内只是一整片玻璃）</span>
+<div class="stage">
+  <div class="win">
+    <div class="top">
+      <div class="dots"><i></i><i></i><i></i></div>
+      <div class="brand">StarMap</div>
+      <div class="right"><span>P2 档 · 一次推进 3 个新点</span><span><span class="dot"></span>已连库</span><span style="font-size:14px">◐</span></div>
+    </div>
+    <div class="shell">
+      <div class="nav">
+        <a class="on">◧<span class="tip">学习</span></a><a>◎<span class="tip">定级</span></a>
+        <a>↻<span class="tip">复验</span></a><a>▤<span class="tip">看板</span></a>
+        <a>⌗<span class="tip">知识地图</span></a><a>◇<span class="tip">关卡市场</span></a>
+        <a>▦<span class="tip">数据库</span></a><a>✦<span class="tip">技能库</span></a>
+      </div>
+      <div class="main">
+        <div class="scroll" style="max-width:760px;width:100%;margin:0 auto;padding-left:0;padding-right:0">
+          <div class="me">我想学布尔代数的基本运算</div>
+          <div class="ai"><div class="from">STARMAP</div>你卡在「化简看不出从哪一步开始」，还是「两条律老是记反」？这两处的练法不一样。</div>
+          <div class="paper">
+            <div class="ct"><span class="badge">关卡</span>逻辑代数基本律：吸收律与德摩根律</div>
+            <div class="meta"><div>预计用时<s>14 分钟</s></div><div>题目数<s>4 题</s></div><div>第一步<s>引导</s></div><div>难度档<s>P2</s></div></div>
+            <button class="cta">进入关卡</button>
+          </div>
+        </div>
+        <div class="dock" style="max-width:760px;width:100%;margin:0 auto;padding-left:0;padding-right:0">
+          <div class="cbox"><div class="ctl"><div class="chip icon" title="添加文件">＋</div><div class="chip">模型 <b>DeepSeek V4</b><span class="caret">▾</span></div><div class="chip">知识源 <b>27 本书</b><span class="caret">▾</span></div><div class="chip">档位 <b>P2</b><span class="caret">▾</span></div><span class="grow">已连库 · 3085 个知识点</span></div><div class="row"><textarea rows="1" placeholder="说说你想学什么，或者你卡在哪一步…"></textarea><button class="send">↑</button></div></div>
+          <div class="sbar"><div>Enter 提交 · Shift+Enter 换行</div><div>这次会话 2 个新知识点</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<span class="tag">② 整块毛玻璃 · 满屏（玻璃直接贴合视口，无窗框；导航改成悬浮竖条，不占整列）</span>
+<div class="stage">
+  <div class="win full">
+    <div class="top" style="padding-left:96px">
+      <div class="brand">StarMap</div>
+      <div class="right"><span>P3 档 · 直达路径</span><span><span class="dot"></span>已连库</span><span style="font-size:14px">◐</span></div>
+    </div>
+    <div class="main">
+      <div class="floatnav">
+        <a class="on">◧</a><a>◎</a><a>↻</a><a>▤</a><a>⌗</a><a>◇</a><a>▦</a><a>✦</a>
+      </div>
+      <div class="scroll" style="max-width:760px;width:100%;margin:0 auto;padding-left:0;padding-right:0" style="padding-left:110px">
+        <div class="me">直接给我题，我做过这类</div>
+        <div class="ai"><div class="from">STARMAP</div>好，跳过讲解直接第 3 段。答完这一段再统一给反馈。</div>
+        <div class="paper">
+          <div class="ct"><span class="badge">关卡</span>逻辑代数基本律 · 第 3 段</div>
+          <div class="meta"><div>剩余<s>4 题</s></div><div>反馈<s>整段后</s></div><div>难度档<s>P3</s></div></div>
+          <button class="cta">继续答题</button>
+        </div>
+      </div>
+      <div class="dock" style="max-width:760px;width:100%;margin:0 auto;padding-left:0;padding-right:0" style="padding-left:110px">
+        <div class="cbox"><div class="ctl"><div class="chip icon" title="添加文件">＋</div><div class="chip">模型 <b>DeepSeek V4</b><span class="caret">▾</span></div><div class="chip">知识源 <b>27 本书</b><span class="caret">▾</span></div><div class="chip">档位 <b>P2</b><span class="caret">▾</span></div><span class="grow">已连库 · 3085 个知识点</span></div><div class="row"><textarea rows="1" placeholder="继续提问…"></textarea><button class="send">↑</button></div></div>
+        <div class="sbar"><div>Enter 提交</div><div>已跳过第 1–2 段</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<span class="tag">③ 整块毛玻璃 + 内嵌纸面（玻璃做外框，正文落在一块更实的纸上；只有两级）</span>
+<div class="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand">StarMap</div>
+      <div class="right"><span>P1 档 · 一次推进 2 个点</span><span><span class="dot"></span>已连库</span><span style="font-size:14px">◐</span></div>
+    </div>
+    <div class="shell">
+      <div class="nav">
+        <a class="on">◧<span class="tip">学习</span></a><a>◎<span class="tip">定级</span></a>
+        <a>↻<span class="tip">复验</span></a><a>▤<span class="tip">看板</span></a>
+        <a>⌗<span class="tip">知识地图</span></a><a>◇<span class="tip">关卡市场</span></a>
+        <a>▦<span class="tip">数据库</span></a><a>✦<span class="tip">技能库</span></a>
+      </div>
+      <div class="main" style="padding:0 18px 0 0">
+        <div class="sheet">
+          <div class="scroll" style="padding:22px 28px">
+            <div class="me">我完全没学过，从哪开始</div>
+            <div class="ai"><div class="from">STARMAP</div>那就从「与、或、非」三件事开始。先看一个完整例子，再自己动手。</div>
+            <div class="paper" style="background:#fff">
+              <div class="ct"><span class="badge">关卡</span>布尔代数基本运算</div>
+              <div class="meta"><div>预计用时<s>12 分钟</s></div><div>题目数<s>5 题</s></div><div>首轮<s>完整样例</s></div><div>难度档<s>P1</s></div></div>
+              <button class="cta">进入关卡</button>
+            </div>
+          </div>
+          <div style="padding:10px 24px 18px">
+            <div class="cbox" style="background:rgba(255,255,255,.92)"><div class="ctl"><div class="chip icon" title="添加文件">＋</div><div class="chip">模型 <b>DeepSeek V4</b><span class="caret">▾</span></div><div class="chip">知识源 <b>27 本书</b><span class="caret">▾</span></div><div class="chip">档位 <b>P2</b><span class="caret">▾</span></div><span class="grow">已连库 · 3085 个知识点</span></div><div class="row"><textarea rows="1" placeholder="说说你想学什么…"></textarea><button class="send">↑</button></div></div>
+            <div class="sbar"><div>Enter 提交</div><div>这次会话 2 个新知识点</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand">StarMap</div>
+      <div class="tabs"><div class="tab on">我的学习</div><div class="tab">地图</div><div class="tab">看板</div></div>
+      <div class="right"><span class="dot"></span>已连库 · 3085 个知识点</div>
+    </div>
+    <div class="body">
+      <div class="nav">
+        <div class="nv on">&#9636;</div><div class="nv">&#9678;</div><div class="nv">&#8635;</div>
+        <div class="nv">&#9638;</div><div class="nv">&#9671;</div><div class="nv">&#10022;</div>
+      </div>
+      <div class="side">
+        <button class="newchat">+ 新会话</button>
+        <div class="grp">今天</div>
+        <div class="sess"><div class="st">从「与、或、非」开始</div><div class="sm">21:04 · 7 轮</div></div>
+        <div class="sess"><div class="st">化简不出从哪一步开始</div><div class="sm">20:11 · 12 轮</div></div>
+        <div class="grp">昨天</div>
+        <div class="sess"><div class="st">半衰期与衰变常数</div><div class="sm">昨天 22:40 · 5 轮</div></div>
+        <div class="sess"><div class="st">我完全没学过，从哪开始</div><div class="sm">昨天 19:02 · 3 轮</div></div>
+        <div class="grp">更早</div>
+        <div class="sess"><div class="st">卡诺图怎么用</div><div class="sm">10-19 · 9 轮</div></div>
+      </div>
+      <div class="main">
+        <div class="scroll" style="justify-content:center;align-items:center;text-align:center">
+          <div style="width:46px;height:46px;border-radius:17px;background:linear-gradient(160deg,#8ea2ff,#c79cff);box-shadow:0 12px 30px rgba(86,104,255,.32)"></div>
+          <div style="font:700 26px/1.3 var(--font);color:#171b2e;margin:18px 0 8px">你想学什么？</div>
+          <div style="font:400 13px/1.65 var(--font);color:#6b7290;max-width:430px">说一句你想学的内容，或者直接说「我卡在哪」。每轮产出一张卡片：关卡、知识结构、进度变化，或一次追问。</div>
+          <div class="ctl" style="margin-top:16px">
+            <div class="chip">化简 A·B + A·B'</div>
+            <div class="chip">从头学布尔代数</div>
+          </div>
+        </div>
+        <div class="dock">
+          <div class="cbox">
+            <div class="ctl"><div class="chip icon">+</div>
+              <div class="chip">模型 <b>DeepSeek V4</b><span class="caret">&#9662;</span></div>
+              <div class="chip">知识源 <b>27 本书</b><span class="caret">&#9662;</span></div>
+              <div class="chip">档位 <b>P2</b><span class="caret">&#9662;</span></div>
+              <span class="grow">&#8984;K 命令面板</span>
+            </div>
+            <div class="row"><textarea rows="1" placeholder="说说你想学什么，或者你卡在哪一步…"></textarea><button class="send">&#8593;</button></div>
+          </div>
+          <div class="foot"><span>Enter 提交 · Shift+Enter 换行</span><span>这次会话 2 个新知识点</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</html>

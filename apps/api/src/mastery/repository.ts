@@ -161,3 +161,70 @@ export async function findItem(run: Runner, itemId: string): Promise<ItemRow | u
   )) as ItemRow[];
   return rows[0];
 }
+
+/**
+ * 看板用的一行索引：每个叶节点属于哪一层、哪本书。
+ *
+ * 一次查询取回 3,000 多行，之后所有分组都在内存里做。为什么不写三条
+ * `GROUP BY` 聚合：三块进度必须与「逐节点回放」的结果一致，分成两条独立的
+ * SQL 计算路径，就多出两处「万一 join 写错」的机会 —— 而这类错误的表现是
+ * 「看板说掌握了 7 个，图层里加起来是 6 个」，用户只会认为整个数字都不可信。
+ * 走一遍回放、三处共享同一份结果，是让它们必然一致的唯一做法。
+ *
+ * `LEFT JOIN modules` 而不是 `JOIN`：没有模块归属的叶节点（散落的基础点）
+ * 仍然要算进全库分母，只是不进任何一层。
+ */
+export type LeafIndexRow = {
+  id: string;
+  source_id: string | null;
+  course_layer_id: string | null;
+};
+
+export async function loadLeafIndex(run: Runner): Promise<LeafIndexRow[]> {
+  return (await run(
+    `SELECT kp.id,
+            kp.source_id,
+            m.course_layer_id
+       FROM knowledge_points kp
+       LEFT JOIN modules m ON m.id = kp.module_id
+      WHERE kp.is_leaf
+      ORDER BY kp.id`,
+  )) as LeafIndexRow[];
+}
+
+export type CourseLayerRow = {
+  id: string;
+  name: string;
+  ordinal: number;
+};
+
+/** 课程层：顺序以 `ordinal` 为准，不按名字排（中文名的拼音序与教学顺序无关）。 */
+export async function loadCourseLayers(run: Runner): Promise<CourseLayerRow[]> {
+  return (await run(
+    `SELECT id, name, ordinal
+       FROM course_layers
+      ORDER BY ordinal, id`,
+  )) as CourseLayerRow[];
+}
+
+export type BookRow = {
+  id: string;
+  title: string;
+  enabled: boolean;
+};
+
+/**
+ * 课本：`kind='book'`，启用的在前。
+ *
+ * 停用的 13 本英文原版没有知识点指向它们（`total=0`）。界面要把它们单列并
+ * 标「已停用」—— 一条 0/0 的进度条看起来像「这本书你一个字都没学」，
+ * 而事实是「这本书已经不在教学范围里了」。
+ */
+export async function loadBooks(run: Runner): Promise<BookRow[]> {
+  return (await run(
+    `SELECT id, title, enabled
+       FROM sources
+      WHERE kind = 'book'
+      ORDER BY enabled DESC, title`,
+  )) as BookRow[];
+}

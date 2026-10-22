@@ -312,7 +312,7 @@
   {
     "zh": "CRRC 成形",
     "en": [
-      "CR-RC shaping"
+      "(CR)*-RCshaping"
     ],
     "sources": [
       "nicholson-1974"
@@ -917,23 +917,13 @@
     ]
   },
   {
-    "zh": "PMOS晶体管",
-    "en": [
-      "The PMOS transistors"
-    ],
-    "sources": [
-      "rivetti-2015"
-    ]
-  },
-  {
     "zh": "PN结",
     "en": [
       "junctions"
     ],
     "sources": [
       "ahmed-2e",
-      "rivetti-2015",
-      "spieler-2005"
+      "rivetti-2015"
     ]
   },
   {
@@ -967,6 +957,33 @@
     "zh": "ROOT 数据分析框架",
     "en": [
       "ROOT"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "ROOT 数据分析框架 图形能力",
+    "en": [
+      "Graphics capabilities"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "ROOT 数据分析框架 数据分析能力",
+    "en": [
+      "Data analysis capabilities"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "ROOT 数据分析框架 示例",
+    "en": [
+      "Examples"
     ],
     "sources": [
       "ahmed-2e"
@@ -1267,6 +1284,15 @@
     "zh": "γ与辐射的放射性衰变与起源",
     "en": [
       "Radioactive Decay and the Origin of Gamma and X-Radiation"
+    ],
+    "sources": [
+      "gilmore-2e-2008"
+    ]
+  },
+  {
+    "zh": "γ与辐射的放射性衰变与起源 引言",
+    "en": [
+      "INTRODUCTION"
     ],
     "sources": [
       "gilmore-2e-2008"
@@ -1786,6 +1812,15 @@
     ]
   },
   {
+    "zh": "上升时间测量方法",
+    "en": [
+      "Risetime Measurement Method"
+    ],
+    "sources": [
+      "nakhostin-2018"
+    ]
+  },
+  {
     "zh": "上升核素与γ射线",
     "en": [
       "SETTING UP NUCLIDE AND GAMMA-RAY"
@@ -1986,7 +2021,7 @@
     ]
   },
   {
-    "zh": "与粒子",
+    "zh": "与粒子重建",
     "en": [
       "Displaced vertices and unstable-particle reconstruction"
     ],
@@ -2083,6 +2118,15 @@
     "zh": "中子 弹性散射",
     "en": [
       "Elastic scattering"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "中子 辐射俘获",
+    "en": [
+      "Radiative capture"
     ],
     "sources": [
       "ahmed-2e"
@@ -2605,6 +2649,15 @@
     ]
   },
   {
+    "zh": "二极管结 电容电压特性",
+    "en": [
+      "Capacitance–Voltage Characteristics"
+    ],
+    "sources": [
+      "lutz-2007"
+    ]
+  },
+  {
     "zh": "二极管（带应用的外部电压）",
     "en": [
       "A p–n Diode with Application of an External Voltage"
@@ -2748,6 +2801,15 @@
     "zh": "传感器物理",
     "en": [
       "Sensor physics"
+    ],
+    "sources": [
+      "spieler-2005"
+    ]
+  },
+  {
+    "zh": "传感器物理 电荷收集",
+    "en": [
+      "Charge collection"
     ],
     "sources": [
       "spieler-2005"
@@ -3306,6 +3368,15 @@
     ]
   },
   {
+    "zh": "信号形成 PN结",
+    "en": [
+      "The pn-junction"
+    ],
+    "sources": [
+      "spieler-2005"
+    ]
+  },
+  {
     "zh": "信号形成与采集",
     "en": [
       "Signal formation and acquisition"
@@ -3399,6 +3470,15 @@
     "zh": "信号等效噪声测度",
     "en": [
       "Signal equivalent noise measures"
+    ],
+    "sources": [
+      "spieler-2005"
+    ]
+  },
+  {
+    "zh": "信号等效噪声测度 等效噪声电荷",
+    "en": [
+      "Equivalent noise charge"
     ],
     "sources": [
       "spieler-2005"
@@ -3848,6 +3928,15 @@
     ]
   },
   {
+    "zh": "光收集 反射",
+    "en": [
+      "Reflection"
+    ],
+    "sources": [
+      "leo-2e"
+    ]
+  },
+  {
     "zh": "光收集与闪烁体",
     "en": [
       "LIGHT COLLECTION AND SCINTILLATOR MOUNTING"
@@ -3981,18 +4070,18 @@
     ]
   },
   {
-    "zh": "全球核查体系",
+    "zh": "光输出响应 线性",
     "en": [
-      "The global verification regime"
+      "Linearity"
     ],
     "sources": [
-      "gilmore-2e-2008"
+      "leo-2e"
     ]
   },
   {
-    "zh": "全能能量峰效率",
+    "zh": "全球核查体系",
     "en": [
-      "Full-energy peak efficiency"
+      "The global verification regime"
     ],
     "sources": [
       "gilmore-2e-2008"
@@ -4587,7 +4676,6 @@
       "Cherenkov Radiation"
     ],
     "sources": [
-      "ahmed-2e",
       "leo-2e"
     ]
   },
@@ -4648,7 +4736,7 @@
     ]
   },
   {
-    "zh": "刻度误差由于",
+    "zh": "刻度误差由于差分",
     "en": [
       "Calibration errors due to difference in"
     ],
@@ -4940,8 +5028,16 @@
       "gilmore-2e-2008",
       "leo-2e",
       "nakhostin-2018",
-      "spieler-2005",
-      "tsoulfanidis-4e"
+      "spieler-2005"
+    ]
+  },
+  {
+    "zh": "前置放大器 本底",
+    "en": [
+      "Background"
+    ],
+    "sources": [
+      "nakhostin-2018"
     ]
   },
   {
@@ -5083,6 +5179,15 @@
     ]
   },
   {
+    "zh": "半导体 小结与",
+    "en": [
+      "Summary and Discussion"
+    ],
+    "sources": [
+      "lutz-2007"
+    ]
+  },
+  {
     "zh": "半导体与γ射线",
     "en": [
       "SEMICONDUCTORS AND GAMMA-RAY"
@@ -5135,6 +5240,15 @@
     "sources": [
       "ahmed-2e",
       "lutz-2007"
+    ]
+  },
+  {
+    "zh": "半导体中的辐射损伤 漏电电流",
+    "en": [
+      "Leakage current"
+    ],
+    "sources": [
+      "ahmed-2e"
     ]
   },
   {
@@ -5555,24 +5669,6 @@
     ]
   },
   {
-    "zh": "卡方分布",
-    "en": [
-      "Chi-square distribution"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
-    "zh": "卡方检验",
-    "en": [
-      "Chi-square test"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "卢瑟福散射",
     "en": [
       "Rutherford scattering"
@@ -5850,15 +5946,6 @@
     ]
   },
   {
-    "zh": "反射",
-    "en": [
-      "Reflection"
-    ],
-    "sources": [
-      "leo-2e"
-    ]
-  },
-  {
     "zh": "反射关于传输线",
     "en": [
       "Reflections on transmission lines"
@@ -5982,15 +6069,6 @@
     ],
     "sources": [
       "grupen-2e-2008"
-    ]
-  },
-  {
-    "zh": "变换方法",
-    "en": [
-      "Transform methods"
-    ],
-    "sources": [
-      "nicholson-1974"
     ]
   },
   {
@@ -6223,7 +6301,7 @@
   {
     "zh": "噪声 CRRC 成形",
     "en": [
-      "(CR)*-RCshaping"
+      "CR-RC shaping"
     ],
     "sources": [
       "nicholson-1974"
@@ -6403,6 +6481,15 @@
     ]
   },
   {
+    "zh": "因子 温度效应",
+    "en": [
+      "Temperature Effects .......................... , .... ,"
+    ],
+    "sources": [
+      "leo-2e"
+    ]
+  },
+  {
     "zh": "因子与本征能量分辨率",
     "en": [
       "The Fano Factor and Intrinsic Energy Resolution"
@@ -6502,15 +6589,6 @@
     ]
   },
   {
-    "zh": "图形能力",
-    "en": [
-      "Graphics capabilities"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "圆柱丝室",
     "en": [
       "Cylindrical wire chambers"
@@ -6559,6 +6637,15 @@
     "zh": "在MOS 晶体管",
     "en": [
       "A ﬁrst look at MOS transistors"
+    ],
+    "sources": [
+      "rivetti-2015"
+    ]
+  },
+  {
+    "zh": "在MOS 晶体管 PMOS晶体管",
+    "en": [
+      "The PMOS transistors"
     ],
     "sources": [
       "rivetti-2015"
@@ -7138,7 +7225,6 @@
       "Recombination"
     ],
     "sources": [
-      "ahmed-2e",
       "lutz-2007",
       "spieler-2005"
     ]
@@ -7270,15 +7356,6 @@
       "grupen-2e-2008",
       "leo-2e",
       "tsoulfanidis-4e"
-    ]
-  },
-  {
-    "zh": "多丝漂移室",
-    "en": [
-      "Multiwire drift chamber (MWPC)"
-    ],
-    "sources": [
-      "ahmed-2e"
     ]
   },
   {
@@ -7965,28 +8042,9 @@
     ]
   },
   {
-    "zh": "射线衍射能谱学XDS",
-    "en": [
-      "X-ray diffraction spectroscopy (XDS)"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "小结",
     "en": [
       "Summary"
-    ],
-    "sources": [
-      "lutz-2007",
-      "spieler-2005"
-    ]
-  },
-  {
-    "zh": "小结与",
-    "en": [
-      "Summary and Discussion"
     ],
     "sources": [
       "lutz-2007"
@@ -8370,7 +8428,7 @@
     ]
   },
   {
-    "zh": "带宽与",
+    "zh": "带宽与上升时间",
     "en": [
       "A.l.1 Bandwidth and Risetime"
     ],
@@ -8417,12 +8475,10 @@
   {
     "zh": "带电粒子",
     "en": [
-      "Charged Particles",
       "Charged-particle trajectories"
     ],
     "sources": [
-      "grupen-2e-2008",
-      "tsoulfanidis-4e"
+      "grupen-2e-2008"
     ]
   },
   {
@@ -8696,21 +8752,21 @@
     ]
   },
   {
+    "zh": "幅度与上升时间补偿触发",
+    "en": [
+      "Amplitude and Risetime Compensated Triggering (ARC)"
+    ],
+    "sources": [
+      "leo-2e"
+    ]
+  },
+  {
     "zh": "幅度与信号形状涨落",
     "en": [
       "Amplitude and signal shape ﬂuctuations"
     ],
     "sources": [
       "rivetti-2015"
-    ]
-  },
-  {
-    "zh": "幅度与补偿触发",
-    "en": [
-      "Amplitude and Risetime Compensated Triggering (ARC)"
-    ],
-    "sources": [
-      "leo-2e"
     ]
   },
   {
@@ -8815,9 +8871,11 @@
   {
     "zh": "平方分布",
     "en": [
+      "Chi-square 윀㈀ distribution",
       "The Chi-Square Distribution"
     ],
     "sources": [
+      "ahmed-2e",
       "leo-2e"
     ]
   },
@@ -8825,6 +8883,15 @@
     "zh": "平方反比定律",
     "en": [
       "Inverse square law"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "平方测试",
+    "en": [
+      "Chi-square 윀㈀ test"
     ],
     "sources": [
       "ahmed-2e"
@@ -8957,7 +9024,6 @@
     "sources": [
       "ahmed-2e",
       "debertin-1988",
-      "gilmore-2e-2008",
       "leo-2e"
     ]
   },
@@ -9086,12 +9152,18 @@
     ],
     "sources": [
       "gilmore-2e-2008",
-      "grupen-2e-2008",
       "knoll-3e-2000",
       "lutz-2007",
-      "nakhostin-2018",
-      "nicholson-1974",
-      "tsoulfanidis-4e"
+      "nakhostin-2018"
+    ]
+  },
+  {
+    "zh": "引言 康普顿散射",
+    "en": [
+      "Compton scattering"
+    ],
+    "sources": [
+      "gilmore-2e-2008"
     ]
   },
   {
@@ -9104,12 +9176,12 @@
     ]
   },
   {
-    "zh": "弹性散射",
+    "zh": "引言 电子对产生",
     "en": [
-      "Elastic scattering"
+      "Pair production"
     ],
     "sources": [
-      "ahmed-2e"
+      "gilmore-2e-2008"
     ]
   },
   {
@@ -9998,6 +10070,15 @@
     ]
   },
   {
+    "zh": "探测器偏置电源 极点零消除",
+    "en": [
+      "Pole-zero cancellation"
+    ],
+    "sources": [
+      "gilmore-2e-2008"
+    ]
+  },
+  {
     "zh": "探测器几何",
     "en": [
       "Detector geometry"
@@ -10164,7 +10245,7 @@
     ]
   },
   {
-    "zh": "探测器数据",
+    "zh": "探测器数据的重建",
     "en": [
       "Reconstruction of raw detector data"
     ],
@@ -10354,6 +10435,15 @@
     ]
   },
   {
+    "zh": "探测器系统概述 电子学",
+    "en": [
+      "Electronics"
+    ],
+    "sources": [
+      "spieler-2005"
+    ]
+  },
+  {
     "zh": "探测器脉冲",
     "en": [
       "Detector pulse dees it Pollicre pene"
@@ -10503,6 +10593,15 @@
     ]
   },
   {
+    "zh": "探测限与分辨率 电子学噪声",
+    "en": [
+      "Electronic noise"
+    ],
+    "sources": [
+      "spieler-2005"
+    ]
+  },
+  {
     "zh": "接地环路上升与",
     "en": [
       "GROUND LOOPS, PICK-UP AND"
@@ -10605,33 +10704,6 @@
     ]
   },
   {
-    "zh": "掺铈硅酸钆 GSO",
-    "en": [
-      "Cerium-doped gadolinium silicate (GSO)"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
-    "zh": "掺铈铝酸钇 YAP:Ce",
-    "en": [
-      "Cerium-doped yttrium aluminum perovskite (YAP:Ce)"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
-    "zh": "掺铈铝酸镥钆 LuAG:Ce",
-    "en": [
-      "Cerium-doped lutetium aluminum garnet (LuAG:Ce)"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "插值方案",
     "en": [
       "Interpolation Schemes"
@@ -10670,14 +10742,13 @@
   {
     "zh": "放大器",
     "en": [
-      "Amplifier"
+      "Amplifiers"
     ],
     "sources": [
       "debertin-1988",
       "leo-2e",
       "nicholson-1974",
-      "rivetti-2015",
-      "tsoulfanidis-4e"
+      "rivetti-2015"
     ]
   },
   {
@@ -11014,6 +11085,15 @@
     "zh": "效率刻度",
     "en": [
       "EFFICIENCY CALIBRATION"
+    ],
+    "sources": [
+      "gilmore-2e-2008"
+    ]
+  },
+  {
+    "zh": "效率刻度 全能能量峰效率",
+    "en": [
+      "Full-energy peak efficiency"
     ],
     "sources": [
       "gilmore-2e-2008"
@@ -11401,15 +11481,6 @@
     ]
   },
   {
-    "zh": "数据分析能力",
-    "en": [
-      "Data analysis capabilities"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "数据判据的数据",
     "en": [
       "Goodness of Data—χ2 Criterion—Rejection of Data"
@@ -11654,6 +11725,15 @@
     ]
   },
   {
+    "zh": "无机晶体闪烁体 闪烁过程的机制",
+    "en": [
+      "Mechanism of the Scintillation Process"
+    ],
+    "sources": [
+      "tsoulfanidis-4e"
+    ]
+  },
+  {
     "zh": "无机闪烁体",
     "en": [
       "Inorganic scintillators"
@@ -11678,6 +11758,15 @@
     "zh": "无机闪烁体的响应",
     "en": [
       "Response of Inorganic Scintillators"
+    ],
+    "sources": [
+      "tsoulfanidis-4e"
+    ]
+  },
+  {
+    "zh": "无机闪烁体的响应 带电粒子",
+    "en": [
+      "Charged Particles"
     ],
     "sources": [
       "tsoulfanidis-4e"
@@ -12016,15 +12105,6 @@
     ],
     "sources": [
       "rivetti-2015"
-    ]
-  },
-  {
-    "zh": "时间能谱学",
-    "en": [
-      "Time spectroscopy"
-    ],
-    "sources": [
-      "ahmed-2e"
     ]
   },
   {
@@ -12472,15 +12552,6 @@
     ]
   },
   {
-    "zh": "本底",
-    "en": [
-      "Background"
-    ],
-    "sources": [
-      "nakhostin-2018"
-    ]
-  },
-  {
     "zh": "本底与探测器屏蔽",
     "en": [
       "BACKGROUND AND DETECTOR SHIELDING"
@@ -12744,7 +12815,6 @@
       "Pole-zero cancellation"
     ],
     "sources": [
-      "gilmore-2e-2008",
       "nicholson-1974",
       "rivetti-2015"
     ]
@@ -12943,6 +13013,33 @@
     "zh": "核仪器",
     "en": [
       "Nuclear Instrumentation"
+    ],
+    "sources": [
+      "tsoulfanidis-4e"
+    ]
+  },
+  {
+    "zh": "核仪器 前置放大器",
+    "en": [
+      "Preamplifier"
+    ],
+    "sources": [
+      "tsoulfanidis-4e"
+    ]
+  },
+  {
+    "zh": "核仪器 引言",
+    "en": [
+      "Introduction"
+    ],
+    "sources": [
+      "tsoulfanidis-4e"
+    ]
+  },
+  {
+    "zh": "核仪器 放大器",
+    "en": [
+      "Amplifier"
     ],
     "sources": [
       "tsoulfanidis-4e"
@@ -13178,6 +13275,15 @@
     "zh": "核辐射带物质的相互作用",
     "en": [
       "Interaction of nuclear radiation with matter"
+    ],
+    "sources": [
+      "nicholson-1974"
+    ]
+  },
+  {
+    "zh": "核辐射带物质的相互作用 引言",
+    "en": [
+      "Introduction"
     ],
     "sources": [
       "nicholson-1974"
@@ -13543,12 +13649,20 @@
     ]
   },
   {
+    "zh": "正电子的源 粒子加速器",
+    "en": [
+      "Particle accelerators"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
     "zh": "死时间",
     "en": [
       "Dead Time"
     ],
     "sources": [
-      "ahmed-2e",
       "knoll-3e-2000",
       "leo-2e",
       "nakhostin-2018"
@@ -14135,15 +14249,6 @@
     ]
   },
   {
-    "zh": "测量方法",
-    "en": [
-      "Risetime Measurement Method"
-    ],
-    "sources": [
-      "nakhostin-2018"
-    ]
-  },
-  {
     "zh": "测量死时间",
     "en": [
       "Measuring Dead Time"
@@ -14370,18 +14475,18 @@
     ]
   },
   {
-    "zh": "混叠由于",
+    "zh": "混叠由于取样频率",
     "en": [
-      "Aliasing due to reconstruction"
+      "Aliasing due to sampling frequency"
     ],
     "sources": [
       "ahmed-2e"
     ]
   },
   {
-    "zh": "混叠由于取样频率",
+    "zh": "混叠由于重建",
     "en": [
-      "Aliasing due to sampling frequency"
+      "Aliasing due to reconstruction"
     ],
     "sources": [
       "ahmed-2e"
@@ -14494,15 +14599,6 @@
     ],
     "sources": [
       "gilmore-2e-2008"
-    ]
-  },
-  {
-    "zh": "温度效应",
-    "en": [
-      "Temperature Effects .......................... , .... ,"
-    ],
-    "sources": [
-      "leo-2e"
     ]
   },
   {
@@ -14752,10 +14848,9 @@
   {
     "zh": "漏电电流",
     "en": [
-      "Leakage current"
+      "Leakage Current"
     ],
     "sources": [
-      "ahmed-2e",
       "leo-2e",
       "rivetti-2015"
     ]
@@ -16172,8 +16267,16 @@
     ],
     "sources": [
       "debertin-1988",
-      "grupen-2e-2008",
-      "spieler-2005"
+      "grupen-2e-2008"
+    ]
+  },
+  {
+    "zh": "电子学 引言",
+    "en": [
+      "Introduction"
+    ],
+    "sources": [
+      "grupen-2e-2008"
     ]
   },
   {
@@ -16243,15 +16346,6 @@
     ]
   },
   {
-    "zh": "电子学噪声（3.2 节）",
-    "en": [
-      "Electronic noise"
-    ],
-    "sources": [
-      "spieler-2005"
-    ]
-  },
-  {
     "zh": "电子学定时习题",
     "en": [
       "Electronic timing problems"
@@ -16286,7 +16380,6 @@
     "sources": [
       "ahmed-2e",
       "debertin-1988",
-      "gilmore-2e-2008",
       "grupen-2e-2008",
       "leo-2e",
       "tsoulfanidis-4e"
@@ -16341,15 +16434,6 @@
     "zh": "电子束系统",
     "en": [
       "Electron beam deflection systems"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
-    "zh": "电子枪",
-    "en": [
-      "Electron gun"
     ],
     "sources": [
       "ahmed-2e"
@@ -16429,9 +16513,9 @@
     ]
   },
   {
-    "zh": "电子的漂移",
+    "zh": "电子的源 电子枪",
     "en": [
-      "Drift of electrons"
+      "Electron gun"
     ],
     "sources": [
       "ahmed-2e"
@@ -16518,15 +16602,6 @@
     ],
     "sources": [
       "spieler-2005"
-    ]
-  },
-  {
-    "zh": "电容电压特性",
-    "en": [
-      "Capacitance–Voltage Characteristics"
-    ],
-    "sources": [
-      "lutz-2007"
     ]
   },
   {
@@ -16698,7 +16773,6 @@
       "Current–Voltage Characteristics"
     ],
     "sources": [
-      "ahmed-2e",
       "lutz-2007"
     ]
   },
@@ -16840,6 +16914,24 @@
       "knoll-3e-2000",
       "nicholson-1974",
       "tsoulfanidis-4e"
+    ]
+  },
+  {
+    "zh": "电离室 气体的选择",
+    "en": [
+      "Choice of gas"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "电离室 电流电压特性",
+    "en": [
+      "Current–voltage characteristics"
+    ],
+    "sources": [
+      "ahmed-2e"
     ]
   },
   {
@@ -17027,6 +17119,24 @@
     ]
   },
   {
+    "zh": "电荷中电场的漂移 电子的漂移",
+    "en": [
+      "Drift of electrons"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "电荷中电场的漂移 离子的漂移",
+    "en": [
+      "Drift of ions"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
     "zh": "电荷产生",
     "en": [
       "CHARGE PRODUCTION -— op)"
@@ -17069,15 +17179,6 @@
     ],
     "sources": [
       "ahmed-2e"
-    ]
-  },
-  {
-    "zh": "电荷收集",
-    "en": [
-      "Charge collection"
-    ],
-    "sources": [
-      "spieler-2005"
     ]
   },
   {
@@ -17546,6 +17647,15 @@
       "knoll-3e-2000",
       "knoll-4e-2010",
       "nicholson-1974"
+    ]
+  },
+  {
+    "zh": "盖革计数器 死时间",
+    "en": [
+      "Dead time"
+    ],
+    "sources": [
+      "ahmed-2e"
     ]
   },
   {
@@ -18113,7 +18223,6 @@
       "Examples"
     ],
     "sources": [
-      "ahmed-2e",
       "leo-2e",
       "spieler-2005"
     ]
@@ -18198,15 +18307,6 @@
     ],
     "sources": [
       "tsoulfanidis-4e"
-    ]
-  },
-  {
-    "zh": "离子的漂移",
-    "en": [
-      "Drift of ions"
-    ],
-    "sources": [
-      "ahmed-2e"
     ]
   },
   {
@@ -18464,15 +18564,6 @@
     ]
   },
   {
-    "zh": "空间量子效率",
-    "en": [
-      "Spatial detective quantum efficiency (DQE)"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "窗与死",
     "en": [
       "Windows and dead layers"
@@ -18552,15 +18643,6 @@
     "sources": [
       "ahmed-2e",
       "leo-2e"
-    ]
-  },
-  {
-    "zh": "等效噪声电荷",
-    "en": [
-      "Equivalent noise charge"
-    ],
-    "sources": [
-      "spieler-2005"
     ]
   },
   {
@@ -18708,15 +18790,6 @@
     ]
   },
   {
-    "zh": "粒子加速器",
-    "en": [
-      "Particle accelerators"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "粒子探测器的应用",
     "en": [
       "Applications of particle detectors outside"
@@ -18774,6 +18847,42 @@
     "zh": "粒子相互作用的类型",
     "en": [
       "Types of particle interactions"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "粒子相互作用的类型 切伦科夫辐射",
+    "en": [
+      "Cherenkov radiation"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "粒子相互作用的类型 弹性散射",
+    "en": [
+      "Elastic scattering"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "粒子相互作用的类型 轫致辐射",
+    "en": [
+      "Bremsstrahlung"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "粒子相互作用的类型 非弹性散射",
+    "en": [
+      "Inelastic scattering"
     ],
     "sources": [
       "ahmed-2e"
@@ -18929,7 +19038,6 @@
     "sources": [
       "ahmed-2e",
       "gilmore-2e-2008",
-      "leo-2e",
       "spieler-2005"
     ]
   },
@@ -19019,6 +19127,15 @@
     "zh": "线性电路的瞬态响应",
     "en": [
       "Transient response of linear circuits"
+    ],
+    "sources": [
+      "nicholson-1974"
+    ]
+  },
+  {
+    "zh": "线性电路的瞬态响应 变换方法",
+    "en": [
+      "Transform methods"
     ],
     "sources": [
       "nicholson-1974"
@@ -19293,21 +19410,21 @@
     ]
   },
   {
-    "zh": "缓解技术 电子学",
+    "zh": "缓解技术 小结",
     "en": [
-      "Electronics"
+      "Summary"
     ],
     "sources": [
       "spieler-2005"
     ]
   },
   {
-    "zh": "编程环境",
+    "zh": "缓解技术 电子学",
     "en": [
-      "Programming environment"
+      "Electronics"
     ],
     "sources": [
-      "ahmed-2e"
+      "spieler-2005"
     ]
   },
   {
@@ -19784,7 +19901,6 @@
       "Energy Straggling"
     ],
     "sources": [
-      "ahmed-2e",
       "tsoulfanidis-4e"
     ]
   },
@@ -19809,7 +19925,7 @@
   {
     "zh": "能量沉积中探测器的模式 能量沉积由光子（带MEV）",
     "en": [
-      "Energy Deposition by Photons with E > 1.022 MeV"
+      "Energy Deposition by Photons with E < 1.022 MeV"
     ],
     "sources": [
       "tsoulfanidis-4e"
@@ -19818,7 +19934,7 @@
   {
     "zh": "能量沉积由光子（带MEV）",
     "en": [
-      "Energy Deposition by Photons with E < 1.022 MeV"
+      "Energy Deposition by Photons with E > 1.022 MeV"
     ],
     "sources": [
       "tsoulfanidis-4e"
@@ -21189,6 +21305,15 @@
     ]
   },
   {
+    "zh": "误差中液体充填探测器的源 复合",
+    "en": [
+      "Recombination"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
     "zh": "误差传递",
     "en": [
       "ERROR PROPAGATION"
@@ -21500,6 +21625,15 @@
     ]
   },
   {
+    "zh": "起源 编程环境",
+    "en": [
+      "Programming environment"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
     "zh": "超出探测器",
     "en": [
       "Beyond the detector"
@@ -21595,7 +21729,6 @@
       "Bremsstrahlung"
     ],
     "sources": [
-      "ahmed-2e",
       "gilmore-2e-2008",
       "grupen-2e-2008"
     ]
@@ -21721,15 +21854,6 @@
     ]
   },
   {
-    "zh": "辐射俘获",
-    "en": [
-      "Radiative capture"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "辐射光致发光探测器",
     "en": [
       "Radiophotoluminescence detectors"
@@ -21790,7 +21914,6 @@
       "Radiation damage"
     ],
     "sources": [
-      "ahmed-2e",
       "gilmore-2e-2008",
       "leo-2e",
       "rivetti-2015",
@@ -22044,6 +22167,15 @@
     "zh": "辐射能谱学",
     "en": [
       "Radiation spectroscopy"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
+    "zh": "辐射能谱学 时间能谱学",
+    "en": [
+      "Time spectroscopy"
     ],
     "sources": [
       "ahmed-2e"
@@ -22469,6 +22601,15 @@
     ]
   },
   {
+    "zh": "重带电粒子带物质的相互作用 能量歧离",
+    "en": [
+      "Energy straggling"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
     "zh": "重带电粒子源",
     "en": [
       "HEAVY CHARGED PARTICLE SOURCES"
@@ -22680,15 +22821,6 @@
     ]
   },
   {
-    "zh": "钠铯碘化物CsINa",
-    "en": [
-      "Sodium-doped cesium iodide (CsI:Na)"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "铀系",
     "en": [
       "The uranium series — 7°U"
@@ -22698,31 +22830,11 @@
     ]
   },
   {
-    "zh": "铊钠碘化物NaITl",
-    "en": [
-      "Thallium-doped sodium iodide (NaI:Tl)"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
-    "zh": "铊铯碘化物CsITl",
-    "en": [
-      "Thallium-doped cesium iodide (CsI:Tl)"
-    ],
-    "sources": [
-      "ahmed-2e"
-    ]
-  },
-  {
     "zh": "铋锗酸盐锗酸铋（BGO）",
     "en": [
-      "Bismuth germanate (BGO)",
       "Bismuth germanate — BGO"
     ],
     "sources": [
-      "ahmed-2e",
       "gilmore-2e-2008"
     ]
   },
@@ -22843,15 +22955,6 @@
     ],
     "sources": [
       "tsoulfanidis-4e"
-    ]
-  },
-  {
-    "zh": "镉钨酸盐CWO",
-    "en": [
-      "Cadmium tungstate (CWO)"
-    ],
-    "sources": [
-      "ahmed-2e"
     ]
   },
   {
@@ -23038,6 +23141,15 @@
     ]
   },
   {
+    "zh": "闪烁机制与闪烁体性质 辐射损伤",
+    "en": [
+      "Radiation damage"
+    ],
+    "sources": [
+      "ahmed-2e"
+    ]
+  },
+  {
     "zh": "闪烁的分辨率",
     "en": [
       "THE RESOLUTION OF SCINTILLATION"
@@ -23108,15 +23220,6 @@
     ],
     "sources": [
       "knoll-3e-2000"
-    ]
-  },
-  {
-    "zh": "闪烁过程的机制",
-    "en": [
-      "Mechanism of the Scintillation Process"
-    ],
-    "sources": [
-      "tsoulfanidis-4e"
     ]
   },
   {
@@ -23554,15 +23657,6 @@
     ],
     "sources": [
       "nicholson-1974"
-    ]
-  },
-  {
-    "zh": "非弹性散射",
-    "en": [
-      "Inelastic scattering"
-    ],
-    "sources": [
-      "ahmed-2e"
     ]
   },
   {

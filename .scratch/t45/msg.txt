@@ -1,0 +1,12 @@
+test(ingest): 译名守门测试补词典级两条，反向验证实测生效
+
+test_no_two_originals_collapse_into_one_chinese_name 读的是产物，只删
+GLOSSARY 词不会让它红 —— 反向验证时才发现这点。补两条直接调函数的：
+
+- test_glossary_still_separates_the_equilibrium_titles：三条 equilibrium
+  标题必须译成三个不同名字（三词全删时红）
+- test_collapse_critical_words_are_in_the_glossary：三个关键词必须在词典
+  里且译名未变（单删一个时红）
+
+两次反向验证实测：只删 secular -> 1 failed/27 passed；三词全删 ->
+2 failed/26 passed。还原后 28 passed，全套 356 passed。

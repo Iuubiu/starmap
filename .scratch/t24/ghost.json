@@ -1,0 +1,1250 @@
+[
+  {
+    "id": "kp-kanghuaguang-5e-p393-甲乙类双电源互补对称电路",
+    "name": "甲乙类双电源互补对称电路",
+    "depth": 2,
+    "parent_id": "kp-kanghuaguang-5e-8",
+    "is_left": true,
+    "source_id": "analog-electronics-kanghuaguang-5e"
+  },
+  {
+    "id": "kp-kanghuaguang-5e-p467-SPICE",
+    "name": "SPICE:",
+    "depth": 2,
+    "parent_id": "kp-kanghuaguang-5e-9",
+    "is_left": true,
+    "source_id": "analog-electronics-kanghuaguang-5e"
+  },
+  {
+    "id": "kp-tongshibai-5e-p136-V目录",
+    "name": "V目录",
+    "depth": 2,
+    "parent_id": "kp-tongshibai-5e-2",
+    "is_left": false,
+    "source_id": "analog-electronics-tongshibai-5e"
+  },
+  {
+    "id": "kp-tongshibai-5e-p229-目录",
+    "name": "И目录",
+    "depth": 2,
+    "parent_id": "kp-tongshibai-5e-5",
+    "is_left": false,
+    "source_id": "analog-electronics-tongshibai-5e"
+  },
+  {
+    "id": "kp-tongshibai-5e-p592-举目",
+    "name": "举目",
+    "depth": 2,
+    "parent_id": "kp-tongshibai-5e-11",
+    "is_left": true,
+    "source_id": "analog-electronics-tongshibai-5e"
+  },
+  {
+    "id": "kp-lihansun-5e-vol1-p200-动态电路的时域分析",
+    "name": "动态电路的时域分析",
+    "depth": 2,
+    "parent_id": "kp-lihansun-5e-vol1-4",
+    "is_left": true,
+    "source_id": "circuit-analysis-lihansun-5e-vol1"
+  },
+  {
+    "id": "kp-lihansun-5e-vol1-p5-一电流电压及功率",
+    "name": "一电流、电压及功率",
+    "depth": 2,
+    "parent_id": "kp-lihansun-5e-vol1-1",
+    "is_left": true,
+    "source_id": "circuit-analysis-lihansun-5e-vol1"
+  },
+  {
+    "id": "kp-yanshi-6e-p172-数据选择器",
+    "name": "数据选择器",
+    "depth": 2,
+    "parent_id": "kp-yanshi-6e-4",
+    "is_left": true,
+    "source_id": "digital-electronics-yanshi-6e"
+  },
+  {
+    "id": "kp-yanshi-6e-p208-概述",
+    "name": "概述",
+    "depth": 2,
+    "parent_id": "kp-yanshi-6e-5",
+    "is_left": true,
+    "source_id": "digital-electronics-yanshi-6e"
+  },
+  {
+    "id": "kp-yanshi-6e-p379-用555定时器接成的单稳态电路",
+    "name": "用555定时器接成的单稳态电路",
+    "depth": 2,
+    "parent_id": "kp-yanshi-6e-7",
+    "is_left": true,
+    "source_id": "digital-electronics-yanshi-6e"
+  },
+  {
+    "id": "kp-yanshi-6e-p428-V目录",
+    "name": "V目录",
+    "depth": 2,
+    "parent_id": "kp-yanshi-6e-8",
+    "is_left": false,
+    "source_id": "digital-electronics-yanshi-6e"
+  },
+  {
+    "id": "kp-yanshi-6e-p435-附录",
+    "name": "附录",
+    "depth": 2,
+    "parent_id": "kp-yanshi-6e-8",
+    "is_left": false,
+    "source_id": "digital-electronics-yanshi-6e"
+  },
+  {
+    "id": "kp-wangjingjin-1983-10-1-3",
+    "name": "恒比定时",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-10",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-10-2-1",
+    "name": "概述",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-10",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-10-2-2",
+    "name": "符合电路实例",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-10",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-10-3-1",
+    "name": "电荷比较法",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-10",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-11-3-1",
+    "name": "道宽选择",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-11",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-12-1-2",
+    "name": "定标器的计数损失",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-12",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-13-4-3",
+    "name": "多路脉冲幅度分析",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-13-4-6",
+    "name": "飞行时间测量",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-14-4-1",
+    "name": "事件记录型",
+    "depth": 3,
+    "parent_id": "kp-wangjingjin-1983-14",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p104-第节概述",
+    "name": "第节概述",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p107-1322",
+    "name": "*:1322~#",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p107-磁芯存储器",
+    "name": "磁芯存储器",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p113-1323",
+    "name": "::132:3",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p118-1332",
+    "name": ":13:32",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p123-1344",
+    "name": "、1344",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p123-双参数脉冲幅度分析",
+    "name": "双参数脉冲幅度分析",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p133-第五节多道分析器的数据处理和数据输出",
+    "name": "第五节多道分析器的数据处理和数据输出",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-13",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p140-第节",
+    "name": "第节",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-14",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p140-计算机多道分析系统概述",
+    "name": "计算机多道分析系统概述",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-14",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p59-概述",
+    "name": "概述",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-11",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p59-第节",
+    "name": "第节",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-11",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p7-第一节脉冲幅度甄别器",
+    "name": "第一节脉冲幅度甄别器",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-9",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangjingjin-1983-p93-第节定标器",
+    "name": "第节定标器",
+    "depth": 2,
+    "parent_id": "kp-wangjingjin-1983-12",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangjingjin-1983"
+  },
+  {
+    "id": "kp-wangzhiying-1989-1-1",
+    "name": "核辐射探测器及其输出信号",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-1",
+    "is_left": false,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-1-1-1",
+    "name": "、核辐射探測器的要求和特点",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-1-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-1-1-2",
+    "name": "核辐射探测器的主要类别和输出信号",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-1-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-1-1-3",
+    "name": "核辐射探测器的基本性能(指标)",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-1-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-1-1-4",
+    "name": "核辐射探测器的输出电路",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-1-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-1-1-5",
+    "name": "核辐射探测器输出信号的数学模拟",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-1-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-2-2",
+    "name": "电荷灵敏前置放大器",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-2",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-3-2",
+    "name": "谱仪放大器的放大节",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-3",
+    "is_left": false,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-3-2-1",
+    "name": "放大节的结构",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-3-2",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-3-2-2",
+    "name": "分立元件构成的放大节电路介绍",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-3-2",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-3-2-3",
+    "name": "集成运算放大器构成的放大节电路",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-3-2",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-3-4-1",
+    "name": "死时间校正和允许最高计数率",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-3-4",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-3-6-1",
+    "name": "调制型弱电流放大器",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-3-6",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-5-2-3",
+    "name": "最佳定时滤波器与定时滤波放大器",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-5-2",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-6-1-1",
+    "name": "多道分析器的基本原理和功能",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-6-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-6-1-2",
+    "name": "计算机多道分析器的几种典型结构",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-6-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-6-1-3",
+    "name": "计算机多道分析器的数据获取接口",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-6-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-6-1-4",
+    "name": "计算机多道分析器的显示原理",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-6-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-6-1-5",
+    "name": "计算机多道分析器的软件配置",
+    "depth": 3,
+    "parent_id": "kp-wangzhiying-1989-6-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p11-噪声对核测量的影响",
+    "name": "噪声对核测量的影响",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p111-高能量分辨率高计数率谱仪放大器",
+    "name": "高能量分辨率高计数率谱仪放大器",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-3",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p121-弱电流放大器",
+    "name": "弱电流放大器",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-3",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p125-电流一频率转换的弱电流放大器",
+    "name": "电流一频率转换的弱电流放大器",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-3",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p135-脉冲幅度甄别器的使用半计数法",
+    "name": "脉冲幅度甄别器的使用半计数法",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-4",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p136-单道脉冲幅度分析器",
+    "name": "单道脉冲幅度分析器",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-4",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p142-单道脉冲幅度分析器实例",
+    "name": "单道脉冲幅度分析器实例",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-4",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p16-核电子学中的信号与噪声分析基础",
+    "name": "核电子学中的信号与噪声分析基础",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p20-核随机信号通过线性网络",
+    "name": "核随机信号通过线性网络",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-1",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p200-恒比定时",
+    "name": "恒比定时",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-5",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p247-脉冲波形甄别",
+    "name": "脉冲波形甄别",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-5",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p267-核谱数据获取和处理",
+    "name": "核谱数据获取和处理",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-6",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-wangzhiying-1989-p79-滤波成形电路的信息畸变",
+    "name": "滤波成形电路的信息畸变",
+    "depth": 2,
+    "parent_id": "kp-wangzhiying-1989-3",
+    "is_left": true,
+    "source_id": "nuclear-electronics-wangzhiying-1989"
+  },
+  {
+    "id": "kp-methods-1997-p1-第节",
+    "name": "第节",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-1",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p1-豐录",
+    "name": "豐录",
+    "depth": 0,
+    "parent_id": null,
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p107-四闪烁体的选择",
+    "name": "四、闪烁体的选择",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-4",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p125-二闪炼探测器应用举例NaITI单晶谱仪",
+    "name": "二、闪炼探测器应用举例-—NaI(TI)单晶谱仪",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-4",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p137-结区的电场分布",
+    "name": "、结区的电场分布",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-5",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p146-第四节高纯锗探测器",
+    "name": "第四节高纯锗探测器",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-5",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p169-固体径迹探测器",
+    "name": "固体径迹探测器",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-6",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p169-第二节国",
+    "name": "第二节国",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-6",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p190-符合法的基本原理",
+    "name": "符合法的基本原理",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-7",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p190-第节",
+    "name": "第～节",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-7",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p198-二延迟符合测量数据的分折",
+    "name": "二、延迟符合测量数据的分折",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-7",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p210-第二节么放射源活度的测量",
+    "name": "第二节么放射源活度的测量",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-8",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p213-一小立体角法放射源活度",
+    "name": "一、小立体角法β放射源活度",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-8",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p213-第三节放射源活度的测量",
+    "name": "第三节β放射源活度的测量",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-8",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p217-二4h计数法",
+    "name": "二、4h计数法",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-8",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p243-三描述谱仪性能的儿个量",
+    "name": "三、描述谱仪性能的儿个量",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-9",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p248-六磁谱仪的应用",
+    "name": "六、磁谱仪的应用",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-9",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p250-一红磁谱仪",
+    "name": "一、红磁谱仪",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-9",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p257-第一节丫射线测量的一般考虑",
+    "name": "第一节丫射线测量的一般考虑",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p259-一射线的谱形及影响因紊",
+    "name": "一、?射线的谱形及影响因紊",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p259-第二节射线能谐分析与能量刻度",
+    "name": "第二节?射线能谐分析与能量刻度",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p265-一全能峰法确定射线强度",
+    "name": "一、全能峰法确定射线强度",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p265-第三节了射线强度测量与效率刻度",
+    "name": "第三节了射线强度测量与效率刻度",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p266-二NaITI闪烁谱仪的效率刻度",
+    "name": "二,NaI(TI)闪烁谱仪的效率刻度",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p270-三HPGeL或GeLi谱仪的效率刻度",
+    "name": "三,HPGeL或Ge(Li)谱仪的效率刻度",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p273-一NaITI薄片闪烁计数器",
+    "name": "一、NaI(TI)薄片闪烁计数器",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p273-第四节低能与X射线的测量",
+    "name": "第四节低能？与X射线的测量",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p28-一带电粒子在靶物质中的慢化",
+    "name": "一、带电粒子在靶物质中的慢化",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-2",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p28-第一节带电粒子与靶物质原子的碰撞",
+    "name": "第一节带电粒子与靶物质原子的碰撞",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-2",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p281-四多探头符合能谱仪",
+    "name": "四、多探头符合能谱仪",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p284-第六节能谱的数据分析",
+    "name": "第六节能谱的数据分析",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p287-二NaITIY射线谱的解析",
+    "name": "二、NaITI>Y射线谱的解析",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p289-三Ge探测器谱的解析",
+    "name": "三、Ge探测器谱的解析",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p292-四多探头丫符合的数据分析",
+    "name": "四、多探头?-丫符合的数据分析",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-10",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p296-第一节",
+    "name": "第一→节",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-11",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p297-中子探测的基本原理",
+    "name": "中子探测的基本原理",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-11",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p325-一概述",
+    "name": "一、概述",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-11",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p340-一探测装置的优质因子",
+    "name": "一，探测装置的优质因子",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-12",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p345-一源外因引起的本底及其降低措施",
+    "name": "一、源外因引起的本底及其降低措施",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-12",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p353-二低水平日计数",
+    "name": "二、低水平日计数",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-12",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p354-三低水平放射性的测量",
+    "name": "三、低水平?放射性的测量",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-12",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p363-三共振反应裁面测量",
+    "name": "三、共振反应裁面测量",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-13",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p363-二微分截面和积分截面测量",
+    "name": "二、微分截面和积分截面测量",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-13",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p367-四重离子友应截面测量",
+    "name": "四、重离子友应截面测量",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-13",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p367-第二节靶室和制靶技术",
+    "name": "第二节靶室和制靶技术",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-13",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p367-靶室",
+    "name": "、靶室",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-13",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p389-第一节脉冲形状别方法",
+    "name": "第一节脉冲形状别方法",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-14",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p404-一工作源理",
+    "name": "一、工作源理",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-14",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p404-第三节探測器望远镜方法",
+    "name": "第三节探測器望远镜方法",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-14",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p415-二探测器望远镜与飞行时间方法的纽合",
+    "name": "二、探测器望远镜与飞行时间方法的纽合",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-14",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p461-各元的KX射线能量相对强度和荧光产额",
+    "name": "各元的KX射线能量、相对强度和荧光产额",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-15",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p461-附录",
+    "name": "附录？",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-15",
+    "is_left": false,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p466-常用a故射源",
+    "name": "常用a故射源",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-15",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p466-常用户放射源和能谱",
+    "name": "常用户放射源和能谱",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-15",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p468-常用n中子源及其特性",
+    "name": "常用(α,n)中子源及其特性",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-15",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p468-常用低能丫和X射线源",
+    "name": "常用低能丫和X射线源",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-15",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p470-252Cf的主要特性",
+    "name": "252Cf的主要特性",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-15",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p472-常用标准源的能量和发射概率",
+    "name": "常用？标准源的能量和发射概率",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-15",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p48-一电子的能量摄损失",
+    "name": "一、电子的能量摄损失",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-2",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p54-一丫射线与物质相互作用的一般特性",
+    "name": "一、丫射线与物质相互作用的一般特性",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-2",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p54-第五节丫射线与物质的相互作用",
+    "name": "第五节丫射线与物质的相互作用",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-2",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p65-五丫射线的吸收",
+    "name": "五、丫射线的吸收",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-2",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-methods-1997-p65-四电子对效应",
+    "name": "四、电子对效应",
+    "depth": 2,
+    "parent_id": "kp-methods-1997-2",
+    "is_left": true,
+    "source_id": "nuclear-physics-experiment-methods-1997"
+  },
+  {
+    "id": "kp-tangbin-p421-附录I",
+    "name": "附录I",
+    "depth": 2,
+    "parent_id": "kp-tangbin-9",
+    "is_left": false,
+    "source_id": "nuclear-radiation-measurement-tangbin"
+  },
+  {
+    "id": "kp-tangbin-p425-附录I",
+    "name": "附录ⅡI",
+    "depth": 2,
+    "parent_id": "kp-tangbin-9",
+    "is_left": false,
+    "source_id": "nuclear-radiation-measurement-tangbin"
+  },
+  {
+    "id": "kp-chenboxian-2011-p476-附录V",
+    "name": "附录V",
+    "depth": 2,
+    "parent_id": "kp-chenboxian-2011-13",
+    "is_left": false,
+    "source_id": "nuclear-radiation-physics-chenboxian-2011"
+  },
+  {
+    "id": "kp-jichangsong-1990-11-1-10",
+    "name": "光电倍增管的选择",
+    "depth": 3,
+    "parent_id": "kp-jichangsong-1990-11-1",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-46-10",
+    "name": "光电倍增管的主要参数",
+    "depth": 2,
+    "parent_id": null,
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-7-2-4",
+    "name": "CaF2",
+    "depth": 3,
+    "parent_id": "kp-jichangsong-1990-7-2",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p135-丫射线质能线能吸收系数表",
+    "name": "丫射线质能、线能吸收系数表",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-2",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p139-丫射线吸收透射列线图",
+    "name": "丫射线吸收、透射列线图",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-2",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p145-几种物质的衰减特性表",
+    "name": "几种物质的衰减特性表",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-2",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p153-n反应型中子源",
+    "name": "(α、n)反应型中子源",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-3",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p153-n反应型中子源-2",
+    "name": "(、n)反应型中子源",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-3",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p163-n反应",
+    "name": "(,n)反应",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-3",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p183-瞬发中子与量子",
+    "name": "瞬发中子与量子",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-3",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p210-粒子电离室",
+    "name": "α粒子电离室",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-4",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p219-BFs三氟化硼正比计数管",
+    "name": "BFs(三氟化硼)正比计数管",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-4",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p222-X射线和低能射线正比计数管",
+    "name": "X射线和低能射线正比计数管",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-4",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p222-流气式4元正比计数器",
+    "name": "流气式4元β正比计数器",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-4",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p223-流气式2元正比计数器",
+    "name": "流气式2元正比计数器",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-4",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p236-计数管",
+    "name": "?计数管",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-4",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p345-B光电倍增管",
+    "name": "B．光电倍增管",
+    "depth": 3,
+    "parent_id": "kp-jichangsong-1990-6-8",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p407-高注量或n辐照核乳胶的特殊处理",
+    "name": "高注量α、或n辐照核乳胶的特殊处理",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-8",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p468-闪烁体尺寸的选取",
+    "name": "闪烁体尺寸的选取",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-11",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p521-闪烁探测器的时间分辩",
+    "name": "闪烁探测器的时间分辩",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-11",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p562-中子注量率剂盘当量率换算表",
+    "name": "中子注量率-剂盘当量率换算表",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-12",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p63-部分辐射体表按能量排列",
+    "name": "部分辐射体表（按能量排列）",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-2",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  },
+  {
+    "id": "kp-jichangsong-1990-p75-丫射线与物质相互作用截面和元素的质量衰减系数表",
+    "name": "丫射线与物质相互作用截面和元素的质量衰减系数表",
+    "depth": 2,
+    "parent_id": "kp-jichangsong-1990-2",
+    "is_left": true,
+    "source_id": "radiation-detector-handbook-jichangsong-1990"
+  }
+]

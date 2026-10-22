@@ -1,0 +1,15 @@
+== grupen-2e-2008: 2 ==
+  kp-grupen-2e-2008-13
+    old=一般探测器的示例：未收录术语（Belle）
+    orig=Example of a general-purpose detector: Belle
+    new=示例的一般探测器
+  kp-grupen-2e-2008-p584-Appendix4MonteCarloeventgenerators
+    old=附录：未收录术语（Monte Carlo event generators）
+    orig=Appendix 4: Monte Carlo event generators
+    new=附录：蒙特卡罗事件发生器
+== leo-2e: 1 ==
+  kp-leo-2e-18
+    old=电子学：未收录术语（CAMAC）
+    orig=Computer Controlled Electronics: CAMAC
+    new=电子学CAMAC
+TOTAL 3

@@ -120,3 +120,18 @@ content-dev 已交付并自称修完，但独立评审席位（t54）被本裁�
 5. 重跑 `tools/ingest/` 全量测试 + `content-audit` 口径核查
 6. 恢复后重新核对：`content/stats` 的来源行数应为 128（27 书 + 101 论文）、
    知识点约 7227、`chunks` 约 96729
+
+## 12. 架构迁移：把功能从硬编码下沉到 agent + skill（用户 2026-10-22 明确要求）
+
+**用户原话**：「项目的大部分功能要通过 agent + skill 实现」。
+
+**现状**：只有两个动作真由技能驱动 —— `question-author`（出题与校验）、`socratic-tutor`（追问）。其余判定全在代码里：定级 `packages/engine/src/placement.ts` 三档后验、推荐 `recommend.service.ts` SQL 排序、检索 BM25 + 谓词门控、排期 `review.ts` 固定 1/3/7/21/60 天、门控 `GATE_RULES` 常量。模型只负责措辞。
+
+**要做的三件事**：
+1. 给模型一个 `skill` 工具，允许它主动加载/切换技能（现在由服务端按回合类型选一个塞进 system message）。
+2. 提供一组只读工具：`getLearnerState` / `searchChunks` / `getPrerequisites` / `recordAttempt`（现在是控制器里的 SQL）。
+3. 把判定（门控、定级、排期）从引擎常量挪进技能。
+
+**风险（必须先写评估再动手）**：可测性下降（同一学生两次可能得到不同判定）、成本上升（每回合多几次工具调用）、判定不再确定（门控与解锁会变成概率行为）。
+
+**验收前置**：先建一张「判定一致性」评估 —— 同一输入重复 20 次，判定结果的一致率必须 ≥ 95%，否则不许把门控挪出代码。

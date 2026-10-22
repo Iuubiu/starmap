@@ -1,0 +1,2911 @@
+{
+  "/": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "学习"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "开新会话",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "去地图选",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "textarea",
+        "role": null,
+        "name": "这一轮想说的话",
+        "type": null,
+        "placeholder": "说说你想学什么，或者你卡在哪一步。（Enter 提交，Shift+Enter 换行）",
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "提交这一轮",
+        "type": "button",
+        "placeholder": null,
+        "disabled": true
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:04:58\n学习\n说一句你想学什么，或者你卡在哪。每轮产出一张卡片——关卡、知识结构、进度变化，或一次追问。\n还没有选定知识点。可以先在下面的地图上选一个，或者直接说你想学什么 —— 我会先给一张图谱卡。\n当前会话 ses-13429728… · 共 0 轮记录\n学习日志\n开新会话\n本次会话新知识点\n按 P3 档，一次最多推进 4 个新知识点。\n作用与地位\n还没有关卡\n两类约束\n还没有关卡\n电流、电压及功率\n还没有关卡\n每一条是一次真实提交，点开可以回看当时那张卡。\n还没有记录。在下方输入框里说一句你想学什么，第一张卡会出现在中间。\n当前知识点\n未选定\n去地图选\n提交这一轮",
+    "canvas": 0
+  },
+  "/placement": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "初始定级"
+      },
+      {
+        "level": "H2",
+        "text": "你的档位"
+      },
+      {
+        "level": "H3",
+        "text": "档位变更历史"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:05:05\n初始定级\n定级不问「你觉得自己什么水平」，只问最近做过什么，再用 8–18 道来自你接下来要学的知识点的题， 定出一个**临时**档位。它决定的是每一关从多完整的示范开始，不是给你分班。\n你的档位\nP3（更少脚手架）\n临时档位\n再答 2 题，系统会自动用真实学习证据重判；重判不是重考一遍定级题。\n系统根据你的学习数据重判过，档位保持不变你在上次定级后又答了 5 题，平均首轮正确率 100%。这个表现与 P3 相符，档位不变。\n重新定级\n档位变更历史\n每次重判都写在学习日志里。档位只决定每一关从多完整的示范开始，不代表你的水平被重新定义。\n2026-10-21 21:24\nP3 保持不变\n你在上次定级后又答了 5 题，平均首轮正确率 100%。这个表现与 P3 相符，档位不变。\n2026-10-21 21:16\nP3 保持不变\n你在上次定级后又答了 8 题，平均首轮正确率 100%。这个表现与 P3 相符，档位不变。\n2026-10-21 20:13\nP3 保持不变\n你在上次定级后又答了 8 题，平均首轮正确率 100%。这个表现与 P3 相符，档位不变。\n2026-10-21 20:13\nP3 保持不变\n你在上次定级后又答了 8 题，平均首轮正确率 100%。这个表现与 P3 相符",
+    "canvas": 0
+  },
+  "/board": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "看板"
+      },
+      {
+        "level": "H2",
+        "text": "今日推荐"
+      },
+      {
+        "level": "H2",
+        "text": "今日学习摘要"
+      },
+      {
+        "level": "H2",
+        "text": "常用指令"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "开始学",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "不学这个，换一个",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "开始学",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "不学这个，换一个",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "开始学",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "不学这个，换一个",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "name": "打开知识地图",
+        "type": null,
+        "placeholder": null
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "「我要练题」\n关卡市场里挑一张关卡",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "「看看我学到哪了」\n知识地图上按主线看一遍",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "「我卡住了，帮我理一理」\n回主页，把这句话发给智能体",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:05:12\n看板\n核电子学学习工作站 · 今天该学什么、走到哪了、常说的话从哪儿说。\n今日推荐\n每条都说清为什么 —— 理由里的数字来自你的作答记录，不是估计\n作用与地位\n可以开始\n绪论\n\n这个知识点没有前置要求，可以从这里开始。\n\n开始学\n不学这个，换一个\n两类约束\n可以开始\n集总参数电路中电压、电流的约束关系\n\n这个知识点没有前置要求，可以从这里开始。\n\n开始学\n不学这个，换一个\n电流、电压及功率\n可以开始\n集总参数电路中电压、电流的约束关系\n\n这个知识点没有前置要求，可以从这里开始。\n\n开始学\n不学这个，换一个\n同一批推荐已经在地图上标出来（打开知识地图），两处不会各说各的。 生成于 2026-10-22 02:05。\n今日学习摘要\n今天答了\n157\n题\n碰到\n2\n个知识点\n新达到「已掌握」\n2\n个\n常用指令\n一句话就能开始；点进去，那句话在那页的输入框里说\n「我要练题」\n关卡市场里挑一张关卡\n「看看我学到哪了」\n知识地图上按主线看一遍\n「我卡住了，帮我理一理」\n回主页，把这句话发给智能体",
+    "canvas": 0
+  },
+  "/map": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "知识地图"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "图谱视图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "线性主线",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "−1 跳",
+        "type": "button",
+        "placeholder": null,
+        "disabled": true
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "+1 跳",
+        "type": "button",
+        "placeholder": null,
+        "disabled": true
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "回全图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": true
+      },
+      {
+        "tag": "select",
+        "role": null,
+        "name": "选择焦点知识点",
+        "type": null,
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "放大图谱",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "缩小图谱",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "复位图谱视野",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未学\n5493/5493",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "在学\n0/0",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "已掌握\n2/2",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "需复验\n0/0",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "布尔代数基本运算，已掌握，100%",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "卡诺图化简，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "辐射的类型，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "或粒子，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "活化，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "衰变能量或，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "衰变方程，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.5.2 源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（1.3.C Composite radionuclides），未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "放射性，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（1.3.F Branching ratio），未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "放射性的单位，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.7 裂变，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.3.5.1 平衡，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.5.1.1 辐射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（H.1 Muons），未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.3.5.2 平衡，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.5.1.2 辐射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "中微子，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.3.5.3 平衡，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "内部辐射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "若干其他粒子，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.1.1.1 射线，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.2.1.1 电子，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.3.1.1 粒子加速器，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.4.1.1 粒子加速器，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.5.1.1 源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "加速器源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.1.1.2 辐射，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电子的放射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "正电子的放射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "激光器离子加速器，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.5.1.2 源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "粒子的放射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "质子的放射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "聚变源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "光子的放射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "反应堆，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "中子的放射源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "气体激光器，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "液体激光器，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "固体激光器，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "发展，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "信号，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "信号的频谱，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "模拟信号和数字信号，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "放大电路模型，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "放大电路的主要性能指标，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "信号，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电子系统的组成，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "模拟电子技术基础课程的特点，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "模拟信号和数字信号，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电子信息系统中的模拟电路，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "如何学习模拟电子技术基础课，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电子信息系统的组成原则，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电子电路的计算机辅助分析和设计软件介绍，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "两类约束，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电流、电压及功率，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "建模的两种方法，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电路及集总电路模型，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电路变量，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "基尔霍夫定律，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电阻元件，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电压源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电流源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "受控源，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "分压公式和分流公式，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "KCL、KVL方程的独立性，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "支路分析，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "二极管模型，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电磁辐射，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "与射线的起源与性质，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "探测器发展，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "光电吸收，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "线性最小拟合，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "能量标准，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "康普顿散射，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "平均与标准差，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "非线性最小拟合，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电子对产生，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "与数据的不确定度，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "数据的插值，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "探测限，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "质量，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "光子衰减，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.1 概述，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "几种常用的数制，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "不同数制间的转换，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "几种常用的编码，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "二进制算术运算的特点，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "反码、补码和补码运算，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "二值逻辑变量与基本逻辑运算，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "逻辑函数及其表示方法，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "数字技术的发展及其应用，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "十进制，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "无符号二进制数的算术运算，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "二-十进制码，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "数字集成电路的分类及特点，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "二进制，未学习，证据不足",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:05:19\n知识地图\n深色画布上的每个点是一个微知识点，颜色与形状同时表示掌握状态。点击进入该知识点的关卡。\n图谱视图\n线性主线\n−1 跳\n+1 跳\n回全图\n以谁为中心\n（不设焦点，看全图）\n布尔代数基本运算\n卡诺图化简\n辐射的类型\n或粒子\n活化\n衰变能量或\n衰变方程\n1.5.2 源\n未收录术语（1.3.C Composite radionuclides）\n放射性\n未收录术语（1.3.F Branching ratio）\n放射性的单位\n1.6.7 裂变\n1.3.5.1 平衡\n1.5.1.1 辐射源\n未收录术语（H.1 Muons）\n1.3.5.2 平衡\n1.5.1.2 辐射源\n中微子\n1.3.5.3 平衡\n内部辐射源\n若干其他粒子\n1.6.1.1.1 射线\n1.6.2.1.1 电子\n1.6.3.1.1 粒子加速器\n1.6.4.1.1 粒子加速器\n1.6.5.1.1 源\n加速器源\n1.6.1.1.2 辐射\n电子的放射源\n正电子的放射源\n激光器离子加速器\n1.6.5.1.2 源\n粒子的放射源\n质子的放射源\n聚变源\n光子的放射源\n反应堆\n中子的放射源\n气体激光器\n液体激光器\n固体激光器\n发展\n信号\n信号的频谱\n模拟信号和数字信号\n放大电路模型\n放大电路的主要性能指标\n信号\n电子系统的组成\n模拟电子技",
+    "canvas": 1
+  },
+  "/database": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "数据库"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "辐射的类型",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "或粒子",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "衰变能量或",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "衰变方程",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（1.3.C Composite radionuclides）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "放射性",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.3.5.1 平衡",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.3.5.2 平衡",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.3.5.3 平衡",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（1.3.F Branching ratio）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "放射性的单位",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "活化",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.5.1.1 辐射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.5.1.2 辐射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "内部辐射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.5.2 源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.1.1.1 射线",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.1.1.2 辐射",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "气体激光器",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "液体激光器",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "固体激光器",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "发展",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "光子的放射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.2.1.1 电子",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "电子的放射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.3.1.1 粒子加速器",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "正电子的放射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.4.1.1 粒子加速器",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "激光器离子加速器",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "质子的放射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.5.1.1 源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.5.1.2 源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "聚变源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "反应堆",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "中子的放射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "加速器源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "粒子的放射源",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "1.6.7 裂变",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（H.1 Muons）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "中微子",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "若干其他粒子",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（A.1 Availability）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "数据操作与储存",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.1.3 数据分析能力",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.1.4 能力",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "使用",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.1.6 示例",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "数据能力",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.2.2 能力",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.2.3 数据分析能力",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.2.4 环境",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.2.5 示例",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "统计学与优化",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "控制系统设计与分析",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "信号处理与",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "图像处理与",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "测试与测量",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "数据获取与能力",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.3.3 数据分析能力",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.3.4 能力",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.3.5 环境",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.1.3.6 示例",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "数据",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "数据分析",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "产生",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "10.2.4 结果",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "剂量与剂量率",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "A.1 Roentgen 刀",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "吸收剂量",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "等效剂量",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "剂量",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "内部剂量来自带电粒子",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "内部剂量来自热中子",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "或率",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.2.3 或",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "与吸收剂量：定义",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（E.1 Kerma）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（E.2 Cema）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（E.3 Terma）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "测量与",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.2.7.1 理论",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.2.7.2 理论",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.2.8 与",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（11.2.I Beam size）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.3.1.1 原理与曲线",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.3.1.2 常见材料",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.3.1.3 剂量计的优点与缺点",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.3.2.1 原理与曲线",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.3.2.2 常见材料",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.3.3.1 剂量计的优点与缺点",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.3.3.2 常见材料",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "径迹剂量计的优点与缺点",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "空气离子室剂量学",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "离子室剂量学",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.4.2.1 剂量计",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.4.2.2 剂量计",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "闪烁体剂量计",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "优点与缺点",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "线性能量传递与剂量",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.5.1.2 能量",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.5.1.3 能量",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "等效正比计数器",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "固体径迹探测器",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.5.2.3 硅",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（A.1 Acute exposure）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "未收录术语（A.2 Chronic exposure）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.6.2.1 辐射的效应",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "11.6.2.2 辐射的效应",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "射线能谱学",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "刻度",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "射线吸收能谱学",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "C.2 X-ray photoelectron spectroscopy 堀倀匀",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:05:44\n数据库\n内容库的实际状态与来源追溯。这里显示的都是库里真实存在的行，没有任何示例数字。\n知识点\n7277\n其中叶节点 5495 个\n内容切片\n96821\n图 4172 · 公式 20173 · 表格 1549 · 正文 70927\n答案块\n20804\n检索门控据此过滤（ADR-0001）\n先修边\n279\n其中 247 条带可核验证据\n来源\n来源\n\t\n类型\n\t\n切片\n\t\n答案块\n\t\n页码范围\n\n辐射探测物理与工程（Ahmed 第2版）\t教材\t1895\t464\t1–762\n电子技术基础·模拟部分（康华光 第5版）\t教材\t7914\t1495\t1–582\n模拟电子技术基础（童诗白、华成英 第4版）\t教材\t7999\t1271\t1–629\n电路分析基础·上册（李瀚荪 第5版）\t教材\t3955\t949\t1–312\nγ与X射线能谱学（Debertin & Helmer 1988）\t教材\t927\t502\t4–405\n数字电子技术基础（阎石 第6版）\t教材\t6485\t972\t1–485\n电子技术基础·数字部分（康华光 第5版）\t教材\t3546\t524\t2–536\n实用γ射线能谱学（Gilmore 第2版 2008）\t教材\t1507\t773\t1–392\n粒子探测器（Grupen 第2版 2008）\t教材",
+    "canvas": 0
+  },
+  "/market": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "关卡市场"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新开始",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新开始",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新开始",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新开始",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新开始",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新开始",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新开始",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "重新开始",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "name": "知识点 id",
+        "type": "text",
+        "placeholder": "知识点 id，例如 kp-bool",
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "开始打包",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "AI 批量生成",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:05:50\n关卡市场\n预制关卡，加上你自己保存的关卡。\n这里只做「保存」，不做「分发」你保存的关卡只在这台工作台上可见：可以自己重新开始、继续编辑，但不会上传到任何社区， 也没有分享给别人的入口。想让别人玩到，目前只能自己导出关卡文件。\n我保存的关卡\n还没有保存过自制关卡。学完一个知识点后，在下面把那段学习过程打包成草案，补全细节再保存。\n预制关卡\n逻辑代数基本律：吸收律与德摩根律\n教学关卡\n预制\n布尔代数基本运算 · 4 道题 · 系统预制\n重新开始\n电离室·AI 练习\n题目关卡\n预制\n电离室 · 5 道题 · AI 生成\n重新开始\n碲锌镉核辐射探测器·AI 练习\n题目关卡\n预制\n碲锌镉核辐射探测器 · 5 道题 · AI 生成\n重新开始\n中子的探测方法·AI 练习\n题目关卡\n预制\n中子的探测方法 · 5 道题 · AI 生成\n重新开始\n前置放大器·AI 练习\n题目关卡\n预制\n前置放大器 · 5 道题 · AI 生成\n重新开始\n放射性衰变和衰变规律·AI 练习\n题目关卡\n预制\n放射性衰变和衰变规律 · 5 道题 · AI 生成\n重新开始\nα,β射线样品的活度测量方法·AI 练习\n题目关卡\n预制\nα,β射线样品的活度测量方法 · 5 道题 · AI 生成\n重新开始\n射线测量方法的应用·AI 练",
+    "canvas": 0
+  },
+  "/market/generate": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "AI 批量生成关卡"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "name": "知识点 id",
+        "type": "text",
+        "placeholder": "kp-bool, kp-kmap",
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "开始生成",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:05:57\nAI 批量生成关卡按知识点批量出题。每条产物都要过一遍与自制关卡**同一个**校验器；过不了的不会入库， 但也不会拖垮整批 —— 失败原因会逐条记下来。\n生成的题只会进练习池，不会进判定池AI 出的题在库里全部是 pool: practice。要让它参与判定，得有人把meta.author 改成 teacher 或 self 并且重存一遍 —— 那一步就是「有人看过并担保」。\n发起一批\n知识点 id，逗号或换行分隔（最多 50 个）\n开始生成",
+    "canvas": 0
+  },
+  "/skills": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "技能库"
+      },
+      {
+        "level": "H2",
+        "text": "question-author"
+      },
+      {
+        "level": "H2",
+        "text": "智能体此刻收到的 system message"
+      },
+      {
+        "level": "H2",
+        "text": "怎么迁移和修改"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "div",
+        "role": "button",
+        "name": "question-author，启用，生成或校验练习题时使用。把「出一道题」变成可验收的：题干自足、答案唯一、难度与被测知识点对齐，且不泄露解题路径。",
+        "type": null,
+        "placeholder": null
+      },
+      {
+        "tag": "input",
+        "role": "switch",
+        "name": "question-author 启用开关",
+        "type": "checkbox",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "div",
+        "role": "button",
+        "name": "socratic-tutor，启用，当学习者卡住、给出错误判断、或直接要答案时，用苏格拉底式追问把他推回可自己完成的下一步，而不是代做。适用于「不会做」「为什么」「这一步对吗」这类求助。",
+        "type": null,
+        "placeholder": null
+      },
+      {
+        "tag": "input",
+        "role": "switch",
+        "name": "socratic-tutor 启用开关",
+        "type": "checkbox",
+        "placeholder": null,
+        "disabled": false
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:06:04\n技能库\n这些 skill 决定了智能体怎么追问、怎么出题。启用的会原样写进它的 system message；禁用的连名字都不会出现——不是「告诉它别用」，是它根本没被装进去。\n共 2 个\n启用 2\n扫描自 D:\\DeepSeek\\starmap\\apps\\api\\src\\mastra\\skills\nquestion-author\nv1.0.0\n生成或校验练习题时使用。把「出一道题」变成可验收的：题干自足、答案唯一、难度与被测知识点对齐，且不泄露解题路径。\n需要为某个微知识点出一道新的练习题\n需要校验一道已有题目是否可出（题干是否自足、答案是否唯一）\n关卡组装需要补充题目\n1 个参考文件\n启用\nsocratic-tutor\nv1.0.0\n当学习者卡住、给出错误判断、或直接要答案时，用苏格拉底式追问把他推回可自己完成的下一步，而不是代做。适用于「不会做」「为什么」「这一步对吗」这类求助。\n学习者说「不会」「做不出来」「卡住了」\n学习者给出一个错误或半对的判断，需要他自己发现哪里不对\n学习者直接索要答案或最终数值\n同一道题连续两轮没有进展\n1 个参考文件\n启用\nquestion-author\nv1.0.0\n启用中\n目录 question-author\n生成或校验练习题时使用。把「出一道",
+    "canvas": 0
+  },
+  "/review": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "复验"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "回到看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "去知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:06:11\n复验\n已经掌握的知识点会按 1 / 3 / 7 / 21 / 60 天回来找你。没通过只下调当前熟练度， 历史最高不会掉。\n今天没有要复验的内容\n复验只在你已经掌握、而且到期了的时候才会出现。学完并掌握新的知识点之后，它会在 1 天后回来找你。\n回到看板\n去知识地图\n复验题与普通作答走同一套掌握度更新 —— 没有第二套算法。",
+    "canvas": 0
+  },
+  "/level/lv-bool-laws": {
+    "headings": [
+      {
+        "level": "H1",
+        "text": "逻辑代数基本律：吸收律与德摩根律"
+      }
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "学习",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "定级",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "复验",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "看板",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "知识地图",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "关卡市场",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "数据库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": "tab",
+        "name": "技能库",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "name": "",
+        "type": "radio",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "name": "",
+        "type": "radio",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "name": "",
+        "type": "radio",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "name": "",
+        "type": "radio",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "提交答案",
+        "type": "button",
+        "placeholder": null,
+        "disabled": true
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "?\n给一点提示（0/3）",
+        "type": "button",
+        "placeholder": null,
+        "disabled": false
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "name": "进入下一段",
+        "type": "button",
+        "placeholder": null,
+        "disabled": true
+      }
+    ],
+    "bodyStart": "StarMap\n学习\n定级\n复验\n看板\n知识地图\n关卡市场\n数据库\n技能库\n数据库 18:06:17\n逻辑代数基本律：吸收律与德摩根律\n教学关卡\nP1 · 约 14 分钟\n按 P3 档渲染\n知识点 kp-bool · 共 7 段 · 这一档直接从第 3 段开始\n讲解默认收起，需要时展开\n每题只有 1 次机会\n整段提交后统一给反馈\n掌握判定：连对 1 次 + 一道迁移题；按本档判定，这个知识点已经达标。\n1\n引导\n✓\n2\n展示细节\n✓\n3\n简单问题\n4\n深究\n5\n进一步讲解\n6\n判定\n7\n小结\n第 3 段 · 简单问题\n简单问题：先确认你看懂了这两条律\n判定题\n下列哪一个式子恒等于 A？\nA + A·B\nA + B\nA·(A + B)·Ā\nA ⊕ A·B\n提交答案\n?\n给一点提示（0/3）\n进入下一段\n本段还有题没答（已答对 0 道），答完才能继续",
+    "canvas": 0
+  }
+}

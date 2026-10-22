@@ -1,0 +1,213 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>浅色版 · 三屏</title>
+<style>
+:root{
+ --canvas:#F2F4F9; --glass:rgba(255,255,255,.55); --paper:#fff;
+ --t1:#14161C; --t2:#5A6172; --t3:#8A90A0; --line:rgba(20,25,40,.08);
+ --brand:#B4123A; --brandSoft:#FDECEF;
+ --m0:#C9CEDB; --m1:#8FA0C8; --m2:#5B7FD4; --m3:#2E9E7E; --m4:#C9A227;
+ --sh:0 8px 24px rgba(20,30,60,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:14px/1.6 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#e9ecf3;color:var(--t1);padding:10px}
+.stage{position:relative;width:1240px;height:700px;margin:0 auto 14px;border-radius:16px;overflow:hidden;
+ background:
+  radial-gradient(900px 520px at 8% 6%,#F7CBD8 0%,transparent 64%),
+  radial-gradient(760px 460px at 90% 10%,#C9DCF7 0%,transparent 62%),
+  radial-gradient(820px 520px at 72% 98%,#C6E9D8 0%,transparent 60%),
+  var(--canvas);
+ box-shadow:0 24px 60px rgba(20,30,60,.16)}
+.glass{background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 1px 2px rgba(20,30,60,.06)}
+/* shell */
+.shell{display:grid;grid-template-columns:48px 200px minmax(0,1fr);height:100%}
+.rail{padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:6px}
+.rail .b{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--t2);font-size:17px;position:relative}
+.rail .b.on{background:rgba(180,18,58,.09);color:var(--brand);font-weight:600}
+.rail .b.on:before{content:"";position:absolute;left:-7px;top:9px;width:2px;height:16px;border-radius:2px;background:var(--brand)}
+.rail .logo{width:30px;height:30px;border-radius:9px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;margin-bottom:8px}
+.side{display:flex;flex-direction:column;padding:14px 10px;gap:2px;overflow:hidden}
+.side h4{font-size:12px;color:var(--t3);font-weight:600;letter-spacing:.02em;margin:10px 6px 6px}
+.side .new{margin:0 2px 8px;padding:7px 10px;border-radius:9px;background:var(--brand);color:#fff;font-size:12.5px;font-weight:600;text-align:center}
+.side .it{padding:7px 8px;border-radius:8px;font-size:12.5px;color:var(--t2);display:flex;justify-content:space-between;gap:8px}
+.side .it span{color:var(--t3);font-size:11px;flex:none}
+.side .it.on{background:rgba(180,18,58,.07);color:var(--t1);font-weight:600}
+/* main */
+.main{margin:12px 12px 12px 6px;padding:20px 24px;overflow:hidden;display:flex;flex-direction:column;border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(22px);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 10px 30px rgba(20,30,60,.10)}
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.hd h1{font-size:22px;letter-spacing:-.01em}
+.hd .dots{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:var(--t2);background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1px var(--line)}
+.col{width:min(920px,100%);margin:0 auto;flex:1;display:flex;flex-direction:column;gap:14px;min-height:0}
+.me{align-self:flex-end;max-width:70%;background:var(--brand);color:#fff;padding:11px 15px;border-radius:14px 14px 4px 14px;font-size:13.5px;box-shadow:0 6px 16px rgba(180,18,58,.22)}
+.ai{background:var(--paper);border-radius:14px;padding:14px 16px;box-shadow:var(--sh);max-width:88%}
+.ai .who{font-size:10.5px;letter-spacing:.08em;color:var(--t3);font-weight:600;margin-bottom:6px}
+.card{background:var(--paper);border-radius:14px;box-shadow:var(--sh);padding:16px 18px}
+.card .tag{display:inline-block;font-size:10.5px;font-weight:600;color:var(--brand);background:var(--brandSoft);padding:2px 7px;border-radius:5px;margin-right:8px;vertical-align:2px}
+.card h3{display:inline;font-size:16px}
+.meta{display:flex;gap:26px;margin:14px 0 4px}
+.meta div{font-size:11px;color:var(--t3)}
+.meta b{display:block;font-size:17px;color:var(--t1);font-weight:650;margin-top:2px}
+.card p{font-size:12px;color:var(--t2);margin-top:10px}
+.card .go{margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;font-size:13px;font-weight:600;padding:8px 16px;border-radius:9px}
+/* composer */
+.wrapc{margin-top:auto}
+.cbox{background:var(--paper);border-radius:22px;box-shadow:0 10px 26px rgba(20,30,60,.10);padding:15px 16px 10px}
+.cbox .ph{font-size:15px;color:var(--t3);padding:0 2px 30px;letter-spacing:-.01em}
+.crow{display:flex;align-items:center;gap:8px}
+.plus{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;color:var(--t2);background:#F4F6FA}
+.pill{font-size:12px;color:var(--t2);padding:5px 10px;border-radius:8px;background:#F4F6FA}
+.perm{font-size:12px;font-weight:600;color:#C2410C;background:#FFF3EA;padding:5px 10px;border-radius:8px}
+.mic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:var(--t2);font-size:14px;background:#F4F6FA}
+.tools{display:flex;align-items:center;gap:16px;margin:8px 4px 0;padding:9px 14px;border-radius:12px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px var(--line);font-size:12.5px;color:var(--t2)}
+.tools .sp{flex:1}
+.crow .sp{flex:1}
+.send{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:14px;box-shadow:0 6px 14px rgba(180,18,58,.28)}
+/* right log */
+.log{padding:20px 16px;overflow:hidden}
+.log h4{font-size:13px;margin-bottom:10px;display:flex;justify-content:space-between;color:var(--t1)}
+.log h4 span{font-size:11.5px;color:var(--brand);font-weight:600}
+.log .kp{background:var(--paper);border-radius:10px;box-shadow:var(--sh);padding:10px 12px;font-size:12px;color:var(--t2);display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
+.log .kp em{font-style:normal;font-size:10.5px;color:var(--t3);flex:none}
+/* learning records two-col */
+.two{display:grid;grid-template-columns:320px minmax(0,1fr);height:100%}
+.rlist{padding:18px 12px;overflow:hidden}
+.rlist h1{font-size:20px;margin:0 6px 12px}
+.rlist .g{font-size:11.5px;color:var(--t3);margin:12px 6px 6px}
+.rlist .r{padding:9px 10px;border-radius:9px;font-size:13px}
+.rlist .r small{display:block;color:var(--t3);font-size:11px;margin-top:2px}
+.rlist .r.on{background:var(--paper);box-shadow:var(--sh)}
+.preview{padding:26px 30px;display:flex;flex-direction:column;gap:14px}
+.preview h2{font-size:17px}
+.preview .tip{font-size:12.5px;color:var(--t2);max-width:560px}
+.preview .cta{display:flex;gap:10px;margin-top:6px}
+.preview .cta .in{flex:1;background:var(--paper);border-radius:12px;box-shadow:var(--sh);padding:11px 14px;font-size:13px;color:var(--t3)}
+/* market grid */
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:6px}
+.lv{background:var(--paper);border-radius:14px;box-shadow:var(--sh);padding:14px 15px 0;display:flex;flex-direction:column;min-height:150px;position:relative;overflow:hidden}
+.lv .row{display:flex;gap:6px;margin-bottom:8px}
+.lv .bd{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;background:#F1F3F8;color:var(--t2)}
+.lv .bd.ai{background:var(--brandSoft);color:var(--brand)}
+.lv h5{font-size:14px;line-height:1.4;margin-bottom:6px}
+.lv .mm{font-size:11.5px;color:var(--t3)}
+.lv .reveal{position:absolute;left:0;right:0;bottom:0;padding:10px 15px;background:linear-gradient(transparent,var(--paper) 40%);opacity:0;transform:translateY(6px);transition:.18s}
+.lv.hover .reveal{opacity:1;transform:none}
+.lv.hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(20,30,60,.13)}
+.lv .reveal b{font-size:12.5px;color:var(--brand);font-weight:600}
+</style></head><body>
+
+<!-- 一、学习（对话，浅色） -->
+<div class="stage"><div class="glass" style="height:100%"><div class="shell">
+ <div class="rail">
+  <div class="logo">S</div>
+  <div class="b on">⌂</div><div class="b">◷</div><div class="b">◎</div><div class="b">↻</div>
+  <div class="b">▦</div><div class="b">⌘</div><div class="b">◇</div><div class="b">▤</div>
+ </div>
+ <div class="side">
+  <div class="new">＋ 新会话</div>
+  <h4>今天</h4>
+  <div class="it on">我想学布尔代数<span>00:03</span></div>
+  <div class="it">明天要考数电<span>23:17</span></div>
+  <div class="it">卡诺图怎么用<span>22:40</span></div>
+  <h4>昨天</h4>
+  <div class="it">半衰期与衰变常数<span>昨天</span></div>
+  <div class="it">电离室工作原理<span>昨天</span></div>
+  <h4>更早</h4>
+  <div class="it">放大电路的频率响应<span>10-20</span></div>
+ </div>
+ <div style="display:grid;grid-template-columns:minmax(0,1fr) 236px;height:100%">
+  <div class="main">
+   <div class="hd"><h1>学习</h1><div class="dots">⋯</div></div>
+   <div class="col">
+    <div class="me">我想学布尔代数的基本运算</div>
+    <div class="ai"><div class="who">STARMAP</div>
+     你对布尔代数基本运算的掌握度已经满了，继续停留在这个点上不会有新收获；下一步值得练的是吸收律与德摩根律：这两条律的形状和普通代数差别最大，也最容易凭直觉用错。
+    </div>
+    <div class="card">
+     <span class="tag">关卡</span><h3>逻辑代数基本律：吸收律与德摩根律</h3>
+     <div class="meta">
+      <div>预计用时<b>14 分钟</b></div><div>题目数<b>4 题</b></div><div>第一步<b>引导</b></div><div>难度档<b>P1</b></div>
+     </div>
+     <p>意图已明确为考试、且该知识点已掌握，直接推可打开的关卡，让学生在考前一天做针对性演练。</p>
+     <div class="go">进入关卡 →</div>
+    </div>
+    <div class="wrapc">
+     <div class="cbox">
+      <div class="ph">说说你想学什么，或者你卡在哪一步…</div>
+      <div class="crow"><div class="plus">＋</div><div class="perm">完全访问</div><div class="sp"></div><div class="pill">DeepSeek V4 ▾</div><div class="mic">🎙</div><div class="send">↑</div></div>
+     </div>
+     <div class="tools"><span>📁 期刊下载器</span><span>＋ 文件</span><span>◎ 插件</span><div class="sp"></div><span>▭</span></div>
+    </div>
+   </div>
+  </div>
+  <div class="log">
+   <h4>学习日志<span>开新会话</span></h4>
+   <div class="kp">布尔代数基本运算<em>已成关卡</em></div>
+   <div class="kp">作用与地位<em>还没有关卡</em></div>
+   <div class="kp">两类约束<em>还没有关卡</em></div>
+  </div>
+ </div>
+</div></div></div>
+
+<!-- 二、学习记录（两栏不等宽） -->
+<div class="stage"><div class="glass" style="height:100%"><div class="shell">
+ <div class="rail"><div class="logo">S</div><div class="b">⌂</div><div class="b on">◷</div><div class="b">◎</div><div class="b">↻</div><div class="b">▦</div><div class="b">⌘</div><div class="b">◇</div><div class="b">▤</div></div>
+ <div style="grid-column:2/4;height:100%"><div class="two">
+  <div class="rlist">
+   <h1>学习记录</h1>
+   <div class="g">今天</div>
+   <div class="r on">我想学布尔代数的基本运算<small>00:03 · 2 轮</small></div>
+   <div class="r">明天要考数电<small>23:17 · 1 轮</small></div>
+   <div class="r">卡诺图怎么用<small>22:40 · 3 轮</small></div>
+   <div class="g">昨天</div>
+   <div class="r">半衰期与衰变常数<small>昨天 22:10 · 5 轮</small></div>
+   <div class="r">电离室工作原理<small>昨天 19:02 · 3 轮</small></div>
+   <div class="g">更早</div>
+   <div class="r">放大电路的频率响应<small>10-20 · 7 轮</small></div>
+  </div>
+  <div class="preview">
+   <div style="display:flex;justify-content:space-between;align-items:center"><h2>我想学布尔代数的基本运算</h2><div style="font-size:12px;color:var(--t3)">2 轮 · 今天 00:03</div></div>
+   <div class="tip">点进去会回到那一轮：上面的对话、中间的关卡卡、右侧的学习日志都还在。也可以直接在这里写第一句，回车即开始新的记录。</div>
+   <div class="card" style="max-width:520px">
+    <span class="tag">关卡</span><h3>逻辑代数基本律：吸收律与德摩根律</h3>
+    <div class="meta"><div>预计用时<b>14 分钟</b></div><div>题目数<b>4 题</b></div><div>难度档<b>P1</b></div></div>
+   </div>
+   <div class="wrapc" style="margin-top:6px;max-width:620px">
+    <div class="cbox">
+     <div class="ph">说说你想学什么，比如「我想学布尔代数」</div>
+     <div class="crow"><div class="plus">＋</div><div class="perm">完全访问</div><div class="sp"></div><div class="pill">DeepSeek V4 ▾</div><div class="mic">🎙</div><div class="send">↑</div></div>
+    </div>
+    <div class="tools"><span>📁 期刊下载器</span><span>＋ 文件</span><span>◎ 插件</span><div class="sp"></div><span>▭</span></div>
+   </div>
+  </div>
+ </div></div>
+</div></div></div>
+
+<!-- 三、关卡市场（卡片网格，hover 才露按钮） -->
+<div class="stage"><div class="glass" style="height:100%"><div class="shell">
+ <div class="rail"><div class="logo">S</div><div class="b">⌂</div><div class="b">◷</div><div class="b">◎</div><div class="b">↻</div><div class="b">▦</div><div class="b">⌘</div><div class="b on">◇</div><div class="b">▤</div></div>
+ <div class="side">
+  <h4 style="margin-top:6px">筛选</h4>
+  <div class="it on">全部<span>21</span></div>
+  <div class="it">教学关卡<span>7</span></div>
+  <div class="it">AI 生成<span>8</span></div>
+  <div class="it">我保存的<span>0</span></div>
+  <h4>按知识点</h4>
+  <div class="it">布尔代数<span>6</span></div>
+  <div class="it">卡诺图<span>3</span></div>
+  <div class="it">触发器<span>4</span></div>
+ </div>
+ <div class="main">
+  <div class="hd"><h1>关卡市场</h1><div class="dots">⋯</div></div>
+  <div class="grid">
+   <div class="lv hover"><div class="row"><span class="bd">教学</span><span class="bd">系统预制</span></div><h5>逻辑代数基本律：吸收律与德摩根律</h5><div class="mm">4 题 · P2 · 14 分钟</div><div class="reveal"><b>进入关卡 →</b></div></div>
+   <div class="lv"><div class="row"><span class="bd ai">AI 生成</span></div><h5>电离室·AI 练习</h5><div class="mm">5 题 · P1 · 12 分钟</div><div class="reveal"><b>进入关卡 →</b></div></div>
+   <div class="lv"><div class="row"><span class="bd ai">AI 生成</span></div><h5>碲锌镉辐射探测器·AI 练习</h5><div class="mm">5 题 · P3 · 9 分钟</div><div class="reveal"><b>进入关卡 →</b></div></div>
+   <div class="lv"><div class="row"><span class="bd ai">AI 生成</span></div><h5>中子的探测方法·AI 练习</h5><div class="mm">5 题 · P2 · 11 分钟</div><div class="reveal"><b>进入关卡 →</b></div></div>
+   <div class="lv"><div class="row"><span class="bd">教学</span></div><h5>卡诺图的读图与化简</h5><div class="mm">6 题 · P2 · 16 分钟</div><div class="reveal"><b>进入关卡 →</b></div></div>
+   <div class="lv"><div class="row"><span class="bd">教学</span></div><h5>触发器：从 RS 到 JK</h5><div class="mm">5 题 · P1 · 14 分钟</div><div class="reveal"><b>进入关卡 →</b></div></div>
+   <div class="lv"><div class="row"><span class="bd ai">AI 生成</span></div><h5>脉冲幅度分析器</h5><div class="mm">5 题 · P3 · 10 分钟</div><div class="reveal"><b>进入关卡 →</b></div></div>
+   <div class="lv"><div class="row"><span class="bd">教学</span></div><h5>逻辑函数的表示方法</h5><div class="mm">4 题 · P1 · 12 分钟</div><div class="reveal"><b>进入关卡 →</b></div></div>
+  </div>
+ </div>
+</div></div></div>
+
+</body></html>

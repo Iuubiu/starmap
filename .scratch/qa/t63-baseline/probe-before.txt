@@ -1,0 +1,124 @@
+
+===== DARK =====
+ok   正文 text-primary / bg-surface                15.83  (>= 4.5)  WCAG 1.4.3
+ok   正文 text-primary / bg-canvas                 16.79  (>= 4.5)  WCAG 1.4.3
+ok   正文 text-primary / bg-elevated               14.81  (>= 4.5)  WCAG 1.4.3
+ok   正文 text-primary / bg-hover                  13.37  (>= 4.5)  WCAG 1.4.3
+ok   正文 text-primary / bg-selected               11.71  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-surface               8.22  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-canvas                8.72  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-elevated              7.69  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-hover                 6.95  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-selected              6.08  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-surface                 6.3  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-canvas                 6.68  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-elevated               5.89  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-hover                  5.32  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-selected               4.66  (>= 4.5)  WCAG 1.4.3
+ok   禁用 text-disabled / bg-surface                4.36  (>= 3)  本仓加严（WCAG 对禁用态豁免）
+ok   禁用 text-disabled / bg-hover                  3.69  (>= 3)  本仓加严（WCAG 对禁用态豁免）
+ok   禁用 text-disabled / bg-selected               3.23  (>= 3)  本仓加严（WCAG 对禁用态豁免）
+ok   强调 accent / bg-surface                       7.71  (>= 4.5)  WCAG 1.4.3
+ok   强调 accent / bg-elevated                      7.22  (>= 4.5)  WCAG 1.4.3
+ok   强调 accent / bg-hover                         6.52  (>= 4.5)  WCAG 1.4.3
+ok   强调 accent / accent-soft                      7.13  (>= 4.5)  WCAG 1.4.3
+ok   按钮字 on-accent / accent-fill                  4.79  (>= 4.5)  WCAG 1.4.3
+ok   按钮字 on-accent / accent-hover                 5.59  (>= 4.5)  WCAG 1.4.3
+ok   按钮字 on-accent / accent-pressed               7.96  (>= 4.5)  WCAG 1.4.3
+ok   语义 成功 success / bg-surface                   7.88  (>= 4.5)  WCAG 1.4.3
+ok   语义 警告 warning / bg-surface                   8.56  (>= 4.5)  WCAG 1.4.3
+ok   语义 危险 danger / bg-surface                    7.31  (>= 4.5)  WCAG 1.4.3
+ok   语义 信息 info / bg-surface                      6.95  (>= 4.5)  WCAG 1.4.3
+ok   MessageBar 成功 success / success-soft         6.95  (>= 4.5)  WCAG 1.4.3
+ok   MessageBar 警告 warning / warning-soft         7.55  (>= 4.5)  WCAG 1.4.3
+ok   MessageBar 危险 danger / danger-soft           6.83  (>= 4.5)  WCAG 1.4.3
+ok   MessageBar 信息 info / info-soft               6.44  (>= 4.5)  WCAG 1.4.3
+ok   控件边界 border-control / bg-surface             4.05  (>= 3)  WCAG 1.4.11
+ok   控件边界 border-control / bg-canvas               4.3  (>= 3)  WCAG 1.4.11
+ok   焦点环 border-focus / bg-surface                7.71  (>= 3)  WCAG 1.4.11
+ok   画布正文 text-primary / graph-canvas            16.79  (>= 4.5)  WCAG 1.4.3
+ok   节点 未学 / graph-canvas                         3.55  (>= 3)  WCAG 1.4.11
+ok   节点 在学 / graph-canvas                         6.11  (>= 3)  WCAG 1.4.11
+ok   节点 已掌握 / graph-canvas                        8.36  (>= 3)  WCAG 1.4.11
+ok   节点 需复验 / graph-canvas                        9.08  (>= 3)  WCAG 1.4.11
+ok   选项 对 option-correct / bg-surface             7.88  (>= 4.5)  WCAG 1.4.3
+ok   选项 错 option-wrong / bg-surface               7.31  (>= 4.5)  WCAG 1.4.3
+ok   选项字 text-primary / option-selected-bg       14.63  (>= 4.5)  WCAG 1.4.3
+ok   选项字 text-primary / option-hover-bg          13.37  (>= 4.5)  WCAG 1.4.3
+ok   选项选中边 option-selected-border / bg-surface    7.71  (>= 3)  WCAG 1.4.11
+  rules: 46, all pass: true
+  decorative: {"hairline / surface":1.3,"hairline / canvas":1.37,"elevated / surface":1.07,"hover / surface":1.18,"selected / surface":1.35,"canvas / surface":1.06}
+  worst-per-role: {
+    "正文 text-primary": 11.71,
+    "次要 text-secondary": 6.08,
+    "三级 text-tertiary": 4.66,
+    "禁用 text-disabled": 3.23,
+    "强调 accent（文字/图标）": 6.52,
+    "按钮字 on-accent": 4.79,
+    "控件边界 border-control": 4.05,
+    "图谱节点四态": 3.55,
+    "关卡选项 对/错": 7.31
+  }
+
+===== LIGHT =====
+ok   正文 text-primary / bg-surface                18.15  (>= 4.5)  WCAG 1.4.3
+ok   正文 text-primary / bg-canvas                 16.48  (>= 4.5)  WCAG 1.4.3
+ok   正文 text-primary / bg-elevated               18.15  (>= 4.5)  WCAG 1.4.3
+ok   正文 text-primary / bg-hover                  16.19  (>= 4.5)  WCAG 1.4.3
+ok   正文 text-primary / bg-selected               15.26  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-surface               7.56  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-canvas                6.86  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-elevated              7.56  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-hover                 6.74  (>= 4.5)  WCAG 1.4.3
+ok   次要 text-secondary / bg-selected              6.36  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-surface                5.72  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-canvas                 5.19  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-elevated               5.72  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-hover                   5.1  (>= 4.5)  WCAG 1.4.3
+ok   三级 text-tertiary / bg-selected               4.81  (>= 4.5)  WCAG 1.4.3
+ok   禁用 text-disabled / bg-surface                 4.1  (>= 3)  本仓加严（WCAG 对禁用态豁免）
+ok   禁用 text-disabled / bg-hover                  3.66  (>= 3)  本仓加严（WCAG 对禁用态豁免）
+ok   禁用 text-disabled / bg-selected               3.45  (>= 3)  本仓加严（WCAG 对禁用态豁免）
+ok   强调 accent / bg-surface                       5.38  (>= 4.5)  WCAG 1.4.3
+ok   强调 accent / bg-elevated                      5.38  (>= 4.5)  WCAG 1.4.3
+ok   强调 accent / bg-hover                          4.8  (>= 4.5)  WCAG 1.4.3
+ok   强调 accent / accent-soft                      4.63  (>= 4.5)  WCAG 1.4.3
+ok   按钮字 on-accent / accent-fill                  5.38  (>= 4.5)  WCAG 1.4.3
+ok   按钮字 on-accent / accent-hover                  6.6  (>= 4.5)  WCAG 1.4.3
+ok   按钮字 on-accent / accent-pressed               7.96  (>= 4.5)  WCAG 1.4.3
+ok   语义 成功 success / bg-surface                   5.38  (>= 4.5)  WCAG 1.4.3
+ok   语义 警告 warning / bg-surface                   6.39  (>= 4.5)  WCAG 1.4.3
+ok   语义 危险 danger / bg-surface                    5.62  (>= 4.5)  WCAG 1.4.3
+ok   语义 信息 info / bg-surface                      5.85  (>= 4.5)  WCAG 1.4.3
+ok   MessageBar 成功 success / success-soft         4.78  (>= 4.5)  WCAG 1.4.3
+ok   MessageBar 警告 warning / warning-soft         5.67  (>= 4.5)  WCAG 1.4.3
+ok   MessageBar 危险 danger / danger-soft           4.83  (>= 4.5)  WCAG 1.4.3
+ok   MessageBar 信息 info / info-soft                5.1  (>= 4.5)  WCAG 1.4.3
+ok   控件边界 border-control / bg-surface             3.68  (>= 3)  WCAG 1.4.11
+ok   控件边界 border-control / bg-canvas              3.35  (>= 3)  WCAG 1.4.11
+ok   焦点环 border-focus / bg-surface                5.38  (>= 3)  WCAG 1.4.11
+ok   画布正文 text-primary / graph-canvas            16.48  (>= 4.5)  WCAG 1.4.3
+ok   节点 未学 / graph-canvas                         4.13  (>= 3)  WCAG 1.4.11
+ok   节点 在学 / graph-canvas                         5.31  (>= 3)  WCAG 1.4.11
+ok   节点 已掌握 / graph-canvas                        4.89  (>= 3)  WCAG 1.4.11
+ok   节点 需复验 / graph-canvas                         5.8  (>= 3)  WCAG 1.4.11
+ok   选项 对 option-correct / bg-surface             5.38  (>= 4.5)  WCAG 1.4.3
+ok   选项 错 option-wrong / bg-surface               5.62  (>= 4.5)  WCAG 1.4.3
+ok   选项字 text-primary / option-selected-bg       15.63  (>= 4.5)  WCAG 1.4.3
+ok   选项字 text-primary / option-hover-bg          16.19  (>= 4.5)  WCAG 1.4.3
+ok   选项选中边 option-selected-border / bg-surface    5.38  (>= 3)  WCAG 1.4.11
+  rules: 46, all pass: true
+  decorative: {"hairline / surface":1.24,"hairline / canvas":1.13,"elevated / surface":1,"hover / surface":1.12,"selected / surface":1.19,"canvas / surface":1.1}
+  worst-per-role: {
+    "正文 text-primary": 15.26,
+    "次要 text-secondary": 6.36,
+    "三级 text-tertiary": 4.81,
+    "禁用 text-disabled": 3.45,
+    "强调 accent（文字/图标）": 4.63,
+    "按钮字 on-accent": 5.38,
+    "控件边界 border-control": 3.35,
+    "图谱节点四态": 4.13,
+    "关卡选项 对/错": 5.38
+  }
+
+TOTAL FAILURES: 0

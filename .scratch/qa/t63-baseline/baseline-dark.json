@@ -1,0 +1,215 @@
+{
+  "level": "/level/lv-ai-kp-tangbin-1-2",
+  "mode": "injected-webDarkTheme",
+  "measuredAt": "2026-10-22T06:19:21.348Z",
+  "injectedVars": 2,
+  "tokens": {
+    "colorNeutralBackground1": "#292929",
+    "colorNeutralBackground2": "#1f1f1f",
+    "colorNeutralBackground3": "#141414",
+    "colorNeutralForeground1": "#ffffff",
+    "colorNeutralForeground2": "#d6d6d6",
+    "colorNeutralForeground3": "#adadad",
+    "colorNeutralForeground4": "#999999",
+    "colorNeutralForegroundDisabled": "#5c5c5c",
+    "colorNeutralStroke1": "#666666",
+    "colorNeutralStroke2": "#525252",
+    "colorNeutralStrokeAccessible": "#adadad",
+    "colorBrandBackground2": "#082338",
+    "colorBrandForeground2": "#62abf5",
+    "colorBrandStroke1": "#479ef5",
+    "colorBrandStroke2": "#0e4775",
+    "colorBrandForegroundLink": "#479ef5",
+    "colorPaletteGreenBackground1": "#052505",
+    "colorPaletteGreenBorder1": "#107c10",
+    "colorPaletteGreenBorder2": "#9fd89f",
+    "colorPaletteGreenForeground1": "#54b054",
+    "colorPaletteYellowBackground1": "#4c4400",
+    "colorPaletteYellowBorder1": "#fde300",
+    "colorPaletteYellowBorder2": "#fdea3d",
+    "colorPaletteYellowForeground1": "#feee66",
+    "colorPaletteDarkOrangeForeground1": "#e9835e",
+    "colorStrokeFocus2": "#ffffff"
+  },
+  "rows": [
+    {
+      "element": "选项·未选中（描边 vs 页面底）",
+      "fg": "#adadad (rgb(173, 173, 173))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 6.48,
+      "note": "dark"
+    },
+    {
+      "element": "选项·未选中（文字）",
+      "fg": "#adadad (rgb(173, 173, 173))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 6.48,
+      "note": "dark"
+    },
+    {
+      "element": "选项·已选中（描边 vs 页面底）",
+      "fg": "#62abf5 (rgb(98, 171, 245))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 6,
+      "note": "dark"
+    },
+    {
+      "element": "选项·已选中（内点 vs 页面底）",
+      "fg": "#62abf5 (rgb(98, 171, 245))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 6,
+      "note": "dark"
+    },
+    {
+      "element": "选项·已选中（文字）",
+      "fg": "#ffffff (rgb(255, 255, 255))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 14.55,
+      "note": "dark"
+    },
+    {
+      "element": "焦点环 vs 页面底",
+      "fg": "#eeeeee (rgb(238, 238, 238))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 12.54,
+      "note": "dark; colorScheme=dark"
+    },
+    {
+      "element": "反馈条·答对（文字 on 绿底）",
+      "fg": "#ffffff (#ffffff)",
+      "bg": "#052505 (#052505)",
+      "ratio": 16.49,
+      "note": "dark token"
+    },
+    {
+      "element": "反馈条·答错（文字 on 黄底）",
+      "fg": "#ffffff (#ffffff)",
+      "bg": "#4c4400 (#4c4400)",
+      "ratio": 9.84,
+      "note": "dark token"
+    },
+    {
+      "element": "反馈条·答对（绿边 vs 页底）",
+      "fg": "#107c10 (#107c10)",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 2.71,
+      "note": "dark token"
+    },
+    {
+      "element": "反馈条·答对（绿边2 vs 页底）",
+      "fg": "#9fd89f (#9fd89f)",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 8.87,
+      "note": "dark token · 候选替换"
+    },
+    {
+      "element": "反馈条·答错（黄边 vs 页底）",
+      "fg": "#fde300 (#fde300)",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 11.2,
+      "note": "dark token"
+    },
+    {
+      "element": "反馈条·答错（黄边2 vs 页底）",
+      "fg": "#fdea3d (#fdea3d)",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 11.79,
+      "note": "dark token · 候选替换"
+    },
+    {
+      "element": "反馈条·待提交（文字 on 中性底）",
+      "fg": "#d6d6d6 (#d6d6d6)",
+      "bg": "#141414 (#141414)",
+      "ratio": 12.68,
+      "note": "dark token"
+    },
+    {
+      "element": "StepRail·current（文字 vs chip 底）",
+      "fg": "#62abf5 (rgb(98, 171, 245))",
+      "bg": "#082338 (rgb(8, 35, 56))",
+      "ratio": 6.62,
+      "note": "dark; chip=1判定"
+    },
+    {
+      "element": "StepRail·current（chip 边 vs 页面底）",
+      "fg": "#479ef5 (rgb(71, 158, 245))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 5.18,
+      "note": "dark"
+    },
+    {
+      "element": "StepRail·upcoming（文字 vs chip 底）",
+      "fg": "#999999 (rgb(153, 153, 153))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 5.11,
+      "note": "dark; chip=2小结"
+    },
+    {
+      "element": "StepRail·upcoming（chip 边 vs 页面底）",
+      "fg": "#525252 (rgb(82, 82, 82))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 1.86,
+      "note": "dark"
+    },
+    {
+      "element": "证据卡·正文",
+      "fg": "#ffffff (rgb(255, 255, 255))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 14.55,
+      "note": "dark"
+    },
+    {
+      "element": "证据卡·statLabel",
+      "fg": "#adadad (rgb(173, 173, 173))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 6.48,
+      "note": "dark"
+    },
+    {
+      "element": "小结徽章·直达路径",
+      "fg": "#ffffff (rgb(255, 255, 255))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 14.55,
+      "note": "dark"
+    },
+    {
+      "element": "掌握度·标签",
+      "fg": "#adadad (rgb(173, 173, 173))",
+      "bg": "#292929 (rgb(41, 41, 41))",
+      "ratio": 6.48,
+      "note": "dark"
+    },
+    {
+      "element": "出口门控·徽章",
+      "fg": "#479ef5 (rgb(71, 158, 245))",
+      "bg": "#1f1f1f (rgb(31, 31, 31))",
+      "ratio": 5.87,
+      "note": "dark"
+    }
+  ],
+  "brightBlocks": [],
+  "stepRail": [
+    {
+      "status": "current",
+      "text": "1判定",
+      "color": "rgb(98, 171, 245)",
+      "chipBg": "rgb(8, 35, 56)",
+      "chipBorder": "rgb(71, 158, 245)"
+    },
+    {
+      "status": "upcoming",
+      "text": "2小结",
+      "color": "rgb(153, 153, 153)",
+      "chipBg": "rgb(41, 41, 41)",
+      "chipBorder": "rgb(82, 82, 82)"
+    }
+  ],
+  "inlineMath": [],
+  "focusRing": {
+    "matchesFocusVisible": true,
+    "inputOutline": "rgb(238, 238, 238) auto 1px",
+    "inputOutlineColor": "rgb(238, 238, 238)",
+    "inputOutlineWidth": "1px",
+    "colorScheme": "dark"
+  }
+}

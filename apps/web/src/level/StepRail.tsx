@@ -26,7 +26,19 @@ const useStyles = makeStyles({
     gap: '6px',
     padding: '4px 10px',
     borderRadius: tokens.borderRadiusCircular,
-    border: `1px solid ${tokens.colorNeutralStroke2}`,
+    /**
+     * 描边用 `colorNeutralStrokeAccessible`（= `--sm-border-control`，
+     * 深 3.37 / 亮 4.50 对 `bg-elevated`），不用 `colorNeutralStroke2`
+     * （= `border-hairline`，深 1.09 / 亮 1.23 —— 深底上几乎不可见）。
+     * 这条边框是「这一段存在」的唯一形状证据：七段里有三态靠底色区分，
+     * 边框若消失，未开始与已完成在小屏上会糊成一片。
+     */
+    /**
+     * 用 `border` 简写：Griffel 的类型层禁止同一次 `makeStyles` 里混用简写与
+     * 长写（先例见 `apps/web/src/agent/EvidencePanel.tsx:54`）。所以下面
+     * `skipped` 也重写整条 `border`，而不是只改 `borderStyle`。
+     */
+    border: `1px solid ${tokens.colorNeutralStrokeAccessible}`,
     fontSize: tokens.fontSizeBase200,
     whiteSpace: 'nowrap',
   },
@@ -46,10 +58,21 @@ const useStyles = makeStyles({
     background: tokens.colorNeutralBackground1,
     color: tokens.colorNeutralForeground4,
   },
-  /** 跳过：划线灰底。刻意与 upcoming 区分——一个是「走过了」一个是「跳过了」。 */
+  /**
+   * 跳过：划线 + 虚线边。
+   *
+   * **不用 `colorNeutralForegroundDisabled`**：它映射到 `--sm-text-disabled`，
+   * 在亮主题的页面底上只有 2.77:1 —— 而跳过态的 chip 恰好画在页面底上，
+   * 等于把「你因为答对了所以跳过这两段」这句话写得读不清。
+   *
+   * 换成 `colorNeutralForeground3`（= `--sm-text-tertiary`，
+   * 深 5.30 / 亮 4.93 对 `bg-elevated`），并保留删除线 + 虚线边框：
+   * 「跳过了」这个语义由**形状**承载（线划掉 + 虚线），颜色只负责「次要」。
+   */
   skipped: {
     background: tokens.colorNeutralBackground1,
-    color: tokens.colorNeutralForegroundDisabled,
+    color: tokens.colorNeutralForeground3,
+    border: `1px dashed ${tokens.colorNeutralStrokeAccessible}`,
     textDecoration: 'line-through',
   },
   index: {

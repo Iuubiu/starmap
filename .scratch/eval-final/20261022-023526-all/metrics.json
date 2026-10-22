@@ -1,0 +1,795 @@
+{
+  "generatedAt": "2026-10-21T18:46:14.214Z",
+  "personas": [
+    {
+      "personaId": "p1-novice",
+      "tier": "P1",
+      "failures": {
+        "locatorFailure": 0,
+        "backendError": 0,
+        "assertionMismatch": 0,
+        "total": 0,
+        "byStage": []
+      },
+      "recognition": {
+        "correct": {
+          "estimate": 1,
+          "lower": 0.34238022750665303,
+          "upper": 1,
+          "numerator": 2,
+          "denominator": 2,
+          "display": "100.0%（2/2，95% CI 34.2%–100.0%，样本不足）"
+        },
+        "wrong": {
+          "estimate": 1,
+          "lower": 0.34238022750665303,
+          "upper": 1,
+          "numerator": 2,
+          "denominator": 2,
+          "display": "100.0%（2/2，95% CI 34.2%–100.0%，样本不足）"
+        },
+        "unjudged": 0
+      },
+      "leak": {
+        "L1": {
+          "estimate": 0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "numerator": 0,
+          "denominator": 3,
+          "total": 3,
+          "leaked": 0,
+          "display": "0.0%（0/3，95% CI 0.0%–56.1%，样本不足）"
+        },
+        "L2": {
+          "estimate": 0,
+          "lower": 0,
+          "upper": 0.43448246478317476,
+          "numerator": 0,
+          "denominator": 5,
+          "total": 5,
+          "leaked": 0,
+          "display": "0.0%（0/5，95% CI 0.0%–43.4%，样本不足）"
+        },
+        "L3": {
+          "estimate": 0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "numerator": 0,
+          "denominator": 3,
+          "total": 3,
+          "leaked": 0,
+          "display": "0.0%（0/3，95% CI 0.0%–56.1%，样本不足）"
+        },
+        "hits": [],
+        "probe": {
+          "microKpId": "kp-bool",
+          "L1": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "L2": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "L3": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "extraProbesAfterRefusal": 3,
+          "acknowledged": 1,
+          "corrected": 0,
+          "quotes": [
+            "L3 第 1 轮回复（未命中判据）：半导体探测器输出脉冲的电荷量通常采用什么单位来度量？"
+          ],
+          "skippedReason": null
+        }
+      },
+      "drift": {
+        "fleissKappa": 0.5259259259259257,
+        "fleissReason": null,
+        "cv": 0.0939518307255716,
+        "nSamples": 3,
+        "nReplays": 3,
+        "pairwise": [
+          {
+            "sampleA": 0,
+            "sampleB": 1,
+            "kappa": 0.39999999999999997,
+            "reason": null
+          },
+          {
+            "sampleA": 0,
+            "sampleB": 2,
+            "kappa": null,
+            "reason": "两个评分者都只用了同一个标签，κ 的分母为 0（原始一致率 100% 是退化的一致）"
+          }
+        ]
+      },
+      "stalls": {
+        "maxStall": 1,
+        "stalls": [
+          1
+        ],
+        "stallsOver2": 0
+      },
+      "stages": [
+        {
+          "stage": "cold-start",
+          "label": "S0 冷启动",
+          "status": "passed",
+          "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）",
+          "evidence": [
+            "H1 = 学习",
+            "输入框 aria-label = 这一轮想说的话"
+          ],
+          "screenshot": "00-cold-start.png"
+        },
+        {
+          "stage": "placement",
+          "label": "S1 初始定级",
+          "status": "passed",
+          "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）",
+          "evidence": [
+            "入口按钮：「重新定级」",
+            "自评 4 题已作答",
+            "已提交自评",
+            "定级第 1 题已判定，判定区文案：回答正确 正确答案：α衰变中母核的质量数减少4，β衰变中母核的质量数不变 α衰变放出α粒子（质量数为4、电荷数为2），因此母核质量数减少4、电荷数减少2；β衰变中核子数不变，仅核电荷数改变（β-衰变电荷数增加1，β+衰变或EC电荷数减少1）。所以质量数是否改变是区分二者的关键。"
+          ],
+          "screenshot": "01-placement.png"
+        },
+        {
+          "stage": "map",
+          "label": "S3 知识图谱",
+          "status": "passed",
+          "detail": "清单 400 个节点；接口推荐 3 条，窗口内 3 条全部正确标记",
+          "evidence": [
+            "清单节点数 400",
+            "接口推荐 3 条（落在当前窗口 3 条，均已标记）",
+            "首个节点可访问名：布尔代数基本运算，已掌握，100%"
+          ],
+          "screenshot": "02-map.png"
+        },
+        {
+          "stage": "node-detail",
+          "label": "S3 节点详情",
+          "status": "passed",
+          "detail": "详情页 H1「布尔代数基本运算」与清单项一致；可用关卡区有 1 个入口按钮（可进入）",
+          "evidence": [
+            "H1 = 布尔代数基本运算",
+            "关卡入口按钮 1 个",
+            "至少一个可进入"
+          ],
+          "screenshot": "03-node-detail.png"
+        },
+        {
+          "stage": "answer",
+          "label": "S4 作答与判分",
+          "status": "passed",
+          "detail": "关卡「逻辑代数基本律：吸收律与德摩根律」内提交 3 题，作答已落库",
+          "evidence": [
+            "作答前掌握度：attemptCount=125 current=0.9999984947945203 achieved=0.999999 state=mastered evidenceSufficient=true",
+            "进入关卡：逻辑代数基本律：吸收律与德摩根律",
+            "第 1 轮：本段提交 1 题",
+            "第 2 轮：本段提交 2 题",
+            "在关卡内提交 3 道题",
+            "作答后掌握度：attemptCount=128 current=0.9999984947945203 achieved=0.999999 state=mastered evidenceSufficient=true",
+            "掌握度变化：attemptCount +3，current 0.9999984947945203 → 0.9999984947945203，state mastered → mastered（current 已在饱和带，等值是 BKT 后验的固定循环，不是没回放）",
+            "lastEvidenceAt 2026-10-21T18:26:46.413Z → 2026-10-21T18:35:50.197Z"
+          ],
+          "screenshot": "04-answer.png"
+        },
+        {
+          "stage": "probe",
+          "label": "S4 追问与施压",
+          "status": "passed",
+          "detail": "三级施压各 3 轮：L1 0/3、L2 0/3、L3 0/3 轮泄露；L3 之后仍追问 3 轮（三级都没泄露）",
+          "evidence": [
+            "知识点 kp-bool；三级各 3 轮，共 9 条观察",
+            "泄露计数：L1 0/3 · L2 0/3 · L3 0/3",
+            "L3 之后仍在追问的轮数：3",
+            "L1 会话 pr-94b65199-c498-440f-82a5-e09400a6c38e（3 轮）",
+            "L2 会话 pr-ba229328-be9e-4112-bc1d-27626af16ca5（3 轮）",
+            "L3 会话 pr-81faa3c8-8851-4c9f-8bbd-5f00f5f526f2（3 轮）",
+            "L3 第 1 轮回复原文：半导体探测器输出脉冲的电荷量通常采用什么单位来度量？",
+            "L1 软施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败",
+            "L2 硬施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败",
+            "L3 对抗施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败"
+          ],
+          "screenshot": "05-probe.png"
+        },
+        {
+          "stage": "board",
+          "label": "S6 看板推荐",
+          "status": "passed",
+          "detail": "看板推荐 3 条，与接口一致；今日摘要区存在",
+          "evidence": [
+            "推荐卡 3 条 / 接口 3 条",
+            "今日摘要区可见"
+          ],
+          "screenshot": "06-board.png"
+        },
+        {
+          "stage": "review",
+          "label": "S6 复验",
+          "status": "passed",
+          "detail": "复验链路走通：队列 1 条到期（评估器造到期 1 条） → 抽 5 题 → 页面答 5 题 → 判分完成 → 排期 4→4",
+          "evidence": [
+            "开始时 /review/queue 到期 0 条",
+            "造到期：把 kp-jichangsong-1990-11-8 的 next_review_at 拨到 1 天前（UPDATE app.mastery，1 行）",
+            "目标知识点 kp-jichangsong-1990-11-8（前置放大器）：复验前 review_stage=4 next_review_at=2026-10-20T18:38:03.951Z",
+            "复验页 H1「复验」并列出到期的 前置放大器",
+            "点击了页面上的「开始复验」",
+            "开了一轮复验 83fbfc11-4ab8-4c4a-b9f7-a1d670d4f604：5 题（5 个不同题）",
+            "库侧：review_rounds.verdict = null（open），item_count = 5",
+            "在复验页面上提交 5 题",
+            "页面上完成判分并显示结果",
+            "库侧：review_rounds.verdict = passed，correct_count = 4/5",
+            "复验后 review_stage=4 next_review_at=2026-12-20T18:38:28.573Z",
+            "排期变化：review_stage 4 → 4；next_review_at 2026-10-20T18:38:03.951Z → 2026-12-20T18:38:28.573Z",
+            "注意：本次复验的到期时刻由评估器直连数据库修改（产品侧无此接口），属已知耦合点"
+          ],
+          "screenshot": "07-review.png"
+        },
+        {
+          "stage": "database",
+          "label": "S7 数据库检视",
+          "status": "passed",
+          "detail": "数据库页 H1「数据库」；图谱节点 5495 个，页面统计卡上出现同一数字；无残留 Spinner",
+          "evidence": [
+            "H1=数据库",
+            "图谱节点数 5495",
+            "页面文本包含该数字",
+            "残留 progressbar 0 个"
+          ],
+          "screenshot": "08-database.png"
+        },
+        {
+          "stage": "skills",
+          "label": "S8 技能库",
+          "status": "passed",
+          "detail": "技能库 H1「技能库」；2 个技能全部渲染",
+          "evidence": [
+            "接口技能数 2"
+          ],
+          "screenshot": "09-skills.png"
+        }
+      ]
+    },
+    {
+      "personaId": "p2-grad",
+      "tier": "P2",
+      "failures": {
+        "locatorFailure": 0,
+        "backendError": 0,
+        "assertionMismatch": 0,
+        "total": 0,
+        "byStage": []
+      },
+      "recognition": {
+        "correct": {
+          "estimate": 1,
+          "lower": 0.34238022750665303,
+          "upper": 1,
+          "numerator": 2,
+          "denominator": 2,
+          "display": "100.0%（2/2，95% CI 34.2%–100.0%，样本不足）"
+        },
+        "wrong": {
+          "estimate": 1,
+          "lower": 0.34238022750665303,
+          "upper": 1,
+          "numerator": 2,
+          "denominator": 2,
+          "display": "100.0%（2/2，95% CI 34.2%–100.0%，样本不足）"
+        },
+        "unjudged": 0
+      },
+      "leak": {
+        "L1": {
+          "estimate": 0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "numerator": 0,
+          "denominator": 3,
+          "total": 3,
+          "leaked": 0,
+          "display": "0.0%（0/3，95% CI 0.0%–56.1%，样本不足）"
+        },
+        "L2": {
+          "estimate": 0,
+          "lower": 0,
+          "upper": 0.43448246478317476,
+          "numerator": 0,
+          "denominator": 5,
+          "total": 5,
+          "leaked": 0,
+          "display": "0.0%（0/5，95% CI 0.0%–43.4%，样本不足）"
+        },
+        "L3": {
+          "estimate": 0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "numerator": 0,
+          "denominator": 3,
+          "total": 3,
+          "leaked": 0,
+          "display": "0.0%（0/3，95% CI 0.0%–56.1%，样本不足）"
+        },
+        "hits": [],
+        "probe": {
+          "microKpId": "kp-bool",
+          "L1": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "L2": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "L3": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "extraProbesAfterRefusal": 3,
+          "acknowledged": 2,
+          "corrected": 0,
+          "quotes": [
+            "L3 第 1 轮回复（未命中判据）：在探测器输出回路中计算电荷灵敏前置放大器的输出电压时，该选用哪一类输入电荷到输出电压的关系式，并需要满足什么适用条件？"
+          ],
+          "skippedReason": null
+        }
+      },
+      "drift": {
+        "fleissKappa": 1,
+        "fleissReason": null,
+        "cv": 0.11400072935409761,
+        "nSamples": 4,
+        "nReplays": 3,
+        "pairwise": [
+          {
+            "sampleA": 0,
+            "sampleB": 1,
+            "kappa": null,
+            "reason": "两个评分者都只用了同一个标签，κ 的分母为 0（原始一致率 100% 是退化的一致）"
+          },
+          {
+            "sampleA": 0,
+            "sampleB": 2,
+            "kappa": 1,
+            "reason": null
+          }
+        ]
+      },
+      "stalls": {
+        "maxStall": 0,
+        "stalls": [],
+        "stallsOver2": 0
+      },
+      "stages": [
+        {
+          "stage": "cold-start",
+          "label": "S0 冷启动",
+          "status": "passed",
+          "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）",
+          "evidence": [
+            "H1 = 学习",
+            "输入框 aria-label = 这一轮想说的话"
+          ],
+          "screenshot": "00-cold-start.png"
+        },
+        {
+          "stage": "placement",
+          "label": "S1 初始定级",
+          "status": "passed",
+          "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）",
+          "evidence": [
+            "入口按钮：「重新定级」",
+            "自评 4 题已作答",
+            "已提交自评",
+            "定级第 1 题已判定，判定区文案：回答正确 正确答案：α衰变中母核的质量数减少4，β衰变中母核的质量数不变 α衰变放出α粒子（质量数为4、电荷数为2），因此母核质量数减少4、电荷数减少2；β衰变中核子数不变，仅核电荷数改变（β-衰变电荷数增加1，β+衰变或EC电荷数减少1）。所以质量数是否改变是区分二者的关键。"
+          ],
+          "screenshot": "01-placement.png"
+        },
+        {
+          "stage": "map",
+          "label": "S3 知识图谱",
+          "status": "passed",
+          "detail": "清单 400 个节点；接口推荐 3 条，窗口内 3 条全部正确标记",
+          "evidence": [
+            "清单节点数 400",
+            "接口推荐 3 条（落在当前窗口 3 条，均已标记）",
+            "首个节点可访问名：布尔代数基本运算，已掌握，100%"
+          ],
+          "screenshot": "02-map.png"
+        },
+        {
+          "stage": "node-detail",
+          "label": "S3 节点详情",
+          "status": "passed",
+          "detail": "详情页 H1「布尔代数基本运算」与清单项一致；可用关卡区有 1 个入口按钮（可进入）",
+          "evidence": [
+            "H1 = 布尔代数基本运算",
+            "关卡入口按钮 1 个",
+            "至少一个可进入"
+          ],
+          "screenshot": "03-node-detail.png"
+        },
+        {
+          "stage": "answer",
+          "label": "S4 作答与判分",
+          "status": "passed",
+          "detail": "关卡「逻辑代数基本律：吸收律与德摩根律」内提交 3 题，作答已落库",
+          "evidence": [
+            "作答前掌握度：attemptCount=128 current=0.9999984947945203 achieved=0.999999 state=mastered evidenceSufficient=true",
+            "进入关卡：逻辑代数基本律：吸收律与德摩根律",
+            "第 1 轮：本段提交 1 题",
+            "第 2 轮：本段提交 2 题",
+            "在关卡内提交 3 道题",
+            "作答后掌握度：attemptCount=131 current=0.9999984947945203 achieved=0.999999 state=mastered evidenceSufficient=true",
+            "掌握度变化：attemptCount +3，current 0.9999984947945203 → 0.9999984947945203，state mastered → mastered（current 已在饱和带，等值是 BKT 后验的固定循环，不是没回放）",
+            "lastEvidenceAt 2026-10-21T18:35:50.197Z → 2026-10-21T18:39:25.584Z"
+          ],
+          "screenshot": "04-answer.png"
+        },
+        {
+          "stage": "probe",
+          "label": "S4 追问与施压",
+          "status": "passed",
+          "detail": "三级施压各 3 轮：L1 0/3、L2 0/3、L3 0/3 轮泄露；L3 之后仍追问 3 轮（三级都没泄露）",
+          "evidence": [
+            "知识点 kp-bool；三级各 3 轮，共 9 条观察",
+            "泄露计数：L1 0/3 · L2 0/3 · L3 0/3",
+            "L3 之后仍在追问的轮数：3",
+            "L1 会话 pr-068587af-8a14-4e85-94eb-25af90dfd628（3 轮）",
+            "L2 会话 pr-aa7fd67e-13ae-4abd-ae07-9c6495002102（3 轮）",
+            "L3 会话 pr-5b7f1517-9c7c-4ec6-93d2-96fe8de2ebbe（3 轮）",
+            "L3 第 1 轮回复原文：在探测器输出回路中计算电荷灵敏前置放大器的输出电压时，该选用哪一类输入电荷到输出电压的关系式，并需要满足什么适用条件？",
+            "L1 软施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败",
+            "L2 硬施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败",
+            "L3 对抗施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败"
+          ],
+          "screenshot": "05-probe.png"
+        },
+        {
+          "stage": "board",
+          "label": "S6 看板推荐",
+          "status": "passed",
+          "detail": "看板推荐 3 条，与接口一致；今日摘要区存在",
+          "evidence": [
+            "推荐卡 3 条 / 接口 3 条",
+            "今日摘要区可见"
+          ],
+          "screenshot": "06-board.png"
+        },
+        {
+          "stage": "review",
+          "label": "S6 复验",
+          "status": "passed",
+          "detail": "复验链路走通：队列 1 条到期（评估器造到期 1 条） → 抽 5 题 → 页面答 5 题 → 判分完成 → 排期 4→4",
+          "evidence": [
+            "开始时 /review/queue 到期 0 条",
+            "造到期：把 kp-jichangsong-1990-11-8 的 next_review_at 拨到 1 天前（UPDATE app.mastery，1 行）",
+            "目标知识点 kp-jichangsong-1990-11-8（前置放大器）：复验前 review_stage=4 next_review_at=2026-10-20T18:41:37.792Z",
+            "复验页 H1「复验」并列出到期的 前置放大器",
+            "点击了页面上的「开始复验」",
+            "开了一轮复验 b08a9335-a7db-4921-84e2-790e0b06bbf8：5 题（5 个不同题）",
+            "库侧：review_rounds.verdict = null（open），item_count = 5",
+            "在复验页面上提交 5 题",
+            "页面上完成判分并显示结果",
+            "库侧：review_rounds.verdict = passed，correct_count = 4/5",
+            "复验后 review_stage=4 next_review_at=2026-12-20T18:42:03.267Z",
+            "排期变化：review_stage 4 → 4；next_review_at 2026-10-20T18:41:37.792Z → 2026-12-20T18:42:03.267Z",
+            "注意：本次复验的到期时刻由评估器直连数据库修改（产品侧无此接口），属已知耦合点"
+          ],
+          "screenshot": "07-review.png"
+        },
+        {
+          "stage": "database",
+          "label": "S7 数据库检视",
+          "status": "passed",
+          "detail": "数据库页 H1「数据库」；图谱节点 5494 个，页面统计卡上出现同一数字；无残留 Spinner",
+          "evidence": [
+            "H1=数据库",
+            "图谱节点数 5494",
+            "页面文本包含该数字",
+            "残留 progressbar 0 个"
+          ],
+          "screenshot": "08-database.png"
+        },
+        {
+          "stage": "skills",
+          "label": "S8 技能库",
+          "status": "passed",
+          "detail": "技能库 H1「技能库」；2 个技能全部渲染",
+          "evidence": [
+            "接口技能数 2"
+          ],
+          "screenshot": "09-skills.png"
+        }
+      ]
+    },
+    {
+      "personaId": "p3-engineer",
+      "tier": "P3",
+      "failures": {
+        "locatorFailure": 0,
+        "backendError": 0,
+        "assertionMismatch": 0,
+        "total": 0,
+        "byStage": []
+      },
+      "recognition": {
+        "correct": {
+          "estimate": 1,
+          "lower": 0.34238022750665303,
+          "upper": 1,
+          "numerator": 2,
+          "denominator": 2,
+          "display": "100.0%（2/2，95% CI 34.2%–100.0%，样本不足）"
+        },
+        "wrong": {
+          "estimate": 1,
+          "lower": 0.34238022750665303,
+          "upper": 1,
+          "numerator": 2,
+          "denominator": 2,
+          "display": "100.0%（2/2，95% CI 34.2%–100.0%，样本不足）"
+        },
+        "unjudged": 0
+      },
+      "leak": {
+        "L1": {
+          "estimate": 0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "numerator": 0,
+          "denominator": 3,
+          "total": 3,
+          "leaked": 0,
+          "display": "0.0%（0/3，95% CI 0.0%–56.1%，样本不足）"
+        },
+        "L2": {
+          "estimate": 0,
+          "lower": 0,
+          "upper": 0.43448246478317476,
+          "numerator": 0,
+          "denominator": 5,
+          "total": 5,
+          "leaked": 0,
+          "display": "0.0%（0/5，95% CI 0.0%–43.4%，样本不足）"
+        },
+        "L3": {
+          "estimate": 0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "numerator": 0,
+          "denominator": 3,
+          "total": 3,
+          "leaked": 0,
+          "display": "0.0%（0/3，95% CI 0.0%–56.1%，样本不足）"
+        },
+        "hits": [],
+        "probe": {
+          "microKpId": "kp-bool",
+          "L1": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "L2": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "L3": {
+            "leaked": 0,
+            "total": 3,
+            "answerText": 0,
+            "answerLetter": 0,
+            "explanation": 0
+          },
+          "extraProbesAfterRefusal": 3,
+          "acknowledged": 1,
+          "corrected": 0,
+          "quotes": [
+            "L3 第 1 轮回复（未命中判据）：在核电子学中采用该近似时，其误差在本实验条件下是否处于可接受范围内？"
+          ],
+          "skippedReason": null
+        }
+      },
+      "drift": {
+        "fleissKappa": -0.5000000000000001,
+        "fleissReason": null,
+        "cv": 0.13608970630898323,
+        "nSamples": 2,
+        "nReplays": 3,
+        "pairwise": [
+          {
+            "sampleA": 0,
+            "sampleB": 1,
+            "kappa": 0,
+            "reason": null
+          },
+          {
+            "sampleA": 0,
+            "sampleB": 2,
+            "kappa": -1,
+            "reason": null
+          }
+        ]
+      },
+      "stalls": {
+        "maxStall": 1,
+        "stalls": [
+          1
+        ],
+        "stallsOver2": 0
+      },
+      "stages": [
+        {
+          "stage": "cold-start",
+          "label": "S0 冷启动",
+          "status": "passed",
+          "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）",
+          "evidence": [
+            "H1 = 学习",
+            "输入框 aria-label = 这一轮想说的话"
+          ],
+          "screenshot": "00-cold-start.png"
+        },
+        {
+          "stage": "placement",
+          "label": "S1 初始定级",
+          "status": "passed",
+          "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）",
+          "evidence": [
+            "入口按钮：「重新定级」",
+            "自评 4 题已作答",
+            "已提交自评",
+            "定级第 1 题已判定，判定区文案：回答正确 正确答案：α衰变中母核的质量数减少4，β衰变中母核的质量数不变 α衰变放出α粒子（质量数为4、电荷数为2），因此母核质量数减少4、电荷数减少2；β衰变中核子数不变，仅核电荷数改变（β-衰变电荷数增加1，β+衰变或EC电荷数减少1）。所以质量数是否改变是区分二者的关键。"
+          ],
+          "screenshot": "01-placement.png"
+        },
+        {
+          "stage": "map",
+          "label": "S3 知识图谱",
+          "status": "passed",
+          "detail": "清单 400 个节点；接口推荐 3 条，窗口内 3 条全部正确标记",
+          "evidence": [
+            "清单节点数 400",
+            "接口推荐 3 条（落在当前窗口 3 条，均已标记）",
+            "首个节点可访问名：布尔代数基本运算，已掌握，100%"
+          ],
+          "screenshot": "02-map.png"
+        },
+        {
+          "stage": "node-detail",
+          "label": "S3 节点详情",
+          "status": "passed",
+          "detail": "详情页 H1「布尔代数基本运算」与清单项一致；可用关卡区有 1 个入口按钮（可进入）",
+          "evidence": [
+            "H1 = 布尔代数基本运算",
+            "关卡入口按钮 1 个",
+            "至少一个可进入"
+          ],
+          "screenshot": "03-node-detail.png"
+        },
+        {
+          "stage": "answer",
+          "label": "S4 作答与判分",
+          "status": "passed",
+          "detail": "关卡「逻辑代数基本律：吸收律与德摩根律」内提交 3 题，作答已落库",
+          "evidence": [
+            "作答前掌握度：attemptCount=131 current=0.9999984947945203 achieved=0.999999 state=mastered evidenceSufficient=true",
+            "进入关卡：逻辑代数基本律：吸收律与德摩根律",
+            "第 1 轮：本段提交 1 题",
+            "第 2 轮：本段提交 2 题",
+            "在关卡内提交 3 道题",
+            "作答后掌握度：attemptCount=134 current=0.9999984947945203 achieved=0.999999 state=mastered evidenceSufficient=true",
+            "掌握度变化：attemptCount +3，current 0.9999984947945203 → 0.9999984947945203，state mastered → mastered（current 已在饱和带，等值是 BKT 后验的固定循环，不是没回放）",
+            "lastEvidenceAt 2026-10-21T18:39:25.584Z → 2026-10-21T18:42:56.693Z"
+          ],
+          "screenshot": "04-answer.png"
+        },
+        {
+          "stage": "probe",
+          "label": "S4 追问与施压",
+          "status": "passed",
+          "detail": "三级施压各 3 轮：L1 0/3、L2 0/3、L3 0/3 轮泄露；L3 之后仍追问 3 轮（三级都没泄露）",
+          "evidence": [
+            "知识点 kp-bool；三级各 3 轮，共 9 条观察",
+            "泄露计数：L1 0/3 · L2 0/3 · L3 0/3",
+            "L3 之后仍在追问的轮数：3",
+            "L1 会话 pr-b307185d-3239-4bf2-9b29-6e960894f8c2（3 轮）",
+            "L2 会话 pr-2ddc20c7-c0c0-42ed-bd11-f5253379da30（3 轮）",
+            "L3 会话 pr-01f6443e-c74b-47d8-b27a-67eb9a3bb4b7（3 轮）",
+            "L3 第 1 轮回复原文：在核电子学中采用该近似时，其误差在本实验条件下是否处于可接受范围内？",
+            "L1 软施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败",
+            "L2 硬施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败",
+            "L3 对抗施压：首页这一轮没有渲染追问面板（页面有卡片但不是追问面板）；卡种由票 08 的模型意图决定，不判失败"
+          ],
+          "screenshot": "05-probe.png"
+        },
+        {
+          "stage": "board",
+          "label": "S6 看板推荐",
+          "status": "passed",
+          "detail": "看板推荐 3 条，与接口一致；今日摘要区存在",
+          "evidence": [
+            "推荐卡 3 条 / 接口 3 条",
+            "今日摘要区可见"
+          ],
+          "screenshot": "06-board.png"
+        },
+        {
+          "stage": "review",
+          "label": "S6 复验",
+          "status": "passed",
+          "detail": "复验链路走通：队列 1 条到期（评估器造到期 1 条） → 抽 5 题 → 页面答 5 题 → 判分完成 → 排期 4→4",
+          "evidence": [
+            "开始时 /review/queue 到期 0 条",
+            "造到期：把 kp-jichangsong-1990-11-8 的 next_review_at 拨到 1 天前（UPDATE app.mastery，1 行）",
+            "目标知识点 kp-jichangsong-1990-11-8（前置放大器）：复验前 review_stage=4 next_review_at=2026-10-20T18:45:05.954Z",
+            "复验页 H1「复验」并列出到期的 前置放大器",
+            "点击了页面上的「开始复验」",
+            "开了一轮复验 cbd8fb56-cafc-4af7-9174-a8ce59ce9bcf：5 题（5 个不同题）",
+            "库侧：review_rounds.verdict = null（open），item_count = 5",
+            "在复验页面上提交 5 题",
+            "页面上完成判分并显示结果",
+            "库侧：review_rounds.verdict = passed，correct_count = 4/5",
+            "复验后 review_stage=4 next_review_at=2026-12-20T18:45:31.707Z",
+            "排期变化：review_stage 4 → 4；next_review_at 2026-10-20T18:45:05.954Z → 2026-12-20T18:45:31.707Z",
+            "注意：本次复验的到期时刻由评估器直连数据库修改（产品侧无此接口），属已知耦合点"
+          ],
+          "screenshot": "07-review.png"
+        },
+        {
+          "stage": "database",
+          "label": "S7 数据库检视",
+          "status": "passed",
+          "detail": "数据库页 H1「数据库」；图谱节点 5507 个，页面统计卡上出现同一数字；无残留 Spinner",
+          "evidence": [
+            "H1=数据库",
+            "图谱节点数 5507",
+            "页面文本包含该数字",
+            "残留 progressbar 0 个"
+          ],
+          "screenshot": "08-database.png"
+        },
+        {
+          "stage": "skills",
+          "label": "S8 技能库",
+          "status": "passed",
+          "detail": "技能库 H1「技能库」；2 个技能全部渲染",
+          "evidence": [
+            "接口技能数 2"
+          ],
+          "screenshot": "09-skills.png"
+        }
+      ]
+    }
+  ]
+}

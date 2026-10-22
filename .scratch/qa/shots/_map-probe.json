@@ -1,0 +1,38 @@
+[
+  {
+    "zoom": "1x",
+    "ratio": 1,
+    "nodeCount": 3085,
+    "labels": 6,
+    "nonBg": 59330,
+    "inkPx": 0,
+    "blobs": 0,
+    "largestShare": 0,
+    "nonBgShare": 0.3627858627858628,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\t44-1x.png"
+  },
+  {
+    "zoom": "0.2x",
+    "ratio": 20,
+    "nodeCount": 3085,
+    "labels": 0,
+    "nonBg": 7325,
+    "inkPx": 0,
+    "blobs": 0,
+    "largestShare": 0,
+    "nonBgShare": 0.04479026537850067,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\t44-0.2x.png"
+  },
+  {
+    "zoom": "3x",
+    "ratio": 0.039,
+    "nodeCount": 3085,
+    "labels": 45,
+    "nonBg": 34086,
+    "inkPx": 0,
+    "blobs": 0,
+    "largestShare": 0,
+    "nonBgShare": 0.2084260731319555,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\t44-3x.png"
+  }
+]

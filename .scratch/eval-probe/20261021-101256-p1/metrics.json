@@ -1,0 +1,206 @@
+{
+  "generatedAt": "2026-10-21T02:12:58.025Z",
+  "personas": [
+    {
+      "personaId": "p1-novice",
+      "tier": "P1",
+      "failures": {
+        "locatorFailure": 1,
+        "backendError": 0,
+        "assertionMismatch": 7,
+        "total": 8,
+        "byStage": [
+          {
+            "stage": "cold-start",
+            "label": "S0 冷启动",
+            "status": "assertion_mismatch",
+            "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+          },
+          {
+            "stage": "placement",
+            "label": "S1 初始定级",
+            "status": "assertion_mismatch",
+            "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+          },
+          {
+            "stage": "map",
+            "label": "S3 知识图谱",
+            "status": "assertion_mismatch",
+            "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+          },
+          {
+            "stage": "node-detail",
+            "label": "S3 节点详情",
+            "status": "locator_failure",
+            "detail": "清单里没有任何可点的节点"
+          },
+          {
+            "stage": "board",
+            "label": "S6 看板推荐",
+            "status": "assertion_mismatch",
+            "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+          },
+          {
+            "stage": "review",
+            "label": "S6 复验",
+            "status": "assertion_mismatch",
+            "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+          },
+          {
+            "stage": "database",
+            "label": "S7 数据库检视",
+            "status": "assertion_mismatch",
+            "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+          },
+          {
+            "stage": "skills",
+            "label": "S8 技能库",
+            "status": "assertion_mismatch",
+            "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+          }
+        ]
+      },
+      "recognition": {
+        "correct": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "wrong": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "unjudged": 0
+      },
+      "leak": {
+        "L1": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L2": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L3": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "hits": []
+      },
+      "drift": {
+        "fleissKappa": null,
+        "fleissReason": "没有任何一个样本收到 ≥2 个评分",
+        "cv": null,
+        "nSamples": 0,
+        "nReplays": 0,
+        "pairwise": []
+      },
+      "stalls": {
+        "maxStall": 0,
+        "stalls": [],
+        "stallsOver2": 0
+      },
+      "stages": [
+        {
+          "stage": "cold-start",
+          "label": "S0 冷启动",
+          "status": "assertion_mismatch",
+          "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）",
+          "evidence": [],
+          "screenshot": "00-cold-start.png"
+        },
+        {
+          "stage": "placement",
+          "label": "S1 初始定级",
+          "status": "assertion_mismatch",
+          "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）",
+          "evidence": [],
+          "screenshot": "01-placement.png"
+        },
+        {
+          "stage": "map",
+          "label": "S3 知识图谱",
+          "status": "assertion_mismatch",
+          "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）",
+          "evidence": [],
+          "screenshot": "02-map.png"
+        },
+        {
+          "stage": "node-detail",
+          "label": "S3 节点详情",
+          "status": "locator_failure",
+          "detail": "清单里没有任何可点的节点",
+          "evidence": [],
+          "screenshot": "03-node-detail.png"
+        },
+        {
+          "stage": "answer",
+          "label": "S4 作答与判分",
+          "status": "passed",
+          "detail": "本节点没有可进入的关卡（内容不足），本阶段未覆盖",
+          "evidence": [
+            "跳过原因：上一阶段未找到可进入的关卡"
+          ],
+          "screenshot": "04-answer.png"
+        },
+        {
+          "stage": "board",
+          "label": "S6 看板推荐",
+          "status": "assertion_mismatch",
+          "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）",
+          "evidence": [],
+          "screenshot": "05-board.png"
+        },
+        {
+          "stage": "review",
+          "label": "S6 复验",
+          "status": "assertion_mismatch",
+          "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）",
+          "evidence": [],
+          "screenshot": "06-review.png"
+        },
+        {
+          "stage": "database",
+          "label": "S7 数据库检视",
+          "status": "assertion_mismatch",
+          "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）",
+          "evidence": [],
+          "screenshot": "07-database.png"
+        },
+        {
+          "stage": "skills",
+          "label": "S8 技能库",
+          "status": "assertion_mismatch",
+          "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）",
+          "evidence": [],
+          "screenshot": "08-skills.png"
+        }
+      ]
+    }
+  ]
+}

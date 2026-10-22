@@ -1,0 +1,45 @@
+  正文 text-primary / surface                  light=18.15 ok   #12161C/#FFFFFF         dark=15.83 ok   #E9EEF5/#111419         need>=4.5
+  正文 text-primary / canvas                   light=16.48 ok   #12161C/#F2F4F8         dark=16.79 ok   #E9EEF5/#0A0C10         need>=4.5
+  次要 text-secondary / surface                light= 7.56 ok   #4B5563/#FFFFFF         dark= 8.22 ok   #A3AEBE/#111419         need>=4.5
+  三级 text-tertiary / surface                 light= 5.72 ok   #5F6773/#FFFFFF         dark= 6.30 ok   #8B98AA/#111419         need>=4.5
+  导航 未到 text-tertiary / canvas               light= 5.19 ok   #5F6773/#F2F4F8         dark= 6.68 ok   #8B98AA/#0A0C10         need>=4.5
+  导航 跳过 text-disabled / canvas               light= 3.72 ok   #767E8A/#F2F4F8         dark= 4.63 ok   #727C8A/#0A0C10         need>=3
+X 导航 当前 accent-fill / accent-soft            light= 4.63 ok   #6A55D8/#EFECFD         dark= 3.56 FAIL #6E5AF0/#1C1930         need>=4.5
+  导航 当前文字 text-primary / accent-soft         light=15.63 ok   #12161C/#EFECFD         dark=14.63 ok   #E9EEF5/#1C1930         need>=4.5
+  导航 chip 边 border-control / canvas          light= 3.35 ok   #7C8695/#F2F4F8         dark= 4.30 ok   #6B7787/#0A0C10         need>=3
+  选项 未选边 option-idle-border / surface        light= 3.68 ok   #7C8695/#FFFFFF         dark= 4.05 ok   #6B7787/#111419         need>=3
+  选项 未选边 option-idle-border / canvas         light= 3.35 ok   #7C8695/#F2F4F8         dark= 4.30 ok   #6B7787/#0A0C10         need>=3
+  选项 未选文字 text-secondary / surface           light= 7.56 ok   #4B5563/#FFFFFF         dark= 8.22 ok   #A3AEBE/#111419         need>=4.5
+  选项 选中边 option-selected-border / surface    light= 5.38 ok   #6A55D8/#FFFFFF         dark= 7.71 ok   #A79BFF/#111419         need>=3
+  选项 选中文字 text-primary / option-selected-bg  light=15.63 ok   #12161C/#EFECFD         dark=14.63 ok   #E9EEF5/#1C1930         need>=4.5
+  选项 hover 文字 text-primary / option-hover-bg light=16.19 ok   #12161C/#F0F2F6         dark=13.37 ok   #E9EEF5/#1F242C         need>=4.5
+  反馈 对 option-correct / surface              light= 5.38 ok   #0E7A4A/#FFFFFF         dark= 7.88 ok   #3FBF7F/#111419         need>=3
+  反馈 对 option-correct / success-soft         light= 4.78 ok   #0E7A4A/#E6F5EE         dark= 6.95 ok   #3FBF7F/#10241B         need>=3
+  反馈 对 文字 text-primary / success-soft        light=16.12 ok   #12161C/#E6F5EE         dark=13.96 ok   #E9EEF5/#10241B         need>=4.5
+  反馈 错 option-wrong / surface                light= 5.62 ok   #C62828/#FFFFFF         dark= 7.31 ok   #FF7A7A/#111419         need>=3
+  反馈 错 option-wrong / warning-soft           light= 4.99 ok   #C62828/#FBF0DF         dark= 6.45 ok   #FF7A7A/#2A1E0C         need>=3
+  反馈 错 文字 text-primary / warning-soft        light=16.10 ok   #12161C/#FBF0DF         dark=13.97 ok   #E9EEF5/#2A1E0C         need>=4.5
+  反馈 待提交 text-secondary / bg-hover           light= 6.74 ok   #4B5563/#F0F2F6         dark= 6.95 ok   #A3AEBE/#1F242C         need>=4.5
+  反馈 待提交边 border-control / bg-hover          light= 3.29 ok   #7C8695/#F0F2F6         dark= 3.43 ok   #6B7787/#1F242C         need>=3
+  证据卡 标题 text-primary / surface              light=18.15 ok   #12161C/#FFFFFF         dark=15.83 ok   #E9EEF5/#111419         need>=4.5
+  证据卡 数值 text-primary / surface              light=18.15 ok   #12161C/#FFFFFF         dark=15.83 ok   #E9EEF5/#111419         need>=4.5
+  证据卡 说明 text-tertiary / surface             light= 5.72 ok   #5F6773/#FFFFFF         dark= 6.30 ok   #8B98AA/#111419         need>=4.5
+  证据卡 说明 text-tertiary / bg-hover            light= 5.10 ok   #5F6773/#F0F2F6         dark= 5.32 ok   #8B98AA/#1F242C         need>=4.5
+X 证据卡 分隔 border-hairline / surface           light= 1.24 FAIL #E3E7EE/#FFFFFF         dark= 1.30 FAIL #242B36/#111419         need>=1.5
+X 徽章 accent-fill / accent-soft               light= 4.63 ok   #6A55D8/#EFECFD         dark= 3.56 FAIL #6E5AF0/#1C1930         need>=4.5
+  徽章 文字 on-accent / accent-fill              light= 5.38 ok   #FFFFFF/#6A55D8         dark= 4.79 ok   #FFFFFF/#6E5AF0         need>=4.5
+  门控 文字 text-primary / bg-elevated           light=18.15 ok   #12161C/#FFFFFF         dark=14.81 ok   #E9EEF5/#171B22         need>=4.5
+  门控 说明 text-tertiary / bg-elevated          light= 5.72 ok   #5F6773/#FFFFFF         dark= 5.89 ok   #8B98AA/#171B22         need>=4.5
+  门控 边 border-control / bg-elevated          light= 3.68 ok   #7C8695/#FFFFFF         dark= 3.79 ok   #6B7787/#171B22         need>=3
+  焦点环 border-focus / surface                 light= 5.38 ok   #6A55D8/#FFFFFF         dark= 7.71 ok   #A79BFF/#111419         need>=3
+  焦点环 border-focus / canvas                  light= 4.89 ok   #6A55D8/#F2F4F8         dark= 8.18 ok   #A79BFF/#0A0C10         need>=3
+  焦点环 border-focus / option-hover-bg         light= 4.80 ok   #6A55D8/#F0F2F6         dark= 6.52 ok   #A79BFF/#1F242C         need>=3
+  公式 text-primary / bg-surface               light=18.15 ok   #12161C/#FFFFFF         dark=15.83 ok   #E9EEF5/#111419         need>=4.5
+  公式 text-primary / bg-sunken                light=15.33 ok   #12161C/#E9ECF2         dark=17.18 ok   #E9EEF5/#07080B         need>=4.5
+  代码块 text-primary / bg-sunken               light=15.33 ok   #12161C/#E9ECF2         dark=17.18 ok   #E9EEF5/#07080B         need>=4.5
+  警示 danger-soft 底上的 text-primary            light=15.61 ok   #12161C/#FBEAEA         dark=14.80 ok   #E9EEF5/#2C1414         need>=4.5
+  输入框 bg-input / border-control              light= 3.68 ok   #7C8695/#FFFFFF         dark= 4.19 ok   #6B7787/#0D1015         need>=3
+  强调按钮 on-accent / accent-fill               light= 5.38 ok   #FFFFFF/#6A55D8         dark= 4.79 ok   #FFFFFF/#6E5AF0         need>=4.5
+  强调按钮 hover on-accent / accent-hover        light= 6.60 ok   #FFFFFF/#5B47C8         dark= 5.59 ok   #FFFFFF/#6350E0         need>=4.5
+
+TOTAL: 43 pairs x 2 themes, FAILURES: 3

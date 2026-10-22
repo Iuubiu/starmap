@@ -1,0 +1,84 @@
+########## analog-electronics-tongshibai-5e  nodes=376
+--- idx 370 id=kp-tongshibai-5e-p598-晶体三极管模型及其参数 name='、晶体三极管模型及其参数' num='' page=598 depth=2 leaf=True parent=kp-tongshibai-5e-11
+       num=''           p=596   '附录'
+       num=''           p=596   '半导体器件模型'
+       num=''           p=596   '二极管模型及其参数'
+   >>> num=''           p=598   '、晶体三极管模型及其参数'
+       num=''           p=602   '三、场效应管模型及其参数'
+       num=''           p=606   '四、集成运放模型及其参数'
+       num=''           p=609   '部分自测题和习题答案'
+########## nuclear-physics-experiment-methods-1997  nodes=331
+--- idx 26 id=kp-methods-1997-p28-带电粒子在靶物质中的慢化 name='、带电粒子在靶物质中的慢化' num='' page=28 depth=2 leaf=True parent=kp-methods-1997-2
+       num=''           p=28    '第一节带电粒子与靶物质原子的碰'
+   >>> num=''           p=28    '、带电粒子在靶物质中的慢化'
+       num=''           p=29    '二、带电粒子与靶物质原子的碰撞过程'
+       num=''           p=30    '第二节重带电粒子与物质的相互作用'
+       num=''           p=30    '、重带电粒子在物质中的能量损失'
+--- idx 29 id=kp-methods-1997-p30-重带电粒子在物质中的能量损失 name='、重带电粒子在物质中的能量损失' num='' page=30 depth=2 leaf=True parent=kp-methods-1997-2
+       num=''           p=28    '、带电粒子在靶物质中的慢化'
+       num=''           p=29    '二、带电粒子与靶物质原子的碰撞过程'
+       num=''           p=30    '第二节重带电粒子与物质的相互作用'
+   >>> num=''           p=30    '、重带电粒子在物质中的能量损失'
+       num=''           p=39    '二、重带电粒子在物质中的射程'
+       num=''           p=42    '第三节重离子与物质的相互作用'
+       num=''           p=42    '一、电荷交换'
+--- idx 33 id=kp-methods-1997-p44-重离子的电子阻止本领 name='、重离子的电子阻止本领' num='' page=44 depth=2 leaf=True parent=kp-methods-1997-2
+       num=''           p=39    '二、重带电粒子在物质中的射程'
+       num=''           p=42    '第三节重离子与物质的相互作用'
+       num=''           p=42    '一、电荷交换'
+   >>> num=''           p=44    '、重离子的电子阻止本领'
+       num=''           p=45    '三、重离子的核阻止本领'
+       num=''           p=47    '四、重离子的射程'
+       num=''           p=48    '第四节β射线与物质的相互作用'
+--- idx 16 id=kp-methods-1997-p20-倍增过程统计学 name='、倍增过程统计学' num='' page=20 depth=2 leaf=True parent=kp-methods-1997-1
+       num=''           p=16    '三、可疑测量值的舍弃'
+       num=''           p=18    '+第四节脉冲幅度分辨率'
+       num=''           p=18    '一、电离的统计涨落'
+   >>> num=''           p=20    '、倍增过程统计学'
+       num=''           p=22    '*第五节核辐射事件的时间分布'
+       num=''           p=22    '一、核辐射事件的时间间隔分布'
+       num=''           p=23    '二、包括多个脉冲的时间分布'
+--- idx 262 id=kp-methods-1997-p375-中子全截面测量 name='、中子全截面测量' num='' page=375 depth=2 leaf=True parent=kp-methods-1997-13
+       num=''           p=369   '二、微分截面和积分截面测量'
+       num=''           p=369   '二、制靶技术'
+       num=''           p=375   '第三节快中子反应截面测量'
+   >>> num=''           p=375   '、中子全截面测量'
+       num=''           p=379   '二、中子散射截面测量'
+       num=''           p=384   '三、中子俘获裁面测量'
+       num=''           p=386   '四、中子裂变截面测量'
+--- idx 235 id=kp-methods-1997-p325-概述 name='、概述' num='' page=325 depth=2 leaf=True parent=kp-methods-1997-11
+       num=''           p=316   '三、飞行时间法'
+       num=''           p=323   '四、晶体衍射法'
+       num=''           p=325   '第四节中子通量密度及中子源强度的测量'
+   >>> num=''           p=325   '、概述'
+       num=''           p=328   '二、氢反冲法测量快中子通量密度'
+       num=''           p=330   '三、中子活化法测量中子通量密度'
+       num=''           p=334   '四、锰浴法测量中子源强度'
+########## nuclear-radiation-physics-chenboxian-2011  nodes=114
+--- idx 96 id=kp-chenboxian-2011-13-4 name='。中子探测方法和常用探测器' num='13.4' page=444 depth=2 leaf=True parent=kp-chenboxian-2011-13
+       num='13.1'       p=430   '中子的分类和性质'
+       num='13.2'       p=431   '中子源'
+       num='13.3'       p=436   '中子与物质相互作用'
+   >>> num='13.4'       p=444   '。中子探测方法和常用探测器'
+       num='13.5'       p=452   '中子注量率和中子能谱的测量'
+       num=''           p=457   '思考题'
+       num=''           p=457   '习题'
+########## radiation-detector-handbook-jichangsong-1990  nodes=467
+--- idx 384 id=kp-jichangsong-1990-p472-光导纤维光导 name='，光导纤维光导' num='' page=472 depth=2 leaf=True parent=kp-jichangsong-1990-11
+       num=''           p=470   '弯光导'
+       num=''           p=470   '集光器'
+       num=''           p=471   '锥台形光导'
+   >>> num=''           p=472   '，光导纤维光导'
+       num=''           p=482   '11 B．光电倍增管'
+       num=''           p=484   '光电倍增管的选择'
+       num='11.2'       p=504   '气体电离探测器的实验技术'
+--- idx 76 id=kp-jichangsong-1990-4-2-1 name='：工作原理' num='4.2.1' page=194 depth=3 leaf=True parent=kp-jichangsong-1990-4-2
+   >>> num='4.2.1'      p=194   '：工作原理'
+       num='4.2.2'      p=194   '典型结构'
+       num='4.2.3'      p=195   '电离室的分类'
+       num='4.2.4'      p=197   '4.2.4 脉冲形状'
+########## radiation-detectors-dinghonglin-2010  nodes=111
+--- idx 2 id=kp-dinghonglin-2010-p1-作用与地位 name='作用与地位' num='' page=1 depth=2 leaf=True parent=kp-dinghonglin-2010-1
+       num='1.1'        p=1     '核探测技术在核科学研究、核试验测试、核技术应用中的'
+   >>> num=''           p=1     '作用与地位'
+       num='1.2'        p=3     '核辐射探测器的发展及其应用简介'

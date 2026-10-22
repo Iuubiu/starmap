@@ -16,8 +16,24 @@ import {
   tokens,
 } from '@fluentui/react-components';
 import { useNavigate } from 'react-router';
-import { useMarketLevels } from '../api/queries';
-import type { MarketLevelListResponseItemsItem } from '../api/generated/model';
+import {
+  useExportLevel,
+  useImportLevel,
+  useLevelTemplates,
+  useMarketLevels,
+  usePreviewLevelTemplate,
+  useSaveMarketLevel,
+} from '../api/queries';
+import type {
+  LevelExportFile,
+  LevelImportResponse,
+  LevelTemplatePreviewResponse,
+  MarketLevelListResponseItemsItem,
+} from '../api/generated/model';
+import { TemplatePanel, type TierChoice } from '../market/TemplatePanel';
+import { TransferPanel } from '../market/TransferPanel';
+import { downloadLevelFile } from '../market/download';
+import { describeApiError } from '../market/describe-error';
 
 const useStyles = makeStyles({
   page: {
@@ -101,11 +117,15 @@ function LevelCard({
   styles,
   onRestart,
   onEdit,
+  onExport,
+  exportPending,
 }: {
   level: MarketLevelListResponseItemsItem;
   styles: ReturnType<typeof useStyles>;
   onRestart: () => void;
   onEdit: () => void;
+  onExport: () => void;
+  exportPending: boolean;
 }) {
   const saved = level.origin === 'saved';
   return (
@@ -132,6 +152,14 @@ function LevelCard({
         action={
           <div className={styles.actions}>
             {saved && <Button appearance="secondary" onClick={onEdit}>继续编辑</Button>}
+            {/*
+              导出放在每一张卡上（而不是页面顶部一个「导出」按钮）：导出是
+              「对某一关的动作」，需要一个 levelId。放顶部就得先让用户选一关，
+              多一步且选错的可能性更大。
+            */}
+            <Button appearance="secondary" onClick={onExport} disabled={exportPending}>
+              导出
+            </Button>
             <Button appearance="primary" onClick={onRestart}>重新开始</Button>
           </div>
         }
@@ -179,6 +207,21 @@ export function MarketPage() {
   const [draftMicroKpId, setDraftMicroKpId] = useState('');
   const [authorError, setAuthorError] = useState<string | null>(null);
 
+  // 票 67：模板预览 / 保存 / 导出 / 导入
+  const templates = useLevelTemplates();
+  const previewMutation = usePreviewLevelTemplate();
+  const saveMutation = useSaveMarketLevel();
+  const exportMutation = useExportLevel();
+  const importMutation = useImportLevel();
+  const [templateMicroKpId, setTemplateMicroKpId] = useState('');
+  const [preview, setPreview] = useState<LevelTemplatePreviewResponse | undefined>(undefined);
+  const [saveResult, setSaveResult] = useState<{ levelId: string; created: boolean } | undefined>(
+    undefined,
+  );
+  const [exportingId, setExportingId] = useState<string | null>(null);
+  const [exportError, setExportError] = useState<unknown>(null);
+  const [importResult, setImportResult] = useState<LevelImportResponse | undefined>(undefined);
+
   const goAuthor = (microKpId: string) => {
     const id = microKpId.trim();
     if (!id) {
@@ -187,6 +230,55 @@ export function MarketPage() {
     }
     setAuthorError(null);
     navigate(`/market/author/${encodeURIComponent(id)}`);
+  };
+
+  const runPreview = (templateId: string, tier: TierChoice, microKpId: string) => {
+    // 换组合时必须清掉上一次的保存结果：否则「改档位 → 预览 → 看到『已保存』」
+    // 会让人以为新组合也保存过了。
+    setSaveResult(undefined);
+    setPreview(undefined);
+    previewMutation.mutate(
+      { templateId, request: { microKpId, tier } },
+      { onSuccess: (data) => setPreview(data) },
+    );
+  };
+
+  const runSave = (spec: unknown) => {
+    saveMutation.mutate(
+      { spec },
+      {
+        onSuccess: (data) => {
+          setSaveResult({ levelId: data.level.levelId, created: data.created });
+        },
+      },
+    );
+  };
+
+  const runExport = (levelId: string) => {
+    setExportError(null);
+    setExportingId(levelId);
+    exportMutation.mutate(levelId, {
+      onSuccess: (file) => {
+        // 只有拿到响应体才写文件：先造文件名再请求，失败时会留下一个空文件。
+        downloadLevelFile(file);
+        setExportingId(null);
+      },
+      onError: (error) => {
+        setExportError(error);
+        setExportingId(null);
+      },
+    });
+  };
+
+  const runImport = (file: LevelExportFile) => {
+    setImportResult(undefined);
+    importMutation.mutate(file, {
+      onSuccess: (data) => {
+        setImportResult(data);
+        // 导入成功后列表要能看到新条目：`useImportLevel` 已经作废了市场列表，
+        // 这里不需要再手动 refetch。
+      },
+    });
   };
 
   if (levels.isPending) {
@@ -255,6 +347,8 @@ export function MarketPage() {
                     `/market/author/${encodeURIComponent(level.microKpId)}?levelId=${encodeURIComponent(level.levelId)}`,
                   )
                 }
+                onExport={() => runExport(level.levelId)}
+                exportPending={exportingId === level.levelId}
               />
             ))}
           </div>
@@ -278,11 +372,43 @@ export function MarketPage() {
                 styles={styles}
                 onRestart={() => navigate(`/level/${encodeURIComponent(level.levelId)}`)}
                 onEdit={() => undefined}
+                onExport={() => runExport(level.levelId)}
+                exportPending={exportingId === level.levelId}
               />
             ))}
           </div>
         )}
+        {exportError !== null && exportError !== undefined && (
+          <MessageBar intent="error">
+            <MessageBarBody>导出失败：{describeApiError(exportError)}</MessageBarBody>
+          </MessageBar>
+        )}
       </div>
+
+      <Divider />
+
+      <TemplatePanel
+        templates={templates.payload?.templates ?? []}
+        templatesPending={templates.isPending}
+        templatesError={templates.error}
+        microKpId={templateMicroKpId}
+        onMicroKpIdChange={setTemplateMicroKpId}
+        preview={preview}
+        previewPending={previewMutation.isPending}
+        previewError={previewMutation.error}
+        onPreview={runPreview}
+        onSave={runSave}
+        savePending={saveMutation.isPending}
+        saveError={saveMutation.error}
+        saveResult={saveResult}
+      />
+
+      <TransferPanel
+        onImport={runImport}
+        importPending={importMutation.isPending}
+        importError={importMutation.error}
+        importResult={importResult}
+      />
 
       <Divider />
 

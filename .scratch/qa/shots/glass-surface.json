@@ -1,0 +1,8 @@
+{
+  "backdrop": "blur(34px) saturate(1.8)",
+  "fill": "rgba(20, 22, 28, 0.55)",
+  "shadow": "rgba(255, 255, 255, 0.18) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.55) 0px -20px 34px -26px inset, rgba(0, 0, 0, 0.86) 0px 28px 64px -34px",
+  "beforeImage": "linear-gradient(148deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.05) 34%, rgba(255, 255, 255, 0.02) 58%, rgba(255, 255, 255, 0.34) 88%)",
+  "beforeMask": "linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px), linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px)",
+  "borderWidth": "0px"
+}

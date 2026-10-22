@@ -31,6 +31,8 @@
  * | `agent.ts` | agent-dev | 智能体回合（空壳，待填） |
  * | `market.ts` | authoring-dev | 关卡市场（空壳，待填） |
  * | `placement.ts` | agent-dev | 初始定级（自适应选题、自评、复核） |
+ * | `profile.ts` | agent-dev | 学习者画像（票 78「初识」技能的输出） |
+ * | `mastery.ts` | agent-dev | 个人看板的三级进度（票 80） |
  */
 export * from './domains/common.js';
 export * from './domains/system.js';
@@ -42,3 +44,5 @@ export * from './domains/market.js';
 export * from './domains/placement.js';
 export * from './domains/tier.js';
 export * from './domains/video.js';
+export * from './domains/profile.js';
+export * from './domains/mastery.js';

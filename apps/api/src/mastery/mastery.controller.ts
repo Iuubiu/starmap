@@ -1,5 +1,5 @@
 import { Controller, Get, Inject, Param, UseFilters } from '@nestjs/common';
-import type { MasteryView } from '@starmap/api-contract';
+import type { MasteryView, ProgressBoard } from '@starmap/api-contract';
 import { DatabaseService } from '../db/database.service.js';
 import { ApiExceptionFilter } from '../common/api-exception.filter.js';
 import { MasteryService } from './mastery.service.js';
@@ -22,6 +22,19 @@ export class MasteryController {
 
   constructor(@Inject(DatabaseService) db: DatabaseService) {
     this.mastery = new MasteryService(db);
+  }
+
+  /**
+   * 个人看板（票 80）。
+   *
+   * **必须声明在 `mastery/:microKpId` 之前**：Nest 按声明顺序匹配路由，
+   * 先声明参数路由的话 `/mastery/board` 会被当成「查一个叫 board 的知识点」，
+   * 拿到 404 而不是看板。
+   */
+  @Get('mastery/board')
+  async board(): Promise<ProgressBoard> {
+    const evaluatedAt = await this.mastery.now();
+    return this.mastery.board(evaluatedAt);
   }
 
   @Get('mastery/:microKpId')

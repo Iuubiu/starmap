@@ -1,0 +1,271 @@
+distinct 215  total 217
+ok      	2	Microphonics	=> 颤噪	missing=[]
+FALLBACK	2	ADCs	=> 未收录术语（ADCs）	missing=[]
+ok      	1	1.3.C Composite radionuclides	=> 复合放射性核素	missing=['c']
+ok      	1	1.3.F Branching ratio	=> 分支比	missing=['f']
+ok      	1	H.1 Muons	=> μ子	missing=['h']
+ok      	1	2.1.A Inverse square law	=> 平方反比定律	missing=[]
+ok      	1	2.1.E Conservation laws	=> 守恒定律	missing=['e']
+ok      	1	E.2 Conservation of momentum	=> 动量的守恒	missing=['e']
+ok      	1	A.3 Transmutation	=> 嬗变	missing=[]
+ok      	1	A.5 Spallation	=> 散裂	missing=[]
+ok      	1	G.3 Gallium arsenide	=> 镓砷化物	missing=['g']
+ok      	1	D.1 Anthracene 䌀㄀㐀䠀㄀	=> 蒽	missing=['d', '䌀', '㐀', '䠀']
+ok      	1	D.2 p-Terphenyl 䌀㄀㠀䌀㄀㐀	=> 三联苯	missing=['d', 'p', '䌀', '㠀', '㐀']
+ok      	1	D.3 Stilbene 䌀㄀㐀䠀㄀㈀	=> 芪	missing=['d', '䌀', '㐀', '䠀']
+ok      	1	A.1 Exciton luminescence	=> 激子发光	missing=[]
+ok      	1	A.2 Dopant luminescence	=> 掺杂发光	missing=[]
+ok      	1	A.3 Core valence band luminescence	=> 芯价带发光	missing=[]
+ok      	1	A.7 Enclosure	=> 机箱	missing=[]
+ok      	1	7.1.E Uniformity	=> 均匀性	missing=['e']
+FALLBACK	1	Preamplification	=> 未收录术语（Preamplification）	missing=['preamplification']
+FALLBACK	1	Amplification	=> 未收录术语（Amplification）	missing=['amplification']
+ok      	1	A.4 Nonlinearity	=> 非线性	missing=[]
+ok      	1	B.2 Successive approximation ADC	=> 逐次逼近 ADC	missing=['b']
+ok      	1	B.3 Tracking ADC	=> 跟踪 ADC	missing=['b']
+FALLBACK	1	B.4 Wilkinson ADC	=> 未收录术语（B.4 Wilkinson ADC）	missing=['b']
+ok      	1	B.5 Flash ADC	=> 快闪 ADC	missing=['b']
+ok      	1	8.7.C Hybrid ADCs	=> 混合 ADC	missing=['c']
+ok      	1	Measures of centrality	=> 集中趋势的测度	missing=[]
+ok      	1	Measure of dispersion	=> 离散度的测度	missing=[]
+ok      	1	Regression	=> 回归	missing=[]
+ok      	1	Correlation	=> 相关	missing=[]
+FALLBACK	1	10.1.A ROOT	=> 未收录术语（10.1.A ROOT）	missing=[]
+ok      	1	A.1 Availability	=> 可用性	missing=[]
+FALLBACK	1	10.1.C MATLAB	=> 未收录术语（10.1.C MATLAB）	missing=['c']
+ok      	1	C.1 Toolboxes	=> 工具箱	missing=['c']
+ok      	1	E.1 Kerma	=> 比释动能	missing=['e']
+ok      	1	E.2 Cema	=> 比转换能	missing=['e']
+ok      	1	E.3 Terma	=> 比释能	missing=['e']
+ok      	1	11.2.I Beam size	=> 束斑尺寸	missing=[]
+ok      	1	11.4.D Quartz fiber electroscope	=> 石英丝验电器	missing=['d']
+ok      	1	Microdosimetry	=> 微剂量学	missing=[]
+ok      	1	11.5.A Microdosimetric quantities	=> 微剂量量	missing=[]
+ok      	1	A.1 Acute exposure	=> 急性照射	missing=[]
+ok      	1	A.2 Chronic exposure	=> 慢性照射	missing=[]
+ok      	1	A.1 NIM layout	=> NIM 布局	missing=[]
+ok      	1	A.2 NIM modules	=> NIM 模块	missing=[]
+ok      	1	B.1 CAMAC layout	=> CAMAC 布局	missing=['b']
+ok      	1	B.2 CAMAC controllers	=> CAMAC 控制器	missing=['b']
+ok      	1	C.1 VME layout	=> VME 布局	missing=['c']
+ok      	1	C.2 VME backplane	=> VME 背板	missing=['c']
+ok      	1	C.3 VME modules	=> VME 模块	missing=['c']
+ok      	1	D.1 FASTBUS layout	=> FASTBUS 布局	missing=['d']
+ok      	1	D.2 FASTBUS backplane	=> FASTBUS 背板	missing=['d']
+ok      	1	13.3.A PCI boards	=> PCI 板卡	missing=[]
+ok      	1	13.3.B PC serial port modules	=> PC 串口模块	missing=['b']
+ok      	1	13.3.C PC parallel port modules	=> PC 并口模块	missing=['c']
+ok      	1	13.3.D USB-based modules	=> USB模块	missing=['d', 'based']
+ok      	1	A.1 Multimeters	=> 万用表	missing=[]
+ok      	1	A.2 Oscilloscopes	=> 示波器	missing=[]
+ok      	1	A.1 Attenuator	=> 衰减器	missing=[]
+FALLBACK	1	Pulsers	=> 未收录术语（Pulsers）	missing=['pulser']
+ok      	1	Absorbers	=> 吸收体	missing=[]
+ok      	1	Collimators	=> 准直器	missing=[]
+ok      	1	Nuclear fuel assay	=> 核	missing=['fuel', 'assay']
+FALLBACK	1	The ADC	=> 未收录术语（The ADC）	missing=[]
+ok      	1	Choosing an ADC	=> ADC 的选择	missing=[]
+ok      	1	MCA throughput	=> MCA 吞吐率	missing=[]
+ok      	1	Mathematical form of w<¢	=> 数学形式	missing=['w']
+FALLBACK	1	ISOCS	=> 未收录术语（ISOCS）	missing=[]
+ok      	1	ACHIEVING VALID	=> 达到有效	missing=[]
+FALLBACK	1	GESPECOR	=> 未收录术语（GESPECOR）	missing=[]
+ok      	1	LIFETIME OF EXCITED STATES	=> 激发态的寿命	missing=[]
+ok      	1	Bismuth germanate — BGO	=> 铋锗酸盐	missing=['bgo']
+ok      	1	CONSTRUCTION OF THE COMPLETE	=> 完整的构造	missing=[]
+ok      	1	FAULT-FINDING	=> 故障查找	missing=[]
+ok      	1	Fault-finding guide	=> 故障查找指南	missing=[]
+FALLBACK	1	未收录术语（MDA）：效率本底与计数	=> 未收录术语（MDA）：效率本底与计数	missing=[]
+ok      	1	ACCREDITATION	=> 认证	missing=[]
+FALLBACK	1	The uranium series — 7°U	=> 未收录术语（The uranium series — 7°U）	missing=['uranium', 'seri', 'u']
+FALLBACK	1	The global verification regime	=> 未收录术语（The global verification regime）	missing=['global', 'verification', 'regime']
+ok      	1	Nuclides released in a nuclear explosion	=> 核爆炸中的核素释放	missing=[]
+ok      	1	Channelling	=> 沟道效应	missing=[]
+ok      	1	Random coincidences	=> 随机符合	missing=[]
+ok      	1	Streamer tubes	=> 流光管	missing=[]
+ok      	1	Nuclear emulsions	=> 核乳胶	missing=[]
+ok      	1	Scintillating fibre trackers	=> 闪烁光纤径迹仪	missing=[]
+ok      	1	Quark jets	=> 夸克喷注	missing=[]
+ok      	1	Monte Carlo event generators	=> 蒙特卡罗事件发生器	missing=[]
+ok      	1	Tribology	=> 摩擦学	missing=[]
+FALLBACK	1	R´esum´e	=> 未收录术语（R´esum´e）	missing=['r', 'e']
+FALLBACK	1	9．3．1 1＋1≠2	=> 未收录术语（9．3．1 1＋1≠2）	missing=[]
+ok      	1	PHOTOGRAPHIC EMULSIONS	=> 照相乳胶	missing=[]
+ok      	1	Photographic Emulsions	=> 照相乳胶	missing=[]
+ok      	1	Isomeric States	=> 同质异能态	missing=[]
+FALLBACK	1	The Bethe-Bloch Formula	=> 未收录术语（The Bethe-Bloch Formula）	missing=['bethe', 'bloch', 'formula']
+ok      	1	Scaling Laws for dE/dx	=> 用于dedx的缩放定律	missing=[]
+ok      	1	Channeling	=> 沟道效应	missing=[]
+FALLBACK	1	未收录术语（Thick Absorbers）：高斯限	=> 未收录术语（Thick Absorbers）：高斯限	missing=[]
+ok      	1	Very Thick Absorbers	=> 厚吸收体	missing=['very']
+FALLBACK	1	未收录术语（Thin Absorbers）：与理论	=> 未收录术语（Thin Absorbers）：与理论	missing=[]
+FALLBACK	1	The Roentgen	=> 未收录术语（The Roentgen）	missing=['roentgen']
+ok      	1	Expectation Values	=> 期望值	missing=[]
+FALLBACK	1	The Covariance	=> 未收录术语（The Covariance）	missing=['covariance']
+ok      	1	Construction	=> 构造	missing=[]
+FALLBACK	1	Plastics	=> 未收录术语（Plastics）	missing=['plastic']
+ok      	1	Glasses	=> 玻璃	missing=[]
+ok      	1	Magnetic Fields	=> 磁场	missing=[]
+ok      	1	Mobility	=> 迁移率	missing=[]
+FALLBACK	1	The Depletion Depth	=> 未收录术语（The Depletion Depth）	missing=['depletion', 'depth']
+ok      	1	Modules	=> 模块	missing=[]
+FALLBACK	1	Ratemeter	=> 未收录术语（Ratemeter）	missing=['ratemeter']
+ok      	1	Flip-Flops	=> 触发器	missing=[]
+ok      	1	Registers (Latches)	=> 寄存器	missing=['latch']
+ok      	1	Attenuators	=> 衰减器	missing=[]
+ok      	1	Adjusting Delays with the Oscilloscope	=> 调节延迟（带示波器）	missing=[]
+ok      	1	Accidental Coincidences	=> 偶然符合	missing=[]
+FALLBACK	1	The CAMAC Dataway	=> 未收录术语（The CAMAC Dataway）	missing=['dataway']
+FALLBACK	1	Pin Allocations	=> 未收录术语（Pin Allocations）	missing=['pin', 'allocation']
+ok      	1	CAMAC Software	=> CAMAC 软件	missing=[]
+ok      	1	Resistor Color Code	=> 电阻色标	missing=[]
+FALLBACK	1	未收录术语（Part I）：半导体物理	=> 未收录术语（Part I）：半导体物理	missing=[]
+ok      	1	Ohmic Contact	=> 接触	missing=['ohmic']
+FALLBACK	1	未收录术语（Part II）：半导体探测器	=> 未收录术语（Part II）：半导体探测器	missing=[]
+ok      	1	Three-Phase “Conventional” MOS CCDs	=> 相位常规MOSCCD	missing=['three']
+ok      	1	Fully Depleted p–n CCDs	=> 耗尽CCD	missing=['fully', 'p', 'n']
+ok      	1	Inverters	=> 反相器	missing=[]
+FALLBACK	1	Photolithographic Structuring	=> 未收录术语（Photolithographic Structuring）	missing=['photolithographic', 'structuring']
+FALLBACK	1	Oxidation	=> 未收录术语（Oxidation）	missing=['oxidation']
+FALLBACK	1	Passivation	=> 未收录术语（Passivation）	missing=['passivation']
+ok      	1	Mathematical Formulation	=> 数学表述	missing=[]
+ok      	1	Numerical Solution of Stationary Situati	=> 稳态的数值解	missing=['situati']
+ok      	1	Linearization of the Problem	=> 问题的线性化	missing=[]
+FALLBACK	1	未收录术语（Part III）：材料	=> 未收录术语（Part III）：材料	missing=[]
+ok      	1	Articles	=> 文献	missing=[]
+ok      	1	Thin, totally depleted dE/dx anes	=> 薄耗尽dedx	missing=['totally', 'anes']
+FALLBACK	1	(CR)*-RCshaping	=> 未收录术语（(CR)*-RCshaping）	missing=['rcshaping']
+ok      	1	The Robinson restorer é AUIS	=> 恢复器	missing=['robinson', 'é', 'auis']
+ok      	1	Gere—Miller restorer	=> 恢复器	missing=['gere', 'miller']
+FALLBACK	1	Overloading	=> 未收录术语（Overloading）	missing=['overloading']
+FALLBACK	1	未收录术语（6）：定时	=> 未收录术语（6）：定时	missing=[]
+FALLBACK	1	Vernier chronotrons	=> 未收录术语（Vernier chronotrons）	missing=['vernier', 'chronotron']
+ok      	1	Dual ramp Wilkinson	=> 双斜 Wilkinson	missing=[]
+FALLBACK	1	Optical display	=> 未收录术语（Optical display）	missing=['optical', 'display']
+ok      	1	Datahighways	=> 数据高速通道	missing=[]
+ok      	1	A.4 The Laplace transform	=> 拉普拉斯变换	missing=[]
+ok      	1	Contact potentials	=> 接触电势	missing=[]
+ok      	1	Gate transconductance	=> 栅极跨导	missing=[]
+ok      	1	Bulk transconductance	=> 体跨导	missing=[]
+ok      	1	Mobility reduction	=> 迁移率退化	missing=[]
+FALLBACK	1	Velocity saturation	=> 未收录术语（Velocity saturation）	missing=['velocity', 'saturation']
+ok      	1	Drain induced barrier lowering	=> 漏致势垒降低	missing=[]
+ok      	1	Folded cascode	=> 折叠共源共栅	missing=[]
+ok      	1	Phase margin	=> 相位	missing=['margin']
+ok      	1	Integrated capacitors	=> 集成电容	missing=[]
+ok      	1	Latched comparators	=> 锁存比较器	missing=[]
+ok      	1	ADC architectures	=> ADC 架构	missing=[]
+ok      	1	Flash ADC	=> 快闪 ADC	missing=[]
+ok      	1	Successive approximation register ADC (S	=> 逐次近似寄存器ADC	missing=[]
+ok      	1	Conventional SAR ADC	=> 常规 SAR ADC	missing=[]
+ok      	1	Digitizer	=> 数字化仪	missing=[]
+ok      	1	Subsystems	=> 子系统	missing=[]
+ok      	1	"Noiseless" resistances	=> 无噪声电阻	missing=[]
+ok      	1	Dynamic resistances	=> 动态电阻	missing=[]
+ok      	1	Digitizers with clock interpolation	=> 数字化仪（带时钟插值）	missing=[]
+ok      	1	Cost	=> 成本	missing=[]
+ok      	1	Segmentation	=> 分割	missing=[]
+ok      	1	Layout	=> 布局	missing=[]
+ok      	1	CMOS imagers	=> CMOS成像器	missing=[]
+ok      	1	Testing	=> 测试	missing=[]
+ok      	1	Why things don't work	=> 为什么事物工作	missing=["don't"]
+ok      	1	The folded cascode	=> 折叠共源共栅	missing=[]
+ok      	1	Capacitors	=> 电容	missing=[]
+ok      	1	Local referencing	=> 局部参考	missing=[]
+ok      	1	A.3 Deposition	=> 沉积	missing=[]
+ok      	1	A.4 Patterning	=> 图形化	missing=[]
+ok      	1	F.5.3 Comments	=> 评注	missing=['f']
+FALLBACK	1	A	=> 未收录术语（A）	missing=[]
+FALLBACK	1	B	=> 未收录术语（B）	missing=['b']
+FALLBACK	1	C	=> 未收录术语（C）	missing=['c']
+FALLBACK	1	D	=> 未收录术语（D）	missing=['d']
+FALLBACK	1	E	=> 未收录术语（E）	missing=['e']
+FALLBACK	1	F	=> 未收录术语（F）	missing=['f']
+FALLBACK	1	G	=> 未收录术语（G）	missing=['g']
+FALLBACK	1	H	=> 未收录术语（H）	missing=['h']
+FALLBACK	1	I	=> 未收录术语（I）	missing=[]
+FALLBACK	1	J	=> 未收录术语（J）	missing=['j']
+FALLBACK	1	K	=> 未收录术语（K）	missing=['k']
+FALLBACK	1	L	=> 未收录术语（L）	missing=['l']
+FALLBACK	1	M	=> 未收录术语（M）	missing=['m']
+FALLBACK	1	N	=> 未收录术语（N）	missing=['n']
+FALLBACK	1	O	=> 未收录术语（O）	missing=['o']
+FALLBACK	1	P	=> 未收录术语（P）	missing=['p']
+FALLBACK	1	Q	=> 未收录术语（Q）	missing=['q']
+FALLBACK	1	R	=> 未收录术语（R）	missing=['r']
+FALLBACK	1	S	=> 未收录术语（S）	missing=[]
+FALLBACK	1	T	=> 未收录术语（T）	missing=['t']
+FALLBACK	1	U	=> 未收录术语（U）	missing=['u']
+FALLBACK	1	V	=> 未收录术语（V）	missing=[]
+FALLBACK	1	W	=> 未收录术语（W）	missing=['w']
+FALLBACK	1	X	=> 未收录术语（X）	missing=[]
+FALLBACK	1	Z	=> 未收录术语（Z）	missing=['z']
+ok      	1	Oscilloscope	=> 示波器	missing=[]
+ok      	1	Timer	=> 定时器	missing=[]
+FALLBACK	1	NaI(Tl)	=> 未收录术语（NaI(Tl)）	missing=[]
+FALLBACK	1	CsI(Tl)	=> 未收录术语（CsI(Tl)）	missing=[]
+FALLBACK	1	CsI(Na)	=> 未收录术语（CsI(Na)）	missing=[]
+FALLBACK	1	CaF2(Eu)	=> 未收录术语（CaF2(Eu)）	missing=[]
+FALLBACK	1	LiI(Eu)	=> 未收录术语（LiI(Eu)）	missing=[]
+ok      	1	Insulators	=> 绝缘体	missing=[]
+ok      	1	Conductors	=> 导体	missing=[]
+ok      	1	Multiparameter Analyzers	=> 多参数分析器	missing=[]
+ok      	1	Interpolation Schemes	=> 插值方案	missing=[]
+ok      	1	Concluding Remarks	=> 结束语	missing=[]
+ok      	1	Bonner Sphere (Rem Ball)	=> Bonner 球Rem 球	missing=[]
+ok      	1	Chronometry	=> 计时学	missing=[]
+
+still falling back: 67
+distinct missing words: 52
+2	b
+2	c
+2	u
+2	r
+2	e
+1	preamplification
+1	amplification
+1	pulser
+1	uranium
+1	seri
+1	global
+1	verification
+1	regime
+1	bethe
+1	bloch
+1	formula
+1	roentgen
+1	covariance
+1	plastic
+1	depletion
+1	depth
+1	ratemeter
+1	dataway
+1	pin
+1	allocation
+1	photolithographic
+1	structuring
+1	oxidation
+1	passivation
+1	rcshaping
+1	overloading
+1	vernier
+1	chronotron
+1	optical
+1	display
+1	velocity
+1	saturation
+1	d
+1	f
+1	g
+1	h
+1	j
+1	k
+1	l
+1	m
+1	n
+1	o
+1	p
+1	q
+1	t
+1	w
+1	z

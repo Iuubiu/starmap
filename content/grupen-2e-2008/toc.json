@@ -1600,7 +1600,7 @@
     },
     {
       "microKpId": "kp-grupen-2e-2008-14-1",
-      "name": "引言",
+      "name": "电子学 引言",
       "num": "14.1",
       "printedPage": 390,
       "depth": 2,
@@ -1936,7 +1936,7 @@
     },
     {
       "microKpId": "kp-grupen-2e-2008-15-2",
-      "name": "探测器数据",
+      "name": "探测器数据的重建",
       "num": "15.2",
       "printedPage": 436,
       "depth": 2,
@@ -2020,7 +2020,7 @@
     },
     {
       "microKpId": "kp-grupen-2e-2008-15-4-5",
-      "name": "与粒子",
+      "name": "与粒子重建",
       "num": "15.4.5",
       "printedPage": 449,
       "depth": 3,

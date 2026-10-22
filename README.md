@@ -1,99 +1,191 @@
-# StarMap
+# StarMap · 核电子学学习工作站
 
-核电子学学习工作站。单用户、本地运行、全中文界面。
+> 一个会按「你现在的水平」改变教学方式的本地学习系统：知识图谱导航 + 关卡式掌握判定 + 苏格拉底式追问。
+> 单用户、无登录、全中文界面；教材内容与学习证据都留在本机。
 
-- 产品规格：`.scratch/starmap-core/spec.md`
-- 术语表：`GLOSSARY.md`（**术语唯一真源，写代码前先读**）
-- 架构决策：`docs/adr/`、`docs/architecture.md`
-- 任务票据：`.scratch/starmap-core/issues/`
+<p align="center">
+  <b>对话式入口</b> · <b>知识图谱</b> · <b>关卡与掌握度</b> · <b>可复验的证据链</b>
+</p>
+
+---
+
+## 这是什么
+
+StarMap 既不是"问答机器人"，也不是"刷题 App"。它把核电子学与电子技术基础的学习拆成五件事，**每件事都能追溯到证据**：
+
+| 能力 | 做法 | 为什么不用常规做法 |
+|---|---|---|
+| **定级** | 8–18 道自适应题估出三档档位（P1 / P2 / P3） | 不自评"你觉得自己什么水平"——自评与实际表现的相关性太低 |
+| **教学** | 同一句话，三档给出不同首轮形态：P1 完整样例、P2 留最后一步给你补、P3 直接出题 | 一套流程服务所有人，必然一半人觉得被侮辱、另一半觉得被抛弃 |
+| **掌握判定** | 每个知识点两个字段：`achieved`（历史最高，不衰减，决定解锁）与 `current`（随时间与错误衰减，决定推荐） | 单字段只能在"学过就算会"与"错一次就清零"之间二选一，两个都不对 |
+| **复验** | 1 / 3 / 7 / 21 / 60 天五档间隔，每次 3–5 题 | 一次通过不等于长期记住；遗忘是被文献反复确认的效应 |
+| **解释** | 每张推荐卡都能展开"为什么推荐它"，数字来自你自己的作答记录 | 不可解释的推荐，等于要求学生信任一个黑箱 |
+
+### 三类学习者（本项目的核心）
+
+档位不是一个"分数"，而是**六维教学策略的开关**，全部由 `packages/engine/src/tier.ts` 的 `TIER_PARAMS` 单一真源驱动：
+
+| 维度 | P1（零基础） | P2（有基础） | P3（现场工程师） |
+|---|---|---|---|
+| 首轮形态 | 完整样例逐步演示 | 最后一张卡留给你补 | 直接出题 |
+| 讲解 | 全展开 | 留最后一步 | 默认收起 |
+| 追问阶梯 | 第 1 层起，上限 3 层 | 第 2 层起，上限 4 层 | 第 3 层起，上限 5 层 |
+| 反馈时机 | 逐题即时 | 段末汇总 | 段末汇总 |
+| 每题机会 | 2 次 | 2 次 | 1 次 |
+| 一次会话新知识点 | 2 个 | 3 个 | 4 个 |
+
+"更少脚手架"不是把字变小，而是改变**谁先动手**。
+
+---
+
+## 界面
+
+八个页面，全中文，深色与明亮双主题（视觉层正在重制）：
+
+| 页面 | 作用 |
+|---|---|
+| 学习 | 底部常驻输入；每轮产出一张结构化卡片（关卡 / 知识结构 / 进度变化 / 追问），不是聊天气泡 |
+| 定级 | 自适应题量；学满 5 题后自动重判档位，重判过程可回看 |
+| 复验 | 今天该复验哪些知识点，答完直接更新掌握度 |
+| 看板 | 今日推荐（带可展开的推荐依据）+ 今日学习摘要 |
+| 知识地图 | WebGL 画布，3000+ 微知识点按掌握状态着色；点节点进关卡 |
+| 关卡市场 | 预制关卡 + 你保存的自制关卡；AI 批量生成 |
+| 数据库 | 内容库真实状态与来源追溯：知识点 / 切片 / 答案块 / 先修边，精确到书第几页 |
+| 技能库 | 决定智能体怎么追问、怎么出题的 skill，可启用 / 停用 |
+
+---
+
+## 架构
+
+```
+┌────────────────────── apps/web（React 19 + Vite）──────────────────────┐
+│  8 个页面 ← TanStack Query ← Orval 生成的客户端（来自 OpenAPI，不手写类型） │
+└────────────────────────────────┬───────────────────────────────────────┘
+                                 │ HTTP JSON（契约唯一真源：packages/api-contract）
+┌────────────────────────────────┴──────── apps/api（NestJS）───────────┐
+│  控制器：只解析 → 调用用例 → 映射响应                                    │
+│  用例：会话回合 / 关卡播放 / 作答记账 / 掌握度回放 / 门控 / 推荐 / 复验    │
+│  Mastra 层：agent + skills（唯一触达模型处，经 LlmPort 注入）            │
+└────────────────────────────────┬───────────────────────────────────────┘
+                                 │ SQL
+                       ┌─────────┴─────────┐
+                       │  PostgreSQL 18    │
+                       └─────────┬─────────┘
+┌────────────────────────────────┴──── tools/ingest（Python）──────────┐
+│  PDF → 文字层 / OCR → 目录树 → 知识点 → chunk 切分 → 答案块 → 先修边 → 入库 │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+**四条硬边界**（由 `pnpm check:boundaries` 强制，违反即红）：
+
+1. `packages/engine` 是纯函数：无 IO、无 `Date.now()`、无定时器 —— 所有判定都能被单元测试钉死。
+2. 只有 Mastra 层能触达模型，且必须经 `LlmPort` 注入 —— 测试里可换成"永远返回非法 JSON"的假模型。
+3. 前端类型一律由 OpenAPI 契约生成；`pnpm contract:check` 会让手写重复类型失败。
+4. 内容入库是纯函数式的：同样的 PDF 与规则必得同样的产物（可复现、可 diff）。
+
+### 技术栈
+
+| 层 | 选型 |
+|---|---|
+| 前端 | React 19 · TypeScript · Vite · React Router · TanStack Query · Fluent UI v9 · sigma.js + graphology（WebGL 图谱） |
+| 后端 | NestJS · TypeScript · PostgreSQL 18 · Zod（契约） |
+| 智能体 | Mastra（agent + skills 资产）· 可替换的 LLM 端点 |
+| 内容管线 | Python 3 · PyMuPDF · RapidOCR（PP-OCRv3/v4，判别式，无大模型） |
+| 测试 | Vitest · Playwright · supertest · pytest |
+
+---
 
 ## 快速开始
 
-前置：Node ≥ 22、pnpm 12、PostgreSQL 18（本机默认 `postgres/postgres@127.0.0.1:5432`）。
-
 ```bash
 pnpm install
-cp .env.example .env          # 按需改 DATABASE_URL 与 LLM_* 配置
-pnpm db:migrate               # 必跑，见下方「为什么 db:migrate 是硬前置」
-pnpm db:seed                  # 可选：灌入演示数据
-pnpm dev                      # 同时起 API(3001) 与 Web(5173)
+
+cp .env.example .env          # 填你自己的数据库与模型端点
+createdb starmap              # 库要先存在；表由启动过程自动建
+pnpm dev                      # api :3001 · web :5173
+
+node scripts/verify.mjs       # 全仓七段门禁
 ```
 
-数据库不在跑时，`pnpm dev` 会先调用 `scripts/db-up.ps1` 尝试拉起本机 PostgreSQL；
-若用的是别的实例或容器，直接改 `.env` 的 `DATABASE_URL`。
+> **迁移是自动的。** `apps/api` 启动时会应用 `apps/api/migrations/` 下尚未执行的迁移，
+> clone 之后不需要手工 `psql -f`，拉取含新迁移的代码后也不需要额外动作。
+> 迁移失败时服务不启动（退出码非零），不会带着半套 schema 起来。
+> 只想迁移不起服务、或要回滚，见 [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)。
 
-## 为什么 `db:migrate` 是硬前置
+> **语料不随仓库分发。** 教材 PDF 与切片文本是版权材料，本仓库只含代码与索引结构。
+> 不重建内容库也能起服务，只是图谱为空；重建见下一节。
 
-迁移没跑时**服务能起来、typecheck 和单测全绿，但接口返回 500**（`relation "..." does not exist`）。
-这是本项目最容易踩的坑：它不属于任何一层测试能捕获的失败模式。
+开发细节（契约链、迁移纪律、测试隔离、目录约定）见 [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)。
 
-拉取新代码后，只要 `apps/api/migrations/` 下有新文件，就必须：
+---
+
+## 内容管线
+
+```
+资源库/books/*.pdf
+  ├─ 有文字层 → 直接抽页文本
+  └─ 扫描件   → RapidOCR（PP-OCRv3 det/cls + v4 rec）
+       ↓  目录树（PDF 书签 / 印刷页目录 / 平铺目录，三种版式分别识别）
+       ↓  知识点（章 / 节 / 小节三级；只有叶节点承载掌握度）
+       ↓  chunk 切分（正文 / 公式 / 表格 / 图）+ 答案块标注
+       ↓  先修边（只认正文里的后向交叉引用：「如 2.2 节所述」「式(1.2.1)」）
+       ↓  content/<book-id>/{toc,chunks,edges,manifest}.json → 入库（幂等）
+```
+
+四个踩过的坑，写在这里以免后人重犯：
+
+- **页偏移**：印刷页码 ≠ PDF 页码，每本书的 offset 必须实测，不能假设。
+- **答案附录**：判据必须来自目录树而不是 PDF 标题，否则会把正文小节误标成答案块。
+- **同名叶节点**：不同章节会有同名小节，必须拼回编号，否则看板会推"不知道是哪本书的哪一节"。
+- **孤立节点**：内容存在但图里没有边，力导向会把它们铺成一个空心圆环 —— 视觉缺陷的根因常常在图论上，不在渲染上。
 
 ```bash
-pnpm db:migrate
+python -m pytest tools/ingest/ -q            # 管线单测
+pnpm --filter @starmap/api content:import    # 产物入库
 ```
 
-## 常用命令
+---
 
-| 命令 | 作用 |
+## 设计文档
+
+| 文档 | 内容 |
 |---|---|
-| `pnpm dev` | 起 API + Web（先自动迁移） |
-| `pnpm typecheck` | 全仓类型检查（6 个包） |
-| `pnpm test` | 单元与集成测试（Vitest） |
-| `pnpm test:e2e` | Playwright 端到端 |
-| `pnpm check:boundaries` | 依赖方向检查（`dependency-cruiser`） |
-| `pnpm contract:gen` | 契约链：build → 生成 `openapi.yaml` → 生成前端客户端 |
-| `pnpm contract:check` | 校验契约产物与源码一致（141 个文件的 sha256 快照） |
-| `pnpm verify` | typecheck + boundaries + test |
+| `.scratch/starmap-core/spec.md` | 产品规格：三类学习者、双字段掌握度、门控、复验、评估口径 |
+| `.scratch/starmap-core/spec-decisions.md` | 每条设计决定的证据与替代方案（含被否掉的选项与原因） |
+| [`GLOSSARY.md`](GLOSSARY.md) | 领域词表：哪些词有歧义、为什么必须带前缀 |
+| [`docs/architecture.md`](docs/architecture.md) | 模块边界、接缝、适配器与接口风险 |
+| `docs/adr/0001…0008` | 架构决定记录（契约先行 / 纯函数引擎 / Mastra 分层 / 视觉语言…） |
+| `.scratch/starmap-core/issues/*.md` | 每张票的验收条件与取证记录（本项目按票推进） |
+| `docs/eval-report.md` | 三档模拟学习者的全流程评估报告 |
 
-## 契约链
+---
 
-`packages/api-contract` 的 Zod schema 是**内部单一真源**，`openapi.yaml` 是**对外契约唯一真源**。
-改 schema 之后必须跑 `pnpm contract:gen`，它会依次：
+## 质量门禁
 
-1. `tsc` 构建 api-contract（**不能省**：生成链每段都 import `dist/`，跳过会拿到过期的 dist 而静默生成错误契约）
-2. 生成 `packages/api-contract/openapi.yaml`
-3. 用 Orval 生成 `apps/web/src/api/generated/`
-4. 校验 schema 覆盖率（未声明为组件也没被内联使用的「死 schema」会被报出）
-
-`pnpm contract:check` 会在运行前后各做一次快照比对，任何未同步都会失败。
-
-## 目录
+一条命令跑七段，任何一段红都不算完成：
 
 ```
-apps/web          React 19 + Vite + Fluent UI v9 前端
-apps/api          NestJS 12 + Mastra（嵌入式）后端
-packages/engine   纯 TS 领域内核（禁 import 框架/DB/fs，由 dependency-cruiser 强制）
-packages/shared   Zod schema 与领域类型
-packages/api-contract  OpenAPI 契约与生成器
-tools/ingest      教材 PDF / OCR 离线抽取管线（Python）
-tools/eval        模拟学生与评测框架
-content/          版本化的内容产物
-资源库/           原始教材与论文（134 个 PDF，当前在版本控制内，见下方「已知问题」）
+✓ 类型检查   ✓ 依赖边界   ✓ 契约同步   ✓ 迁移可回滚
+✓ 单元测试   ✓ 内容管线   ✓ 端到端
 ```
 
-## 数据库
+两条贯穿全项目的纪律：
 
-PostgreSQL 18，业务表在 `app` schema，Mastra 的表在 `mastra` schema（由 `@mastra/pg` 自管）。
+- **反向验证**：每个"修好了"的结论，都要把修复撤销、确认守门测试变红，再装回去。
+- **探针优先**：凡是界面上的数字，都用浏览器实测，不接受"看起来对"。
 
-- 迁移文件：`apps/api/migrations/NNNN_*.sql`，成对提供 `.down.sql`
-- 测试隔离：每个测试文件建临时 schema `app_test_<random>`，测完 `DROP SCHEMA ... CASCADE`
-- **不要对 `mastra.*` 建外键**：那些表随 Mastra 版本变动，升级时会把业务迁移锁死
+---
 
-## 已知问题
+## 当前状态
 
-**`资源库/` 的 134 个 PDF（1.14 GiB）已经被提交进 git 历史**（`d4cb8be` 初始化时误入），
-`.git` 目录因此膨胀到 1.5 GiB。当前单机开发无实际影响，但：
+按 69 张票推进，已完成 50+ 张。进行中：视觉层全面重制（Raycast 风格 + 深色/明亮双主题）、关卡模板系统、对话里按需生成关卡。
 
-- 克隆会拖完整 1.14 GiB
-- 推送 GitHub 会被 100 MiB 单文件限制拒绝
+已明确**推迟到下一版**：英文教材的内容质量（译名塌缩、答案块误标、页偏移残留），原因与细节见 `.scratch/starmap-core/NEXT-VERSION.md`。
 
-清理需要 `git filter-repo --path 资源库 --invert-paths` 重写全部历史，
-这会改变所有 commit hash。**在并行开发期间不要做**，等全部票收尾后一次性处理。
+---
 
-`资源库/` 已加入 `.gitignore` 的说明段，**新增素材不要再提交进仓库**。
+## 授权
 
-## 已知环境限制
+本仓库**未附带开源许可证**（默认保留所有权利）。如需开源，请指定 MIT / Apache-2.0，我再补 `LICENSE`。
 
-- **两个 LLM 端点都没有 embedding 模型**，向量检索不可用；检索用 BM25
-- 资源库 128 个 PDF 中 11 个无文字层，需 OCR（`tools/ingest/ocr.py`）
+教材、论文与课程视频的版权归各自权利人所有，**不在本仓库内分发**；`content/` 下的切片文本需由使用者用自己的合法副本生成。

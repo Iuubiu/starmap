@@ -1,0 +1,103 @@
+[analog-electronics-kanghuaguang-5e] kind=formula len=36
+  '式中;=,，因r;→，必有i;一→0，故从放大电路输人端口看进去的电阻为'
+
+[analog-electronics-kanghuaguang-5e] kind=formula len=43
+  '(2) 当 R, =51 kΩ， R,=R,=390 kΩ， A,= -100 时，有'
+
+[analog-electronics-kanghuaguang-5e] kind=formula len=75
+  'Vs=(R,R/R2)IM；(2)R,=1 kQ，R,=R,=150 kΩ，输人信号电压 Vs =100 mV时，通过毫伏表的最大电流IM（mαx）='
+
+[analog-electronics-kanghuaguang-5e] kind=formula len=33
+  '=-V2=-15V，R,=R=10kΩ，R4=R,=100kQ，输'
+
+[analog-electronics-kanghuaguang-5e] kind=formula len=38
+  '电路如图题2.3.2所示，设运放是理想的，图a、b电路中的v;=6V，图c电'
+
+[analog-electronics-kanghuaguang-5e] kind=formula len=36
+  '电压;=－1V时，流过R，和R的电流小于20μA，求R,和R,的最小值。'
+
+[analog-electronics-kanghuaguang-5e] kind=formula len=36
+  '始电压 vc(0) =0， 且 C, =C2 =C， R,=R, =R。'
+
+[analog-electronics-kanghuaguang-5e] kind=formula len=34
+  '一般稳压值V,较大时，可以忽略rz的影响，即rz=0，Vz为恒定值。'
+
+== analog-electronics-kanghuaguang-5e: demoted 78
+
+[digital-kanghua-5e] kind=formula len=98
+  '218 ⋯⋯⋯⋯⋯⋯余0⋯⋯b,29 ⋯⋯⋯⋯⋯⋯余1⋯⋯b,24 ⋯⋯⋯⋯⋯⋯余0⋯⋯b?22 ⋯⋯⋯⋯⋯⋯余0⋯⋯b,21 ⋯⋯⋯⋯⋯⋯余1⋯⋯b,0由上得  (37)。=(100101)a。'
+
+[digital-kanghua-5e] kind=formula len=70
+  '2.二进制减法无符号二进制数的减法规则是0-0=0,1-1=0,1-0=1,0-1=11方框中的1是借位位，表示0减1时不够减，向高位借1。'
+
+[digital-kanghua-5e] kind=formula len=51
+  '例如，要证明A+A=A时，令A=1,则A+A=1+1=1=A;再令A=0,①系De Mogen的译称。'
+
+[digital-kanghua-5e] kind=formula len=81
+  '对照表2.2.2,上式中各最小项可分别表示为m,、m?、m?、m?,所以可写为L(A,B,C)=m?+m?+m?+m?● 47 ●2.2  逻辑函数的卡诺图化简法'
+
+[digital-kanghua-5e] kind=formula len=92
+  '为了简化，常用最小项下标编号来代表最小项，故上式又可写为L(A,B,C)= Zm(1,3,6,7)例2.2.1  将逻辑函数L(A,B,C)=(AB+AB+C)AB转换成最小项表达式。'
+
+[digital-kanghua-5e] kind=formula len=95
+  '如果逻辑函数的变量为C、D,则二变量逻辑函数的最小项有22=4项，分别为m?=CD,m?=CD,m?=CD,m?=CD。由于有4个最小项，可用4个● 48 ●2  逻辑代数与硬件描述语言基础'
+
+[digital-kanghua-5e] kind=formula len=58
+  '例2.2.2  画出逻辑函数L(A,B,C,D)= Zm(0,1,2,3,4,8,10,11,14,15)的卡诺图。'
+
+[digital-kanghua-5e] kind=formula len=82
+  '解：(1)由摩根定律，上式化成Z=ABCD+ABCD+ABCD+ABCD+ABCD= Pm(15,13,10,6,0)· 51  ·2.2  逻辑函数的卡诺图化简法'
+
+== digital-kanghua-5e: demoted 107
+
+[nuclear-electronics-wangzhiying-1989] kind=formula len=44
+  '当t大至足以收集所有感应电流时，则有』i（t）d:=Q=N·e，v。（t）达到恒定值，即'
+
+[nuclear-electronics-wangzhiying-1989] kind=formula len=28
+  '输出信号v。以时间常数衰减，值较大，例如:C；=0.1一'
+
+[nuclear-electronics-wangzhiying-1989] kind=formula len=57
+  '可以将前置放大器的α、6、c输入电流噪声等效为输出电压噪声。见图2.2.9（b）。由于dv²=di²/（@C;)²'
+
+[nuclear-electronics-wangzhiying-1989] kind=formula len=52
+  '令: a²=a;²/C², b²=b;²/Cf², c²=C;²/Cf²则 dv=a²d@， dv =-'
+
+[nuclear-electronics-wangzhiying-1989] kind=formula len=40
+  '（3）减少冷电容C。因为C=C,+C+CA+C，除C、CA外，C可采用输入级紧靠'
+
+[nuclear-electronics-wangzhiying-1989] kind=formula len=61
+  '（1）求v。（t）的一般表达式?(2）当C;=1 pF，R;=10"Ω时，画出大致波形并与R;→∞时作比较。{假设A为理想'
+
+[nuclear-electronics-wangzhiying-1989] kind=formula len=64
+  'C= 6 pF, T=300K, gm=5mA /V, I,+I,=10"12A，RD/R=101°Ω，Cp=1 pF，低频噪声'
+
+[nuclear-electronics-wangzhiying-1989] kind=formula len=44
+  '为讨论方便，设二极管为一个理想器件。 即二极管导通电压 V,=0 V，,= 0 Ω（正向'
+
+== nuclear-electronics-wangzhiying-1989: demoted 17
+
+[nuclear-radiation-physics-chenboxian-2011] kind=formula len=82
+  '由θ即可确定rm，当0=180°时，rm达到最小rmmin。Ag的rmin≈2.0×10-1²cm。可以想象,核半径 R（电荷分布半径）一定不会大于mmin,即R≤'
+
+[nuclear-radiation-physics-chenboxian-2011] kind=formula len=66
+  '整数倍时,曲线有周期性的峰值,如*He,²C,"O,"Ne和²4Mg等偶偶核,并且 N=Z,这表明对于轻核可能存在α粒子的集团结构。'
+
+[nuclear-radiation-physics-chenboxian-2011] kind=formula len=33
+  'S,(Z,A) =[M(Z,A -1) +m,-M(Z,A)]c²'
+
+[nuclear-radiation-physics-chenboxian-2011] kind=formula len=82
+  'S,(*60) =12. 127 MeV, S,( "60) =15. 664 MeV S,("0) =4. 143 MeV, S,("F) =0. 600 MeV'
+
+[nuclear-radiation-physics-chenboxian-2011] kind=formula len=31
+  '的势能,RN和R。分别为靶核和α粒子的半径,且有R=R+R。。'
+
+[nuclear-radiation-physics-chenboxian-2011] kind=formula len=47
+  '式中，1为原子核的自旋量子数,取整数或半整数，即1=0,1,2,或I=1/2,3/2,5/2，'
+
+[nuclear-radiation-physics-chenboxian-2011] kind=formula len=24
+  'J,=mh,m=1,1-1,·",-1+1，-1'
+
+[nuclear-radiation-physics-chenboxian-2011] kind=formula len=57
+  'PV(x1,x2,..·,x,..·,x,..·,xn)=Y（x1,x2,..·,xj，·.·,x,·.·,xn)'
+
+== nuclear-radiation-physics-chenboxian-2011: demoted 49

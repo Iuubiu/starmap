@@ -1,0 +1,90 @@
+[
+  {
+    "sourceId": "nuclear-electronics-wangzhiying-1989",
+    "pdf": "资源库/books/01_核电子技术原理_王芝英_原子能1989.pdf",
+    "tocRange": [10, 14],
+    "pageOffset": "auto",
+    "firstPage": 14,
+    "note": "目录 PDF 10–13；正文起于 14；自动探测页偏移 13（PDF 60 = 印刷 47）"
+  },
+  {
+    "sourceId": "nuclear-electronics-wangjingjin-1983",
+    "pdf": "资源库/books/02_核电子学_王经瑾上_原子能1983.pdf",
+    "tocRange": [7, 10],
+    "pageOffset": "auto",
+    "firstPage": 10,
+    "note": "上册；p0–6 为封面/前言/符号表，目录 7–9，正文（第九章起）从 10 开始"
+  },
+  {
+    "sourceId": "nuclear-radiation-measurement-tangbin",
+    "pdf": "资源库/books/05_核辐射测量原理_汤彬_哈工程.pdf",
+    "tocRange": [8, 11],
+    "pageOffset": "auto",
+    "firstPage": 11,
+    "note": "p7 前言；目录 8–10（每页都有「目录」页眉）；正文从 11 开始"
+  },
+  {
+    "sourceId": "nuclear-radiation-physics-chenboxian-2011",
+    "pdf": "资源库/books/06_核辐射物理及探测学_陈伯显_张智_哈工程2011.pdf",
+    "tocRange": [6, 10],
+    "pageOffset": "auto",
+    "firstPage": 10,
+    "note": "目录 6–9；正文（第1章）从 10 开始"
+  },
+  {
+    "sourceId": "radiation-detectors-dinghonglin-2010",
+    "pdf": "资源库/books/07_核辐射探测器_丁洪林_哈工程2010.pdf",
+    "tocRange": [6, 10],
+    "pageOffset": "auto",
+    "firstPage": 10,
+    "note": "目录 6–9；正文（第1章 绪论）从 10 开始"
+  },
+  {
+    "sourceId": "nuclear-physics-experiment-methods-1997",
+    "pdf": "资源库/books/18_原子核物理实验方法_修订第3版_1997.pdf",
+    "tocRange": [0, 8],
+    "pageOffset": "auto",
+    "firstPage": 8,
+    "note": "目录从 p0 就开始（无前置页），0–7 共 8 页；正文（第一章）从 8 开始；页码印成 `(357)`"
+  },
+  {
+    "sourceId": "radiation-detector-handbook-jichangsong-1990",
+    "pdf": "资源库/books/19_核辐射探测器及其实验技术手册_汲长松_1990.pdf",
+    "tocRange": [4, 15],
+    "pageOffset": "auto",
+    "firstPage": 15,
+    "note": "p0–3 封面/内容简介/序言；目录 4–14（长，含 `(194)` 括号页码）；正文（第一篇）从 15 开始"
+  },
+  {
+    "sourceId": "analog-electronics-kanghuaguang-5e",
+    "pdf": "资源库/books/22_电子技术基础_模拟部分_康华光_第5版.pdf",
+    "tocRange": [10, 17],
+    "pageOffset": "auto",
+    "firstPage": 17,
+    "note": "第5版（注意与 digital-kanghua-5e 区分：那本是《数字部分》）；目录 10–16，正文从 17 开始"
+  },
+  {
+    "sourceId": "digital-electronics-yanshi-6e",
+    "pdf": "资源库/books/23_数字电子技术基础_阎石_第6版.pdf",
+    "tocRange": [16, 22],
+    "pageOffset": "auto",
+    "firstPage": 22,
+    "note": "p14–15 符号说明；目录 16–21；正文（绪论）从 22 开始"
+  },
+  {
+    "sourceId": "analog-electronics-tongshibai-5e",
+    "pdf": "资源库/books/24_模拟电子技术基础_童诗白_华成英_第5版.pdf",
+    "tocRange": [10, 22],
+    "pageOffset": "auto",
+    "firstPage": 22,
+    "note": "目录 10–21（12 页，每页都有「目录」页眉）；正文（第0章导言）从 22 开始。tocRange 原先从 11 起，漏掉 p10 的 25 条（第0章导言/0.1–0.3/第1章/1.1/1.2），导致正文 pdf 22–48（印刷 1–27）的 334 个 chunk 找不到 owner（micro_kp_id 为 NULL）；实测把 10 加进来后目录解出 376 条、首条是 kp-tongshibai-5e-0 导言 p1"
+  },
+  {
+    "sourceId": "circuit-analysis-lihansun-5e-vol1",
+    "pdf": "资源库/books/25_电路分析基础_李瀚荪_第5版_上册.pdf",
+    "tocRange": [16, 19],
+    "pageOffset": "auto",
+    "firstPage": 19,
+    "note": "p7–15 三篇序言；目录 16–18；正文（总论+第一章）从 19 开始"
+  }
+]

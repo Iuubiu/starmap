@@ -1,0 +1,53 @@
+formula 总数: 10899
+仍像散文的 formula: 15
+
+逐本 (sourceId, formula, prose-like):
+  ahmed-2e                                            2    0
+  analog-electronics-kanghuaguang-5e               1619    0
+  analog-electronics-tongshibai-5e                 1270    0
+  circuit-analysis-lihansun-5e-vol1                 974    0
+  debertin-1988                                      47    3
+  digital-electronics-yanshi-6e                     959    0
+  digital-kanghua-5e                                700    1
+  gilmore-2e-2008                                    33    1
+  grupen-2e-2008                                     24    0
+  guojiang-2014                                     177    0
+  guojiang-2023                                     304    0
+  knoll-3e-2000                                       8    1
+  knoll-4e-2010                                      20    1
+  leo-2e                                             10    2
+  lutz-2007                                           9    1
+  nakhostin-2018                                      0    0
+  nicholson-1974                                      7    0
+  nuclear-electronics-wangjingjin-1983              207    0
+  nuclear-electronics-wangzhiying-1989              401    0
+  nuclear-physics-experiment-methods-1997           780    0
+  nuclear-radiation-measurement-tangbin            1075    0
+  nuclear-radiation-physics-chenboxian-2011        1027    0
+  radiation-detector-handbook-jichangsong-1990      677    0
+  radiation-detectors-dinghonglin-2010              509    0
+  rivetti-2015                                        4    0
+  spieler-2005                                        3    0
+  tsoulfanidis-4e                                    53    5
+
+样例:
+  [debertin-1988] len=1176 ascii=0.814
+    'However, in many situations, both in applications and in research, it is necessary to use an energy calibration that com'
+  [debertin-1988] len=891 ascii=0.804
+    'drifts are this small, there will certainly be no problem with routine energy measurements without an internal calibrati'
+  [debertin-1988] len=295 ascii=0.797
+    'Creagh (1987) recently examined the extent to which the theoretical and experimental data for the attenuation coefficien'
+  [digital-kanghua-5e] len=541 ascii=0.564
+    'endmodule//************* counter24.v(BCD:0～23)*************************module counter24(CntH,CntL,nCR,EN,CP);input CP,nC'
+  [gilmore-2e-2008] len=1014 ascii=0.555
+    '“Energies are rounded to two decimal places. 4 Emission probabilities are quoted as in the source. Table 16.2 Correction'
+  [knoll-3e-2000] len=925 ascii=0.787
+    '142 ±0.060Above values from Gunnink,et al.^°The primary X-ray standard:Tungsten Ka,59.3 1918 ±0.00035keV(From Greenwood,'
+  [knoll-4e-2010] len=1164 ascii=0.794
+    'Chapter6 References 203 Assume that you have available any necessary type of operated with an applied voltage of 2000 V.'
+  [leo-2e] len=1002 ascii=0.767
+    '6.2 Ionization and Transport Phenomena in Gases 131 6.2.2 Mean Number of Electron-Ion Pairs Created Since the occurrence'
+  [leo-2e] len=228 ascii=0.754
+    'But because of its linear dependence on w, it rapidly overtakes the skin effect and becomes dominant at and above 1 GHz.'
+  [lutz-2007] len=1188 ascii=0.554
+    'Intrinsic properties of selected semiconductors at T= 300 K unless otherwise stated.Data are from the following referenc'

@@ -1,0 +1,13 @@
+import { createRequire } from 'node:module';
+const requireApi = createRequire('D:/DeepSeek/starmap/apps/api/package.json');
+const { Client } = requireApi('pg');
+const c = new Client({ connectionString: 'postgres://postgres:postgres@127.0.0.1:5432/starmap' });
+await c.connect();
+const q = async (sql) => (await c.query(sql)).rows;
+console.log('AC1 标点开头 name:', (await q(`SELECT count(*)::int n FROM app.knowledge_points WHERE name ~ '^[、，。；：）)]'`))[0].n);
+console.log('AC2 作用与地位 独立条目:', (await q(`SELECT count(*)::int n FROM app.knowledge_points WHERE name IN ('作用与地位')`))[0].n);
+console.log('AC2 合并后名称:', (await q(`SELECT id, name FROM app.knowledge_points WHERE id = 'kp-dinghonglin-2010-1-1'`))[0]);
+console.log('AC4 chunk 无归属:', (await q(`SELECT count(*)::int n FROM app.chunks WHERE micro_kp_id IS NULL`))[0].n);
+console.log('AC4 悬空归属:', (await q(`SELECT count(*)::int n FROM app.chunks c LEFT JOIN app.knowledge_points k ON k.id = c.micro_kp_id WHERE c.micro_kp_id IS NOT NULL AND k.id IS NULL`))[0].n);
+console.log('总知识点:', (await q(`SELECT count(*)::int n FROM app.knowledge_points`))[0].n);
+await c.end();

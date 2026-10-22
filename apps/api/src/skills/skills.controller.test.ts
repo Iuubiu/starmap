@@ -96,11 +96,18 @@ async function toggle(name: string, enabled: boolean): Promise<SkillBody> {
 }
 
 describe('扫描真实目录：列出的就是磁盘上的 SKILL.md', () => {
-  it('两个真实 skill 都在，字段来自 frontmatter 而不是硬编码', async () => {
+  it('四个真实 skill 都在，字段来自 frontmatter 而不是硬编码', async () => {
     const body = await list();
 
     const names = body.items.map((i) => i.name).sort();
-    expect(names).toEqual(['question-author', 'socratic-tutor']);
+    // 票 78 新增 first-meeting（初识）、票 79 新增 ask-the-way（问津）：这里的断言
+    // 刻意写死全量名单，因为「磁盘上多了一个 skill 而接口没列出」正是本用例要抓的病。
+    expect(names).toEqual([
+      'ask-the-way',
+      'first-meeting',
+      'question-author',
+      'socratic-tutor',
+    ]);
 
     const socratic = body.items.find((i) => i.name === 'socratic-tutor');
     expect(socratic?.version).toBe('1.0.0');
@@ -109,6 +116,21 @@ describe('扫描真实目录：列出的就是磁盘上的 SKILL.md', () => {
     expect(socratic?.triggerScenarios.length).toBeGreaterThanOrEqual(3);
     expect(socratic?.directoryName).toBe('socratic-tutor');
     expect(socratic?.referenceCount).toBe(1);
+
+    // 初识技能：名字必须是 kebab-case 的 first-meeting，且正文包含两条硬规则。
+    const firstMeeting = body.items.find((i) => i.name === 'first-meeting');
+    expect(firstMeeting?.directoryName).toBe('first-meeting');
+    expect(firstMeeting?.version).toBe('1.0.0');
+    // 一行只问一个问题这件事必须写在 description/正文里，否则 agent 没有依据。
+    expect(firstMeeting?.description).toContain('一屏一问');
+    expect(firstMeeting?.triggerScenarios.length).toBeGreaterThanOrEqual(3);
+
+    // 问津技能：名字是 kebab-case 的 ask-the-way，正文必须写清「先问意图再出卡」。
+    const askTheWay = body.items.find((i) => i.name === 'ask-the-way');
+    expect(askTheWay?.directoryName).toBe('ask-the-way');
+    expect(askTheWay?.version).toBe('1.0.0');
+    expect(askTheWay?.description).toContain('意图');
+    expect(askTheWay?.triggerScenarios.length).toBeGreaterThanOrEqual(3);
   });
 
   it('目录名必须等于 name（Mastra 用目录名定位 skill）', async () => {

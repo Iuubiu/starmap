@@ -14,6 +14,7 @@ import { MarketController } from './market/market.controller.js';
 import { PlacementController } from './placement/placement.controller.js';
 import { TierController } from './tier/tier.controller.js';
 import { VideoController } from './video/video.controller.js';
+import { ProfileController } from './profile/profile.controller.js';
 
 /**
  * 全部领域控制器的汇总表。
@@ -46,6 +47,7 @@ import { VideoController } from './video/video.controller.js';
  * | `PlacementController` | agent-dev |
  * | `TierController` | agent-dev |
  * | `VideoController` | authoring-dev |
+ * | `ProfileController` | agent-dev |
  *
  * 新控制器落地后在下面加一行即可，本文件由 integrator 维护（冲突多时
  * 找我加，别自己改 `app.module.ts`）。
@@ -70,4 +72,5 @@ export const domainControllers = [
   GenerationController,
   TierController,
   VideoController,
+  ProfileController,
 ];

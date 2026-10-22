@@ -1,12 +1,15 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import type { MasteryView } from '@starmap/api-contract';
+import type { MasteryView, ProgressBoard } from '@starmap/api-contract';
 import { deriveState, type MasterySnapshot } from '@starmap/engine';
 import { DatabaseService } from '../db/database.service.js';
 import { aggregateSnapshots, groupByMicroKp, snapshotOf } from './evidence.js';
 import {
   findKnowledgePoint,
+  loadBooks,
+  loadCourseLayers,
   loadEvidence,
   loadLeafDescendants,
+  loadLeafIndex,
   type Runner,
 } from './repository.js';
 
@@ -220,6 +223,94 @@ export class MasteryService {
     }
 
     return views;
+  }
+
+  /**
+   * 个人看板（票 80）：三块进度，共用一次回放与一个时刻。
+   *
+   * ## 为什么三块都在这里，而不是三个查询方法
+   *
+   * 「知识点掌握了 7 个」「八层加起来 6 个」这种自相矛盾，一旦出现，页面上的
+   * 每个数字都会被怀疑。所以这里只回放一次（`viewMany`）、只取一次索引，
+   * 三块分组都在同一份 `Map` 上做 —— 一致性是结构给的，不是靠调用方记得。
+   *
+   * ## 为什么层与书的分母不用 SQL 的 count
+   *
+   * 分母来自 `loadLeafIndex` 的同一批行。另写两条 `COUNT(*) GROUP BY` 当然也能
+   * 算出同样的数，但那会多出两条与回放无关的计算路径；只要其中一条的 join
+   * 条件略有不同（比如忘了 `is_leaf`），分子分母就会来自两个不同的总体。
+   *
+   * ## 时刻
+   *
+   * `floorToGranularity` 在 `viewMany` 里已经做过一次；这里显式再取一次，是为了
+   * 把响应里的 `evaluatedAt` 与数字钉在同一个时刻上（而不是「差不多同一时刻」）。
+   */
+  async board(evaluatedAt: string): Promise<ProgressBoard> {
+    const at = floorToGranularity(evaluatedAt);
+    const leaves = await loadLeafIndex(this.runner);
+    const views = await this.viewMany(leaves.map((leaf) => leaf.id), at);
+
+    const stateOf = (id: string): string => views.get(id)?.state ?? 'unseen';
+
+    const counts = {
+      mastered: 0,
+      proficient: 0,
+      familiar: 0,
+      attempted: 0,
+      unseen: 0,
+    };
+    for (const leaf of leaves) {
+      const state = stateOf(leaf.id) as keyof typeof counts;
+      counts[state] += 1;
+    }
+
+    const total = leaves.length;
+    const learning = counts.proficient + counts.familiar + counts.attempted;
+
+    const layerRows = await loadCourseLayers(this.runner);
+    const layers = layerRows.map((layer) => {
+      const inLayer = leaves.filter((leaf) => leaf.course_layer_id === layer.id);
+      return {
+        id: layer.id,
+        name: layer.name,
+        ordinal: layer.ordinal,
+        total: inLayer.length,
+        mastered: inLayer.filter((leaf) => stateOf(leaf.id) === 'mastered').length,
+      };
+    });
+    const layeredLeafCount = layers.reduce((sum, layer) => sum + layer.total, 0);
+
+    const books = (await loadBooks(this.runner)).map((book) => {
+      const inBook = leaves.filter((leaf) => leaf.source_id === book.id);
+      return {
+        id: book.id,
+        title: book.title,
+        enabled: book.enabled,
+        total: inBook.length,
+        // 「学过」= 有过作答证据且不在 unseen：刚接触也算学过，只是没掌握。
+        learned: inBook.filter((leaf) => stateOf(leaf.id) !== 'unseen').length,
+      };
+    });
+
+    return {
+      evaluatedAt: at,
+      knowledgePoints: {
+        total,
+        mastered: counts.mastered,
+        learning,
+        untouched: counts.unseen,
+        byState: [
+          { state: 'mastered', count: counts.mastered },
+          { state: 'proficient', count: counts.proficient },
+          { state: 'familiar', count: counts.familiar },
+          { state: 'attempted', count: counts.attempted },
+          { state: 'unseen', count: counts.unseen },
+        ],
+      },
+      layers,
+      books,
+      unlayeredLeafCount: total - layeredLeafCount,
+    };
   }
 
   /**

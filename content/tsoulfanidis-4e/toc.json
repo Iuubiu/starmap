@@ -76,7 +76,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-1",
-      "name": "引言",
+      "name": "核仪器 引言",
       "num": "1.5.1",
       "printedPage": 5,
       "depth": 3,
@@ -124,7 +124,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-5",
-      "name": "前置放大器",
+      "name": "核仪器 前置放大器",
       "num": "1.5.5",
       "printedPage": 9,
       "depth": 3,
@@ -136,7 +136,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-1-5-6",
-      "name": "放大器",
+      "name": "核仪器 放大器",
       "num": "1.5.6",
       "printedPage": 10,
       "depth": 3,
@@ -1660,7 +1660,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-2-1",
-      "name": "闪烁过程的机制",
+      "name": "无机晶体闪烁体 闪烁过程的机制",
       "num": "6.2.1",
       "printedPage": 196,
       "depth": 3,
@@ -1888,7 +1888,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-6-5-1-2",
-      "name": "带电粒子",
+      "name": "无机闪烁体的响应 带电粒子",
       "num": "6.5.1.2",
       "printedPage": 205,
       "depth": 4,
@@ -3400,7 +3400,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-2-1",
-      "name": "能量沉积由光子（带MEV）",
+      "name": "能量沉积中探测器的模式 能量沉积由光子（带MEV）",
       "num": "12.2.1",
       "printedPage": 348,
       "depth": 3,
@@ -3412,7 +3412,7 @@
     },
     {
       "microKpId": "kp-tsoulfanidis-4e-12-2-2",
-      "name": "能量沉积中探测器的模式 能量沉积由光子（带MEV）",
+      "name": "能量沉积由光子（带MEV）",
       "num": "12.2.2",
       "printedPage": 350,
       "depth": 3,

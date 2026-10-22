@@ -1,0 +1,10 @@
+import { chromium } from '@playwright/test';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1280, height: 800 } });
+await p.goto('http://localhost:5173/map');
+await p.waitForFunction(() => document.querySelectorAll('[role="progressbar"]:not([aria-valuenow])').length === 0, undefined, { timeout: 30000 });
+const items = await p.$$eval('.graph-legend-item', els => els.map(e => ({ status: e.getAttribute('data-status'), text: e.innerText.replace(/\n/g,' | '), title: e.getAttribute('title') })));
+console.log(JSON.stringify(items, null, 2));
+const total = await p.$eval('.graph-canvas-webgl, .graph-canvas', e => e.getAttribute('data-node-count'));
+console.log('canvas node-count =', total);
+await b.close();

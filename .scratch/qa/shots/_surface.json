@@ -1,0 +1,4705 @@
+{
+  "/": {
+    "buttons": [
+      {
+        "t": "学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "开新会话",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "去地图选",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "提交这一轮",
+        "tag": "button",
+        "role": "",
+        "disabled": true
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "textarea",
+        "type": "textarea",
+        "aria": "这一轮想说的话",
+        "ph": "说说你想学什么，或者你卡在哪一步。（Enter 提交，Shift+Enter 换行）",
+        "name": ""
+      }
+    ],
+    "headings": [
+      "学习"
+    ],
+    "url": "/"
+  },
+  "/placement": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "重新定级",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      }
+    ],
+    "inputs": [],
+    "headings": [
+      "初始定级",
+      "你的档位",
+      "档位变更历史"
+    ],
+    "url": "/placement"
+  },
+  "/board": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "开始学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "不学这个，换一个",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "开始学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "不学这个，换一个",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "开始学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "不学这个，换一个",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "「我要练题」关卡市场里挑一张关卡",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "「看看我学到哪了」知识地图上按主线看一遍",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "「我卡住了，帮我理一理」回主页，把这句话发给智能体",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      }
+    ],
+    "inputs": [],
+    "headings": [
+      "看板",
+      "今日推荐",
+      "今日学习摘要",
+      "常用指令"
+    ],
+    "url": "/board"
+  },
+  "/map": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "图谱视图",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "线性主线",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "−1 跳",
+        "tag": "button",
+        "role": "",
+        "disabled": true
+      },
+      {
+        "t": "+1 跳",
+        "tag": "button",
+        "role": "",
+        "disabled": true
+      },
+      {
+        "t": "回全图",
+        "tag": "button",
+        "role": "",
+        "disabled": true
+      },
+      {
+        "t": "＋",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "－",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "⌂",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未学5492/5492",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "在学0/0",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "已掌握2/2",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "需复验0/0",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "布尔代数基本运算已掌握（已掌握）100%",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "卡诺图化简未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "辐射的类型未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "或粒子未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "活化未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "衰变能量或未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "衰变方程未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.2 源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（1.3.C Composite radionuclides）未学（未",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（1.3.F Branching ratio）未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性的单位未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.7 裂变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.3.5.1 平衡未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.1.1 辐射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（H.1 Muons）未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.3.5.2 平衡未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.1.2 辐射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "中微子未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.3.5.3 平衡未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "内部辐射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "若干其他粒子未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.1.1.1 射线未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.2.1.1 电子未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.3.1.1 粒子加速器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.4.1.1 粒子加速器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.5.1.1 源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "加速器源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.1.1.2 辐射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子的放射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "正电子的放射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "激光器离子加速器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.5.1.2 源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "粒子的放射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "质子的放射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "聚变源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光子的放射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "反应堆未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "中子的放射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "气体激光器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "液体激光器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "固体激光器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "发展未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "信号的频谱未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "模拟信号和数字信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放大电路模型未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放大电路的主要性能指标未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子系统的组成未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "模拟电子技术基础课程的特点未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "模拟信号和数字信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子信息系统中的模拟电路未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "如何学习模拟电子技术基础课未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子信息系统的组成原则未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子电路的计算机辅助分析和设计软件介绍未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "两类约束推荐未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电流、电压及功率推荐未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "建模的两种方法未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电路及集总电路模型未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电路变量未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "基尔霍夫定律未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电阻元件未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电压源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电流源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "受控源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "分压公式和分流公式未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "KCL、KVL方程的独立性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "支路分析未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二极管模型未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电磁辐射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "与射线的起源与性质未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "探测器发展未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光电吸收未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "线性最小拟合未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "能量标准未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "康普顿散射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "平均与标准差未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "非线性最小拟合未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子对产生未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "与数据的不确定度未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数据的插值未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "探测限未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "质量未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光子衰减未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.1 概述未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "几种常用的数制未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "不同数制间的转换未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "几种常用的编码未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二进制算术运算的特点未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "反码、补码和补码运算未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二值逻辑变量与基本逻辑运算未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "逻辑函数及其表示方法未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数字技术的发展及其应用未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "十进制未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "无符号二进制数的算术运算未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二-十进制码未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数字集成电路的分类及特点未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二进制未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "带符号二进制数的减法运算未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "格雷码未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "模拟信号和数字信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "十-二进制之间的转换未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "ASCⅡI码未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数字信号的描述方法未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "十六进制和八进制未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.1 引言未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "或衰变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电磁能谱未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "或正电子衰变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "轫致辐射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "活度中反应堆未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子俘获未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "活度来自衰变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "稳定未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "能量能级未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "内部转换未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "……的相互作用未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "气体中的漂移与扩散未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "能量损失由电离与激发未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光电效应未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "沟道效应未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "康普顿效应未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电离未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子对产生未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "散射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "总光子吸收截面未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "轫致辐射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子电子对产生未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "能量损失由相互作用未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "总能量损失未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "用于带电粒子的能量射程未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "辐射损失未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．6 类氢系统的光谱未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．1．1 原子的质量未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．2．1 α粒子的散射实验未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．3．1 库仑散射公式未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．4．1 卢瑟福原子核式结构模型的困难未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．5．1 氢原子的玻尔理论未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．1．2 原子的大小未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．2．2 原子的核式结构模型未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．3．2 卢瑟福散射公式未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．4．2 黑体辐射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．5．2 光谱项未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．3．3 原子核半径的估算未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．4．3 光电效应未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．5．3 原子能级的实验验证———弗兰克赫兹实验未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1．4．4 氢原子光谱的规律未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.1原子的基本状况未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "*1.2原子的核式结构未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "*1.3卢瑟福散射公式未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "*1.4氢原子玻尔理论的历史背景未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5氢原子的玻尔理论未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6类氢系统的光谱未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "*附录：数值计算法未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "单位与定义未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重带电粒子源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电磁辐射的源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "中子源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "单位与定义未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重带电粒子源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电磁辐射的源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "中子源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核能级未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "α衰变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "β衰变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子俘获未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "湮没辐射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "内部转换未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.8 电子未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "源活度单位未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性衰变中的涨落未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（Isomeric States）未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "裂变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性衰变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核反应未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性同位素产生由辐照未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（Part I）：半导体物理未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "探测器类型未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "信号机制未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "脉冲来自电离探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "闪烁探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "产生的统计学未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.1.1 引言未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电离室未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.4.1 引言未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "切伦科夫探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.2.1 方法未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "带电未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "正比计数器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "有机闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "火花室未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子与正电子未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "盖革计数器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "结探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "无机闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "脉冲未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "计数率计未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "与射线未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "表面结探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "双稳态电路未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "中子未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "锂漂移探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "响应至不同粒子能量未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "单稳态电路未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（Thin, totally depleted dE/dx anes）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "第一节脉冲幅度甄别器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "第二节单道脉冲幅度分析器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "9.1.1 概述未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "9.2.1 概述未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "幅度甄别器的工作原理未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "单道脉冲幅度分析器的工作原理和主要特性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "幅度甄别器的触发过程未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "定时单道脉冲幅度分析器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "幅度甄别器的主要特性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "快甄别器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "一、核辐射探测器的要求和特点未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "第1章核辐射探测器及其输出信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "五、核辐射探测器输出信号的数学模拟未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "噪声的分类和噪声源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "时域和频域分析未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核电子学中常见的基本电路分析未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二、核辐射探测器的主要类别和输出信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核随机信号通过线性网络未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "常用的几项NIM标准未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "三、核辐射探测器的基本性能(指标)未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "四、核辐射探测器的输出电路未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核电子学中的噪声未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核电子学中的信号与噪声分析基础未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "系统的基本组成未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核电子学常用的信号处理系统未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核电子学信号处理单元插件标准化未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "一、核衰变的统计分布未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核衰变数和计数的统计分布未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "第-一节未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "三、平均效应的统计误差未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "一、两次测量计数值差异的检验未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "第三节测量数据的检验未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二、一组测量数据的检验未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "三、可疑测量值的舍弃未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "一、电离的统计涨落未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "+第四节脉冲幅度分辨率未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "、倍增过程统计学未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "一、核辐射事件的时间间隔分布未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "*第五节核辐射事件的时间分布未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "三、分辨时间和漏计数校正未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二、包括多个脉冲的时间分布未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "四、脉冲重选数的计算未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二、计数的统计分布未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "三、合成分布未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "一、统计误差的产生和表示方法未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "第二节放射性测量的统计误差未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二、计数统计误差的计算未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子与原子核未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性衰变和衰变规律未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子核反应*未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "人工放射性核素与人工辐射源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核辐射测量中的常见物理量和常用单位未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子核的组成、质量和半径未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子核稳定性的实验规律未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子核的结合能未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核力及核势垒未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子核的矩（自旋、磁矩和电四极矩）未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子核的统计性质未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子核的宇称未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "原子核的能态和核的壳层模型未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性与衰变未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "衰变规律未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "天然放射系未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "有机晶体闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "天然放射系外的天然放射性核素未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "主要放射性核素表未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "气体闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "部分商品光电倍增管表未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "6.8 B．光电倍增管未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "离子反馈未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "结构和工作原理未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "特性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "饱和效应未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "使用未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "特点与应用未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电特性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "多阳极光电倍增管未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "快响应光电倍增管未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光谱响应W与S——命名体系未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "通道电子倍增器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "葱晶体(C,Ho)未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "普通塑料闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "玻璃闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "6.6.1 工作原理未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光电阴极未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "量子效率Q()未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "微通道板（未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "芪晶体（C,4H,2)未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "高β/塑料闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "主要性能参数未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "液体闪烁体的组成未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子光学输入系统未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "灵敏度未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "微通道极光电倍增管未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "空气等效塑料闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "部分商品玻璃闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "部分常用的液体闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子倍增器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光阴极灵敏度的均匀性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "二苯乙炔（C4H,o)未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "α、β双闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "阳极未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "第一倍增极光电子收集系数f未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "三联苯（CH）未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "气流β闪烁球未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电流放大倍数（增益）G未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "其他未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "高发光效率塑料闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "暗电流未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "塑料切伦科夫闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "噪声未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "高温塑料闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "线性电流未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "快时间塑料闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "脉冲幅度分辨率未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "红光塑料闪烁体未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "时间特性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "稳定性未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "作用与地位推荐未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核探测技术在核科学研究、核试验测试、核技术应用中的未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "核辐射探测器的发展及其应用简介未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "辐射传感器的示例未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "探测器中的信号形成未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "前端端放大器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "前端端未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.3.2 时间未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "计数与时间over阈未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "分辨率与探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "增益与信号未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "时间系统未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "幅度与信号形状涨落未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.3.4 噪声未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "样品与与峰探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "传感器电容未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "时间分辨率未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "模拟未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.1.6 漏电电流未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "堆积上升未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.4.6 时间未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "传感器等效电路未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "探测效率与未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数据读出与未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "系统的建模未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "传感器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "前置放大器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "脉冲成形器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（Digitizer）未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "积分未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.9 电子学未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "延伸阅读未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.10.1 电子学噪声未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电路积分与未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "基础传感器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "信号电荷未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电荷器件未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "幅度测量未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "探测器与未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "位置灵敏未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "传感器体积未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "硅漂移室未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "时间测量未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数据获取未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "像素器件未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.7.3 电荷收集未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "有源像素传感器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "能量分辨率未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "位置分辨率未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "由辐射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "辐射发射的统计未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "测量的误差与与未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "误差的类型未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.1 引言未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.2 探测器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.3 仪器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "高电压电源未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.5 前置放大器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.6 放大器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（Oscilloscope）未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "甄别器或单道未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "定标器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（Timer）未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.11 多道分析器未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（2.1.A Inverse square law）未学（未学习）证据",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.2.1 散射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.4.1 散射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "截面未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.2.2 散射未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "带电粒子通过物质的通过未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子通过物质的通过未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "平均未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "湮没未学（未学习）证据不足",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "继续显示（还有 5094 个）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "从最接近的知识点看起",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "从最接近的知识点看起",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "从最接近的知识点看起",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "select",
+        "type": "select-one",
+        "aria": "选择焦点知识点",
+        "ph": "",
+        "name": ""
+      }
+    ],
+    "headings": [
+      "知识地图"
+    ],
+    "url": "/map"
+  },
+  "/map/kp-bool": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "返回地图",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      }
+    ],
+    "inputs": [],
+    "headings": [
+      "布尔代数基本运算"
+    ],
+    "url": "/map/kp-bool"
+  },
+  "/review": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "回到看板",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "去知识地图",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      }
+    ],
+    "inputs": [],
+    "headings": [
+      "复验"
+    ],
+    "url": "/review"
+  },
+  "/market": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "重新开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重新开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重新开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重新开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重新开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重新开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重新开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "重新开始",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "开始打包",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "AI 批量生成",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "text",
+        "aria": "知识点 id",
+        "ph": "知识点 id，例如 kp-bool",
+        "name": ""
+      }
+    ],
+    "headings": [
+      "关卡市场"
+    ],
+    "url": "/market"
+  },
+  "/market/generate": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "开始生成",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "text",
+        "aria": "知识点 id",
+        "ph": "kp-bool, kp-kmap",
+        "name": ""
+      }
+    ],
+    "headings": [
+      "AI 批量生成关卡"
+    ],
+    "url": "/market/generate"
+  },
+  "/market/author/kp-bool": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "保存进关卡库",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "取消",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "textarea",
+        "type": "textarea",
+        "aria": "关卡 JSON",
+        "ph": "",
+        "name": ""
+      }
+    ],
+    "headings": [
+      "打包这段学习过程"
+    ],
+    "url": "/market/author/kp-bool"
+  },
+  "/skills": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "question-authorv1.0.0生成或校验练习题时使用。把「出一道题」",
+        "tag": "div",
+        "role": "button",
+        "disabled": false
+      },
+      {
+        "t": "socratic-tutorv1.0.0当学习者卡住、给出错误判断、或直接要答案",
+        "tag": "div",
+        "role": "button",
+        "disabled": false
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "checkbox",
+        "aria": "question-author 启用开关",
+        "ph": "",
+        "name": ""
+      },
+      {
+        "tag": "input",
+        "type": "checkbox",
+        "aria": "socratic-tutor 启用开关",
+        "ph": "",
+        "name": ""
+      }
+    ],
+    "headings": [
+      "技能库",
+      "question-author",
+      "智能体此刻收到的 system message",
+      "怎么迁移和修改"
+    ],
+    "url": "/skills"
+  },
+  "/database": {
+    "buttons": [
+      {
+        "t": "学习学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "辐射的类型",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "或粒子",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "衰变能量或",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "衰变方程",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（1.3.C Composite radionuclides）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.3.5.1 平衡",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.3.5.2 平衡",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.3.5.3 平衡",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（1.3.F Branching ratio）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "放射性的单位",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "活化",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.1.1 辐射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.1.2 辐射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "内部辐射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.5.2 源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.1.1.1 射线",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.1.1.2 辐射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "气体激光器",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "液体激光器",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "固体激光器",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "发展",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光子的放射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.2.1.1 电子",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子的放射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.3.1.1 粒子加速器",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "正电子的放射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.4.1.1 粒子加速器",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "激光器离子加速器",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "质子的放射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.5.1.1 源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.5.1.2 源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "聚变源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "反应堆",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "中子的放射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "加速器源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "粒子的放射源",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "1.6.7 裂变",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（H.1 Muons）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "中微子",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "若干其他粒子",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（A.1 Availability）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数据操作与储存",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.1.3 数据分析能力",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.1.4 能力",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "使用",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.1.6 示例",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数据能力",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.2.2 能力",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.2.3 数据分析能力",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.2.4 环境",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.2.5 示例",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "统计学与优化",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "控制系统设计与分析",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "信号处理与",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "图像处理与",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "测试与测量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数据获取与能力",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.3.3 数据分析能力",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.3.4 能力",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.3.5 环境",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.1.3.6 示例",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数据",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "数据分析",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "产生",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "10.2.4 结果",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "剂量与剂量率",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "A.1 Roentgen 刀",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "吸收剂量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "等效剂量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "剂量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "内部剂量来自带电粒子",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "内部剂量来自热中子",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "或率",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.2.3 或",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "与吸收剂量：定义",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（E.1 Kerma）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（E.2 Cema）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（E.3 Terma）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "测量与",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.2.7.1 理论",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.2.7.2 理论",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.2.8 与",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（11.2.I Beam size）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.3.1.1 原理与曲线",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.3.1.2 常见材料",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.3.1.3 剂量计的优点与缺点",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.3.2.1 原理与曲线",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.3.2.2 常见材料",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.3.3.1 剂量计的优点与缺点",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.3.3.2 常见材料",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "径迹剂量计的优点与缺点",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "空气离子室剂量学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "离子室剂量学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.4.2.1 剂量计",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.4.2.2 剂量计",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "闪烁体剂量计",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "优点与缺点",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "线性能量传递与剂量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.5.1.2 能量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.5.1.3 能量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "等效正比计数器",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "固体径迹探测器",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.5.2.3 硅",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（A.1 Acute exposure）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（A.2 Chronic exposure）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.6.2.1 辐射的效应",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "11.6.2.2 辐射的效应",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "射线能谱学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "刻度",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "射线吸收能谱学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "C.2 X-ray photoelectron spectroscopy 堀倀匀",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "C.3 X-ray diffraction spectroscopy 堀䐀匀",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "源的能量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "粒子中气体的射程与阻止本领",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "源的活度",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子能谱学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "中子作为物质探头",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "轴能谱测量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "高谱仪",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "滤波器谱仪",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "12.3.2.4 谱仪",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "12.3.2.5 谱仪",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "12.3.2.6 谱仪",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "质量能谱学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "12.5 时间能谱学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "13.1.1.1 脉冲计数",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "13.1.1.2 脉冲计数",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "能量能谱学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "13.1.3 时间能谱学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "符合能谱学",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（A.1 NIM layout）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（A.2 NIM modules）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "NIM逻辑",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "信号输运",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（B.1 CAMAC layout）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（B.2 CAMAC controllers）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "CAMAC逻辑",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（C.1 VME layout）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（C.2 VME backplane）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（C.3 VME modules）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "逻辑",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（D.1 FASTBUS layout）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（D.2 FASTBUS backplane）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（13.3.A PCI boards）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（13.3.B PC serial port modules）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（13.3.C PC parallel port modules）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（13.3.D USB-based modules）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "系统",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "测量电压与电流",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "模拟",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "13.5.3 数字",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "测量电压",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "测量电流",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（A.1 Attenuator）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "13.6.1.2 电子",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子系统",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "触发系统",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "13.6.2 数字",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "无源探头",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "有源探头",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "常数",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "粒子的质量与电气电荷",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "转换",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（2.1.A Inverse square law）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "截面",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "平均",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.1.4 辐射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.1.5.1 能量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "未收录术语（E.2 Conservation of momentum）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电气电荷",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.2.1 散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.2.2 散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "湮没",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.2.4 轫致辐射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.2.5 切伦科夫辐射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "光电效应",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "康普顿散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.3.1.3 散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.3.1.4 散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子对产生",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "测量衰减",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.3.2.2 与",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "材料",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.4.1 散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "带电粒子通过物质的通过",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "曲线",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.4.4 能量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "粒子的射程",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "质子的射程",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电离",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.5.1.2 散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.5.1.3 散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子正电子湮没",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.5.1.5 轫致辐射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.5.1.6 切伦科夫辐射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子通过物质的通过",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.5.3 能量",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "电子的射程",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "2.6.1.1 散射",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "检索",
+        "tag": "button",
+        "role": "",
+        "disabled": true
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "text",
+        "aria": "检索词",
+        "ph": "例如：布尔代数 吸收律",
+        "name": ""
+      },
+      {
+        "tag": "input",
+        "type": "checkbox",
+        "aria": "",
+        "ph": "",
+        "name": ""
+      }
+    ],
+    "headings": [
+      "数据库"
+    ],
+    "url": "/database"
+  },
+  "/level/lv-bool-laws": {
+    "buttons": [
+      {
+        "t": "学习",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "定级定级",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "复验复验",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "看板看板",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "知识地图知识地图",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "关卡市场关卡市场",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "数据库数据库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "技能库技能库",
+        "tag": "button",
+        "role": "tab",
+        "disabled": false
+      },
+      {
+        "t": "提交答案",
+        "tag": "button",
+        "role": "",
+        "disabled": true
+      },
+      {
+        "t": "?给一点提示（0/3）",
+        "tag": "button",
+        "role": "",
+        "disabled": false
+      },
+      {
+        "t": "进入下一段",
+        "tag": "button",
+        "role": "",
+        "disabled": true
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "radio",
+        "aria": "",
+        "ph": "",
+        "name": "radiogroup-_r_l_"
+      },
+      {
+        "tag": "input",
+        "type": "radio",
+        "aria": "",
+        "ph": "",
+        "name": "radiogroup-_r_l_"
+      },
+      {
+        "tag": "input",
+        "type": "radio",
+        "aria": "",
+        "ph": "",
+        "name": "radiogroup-_r_l_"
+      },
+      {
+        "tag": "input",
+        "type": "radio",
+        "aria": "",
+        "ph": "",
+        "name": "radiogroup-_r_l_"
+      }
+    ],
+    "headings": [
+      "逻辑代数基本律：吸收律与德摩根律"
+    ],
+    "url": "/level/lv-bool-laws"
+  }
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "theme": "dark",
+    "slug": "home",
+    "file": ".scratch\\qa\\shots\\before-home-dark.png"
+  },
+  {
+    "theme": "dark",
+    "slug": "board",
+    "file": ".scratch\\qa\\shots\\before-board-dark.png"
+  },
+  {
+    "theme": "dark",
+    "slug": "placement",
+    "file": ".scratch\\qa\\shots\\before-placement-dark.png"
+  },
+  {
+    "theme": "dark",
+    "slug": "skills",
+    "file": ".scratch\\qa\\shots\\before-skills-dark.png"
+  },
+  {
+    "theme": "dark",
+    "slug": "database",
+    "file": ".scratch\\qa\\shots\\before-database-dark.png"
+  },
+  {
+    "theme": "light",
+    "slug": "home",
+    "file": ".scratch\\qa\\shots\\before-home-light.png"
+  },
+  {
+    "theme": "light",
+    "slug": "board",
+    "file": ".scratch\\qa\\shots\\before-board-light.png"
+  },
+  {
+    "theme": "light",
+    "slug": "placement",
+    "file": ".scratch\\qa\\shots\\before-placement-light.png"
+  },
+  {
+    "theme": "light",
+    "slug": "skills",
+    "file": ".scratch\\qa\\shots\\before-skills-light.png"
+  },
+  {
+    "theme": "light",
+    "slug": "database",
+    "file": ".scratch\\qa\\shots\\before-database-light.png"
+  }
+]

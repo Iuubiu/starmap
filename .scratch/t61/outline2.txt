@@ -1,0 +1,25 @@
+##### 07 outline entries=520
+  [0] L1 p1 '封面'
+  [1] L1 p3 '书名'
+  [2] L1 p4 '版权'
+  [3] L1 p5 '前言'
+  [4] L1 p7 '目录'
+  [5] L1 p11 '1'
+  [6] L1 p12 '2'
+  [7] L1 p13 '3'
+  [8] L1 p14 '4'
+  [9] L1 p15 '5'
+  [10] L1 p16 '6'
+  [11] L1 p17 '7'
+--- needle 核探测技术 -> []
+##### OCR content/nuclear-physics-experiment-methods-1997/ocr/pages.jsonl
+  ocr pages=483 keys=['blockCount', 'charCount', 'confidence', 'elapsed', 'error', 'figureCount', 'footerPage', 'lineCount', 'medianConfidence', 'minConfidence', 'page', 'status']
+--- needle '带电粒子在靶物质中的慢化' -> pages [] (n=0)
+--- needle '重带电粒子在物质中的能量损失' -> pages [] (n=0)
+--- needle '重离子的电子阻止本领' -> pages [] (n=0)
+--- needle '倍增过程统计学' -> pages [] (n=0)
+--- needle '中子全截面测量' -> pages [] (n=0)
+--- needle '概述' -> pages [] (n=0)
+##### OCR content/nuclear-radiation-physics-chenboxian-2011/ocr/pages.jsonl
+  ocr pages=484 keys=['blockCount', 'charCount', 'confidence', 'elapsed', 'error', 'figureCount', 'footerPage', 'lineCount', 'medianConfidence', 'minConfidence', 'page', 'status']
+--- needle '中子探测方法和常用探测器' -> pages [] (n=0)

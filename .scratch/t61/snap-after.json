@@ -1,0 +1,92 @@
+{
+  "aClass": [
+    {
+      "n": 0
+    }
+  ],
+  "aClassRows": [],
+  "bClass": [],
+  "mergedName": [
+    {
+      "id": "kp-dinghonglin-2010-1-1",
+      "name": "核探测技术在核科学研究、核试验测试、核技术应用中的作用与地位"
+    }
+  ],
+  "kpTotal": [
+    {
+      "n": 4029,
+      "leaf": 3085
+    }
+  ],
+  "chunkNull": [
+    {
+      "n": 0
+    }
+  ],
+  "chunkTotal": [
+    {
+      "n": 78204
+    }
+  ],
+  "cClass": [
+    {
+      "id": "kp-kanghua-5e-p504-附录ACMOS和TTL逻辑门电路的技术参数",
+      "name": "附录ACMOS和TTL逻辑门电路的技术参数"
+    },
+    {
+      "id": "kp-kanghua-5e-p505-附录BQuartus50开发软件简介",
+      "name": "附录BQuartusⅡ 5.0开发软件简介"
+    },
+    {
+      "id": "kp-kanghuaguang-5e-p543-附录A",
+      "name": "附录A"
+    },
+    {
+      "id": "kp-kanghuaguang-5e-p558-附录B",
+      "name": "附录B"
+    },
+    {
+      "id": "kp-methods-1997-p148-二同轴型HPGe探测器的电场和电容",
+      "name": "二、同轴型HPGe探测器的电场和电容"
+    },
+    {
+      "id": "kp-methods-1997-p149-三HPGe探测器的主要性能",
+      "name": "三、HPGe探测器的主要性能"
+    },
+    {
+      "id": "kp-methods-1997-p404-第三节探测器望远镜方法",
+      "name": "第三节探测器望远镜方法"
+    },
+    {
+      "id": "kp-methods-1997-p413-四多重探测器望远镜系统",
+      "name": "四、多重探测器望远镜系统"
+    },
+    {
+      "id": "kp-methods-1997-p415-二探测器望远镜与飞行时间方法的组合",
+      "name": "二、探测器望远镜与飞行时间方法的组合"
+    },
+    {
+      "id": "kp-methods-1997-p416-三超灵敏加速器质谱仪",
+      "name": "三、超灵敏加速器质谱仪"
+    }
+  ],
+  "halfTitles": [
+    {
+      "id": "paper-10-1016-0168-9002-87-90887-4-4",
+      "name": "应用至径迹拟合与径迹元件合并"
+    },
+    {
+      "id": "paper-10-1016-j-nima-2016-06-125-88",
+      "name": "新型方向"
+    },
+    {
+      "id": "paper-10-1016-s0168-9002-01-02012-5-17",
+      "name": "束流方向"
+    }
+  ],
+  "chunkOwnedByFragment": [
+    {
+      "n": 0
+    }
+  ]
+}

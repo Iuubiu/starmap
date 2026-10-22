@@ -1,0 +1,220 @@
+DB total 217 leaves 195
+by book {'spieler-2005': 43, 'knoll-3e-2000': 1, 'knoll-4e-2010': 1, 'tsoulfanidis-4e': 14, 'grupen-2e-2008': 9, 'ahmed-2e': 58, 'leo-2e': 27, 'rivetti-2015': 14, 'lutz-2007': 14, 'nicholson-1974': 12, 'gilmore-2e-2008': 18, 'debertin-1988': 4, 'guojiang-2014': 1, 'nakhostin-2018': 1}
+distinct inner 215
+2	ADCs
+2	Microphonics
+1	Why things don't work
+1	PHOTOGRAPHIC EMULSIONS
+1	Digitizer
+1	Subsystems
+1	"Noiseless" resistances
+1	Photographic Emulsions
+1	Segmentation
+1	Capacitors
+1	A.3 Deposition
+1	A.4 Patterning
+1	A
+1	B
+1	C
+1	D
+1	E
+1	F
+1	G
+1	H
+1	I
+1	J
+1	K
+1	L
+1	M
+1	N
+1	O
+1	P
+1	Q
+1	R
+1	S
+1	T
+1	U
+1	V
+1	W
+1	X
+1	Z
+1	Multiparameter Analyzers
+1	Interpolation Schemes
+1	Concluding Remarks
+1	Dynamic resistances
+1	Chronometry
+1	Oscilloscope
+1	Timer
+1	Insulators
+1	Conductors
+1	Bonner Sphere (Rem Ball)
+1	NaI(Tl)
+1	CsI(Tl)
+1	CsI(Na)
+1	CaF2(Eu)
+1	LiI(Eu)
+1	Random coincidences
+1	Digitizers with clock interpolation
+1	Nuclear emulsions
+1	Scintillating fibre trackers
+1	Tribology
+1	R´esum´e
+1	Channelling
+1	Streamer tubes
+1	Cost
+1	Layout
+1	Preamplification
+1	Amplification
+1	Measures of centrality
+1	Measure of dispersion
+1	Correlation
+1	Microdosimetry
+1	A.1 Multimeters
+1	A.2 Oscilloscopes
+1	1.3.C Composite radionuclides
+1	1.3.F Branching ratio
+1	2.1.A Inverse square law
+1	2.1.E Conservation laws
+1	7.1.E Uniformity
+1	8.7.C Hybrid ADCs
+1	11.2.I Beam size
+1	11.4.D Quartz fiber electroscope
+1	11.5.A Microdosimetric quantities
+1	H.1 Muons
+1	E.2 Conservation of momentum
+1	A.3 Transmutation
+1	A.5 Spallation
+1	G.3 Gallium arsenide
+1	D.1 Anthracene 䌀㄀㐀䠀㄀
+1	A.7 Enclosure
+1	A.4 Nonlinearity
+1	B.2 Successive approximation ADC
+1	B.3 Tracking ADC
+1	B.4 Wilkinson ADC
+1	B.5 Flash ADC
+1	A.1 Availability
+1	C.1 Toolboxes
+1	E.1 Kerma
+1	E.2 Cema
+1	E.3 Terma
+1	A.1 Acute exposure
+1	A.2 Chronic exposure
+1	A.1 NIM layout
+1	A.2 NIM modules
+1	B.1 CAMAC layout
+1	B.2 CAMAC controllers
+1	C.1 VME layout
+1	C.2 VME backplane
+1	C.3 VME modules
+1	D.1 FASTBUS layout
+1	D.2 FASTBUS backplane
+1	A.1 Attenuator
+1	The folded cascode
+1	Local referencing
+1	F.5.3 Comments
+1	Glasses
+1	Modules
+1	Ratemeter
+1	Flip-Flops
+1	Registers (Latches)
+1	The CAMAC Dataway
+1	CAMAC Software
+1	Resistor Color Code
+1	Isomeric States
+1	The Bethe-Bloch Formula
+1	Scaling Laws for dE/dx
+1	Channeling
+1	未收录术语（Thick Absorbers）：高斯限
+1	Very Thick Absorbers
+1	未收录术语（Thin Absorbers）：与理论
+1	The Roentgen
+1	Expectation Values
+1	The Covariance
+1	Construction
+1	Plastics
+1	Magnetic Fields
+1	Attenuators
+1	Adjusting Delays with the Oscilloscope
+1	Accidental Coincidences
+1	Pin Allocations
+1	Latched comparators
+1	ADC architectures
+1	Successive approximation register ADC (S
+1	Contact potentials
+1	D.2 p-Terphenyl 䌀㄀㠀䌀㄀㐀
+1	D.3 Stilbene 䌀㄀㐀䠀㄀㈀
+1	Gate transconductance
+1	Bulk transconductance
+1	Mobility reduction
+1	Velocity saturation
+1	Drain induced barrier lowering
+1	Folded cascode
+1	Phase margin
+1	A.1 Exciton luminescence
+1	A.2 Dopant luminescence
+1	A.3 Core valence band luminescence
+1	Integrated capacitors
+1	Flash ADC
+1	Conventional SAR ADC
+1	未收录术语（Part I）：半导体物理
+1	未收录术语（Part II）：半导体探测器
+1	Mathematical Formulation
+1	Numerical Solution of Stationary Situati
+1	未收录术语（Part III）：材料
+1	Articles
+1	Three-Phase “Conventional” MOS CCDs
+1	Fully Depleted p–n CCDs
+1	Mobility
+1	The Depletion Depth
+1	未收录术语（6）：定时
+1	Datahighways
+1	(CR)*-RCshaping
+1	The Robinson restorer é AUIS
+1	Gere—Miller restorer
+1	13.3.A PCI boards
+1	13.3.B PC serial port modules
+1	13.3.C PC parallel port modules
+1	13.3.D USB-based modules
+1	Overloading
+1	Vernier chronotrons
+1	Dual ramp Wilkinson
+1	Optical display
+1	ACHIEVING VALID
+1	LIFETIME OF EXCITED STATES
+1	CONSTRUCTION OF THE COMPLETE
+1	FAULT-FINDING
+1	ACCREDITATION
+1	The ADC
+1	Choosing an ADC
+1	MCA throughput
+1	Mathematical form of w<¢
+1	ISOCS
+1	GESPECOR
+1	Bismuth germanate — BGO
+1	Fault-finding guide
+1	未收录术语（MDA）：效率本底与计数
+1	The uranium series — 7°U
+1	The global verification regime
+1	Nuclides released in a nuclear explosion
+1	Pulsers
+1	Absorbers
+1	Collimators
+1	Nuclear fuel assay
+1	9．3．1 1＋1≠2
+1	Ohmic Contact
+1	Inverters
+1	Quark jets
+1	Photolithographic Structuring
+1	Oxidation
+1	Passivation
+1	Linearization of the Problem
+1	CMOS imagers
+1	Testing
+1	A.4 The Laplace transform
+1	Monte Carlo event generators
+1	Thin, totally depleted dE/dx anes
+1	Regression
+1	10.1.A ROOT
+1	10.1.C MATLAB
+
+TOC total 217 distinct 215

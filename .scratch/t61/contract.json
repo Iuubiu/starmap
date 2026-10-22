@@ -1,0 +1,66 @@
+{
+  "id": "t61",
+  "subject": "修碎名知识点：目录折行标题被拆成两个节点（11 处，含看板首推「作用与地位」）",
+  "description": "这是原 t50 的替代票（t50 依赖了已取消的 t46，而 `agent_teams_edit_plan` 因失效成员整批不可用，无法改依赖，只能取消重建；票面内容原样搬过来）。\n\n## 缺陷\n\n目录里折行的标题被解析成两个节点，后一半是碎片，`name` 直接以标点开头。实测 11 处，例如：\n\n- 看板首推出现「**作用与地位**」—— 它是某章节标题 `一、……的作用与地位` 折行后的后半截，前半截成了另一个节点。\n- 同类还有以「、」「，」开头的节点名。\n\n后果：图上有「半截标题」当知识点的节点；看板把它们当推荐推给学生；点击进详情看到的是半句话。\n\n## 判据（做之前先复核这 11 处的来源，不要盲扫）\n\n1. `name` 以标点起头（`^[、，。；：）)]`）→ 必然是碎片。\n2. 碎片节点的 `printedPage` 与紧邻前一节点相同或差 1，且前一节点名以标点结尾或长度异常短 → 两者是同一个标题被折开。\n3. `num` 字段交叉校验：若两个节点 `num` 相同或后者为空，合并依据成立；**不要只靠正则猜**。\n\n## 处置\n\n- 合并成一个节点：保留前一半的 `num`、把两段名字拼回去（注意不要在中间插入空格或标点）、`printedPage` 取较小值、把碎片的子节点与 chunk 归属改挂到保留节点。\n- 更新对应 `content/<book>/toc.json`，再走数据库更新。**不要直接改 DB 而不改产物**——否则下次重导又变回碎片。\n- 脚本要有 `--dry-run`，先打印「将要做什么」再执行；幂等（第二次跑 0 改动）。\n\n## 环境与命令\n\n```\nexport PATH=\"/c/Users/Yhwhy/scoop/apps/postgresql/current/bin:$PATH\"\npsql \"postgresql://postgres@127.0.0.1:5432/starmap\"\ncd apps/api && pnpm content:import --dir <相对路径>   # 需要重导时用（script 已带 --env-file=../../.env）\npython -m pytest tools/ingest/ -q\nnode scripts/verify.mjs\n```\n\n## 硬约束\n\n- 不改 `tools/ingest/toc.py` 的既有判据（12 本中文书在用），要改先来说明理由。\n- 不许 `git add -A`（工作区有 4 条泳道并发）。\n- 只处理**中文书**的碎片名；英文书的内容缺陷已按用户裁定归入下版本，不要碰。\n\n## 验证\n\n- 上面 acceptance 里的每条 SQL/pytest/verify\n- `curl -s 'http://127.0.0.1:3001/api/v1/recommendations'` 看首推名字是否完整",
+  "status": "claimed",
+  "assignee": "integrator",
+  "dependencies": [
+    "t45"
+  ],
+  "attempt": 2,
+  "createdAt": 1792641596284,
+  "updatedAt": 1792657829573,
+  "kind": "implementation",
+  "objective": "把「目录折行标题被拆成两个节点」的碎片名合并回完整知识点：A 类（`name` 以标点开头，实测 10 处）+ B 类（不以标点开头但确为续行，1 处：看板首推的「作用与地位」）；同时**排除** 3 处宽松判据误报（同级相邻真条目），并让合并结果在重新导入后不会退化。",
+  "inScope": [
+    "tools/ingest/",
+    "content/"
+  ],
+  "outOfScope": [
+    "apps/web/src/",
+    "apps/api/src/",
+    "packages/"
+  ],
+  "acceptance": [
+    "`SELECT count(*) FROM app.knowledge_points WHERE name ~ '^[、，。；：）)]'` → 0（侦察实测 A 类 **10 处**，不是票面的 11）",
+    "**B 类必须单独验**：「作用与地位」这个节点不再独立存在，而是与 `kp-dinghonglin-2010-1-1`「核探测技术在核科学研究、核试验测试、核技术应用中的」合并为**一个**名称完整的节点。判据：`SELECT count(*) FROM app.knowledge_points WHERE name IN ('作用与地位')` → 0，且合并后节点名包含「作用与地位」这四个字（它是续行，必须接回去）。**仅凭上面那条正则 SQL 会通过验收而缺陷仍在**，所以这条独立列出",
+    "**C 类误报必须排除**：`附录A…/附录B…`、`二、同轴型HPGe…/三、HPGe探测器…`、`二、探测器望远镜…/三、超灵敏加速器质谱仪` 三对是同级相邻的真条目，**不允许合并**（合了会把两个真知识点捏成一个）。验收方式：脚本输出里逐条列出被排除的候选及排除理由",
+    "合并后它继承原标题的打印页范围、其下挂的 chunk 归属不丢（`SELECT count(*) FROM app.chunks WHERE micro_kp_id IS NULL` 不增加）",
+    "看板首推不再出现半截标题：`GET /api/v1/recommendations` 的列表里没有以标点开头或长度 < 4 的节点名，且不出现「作用与地位」独立条目",
+    "合并是**幂等**的：重复跑脚本不产生新变更（第二次运行报告 0 处修改）",
+    "**产物不能再变回碎片**：所选方案要能被既有管线调用（`run.py` / `toc_batch.py` 之后、`content:import` 之前），并且脚本在票面写明「下次重导后仍是合并状态」的取证方式。`content/` 下的 `toc.json` 与 DB 一致（逐本比对 mismatch = 0）",
+    "`python -m pytest tools/ingest/ -q` 全绿（当前 356 passed）",
+    "`node scripts/verify.mjs` 7 段全绿",
+    "票面写入被合并节点清单（书 / 原节点 id / 新名称 / 打印页 / 属于 A 还是 B 类）与被排除的 C 类清单及理由"
+  ],
+  "verify": [
+    "python -m pytest tools/ingest/ -q",
+    "node scripts/verify.mjs"
+  ],
+  "reassigning": false,
+  "revisions": [
+    {
+      "at": 1792641994389,
+      "by": "captain",
+      "reason": "integrator 侦察发现票面 acceptance 有会「通过验收但缺陷仍在」的漏洞：原第 1 条只断言 `name ~ '^[、，。；：）)]'` 为 0，而看板首推的「作用与地位」**不以标点开头**（它是 `kp-dinghonglin-2010-1-1` 那条 18 字标题的续行），所以只跑那条 SQL 会绿着放过它。同时侦察还发现 3 处同类相邻条目是真同级条目（`附录A/附录B`、`二、/三、` 等），若按宽松判据合并会捏坏真知识点。因此补 3 条：B 类单独断言、C 类必须排除并给理由、产物不得在重导后退化。实测数字也从「11 处」校正为「A 类 10 + B 类 1」。",
+      "fields": [
+        "objective",
+        "acceptance"
+      ],
+      "previous": {
+        "objective": "把 11 处「目录折行标题被拆成两个节点」的碎片名合并回一个完整知识点，让图上与看板首推不再出现半截标题。",
+        "acceptance": [
+          "`SELECT count(*) FROM app.knowledge_points WHERE name ~ '^[、，。；：）)]'` → 0（修前 11 处）；或对每一处保留给出理由并写进票面",
+          "「作用与地位」这类被拆开的标题合并成一个节点：合并后它继承原标题的打印页范围、其下挂的 chunk 归属不丢（`SELECT count(*) FROM app.chunks WHERE micro_kp_id IS NULL` 不增加）",
+          "看板首推不再出现孤立碎片名（实测 `GET /api/v1/recommendations` 的 recommend 列表里没有以标点开头或长度 < 4 的节点名）",
+          "合并是**幂等**的：重复跑脚本不产生新变更（第二次运行报告 0 处修改）",
+          "`content/` 下的 `toc.json` 与 DB 一致：脚本报告每本书节点数与 DB 逐本比对 mismatch = 0",
+          "`python -m pytest tools/ingest/ -q` 全绿（当前 356 passed）",
+          "`node scripts/verify.mjs` 7 段全绿",
+          "票面写入被合并节点清单（书 / 原节点 id / 新名称 / 打印页）"
+        ]
+      }
+    }
+  ],
+  "attemptId": "02113567-234e-4bbe-8049-bac781556be0"
+}

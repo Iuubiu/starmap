@@ -1,0 +1,163 @@
+{
+  "personaId": "p1-novice",
+  "tier": "P1",
+  "displayName": "小陈",
+  "startedAt": "2026-10-21T02:12:56.549Z",
+  "durationMs": 1464,
+  "webUrl": "http://localhost:5173",
+  "apiUrl": "http://127.0.0.1:3001/api/v1",
+  "stages": [
+    {
+      "stage": "cold-start",
+      "label": "S0 冷启动",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.582Z",
+      "durationMs": 48,
+      "result": {
+        "status": "assertion_mismatch",
+        "expected": "阶段正常完成",
+        "actual": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL",
+        "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+      },
+      "evidence": [],
+      "screenshot": "00-cold-start.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "placement",
+      "label": "S1 初始定级",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.631Z",
+      "durationMs": 29,
+      "result": {
+        "status": "assertion_mismatch",
+        "expected": "阶段正常完成",
+        "actual": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL",
+        "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+      },
+      "evidence": [],
+      "screenshot": "01-placement.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "map",
+      "label": "S3 知识图谱",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.659Z",
+      "durationMs": 42,
+      "result": {
+        "status": "assertion_mismatch",
+        "expected": "阶段正常完成",
+        "actual": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL",
+        "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+      },
+      "evidence": [],
+      "screenshot": "02-map.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "node-detail",
+      "label": "S3 节点详情",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.701Z",
+      "durationMs": 52,
+      "result": {
+        "status": "locator_failure",
+        "selector": "roster button",
+        "detail": "清单里没有任何可点的节点"
+      },
+      "evidence": [],
+      "screenshot": "03-node-detail.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "answer",
+      "label": "S4 作答与判分",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.753Z",
+      "durationMs": 29,
+      "result": {
+        "status": "passed",
+        "detail": "本节点没有可进入的关卡（内容不足），本阶段未覆盖"
+      },
+      "evidence": [
+        "跳过原因：上一阶段未找到可进入的关卡"
+      ],
+      "screenshot": "04-answer.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "board",
+      "label": "S6 看板推荐",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.782Z",
+      "durationMs": 35,
+      "result": {
+        "status": "assertion_mismatch",
+        "expected": "阶段正常完成",
+        "actual": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL",
+        "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+      },
+      "evidence": [],
+      "screenshot": "05-board.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "review",
+      "label": "S6 复验",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.817Z",
+      "durationMs": 48,
+      "result": {
+        "status": "assertion_mismatch",
+        "expected": "阶段正常完成",
+        "actual": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL",
+        "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+      },
+      "evidence": [],
+      "screenshot": "06-review.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "database",
+      "label": "S7 数据库检视",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.866Z",
+      "durationMs": 33,
+      "result": {
+        "status": "assertion_mismatch",
+        "expected": "阶段正常完成",
+        "actual": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL",
+        "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+      },
+      "evidence": [],
+      "screenshot": "07-database.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "skills",
+      "label": "S8 技能库",
+      "url": "about:blank",
+      "startedAt": "2026-10-21T02:12:57.899Z",
+      "durationMs": 49,
+      "result": {
+        "status": "assertion_mismatch",
+        "expected": "阶段正常完成",
+        "actual": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL",
+        "detail": "阶段抛出未归类异常（兜底到 assertion_mismatch，避免整条旅程中断）"
+      },
+      "evidence": [],
+      "screenshot": "08-skills.png",
+      "consoleErrors": []
+    }
+  ],
+  "failures": {
+    "locatorFailure": 1,
+    "backendError": 0,
+    "assertionMismatch": 7
+  },
+  "lastPassedStage": "answer",
+  "firstFailureStage": "cold-start",
+  "consoleErrors": [],
+  "browserLaunched": true
+}

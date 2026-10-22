@@ -28,7 +28,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-1-1-1",
-      "name": "引言",
+      "name": "核辐射带物质的相互作用 引言",
       "num": "1.1.1",
       "printedPage": 1,
       "depth": 3,
@@ -316,7 +316,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-2-2-1",
-      "name": "变换方法",
+      "name": "线性电路的瞬态响应 变换方法",
       "num": "2.2.1",
       "printedPage": 48,
       "depth": 3,
@@ -448,7 +448,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-2-2",
-      "name": "CRRC 成形",
+      "name": "噪声 CRRC 成形",
       "num": "3.2.2",
       "printedPage": 100,
       "depth": 3,
@@ -460,7 +460,7 @@
     },
     {
       "microKpId": "kp-nicholson-1974-3-2-3",
-      "name": "噪声 CRRC 成形",
+      "name": "CRRC 成形",
       "num": "3.2.3",
       "printedPage": 102,
       "depth": 3,

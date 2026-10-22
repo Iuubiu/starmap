@@ -1,0 +1,43 @@
+A groups 45 nodes 129
+A after retranslate: still collapsed 6
+B total 457 translated 402 native 55
+C kp-wangjingjin-1983-p75-1131 '1131' num= '' p= 75
+C kp-wangjingjin-1983-p121-g1343 'g:1343' num= '' p= 121
+A: ahmed-2e | 中子 <- ['1.6.e neutrons', '2.6.a neutrons']
+A: ahmed-2e | 电中的扩散 <- ['3.2.a diffusion in the absence of electric field', 'a.1 diffusion in the presence of electric field']
+A: ahmed-2e | 正比计数器 <- ['c.1 bf3 proportional counter', 'proportional counters']
+A: ahmed-2e | 猝灭 <- ['3.6.d quenching', '6.1.d quenching']
+A: ahmed-2e | 半导体探测器 <- ['5.1.k specific semiconductor detectors', '7.2.e semiconductor microstrip detector', 'semiconductor detectors']
+A: ahmed-2e | 性质 <- ['5.1.j desirable properties', '6.1.g optical properties']
+A: ahmed-2e | 探测器 <- ['diamond detectors', 'thermoluminescent detectors']
+A: ahmed-2e | 闪烁机制 <- ['6.2.a scintillation mechanism', '6.3.a scintillation mechanism']
+A: ahmed-2e | 闪烁体 <- ['6.2.b plastic scintillators', '6.2.d crystalline scintillators']
+A: ahmed-2e | 效率 <- ['7.1.b efficiency', 'a.8 efficiency']
+A: ahmed-2e | 分辨率 <- ['7.1.a spatial resolution', 'a.3 resolution']
+A: ahmed-2e | 与 <- ['11.2.e kerma, cema, and terma', 'a.2 aliasing and antialiasing']
+A: ahmed-2e | 成像 <- ['7.3.a conventional imaging', '7.3.d direct imaging', '7.3.e indirect imaging']
+A: ahmed-2e | 信号输运 <- ['a.4 signal transport', 'signal transport']
+A: ahmed-2e | 脉冲成形 <- ['8.3.d semi-triangular pulse shaping', 'pulse shaping']
+A: ahmed-2e | 脉冲计数 <- ['13.1.a pulse counting', '8.6.a pulse counting']
+A: ahmed-2e | 数据分析 <- ['10 software for data analysis', '10.2.b data analysis routines', 'custom-made data analysis packages']
+A: ahmed-2e | 剂量学 <- ['11.3.a thermoluminescent dosimetry', '11.3.b optically stimulated luminescence dosimetry', '11.3.c film dosimetry', 'importance of dosimetry']
+A: ahmed-2e | 离子室剂量学 <- ['11.4.a ion chamber dosimetry', 'a.2 cavity ion chamber dosimetry']
+A: ahmed-2e | 射线能谱学 <- ['12.1.a γ-ray spectroscopy', '12.1.c x-ray spectroscopy']
+A: ahmed-2e | 标准 <- ['13.2.c vme standard', '13.2.d fastbus standard']
+A: ahmed-2e | 系统 <- ['13.3.e tcp/ip-based systems', 'pc-based systems']
+A: grupen-2e-2008 | 电磁量能器 <- ['electromagnetic calorimeters', 'electromagnetic calorimetry (ecl)']
+A: leo-2e | 放射性衰变 <- ['radioactive decay chains', 'the radioactive decay law']
+A: leo-2e | 运行 <- ['dataway operations', 'operation in magnetic fields']
+A: leo-2e | 光电倍增管 <- ['multiple photomultipliers', 'photomultipliers']
+A: leo-2e | 电缆 <- ['coaxial cables', 'the ideal lossless cable']
+A: leo-2e | 触发 <- ['a.2.3 triggering (synchronization)', 'triggers']
+A: lutz-2007 | 半导体 <- ['extrinsic semiconductors', 'semiconductors']
+A: lutz-2007 | 二极管 <- ['reverse-biased diode', 'unbiased diode']
+A: nicholson-1974 | 噪声 <- ['noise', 'noise in the fet']
+A: nicholson-1974 | 放大器 <- ['amplifiers', 'sal fast amplifiers']
+A: rivetti-2015 | 前端端 <- ['binary front-end', 'front-end architectures']
+A: rivetti-2015 | 放大器 <- Traceback (most recent call last):
+  File "D:\DeepSeek\starmap\.scratch\t45\measure.py", line 82, in <module>
+    print('A:', row[0], '|', row[1], '<-', row[2])
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\ufb01' in position 26: illegal multibyte sequence

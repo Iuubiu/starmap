@@ -1,0 +1,368 @@
+[analog-electronics-kanghuaguang-5e] idx=224 num='' p=543 d=2 leaf=False name='附录A'
+     nb idx=223 num='' p=534 d=2 name='程序辅助设计'
+     nb idx=225 num='' p=543 d=2 name='PSPICE/SPICE软件简介'
+
+[analog-electronics-kanghuaguang-5e] idx=230 num='' p=558 d=2 leaf=False name='附录B'
+     nb idx=229 num='' p=553 d=2 name='PSpiceA/D中的有关规定'
+     nb idx=231 num='' p=558 d=2 name='电路理论简明复习'
+
+[analog-electronics-kanghuaguang-5e] idx=238 num='' p=564 d=2 leaf=False name='附录C'
+     nb idx=237 num='' p=562 d=2 name='密勒定理'
+     nb idx=239 num='' p=564 d=2 name='电阻的彩色编码和标称阻值'
+
+[analog-electronics-tongshibai-5e] idx=367 num='' p=596 d=2 leaf=False name='附录'
+     nb idx=366 num='' p=593 d=2 name='习题'
+     nb idx=368 num='' p=596 d=2 name='半导体器件模型'
+
+[digital-electronics-yanshi-6e] idx=177 num='' p=435 d=2 leaf=False name='附录一'
+     nb idx=176 num='' p=429 d=2 name='习题'
+     nb idx=178 num='' p=435 d=2 name='可编程逻辑器件（PLD）分类'
+
+[digital-electronics-yanshi-6e] idx=179 num='' p=453 d=2 leaf=False name='附录二'
+     nb idx=178 num='' p=435 d=2 name='可编程逻辑器件（PLD）分类'
+     nb idx=180 num='' p=453 d=2 name='《电气简图用图形符号一二进制逻辑单元》'
+
+[digital-electronics-yanshi-6e] idx=182 num='' p=462 d=2 leaf=False name='附录三'
+     nb idx=181 num='' p=453 d=2 name='（GB/T472812-2005）简介'
+     nb idx=183 num='' p=462 d=2 name='基本逻辑单元图形符号对照表'
+
+[digital-kanghua-5e] idx=215 num='' p=504 d=2 leaf=False name='附录ACMOS和TTL逻辑门电路的技术参数'
+     nb idx=214 num='' p=501 d=2 name='习题'
+     nb idx=216 num='' p=505 d=2 name='附录BQuartusⅡ 5.0开发软件简介'
+
+[digital-kanghua-5e] idx=216 num='' p=505 d=2 leaf=False name='附录BQuartusⅡ 5.0开发软件简介'
+     nb idx=215 num='' p=504 d=2 name='附录ACMOS和TTL逻辑门电路的技术参数'
+     nb idx=217 num='' p=522 d=2 name='附录D常用逻辑符号对照表'
+
+[digital-kanghua-5e] idx=217 num='' p=522 d=2 leaf=False name='附录D常用逻辑符号对照表'
+     nb idx=216 num='' p=505 d=2 name='附录BQuartusⅡ 5.0开发软件简介'
+     nb idx=218 num='' p=524 d=2 name='参考文献'
+
+[grupen-2e-2008] idx=199 num='' p=577 d=2 leaf=False name='附录：基础物理常数的表'
+     nb idx=198 num='18' p=533 d=1 name='解答'
+     nb idx=200 num='' p=580 d=2 name='附录：物理单位的定义与转换'
+
+[grupen-2e-2008] idx=200 num='' p=580 d=2 leaf=False name='附录：物理单位的定义与转换'
+     nb idx=199 num='' p=577 d=2 name='附录：基础物理常数的表'
+     nb idx=201 num='' p=582 d=2 name='附录：与复合材料的性质'
+
+[grupen-2e-2008] idx=201 num='' p=582 d=2 leaf=False name='附录：与复合材料的性质'
+     nb idx=200 num='' p=580 d=2 name='附录：物理单位的定义与转换'
+     nb idx=202 num='' p=584 d=2 name='附录：蒙特卡罗事件发生器'
+
+[grupen-2e-2008] idx=202 num='' p=584 d=2 leaf=False name='附录：蒙特卡罗事件发生器'
+     nb idx=201 num='' p=582 d=2 name='附录：与复合材料的性质'
+     nb idx=203 num='' p=591 d=2 name='附录：衰变能级方案'
+
+[grupen-2e-2008] idx=203 num='' p=591 d=2 leaf=False name='附录：衰变能级方案'
+     nb idx=202 num='' p=584 d=2 name='附录：蒙特卡罗事件发生器'
+     nb idx=204 num='' p=599 d=2 name='索引'
+
+[guojiang-2014] idx=21 num='1.7' p=25 d=2 leaf=False name='附录：数值计算法'
+     nb idx=20 num='1.6' p=23 d=2 name='1．6 类氢系统的光谱'
+     nb idx=22 num='1.8' p=26 d=2 name='习题'
+
+[guojiang-2014] idx=281 num='19' p=226 d=1 leaf=False name='附录'
+     nb idx=280 num='18.6' p=225 d=2 name='习 题'
+     nb idx=282 num='19.1' p=226 d=2 name='附录Ⅰ 常用物理常数'
+
+[guojiang-2014] idx=282 num='19.1' p=226 d=2 leaf=False name='附录Ⅰ 常用物理常数'
+     nb idx=281 num='19' p=226 d=1 name='附录'
+     nb idx=283 num='19.2' p=227 d=2 name='附录Ⅱ 一些核素的性质'
+
+[guojiang-2014] idx=283 num='19.2' p=227 d=2 leaf=False name='附录Ⅱ 一些核素的性质'
+     nb idx=282 num='19.1' p=226 d=2 name='附录Ⅰ 常用物理常数'
+     nb idx=284 num='20' p=231 d=1 name='习题参考答案'
+
+[guojiang-2023] idx=7 num='1.7' p=29 d=2 leaf=True name='*附录：数值计算法'
+     nb idx=6 num='1.6' p=26 d=2 name='1.6类氢系统的光谱'
+     nb idx=8 num='1.8' p=31 d=2 name='习题与思考题'
+
+[guojiang-2023] idx=93 num='16' p=316 d=1 leaf=False name='附录Ⅰ常用物理常量'
+     nb idx=92 num='' p=309 d=2 name='习题参考答案'
+     nb idx=94 num='17' p=317 d=1 name='附录Ⅱ一些核素的性质'
+
+[guojiang-2023] idx=94 num='17' p=317 d=1 leaf=False name='附录Ⅱ一些核素的性质'
+     nb idx=93 num='16' p=316 d=1 name='附录Ⅰ常用物理常量'
+
+[knoll-3e-2000] idx=125 num='' p=798 d=2 leaf=False name='附录：辐射效应与照射限'
+     nb idx=124 num='20.5' p=791 d=2 name='本底的有源方法'
+     nb idx=126 num='20.6' p=798 d=2 name='辐射效应'
+
+[knoll-4e-2010] idx=125 num='' p=801 d=2 leaf=False name='附录NIMCAMAC与VME仪器标准'
+     nb idx=124 num='19.5' p=795 d=2 name='本底退化的有源方法'
+     nb idx=126 num='' p=807 d=2 name='样品方差的面积附录'
+
+[knoll-4e-2010] idx=126 num='' p=807 d=2 leaf=True name='样品方差的面积附录'
+     nb idx=125 num='' p=801 d=2 name='附录NIMCAMAC与VME仪器标准'
+     nb idx=127 num='' p=809 d=2 name='计数……数据平均的附录统计'
+
+[knoll-4e-2010] idx=127 num='' p=809 d=2 leaf=False name='计数……数据平均的附录统计'
+     nb idx=126 num='' p=807 d=2 name='样品方差的面积附录'
+     nb idx=128 num='' p=819 d=2 name='用于诱导电荷索引的附录'
+
+[knoll-4e-2010] idx=128 num='' p=819 d=2 leaf=True name='用于诱导电荷索引的附录'
+     nb idx=127 num='' p=809 d=2 name='计数……数据平均的附录统计'
+     nb idx=129 num='' p=819 d=2 name='分布表'
+
+[leo-2e] idx=344 num='' p=353 d=2 leaf=False name='附录'
+     nb idx=343 num='18.6' p=349 d=2 name='CAMAC 软件'
+     nb idx=345 num='' p=353 d=2 name='示波器函数的综述'
+
+[lutz-2007] idx=174 num='' p=335 d=2 leaf=False name='附录：所用符号'
+     nb idx=173 num='' p=333 d=2 name='部分：材料'
+     nb idx=175 num='' p=339 d=2 name='附录：物理常数'
+
+[lutz-2007] idx=175 num='' p=339 d=2 leaf=False name='附录：物理常数'
+     nb idx=174 num='' p=335 d=2 name='附录：所用符号'
+     nb idx=176 num='' p=341 d=2 name='参考文献'
+
+[nicholson-1974] idx=149 num='' p=354 d=2 leaf=False name='瞬态分析中的附录变换方法'
+     nb idx=148 num='9.4' p=354 d=2 name='数据高速通道'
+     nb idx=150 num='' p=363 d=2 name='一般差分方程'
+
+[nicholson-1974] idx=153 num='' p=369 d=2 leaf=True name='查找变换与反附录统计学的计数'
+     nb idx=152 num='' p=366 d=2 name='拉普拉斯变换'
+     nb idx=154 num='' p=369 d=2 name='一般考量'
+
+[nuclear-electronics-wangjingjin-1983] idx=108 num='' p=187 d=2 leaf=False name='附录'
+     nb idx=107 num='14.5.3' p=183 d=3 name='CAMAC多机箱系统'
+     nb idx=109 num='' p=187 d=2 name='电缆分支节点的阻抗匹配'
+
+[nuclear-electronics-wangjingjin-1983] idx=110 num='' p=187 d=2 leaf=False name='附录二'
+     nb idx=109 num='' p=187 d=2 name='电缆分支节点的阻抗匹配'
+     nb idx=111 num='' p=187 d=2 name='谱数据二阶多项式5点平滑公式'
+
+[nuclear-electronics-wangjingjin-1983] idx=112 num='' p=188 d=2 leaf=False name='附录三'
+     nb idx=111 num='' p=187 d=2 name='谱数据二阶多项式5点平滑公式'
+
+[nuclear-electronics-wangzhiying-1989] idx=20 num='' p=30 d=2 leaf=False name='［附录］'
+     nb idx=19 num='' p=29 d=2 name='习题与思考题'
+     nb idx=21 num='' p=30 d=2 name='常用的几项NIM标准'
+
+[nuclear-physics-experiment-methods-1997] idx=103 num='' p=148 d=2 leaf=True name='二、同轴型HPGe探测器的电场和电容'
+     nb idx=102 num='' p=146 d=2 name='一、HPGe探测器的结构'
+     nb idx=104 num='' p=149 d=2 name='三、HPGe探测器的主要性能'
+
+[nuclear-physics-experiment-methods-1997] idx=276 num='' p=404 d=2 leaf=True name='第三节探测器望远镜方法'
+     nb idx=275 num='' p=400 d=2 name='三、定时探测器'
+     nb idx=277 num='' p=404 d=2 name='14.3.1 一、工作原理'
+
+[nuclear-physics-experiment-methods-1997] idx=280 num='' p=413 d=2 leaf=True name='四、多重探测器望远镜系统'
+     nb idx=279 num='' p=411 d=2 name='三、鉴别能力'
+     nb idx=281 num='' p=414 d=2 name='第四节磁分析方法与组合粒子鉴别系统'
+
+[nuclear-physics-experiment-methods-1997] idx=283 num='' p=415 d=2 leaf=True name='二、探测器望远镜与飞行时间方法的组合'
+     nb idx=282 num='' p=414 d=2 name='一、磁分析方法'
+     nb idx=284 num='' p=416 d=2 name='三、超灵敏加速器质谱仪'
+
+[nuclear-physics-experiment-methods-1997] idx=296 num='' p=453 d=2 leaf=False name='附录'
+     nb idx=295 num='' p=452 d=2 name='参考文献'
+     nb idx=297 num='' p=453 d=2 name='附录1'
+
+[nuclear-physics-experiment-methods-1997] idx=297 num='' p=453 d=2 leaf=False name='附录1'
+     nb idx=296 num='' p=453 d=2 name='附录'
+     nb idx=298 num='' p=453 d=2 name='常用物理常数数值表'
+
+[nuclear-physics-experiment-methods-1997] idx=299 num='' p=453 d=2 leaf=False name='附录2'
+     nb idx=298 num='' p=453 d=2 name='常用物理常数数值表'
+     nb idx=300 num='' p=453 d=2 name='正态分布概率积分表'
+
+[nuclear-physics-experiment-methods-1997] idx=301 num='' p=454 d=2 leaf=False name='附录3'
+     nb idx=300 num='' p=453 d=2 name='正态分布概率积分表'
+     nb idx=302 num='' p=457 d=2 name='常用核素表'
+
+[nuclear-physics-experiment-methods-1997] idx=303 num='' p=457 d=2 leaf=False name='附录4'
+     nb idx=302 num='' p=457 d=2 name='常用核素表'
+     nb idx=304 num='' p=457 d=2 name='放射性衰变计算表'
+
+[nuclear-physics-experiment-methods-1997] idx=305 num='' p=458 d=2 leaf=False name='附录5'
+     nb idx=304 num='' p=457 d=2 name='放射性衰变计算表'
+     nb idx=306 num='' p=459 d=2 name='常用核素衰变纲图（简化）'
+
+[nuclear-physics-experiment-methods-1997] idx=307 num='' p=459 d=2 leaf=False name='附录6'
+     nb idx=306 num='' p=459 d=2 name='常用核素衰变纲图（简化）'
+     nb idx=308 num='' p=459 d=2 name='圆面源对圆面探测器的平均立体角计算'
+
+[nuclear-physics-experiment-methods-1997] idx=309 num='' p=461 d=2 leaf=False name='附录7'
+     nb idx=308 num='' p=459 d=2 name='圆面源对圆面探测器的平均立体角计算'
+     nb idx=310 num='' p=461 d=2 name='各元素的KX射线能量、相对强度和荧光产额'
+
+[nuclear-physics-experiment-methods-1997] idx=311 num='' p=466 d=2 leaf=False name='附录8'
+     nb idx=310 num='' p=461 d=2 name='各元素的KX射线能量、相对强度和荧光产额'
+     nb idx=312 num='' p=466 d=2 name='常用α放射源'
+
+[nuclear-physics-experiment-methods-1997] idx=313 num='' p=466 d=2 leaf=False name='附录9'
+     nb idx=312 num='' p=466 d=2 name='常用α放射源'
+     nb idx=314 num='' p=466 d=2 name='常用放射源和能谐'
+
+[nuclear-physics-experiment-methods-1997] idx=315 num='' p=468 d=2 leaf=False name='附录10'
+     nb idx=314 num='' p=466 d=2 name='常用放射源和能谐'
+     nb idx=316 num='' p=468 d=2 name='常用低能Y和X射线源'
+
+[nuclear-physics-experiment-methods-1997] idx=317 num='' p=468 d=2 leaf=False name='附录11'
+     nb idx=316 num='' p=468 d=2 name='常用低能Y和X射线源'
+     nb idx=318 num='' p=468 d=2 name='常用（a，n）中子源及其符性'
+
+[nuclear-physics-experiment-methods-1997] idx=319 num='' p=469 d=2 leaf=False name='附录12'
+     nb idx=318 num='' p=468 d=2 name='常用（a，n）中子源及其符性'
+     nb idx=320 num='' p=469 d=2 name='同位素中子源能谱'
+
+[nuclear-physics-experiment-methods-1997] idx=321 num='' p=469 d=2 leaf=False name='附录13'
+     nb idx=320 num='' p=469 d=2 name='同位素中子源能谱'
+     nb idx=322 num='' p=470 d=2 name='262Cf的主要特性“'
+
+[nuclear-physics-experiment-methods-1997] idx=323 num='' p=470 d=2 leaf=False name='附录14'
+     nb idx=322 num='' p=470 d=2 name='262Cf的主要特性“'
+     nb idx=324 num='' p=470 d=2 name='常用产生中子的核反应'
+
+[nuclear-physics-experiment-methods-1997] idx=325 num='' p=470 d=2 leaf=False name='附录15'
+     nb idx=324 num='' p=470 d=2 name='常用产生中子的核反应'
+     nb idx=326 num='' p=470 d=2 name='几种核反应产生的中子产额'
+
+[nuclear-physics-experiment-methods-1997] idx=327 num='' p=470 d=2 leaf=False name='附录16'
+     nb idx=326 num='' p=470 d=2 name='几种核反应产生的中子产额'
+     nb idx=328 num='' p=472 d=2 name='X标准源的能量和发射概率'
+
+[nuclear-physics-experiment-methods-1997] idx=329 num='' p=472 d=2 leaf=False name='附录17'
+     nb idx=328 num='' p=472 d=2 name='X标准源的能量和发射概率'
+     nb idx=330 num='' p=472 d=2 name='常用丫标准源的能量和发射概率'
+
+[nuclear-radiation-measurement-tangbin] idx=62 num='' p=421 d=2 leaf=False name='附录【'
+     nb idx=61 num='' p=420 d=2 name='思考题与练习题'
+     nb idx=63 num='' p=421 d=2 name='天然放射性系列的衰变图'
+
+[nuclear-radiation-measurement-tangbin] idx=64 num='' p=425 d=2 leaf=False name='附录Ⅱ'
+     nb idx=63 num='' p=421 d=2 name='天然放射性系列的衰变图'
+     nb idx=65 num='' p=425 d=2 name='天然放射性核素的射线谱'
+
+[nuclear-radiation-measurement-tangbin] idx=66 num='' p=434 d=2 leaf=False name='附录Ⅲ'
+     nb idx=65 num='' p=425 d=2 name='天然放射性核素的射线谱'
+     nb idx=67 num='' p=434 d=2 name='核辐射测量中的常用物理量及单位'
+
+[nuclear-radiation-physics-chenboxian-2011] idx=100 num='' p=459 d=2 leaf=False name='附录'
+     nb idx=99 num='' p=457 d=2 name='习题'
+     nb idx=101 num='' p=459 d=2 name='附录I'
+
+[nuclear-radiation-physics-chenboxian-2011] idx=101 num='' p=459 d=2 leaf=False name='附录I'
+     nb idx=100 num='' p=459 d=2 name='附录'
+     nb idx=102 num='' p=473 d=2 name='核素的性质表'
+
+[nuclear-radiation-physics-chenboxian-2011] idx=103 num='' p=473 d=2 leaf=False name='附录Ⅱ'
+     nb idx=102 num='' p=473 d=2 name='核素的性质表'
+     nb idx=104 num='' p=474 d=2 name='化学元素周期表'
+
+[nuclear-radiation-physics-chenboxian-2011] idx=105 num='' p=474 d=2 leaf=False name='附录Ⅲ'
+     nb idx=104 num='' p=474 d=2 name='化学元素周期表'
+     nb idx=106 num='' p=474 d=2 name='常用物理常量'
+
+[nuclear-radiation-physics-chenboxian-2011] idx=107 num='' p=476 d=2 leaf=False name='附录IV'
+     nb idx=106 num='' p=474 d=2 name='常用物理常量'
+     nb idx=108 num='' p=476 d=2 name='常用材料密度'
+
+[nuclear-radiation-physics-chenboxian-2011] idx=109 num='' p=477 d=2 leaf=False name='附录V'
+     nb idx=108 num='' p=476 d=2 name='常用材料密度'
+     nb idx=110 num='' p=477 d=2 name='粒子性质表'
+
+[nuclear-radiation-physics-chenboxian-2011] idx=111 num='' p=478 d=2 leaf=False name='附录VI'
+     nb idx=110 num='' p=477 d=2 name='粒子性质表'
+     nb idx=112 num='' p=478 d=2 name='本征硅和锗的基本性质'
+
+[radiation-detector-handbook-jichangsong-1990] idx=163 num='5.3.3' p=259 d=3 leaf=True name='同轴型锂漂移锗[Ge(Li)]探测器'
+     nb idx=162 num='5.3.2' p=258 d=3 name='平面型锂漂移锗[Ge(Li)]探测器'
+     nb idx=164 num='5.3.4' p=259 d=3 name='井型锂漂移锗[Ge(Li)]探测器'
+
+[radiation-detector-handbook-jichangsong-1990] idx=170 num='5.4.4' p=265 d=3 leaf=True name='同轴型错探测器'
+     nb idx=169 num='5.4.3' p=264 d=3 name='低能锗(LEGe)探测器'
+     nb idx=171 num='5.4.5' p=266 d=3 name='倒置电极锗(REGe)探测器'
+
+[radiation-detector-handbook-jichangsong-1990] idx=438 num='' p=549 d=2 leaf=False name='附录1'
+     nb idx=437 num='' p=547 d=2 name='参考文献'
+     nb idx=439 num='' p=550 d=2 name='化学元素周期表'
+
+[radiation-detector-handbook-jichangsong-1990] idx=440 num='' p=550 d=2 leaf=False name='附录2'
+     nb idx=439 num='' p=550 d=2 name='化学元素周期表'
+     nb idx=441 num='' p=550 d=2 name='天然核素表'
+
+[radiation-detector-handbook-jichangsong-1990] idx=442 num='' p=552 d=2 leaf=False name='附录3'
+     nb idx=441 num='' p=550 d=2 name='天然核素表'
+     nb idx=443 num='' p=552 d=2 name='天然核素丰度表'
+
+[radiation-detector-handbook-jichangsong-1990] idx=444 num='' p=555 d=2 leaf=False name='附录4'
+     nb idx=443 num='' p=552 d=2 name='天然核素丰度表'
+     nb idx=445 num='' p=555 d=2 name='法定计量单位表'
+
+[radiation-detector-handbook-jichangsong-1990] idx=446 num='' p=557 d=2 leaf=False name='附录5'
+     nb idx=445 num='' p=555 d=2 name='法定计量单位表'
+     nb idx=447 num='' p=557 d=2 name='常用物理常数表'
+
+[radiation-detector-handbook-jichangsong-1990] idx=448 num='' p=557 d=2 leaf=False name='附录6'
+     nb idx=447 num='' p=557 d=2 name='常用物理常数表'
+     nb idx=449 num='' p=557 d=2 name='基本粒子表'
+
+[radiation-detector-handbook-jichangsong-1990] idx=450 num='' p=558 d=2 leaf=False name='附录7'
+     nb idx=449 num='' p=557 d=2 name='基本粒子表'
+     nb idx=451 num='' p=558 d=2 name='密度表'
+
+[radiation-detector-handbook-jichangsong-1990] idx=452 num='' p=559 d=2 leaf=False name='附录8'
+     nb idx=451 num='' p=558 d=2 name='密度表'
+     nb idx=453 num='' p=559 d=2 name='几种合成物质的等效原子序数Z'
+
+[radiation-detector-handbook-jichangsong-1990] idx=454 num='' p=559 d=2 leaf=False name='附录9'
+     nb idx=453 num='' p=559 d=2 name='几种合成物质的等效原子序数Z'
+     nb idx=455 num='' p=559 d=2 name='希腊字母及其读音'
+
+[radiation-detector-handbook-jichangsong-1990] idx=456 num='' p=560 d=2 leaf=False name='附录10'
+     nb idx=455 num='' p=559 d=2 name='希腊字母及其读音'
+     nb idx=457 num='' p=560 d=2 name='附录11'
+
+[radiation-detector-handbook-jichangsong-1990] idx=457 num='' p=560 d=2 leaf=False name='附录11'
+     nb idx=456 num='' p=560 d=2 name='附录10'
+     nb idx=458 num='' p=560 d=2 name='英制长度单位与法定单位换算表'
+
+[radiation-detector-handbook-jichangsong-1990] idx=459 num='' p=561 d=2 leaf=False name='附录12'
+     nb idx=458 num='' p=560 d=2 name='英制长度单位与法定单位换算表'
+     nb idx=460 num='' p=561 d=2 name='品质因数Q'
+
+[radiation-detector-handbook-jichangsong-1990] idx=461 num='' p=561 d=2 leaf=False name='附录13'
+     nb idx=460 num='' p=561 d=2 name='品质因数Q'
+     nb idx=462 num='' p=561 d=2 name='我国现行的剂量限值标准'
+
+[radiation-detector-handbook-jichangsong-1990] idx=463 num='' p=561 d=2 leaf=False name='附录14'
+     nb idx=462 num='' p=561 d=2 name='我国现行的剂量限值标准'
+     nb idx=464 num='' p=561 d=2 name='β粒子和中子注量（率）限值'
+
+[radiation-detector-handbook-jichangsong-1990] idx=465 num='' p=562 d=2 leaf=False name='附录15'
+     nb idx=464 num='' p=561 d=2 name='β粒子和中子注量（率）限值'
+     nb idx=466 num='' p=562 d=2 name='中子注量率-剂量当量率换算表'
+
+[radiation-detectors-dinghonglin-2010] idx=109 num='' p=512 d=2 leaf=False name='附录'
+     nb idx=108 num='14.11' p=504 d=2 name='核辐射探测器在核医学和临床医学中的应用'
+     nb idx=110 num='' p=514 d=2 name='参考文献'
+
+[rivetti-2015] idx=225 num='' p=629 d=2 leaf=False name='附录差分与运算放大器'
+     nb idx=224 num='' p=623 d=2 name='参考文献'
+     nb idx=226 num='' p=629 d=2 name='差分与常见模式信号'
+
+[rivetti-2015] idx=238 num='' p=663 d=2 leaf=False name='前端端设计中的附录实用'
+     nb idx=237 num='' p=661 d=2 name='参考文献'
+     nb idx=239 num='' p=663 d=2 name='前端端设计'
+
+[tsoulfanidis-4e] idx=434 num='' p=545 d=2 leaf=False name='附录：常数与转换因子'
+     nb idx=433 num='' p=543 d=2 name='参考书目'
+     nb idx=435 num='' p=547 d=2 name='附录：原子质量与其他……的性质'
+
+[tsoulfanidis-4e] idx=435 num='' p=547 d=2 leaf=False name='附录：原子质量与其他……的性质'
+     nb idx=434 num='' p=545 d=2 name='附录：常数与转换因子'
+     nb idx=436 num='' p=551 d=2 name='附录：αβ与γ源所用'
+
+[tsoulfanidis-4e] idx=436 num='' p=551 d=2 leaf=False name='附录：αβ与γ源所用'
+     nb idx=435 num='' p=547 d=2 name='附录：原子质量与其他……的性质'
+     nb idx=437 num='' p=555 d=2 name='附录：光子衰减的表'
+
+[tsoulfanidis-4e] idx=437 num='' p=555 d=2 leaf=False name='附录：光子衰减的表'
+     nb idx=436 num='' p=551 d=2 name='附录：αβ与γ源所用'
+     nb idx=438 num='' p=561 d=2 name='附录：因子常数的表'
+
+[tsoulfanidis-4e] idx=438 num='' p=561 d=2 leaf=False name='附录：因子常数的表'
+     nb idx=437 num='' p=555 d=2 name='附录：光子衰减的表'

@@ -1,0 +1,143 @@
+{
+  "level": "/level/lv-ai-kp-tangbin-1-2",
+  "tier": "P3",
+  "measuredAt": "2026-10-22T04:39:40.367Z",
+  "tokens": {
+    "colorNeutralBackground1": "#ffffff",
+    "colorNeutralBackground2": "#fafafa",
+    "colorNeutralBackground3": "#f5f5f5",
+    "colorNeutralBackground4": "#f0f0f0",
+    "colorNeutralForeground1": "#242424",
+    "colorNeutralForeground2": "#424242",
+    "colorNeutralForeground3": "#616161",
+    "colorNeutralForeground4": "#707070",
+    "colorNeutralForegroundDisabled": "#bdbdbd",
+    "colorNeutralStroke1": "#d1d1d1",
+    "colorNeutralStroke2": "#e0e0e0",
+    "colorBrandBackground2": "#ebf3fc",
+    "colorBrandForeground2": "#115ea3",
+    "colorBrandStroke1": "#0f6cbd",
+    "colorBrandStroke2": "#b4d6fa",
+    "colorBrandForegroundLink": "#115ea3",
+    "colorCompoundBrandStroke": "#0f6cbd",
+    "colorPaletteGreenBackground1": "#f1faf1",
+    "colorPaletteGreenBorder1": "#9fd89f",
+    "colorPaletteGreenForeground1": "#0e700e",
+    "colorPaletteYellowBackground1": "#fffef5",
+    "colorPaletteYellowBorder1": "#fef7b2",
+    "colorPaletteDarkOrangeForeground1": "#c43501",
+    "colorStrokeFocus2": "#000000"
+  },
+  "rows": [
+    {
+      "element": "选项·未选中（描边 vs 页面底）",
+      "fg": "#616161 (rgb(97, 97, 97))",
+      "bg": "#ffffff (#ffffff)",
+      "ratio": 6.19,
+      "note": "indicator border 1px"
+    },
+    {
+      "element": "选项·未选中（文字）",
+      "fg": "#616161 (rgb(97, 97, 97))",
+      "bg": "#ffffff (#ffffff)",
+      "ratio": 6.19
+    },
+    {
+      "element": "选项·已选中（描边 vs 页面底）",
+      "fg": "#115ea3 (rgb(17, 94, 163))",
+      "bg": "#ffffff (#ffffff)",
+      "ratio": 6.66
+    },
+    {
+      "element": "选项·已选中（内点 vs 页面底）",
+      "fg": "#115ea3 (rgb(17, 94, 163))",
+      "bg": "#ffffff (#ffffff)",
+      "ratio": 6.66
+    },
+    {
+      "element": "选项·已选中（文字）",
+      "fg": "#242424 (rgb(36, 36, 36))",
+      "bg": "#ffffff (#ffffff)",
+      "ratio": 15.52
+    },
+    {
+      "element": "焦点环 vs 页面底",
+      "fg": "#101010 (rgb(16, 16, 16))",
+      "bg": "#ffffff (#ffffff)",
+      "ratio": 19.03,
+      "note": "focus-visible=true; afterW=0px; shadow=none"
+    },
+    {
+      "element": "反馈条·答对（文字 on 绿底）",
+      "fg": "#242424 (#242424)",
+      "bg": "#f1faf1 (#f1faf1)",
+      "ratio": 14.55,
+      "note": "token: colorNeutralForeground1 on colorPaletteGreenBackground1"
+    },
+    {
+      "element": "反馈条·答错（文字 on 黄底）",
+      "fg": "#242424 (#242424)",
+      "bg": "#fffef5 (#fffef5)",
+      "ratio": 15.34,
+      "note": "token: colorNeutralForeground1 on colorPaletteYellowBackground1"
+    },
+    {
+      "element": "反馈条·答对（绿边 vs 页面底）",
+      "fg": "#9fd89f (#9fd89f)",
+      "bg": "#ffffff (#ffffff)",
+      "ratio": 1.64,
+      "note": "token: colorPaletteGreenBorder1 on colorNeutralBackground1"
+    },
+    {
+      "element": "反馈条·答错（黄边 vs 页面底）",
+      "fg": "#fef7b2 (#fef7b2)",
+      "bg": "#ffffff (#ffffff)",
+      "ratio": 1.1,
+      "note": "token: colorPaletteYellowBorder1 on colorNeutralBackground1"
+    },
+    {
+      "element": "反馈条·待提交（文字 on 中性底）",
+      "fg": "#424242 (#424242)",
+      "bg": "#f5f5f5 (#f5f5f5)",
+      "ratio": 9.22,
+      "note": "token: colorNeutralForeground2 on colorNeutralBackground3"
+    },
+    {
+      "element": "反馈卡（P3 整段）·正文",
+      "fg": "#242424 (rgb(36, 36, 36))",
+      "bg": "#ffffff (rgb(255, 255, 255))",
+      "ratio": 15.52
+    },
+    {
+      "element": "反馈卡·答错行",
+      "fg": "#242424 (rgb(36, 36, 36))",
+      "bg": "#ffffff (rgb(255, 255, 255))",
+      "ratio": 15.52
+    },
+    {
+      "element": "证据卡·正文",
+      "fg": "#242424 (rgb(36, 36, 36))",
+      "bg": "#ffffff (rgb(255, 255, 255))",
+      "ratio": 15.52
+    },
+    {
+      "element": "证据卡·statLabel",
+      "fg": "#616161 (rgb(97, 97, 97))",
+      "bg": "#ffffff (rgb(255, 255, 255))",
+      "ratio": 6.19
+    },
+    {
+      "element": "小结徽章·直达路径",
+      "fg": "#242424 (rgb(36, 36, 36))",
+      "bg": "#ffffff (rgb(255, 255, 255))",
+      "ratio": 15.52
+    },
+    {
+      "element": "掌握度·标签",
+      "fg": "#616161 (rgb(97, 97, 97))",
+      "bg": "#ffffff (rgb(255, 255, 255))",
+      "ratio": 6.19
+    }
+  ],
+  "darkBlocks": []
+}

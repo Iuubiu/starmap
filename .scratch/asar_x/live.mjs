@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import { decodeBuffer } from './lib_log.mjs';
+const SRC = 'C:/Users/Yhwhy/.dsh/sessions/--D-DeepSeek-starmap--/session-55c776d2-6df9-450c-abcf-db3fe6001ef9/session.v4.jsonl.zstd';
+const { rows } = decodeBuffer(fs.readFileSync(SRC));
+const p = rows.map((l) => JSON.parse(l));
+const last = p[p.length - 1];
+console.log('rows=' + p.length + ' last=' + last.type + ' seq=' + last.seq + ' idleSec=' + ((Date.now() - last.time) / 1000).toFixed(1));
+const tail = p.slice(-8).map((r) => r.seq + ' ' + r.type + ' ' + new Date(r.time).toISOString().slice(11, 19));
+console.log(tail.join('\n'));
+const ends = p.filter((r) => r.type === 'turn/end').slice(-3).map((r) => 'turn' + r.data.turn + ':' + (r.data.reason && r.data.reason.kind) + ' ' + new Date(r.time).toISOString().slice(11, 19));
+console.log(ends.join(' | '));
+const starts = p.filter((r) => r.type === 'turn/start').length;
+console.log('turns=' + starts);

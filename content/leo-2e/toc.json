@@ -1816,7 +1816,7 @@
     },
     {
       "microKpId": "kp-leo-2e-7-6-1",
-      "name": "线性",
+      "name": "光输出响应 线性",
       "num": "7.6.1",
       "printedPage": 168,
       "depth": 3,
@@ -2140,7 +2140,7 @@
     },
     {
       "microKpId": "kp-leo-2e-8-8-3",
-      "name": "温度效应",
+      "name": "因子 温度效应",
       "num": "8.8.3",
       "printedPage": 196,
       "depth": 3,
@@ -2188,7 +2188,7 @@
     },
     {
       "microKpId": "kp-leo-2e-9-1-1",
-      "name": "反射",
+      "name": "光收集 反射",
       "num": "9.1.1",
       "printedPage": 200,
       "depth": 3,
@@ -3820,7 +3820,7 @@
     },
     {
       "microKpId": "kp-leo-2e-17-2-4",
-      "name": "幅度与补偿触发",
+      "name": "幅度与上升时间补偿触发",
       "num": "17.2.4",
       "printedPage": 327,
       "depth": 3,
@@ -4168,7 +4168,7 @@
     },
     {
       "microKpId": "kp-leo-2e-p353-Al1BandwidthandRisetime",
-      "name": "带宽与",
+      "name": "带宽与上升时间",
       "num": "",
       "printedPage": 353,
       "depth": 2,

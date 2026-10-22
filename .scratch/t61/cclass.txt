@@ -1,0 +1,24 @@
+[analog-electronics-kanghuaguang-5e] idx=224 num='' p=543 d=2 leaf=False name='附录A'
+     nb idx=223 num='' p=534 d=2 name='程序辅助设计'
+     nb idx=225 num='' p=543 d=2 name='PSPICE/SPICE软件简介'
+
+[digital-kanghua-5e] idx=215 num='' p=504 d=2 leaf=False name='附录ACMOS和TTL逻辑门电路的技术参数'
+     nb idx=214 num='' p=501 d=2 name='习题'
+     nb idx=216 num='' p=505 d=2 name='附录BQuartusⅡ 5.0开发软件简介'
+
+[nuclear-physics-experiment-methods-1997] idx=103 num='' p=148 d=2 leaf=True name='二、同轴型HPGe探测器的电场和电容'
+     nb idx=102 num='' p=146 d=2 name='一、HPGe探测器的结构'
+     nb idx=104 num='' p=149 d=2 name='三、HPGe探测器的主要性能'
+
+[nuclear-physics-experiment-methods-1997] idx=276 num='' p=404 d=2 leaf=True name='第三节探测器望远镜方法'
+     nb idx=275 num='' p=400 d=2 name='三、定时探测器'
+     nb idx=277 num='' p=404 d=2 name='14.3.1 一、工作原理'
+
+[nuclear-physics-experiment-methods-1997] idx=280 num='' p=413 d=2 leaf=True name='四、多重探测器望远镜系统'
+     nb idx=279 num='' p=411 d=2 name='三、鉴别能力'
+     nb idx=281 num='' p=414 d=2 name='第四节磁分析方法与组合粒子鉴别系统'
+
+[nuclear-physics-experiment-methods-1997] idx=283 num='' p=415 d=2 leaf=True name='二、探测器望远镜与飞行时间方法的组合'
+     nb idx=282 num='' p=414 d=2 name='一、磁分析方法'
+     nb idx=284 num='' p=416 d=2 name='三、超灵敏加速器质谱仪'
+

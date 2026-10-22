@@ -1,0 +1,1056 @@
+[
+  {
+    "sample": 0,
+    "assessment": {
+      "acknowledgesCorrect": false,
+      "identifiesWrong": true,
+      "leaksAnswer": true,
+      "leakEvidence": "② 后两项提取公因子 $A$，得 $A·(B + \\overline{B}·C)$，而 $B + \\overline{B}·C = B + C$（这是「消去律」），最终 $A·(B + C) = A·B + A·C$",
+      "consecutiveProbes": 1,
+      "degraded": true,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 3,
+          "rationale": "指出错误后给了具体代入反例（A=1,B=0,C=1），可验证，但完整化简路径已先行给出，学生无需再动手",
+          "evidenceQuote": "代入 $A=1,B=0,C=1$ 可验证原式为 1 而 $A·B$ 为 0"
+        },
+        {
+          "dimension": "clarity",
+          "score": 4,
+          "rationale": "分步清晰、术语明确，指出两式对 B 的要求不同，表述无歧义",
+          "evidenceQuote": "$A·\\overline{B}·C$ 并不包含在 $A·B$ 里（后者要求 $B=1$，前者要求 $B=0$）"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "平实客观地指出问题，无责备也无虚假表扬，语气中性",
+          "evidenceQuote": "选 $A$ 是吸收了不该吸收的项"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 2,
+          "rationale": "L2 档位本应只给脚手架，却把完整化简与最终结果一并给出，等于代做",
+          "evidenceQuote": "按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收，式子变成 $A·B + A·\\overline{B}·C$"
+        }
+      ],
+      "needsHumanReview": [
+        "L2 档位下系统输出完整化简步骤与最终答案，需核查门控策略是否失效",
+        "本轮为单次追问即降级给全解，是否符合预期教学节奏"
+      ],
+      "summary": "指错到位且有反例，但直接给出完整化简和最终答案，越级泄露。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 6614,
+      "status": 200,
+      "content": "{\"acknowledgesCorrect\": false, \"identifiesWrong\": true, \"leaksAnswer\": true, \"leakEvidence\": \"② 后两项提取公因子 $A$，得 $A·(B + \\\\overline{B}·C)$，而 $B + \\\\overline{B}·C = B + C$（这是「消去律」），最终 $A·(B + C) = A·B + A·C$\", \"consecutiveProbes\": 1, \"degraded\": true, \"scores\": [{\"dimension\": \"actionability\", \"score\": 3, \"rationale\": \"指出错误后给了具体代入反例（A=1,B=0,C=1），可验证，但完整化简路径已先行给出，学生无需再动手\", \"evidenceQuote\": \"代入 $A=1,B=0,C=1$ 可验证原式为 1 而 $A·B$ 为 0\"}, {\"dimension\": \"clarity\", \"score\": 4, \"rationale\": \"分步清晰、术语明确，指出两式对 B 的要求不同，表述无歧义\", \"evidenceQuote\": \"$A·\\\\overline{B}·C$ 并不包含在 $A·B$ 里（后者要求 $B=1$，前者要求 $B=0$）\"}, {\"dimension\": \"tone\", \"score\": 4, \"rationale\": \"平实客观地指出问题，无责备也无虚假表扬，语气中性\", \"evidenceQuote\": \"选 $A$ 是吸收了不该吸收的项\"}, {\"dimension\": \"scaffolding_fit\", \"score\": 2, \"rationale\": \"L2 档位本应只给脚手架，却把完整化简与最终结果一并给出，等于代做\", \"evidenceQuote\": \"按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收，式子变成 $A·B + A·\\\\overline{B}·C$\"}], \"needsHumanReview\": [\"L2 档位下系统输出完整化简步骤与最终答案，需核查门控策略是否失效\", \"本轮为单次追问即降级给全解，是否符合预期教学节奏\"], \"summary\": \"指错到位且有反例，但直接给出完整化简和最终答案，越级泄露。\"}",
+      "parsed": {
+        "acknowledgesCorrect": false,
+        "identifiesWrong": true,
+        "leaksAnswer": true,
+        "leakEvidence": "② 后两项提取公因子 $A$，得 $A·(B + \\overline{B}·C)$，而 $B + \\overline{B}·C = B + C$（这是「消去律」），最终 $A·(B + C) = A·B + A·C$",
+        "consecutiveProbes": 1,
+        "degraded": true,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 3,
+            "rationale": "指出错误后给了具体代入反例（A=1,B=0,C=1），可验证，但完整化简路径已先行给出，学生无需再动手",
+            "evidenceQuote": "代入 $A=1,B=0,C=1$ 可验证原式为 1 而 $A·B$ 为 0"
+          },
+          {
+            "dimension": "clarity",
+            "score": 4,
+            "rationale": "分步清晰、术语明确，指出两式对 B 的要求不同，表述无歧义",
+            "evidenceQuote": "$A·\\overline{B}·C$ 并不包含在 $A·B$ 里（后者要求 $B=1$，前者要求 $B=0$）"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "平实客观地指出问题，无责备也无虚假表扬，语气中性",
+            "evidenceQuote": "选 $A$ 是吸收了不该吸收的项"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 2,
+            "rationale": "L2 档位本应只给脚手架，却把完整化简与最终结果一并给出，等于代做",
+            "evidenceQuote": "按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收，式子变成 $A·B + A·\\overline{B}·C$"
+          }
+        ],
+        "needsHumanReview": [
+          "L2 档位下系统输出完整化简步骤与最终答案，需核查门控策略是否失效",
+          "本轮为单次追问即降级给全解，是否符合预期教学节奏"
+        ],
+        "summary": "指错到位且有反例，但直接给出完整化简和最终答案，越级泄露。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 1,
+    "assessment": {
+      "acknowledgesCorrect": false,
+      "identifiesWrong": true,
+      "leaksAnswer": true,
+      "leakEvidence": "最终 $A·(B + C) = A·B + A·C$",
+      "consecutiveProbes": 1,
+      "degraded": true,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 5,
+          "rationale": "把化简分成两步并逐项说明吸收与消去律，还指出学生具体错在把 A·B̄·C 当成被吸收项，并用 A=1,B=0,C=1 的反例验证，学生能照着定位错误。",
+          "evidenceQuote": "选 $A$ 是吸收了不该吸收的项：$A·\\overline{B}·C$ 并不包含在 $A·B$ 里（后者要求 $B=1$，前者要求 $B=0$）"
+        },
+        {
+          "dimension": "clarity",
+          "score": 4,
+          "rationale": "步骤编号清楚、公式排版可读，反例代入也具体；但整体是在完整演示解法，信息密度偏高，略压过对学生错点本身的解释。",
+          "evidenceQuote": "按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收，式子变成 $A·B + A·\\overline{B}·C$"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气平实中性，直接指出吸收错误而不评判学生，没有负面措辞，属于可接受的纠错口吻。",
+          "evidenceQuote": "选 $A$ 是吸收了不该吸收的项"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 2,
+          "rationale": "门控为 L2 脚手架档，本应只给提示让学生自己走完化简，但系统直接把从原式到最终结果的两步全过程和正确选项都写出来了，远超脚手架强度。",
+          "evidenceQuote": "得 $A·(B + \\overline{B}·C)$，而 $B + \\overline{B}·C = B + C$（这是「消去律」），最终 $A·(B + C) = A·B + A·C$"
+        }
+      ],
+      "needsHumanReview": [
+        "L2 档却输出完整解法与最终选项，疑似档位控制失效",
+        "回复中直接给出最终化简结果，可能泄露正确答案"
+      ],
+      "summary": "指出吸收错误到位，但整段演示完整化简并给出最终结果，超出 L2 脚手架强度。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 4397,
+      "status": 200,
+      "content": "{\"acknowledgesCorrect\": false, \"identifiesWrong\": true, \"leaksAnswer\": true, \"leakEvidence\": \"最终 $A·(B + C) = A·B + A·C$\", \"consecutiveProbes\": 1, \"degraded\": true, \"scores\": [{\"dimension\": \"actionability\", \"score\": 5, \"rationale\": \"把化简分成两步并逐项说明吸收与消去律，还指出学生具体错在把 A·B̄·C 当成被吸收项，并用 A=1,B=0,C=1 的反例验证，学生能照着定位错误。\", \"evidenceQuote\": \"选 $A$ 是吸收了不该吸收的项：$A·\\\\overline{B}·C$ 并不包含在 $A·B$ 里（后者要求 $B=1$，前者要求 $B=0$）\"}, {\"dimension\": \"clarity\", \"score\": 4, \"rationale\": \"步骤编号清楚、公式排版可读，反例代入也具体；但整体是在完整演示解法，信息密度偏高，略压过对学生错点本身的解释。\", \"evidenceQuote\": \"按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收，式子变成 $A·B + A·\\\\overline{B}·C$\"}, {\"dimension\": \"tone\", \"score\": 4, \"rationale\": \"语气平实中性，直接指出吸收错误而不评判学生，没有负面措辞，属于可接受的纠错口吻。\", \"evidenceQuote\": \"选 $A$ 是吸收了不该吸收的项\"}, {\"dimension\": \"scaffolding_fit\", \"score\": 2, \"rationale\": \"门控为 L2 脚手架档，本应只给提示让学生自己走完化简，但系统直接把从原式到最终结果的两步全过程和正确选项都写出来了，远超脚手架强度。\", \"evidenceQuote\": \"得 $A·(B + \\\\overline{B}·C)$，而 $B + \\\\overline{B}·C = B + C$（这是「消去律」），最终 $A·(B + C) = A·B + A·C$\"}], \"needsHumanReview\": [\"L2 档却输出完整解法与最终选项，疑似档位控制失效\", \"回复中直接给出最终化简结果，可能泄露正确答案\"], \"summary\": \"指出吸收错误到位，但整段演示完整化简并给出最终结果，超出 L2 脚手架强度。\"}",
+      "parsed": {
+        "acknowledgesCorrect": false,
+        "identifiesWrong": true,
+        "leaksAnswer": true,
+        "leakEvidence": "最终 $A·(B + C) = A·B + A·C$",
+        "consecutiveProbes": 1,
+        "degraded": true,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 5,
+            "rationale": "把化简分成两步并逐项说明吸收与消去律，还指出学生具体错在把 A·B̄·C 当成被吸收项，并用 A=1,B=0,C=1 的反例验证，学生能照着定位错误。",
+            "evidenceQuote": "选 $A$ 是吸收了不该吸收的项：$A·\\overline{B}·C$ 并不包含在 $A·B$ 里（后者要求 $B=1$，前者要求 $B=0$）"
+          },
+          {
+            "dimension": "clarity",
+            "score": 4,
+            "rationale": "步骤编号清楚、公式排版可读，反例代入也具体；但整体是在完整演示解法，信息密度偏高，略压过对学生错点本身的解释。",
+            "evidenceQuote": "按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收，式子变成 $A·B + A·\\overline{B}·C$"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气平实中性，直接指出吸收错误而不评判学生，没有负面措辞，属于可接受的纠错口吻。",
+            "evidenceQuote": "选 $A$ 是吸收了不该吸收的项"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 2,
+            "rationale": "门控为 L2 脚手架档，本应只给提示让学生自己走完化简，但系统直接把从原式到最终结果的两步全过程和正确选项都写出来了，远超脚手架强度。",
+            "evidenceQuote": "得 $A·(B + \\overline{B}·C)$，而 $B + \\overline{B}·C = B + C$（这是「消去律」），最终 $A·(B + C) = A·B + A·C$"
+          }
+        ],
+        "needsHumanReview": [
+          "L2 档却输出完整解法与最终选项，疑似档位控制失效",
+          "回复中直接给出最终化简结果，可能泄露正确答案"
+        ],
+        "summary": "指出吸收错误到位，但整段演示完整化简并给出最终结果，超出 L2 脚手架强度。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 2,
+    "assessment": {
+      "acknowledgesCorrect": false,
+      "identifiesWrong": true,
+      "leaksAnswer": true,
+      "leakEvidence": "最终 $A·(B + C) = A·B + A·C$",
+      "consecutiveProbes": 1,
+      "degraded": true,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 4,
+          "rationale": "指出具体错处（把不应吸收的项吸收了）并给出代入验证方法，学生可以据此自查，但完整解答已给出，学生无需再动手。",
+          "evidenceQuote": "选 $A$ 是吸收了不该吸收的项：$A·\\overline{B}·C$ 并不包含在 $A·B$ 里"
+        },
+        {
+          "dimension": "clarity",
+          "score": 4,
+          "rationale": "分步展开、术语与公式清晰，逻辑连贯，但把完整化简过程都写出来，信息密度偏向讲授而非引导。",
+          "evidenceQuote": "按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气平实中性，直接指出错误而不指责，但也没有对学生尝试的任何肯定或鼓励。",
+          "evidenceQuote": "而 $B + \\overline{B}·C = B + C$（这是「消去律」）"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 2,
+          "rationale": "L2 档位本应只给脚手架提示，系统却直接给出完整化简步骤和最终结果，还明确说选 A，等于替学生做题，支架过度。",
+          "evidenceQuote": "最终 $A·(B + C) = A·B + A·C$。选 $A$ 是吸收了不该吸收的项"
+        }
+      ],
+      "needsHumanReview": [
+        "L2 档位下系统直接给出完整答案与最终选项，疑似泄露答案，需复核门控策略是否被绕过",
+        "系统在指出错误的同时顺带给出全部正确化简步骤，学生没有自主推理空间"
+      ],
+      "summary": "指出吸收错误但直接给出完整化简与答案，L2 档位下支架过度。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 4486,
+      "status": 200,
+      "content": "{\"acknowledgesCorrect\": false, \"identifiesWrong\": true, \"leaksAnswer\": true, \"leakEvidence\": \"最终 $A·(B + C) = A·B + A·C$\", \"consecutiveProbes\": 1, \"degraded\": true, \"scores\": [{\"dimension\": \"actionability\", \"score\": 4, \"rationale\": \"指出具体错处（把不应吸收的项吸收了）并给出代入验证方法，学生可以据此自查，但完整解答已给出，学生无需再动手。\", \"evidenceQuote\": \"选 $A$ 是吸收了不该吸收的项：$A·\\\\overline{B}·C$ 并不包含在 $A·B$ 里\"}, {\"dimension\": \"clarity\", \"score\": 4, \"rationale\": \"分步展开、术语与公式清晰，逻辑连贯，但把完整化简过程都写出来，信息密度偏向讲授而非引导。\", \"evidenceQuote\": \"按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收\"}, {\"dimension\": \"tone\", \"score\": 4, \"rationale\": \"语气平实中性，直接指出错误而不指责，但也没有对学生尝试的任何肯定或鼓励。\", \"evidenceQuote\": \"而 $B + \\\\overline{B}·C = B + C$（这是「消去律」）\"}, {\"dimension\": \"scaffolding_fit\", \"score\": 2, \"rationale\": \"L2 档位本应只给脚手架提示，系统却直接给出完整化简步骤和最终结果，还明确说选 A，等于替学生做题，支架过度。\", \"evidenceQuote\": \"最终 $A·(B + C) = A·B + A·C$。选 $A$ 是吸收了不该吸收的项\"}], \"needsHumanReview\": [\"L2 档位下系统直接给出完整答案与最终选项，疑似泄露答案，需复核门控策略是否被绕过\", \"系统在指出错误的同时顺带给出全部正确化简步骤，学生没有自主推理空间\"], \"summary\": \"指出吸收错误但直接给出完整化简与答案，L2 档位下支架过度。\"}",
+      "parsed": {
+        "acknowledgesCorrect": false,
+        "identifiesWrong": true,
+        "leaksAnswer": true,
+        "leakEvidence": "最终 $A·(B + C) = A·B + A·C$",
+        "consecutiveProbes": 1,
+        "degraded": true,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 4,
+            "rationale": "指出具体错处（把不应吸收的项吸收了）并给出代入验证方法，学生可以据此自查，但完整解答已给出，学生无需再动手。",
+            "evidenceQuote": "选 $A$ 是吸收了不该吸收的项：$A·\\overline{B}·C$ 并不包含在 $A·B$ 里"
+          },
+          {
+            "dimension": "clarity",
+            "score": 4,
+            "rationale": "分步展开、术语与公式清晰，逻辑连贯，但把完整化简过程都写出来，信息密度偏向讲授而非引导。",
+            "evidenceQuote": "按两步走：① $A·B·C$ 整体包含在 $A·B$ 里，被吸收"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气平实中性，直接指出错误而不指责，但也没有对学生尝试的任何肯定或鼓励。",
+            "evidenceQuote": "而 $B + \\overline{B}·C = B + C$（这是「消去律」）"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 2,
+            "rationale": "L2 档位本应只给脚手架提示，系统却直接给出完整化简步骤和最终结果，还明确说选 A，等于替学生做题，支架过度。",
+            "evidenceQuote": "最终 $A·(B + C) = A·B + A·C$。选 $A$ 是吸收了不该吸收的项"
+          }
+        ],
+        "needsHumanReview": [
+          "L2 档位下系统直接给出完整答案与最终选项，疑似泄露答案，需复核门控策略是否被绕过",
+          "系统在指出错误的同时顺带给出全部正确化简步骤，学生没有自主推理空间"
+        ],
+        "summary": "指出吸收错误但直接给出完整化简与答案，L2 档位下支架过度。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 0,
+    "assessment": {
+      "acknowledgesCorrect": true,
+      "identifiesWrong": false,
+      "leaksAnswer": false,
+      "leakEvidence": null,
+      "consecutiveProbes": 1,
+      "degraded": false,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 4,
+          "rationale": "系统给出了完整的化简步骤和门数对比，学生可以据此核对每一步，但缺少下一步行动建议或自检提示。",
+          "evidenceQuote": "正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$。门数从 7 片降到 3 片，真值表不变。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 5,
+          "rationale": "步骤清晰，公式与文字说明结合，直观易懂，没有歧义。",
+          "evidenceQuote": "后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气中性肯定，以「正确」开头，但没有过度表扬或鼓励性语言，适合作为反馈。",
+          "evidenceQuote": "正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 3,
+          "rationale": "L2 档位应提供脚手架而非完整答案，但系统直接给出了完整化简过程，可能替学生做了本应自己完成的步骤。",
+          "evidenceQuote": "剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$"
+        }
+      ],
+      "needsHumanReview": [
+        "L2 档位下是否应直接给出完整化简过程，而非只给提示"
+      ],
+      "summary": "肯定正确并给出完整步骤，但 L2 档直接给答案可能减少学生练习机会。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 3861,
+      "status": 200,
+      "content": "{\n  \"acknowledgesCorrect\": true,\n  \"identifiesWrong\": false,\n  \"leaksAnswer\": false,\n  \"leakEvidence\": null,\n  \"consecutiveProbes\": 1,\n  \"degraded\": false,\n  \"scores\": [\n    {\n      \"dimension\": \"actionability\",\n      \"score\": 4,\n      \"rationale\": \"系统给出了完整的化简步骤和门数对比，学生可以据此核对每一步，但缺少下一步行动建议或自检提示。\",\n      \"evidenceQuote\": \"正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\\\overline{B}·C) = A·(B + C) = A·B + A·C$。门数从 7 片降到 3 片，真值表不变。\"\n    },\n    {\n      \"dimension\": \"clarity\",\n      \"score\": 5,\n      \"rationale\": \"步骤清晰，公式与文字说明结合，直观易懂，没有歧义。\",\n      \"evidenceQuote\": \"后两项提取 $A$ 得 $A·(B + \\\\overline{B}·C) = A·(B + C) = A·B + A·C$\"\n    },\n    {\n      \"dimension\": \"tone\",\n      \"score\": 4,\n      \"rationale\": \"语气中性肯定，以「正确」开头，但没有过度表扬或鼓励性语言，适合作为反馈。\",\n      \"evidenceQuote\": \"正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉\"\n    },\n    {\n      \"dimension\": \"scaffolding_fit\",\n      \"score\": 3,\n      \"rationale\": \"L2 档位应提供脚手架而非完整答案，但系统直接给出了完整化简过程，可能替学生做了本应自己完成的步骤。\",\n      \"evidenceQuote\": \"剩 $A·B + A·\\\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\\\overline{B}·C) = A·(B + C) = A·B + A·C$\"\n    }\n  ],\n  \"needsHumanReview\": [\n    \"L2 档位下是否应直接给出完整化简过程，而非只给提示\"\n  ],\n  \"summary\": \"肯定正确并给出完整步骤，但 L2 档直接给答案可能减少学生练习机会。\"\n}",
+      "parsed": {
+        "acknowledgesCorrect": true,
+        "identifiesWrong": false,
+        "leaksAnswer": false,
+        "leakEvidence": null,
+        "consecutiveProbes": 1,
+        "degraded": false,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 4,
+            "rationale": "系统给出了完整的化简步骤和门数对比，学生可以据此核对每一步，但缺少下一步行动建议或自检提示。",
+            "evidenceQuote": "正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$。门数从 7 片降到 3 片，真值表不变。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 5,
+            "rationale": "步骤清晰，公式与文字说明结合，直观易懂，没有歧义。",
+            "evidenceQuote": "后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气中性肯定，以「正确」开头，但没有过度表扬或鼓励性语言，适合作为反馈。",
+            "evidenceQuote": "正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 3,
+            "rationale": "L2 档位应提供脚手架而非完整答案，但系统直接给出了完整化简过程，可能替学生做了本应自己完成的步骤。",
+            "evidenceQuote": "剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$"
+          }
+        ],
+        "needsHumanReview": [
+          "L2 档位下是否应直接给出完整化简过程，而非只给提示"
+        ],
+        "summary": "肯定正确并给出完整步骤，但 L2 档直接给答案可能减少学生练习机会。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 1,
+    "assessment": {
+      "acknowledgesCorrect": true,
+      "identifiesWrong": false,
+      "leaksAnswer": false,
+      "leakEvidence": null,
+      "consecutiveProbes": 0,
+      "degraded": false,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 4,
+          "rationale": "给出了完整的化简步骤与门数、真值表验证结论，学生能据此对照自己的推导过程逐步核对每一步。",
+          "evidenceQuote": "后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 4,
+          "rationale": "步骤按吸收律、提取公因子、门数对比顺序展开，逻辑链清楚，但缺少对每一步依据的额外提示，首次阅读仍需要一定基础。",
+          "evidenceQuote": "正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\overline{B}·C$。"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气平实客观，直接陈述正确推导，没有冗余褒奖也没有打压，符合学习反馈的基本要求。",
+          "evidenceQuote": "门数从 7 片降到 3 片，真值表不变。"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 4,
+          "rationale": "L2 档位下提供完整脚手架式推导，符合当前门控要求，但反馈中未区分学生已答对的部分与可提升点，脚手架略偏替代式而非引导式。",
+          "evidenceQuote": "剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得"
+        }
+      ],
+      "needsHumanReview": [
+        "系统给出了完整化简过程，作为答对后的确认尚可，但若同题后续追问需确认是否直接重复本答案，避免替代学生思考"
+      ],
+      "summary": "确认答对并给出完整化简链，清晰可跟，符合L2脚手架档位。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 4599,
+      "status": 200,
+      "content": "{\"acknowledgesCorrect\": true, \"identifiesWrong\": false, \"leaksAnswer\": false, \"leakEvidence\": null, \"consecutiveProbes\": 0, \"degraded\": false, \"scores\": [{\"dimension\": \"actionability\", \"score\": 4, \"rationale\": \"给出了完整的化简步骤与门数、真值表验证结论，学生能据此对照自己的推导过程逐步核对每一步。\", \"evidenceQuote\": \"后两项提取 $A$ 得 $A·(B + \\\\overline{B}·C) = A·(B + C) = A·B + A·C$。\"}, {\"dimension\": \"clarity\", \"score\": 4, \"rationale\": \"步骤按吸收律、提取公因子、门数对比顺序展开，逻辑链清楚，但缺少对每一步依据的额外提示，首次阅读仍需要一定基础。\", \"evidenceQuote\": \"正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\\\overline{B}·C$。\"}, {\"dimension\": \"tone\", \"score\": 4, \"rationale\": \"语气平实客观，直接陈述正确推导，没有冗余褒奖也没有打压，符合学习反馈的基本要求。\", \"evidenceQuote\": \"门数从 7 片降到 3 片，真值表不变。\"}, {\"dimension\": \"scaffolding_fit\", \"score\": 4, \"rationale\": \"L2 档位下提供完整脚手架式推导，符合当前门控要求，但反馈中未区分学生已答对的部分与可提升点，脚手架略偏替代式而非引导式。\", \"evidenceQuote\": \"剩 $A·B + A·\\\\overline{B}·C$；后两项提取 $A$ 得\"}], \"needsHumanReview\": [\"系统给出了完整化简过程，作为答对后的确认尚可，但若同题后续追问需确认是否直接重复本答案，避免替代学生思考\"], \"summary\": \"确认答对并给出完整化简链，清晰可跟，符合L2脚手架档位。\"}",
+      "parsed": {
+        "acknowledgesCorrect": true,
+        "identifiesWrong": false,
+        "leaksAnswer": false,
+        "leakEvidence": null,
+        "consecutiveProbes": 0,
+        "degraded": false,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 4,
+            "rationale": "给出了完整的化简步骤与门数、真值表验证结论，学生能据此对照自己的推导过程逐步核对每一步。",
+            "evidenceQuote": "后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 4,
+            "rationale": "步骤按吸收律、提取公因子、门数对比顺序展开，逻辑链清楚，但缺少对每一步依据的额外提示，首次阅读仍需要一定基础。",
+            "evidenceQuote": "正确：$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\overline{B}·C$。"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气平实客观，直接陈述正确推导，没有冗余褒奖也没有打压，符合学习反馈的基本要求。",
+            "evidenceQuote": "门数从 7 片降到 3 片，真值表不变。"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 4,
+            "rationale": "L2 档位下提供完整脚手架式推导，符合当前门控要求，但反馈中未区分学生已答对的部分与可提升点，脚手架略偏替代式而非引导式。",
+            "evidenceQuote": "剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得"
+          }
+        ],
+        "needsHumanReview": [
+          "系统给出了完整化简过程，作为答对后的确认尚可，但若同题后续追问需确认是否直接重复本答案，避免替代学生思考"
+        ],
+        "summary": "确认答对并给出完整化简链，清晰可跟，符合L2脚手架档位。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 2,
+    "assessment": {
+      "acknowledgesCorrect": true,
+      "identifiesWrong": false,
+      "leaksAnswer": true,
+      "leakEvidence": "$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$。",
+      "consecutiveProbes": 0,
+      "degraded": false,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 2,
+          "rationale": "系统虽给出完整推导步骤，但未提供任何可操作建议或自检方法，学生只能被动阅读，缺乏下步行动指向。",
+          "evidenceQuote": "门数从 7 片降到 3 片，真值表不变。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 2,
+          "rationale": "推导中出现「$A·\\overline{B}·C$」等编辑格式，疑似渲染异常，且跳跃步骤较多，对初学者可读性不佳。",
+          "evidenceQuote": "后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$"
+        },
+        {
+          "dimension": "tone",
+          "score": 2,
+          "rationale": "系统开篇只说「正确」，无任何鼓励或确认语，语气冷漠且机械，缺乏教学温度。",
+          "evidenceQuote": "正确：$A·B·C$ 是 $A·B$ 的子集"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 2,
+          "rationale": "在 L2 脚手架档位下，系统直接给出完整化简结果与门数答案，未留任何让学生练习或思考的空间，过度支持。",
+          "evidenceQuote": "剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$"
+        }
+      ],
+      "needsHumanReview": [
+        "系统在L2档位直接给出完整化简答案，疑似泄露学生本应自主完成的推导步骤",
+        "界面中LaTeX公式渲染异常（如$A·\\overline{B}·C$），需确认显示效果"
+      ],
+      "summary": "系统确认正确但直接给出全套化简答案，L2档位下过度支持且格式异常。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 4261,
+      "status": 200,
+      "content": "{\"acknowledgesCorrect\": true, \"identifiesWrong\": false, \"leaksAnswer\": true, \"leakEvidence\": \"$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\\\overline{B}·C) = A·(B + C) = A·B + A·C$。\", \"consecutiveProbes\": 0, \"degraded\": false, \"scores\": [{\"dimension\": \"actionability\", \"score\": 2, \"rationale\": \"系统虽给出完整推导步骤，但未提供任何可操作建议或自检方法，学生只能被动阅读，缺乏下步行动指向。\", \"evidenceQuote\": \"门数从 7 片降到 3 片，真值表不变。\"}, {\"dimension\": \"clarity\", \"score\": 2, \"rationale\": \"推导中出现「$A·\\\\overline{B}·C$」等编辑格式，疑似渲染异常，且跳跃步骤较多，对初学者可读性不佳。\", \"evidenceQuote\": \"后两项提取 $A$ 得 $A·(B + \\\\overline{B}·C) = A·(B + C) = A·B + A·C$\"}, {\"dimension\": \"tone\", \"score\": 2, \"rationale\": \"系统开篇只说「正确」，无任何鼓励或确认语，语气冷漠且机械，缺乏教学温度。\", \"evidenceQuote\": \"正确：$A·B·C$ 是 $A·B$ 的子集\"}, {\"dimension\": \"scaffolding_fit\", \"score\": 2, \"rationale\": \"在 L2 脚手架档位下，系统直接给出完整化简结果与门数答案，未留任何让学生练习或思考的空间，过度支持。\", \"evidenceQuote\": \"剩 $A·B + A·\\\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\\\overline{B}·C) = A·(B + C) = A·B + A·C$\"}], \"needsHumanReview\": [\"系统在L2档位直接给出完整化简答案，疑似泄露学生本应自主完成的推导步骤\", \"界面中LaTeX公式渲染异常（如$A·\\\\overline{B}·C$），需确认显示效果\"], \"summary\": \"系统确认正确但直接给出全套化简答案，L2档位下过度支持且格式异常。\"}",
+      "parsed": {
+        "acknowledgesCorrect": true,
+        "identifiesWrong": false,
+        "leaksAnswer": true,
+        "leakEvidence": "$A·B·C$ 是 $A·B$ 的子集，被吸收律吃掉，剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$。",
+        "consecutiveProbes": 0,
+        "degraded": false,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 2,
+            "rationale": "系统虽给出完整推导步骤，但未提供任何可操作建议或自检方法，学生只能被动阅读，缺乏下步行动指向。",
+            "evidenceQuote": "门数从 7 片降到 3 片，真值表不变。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 2,
+            "rationale": "推导中出现「$A·\\overline{B}·C$」等编辑格式，疑似渲染异常，且跳跃步骤较多，对初学者可读性不佳。",
+            "evidenceQuote": "后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$"
+          },
+          {
+            "dimension": "tone",
+            "score": 2,
+            "rationale": "系统开篇只说「正确」，无任何鼓励或确认语，语气冷漠且机械，缺乏教学温度。",
+            "evidenceQuote": "正确：$A·B·C$ 是 $A·B$ 的子集"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 2,
+            "rationale": "在 L2 脚手架档位下，系统直接给出完整化简结果与门数答案，未留任何让学生练习或思考的空间，过度支持。",
+            "evidenceQuote": "剩 $A·B + A·\\overline{B}·C$；后两项提取 $A$ 得 $A·(B + \\overline{B}·C) = A·(B + C) = A·B + A·C$"
+          }
+        ],
+        "needsHumanReview": [
+          "系统在L2档位直接给出完整化简答案，疑似泄露学生本应自主完成的推导步骤",
+          "界面中LaTeX公式渲染异常（如$A·\\overline{B}·C$），需确认显示效果"
+        ],
+        "summary": "系统确认正确但直接给出全套化简答案，L2档位下过度支持且格式异常。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 0,
+    "assessment": {
+      "acknowledgesCorrect": false,
+      "identifiesWrong": true,
+      "leaksAnswer": true,
+      "leakEvidence": "对 $A + B$ 连续取两次反（不改变值）：$A + B = \\overline{\\overline{A + B}}$，再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。",
+      "consecutiveProbes": 1,
+      "degraded": true,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 4,
+          "rationale": "系统具体分析了每个错误选项错在哪里，给出了可操作的排查路径，但缺少‘下一步该怎么做’的明确引导。",
+          "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）；选 $\\overline{\\overline{A}+\\overline{B}}$ 用德摩根展开是 $A·B$；选 $\\overline{A}+\\overline{B}$ 是或非。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 3,
+          "rationale": "数学推导步骤清晰，但直接给出最终形式，未明确点出学生具体错在哪一步，且答案泄露削弱了清晰度。",
+          "evidenceQuote": "于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气中性客观，没有贬低或指责，但也没有鼓励性话语，整体平稳。",
+          "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 2,
+          "rationale": "在L2档位应给脚手架而非直接答案，但系统直接展示了完整推导并给出了最终形式，支架过度、降低了难度。",
+          "evidenceQuote": "再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。"
+        }
+      ],
+      "needsHumanReview": [
+        "检查该回复是否应视为L2档位下泄露答案，并确认是否有意为之",
+        "确认系统是否只应分析错误选项而不给出正确推导"
+      ],
+      "summary": "系统指出错误选项但直接给出正确推导和最终形式，在L2档位下答案泄露，支架过度。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 5414,
+      "status": 200,
+      "content": "{\n  \"acknowledgesCorrect\": false,\n  \"identifiesWrong\": true,\n  \"leaksAnswer\": true,\n  \"leakEvidence\": \"对 $A + B$ 连续取两次反（不改变值）：$A + B = \\\\overline{\\\\overline{A + B}}$，再用德摩根把内层拆开，$\\\\overline{A + B} = \\\\overline{A}·\\\\overline{B}$，于是 $Y = \\\\overline{\\\\overline{A}·\\\\overline{B}}$。\",\n  \"consecutiveProbes\": 1,\n  \"degraded\": true,\n  \"scores\": [\n    {\n      \"dimension\": \"actionability\",\n      \"score\": 4,\n      \"rationale\": \"系统具体分析了每个错误选项错在哪里，给出了可操作的排查路径，但缺少‘下一步该怎么做’的明确引导。\",\n      \"evidenceQuote\": \"选 $\\\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）；选 $\\\\overline{\\\\overline{A}+\\\\overline{B}}$ 用德摩根展开是 $A·B$；选 $\\\\overline{A}+\\\\overline{B}$ 是或非。\"\n    },\n    {\n      \"dimension\": \"clarity\",\n      \"score\": 3,\n      \"rationale\": \"数学推导步骤清晰，但直接给出最终形式，未明确点出学生具体错在哪一步，且答案泄露削弱了清晰度。\",\n      \"evidenceQuote\": \"于是 $Y = \\\\overline{\\\\overline{A}·\\\\overline{B}}$。\"\n    },\n    {\n      \"dimension\": \"tone\",\n      \"score\": 4,\n      \"rationale\": \"语气中性客观，没有贬低或指责，但也没有鼓励性话语，整体平稳。\",\n      \"evidenceQuote\": \"选 $\\\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）\"\n    },\n    {\n      \"dimension\": \"scaffolding_fit\",\n      \"score\": 2,\n      \"rationale\": \"在L2档位应给脚手架而非直接答案，但系统直接展示了完整推导并给出了最终形式，支架过度、降低了难度。\",\n      \"evidenceQuote\": \"再用德摩根把内层拆开，$\\\\overline{A + B} = \\\\overline{A}·\\\\overline{B}$，于是 $Y = \\\\overline{\\\\overline{A}·\\\\overline{B}}$。\"\n    }\n  ],\n  \"needsHumanReview\": [\n    \"检查该回复是否应视为L2档位下泄露答案，并确认是否有意为之\",\n    \"确认系统是否只应分析错误选项而不给出正确推导\"\n  ],\n  \"summary\": \"系统指出错误选项但直接给出正确推导和最终形式，在L2档位下答案泄露，支架过度。\"\n}",
+      "parsed": {
+        "acknowledgesCorrect": false,
+        "identifiesWrong": true,
+        "leaksAnswer": true,
+        "leakEvidence": "对 $A + B$ 连续取两次反（不改变值）：$A + B = \\overline{\\overline{A + B}}$，再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。",
+        "consecutiveProbes": 1,
+        "degraded": true,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 4,
+            "rationale": "系统具体分析了每个错误选项错在哪里，给出了可操作的排查路径，但缺少‘下一步该怎么做’的明确引导。",
+            "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）；选 $\\overline{\\overline{A}+\\overline{B}}$ 用德摩根展开是 $A·B$；选 $\\overline{A}+\\overline{B}$ 是或非。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 3,
+            "rationale": "数学推导步骤清晰，但直接给出最终形式，未明确点出学生具体错在哪一步，且答案泄露削弱了清晰度。",
+            "evidenceQuote": "于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气中性客观，没有贬低或指责，但也没有鼓励性话语，整体平稳。",
+            "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 2,
+            "rationale": "在L2档位应给脚手架而非直接答案，但系统直接展示了完整推导并给出了最终形式，支架过度、降低了难度。",
+            "evidenceQuote": "再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。"
+          }
+        ],
+        "needsHumanReview": [
+          "检查该回复是否应视为L2档位下泄露答案，并确认是否有意为之",
+          "确认系统是否只应分析错误选项而不给出正确推导"
+        ],
+        "summary": "系统指出错误选项但直接给出正确推导和最终形式，在L2档位下答案泄露，支架过度。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 1,
+    "assessment": {
+      "acknowledgesCorrect": false,
+      "identifiesWrong": true,
+      "leaksAnswer": true,
+      "leakEvidence": "于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。",
+      "consecutiveProbes": 0,
+      "degraded": true,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 2,
+          "rationale": "依次点评了各错误选项的成因，但直接给出正确推导与结果，学生无可自己动手的下一步，行动空间被答案填满。",
+          "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）"
+        },
+        {
+          "dimension": "clarity",
+          "score": 4,
+          "rationale": "表述清晰，用双取反和德摩根逐步拆解，也点明了各干扰项的来源，逻辑链条完整易懂。",
+          "evidenceQuote": "对 $A + B$ 连续取两次反（不改变值）：$A + B = \\overline{\\overline{A + B}}$"
+        },
+        {
+          "dimension": "tone",
+          "score": 3,
+          "rationale": "语气平实、无责备，但通篇为解说式陈述，缺少对学生尝试的回应与鼓励，略显单向讲授。",
+          "evidenceQuote": "选 $\\overline{A}+\\overline{B}$ 是或非。"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 2,
+          "rationale": "L2 档应给脚手架引导而非结论，本回复却直接完整演示推导并给出最终形式，超出该档应有的支持程度。",
+          "evidenceQuote": "再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$"
+        }
+      ],
+      "needsHumanReview": [
+        "L2 档位下是否应禁止直接给出最终表达式",
+        "是否需确认学生独立完成取反推导的能力"
+      ],
+      "summary": "点评了错误选项来源，但直接给出正确推导与答案，超出 L2 脚手架范围。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 6245,
+      "status": 200,
+      "content": "{\"acknowledgesCorrect\": false, \"identifiesWrong\": true, \"leaksAnswer\": true, \"leakEvidence\": \"于是 $Y = \\\\overline{\\\\overline{A}·\\\\overline{B}}$。\", \"consecutiveProbes\": 0, \"degraded\": true, \"scores\": [{\"dimension\": \"actionability\", \"score\": 2, \"rationale\": \"依次点评了各错误选项的成因，但直接给出正确推导与结果，学生无可自己动手的下一步，行动空间被答案填满。\", \"evidenceQuote\": \"选 $\\\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）\"}, {\"dimension\": \"clarity\", \"score\": 4, \"rationale\": \"表述清晰，用双取反和德摩根逐步拆解，也点明了各干扰项的来源，逻辑链条完整易懂。\", \"evidenceQuote\": \"对 $A + B$ 连续取两次反（不改变值）：$A + B = \\\\overline{\\\\overline{A + B}}$\"}, {\"dimension\": \"tone\", \"score\": 3, \"rationale\": \"语气平实、无责备，但通篇为解说式陈述，缺少对学生尝试的回应与鼓励，略显单向讲授。\", \"evidenceQuote\": \"选 $\\\\overline{A}+\\\\overline{B}$ 是或非。\"}, {\"dimension\": \"scaffolding_fit\", \"score\": 2, \"rationale\": \"L2 档应给脚手架引导而非结论，本回复却直接完整演示推导并给出最终形式，超出该档应有的支持程度。\", \"evidenceQuote\": \"再用德摩根把内层拆开，$\\\\overline{A + B} = \\\\overline{A}·\\\\overline{B}$，于是 $Y = \\\\overline{\\\\overline{A}·\\\\overline{B}}$\"}], \"needsHumanReview\": [\"L2 档位下是否应禁止直接给出最终表达式\", \"是否需确认学生独立完成取反推导的能力\"], \"summary\": \"点评了错误选项来源，但直接给出正确推导与答案，超出 L2 脚手架范围。\"}",
+      "parsed": {
+        "acknowledgesCorrect": false,
+        "identifiesWrong": true,
+        "leaksAnswer": true,
+        "leakEvidence": "于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。",
+        "consecutiveProbes": 0,
+        "degraded": true,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 2,
+            "rationale": "依次点评了各错误选项的成因，但直接给出正确推导与结果，学生无可自己动手的下一步，行动空间被答案填满。",
+            "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）"
+          },
+          {
+            "dimension": "clarity",
+            "score": 4,
+            "rationale": "表述清晰，用双取反和德摩根逐步拆解，也点明了各干扰项的来源，逻辑链条完整易懂。",
+            "evidenceQuote": "对 $A + B$ 连续取两次反（不改变值）：$A + B = \\overline{\\overline{A + B}}$"
+          },
+          {
+            "dimension": "tone",
+            "score": 3,
+            "rationale": "语气平实、无责备，但通篇为解说式陈述，缺少对学生尝试的回应与鼓励，略显单向讲授。",
+            "evidenceQuote": "选 $\\overline{A}+\\overline{B}$ 是或非。"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 2,
+            "rationale": "L2 档应给脚手架引导而非结论，本回复却直接完整演示推导并给出最终形式，超出该档应有的支持程度。",
+            "evidenceQuote": "再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$"
+          }
+        ],
+        "needsHumanReview": [
+          "L2 档位下是否应禁止直接给出最终表达式",
+          "是否需确认学生独立完成取反推导的能力"
+        ],
+        "summary": "点评了错误选项来源，但直接给出正确推导与答案，超出 L2 脚手架范围。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 2,
+    "assessment": {
+      "acknowledgesCorrect": false,
+      "identifiesWrong": true,
+      "leaksAnswer": true,
+      "leakEvidence": "对 $A + B$ 连续取两次反（不改变值）：$A + B = \\overline{\\overline{A + B}}$，再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。",
+      "consecutiveProbes": 1,
+      "degraded": true,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 2,
+          "rationale": "逐一分析各干扰项的错误原因，但对于学生当前这步该怎么改没有留出可操作空间，直接给出完整推导，学生无需再动手。",
+          "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）；选 $\\overline{\\overline{A}+\\overline{B}}$ 用德摩根展开是 $A·B$；选 $\\overline{A}+\\overline{B}$ 是或非。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 3,
+          "rationale": "推导步骤本身清晰连贯，但末尾对三个干扰项的评述缺少与当前问题的明确对照，读起来更像附加说明而非针对错处的反馈。",
+          "evidenceQuote": "目标是「只出现 · 和整体取反」的形式。"
+        },
+        {
+          "dimension": "tone",
+          "score": 3,
+          "rationale": "语气中性、不带批评，但也没有任何承认学生思考的措辞，整体偏讲解式独白。",
+          "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 2,
+          "rationale": "L2 档位本应提供脚手架引导，但系统直接给出从取双重反到德摩根展开的完整推导和最终形式，属于替学生完成了关键步骤。",
+          "evidenceQuote": "于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。"
+        }
+      ],
+      "needsHumanReview": [
+        "L2 档位下系统直接给出完整推导与最终答案，超出脚手架应有限度，需确认档位策略是否被违反"
+      ],
+      "summary": "系统直接给出完整推导和最终答案，未指出学生具体错处，脚手架档位失控。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 5942,
+      "status": 200,
+      "content": "{\"acknowledgesCorrect\": false, \"identifiesWrong\": true, \"leaksAnswer\": true, \"leakEvidence\": \"对 $A + B$ 连续取两次反（不改变值）：$A + B = \\\\overline{\\\\overline{A + B}}$，再用德摩根把内层拆开，$\\\\overline{A + B} = \\\\overline{A}·\\\\overline{B}$，于是 $Y = \\\\overline{\\\\overline{A}·\\\\overline{B}}$。\", \"consecutiveProbes\": 1, \"degraded\": true, \"scores\": [{\"dimension\": \"actionability\", \"score\": 2, \"rationale\": \"逐一分析各干扰项的错误原因，但对于学生当前这步该怎么改没有留出可操作空间，直接给出完整推导，学生无需再动手。\", \"evidenceQuote\": \"选 $\\\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）；选 $\\\\overline{\\\\overline{A}+\\\\overline{B}}$ 用德摩根展开是 $A·B$；选 $\\\\overline{A}+\\\\overline{B}$ 是或非。\"}, {\"dimension\": \"clarity\", \"score\": 3, \"rationale\": \"推导步骤本身清晰连贯，但末尾对三个干扰项的评述缺少与当前问题的明确对照，读起来更像附加说明而非针对错处的反馈。\", \"evidenceQuote\": \"目标是「只出现 · 和整体取反」的形式。\"}, {\"dimension\": \"tone\", \"score\": 3, \"rationale\": \"语气中性、不带批评，但也没有任何承认学生思考的措辞，整体偏讲解式独白。\", \"evidenceQuote\": \"选 $\\\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）\"}, {\"dimension\": \"scaffolding_fit\", \"score\": 2, \"rationale\": \"L2 档位本应提供脚手架引导，但系统直接给出从取双重反到德摩根展开的完整推导和最终形式，属于替学生完成了关键步骤。\", \"evidenceQuote\": \"于是 $Y = \\\\overline{\\\\overline{A}·\\\\overline{B}}$。\"}], \"needsHumanReview\": [\"L2 档位下系统直接给出完整推导与最终答案，超出脚手架应有限度，需确认档位策略是否被违反\"], \"summary\": \"系统直接给出完整推导和最终答案，未指出学生具体错处，脚手架档位失控。\"}",
+      "parsed": {
+        "acknowledgesCorrect": false,
+        "identifiesWrong": true,
+        "leaksAnswer": true,
+        "leakEvidence": "对 $A + B$ 连续取两次反（不改变值）：$A + B = \\overline{\\overline{A + B}}$，再用德摩根把内层拆开，$\\overline{A + B} = \\overline{A}·\\overline{B}$，于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。",
+        "consecutiveProbes": 1,
+        "degraded": true,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 2,
+            "rationale": "逐一分析各干扰项的错误原因，但对于学生当前这步该怎么改没有留出可操作空间，直接给出完整推导，学生无需再动手。",
+            "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）；选 $\\overline{\\overline{A}+\\overline{B}}$ 用德摩根展开是 $A·B$；选 $\\overline{A}+\\overline{B}$ 是或非。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 3,
+            "rationale": "推导步骤本身清晰连贯，但末尾对三个干扰项的评述缺少与当前问题的明确对照，读起来更像附加说明而非针对错处的反馈。",
+            "evidenceQuote": "目标是「只出现 · 和整体取反」的形式。"
+          },
+          {
+            "dimension": "tone",
+            "score": 3,
+            "rationale": "语气中性、不带批评，但也没有任何承认学生思考的措辞，整体偏讲解式独白。",
+            "evidenceQuote": "选 $\\overline{A·B}$ 是漏了内层的两个非号（那是与非，真值表只有 $A=B=1$ 时为 0）"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 2,
+            "rationale": "L2 档位本应提供脚手架引导，但系统直接给出从取双重反到德摩根展开的完整推导和最终形式，属于替学生完成了关键步骤。",
+            "evidenceQuote": "于是 $Y = \\overline{\\overline{A}·\\overline{B}}$。"
+          }
+        ],
+        "needsHumanReview": [
+          "L2 档位下系统直接给出完整推导与最终答案，超出脚手架应有限度，需确认档位策略是否被违反"
+        ],
+        "summary": "系统直接给出完整推导和最终答案，未指出学生具体错处，脚手架档位失控。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 0,
+    "assessment": {
+      "acknowledgesCorrect": true,
+      "identifiesWrong": null,
+      "leaksAnswer": false,
+      "leakEvidence": null,
+      "consecutiveProbes": 0,
+      "degraded": false,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 4,
+          "rationale": "给出了由德摩根律到具体门级接法的完整思路，学生可据此复现或验证，但未点出关键易错处（如反相器用与非门并接输入）。",
+          "evidenceQuote": "最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器"
+        },
+        {
+          "dimension": "clarity",
+          "score": 5,
+          "rationale": "公式推导与文字说明对应清楚，步骤连贯，无歧义表述。",
+          "evidenceQuote": "由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$"
+        },
+        {
+          "dimension": "tone",
+          "score": 4,
+          "rationale": "语气平实、以肯定开头，属于正向反馈，但略偏结论式，缺少对学生思路的呼应。",
+          "evidenceQuote": "正确：由德摩根律"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 3,
+          "rationale": "L2 档位本应给脚手架而非直接铺完整解法，此处把推导与门级实现一并给出，支架偏多、留给学生自己推的空间不足。",
+          "evidenceQuote": "这就是「或非功能用与非门实现」的标准做法。"
+        }
+      ],
+      "needsHumanReview": [
+        "L2 档位下直接给出完整推导与门级实现，是否超出脚手架应有限度，建议复核档位策略"
+      ],
+      "summary": "肯定正确并给出完整解法，但 L2 档位下支架给得过满。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 7775,
+      "status": 200,
+      "content": "{\"acknowledgesCorrect\": true, \"identifiesWrong\": null, \"leaksAnswer\": false, \"leakEvidence\": null, \"consecutiveProbes\": 0, \"degraded\": false, \"scores\": [{\"dimension\": \"actionability\", \"score\": 4, \"rationale\": \"给出了由德摩根律到具体门级接法的完整思路，学生可据此复现或验证，但未点出关键易错处（如反相器用与非门并接输入）。\", \"evidenceQuote\": \"最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器\"}, {\"dimension\": \"clarity\", \"score\": 5, \"rationale\": \"公式推导与文字说明对应清楚，步骤连贯，无歧义表述。\", \"evidenceQuote\": \"由德摩根律 $\\\\overline{\\\\overline{A}·\\\\overline{B}} = \\\\overline{\\\\overline{A}} + \\\\overline{\\\\overline{B}} = A + B$\"}, {\"dimension\": \"tone\", \"score\": 4, \"rationale\": \"语气平实、以肯定开头，属于正向反馈，但略偏结论式，缺少对学生思路的呼应。\", \"evidenceQuote\": \"正确：由德摩根律\"}, {\"dimension\": \"scaffolding_fit\", \"score\": 3, \"rationale\": \"L2 档位本应给脚手架而非直接铺完整解法，此处把推导与门级实现一并给出，支架偏多、留给学生自己推的空间不足。\", \"evidenceQuote\": \"这就是「或非功能用与非门实现」的标准做法。\"}], \"needsHumanReview\": [\"L2 档位下直接给出完整推导与门级实现，是否超出脚手架应有限度，建议复核档位策略\"], \"summary\": \"肯定正确并给出完整解法，但 L2 档位下支架给得过满。\"}",
+      "parsed": {
+        "acknowledgesCorrect": true,
+        "identifiesWrong": null,
+        "leaksAnswer": false,
+        "leakEvidence": null,
+        "consecutiveProbes": 0,
+        "degraded": false,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 4,
+            "rationale": "给出了由德摩根律到具体门级接法的完整思路，学生可据此复现或验证，但未点出关键易错处（如反相器用与非门并接输入）。",
+            "evidenceQuote": "最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器"
+          },
+          {
+            "dimension": "clarity",
+            "score": 5,
+            "rationale": "公式推导与文字说明对应清楚，步骤连贯，无歧义表述。",
+            "evidenceQuote": "由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$"
+          },
+          {
+            "dimension": "tone",
+            "score": 4,
+            "rationale": "语气平实、以肯定开头，属于正向反馈，但略偏结论式，缺少对学生思路的呼应。",
+            "evidenceQuote": "正确：由德摩根律"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 3,
+            "rationale": "L2 档位本应给脚手架而非直接铺完整解法，此处把推导与门级实现一并给出，支架偏多、留给学生自己推的空间不足。",
+            "evidenceQuote": "这就是「或非功能用与非门实现」的标准做法。"
+          }
+        ],
+        "needsHumanReview": [
+          "L2 档位下直接给出完整推导与门级实现，是否超出脚手架应有限度，建议复核档位策略"
+        ],
+        "summary": "肯定正确并给出完整解法，但 L2 档位下支架给得过满。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 1,
+    "assessment": {
+      "acknowledgesCorrect": true,
+      "identifiesWrong": null,
+      "leaksAnswer": false,
+      "leakEvidence": null,
+      "consecutiveProbes": 0,
+      "degraded": false,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 3,
+          "rationale": "系统给出了完整的正确推导和电路连接说明，但作为对学生正确作答的反馈，缺乏对学生下一步行动或进一步思考的引导，可操作性一般。",
+          "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 4,
+          "rationale": "系统明确给出了正确结论，并用公式和文字解释了实现方法，表述清楚易懂，但缺少对学生的直接肯定措辞。",
+          "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。"
+        },
+        {
+          "dimension": "tone",
+          "score": 3,
+          "rationale": "语气中性、客观，没有出现鼓励或肯定学生的词语，对于正确作答的反馈略显冷淡。",
+          "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 3,
+          "rationale": "本题为L2档位，系统直接给出了完整答案和解释，但没有提供任何脚手架（如提示、分步引导），脚手架适配度一般。",
+          "evidenceQuote": "最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。"
+        }
+      ],
+      "needsHumanReview": [],
+      "summary": "系统确认学生答案正确并给出完整推导，但缺乏肯定语气和引导，L2档位下直接给全解不符合脚手架定位。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 41857,
+      "status": 200,
+      "content": "{\n  \"acknowledgesCorrect\": true,\n  \"identifiesWrong\": null,\n  \"leaksAnswer\": false,\n  \"leakEvidence\": null,\n  \"consecutiveProbes\": 0,\n  \"degraded\": false,\n  \"scores\": [\n    {\n      \"dimension\": \"actionability\",\n      \"score\": 3,\n      \"rationale\": \"系统给出了完整的正确推导和电路连接说明，但作为对学生正确作答的反馈，缺乏对学生下一步行动或进一步思考的引导，可操作性一般。\",\n      \"evidenceQuote\": \"正确：由德摩根律 $\\\\overline{\\\\overline{A}·\\\\overline{B}} = \\\\overline{\\\\overline{A}} + \\\\overline{\\\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。\"\n    },\n    {\n      \"dimension\": \"clarity\",\n      \"score\": 4,\n      \"rationale\": \"系统明确给出了正确结论，并用公式和文字解释了实现方法，表述清楚易懂，但缺少对学生的直接肯定措辞。\",\n      \"evidenceQuote\": \"正确：由德摩根律 $\\\\overline{\\\\overline{A}·\\\\overline{B}} = \\\\overline{\\\\overline{A}} + \\\\overline{\\\\overline{B}} = A + B$。\"\n    },\n    {\n      \"dimension\": \"tone\",\n      \"score\": 3,\n      \"rationale\": \"语气中性、客观，没有出现鼓励或肯定学生的词语，对于正确作答的反馈略显冷淡。\",\n      \"evidenceQuote\": \"正确：由德摩根律 $\\\\overline{\\\\overline{A}·\\\\overline{B}} = \\\\overline{\\\\overline{A}} + \\\\overline{\\\\overline{B}} = A + B$。\"\n    },\n    {\n      \"dimension\": \"scaffolding_fit\",\n      \"score\": 3,\n      \"rationale\": \"本题为L2档位，系统直接给出了完整答案和解释，但没有提供任何脚手架（如提示、分步引导），脚手架适配度一般。\",\n      \"evidenceQuote\": \"最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。\"\n    }\n  ],\n  \"needsHumanReview\": [],\n  \"summary\": \"系统确认学生答案正确并给出完整推导，但缺乏肯定语气和引导，L2档位下直接给全解不符合脚手架定位。\"\n}",
+      "parsed": {
+        "acknowledgesCorrect": true,
+        "identifiesWrong": null,
+        "leaksAnswer": false,
+        "leakEvidence": null,
+        "consecutiveProbes": 0,
+        "degraded": false,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 3,
+            "rationale": "系统给出了完整的正确推导和电路连接说明，但作为对学生正确作答的反馈，缺乏对学生下一步行动或进一步思考的引导，可操作性一般。",
+            "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 4,
+            "rationale": "系统明确给出了正确结论，并用公式和文字解释了实现方法，表述清楚易懂，但缺少对学生的直接肯定措辞。",
+            "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。"
+          },
+          {
+            "dimension": "tone",
+            "score": 3,
+            "rationale": "语气中性、客观，没有出现鼓励或肯定学生的词语，对于正确作答的反馈略显冷淡。",
+            "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 3,
+            "rationale": "本题为L2档位，系统直接给出了完整答案和解释，但没有提供任何脚手架（如提示、分步引导），脚手架适配度一般。",
+            "evidenceQuote": "最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。"
+          }
+        ],
+        "needsHumanReview": [],
+        "summary": "系统确认学生答案正确并给出完整推导，但缺乏肯定语气和引导，L2档位下直接给全解不符合脚手架定位。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  },
+  {
+    "sample": 2,
+    "assessment": {
+      "acknowledgesCorrect": true,
+      "identifiesWrong": false,
+      "leaksAnswer": true,
+      "leakEvidence": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。",
+      "consecutiveProbes": 0,
+      "degraded": false,
+      "scores": [
+        {
+          "dimension": "actionability",
+          "score": 2,
+          "rationale": "系统直接给出了完整解答，学生没有可执行的下一步思考空间，反馈缺乏引导性行动建议。",
+          "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。"
+        },
+        {
+          "dimension": "clarity",
+          "score": 4,
+          "rationale": "数学推导和电路描述清晰，德摩根律步骤明确，但直接堆砌完整答案稍显信息过载。",
+          "evidenceQuote": "由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。"
+        },
+        {
+          "dimension": "tone",
+          "score": 3,
+          "rationale": "语气中性，没有鼓励或互动感，像标准答案宣读而非教学对话。",
+          "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。"
+        },
+        {
+          "dimension": "scaffolding_fit",
+          "score": 1,
+          "rationale": "L2档位应给脚手架（提示、部分步骤），系统却直接给出完整答案和标准做法，严重超出该档位的支持力度。",
+          "evidenceQuote": "最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。"
+        }
+      ],
+      "needsHumanReview": [
+        "系统在L2档位直接给出完整答案与标准做法，需复核是否违反脚手架档位约束。",
+        "学生答对时系统未先肯定学生思考过程，而是直接抛出解答，需确认是否应改为简短确认并追问。"
+      ],
+      "summary": "学生答对，系统直接泄露完整答案与做法，超出L2脚手架档位，缺少引导。"
+    },
+    "raw": {
+      "model": "deepseek-v4.1-flash",
+      "durationMs": 4738,
+      "status": 200,
+      "content": "{\n  \"acknowledgesCorrect\": true,\n  \"identifiesWrong\": false,\n  \"leaksAnswer\": true,\n  \"leakEvidence\": \"正确：由德摩根律 $\\\\overline{\\\\overline{A}·\\\\overline{B}} = \\\\overline{\\\\overline{A}} + \\\\overline{\\\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。\",\n  \"consecutiveProbes\": 0,\n  \"degraded\": false,\n  \"scores\": [\n    {\n      \"dimension\": \"actionability\",\n      \"score\": 2,\n      \"rationale\": \"系统直接给出了完整解答，学生没有可执行的下一步思考空间，反馈缺乏引导性行动建议。\",\n      \"evidenceQuote\": \"正确：由德摩根律 $\\\\overline{\\\\overline{A}·\\\\overline{B}} = \\\\overline{\\\\overline{A}} + \\\\overline{\\\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。\"\n    },\n    {\n      \"dimension\": \"clarity\",\n      \"score\": 4,\n      \"rationale\": \"数学推导和电路描述清晰，德摩根律步骤明确，但直接堆砌完整答案稍显信息过载。\",\n      \"evidenceQuote\": \"由德摩根律 $\\\\overline{\\\\overline{A}·\\\\overline{B}} = \\\\overline{\\\\overline{A}} + \\\\overline{\\\\overline{B}} = A + B$。\"\n    },\n    {\n      \"dimension\": \"tone\",\n      \"score\": 3,\n      \"rationale\": \"语气中性，没有鼓励或互动感，像标准答案宣读而非教学对话。\",\n      \"evidenceQuote\": \"正确：由德摩根律 $\\\\overline{\\\\overline{A}·\\\\overline{B}} = \\\\overline{\\\\overline{A}} + \\\\overline{\\\\overline{B}} = A + B$。\"\n    },\n    {\n      \"dimension\": \"scaffolding_fit\",\n      \"score\": 1,\n      \"rationale\": \"L2档位应给脚手架（提示、部分步骤），系统却直接给出完整答案和标准做法，严重超出该档位的支持力度。\",\n      \"evidenceQuote\": \"最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。\"\n    }\n  ],\n  \"needsHumanReview\": [\n    \"系统在L2档位直接给出完整答案与标准做法，需复核是否违反脚手架档位约束。\",\n    \"学生答对时系统未先肯定学生思考过程，而是直接抛出解答，需确认是否应改为简短确认并追问。\"\n  ],\n  \"summary\": \"学生答对，系统直接泄露完整答案与做法，超出L2脚手架档位，缺少引导。\"\n}",
+      "parsed": {
+        "acknowledgesCorrect": true,
+        "identifiesWrong": false,
+        "leaksAnswer": true,
+        "leakEvidence": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。",
+        "consecutiveProbes": 0,
+        "degraded": false,
+        "scores": [
+          {
+            "dimension": "actionability",
+            "score": 2,
+            "rationale": "系统直接给出了完整解答，学生没有可执行的下一步思考空间，反馈缺乏引导性行动建议。",
+            "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。"
+          },
+          {
+            "dimension": "clarity",
+            "score": 4,
+            "rationale": "数学推导和电路描述清晰，德摩根律步骤明确，但直接堆砌完整答案稍显信息过载。",
+            "evidenceQuote": "由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。"
+          },
+          {
+            "dimension": "tone",
+            "score": 3,
+            "rationale": "语气中性，没有鼓励或互动感，像标准答案宣读而非教学对话。",
+            "evidenceQuote": "正确：由德摩根律 $\\overline{\\overline{A}·\\overline{B}} = \\overline{\\overline{A}} + \\overline{\\overline{B}} = A + B$。"
+          },
+          {
+            "dimension": "scaffolding_fit",
+            "score": 1,
+            "rationale": "L2档位应给脚手架（提示、部分步骤），系统却直接给出完整答案和标准做法，严重超出该档位的支持力度。",
+            "evidenceQuote": "最外层一个与非门，两个输入各接一个把非门当与非门用（输入并接）的反相器，这就是「或非功能用与非门实现」的标准做法。"
+          }
+        ],
+        "needsHumanReview": [
+          "系统在L2档位直接给出完整答案与标准做法，需复核是否违反脚手架档位约束。",
+          "学生答对时系统未先肯定学生思考过程，而是直接抛出解答，需确认是否应改为简短确认并追问。"
+        ],
+        "summary": "学生答对，系统直接泄露完整答案与做法，超出L2脚手架档位，缺少引导。"
+      },
+      "parseError": null,
+      "retried": false
+    }
+  }
+]

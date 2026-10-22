@@ -1,0 +1,147 @@
+{
+  "aClass": [
+    {
+      "n": 10
+    }
+  ],
+  "aClassRows": [
+    {
+      "id": "kp-chenboxian-2011-13-4",
+      "source_id": "nuclear-radiation-physics-chenboxian-2011",
+      "name": "。中子探测方法和常用探测器"
+    },
+    {
+      "id": "kp-jichangsong-1990-4-2-1",
+      "source_id": "radiation-detector-handbook-jichangsong-1990",
+      "name": "：工作原理"
+    },
+    {
+      "id": "kp-jichangsong-1990-p472-光导纤维光导",
+      "source_id": "radiation-detector-handbook-jichangsong-1990",
+      "name": "，光导纤维光导"
+    },
+    {
+      "id": "kp-methods-1997-p20-倍增过程统计学",
+      "source_id": "nuclear-physics-experiment-methods-1997",
+      "name": "、倍增过程统计学"
+    },
+    {
+      "id": "kp-methods-1997-p28-带电粒子在靶物质中的慢化",
+      "source_id": "nuclear-physics-experiment-methods-1997",
+      "name": "、带电粒子在靶物质中的慢化"
+    },
+    {
+      "id": "kp-methods-1997-p30-重带电粒子在物质中的能量损失",
+      "source_id": "nuclear-physics-experiment-methods-1997",
+      "name": "、重带电粒子在物质中的能量损失"
+    },
+    {
+      "id": "kp-methods-1997-p325-概述",
+      "source_id": "nuclear-physics-experiment-methods-1997",
+      "name": "、概述"
+    },
+    {
+      "id": "kp-methods-1997-p375-中子全截面测量",
+      "source_id": "nuclear-physics-experiment-methods-1997",
+      "name": "、中子全截面测量"
+    },
+    {
+      "id": "kp-methods-1997-p44-重离子的电子阻止本领",
+      "source_id": "nuclear-physics-experiment-methods-1997",
+      "name": "、重离子的电子阻止本领"
+    },
+    {
+      "id": "kp-tongshibai-5e-p598-晶体三极管模型及其参数",
+      "source_id": "analog-electronics-tongshibai-5e",
+      "name": "、晶体三极管模型及其参数"
+    }
+  ],
+  "bClass": [
+    {
+      "id": "kp-dinghonglin-2010-p1-作用与地位",
+      "name": "作用与地位"
+    }
+  ],
+  "mergedName": [],
+  "kpTotal": [
+    {
+      "n": 4030,
+      "leaf": 3086
+    }
+  ],
+  "chunkNull": [
+    {
+      "n": 0
+    }
+  ],
+  "chunkTotal": [
+    {
+      "n": 78204
+    }
+  ],
+  "cClass": [
+    {
+      "id": "kp-kanghua-5e-p504-附录ACMOS和TTL逻辑门电路的技术参数",
+      "name": "附录ACMOS和TTL逻辑门电路的技术参数"
+    },
+    {
+      "id": "kp-kanghua-5e-p505-附录BQuartus50开发软件简介",
+      "name": "附录BQuartusⅡ 5.0开发软件简介"
+    },
+    {
+      "id": "kp-kanghuaguang-5e-p543-附录A",
+      "name": "附录A"
+    },
+    {
+      "id": "kp-kanghuaguang-5e-p558-附录B",
+      "name": "附录B"
+    },
+    {
+      "id": "kp-methods-1997-p148-二同轴型HPGe探测器的电场和电容",
+      "name": "二、同轴型HPGe探测器的电场和电容"
+    },
+    {
+      "id": "kp-methods-1997-p149-三HPGe探测器的主要性能",
+      "name": "三、HPGe探测器的主要性能"
+    },
+    {
+      "id": "kp-methods-1997-p404-第三节探测器望远镜方法",
+      "name": "第三节探测器望远镜方法"
+    },
+    {
+      "id": "kp-methods-1997-p413-四多重探测器望远镜系统",
+      "name": "四、多重探测器望远镜系统"
+    },
+    {
+      "id": "kp-methods-1997-p415-二探测器望远镜与飞行时间方法的组合",
+      "name": "二、探测器望远镜与飞行时间方法的组合"
+    },
+    {
+      "id": "kp-methods-1997-p416-三超灵敏加速器质谱仪",
+      "name": "三、超灵敏加速器质谱仪"
+    }
+  ],
+  "halfTitles": [
+    {
+      "id": "kp-dinghonglin-2010-1-1",
+      "name": "核探测技术在核科学研究、核试验测试、核技术应用中的"
+    },
+    {
+      "id": "paper-10-1016-0168-9002-87-90887-4-4",
+      "name": "应用至径迹拟合与径迹元件合并"
+    },
+    {
+      "id": "paper-10-1016-j-nima-2016-06-125-88",
+      "name": "新型方向"
+    },
+    {
+      "id": "paper-10-1016-s0168-9002-01-02012-5-17",
+      "name": "束流方向"
+    }
+  ],
+  "chunkOwnedByFragment": [
+    {
+      "n": 18
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+import { createRequire } from 'node:module';
+const requireApi = createRequire('D:/DeepSeek/starmap/apps/api/package.json');
+const { Client } = requireApi('pg');
+const c = new Client({ connectionString: process.env.DATABASE_URL ?? 'postgres://postgres:postgres@127.0.0.1:5432/starmap' });
+await c.connect();
+const v = await c.query('SELECT version, applied_at FROM app.schema_migrations ORDER BY version');
+console.log('applied migrations:', v.rows.length);
+for (const r of v.rows) console.log(' ', r.version, r.applied_at.toISOString().slice(0,19));
+const t = await c.query(`SELECT table_name FROM information_schema.tables WHERE table_schema='app' ORDER BY table_name`);
+console.log('\ntables in app:', t.rows.map(r=>r.table_name).join(', '));
+await c.end();

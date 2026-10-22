@@ -1,0 +1,10 @@
+import { DatabaseSync } from 'node:sqlite';
+const db = new DatabaseSync('C:/Users/Yhwhy/.local/share/billion-context/sessions/index.db', { readOnly: true });
+const t1 = db.prepare('select block_id, ord, start_seq, end_seq, tier, active from blocks limit 3').all();
+console.log('plain limit3 rows=' + t1.length + ' ' + JSON.stringify(t1).slice(0, 400));
+const t2 = db.prepare('select block_id from blocks where session_id=? limit 3').all('session-55c776d2-6df9-450c-abcf-db3fe6001ef9');
+console.log('with where rows=' + t2.length + ' ' + JSON.stringify(t2).slice(0, 300));
+const t3 = db.prepare('select count(*) c from blocks').get();
+console.log('count all=' + JSON.stringify(t3));
+const t4 = db.prepare('select session_id, count(*) c from blocks group by session_id limit 5').all();
+console.log('group=' + JSON.stringify(t4).slice(0, 400));

@@ -1,0 +1,82 @@
+ahmed-2e	kp-ahmed-2e-1-5-2	1.5.2 源	0.143	1.5.B Man-made sources
+ahmed-2e	kp-ahmed-2e-1-6-1-1-1	1.6.1.1.1 射线	0.167	X-ray machine
+ahmed-2e	kp-ahmed-2e-1-6-1-1-2	1.6.1.1.2 辐射	0.167	Synchrotron radiation
+ahmed-2e	kp-ahmed-2e-1-6-2-1-1	1.6.2.1.1 电子	0.167	Electron gun
+ahmed-2e	kp-ahmed-2e-1-6-5-1-1	1.6.5.1.1 源	0.091	Spallation sources
+ahmed-2e	kp-ahmed-2e-1-6-5-1-2	1.6.5.1.2 源	0.091	Composite sources
+ahmed-2e	kp-ahmed-2e-2-3-2-2	2.3.2.2 与	0.111	B.2 Mixtures and compounds
+ahmed-2e	kp-ahmed-2e-5-1-7-1	5.1.7.1 硅	0.111	G.1 Silicon
+ahmed-2e	kp-ahmed-2e-6-1-2	6.1.2 光	0.143	6.1.B Light yield
+ahmed-2e	kp-ahmed-2e-6-1-8	6.1.8 或	0.143	6.1.H Phosphorescence or afterglow
+ahmed-2e	kp-ahmed-2e-6-3-3-6	C.6 Lead tungstate 倀圀伀	0.136	C.6 Lead tungstate 倀圀伀
+ahmed-2e	kp-ahmed-2e-6-4-1-3	6.4.1.3 光	0.111	A.3 Hybrid light guides
+ahmed-2e	kp-ahmed-2e-6-5-1-8-1	6.5.1.8.1 效率	0.167	Quantum efficiency
+ahmed-2e	kp-ahmed-2e-7-1-7	7.1.G Noise and signal-to-noise ratio 匀⼀一	0.049	7.1.G Noise and signal-to-noise ratio 匀⼀一
+ahmed-2e	kp-ahmed-2e-8-7-2-4	Wilkinson 型 ADC	0.067	B.4 Wilkinson ADC
+ahmed-2e	kp-ahmed-2e-10-1-1-4	10.1.1.4 能力	0.182	A.4 Graphics capabilities
+ahmed-2e	kp-ahmed-2e-10-1-1-6	10.1.1.6 示例	0.182	A.6 Examples
+ahmed-2e	kp-ahmed-2e-10-1-2-2	10.1.2.2 能力	0.182	B.2 Graphics capabilities
+ahmed-2e	kp-ahmed-2e-10-1-2-4	10.1.2.4 环境	0.182	B.4 Programming environment
+ahmed-2e	kp-ahmed-2e-10-1-2-5	10.1.2.5 示例	0.182	B.5 Examples
+ahmed-2e	kp-ahmed-2e-10-1-3-4	10.1.3.4 能力	0.182	C.4 Visualization capabilities
+ahmed-2e	kp-ahmed-2e-10-1-3-5	10.1.3.5 环境	0.182	C.5 Programming environment
+ahmed-2e	kp-ahmed-2e-10-1-3-6	10.1.3.6 示例	0.182	C.6 Examples
+ahmed-2e	kp-ahmed-2e-11-2-1-1	A.1 Roentgen 刀	0.071	A.1 Roentgen 刀
+ahmed-2e	kp-ahmed-2e-11-2-3	11.2.3 或	0.125	11.2.C Integrated flux or fluence
+ahmed-2e	kp-ahmed-2e-11-2-7-1	11.2.7.1 理论	0.182	G.1 Bragg–Gray cavity theory
+ahmed-2e	kp-ahmed-2e-11-2-7-2	11.2.7.2 理论	0.182	G.2 Spencer–Attix cavity theory
+ahmed-2e	kp-ahmed-2e-11-2-8	11.2.8 与	0.125	11.2.H LET and RBE
+ahmed-2e	kp-ahmed-2e-11-5-1-2	11.5.1.2 能量	0.182	A.2 Specific energy
+ahmed-2e	kp-ahmed-2e-11-5-1-3	11.5.1.3 能量	0.182	A.3 Lineal energy
+ahmed-2e	kp-ahmed-2e-11-5-2-3	11.5.2.3 硅	0.1	B.3 Silicon microdosimeter
+ahmed-2e	kp-ahmed-2e-12-1-3-2	C.2 X-ray photoelectron spectroscopy 堀倀匀	0.075	C.2 X-ray photoelectron spectroscopy 堀倀匀
+ahmed-2e	kp-ahmed-2e-12-3-2-4	12.3.2.4 谱仪	0.182	B.3 Disk chopper spectrometer
+ahmed-2e	kp-ahmed-2e-12-3-2-5	12.3.2.5 谱仪	0.182	B.4 Fermi chopper spectrometer
+ahmed-2e	kp-ahmed-2e-12-3-2-6	12.3.2.6 谱仪	0.182	B.5 Spin echo spectrometer
+ahmed-2e	kp-ahmed-2e-13-6-1-2	13.6.1.2 电子	0.182	A.2 Electron gun
+analog-electronics-kanghuaguang-5e	kp-kanghuaguang-5e-p43-SPICE	SPICE	0.0	
+analog-electronics-kanghuaguang-5e	kp-kanghuaguang-5e-p205-MOSFET	MOSFET	0.0	
+analog-electronics-kanghuaguang-5e	kp-kanghuaguang-5e-p211-MOSFET	MOSFET	0.0	
+analog-electronics-kanghuaguang-5e	kp-kanghuaguang-5e-8-5-2	功率VMOSFET和DMOSFET	0.176	
+analog-electronics-kanghuaguang-5e	kp-kanghuaguang-5e-p467-SPICE7	SPICE7	0.0	
+analog-electronics-kanghuaguang-5e	kp-kanghuaguang-5e-11-2	11.2 SPICE	0.0	
+analog-electronics-kanghuaguang-5e	kp-kanghuaguang-5e-p550-CapturePSpiceAD集成环境	Capture/PSpiceA/D集成环境	0.19	
+digital-electronics-yanshi-6e	kp-yanshi-6e-p453-GBT4728122005简介	（GB/T472812-2005）简介	0.105	
+digital-kanghua-5e	kp-kanghua-5e-1-4-3	ASCⅡI码	0.167	
+gilmore-2e-2008	kp-gilmore-2e-2008-5-6-1	5.6.1 限	0.143	Critical limit (Z;)
+gilmore-2e-2008	kp-gilmore-2e-2008-5-6-2	5.6.2 限	0.143	Upper limit (Z,,)
+gilmore-2e-2008	kp-gilmore-2e-2008-7-5-4	7.5.4 峰	0.143	Anomalous peak widths
+gilmore-2e-2008	kp-gilmore-2e-2008-9-2-5	9.2.5 峰	0.143	Checking the acceptability of peaks
+grupen-2e-2008	kp-grupen-2e-2008-16-8	16.8 室	0.167	Search for hidden chambers in pyramids
+guojiang-2014	kp-guojiang-2014-12-1-1	12．1．1 β－ 衰变	0.167	12．1．1 β－ 衰变
+guojiang-2014	kp-guojiang-2014-12-1-2	12．1．2 β＋ 衰变	0.167	12．1．2 β＋ 衰变
+leo-2e	kp-leo-2e-2-2-2	Bethe-Bloch 公式	0.143	The Bethe-Bloch Formula
+leo-2e	kp-leo-2e-2-2-6	2.2.6 与	0.143	dE/dx for Mixtures and Compounds
+leo-2e	kp-leo-2e-14-7	14.7 与	0.167	Fan-out and Fan-in
+leo-2e	kp-leo-2e-14-21	14.21 与	0.143	Gate and Delay Generators
+leo-2e	kp-leo-2e-16-2	16.2 与	0.167	Boolean Laws and Identities
+leo-2e	kp-leo-2e-17-1	17.1 与	0.167	Walk and Jitter
+nicholson-1974	kp-nicholson-1974-3-2-2	3.2.2 CRRC成形	0.167	CR-RC shaping
+nicholson-1974	kp-nicholson-1974-4-4-1	4.4.1 CRRC成形	0.167	CR-RC shaping
+nicholson-1974	kp-nicholson-1974-8-4-3	双斜 Wilkinson	0.167	Dual ramp Wilkinson
+nuclear-electronics-wangjingjin-1983	kp-wangjingjin-1983-p75-1131	1131	0.0	
+nuclear-electronics-wangjingjin-1983	kp-wangjingjin-1983-p121-g1343	g:1343	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-p211-Ohmart室	Ohmart室	0.143	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-6-2-1	NaI(TI)	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-6-2-2	CsI(T1)和CsI(Na)	0.067	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-6-2-3	ZnS(Ag)	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-6-2-4	Lil(Eu)	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-6-2-5	BiGeO,(BGO)	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-6-2-6	CdwO,	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-6-2-7	CaF,(Eu)	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-7-2-3	Li,B,O,	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-7-2-5	CaSO,	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-7-2-6	MgSiO:Tb	0.0	
+radiation-detector-handbook-jichangsong-1990	kp-jichangsong-1990-7-2-7	Mg,B,O,	0.0	
+rivetti-2015	kp-rivetti-2015-10-1-1	10.1.1 ADC性能	0.167	ADC static performance
+rivetti-2015	kp-rivetti-2015-10-1-2	10.1.2 ADC性能	0.167	ADC dynamic performance
+spieler-2005	kp-spieler-2005-2-3-3	2.3.3 结	0.143	2.3.3 The pn-junction
+spieler-2005	kp-spieler-2005-8-5-1	8.5.1 与	0.143	8.5.1 CDF and D&#216;
+spieler-2005	kp-spieler-2005-9-26	9.26 结	0.167	E.3 pn-junctions
+spieler-2005	kp-spieler-2005-9-27	9.27 结	0.167	E.4 The forward-biased pn-junction
+tsoulfanidis-4e	kp-tsoulfanidis-4e-16-9-4	Bonner 球Rem 球	0.154	Bonner Sphere (Rem Ball)

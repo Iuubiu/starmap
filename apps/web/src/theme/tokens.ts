@@ -136,7 +136,7 @@ export const darkPalette: Palette = {
   'text-primary': '#F2F2F5',
   'text-secondary': '#A8A8B3',
   'text-tertiary': '#8F8F9B',
-  'text-disabled': '#6E6E79',
+  'text-disabled': '#8A8A95',
 
   accent: '#FF6B6B',
   'accent-fill': '#CE2C34',
@@ -217,7 +217,7 @@ export const lightPalette: Palette = {
   'text-primary': '#16161A',
   'text-secondary': '#55555E',
   'text-tertiary': '#6B6B75',
-  'text-disabled': '#8E8E98',
+  'text-disabled': '#63636D',
 
   accent: '#C42B31',
   'accent-fill': '#C42B31',

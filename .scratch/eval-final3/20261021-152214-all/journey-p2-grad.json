@@ -1,0 +1,182 @@
+{
+  "personaId": "p2-grad",
+  "tier": "P2",
+  "displayName": "林",
+  "startedAt": "2026-10-21T07:24:26.302Z",
+  "durationMs": 32815,
+  "webUrl": "http://localhost:5173",
+  "apiUrl": "http://127.0.0.1:3001/api/v1",
+  "stages": [
+    {
+      "stage": "cold-start",
+      "label": "S0 冷启动",
+      "url": "http://localhost:5173/",
+      "startedAt": "2026-10-21T07:24:27.091Z",
+      "durationMs": 3002,
+      "result": {
+        "status": "passed",
+        "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）"
+      },
+      "evidence": [
+        "H1 = 学习",
+        "输入框 aria-label = 这一轮想说的话"
+      ],
+      "screenshot": "00-cold-start.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "placement",
+      "label": "S1 初始定级",
+      "url": "http://localhost:5173/placement",
+      "startedAt": "2026-10-21T07:24:30.093Z",
+      "durationMs": 3225,
+      "result": {
+        "status": "passed",
+        "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）"
+      },
+      "evidence": [
+        "入口按钮：「重新定级」",
+        "自评 4 题已作答",
+        "已提交自评",
+        "定级第 1 题已判定，判定区文案：回答正确 正确答案：α衰变中母核的质量数减少4，β衰变中母核的质量数不变 α衰变放出α粒子（质量数为4、电荷数为2），因此母核质量数减少4、电荷数减少2；β衰变中核子数不变，仅核电荷数改变（β-衰变电荷数增加1，β+衰变或EC电荷数减少1）。所以质量数是否改变是区分二者的关键。"
+      ],
+      "screenshot": "01-placement.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "map",
+      "label": "S3 知识图谱",
+      "url": "http://localhost:5173/map",
+      "startedAt": "2026-10-21T07:24:33.319Z",
+      "durationMs": 11237,
+      "result": {
+        "status": "passed",
+        "detail": "清单 400 个节点；接口推荐 3 条，窗口内 3 条全部正确标记"
+      },
+      "evidence": [
+        "清单节点数 400",
+        "接口推荐 3 条（落在当前窗口 3 条，均已标记）",
+        "首个节点可访问名：布尔代数基本运算，已掌握，100%"
+      ],
+      "screenshot": "02-map.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "node-detail",
+      "label": "S3 节点详情",
+      "url": "http://localhost:5173/map/kp-bool",
+      "startedAt": "2026-10-21T07:24:44.555Z",
+      "durationMs": 1462,
+      "result": {
+        "status": "passed",
+        "detail": "详情页 H1「布尔代数基本运算」与清单项一致；可用关卡区有 1 个入口按钮（可进入）"
+      },
+      "evidence": [
+        "H1 = 布尔代数基本运算",
+        "关卡入口按钮 1 个",
+        "至少一个可进入"
+      ],
+      "screenshot": "03-node-detail.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "answer",
+      "label": "S4 作答与判分",
+      "url": "http://localhost:5173/level/lv-bool-laws",
+      "startedAt": "2026-10-21T07:24:46.017Z",
+      "durationMs": 5947,
+      "result": {
+        "status": "passed",
+        "detail": "关卡「逻辑代数基本律：吸收律与德摩根律」内提交 3 题，作答已落库"
+      },
+      "evidence": [
+        "进入关卡：逻辑代数基本律：吸收律与德摩根律",
+        "第 1 轮：本段提交 1 题",
+        "第 2 轮：本段提交 2 题",
+        "在关卡内提交 3 道题",
+        "掌握度接口 attemptCount = 80"
+      ],
+      "screenshot": "04-answer.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "board",
+      "label": "S6 看板推荐",
+      "url": "http://localhost:5173/board",
+      "startedAt": "2026-10-21T07:24:51.964Z",
+      "durationMs": 1688,
+      "result": {
+        "status": "passed",
+        "detail": "看板推荐 3 条，与接口一致；今日摘要区存在"
+      },
+      "evidence": [
+        "推荐卡 3 条 / 接口 3 条",
+        "今日摘要区可见"
+      ],
+      "screenshot": "05-board.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "review",
+      "label": "S6 复验",
+      "url": "http://localhost:5173/review",
+      "startedAt": "2026-10-21T07:24:53.652Z",
+      "durationMs": 1619,
+      "result": {
+        "status": "passed",
+        "detail": "接口 0 条到期；页面 H1「复验」并说明没有到期"
+      },
+      "evidence": [
+        "due=0",
+        "H1=复验",
+        "页面有「没有到期」提示"
+      ],
+      "screenshot": "06-review.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "database",
+      "label": "S7 数据库检视",
+      "url": "http://localhost:5173/database",
+      "startedAt": "2026-10-21T07:24:55.271Z",
+      "durationMs": 2057,
+      "result": {
+        "status": "passed",
+        "detail": "数据库页 H1「数据库」；图谱节点 1787 个（页面未直接出现该数字，见 evidence）；无残留 Spinner"
+      },
+      "evidence": [
+        "H1=数据库",
+        "图谱节点数 1787",
+        "页面文本未包含该数字（统计卡可能使用不同口径）",
+        "残留 progressbar 0 个"
+      ],
+      "screenshot": "07-database.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "skills",
+      "label": "S8 技能库",
+      "url": "http://localhost:5173/skills",
+      "startedAt": "2026-10-21T07:24:57.328Z",
+      "durationMs": 1724,
+      "result": {
+        "status": "passed",
+        "detail": "技能库 H1「技能库」；2 个技能全部渲染"
+      },
+      "evidence": [
+        "接口技能数 2"
+      ],
+      "screenshot": "08-skills.png",
+      "consoleErrors": []
+    }
+  ],
+  "failures": {
+    "locatorFailure": 0,
+    "backendError": 0,
+    "assertionMismatch": 0
+  },
+  "lastPassedStage": "skills",
+  "firstFailureStage": null,
+  "consoleErrors": [],
+  "browserLaunched": true
+}

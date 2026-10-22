@@ -1,0 +1,570 @@
+{
+  "generatedAt": "2026-10-21T04:38:33.760Z",
+  "personas": [
+    {
+      "personaId": "p1-novice",
+      "tier": "P1",
+      "failures": {
+        "locatorFailure": 1,
+        "backendError": 1,
+        "assertionMismatch": 0,
+        "total": 2,
+        "byStage": [
+          {
+            "stage": "map",
+            "label": "S3 知识图谱",
+            "status": "backend_error",
+            "detail": "读取推荐列表失败"
+          },
+          {
+            "stage": "node-detail",
+            "label": "S3 节点详情",
+            "status": "locator_failure",
+            "detail": "节点详情页没有渲染出 H1"
+          }
+        ]
+      },
+      "recognition": {
+        "correct": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "wrong": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "unjudged": 0
+      },
+      "leak": {
+        "L1": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L2": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L3": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "hits": []
+      },
+      "drift": {
+        "fleissKappa": null,
+        "fleissReason": "没有任何一个样本收到 ≥2 个评分",
+        "cv": null,
+        "nSamples": 0,
+        "nReplays": 0,
+        "pairwise": []
+      },
+      "stalls": {
+        "maxStall": 0,
+        "stalls": [],
+        "stallsOver2": 0
+      },
+      "stages": [
+        {
+          "stage": "cold-start",
+          "label": "S0 冷启动",
+          "status": "passed",
+          "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）",
+          "evidence": [
+            "H1 = 学习",
+            "输入框 aria-label = 这一轮想说的话"
+          ],
+          "screenshot": "00-cold-start.png"
+        },
+        {
+          "stage": "placement",
+          "label": "S1 初始定级",
+          "status": "passed",
+          "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）",
+          "evidence": [
+            "入口按钮：「重新定级」",
+            "自评 4 题已作答",
+            "已提交自评",
+            "定级第 1 题已判定，判定区文案：回答错误 正确答案：$\\overline{A} + \\overline{B}$ 正确：$\\overline{A·B} = \\overline{A} + \\overline{B}$。非号越过运算符时运算符要翻转（· 变 +），并且每个变量各自加非号。 你选的那一项：这是最容易踩的坑：把 $\\overline{A·B}$ "
+          ],
+          "screenshot": "01-placement.png"
+        },
+        {
+          "stage": "map",
+          "label": "S3 知识图谱",
+          "status": "backend_error",
+          "detail": "读取推荐列表失败",
+          "evidence": [
+            "清单节点数 400"
+          ],
+          "screenshot": "02-map.png"
+        },
+        {
+          "stage": "node-detail",
+          "label": "S3 节点详情",
+          "status": "locator_failure",
+          "detail": "节点详情页没有渲染出 H1",
+          "evidence": [],
+          "screenshot": "03-node-detail.png"
+        },
+        {
+          "stage": "answer",
+          "label": "S4 作答与判分",
+          "status": "passed",
+          "detail": "本节点没有可进入的关卡（内容不足），本阶段未覆盖",
+          "evidence": [
+            "跳过原因：上一阶段未找到可进入的关卡"
+          ],
+          "screenshot": "04-answer.png"
+        },
+        {
+          "stage": "board",
+          "label": "S6 看板推荐",
+          "status": "passed",
+          "detail": "看板推荐 3 条，与接口一致；今日摘要区存在",
+          "evidence": [
+            "推荐卡 3 条 / 接口 3 条",
+            "今日摘要区可见"
+          ],
+          "screenshot": "05-board.png"
+        },
+        {
+          "stage": "review",
+          "label": "S6 复验",
+          "status": "passed",
+          "detail": "接口 0 条到期；页面 H1「复验」并说明没有到期",
+          "evidence": [
+            "due=0",
+            "H1=复验",
+            "页面有「没有到期」提示"
+          ],
+          "screenshot": "06-review.png"
+        },
+        {
+          "stage": "database",
+          "label": "S7 数据库检视",
+          "status": "passed",
+          "detail": "数据库页 H1「数据库」；图谱节点 1940 个，页面统计卡上出现同一数字",
+          "evidence": [
+            "H1=数据库",
+            "图谱节点数 1940",
+            "页面文本包含该数字"
+          ],
+          "screenshot": "07-database.png"
+        },
+        {
+          "stage": "skills",
+          "label": "S8 技能库",
+          "status": "passed",
+          "detail": "技能库 H1「技能库」；2 个技能全部渲染",
+          "evidence": [
+            "接口技能数 2"
+          ],
+          "screenshot": "08-skills.png"
+        }
+      ]
+    },
+    {
+      "personaId": "p2-grad",
+      "tier": "P2",
+      "failures": {
+        "locatorFailure": 0,
+        "backendError": 2,
+        "assertionMismatch": 0,
+        "total": 2,
+        "byStage": [
+          {
+            "stage": "database",
+            "label": "S7 数据库检视",
+            "status": "backend_error",
+            "detail": "读取图谱失败"
+          },
+          {
+            "stage": "skills",
+            "label": "S8 技能库",
+            "status": "backend_error",
+            "detail": "读取技能库失败"
+          }
+        ]
+      },
+      "recognition": {
+        "correct": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "wrong": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "unjudged": 0
+      },
+      "leak": {
+        "L1": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L2": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L3": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "hits": []
+      },
+      "drift": {
+        "fleissKappa": null,
+        "fleissReason": "没有任何一个样本收到 ≥2 个评分",
+        "cv": null,
+        "nSamples": 0,
+        "nReplays": 0,
+        "pairwise": []
+      },
+      "stalls": {
+        "maxStall": 0,
+        "stalls": [],
+        "stallsOver2": 0
+      },
+      "stages": [
+        {
+          "stage": "cold-start",
+          "label": "S0 冷启动",
+          "status": "passed",
+          "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）",
+          "evidence": [
+            "H1 = 学习",
+            "输入框 aria-label = 这一轮想说的话"
+          ],
+          "screenshot": "00-cold-start.png"
+        },
+        {
+          "stage": "placement",
+          "label": "S1 初始定级",
+          "status": "passed",
+          "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）",
+          "evidence": [
+            "入口按钮：「重新定级」",
+            "自评 4 题已作答",
+            "已提交自评",
+            "定级第 1 题已判定，判定区文案：回答错误 正确答案：$\\overline{A} + \\overline{B}$ 正确：$\\overline{A·B} = \\overline{A} + \\overline{B}$。非号越过运算符时运算符要翻转（· 变 +），并且每个变量各自加非号。 你选的那一项：这是最容易踩的坑：把 $\\overline{A·B}$ "
+          ],
+          "screenshot": "01-placement.png"
+        },
+        {
+          "stage": "map",
+          "label": "S3 知识图谱",
+          "status": "passed",
+          "detail": "清单 400 个节点；接口推荐 3 条，窗口内 3 条全部正确标记",
+          "evidence": [
+            "清单节点数 400",
+            "接口推荐 3 条（落在当前窗口 3 条，均已标记）",
+            "首个节点可访问名：布尔代数基本运算，刚接触，证据不足"
+          ],
+          "screenshot": "02-map.png"
+        },
+        {
+          "stage": "node-detail",
+          "label": "S3 节点详情",
+          "status": "passed",
+          "detail": "详情页 H1「布尔代数基本运算」与清单项一致；可用关卡区有 1 个入口按钮（可进入）",
+          "evidence": [
+            "H1 = 布尔代数基本运算",
+            "关卡入口按钮 1 个",
+            "至少一个可进入"
+          ],
+          "screenshot": "03-node-detail.png"
+        },
+        {
+          "stage": "answer",
+          "label": "S4 作答与判分",
+          "status": "passed",
+          "detail": "关卡「逻辑代数基本律：吸收律与德摩根律」内提交 3 题，作答已落库",
+          "evidence": [
+            "进入关卡：逻辑代数基本律：吸收律与德摩根律",
+            "第 3 轮：本段提交 1 题",
+            "第 4 轮：本段提交 2 题",
+            "在关卡内提交 3 道题",
+            "掌握度接口 attemptCount = 6"
+          ],
+          "screenshot": "04-answer.png"
+        },
+        {
+          "stage": "board",
+          "label": "S6 看板推荐",
+          "status": "passed",
+          "detail": "看板推荐 3 条，与接口一致；今日摘要区存在",
+          "evidence": [
+            "推荐卡 3 条 / 接口 3 条",
+            "今日摘要区可见"
+          ],
+          "screenshot": "05-board.png"
+        },
+        {
+          "stage": "review",
+          "label": "S6 复验",
+          "status": "passed",
+          "detail": "接口 0 条到期；页面 H1「复验」并说明没有到期",
+          "evidence": [
+            "due=0",
+            "H1=复验",
+            "页面有「没有到期」提示"
+          ],
+          "screenshot": "06-review.png"
+        },
+        {
+          "stage": "database",
+          "label": "S7 数据库检视",
+          "status": "backend_error",
+          "detail": "读取图谱失败",
+          "evidence": [],
+          "screenshot": "07-database.png"
+        },
+        {
+          "stage": "skills",
+          "label": "S8 技能库",
+          "status": "backend_error",
+          "detail": "读取技能库失败",
+          "evidence": [],
+          "screenshot": "08-skills.png"
+        }
+      ]
+    },
+    {
+      "personaId": "p3-engineer",
+      "tier": "P3",
+      "failures": {
+        "locatorFailure": 0,
+        "backendError": 0,
+        "assertionMismatch": 0,
+        "total": 0,
+        "byStage": []
+      },
+      "recognition": {
+        "correct": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "wrong": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "display": "无样本（0 个）"
+        },
+        "unjudged": 0
+      },
+      "leak": {
+        "L1": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L2": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "L3": {
+          "estimate": null,
+          "lower": null,
+          "upper": null,
+          "numerator": 0,
+          "denominator": 0,
+          "total": 0,
+          "leaked": 0,
+          "display": "无样本（0 个）"
+        },
+        "hits": []
+      },
+      "drift": {
+        "fleissKappa": null,
+        "fleissReason": "没有任何一个样本收到 ≥2 个评分",
+        "cv": null,
+        "nSamples": 0,
+        "nReplays": 0,
+        "pairwise": []
+      },
+      "stalls": {
+        "maxStall": 0,
+        "stalls": [],
+        "stallsOver2": 0
+      },
+      "stages": [
+        {
+          "stage": "cold-start",
+          "label": "S0 冷启动",
+          "status": "passed",
+          "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）",
+          "evidence": [
+            "H1 = 学习",
+            "输入框 aria-label = 这一轮想说的话"
+          ],
+          "screenshot": "00-cold-start.png"
+        },
+        {
+          "stage": "placement",
+          "label": "S1 初始定级",
+          "status": "passed",
+          "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）",
+          "evidence": [
+            "入口按钮：「重新定级」",
+            "自评 4 题已作答",
+            "已提交自评",
+            "定级第 1 题已判定，判定区文案：回答错误 正确答案：$\\overline{A} + \\overline{B}$ 正确：$\\overline{A·B} = \\overline{A} + \\overline{B}$。非号越过运算符时运算符要翻转（· 变 +），并且每个变量各自加非号。 你选的那一项：这是最容易踩的坑：把 $\\overline{A·B}$ "
+          ],
+          "screenshot": "01-placement.png"
+        },
+        {
+          "stage": "map",
+          "label": "S3 知识图谱",
+          "status": "passed",
+          "detail": "清单 400 个节点；接口推荐 3 条，窗口内 3 条全部正确标记",
+          "evidence": [
+            "清单节点数 400",
+            "接口推荐 3 条（落在当前窗口 3 条，均已标记）",
+            "首个节点可访问名：布尔代数基本运算，刚接触，证据不足"
+          ],
+          "screenshot": "02-map.png"
+        },
+        {
+          "stage": "node-detail",
+          "label": "S3 节点详情",
+          "status": "passed",
+          "detail": "详情页 H1「布尔代数基本运算」与清单项一致；可用关卡区有 1 个入口按钮（可进入）",
+          "evidence": [
+            "H1 = 布尔代数基本运算",
+            "关卡入口按钮 1 个",
+            "至少一个可进入"
+          ],
+          "screenshot": "03-node-detail.png"
+        },
+        {
+          "stage": "answer",
+          "label": "S4 作答与判分",
+          "status": "passed",
+          "detail": "关卡「逻辑代数基本律：吸收律与德摩根律」内提交 3 题，作答已落库",
+          "evidence": [
+            "进入关卡：逻辑代数基本律：吸收律与德摩根律",
+            "第 3 轮：本段提交 1 题",
+            "第 4 轮：本段提交 2 题",
+            "在关卡内提交 3 道题",
+            "（没有记下知识点 id，跳过库侧核对；H1=布尔代数基本运算）"
+          ],
+          "screenshot": "04-answer.png"
+        },
+        {
+          "stage": "board",
+          "label": "S6 看板推荐",
+          "status": "passed",
+          "detail": "看板推荐 3 条，与接口一致；今日摘要区存在",
+          "evidence": [
+            "推荐卡 3 条 / 接口 3 条",
+            "今日摘要区可见"
+          ],
+          "screenshot": "05-board.png"
+        },
+        {
+          "stage": "review",
+          "label": "S6 复验",
+          "status": "passed",
+          "detail": "接口 0 条到期；页面 H1「复验」并说明没有到期",
+          "evidence": [
+            "due=0",
+            "H1=复验",
+            "页面有「没有到期」提示"
+          ],
+          "screenshot": "06-review.png"
+        },
+        {
+          "stage": "database",
+          "label": "S7 数据库检视",
+          "status": "passed",
+          "detail": "数据库页 H1「数据库」；图谱节点 1940 个，页面统计卡上出现同一数字",
+          "evidence": [
+            "H1=数据库",
+            "图谱节点数 1940",
+            "页面文本包含该数字"
+          ],
+          "screenshot": "07-database.png"
+        },
+        {
+          "stage": "skills",
+          "label": "S8 技能库",
+          "status": "passed",
+          "detail": "技能库 H1「技能库」；2 个技能全部渲染",
+          "evidence": [
+            "接口技能数 2"
+          ],
+          "screenshot": "08-skills.png"
+        }
+      ]
+    }
+  ]
+}

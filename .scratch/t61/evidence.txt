@@ -1,0 +1,53 @@
+== B 类：dinghonglin-2010 toc.json 前 4 个节点 ==
+{"microKpId": "kp-dinghonglin-2010-1", "name": "绪论", "nameOriginal": null, "num": "1", "printedPage": 1, "depth": 1, "isLeaf": false, "parentId": null}
+{"microKpId": "kp-dinghonglin-2010-1-1", "name": "核探测技术在核科学研究、核试验测试、核技术应用中的", "nameOriginal": null, "num": "1.1", "printedPage": 1, "depth": 2, "isLeaf": true, "parentId": "kp-dinghonglin-2010-1"}
+{"microKpId": "kp-dinghonglin-2010-p1-作用与地位", "name": "作用与地位", "nameOriginal": null, "num": "", "printedPage": 1, "depth": 2, "isLeaf": true, "parentId": "kp-dinghonglin-2010-1"}
+{"microKpId": "kp-dinghonglin-2010-1-2", "name": "核辐射探测器的发展及其应用简介", "nameOriginal": null, "num": "1.2", "printedPage": 3, "depth": 2, "isLeaf": true, "parentId": "kp-dinghonglin-2010-1"}
+
+== B 类：子节点自己名下的 chunk 文本（前 3 条） ==
+  p2 kind=text text='测试，研制开发了各种类型的气体探测器、闪烁体探测器、核乳胶、半导体探测器以及核电子学仪器和装置。'
+  p2 kind=text text='1.建立起具备各自特点适合不同应用要求的带电粒子谱仪。（1）栅网电离室谱仪。测量的立体角为2π，适合于大面积样品的测量，特别是弱放射性α'
+  p2 kind=text text='样品测量。但装置较复杂，成本高。'
+
+== A 类：碎片在 toc.json 里的前后兄弟 ==
+[analog-electronics-tongshibai-5e] kp-tongshibai-5e-p598-晶体三极管模型及其参数  idx=370
+   idx=368 num='' p=596 d=2 leaf=True name='半导体器件模型'
+   idx=369 num='' p=596 d=2 leaf=True name='二极管模型及其参数'
+   idx=370 num='' p=598 d=2 leaf=True name='、晶体三极管模型及其参数' <== 碎片
+   idx=371 num='' p=602 d=2 leaf=True name='三、场效应管模型及其参数'
+   idx=372 num='' p=606 d=2 leaf=True name='四、集成运放模型及其参数'
+
+[nuclear-physics-experiment-methods-1997] kp-methods-1997-p28-带电粒子在靶物质中的慢化  idx=26
+   idx=24 num='2' p=27 d=1 leaf=False name='射线与物质的相互作用'
+   idx=25 num='' p=28 d=2 leaf=True name='第一节带电粒子与靶物质原子的碰'
+   idx=26 num='' p=28 d=2 leaf=True name='、带电粒子在靶物质中的慢化' <== 碎片
+   idx=27 num='' p=29 d=2 leaf=True name='二、带电粒子与靶物质原子的碰撞过程'
+   idx=28 num='' p=30 d=2 leaf=True name='第二节重带电粒子与物质的相互作用'
+
+[nuclear-physics-experiment-methods-1997] kp-methods-1997-p20-倍增过程统计学  idx=16
+   idx=14 num='' p=18 d=2 leaf=True name='+第四节脉冲幅度分辨率'
+   idx=15 num='' p=18 d=2 leaf=True name='一、电离的统计涨落'
+   idx=16 num='' p=20 d=2 leaf=True name='、倍增过程统计学' <== 碎片
+   idx=17 num='' p=22 d=2 leaf=True name='*第五节核辐射事件的时间分布'
+   idx=18 num='' p=22 d=2 leaf=True name='一、核辐射事件的时间间隔分布'
+
+[nuclear-radiation-physics-chenboxian-2011] kp-chenboxian-2011-13-4  idx=96
+   idx=94 num='13.2' p=431 d=2 leaf=True name='中子源'
+   idx=95 num='13.3' p=436 d=2 leaf=True name='中子与物质相互作用'
+   idx=96 num='13.4' p=444 d=2 leaf=True name='。中子探测方法和常用探测器' <== 碎片
+   idx=97 num='13.5' p=452 d=2 leaf=True name='中子注量率和中子能谱的测量'
+   idx=98 num='' p=457 d=2 leaf=False name='思考题'
+
+[radiation-detector-handbook-jichangsong-1990] kp-jichangsong-1990-p472-光导纤维光导  idx=384
+   idx=382 num='' p=470 d=2 leaf=True name='集光器'
+   idx=383 num='' p=471 d=2 leaf=True name='锥台形光导'
+   idx=384 num='' p=472 d=2 leaf=True name='，光导纤维光导' <== 碎片
+   idx=385 num='' p=482 d=2 leaf=True name='11 B．光电倍增管'
+   idx=386 num='' p=484 d=2 leaf=True name='光电倍增管的选择'
+
+[radiation-detector-handbook-jichangsong-1990] kp-jichangsong-1990-4-2-1  idx=76
+   idx=74 num='4.1.4' p=194 d=3 leaf=True name='坪、坪长与坪斜'
+   idx=75 num='4.2' p=194 d=2 leaf=False name='气体电离室'
+   idx=76 num='4.2.1' p=194 d=3 leaf=True name='：工作原理' <== 碎片
+   idx=77 num='4.2.2' p=194 d=3 leaf=True name='典型结构'
+   idx=78 num='4.2.3' p=195 d=3 leaf=True name='电离室的分类'

@@ -14,12 +14,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   completeReviewRound,
   evaluateGate,
+  exportLevel,
   getCompleteReviewRoundQueryKey,
   getGetGateHistoryQueryKey,
   getGetMasteryQueryKey,
   getGetNodeUnlockQueryKey,
   getGetReviewQueueQueryKey,
   getGetReviewRoundQueryKey,
+  getListMarketLevelsQueryKey,
+  importLevel,
+  previewLevelTemplate,
   startReviewRound,
   submitAttempt,
   useGetGateHistory,
@@ -28,6 +32,7 @@ import {
   useGetNodeUnlock,
   useGetReviewQueue,
   useGetReviewRound,
+  useListLevelTemplates,
 } from '../generated/default/default';
 import type {
   AttemptRecord,
@@ -37,7 +42,12 @@ import type {
   GateHistoryResponse,
   GateResponse,
   LevelDetailResponse,
+  LevelExportFile,
+  LevelImportResponse,
   LevelSpec,
+  LevelTemplateListResponse,
+  LevelTemplatePreviewRequest,
+  LevelTemplatePreviewResponse,
   MasteryView,
   ReviewCompleteResponse,
   ReviewQueueResponse,
@@ -287,4 +297,101 @@ export function useCompleteReviewRound() {
       }
     },
   });
+}
+
+// ---------------------------------------------------------------------------
+// 票 66 / 67：关卡模板、按档位预览、导出与导入
+// ---------------------------------------------------------------------------
+
+/**
+ * 三个内置模板（教学关 / 练习关 / 复习关）。
+ *
+ * 模板是**服务端常量**而不是前端配置：段骨架与档位过滤（P1 七段、P2 六段、
+ * P3 五段）决定填出来的 spec 长什么样，写在前端就会出现「预览七段、真打五段」
+ * 这种两套真源。所以前端只读，不复制任何段定义。
+ */
+export function useLevelTemplates() {
+  const query = useListLevelTemplates();
+  return {
+    ...query,
+    payload: query.data?.data as LevelTemplateListResponse | undefined,
+  };
+}
+
+/**
+ * 按模板 + 知识点 + 档位填一份**未持久化**的草稿。
+ *
+ * 为什么是 `useMutation` 而不是 `useQuery`：预览的输入是「用户当前选的模板 /
+ * 知识点 / 档位」，不是 URL。做成 query 会让每次改下拉都写进缓存键，
+ * 缓存里堆满没人再看的组合；而它本来就没有「重新读取」的价值 —— 同样的输入
+ * 服务端每次算出同一份草稿（`fillLevelTemplate` 是纯函数）。
+ *
+ * 预览**不落库**（响应里 `persisted: false` 就是这个意思），所以这里不作废
+ * 任何列表缓存：保存是另一个动作（`useSaveMarketLevel`）。
+ */
+export function usePreviewLevelTemplate() {
+  return useMutation<
+    LevelTemplatePreviewResponse,
+    ApiClientError,
+    { templateId: string; request: LevelTemplatePreviewRequest }
+  >({
+    mutationFn: async ({ templateId, request }) => {
+      const res = await previewLevelTemplate(templateId, request);
+      return res.data as LevelTemplatePreviewResponse;
+    },
+  });
+}
+
+/**
+ * 导出一张关卡成 `starmap.level/1` 文件内容。
+ *
+ * 这里只负责拿到响应体，落盘（`Blob` + `a[download]`）由页面做 —— 把
+ * `URL.createObjectURL` 塞进 query 层会让 jsdom 里的测试要么打桩要么崩。
+ */
+export function useExportLevel() {
+  return useMutation<LevelExportFile, ApiClientError, string>({
+    mutationFn: async (levelId) => {
+      const res = await exportLevel(levelId);
+      return res.data as LevelExportFile;
+    },
+  });
+}
+
+/**
+ * 导入一个 `starmap.level/1` 文件，得到一张新关卡。
+ *
+ * 成功后必须作废市场列表：导入的关卡是新建的（`origin='imported'`），
+ * 它会出现在「预制关卡」组里（不是「我保存的」—— 导入不等于我编的）。
+ *
+ * 失败**不重试**：400 是文件形状不对、422 是内容不合法，重发同一份文件
+ * 只会得到同一个错误，而每次重试都会真的打一次服务端。
+ */
+export function useImportLevel() {
+  const queryClient = useQueryClient();
+  return useMutation<LevelImportResponse, ApiClientError, LevelExportFile>({
+    mutationFn: async (file) => {
+      const res = await importLevel(file);
+      return res.data as LevelImportResponse;
+    },
+    onSuccess: () => {
+      // 导入是新建一张关卡（origin='imported'），列表必须重读才能看到它。
+      // 不额外作废「这一关的详情」缓存：导入的 id 是新的，缓存里本来就没有。
+      void queryClient.invalidateQueries({ queryKey: getListMarketLevelsQueryKey() });
+    },
+  });
+}
+
+/**
+ * 把一份导出文件落成浏览器下载。
+ *
+ * 抽成纯函数是为了能在测试里断言「文件名与内容对得上」而不真的下载：
+ * jsdom 没有 `URL.createObjectURL`，页面里调用它就必须在测试里打桩，
+ * 而打桩后断言的是桩而不是产物。这里让页面只负责「调它」，文件名的规则
+ * 单独可测。
+ */
+export function exportFileName(file: LevelExportFile): string {
+  const title = file.spec.meta.title.trim() || file.spec.meta.id;
+  // 文件名里的路径分隔符与 Windows 保留字符会静默截断下载，统一换成下划线。
+  const safeTitle = title.replace(/[\\/:*?"<>|]/g, '_');
+  return `${safeTitle}__${file.spec.meta.microKpId}.level.json`;
 }

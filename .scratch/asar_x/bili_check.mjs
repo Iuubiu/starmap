@@ -1,0 +1,17 @@
+import { DatabaseSync } from 'node:sqlite';
+const db = new DatabaseSync('C:/Users/Yhwhy/.local/share/billion-context/sessions/index.db', { readOnly: true });
+const SID = 'session-55c776d2-6df9-450c-abcf-db3fe6001ef9';
+const byActive = db.prepare('select active, tier, count(*) n from blocks where session_id=? group by active, tier').all();
+console.log('blocks by active/tier ' + JSON.stringify(byActive));
+const latest = db.prepare('select block_id, ord, start_seq, end_seq, tier, active, created_at, length(payload_json) plen from blocks where session_id=? order by rowid desc limit 5').all();
+for (const b of latest) console.log('block ' + JSON.stringify({ ...b, created_at: new Date(b.created_at).toISOString() }));
+const newest = db.prepare('select max(created_at) m from blocks where session_id=?').get(SID);
+console.log('newest block at ' + new Date(newest.m).toISOString() + ' (ageMin=' + ((Date.now() - newest.m) / 60000).toFixed(1) + ')');
+const cov = db.prepare('select min(start_seq) a, max(end_seq) b, count(*) n from blocks where session_id=? and active=1').get(SID);
+console.log('active coverage seq ' + JSON.stringify(cov));
+const st = db.prepare('select stats_json, metadata_json, updated_at, last_ingested_seq from sessions where session_id=?').get(SID);
+const m = JSON.parse(st.metadata_json);
+console.log('meta rawInputTokens=' + m.rawInputTokens + ' storageMode=' + m.storageMode + ' biliVersion=' + m.biliVersion);
+const s = JSON.parse(st.stats_json);
+console.log('stats requests=' + s.requests + ' tokensSaved=' + s.tokensSaved + ' cacheHits=' + s.cachedTokens);
+console.log('session updated ' + ((Date.now() - st.updated_at) / 1000).toFixed(0) + 's ago, lastIngestSeq=' + st.last_ingested_seq);

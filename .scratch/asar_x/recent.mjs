@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import { decodeBuffer } from './lib_log.mjs';
+const SRC = 'C:/Users/Yhwhy/.dsh/sessions/--D-DeepSeek-starmap--/session-55c776d2-6df9-450c-abcf-db3fe6001ef9/session.v4.jsonl.zstd';
+const { rows } = decodeBuffer(fs.readFileSync(SRC));
+const p = rows.map((l) => JSON.parse(l));
+const since = Date.now() - 40 * 60000;
+const ev = p.filter((r) => r.time > since);
+const kinds = {};
+for (const r of ev) kinds[r.type] = (kinds[r.type] || 0) + 1;
+console.log('last 40min events: ' + JSON.stringify(kinds));
+for (const r of ev) if (/retry|error/i.test(r.type)) console.log('  ' + r.seq + ' ' + r.type + ' ' + JSON.stringify(r.data).slice(0, 300));
+const calls = ev.filter((r) => r.type === 'tool/call');
+const names = {};
+for (const c of calls) names[c.data.name] = (names[c.data.name] || 0) + 1;
+console.log('tool calls 40min=' + calls.length + ' ' + JSON.stringify(names).slice(0, 400));
+const errRes = ev.filter((r) => r.type === 'tool/result' && r.data && r.data.message && r.data.message.isError);
+console.log('tool errors=' + errRes.length);
+for (const e of errRes.slice(-3)) console.log('  err: ' + JSON.stringify(e.data).slice(0, 300));

@@ -4,6 +4,7 @@ import { App } from './App';
 import { ThemeProvider } from './theme/ThemeProvider';
 import './theme/tokens.css';
 import './theme/motion.css';
+import './theme/glass.css';
 
 /**
  * 应用入口。
@@ -14,12 +15,13 @@ import './theme/motion.css';
  * 主题可切换后，两处各持一个 theme 对象必然打架（内层覆盖外层），所以
  * provider 收进 `ThemeProvider`，只留一处。
  *
- * ## 为什么先 import tokens.css 再 import motion.css
+ * ## 为什么先 import tokens.css 再 import motion.css 再 import glass.css
  *
  * 顺序有意义：`motion.css` 里的 `::view-transition-*` 规则要读到
- * `--sm-dur-scene` 等变量，而这些变量在 `tokens.css` 里声明。CSS 变量是
- * 运行期解析的，理论上顺序无关；但打包器会按 import 顺序拼接，把依赖方
- * 放后面能让产物读起来是「先定义、后使用」。
+ * `--sm-dur-scene` 等变量，`glass.css` 里的玻璃原语要读到 `--sm-bg-canvas`
+ * 与 `--sm-accent`，而这些变量都在 `tokens.css` 里声明。CSS 变量是运行期
+ * 解析的，理论上顺序无关；但打包器会按 import 顺序拼接，把依赖方放后面能让
+ * 产物读起来是「先定义、后使用」。
  *
  * ## 首帧不闪
  *

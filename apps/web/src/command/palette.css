@@ -1,0 +1,237 @@
+/*
+ * 命令面板的样式。
+ *
+ * ## 为什么是手写 CSS 而不是 makeStyles
+ *
+ * 面板是一个**浮层**：它要盖住整个视口、要自己控制层级、要按行做窗口化
+ * 滚动。这三件事在 Griffel（Fluent 的 CSS-in-JS）里都要靠 `!important` 或
+ * 内联样式绕，而且 `position: fixed` 的浮层一旦被包进某个 `transform` 祖先
+ * 就会失效。`graph.css` 是同一类决定（画布是「另一个世界」），这里沿用。
+ *
+ * 但「手写 CSS」不等于「写死颜色」：所有颜色、圆角、阴影、时长都走
+ * `theme/tokens.css` 里的 `--sm-*` 变量，`tokens.test.ts` 保证它们与
+ * `theme/tokens.ts` 逐字一致。面板里没有一个颜色字面量。
+ */
+
+.sm-palette__scrim {
+  position: fixed;
+  inset: 0;
+  /* 压暗但不 blur：深色主题下整页 blur 会把底色抬成灰雾，反而更看不清。
+     见票面「不打断当前页面」那条。 */
+  background: var(--sm-bg-scrim);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 12vh 16px 16px;
+}
+
+.sm-palette {
+  width: min(640px, 100%);
+  max-height: min(60vh, 560px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--sm-bg-elevated);
+  border: 1px solid var(--sm-border-control);
+  border-radius: var(--sm-radius-lg);
+  box-shadow: var(--sm-shadow-lg);
+  color: var(--sm-text-primary);
+  font-family: var(--sm-font-sans);
+}
+
+/*
+ * 开合动效。
+ *
+ * 用 `data-motion` 而不是纯 CSS 媒体查询：`prefers-reduced-motion` 由
+ * `useReducedMotion()` 读出来（它同时是单测能驱动的事实），JS 把结果写到
+ * 属性上；CSS 里再留一条同样的媒体查询作为「JS 还没跑完那一帧」的兜底。
+ */
+.sm-palette[data-motion='enter'] {
+  animation: sm-palette-in var(--sm-dur-fast) var(--sm-ease-out);
+}
+
+@keyframes sm-palette-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sm-palette[data-motion='none'] {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-palette[data-motion='enter'] {
+    animation: none;
+  }
+}
+
+.sm-palette__field {
+  display: flex;
+  align-items: center;
+  gap: var(--sm-space-2);
+  padding: 0 var(--sm-space-4);
+  height: 48px;
+  border-bottom: 1px solid var(--sm-border-hairline);
+  flex: none;
+}
+
+.sm-palette__input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--sm-text-primary);
+  font-family: inherit;
+  font-size: var(--sm-subtitle-size);
+  line-height: var(--sm-subtitle-line);
+}
+
+.sm-palette__input::placeholder {
+  color: var(--sm-text-tertiary);
+}
+
+/* 输入框自己不需要焦点环：整个面板就是焦点上下文，而输入框是唯一入口。
+   焦点环留给「结果行」——那才是键盘真正在移动的东西。 */
+.sm-palette__input:focus-visible {
+  outline: none;
+}
+
+.sm-palette__esc {
+  flex: none;
+  font-family: var(--sm-font-mono);
+  font-size: var(--sm-micro-size);
+  color: var(--sm-text-tertiary);
+  border: 1px solid var(--sm-border-hairline);
+  border-radius: var(--sm-radius-xs);
+  padding: 1px 6px;
+}
+
+.sm-palette__list {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--sm-space-1) 0;
+  /* 高度由内容撑，但封顶在面板上；窗口化需要这个元素是滚动容器本身。 */
+  flex: 1 1 auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+
+.sm-palette__spacer {
+  position: relative;
+  width: 100%;
+}
+
+.sm-palette__window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/*
+ * 行高 30px —— 与 `virtualize.ts` 的 `ROW_HEIGHT` 同值。
+ *
+ * 两处写同一个数字是本模块唯一需要人工保持一致的约定。改这里必须同步改
+ * 那里（反之亦然），否则窗口化会算错偏移，表现为「滚动时行跳动」。
+ */
+.sm-palette__row {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: var(--sm-space-2);
+  padding: 0 var(--sm-space-4) 0 calc(var(--sm-space-4) - 2px);
+  border-left: 2px solid transparent;
+  cursor: default;
+  user-select: none;
+}
+
+.sm-palette__row[data-active='true'] {
+  /* 唯一强调色的 12% 透明底 + 左侧 2px 指示条（票面「结果行」那条）。 */
+  background: color-mix(in srgb, var(--sm-accent) 12%, transparent);
+  border-left-color: var(--sm-accent);
+}
+
+.sm-palette__row[data-kind='header'] {
+  height: 30px;
+  padding-top: var(--sm-space-1);
+  color: var(--sm-text-tertiary);
+  font-size: var(--sm-micro-size);
+  font-weight: var(--sm-micro-weight);
+  letter-spacing: var(--sm-micro-tracking);
+  text-transform: none;
+  cursor: default;
+  border-left-color: transparent;
+  background: transparent;
+}
+
+.sm-palette__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--sm-body-size);
+  line-height: var(--sm-body-line);
+}
+
+.sm-palette__name mark {
+  background: transparent;
+  color: var(--sm-accent);
+  font-weight: var(--sm-body-strong-weight);
+}
+
+.sm-palette__hint {
+  flex: 0 1 auto;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--sm-caption-size);
+  color: var(--sm-text-tertiary);
+}
+
+.sm-palette__badge {
+  flex: none;
+  font-size: var(--sm-micro-size);
+  color: var(--sm-text-tertiary);
+  border: 1px solid var(--sm-border-hairline);
+  border-radius: var(--sm-radius-xs);
+  padding: 0 5px;
+}
+
+.sm-palette__empty {
+  padding: var(--sm-space-6) var(--sm-space-4);
+  text-align: center;
+  color: var(--sm-text-tertiary);
+  font-size: var(--sm-body-size);
+}
+
+.sm-palette__foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sm-space-4);
+  height: 30px;
+  padding: 0 var(--sm-space-4);
+  border-top: 1px solid var(--sm-border-hairline);
+  color: var(--sm-text-tertiary);
+  font-size: var(--sm-micro-size);
+}
+
+.sm-palette__foot kbd {
+  font-family: var(--sm-font-mono);
+  font-size: var(--sm-micro-size);
+  border: 1px solid var(--sm-border-hairline);
+  border-radius: var(--sm-radius-xs);
+  padding: 0 4px;
+  margin-right: 4px;
+}

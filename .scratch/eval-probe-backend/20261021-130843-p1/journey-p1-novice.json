@@ -1,0 +1,182 @@
+{
+  "personaId": "p1-novice",
+  "tier": "P1",
+  "displayName": "小陈",
+  "startedAt": "2026-10-21T05:08:43.998Z",
+  "durationMs": 36183,
+  "webUrl": "http://localhost:5173",
+  "apiUrl": "http://127.0.0.1:3001/api/v1",
+  "stages": [
+    {
+      "stage": "cold-start",
+      "label": "S0 冷启动",
+      "url": "http://localhost:5173/",
+      "startedAt": "2026-10-21T05:08:44.815Z",
+      "durationMs": 2474,
+      "result": {
+        "status": "passed",
+        "detail": "H1「学习」；输入框可见、可聚焦、可写入（回读 \"测试\"）"
+      },
+      "evidence": [
+        "H1 = 学习",
+        "输入框 aria-label = 这一轮想说的话"
+      ],
+      "screenshot": "00-cold-start.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "placement",
+      "label": "S1 初始定级",
+      "url": "http://localhost:5173/placement",
+      "startedAt": "2026-10-21T05:08:47.290Z",
+      "durationMs": 2306,
+      "result": {
+        "status": "passed",
+        "detail": "定级流程走通：入口 → 自评 → 开始答题 → 答题 → 判定（含正确答案）"
+      },
+      "evidence": [
+        "入口按钮：「重新定级」",
+        "自评 4 题已作答",
+        "已提交自评",
+        "定级第 1 题已判定，判定区文案：回答正确 正确答案：α衰变中母核的质量数减少4，β衰变中母核的质量数不变 α衰变放出α粒子（质量数为4、电荷数为2），因此母核质量数减少4、电荷数减少2；β衰变中核子数不变，仅核电荷数改变（β-衰变电荷数增加1，β+衰变或EC电荷数减少1）。所以质量数是否改变是区分二者的关键。"
+      ],
+      "screenshot": "01-placement.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "map",
+      "label": "S3 知识图谱",
+      "url": "http://localhost:5173/map",
+      "startedAt": "2026-10-21T05:08:49.596Z",
+      "durationMs": 10601,
+      "result": {
+        "status": "assertion_mismatch",
+        "expected": "窗口内应有推荐标记 3 个、无多余标记",
+        "actual": "漏标 1 个（kp-wangzhiying-1989-p1-目電录）、多标 1 个（kp-methods-1997-p1-豐录）",
+        "detail": "图谱清单的推荐标记与 /recommendations 不一致（两处应共享同一个 recommend()）"
+      },
+      "evidence": [
+        "清单节点数 400",
+        "清单窗口内 400 个节点",
+        "接口推荐 3 条，落在窗口内 3 条",
+        "DOM 标记 3 个"
+      ],
+      "screenshot": "02-map.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "node-detail",
+      "label": "S3 节点详情",
+      "url": "http://localhost:5173/map/kp-bool",
+      "startedAt": "2026-10-21T05:09:00.197Z",
+      "durationMs": 373,
+      "result": {
+        "status": "passed",
+        "detail": "详情页 H1「布尔代数基本运算」与清单项一致；可用关卡区有 1 个入口按钮（可进入）"
+      },
+      "evidence": [
+        "H1 = 布尔代数基本运算",
+        "关卡入口按钮 1 个",
+        "至少一个可进入"
+      ],
+      "screenshot": "03-node-detail.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "answer",
+      "label": "S4 作答与判分",
+      "url": "http://localhost:5173/level/lv-bool-laws",
+      "startedAt": "2026-10-21T05:09:00.570Z",
+      "durationMs": 5407,
+      "result": {
+        "status": "passed",
+        "detail": "关卡「逻辑代数基本律：吸收律与德摩根律」内提交 3 题，作答已落库"
+      },
+      "evidence": [
+        "进入关卡：逻辑代数基本律：吸收律与德摩根律",
+        "第 3 轮：本段提交 1 题",
+        "第 4 轮：本段提交 2 题",
+        "在关卡内提交 3 道题",
+        "掌握度接口 attemptCount = 32"
+      ],
+      "screenshot": "04-answer.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "board",
+      "label": "S6 看板推荐",
+      "url": "http://localhost:5173/board",
+      "startedAt": "2026-10-21T05:09:05.977Z",
+      "durationMs": 1552,
+      "result": {
+        "status": "passed",
+        "detail": "看板推荐 3 条，与接口一致；今日摘要区存在"
+      },
+      "evidence": [
+        "推荐卡 3 条 / 接口 3 条",
+        "今日摘要区可见"
+      ],
+      "screenshot": "05-board.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "review",
+      "label": "S6 复验",
+      "url": "http://localhost:5173/review",
+      "startedAt": "2026-10-21T05:09:07.529Z",
+      "durationMs": 1356,
+      "result": {
+        "status": "passed",
+        "detail": "接口 0 条到期；页面 H1「复验」并说明没有到期"
+      },
+      "evidence": [
+        "due=0",
+        "H1=复验",
+        "页面有「没有到期」提示"
+      ],
+      "screenshot": "06-review.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "database",
+      "label": "S7 数据库检视",
+      "url": "http://localhost:5173/database",
+      "startedAt": "2026-10-21T05:09:08.885Z",
+      "durationMs": 9956,
+      "result": {
+        "status": "backend_error",
+        "httpStatus": 404,
+        "responseBody": "{\"error\":\"Route not found: GET /api/v1/graph-PROBE-404\",\"code\":\"NOT_FOUND\",\"requestId\":\"97a72cb7-1b5d-409e-bbf7-1e574b51de59\",\"timestamp\":\"2026-10-21T05:09:18.798Z\"}",
+        "detail": "读取图谱失败"
+      },
+      "evidence": [],
+      "screenshot": "07-database.png",
+      "consoleErrors": []
+    },
+    {
+      "stage": "skills",
+      "label": "S8 技能库",
+      "url": "http://localhost:5173/skills",
+      "startedAt": "2026-10-21T05:09:18.841Z",
+      "durationMs": 1280,
+      "result": {
+        "status": "passed",
+        "detail": "技能库 H1「技能库」；2 个技能全部渲染"
+      },
+      "evidence": [
+        "接口技能数 2"
+      ],
+      "screenshot": "08-skills.png",
+      "consoleErrors": []
+    }
+  ],
+  "failures": {
+    "locatorFailure": 0,
+    "backendError": 1,
+    "assertionMismatch": 1
+  },
+  "lastPassedStage": "skills",
+  "firstFailureStage": "map",
+  "consoleErrors": [],
+  "browserLaunched": true
+}

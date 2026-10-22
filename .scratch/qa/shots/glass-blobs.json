@@ -1,0 +1,32 @@
+[
+  {
+    "name": "sm-liquid-drift-a",
+    "duration": "62s",
+    "blur": "blur(96px)",
+    "radius": "57.4237% 47.4528%"
+  },
+  {
+    "name": "sm-liquid-drift-b",
+    "duration": "74s",
+    "blur": "blur(96px)",
+    "radius": "62.5143% 45.4452%"
+  },
+  {
+    "name": "sm-liquid-drift-c",
+    "duration": "88s",
+    "blur": "blur(96px)",
+    "radius": "60.9713% 44.0164%"
+  },
+  {
+    "name": "sm-liquid-drift-d",
+    "duration": "46s",
+    "blur": "blur(96px)",
+    "radius": "43.049% 55.8704%"
+  },
+  {
+    "name": "sm-liquid-drift-e",
+    "duration": "70s",
+    "blur": "blur(96px)",
+    "radius": "50.88% 54.4295%"
+  }
+]

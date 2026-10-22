@@ -135,7 +135,7 @@
   --sm-text-primary: #f2f2f5;
   --sm-text-secondary: #a8a8b3;
   --sm-text-tertiary: #8f8f9b;
-  --sm-text-disabled: #6e6e79;
+  --sm-text-disabled: #8a8a95;
 
   --sm-accent: #ff6b6b;
   --sm-accent-fill: #ce2c34;
@@ -200,7 +200,7 @@
   --sm-text-primary: #16161a;
   --sm-text-secondary: #55555e;
   --sm-text-tertiary: #6b6b75;
-  --sm-text-disabled: #8e8e98;
+  --sm-text-disabled: #63636d;
 
   --sm-accent: #c42b31;
   --sm-accent-fill: #c42b31;

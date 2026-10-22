@@ -1,0 +1,12 @@
+import { DatabaseSync } from 'node:sqlite';
+const db = new DatabaseSync('C:/Users/Yhwhy/.local/share/billion-context/sessions/index.db', { readOnly: true });
+const SID = 'session-55c776d2-6df9-450c-abcf-db3fe6001ef9';
+const q = (sql, ...a) => { try { return db.prepare(sql).all(...a); } catch (e) { return 'ERR ' + e.message; } };
+console.log('nonzero span blocks=' + JSON.stringify(q('select count(*) c from blocks where session_id=? and end_seq>0', SID)));
+console.log('max end_seq=' + JSON.stringify(q('select max(end_seq) m from blocks where session_id=?', SID)));
+console.log('by ord desc=' + JSON.stringify(q('select block_id, ord, start_seq, end_seq, tier, active from blocks where session_id=? order by ord desc limit 5', SID)));
+console.log('content rows=' + JSON.stringify(q('select count(*) c, sum(length(text)) s from content where session_id=?', SID)));
+console.log('messages rows=' + JSON.stringify(q('select count(*) c from messages where session_id=?', SID)));
+console.log('checkpoints=' + JSON.stringify(q('select count(*) c from checkpoints where session_id=?', SID)));
+console.log('session_ext=' + JSON.stringify(q('select count(*) c from session_ext where session_id=?', SID)));
+console.log('meta keys=' + JSON.stringify(q('select key, length(value) n from kv_store where session_id=? limit 10', SID)));

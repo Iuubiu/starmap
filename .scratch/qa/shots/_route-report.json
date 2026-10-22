@@ -1,0 +1,130 @@
+[
+  {
+    "route": "/",
+    "ms": 9490,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 443,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\00-home.png"
+  },
+  {
+    "route": "/placement",
+    "ms": 9564,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 1123,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\01-placement.png"
+  },
+  {
+    "route": "/board",
+    "ms": 9718,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 669,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\02-board.png"
+  },
+  {
+    "route": "/map",
+    "ms": 12339,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x44e402f2dc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x44e402f2dc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs.",
+      "[.WebGL-0x44e402f2dc00] GL_INVALID_OPERATION: glDrawArraysInstanced: Active draw buffers with missing fragment shader outputs."
+    ],
+    "failedRequests": [],
+    "bodyTextLength": 39934,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\03-map.png"
+  },
+  {
+    "route": "/database",
+    "ms": 9753,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 7165,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\04-database.png"
+  },
+  {
+    "route": "/market",
+    "ms": 9385,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 1294,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\05-market.png"
+  },
+  {
+    "route": "/market/generate",
+    "ms": 9669,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 365,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\06-generation.png"
+  },
+  {
+    "route": "/skills",
+    "ms": 9316,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 5834,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\07-skills.png"
+  },
+  {
+    "route": "/review",
+    "ms": 9482,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 308,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\08-review.png"
+  },
+  {
+    "route": "/level/lv-bool-laws",
+    "ms": 9601,
+    "consoleErrors": [
+      "Keyborg instance k1 is being disposed incorrectly. @ http://localhost:5173/node_modules/.vite/deps/@fluentui_react-components.js?v=d6213173"
+    ],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "bodyTextLength": 473,
+    "screenshot": "D:\\DeepSeek\\starmap\\.scratch\\qa\\shots\\09-level.png"
+  }
+]
