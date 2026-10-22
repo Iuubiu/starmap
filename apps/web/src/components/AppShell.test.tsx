@@ -3,10 +3,10 @@ import { render, screen, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { MemoryRouter, Route, Routes } from 'react-router';
-import { AppShell } from './AppShell';
+import { AppShell, selectedNavValue } from './AppShell';
 
 /**
- * 顶栏「当前在哪」的测试。
+ * 侧栏「当前在哪」的测试。
  *
  * 为什么需要它：仓库里所有导航测试都在测「点了会跳转」，没有一个测「当前
  * 路径对应哪个标签被选中」。于是 `selected` 的推导链曾被漏掉一整条分支 ——
@@ -165,10 +165,137 @@ describe('AppShell 顶栏选中态', () => {
     }
   });
 
-  it('内容区渲染子路由，且顶栏不随路径消失', () => {
+  it('内容区渲染子路由，且侧栏不随路径消失', () => {
     renderAt('/market');
     expect(screen.getByText('市场内容')).toBeInTheDocument();
-    const header = screen.getByRole('banner');
-    expect(within(header).getByText('StarMap')).toBeInTheDocument();
+    /* 改成侧栏之后品牌不再在 `banner` 里：宽屏没有顶栏（窄屏那条 48px 窄条
+       是 `display:none`，从无障碍树里被移除）。所以断言落在**主导航地标**
+       里 —— 那才是「外壳的固定部分」现在所在的位置。 */
+    const nav = screen.getByRole('navigation', { name: '主导航' });
+    expect(within(nav.closest('aside') as HTMLElement).getByText('StarMap')).toBeInTheDocument();
+  });
+});
+
+/**
+ * 侧栏改造（顶栏 → 侧边导航栏）新增的行为。
+ *
+ * 为什么要单独一组：上面那组测的是「路径 → 哪个入口高亮」，与外壳长什么样
+ * 无关，改布局时它们应当全部保持绿。这一组测的是**新布局才有的东西**：
+ * 导航地标、抽屉开合、跳过导航的跳转链接，以及那个把顶栏撑爆的宽度问题
+ * 在结构上是否真的消失了。
+ */
+/**
+ * 把 `matchMedia` 伪装成「窄屏」，让 `useIsNarrow()` 走抽屉分支。
+ *
+ * jsdom 的 `matchMedia` 恒返回 `matches: false`（永远当宽屏），所以抽屉相关的
+ * 断言必须先改造它。只对窄屏那条 query 返回 true，其它 query 保持 false ——
+ * Fluent 自己也会问 matchMedia（强制色、减弱动效），全局返回 true 会顺带改变
+ * 它们的渲染，让这条测试的失败原因变得不可信。
+ */
+function stubNarrowViewport() {
+  const original = window.matchMedia;
+  window.matchMedia = ((query: string) => ({
+    matches: query.includes('max-width: 767px'),
+    media: query,
+    onchange: null,
+    addEventListener: () => undefined,
+    removeEventListener: () => undefined,
+    addListener: () => undefined,
+    removeListener: () => undefined,
+    dispatchEvent: () => false,
+  })) as unknown as typeof window.matchMedia;
+  return () => {
+    window.matchMedia = original;
+  };
+}
+
+describe('AppShell 侧栏与抽屉', () => {
+  it('宽屏下不渲染抽屉入口（导航是常驻侧栏，没有可展开的东西）', () => {
+    renderAt('/');
+    expect(screen.queryByRole('button', { name: '打开导航' })).toBeNull();
+    expect(screen.queryByRole('button', { name: '收起导航' })).toBeNull();
+  });
+
+  it('侧栏是带名字的 navigation 地标，八个入口都在它里面', () => {
+    renderAt('/');
+    const nav = screen.getByRole('navigation', { name: '主导航' });
+    const tabs = within(nav).getAllByRole('tab');
+    expect(tabs).toHaveLength(8);
+    // 全部入口必须在导航地标内，不能散落在页面其它地方 —— 否则屏幕阅读器
+    // 的「跳到导航」会漏掉一部分。
+    for (const name of ['学习', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库']) {
+      expect(within(nav).getByRole('tab', { name })).toBeInTheDocument();
+    }
+  });
+
+  it('第一个可聚焦元素是「跳到主要内容」，且它指向 main', () => {
+    renderAt('/');
+    const skip = screen.getByRole('link', { name: '跳到主要内容' });
+    expect(skip).toHaveAttribute('href', '#main');
+    expect(document.getElementById('main')).not.toBeNull();
+  });
+
+  it('抽屉按钮存在、默认收起，点击后展开', () => {
+    const restore = stubNarrowViewport();
+    renderAt('/');
+    const opener = screen.getByRole('button', { name: '打开导航' });
+    expect(opener).toHaveAttribute('aria-expanded', 'false');
+    // 指向抽屉本体：`aria-controls` 指错 id 时，辅助技术会认为「没有可展开的东西」。
+    expect(opener).toHaveAttribute('aria-controls', 'app-nav');
+    expect(document.getElementById('app-nav')).not.toBeNull();
+    restore();
+  });
+
+  it('选中任一个入口后，抽屉自己收起', async () => {
+    const { default: userEvent } = await import('@testing-library/user-event');
+    const user = userEvent.setup();
+    const restore = stubNarrowViewport();
+    renderAt('/');
+    await user.click(screen.getByRole('button', { name: '打开导航' }));
+    expect(screen.getByRole('button', { name: '打开导航' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    await user.click(screen.getByRole('tab', { name: '看板' }));
+    restore();
+    /* 换页会触发 `setDrawerOpen(false)`；断言回到收起态而不是断言 DOM 被移除，
+       因为收起态的抽屉仍然在文档里（靠 translateX 移出视野）。 */
+    expect(screen.getByRole('button', { name: '打开导航' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+  });
+
+  it('抽屉开着时按 Esc 收起', async () => {
+    const { default: userEvent } = await import('@testing-library/user-event');
+    const user = userEvent.setup();
+    const restore = stubNarrowViewport();
+    renderAt('/');
+    await user.click(screen.getByRole('button', { name: '打开导航' }));
+    await user.keyboard('{Escape}');
+    expect(screen.getByRole('button', { name: '打开导航' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    restore();
+  });
+});
+
+describe('selectedNavValue：路径 → 入口', () => {
+  it.each([
+    ['/', '/'],
+    ['/board', '/board'],
+    ['/market', '/market'],
+    ['/market/generate', '/market'],
+    ['/map', '/map'],
+    ['/map/kp-bool', '/map'],
+    ['/placement/result', '/placement'],
+    ['/review/rounds/r-1', '/review'],
+    // 关卡内页不属于任何入口，落回「学习」。
+    ['/level/lv-bool-laws', '/'],
+    // 前缀相同但不是同一段路径：不能因为 `/maple` 以 `/map` 开头就算地图。
+    ['/maple', '/'],
+  ])('%s → %s', (pathname, expected) => {
+    expect(selectedNavValue(pathname)).toBe(expected);
   });
 });

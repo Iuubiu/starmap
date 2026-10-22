@@ -202,7 +202,7 @@ test('不存在的关卡返回 404，不是 500', async ({ request }) => {
 });
 
 
-test('顶栏导航能切换到数据库页', async ({ page }) => {
+test('侧栏导航能切换到数据库页', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('tab', { name: '数据库' }).click();
   await expect(page).toHaveURL(/\/database/);
