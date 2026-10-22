@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
-import { MemoryRouter, Route, Routes } from 'react-router';
+import { MemoryRouter, Route, Routes, useSearchParams } from 'react-router';
 import { NodeDetailPage } from './NodeDetailPage';
 import * as queries from '../api/queries';
 
@@ -34,12 +35,39 @@ const renderPage = (id = 'kp-bool') => {
         <MemoryRouter initialEntries={[`/map/${id}`]}>
           <Routes>
             <Route path="/map/:microKpId" element={<NodeDetailPage />} />
+            {/**
+             * 首页占位：把地址栏里的 `kp` 参数显示出来。
+             *
+             * 「问助手」要证明的不是「点了一个按钮」，而是**把这个页面的
+             * 知识点真的带到了首页**。所以占位组件读的是真实的路由参数，
+             * 而不是断言某个内部状态。
+             */}
+            <Route
+              path="/"
+              element={<HomeFocusProbe />}
+            />
+            {/**
+             * 生成页占位：读 `microKpIds`。证明的是「知识点 id 真的进了
+             * 生成页的预填参数」，不是「点了按钮」。跳转目标写死在页面里，
+             * 这里只观察参数。
+             */}
+            <Route path="/market/generate" element={<GenerationProbe />} />
           </Routes>
         </MemoryRouter>
       </QueryClientProvider>
     </FluentProvider>,
   );
 };
+
+function GenerationProbe() {
+  const [params] = useSearchParams();
+  return <div>生成页预填：{params.get('microKpIds') ?? '无'}</div>;
+}
+
+function HomeFocusProbe() {
+  const [params] = useSearchParams();
+  return <div>首页焦点：{params.get('kp') ?? '无'}</div>;
+}
 
 /**
  * 掌握度的默认样本：证据充足，`achieved` 高于 `current`。
@@ -243,6 +271,41 @@ describe('NodeDetailPage', () => {
     });
     renderPage('kp-x');
     expect(screen.getByText(/还没有关卡/)).toBeInTheDocument();
+    /**
+     * 反向断言：「运行内容入库（票 02）后会生成」这句是**假话** ——
+     * `apps/api/scripts/import-content.ts`（673 行）从不写 `app.levels`，
+     * 只有 `generation.service.ts` 与 `market.service.ts` 会写。学生照着
+     * 那句话去跑内容入库，永远不会有新关卡。实测全库 5467 个叶节点只有
+     * 8 个有关卡，这句话几乎对每个知识点都在误导。
+     */
+    expect(screen.queryByText(/运行内容入库/)).not.toBeInTheDocument();
+    // 真能走通的出口：跳到生成页并预填这个知识点。
+    expect(screen.getByRole('button', { name: /用 AI 给这个知识点生成关卡/ })).toBeInTheDocument();
+  });
+
+  it('「生成关卡」按钮把知识点带进生成页的 microKpIds 预填参数', async () => {
+    mockNode({
+      payload: nodePayload({
+        node: { microKpId: 'kp-x', name: '空节点', state: 'unseen', percent: null, depth: 2 },
+        levels: [],
+        reasons: [],
+      }),
+    });
+    mockMastery({
+      payload: masteryView({
+        microKpId: 'kp-x',
+        name: '空节点',
+        achieved: null,
+        current: null,
+        attemptCount: 0,
+        variantCount: 0,
+        evidenceSufficient: false,
+      }),
+    });
+    renderPage('kp-x');
+    await userEvent.click(screen.getByRole('button', { name: /用 AI 给这个知识点生成关卡/ }));
+    // 断言的是「参数真的进了地址栏」，而不是「点了一个按钮」。
+    expect(screen.getByText('生成页预填：kp-x')).toBeInTheDocument();
   });
 
   it('加载失败时显示错误信息而不是白屏', () => {
@@ -400,5 +463,42 @@ describe('NodeDetailPage', () => {
     // 比 `closest('a')` 更接近「用户能不能点」这件事。
     expect(screen.queryByRole('link', { name: /第 12 页/ })).toBeNull();
     expect(screen.getByText(/第 12 页/).closest('a')).toBeNull();
+  });
+
+  /**
+   * 「问助手」：把当前知识点带给首页的那张卡片。
+   *
+   * 这条入口补的是一个**真实的断头路**：地图 → 知识点详情页是终点，想把
+   * 这个点变成一轮对话的起点，只能自己记住名字、回首页、重新打一遍。而
+   * 首页的焦点又只能从上一张卡继承，冷启动时一张卡都没有 —— 于是「选一个
+   * 知识点，然后要一张它的关卡」在界面上根本没有入口。
+   */
+  it('「问助手」把这个页面的知识点带到首页的 kp 参数上', async () => {
+    const user = userEvent.setup();
+    mockDetail();
+    renderPage('kp-bool');
+
+    await user.click(screen.getByRole('button', { name: '问助手' }));
+
+    // 真的跳到了首页，并且带的是这个页面的点
+    expect(await screen.findByText('首页焦点：kp-bool')).toBeInTheDocument();
+  });
+
+  it('「问助手」带的是当前页面的点，不是硬编码的示例点', async () => {
+    const user = userEvent.setup();
+    mockNode({
+      payload: nodePayload({
+        node: { microKpId: 'kp-kmap', name: '卡诺图化简', state: 'unseen', percent: null, depth: 1 },
+      }),
+    });
+    mockMastery();
+    mockUnlock();
+    renderPage('kp-kmap');
+
+    // 页面标题确实是那个点（否则下面断言「按钮与页面同一个点」就成了套套逻辑）
+    expect(screen.getByText('卡诺图化简')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: '问助手' }));
+
+    expect(await screen.findByText('首页焦点：kp-kmap')).toBeInTheDocument();
   });
 });

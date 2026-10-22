@@ -145,8 +145,21 @@ describe('GenerationPage（票 16 的前端面）', () => {
     });
   });
 
-  it('成功的一批列出每个知识点、题数与关卡标题，并能点进播放器', async () => {
-    queries.useGenerationRun.mockReturnValue(queryStub(makeRun()));
+  /**
+   * `?microKpIds=` 预填：知识点详情页在「这个点还没有关卡」时把学生送到这里，
+   * 并把该知识点填进输入框。预填而**不自动开跑**是有意的 —— 自动开跑会把
+   * 一次误点变成一次真实计费。
+   */
+  it('从 URL 读 microKpIds 预填输入框，但不自动发起生成', () => {
+    const mutate = vi.fn();
+    queries.useStartGeneration.mockReturnValue(mutationStub({ mutate }));
+    renderPage('/market/generate?microKpIds=kp-lihansun-5e-vol1-p45-%E4%B8%A4%E7%B1%BB%E7%BA%A6%E6%9D%9F');
+
+    expect(screen.getByLabelText('知识点 id')).toHaveValue('kp-lihansun-5e-vol1-p45-两类约束');
+    expect(mutate).not.toHaveBeenCalled();
+  });
+
+  it('成功的一批列出每个知识点、题数与关卡标题，并能点进播放器', async () => {    queries.useGenerationRun.mockReturnValue(queryStub(makeRun()));
     withRun();
 
     expect(screen.getByText('布尔代数')).toBeTruthy();

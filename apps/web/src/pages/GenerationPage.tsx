@@ -107,11 +107,15 @@ function intentFor(status: string): 'info' | 'success' | 'warning' | 'error' {
 export function GenerationPage() {
   const styles = useStyles();
   const navigate = useNavigate();
-  const [rawIds, setRawIds] = useState('');
   // 运行 id 也接受 URL 上的 `?runId=`：批量生成要跑几十秒，刷新一下页面
   // 就丢掉正在观察的运行是不可接受的。有了这个参数，日志里贴一条链接
   // 也能直接打开那一批的进度。
+  //
+  // `?microKpIds=` 是**预填**而不是自动开跑：知识点详情页在「这个点还没有
+  // 关卡」时给一个入口跳过来，学生要能在开跑前确认「就是这个点、题目会花
+  // 一轮 LLM 调用」。自动开跑会把一次误点变成一次真实计费。
   const [searchParams, setSearchParams] = useSearchParams();
+  const [rawIds, setRawIds] = useState(searchParams.get('microKpIds') ?? '');
   const [runId, setRunId] = useState<string | null>(searchParams.get('runId'));
   const [formError, setFormError] = useState<string | null>(null);
 

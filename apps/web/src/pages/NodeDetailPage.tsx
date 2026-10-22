@@ -73,6 +73,13 @@ const useStyles = makeStyles({
     gap: '8px',
     alignItems: 'center',
   },
+  /** 「还没有关卡」那条：一句话 + 一个可点的出口，窄屏下纵向排。 */
+  noLevel: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: '10px',
+  },
 });
 
 /**
@@ -197,6 +204,26 @@ export function NodeDetailPage() {
         <Body1>
           层级深度 {kp.depth} · 当前状态 {masteryLabel(kp.state)}
         </Body1>
+        {/**
+         * 「问助手」：把这个知识点带给首页的那张卡片。
+         *
+         * 在此之前，从地图点进一个知识点是**终点** —— 想让它变成一轮对话的
+         * 起点，只能自己记住名字、回首页、把名字重新打一遍。卡片里的焦点
+         * （`microKpId`）只从上一张卡继承，而首页冷启动时没有上一张卡，
+         * 于是第一轮永远只能拿到「服务端自己挑的那个点」的图谱卡。
+         *
+         * 用查询参数而不是 localStorage：它要能被收藏、被刷新重现、被两个
+         * 标签页各自持有不同值。也正因为如此，它只是一个**初始焦点**，
+         * 首轮提交后就让位给卡片自带的 `microKpId`（见 HomePage 的 focus）。
+         */}
+        <div>
+          <Button
+            appearance="primary"
+            onClick={() => navigate(`/?kp=${encodeURIComponent(kp.microKpId)}`)}
+          >
+            问助手
+          </Button>
+        </div>
       </div>
 
       <Card>
@@ -272,8 +299,32 @@ export function NodeDetailPage() {
       )}
 
       {levels.length === 0 ? (
+        /**
+         * 这里原来写的是「运行内容入库（票 02）后会生成」—— **那是假话**。
+         * `apps/api/scripts/import-content.ts` 全程不写 `app.levels`（只有
+         * `generation.service.ts` 与 `market.service.ts` 会写）。学生照着那句
+         * 话去跑内容入库，永远不会有新关卡。实测全库 5467 个叶节点里只有 8 个
+         * 有关卡，这句话几乎对每一个知识点都在误导。
+         *
+         * 改成：说清楚关卡从哪来 + 一个真能走通的入口（生成页 `?microKpIds=`
+         * 预填，开跑前还要学生自己点一次）。
+         */
         <MessageBar>
-          <MessageBarBody>这个知识点还没有关卡。运行内容入库（票 02）后会生成。</MessageBarBody>
+          <MessageBarBody>
+            <div className={styles.noLevel}>
+              <Text>
+                这个知识点还没有关卡。关卡不是内容入库产生的 —— 要么由 AI 现场生成，要么在关卡市场里手写。
+              </Text>
+              <Button
+                appearance="primary"
+                onClick={() =>
+                  navigate(`/market/generate?microKpIds=${encodeURIComponent(kp.microKpId)}`)
+                }
+              >
+                用 AI 给这个知识点生成关卡
+              </Button>
+            </div>
+          </MessageBarBody>
         </MessageBar>
       ) : (
         <div className={styles.levelList}>
