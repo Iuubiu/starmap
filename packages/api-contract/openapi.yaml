@@ -3,6 +3,41 @@
 # 与 packages/api-contract/scripts/paths/<domain>.mjs 的 paths 片段，然后 pnpm contract:gen。
 "components":
   "schemas":
+    "AgentSessionListResponse":
+      "additionalProperties": false
+      "properties":
+        "sessions":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "endedAt":
+                "type":
+                  - "string"
+                  - "null"
+              "firstUtterance":
+                "type": "string"
+              "lastActivityAt":
+                "type": "string"
+              "sessionId":
+                "type": "string"
+              "startedAt":
+                "type": "string"
+              "turnCount":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+            "required":
+              - "sessionId"
+              - "startedAt"
+              - "endedAt"
+              - "turnCount"
+              - "firstUtterance"
+              - "lastActivityAt"
+            "type": "object"
+          "type": "array"
+      "required":
+        - "sessions"
+      "type": "object"
     "AgentTurnEvidenceResponse":
       "additionalProperties": false
       "properties":
@@ -448,6 +483,27 @@
                     - "rationale"
                   "type": "object"
             - "type": "null"
+        "clarify":
+          "additionalProperties": false
+          "properties":
+            "options":
+              "items":
+                "minLength": 1
+                "type": "string"
+              "maxItems": 4
+              "minItems": 2
+              "type": "array"
+            "question":
+              "minLength": 1
+              "type": "string"
+            "why":
+              "minLength": 1
+              "type": "string"
+          "required":
+            - "question"
+            - "options"
+            - "why"
+          "type": "object"
         "createdAt":
           "type": "string"
         "degraded":
@@ -864,6 +920,12 @@
         - "answers"
         - "edges"
       "type": "object"
+    "ExplanationDensity":
+      "enum":
+        - "concise"
+        - "balanced"
+        - "detailed"
+      "type": "string"
     "FirstRoundPlan":
       "additionalProperties": false
       "properties":
@@ -1791,6 +1853,127 @@
         - "dbNow"
         - "version"
       "type": "object"
+    "LearnerBackground":
+      "enum":
+        - "undergraduate"
+        - "graduate"
+        - "working"
+      "type": "string"
+    "LearnerProfile":
+      "additionalProperties": false
+      "properties":
+        "background":
+          "anyOf":
+            - "enum":
+                - "undergraduate"
+                - "graduate"
+                - "working"
+              "type": "string"
+            - "type": "null"
+        "explanationDensity":
+          "anyOf":
+            - "enum":
+                - "concise"
+                - "balanced"
+                - "detailed"
+              "type": "string"
+            - "type": "null"
+        "goal":
+          "anyOf":
+            - "enum":
+                - "exam"
+                - "research"
+                - "work"
+              "type": "string"
+            - "type": "null"
+        "mathLevel":
+          "anyOf":
+            - "enum":
+                - "weak"
+                - "basic"
+                - "solid"
+                - "strong"
+              "type": "string"
+            - "type": "null"
+        "priorCourses":
+          "anyOf":
+            - "items":
+                "maxLength": 60
+                "minLength": 1
+                "type": "string"
+              "type": "array"
+            - "type": "null"
+        "weeklyHours":
+          "anyOf":
+            - "maximum": 80
+              "minimum": 0
+              "type": "integer"
+            - "type": "null"
+      "required":
+        - "background"
+        - "mathLevel"
+        - "goal"
+        - "weeklyHours"
+        - "explanationDensity"
+        - "priorCourses"
+      "type": "object"
+    "LearnerProfilePatch":
+      "additionalProperties": false
+      "properties":
+        "background":
+          "anyOf":
+            - "enum":
+                - "undergraduate"
+                - "graduate"
+                - "working"
+              "type": "string"
+            - "type": "null"
+        "explanationDensity":
+          "anyOf":
+            - "enum":
+                - "concise"
+                - "balanced"
+                - "detailed"
+              "type": "string"
+            - "type": "null"
+        "goal":
+          "anyOf":
+            - "enum":
+                - "exam"
+                - "research"
+                - "work"
+              "type": "string"
+            - "type": "null"
+        "mathLevel":
+          "anyOf":
+            - "enum":
+                - "weak"
+                - "basic"
+                - "solid"
+                - "strong"
+              "type": "string"
+            - "type": "null"
+        "priorCourses":
+          "anyOf":
+            - "items":
+                "maxLength": 60
+                "minLength": 1
+                "type": "string"
+              "type": "array"
+            - "type": "null"
+        "weeklyHours":
+          "anyOf":
+            - "maximum": 80
+              "minimum": 0
+              "type": "integer"
+            - "type": "null"
+      "type": "object"
+    "LearningGoal":
+      "enum":
+        - "exam"
+        - "research"
+        - "work"
+      "type": "string"
     "LevelDetailResponse":
       "additionalProperties": false
       "properties":
@@ -3958,6 +4141,13 @@
         - "lastEvidenceAt"
         - "aggregatedLeafCount"
       "type": "object"
+    "MathLevel":
+      "enum":
+        - "weak"
+        - "basic"
+        - "solid"
+        - "strong"
+      "type": "string"
     "NodeDetailResponse":
       "additionalProperties": false
       "properties":
@@ -4974,6 +5164,208 @@
         - "judge"
         - "fallbackApplied"
         - "createdAt"
+      "type": "object"
+    "ProfileField":
+      "enum":
+        - "background"
+        - "mathLevel"
+        - "goal"
+        - "weeklyHours"
+        - "explanationDensity"
+        - "priorCourses"
+      "type": "string"
+    "ProfileResponse":
+      "additionalProperties": false
+      "properties":
+        "answeredCount":
+          "maximum": 6
+          "minimum": 0
+          "type": "integer"
+        "profile":
+          "additionalProperties": false
+          "properties":
+            "background":
+              "anyOf":
+                - "enum":
+                    - "undergraduate"
+                    - "graduate"
+                    - "working"
+                  "type": "string"
+                - "type": "null"
+            "explanationDensity":
+              "anyOf":
+                - "enum":
+                    - "concise"
+                    - "balanced"
+                    - "detailed"
+                  "type": "string"
+                - "type": "null"
+            "goal":
+              "anyOf":
+                - "enum":
+                    - "exam"
+                    - "research"
+                    - "work"
+                  "type": "string"
+                - "type": "null"
+            "mathLevel":
+              "anyOf":
+                - "enum":
+                    - "weak"
+                    - "basic"
+                    - "solid"
+                    - "strong"
+                  "type": "string"
+                - "type": "null"
+            "priorCourses":
+              "anyOf":
+                - "items":
+                    "maxLength": 60
+                    "minLength": 1
+                    "type": "string"
+                  "type": "array"
+                - "type": "null"
+            "weeklyHours":
+              "anyOf":
+                - "maximum": 80
+                  "minimum": 0
+                  "type": "integer"
+                - "type": "null"
+          "required":
+            - "background"
+            - "mathLevel"
+            - "goal"
+            - "weeklyHours"
+            - "explanationDensity"
+            - "priorCourses"
+          "type": "object"
+        "updatedAt":
+          "type":
+            - "string"
+            - "null"
+      "required":
+        - "profile"
+        - "updatedAt"
+        - "answeredCount"
+      "type": "object"
+    "ProgressBoard":
+      "additionalProperties": false
+      "properties":
+        "books":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "enabled":
+                "type": "boolean"
+              "id":
+                "type": "string"
+              "learned":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "title":
+                "type": "string"
+              "total":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+            "required":
+              - "id"
+              - "title"
+              - "enabled"
+              - "total"
+              - "learned"
+            "type": "object"
+          "type": "array"
+        "evaluatedAt":
+          "type": "string"
+        "knowledgePoints":
+          "additionalProperties": false
+          "properties":
+            "byState":
+              "items":
+                "additionalProperties": false
+                "properties":
+                  "count":
+                    "maximum": 9007199254740991
+                    "minimum": 0
+                    "type": "integer"
+                  "state":
+                    "enum":
+                      - "mastered"
+                      - "proficient"
+                      - "familiar"
+                      - "attempted"
+                      - "unseen"
+                    "type": "string"
+                "required":
+                  - "state"
+                  - "count"
+                "type": "object"
+              "maxItems": 5
+              "minItems": 5
+              "type": "array"
+            "learning":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "mastered":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "total":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+            "untouched":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "total"
+            - "mastered"
+            - "learning"
+            - "untouched"
+            - "byState"
+          "type": "object"
+        "layers":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "id":
+                "type": "string"
+              "mastered":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "name":
+                "type": "string"
+              "ordinal":
+                "maximum": 9007199254740991
+                "minimum": -9007199254740991
+                "type": "integer"
+              "total":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+            "required":
+              - "id"
+              - "name"
+              - "ordinal"
+              - "total"
+              - "mastered"
+            "type": "object"
+          "type": "array"
+        "unlayeredLeafCount":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+      "required":
+        - "evaluatedAt"
+        - "knowledgePoints"
+        - "layers"
+        - "books"
+        - "unlayeredLeafCount"
       "type": "object"
     "ReasonFact":
       "oneOf":
@@ -7679,6 +8071,37 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "检索调试器：命中切片、是否答案块、被排除的具体原因"
+  "/api/v1/agent/sessions":
+    "get":
+      "operationId": "listAgentSessions"
+      "parameters":
+        - "in": "query"
+          "name": "limit"
+          "schema":
+            "default": 50
+            "maximum": 200
+            "minimum": 1
+            "type": "integer"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/AgentSessionListResponse"
+          "description": "会话列表（空库返回空数组，不是 404）"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "「学习记录」的会话列表（按最近活动倒序）"
   "/api/v1/agent/skills":
     "get":
       "operationId": "listSkills"
@@ -8462,6 +8885,34 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "市场的单个关卡（含完整 level.spec，供编辑/重新开始）"
+  "/api/v1/mastery/board":
+    "get":
+      "description": "只读端点。按叶节点逐条回放作答证据（不读 `app.mastery` 的快照列，那列会衰减），再按三个维度分组计数：全库五态、`course_layers` 的 8 层、`sources` 里 27 本书。
+
+
+        **同一个响应里的所有数字共享 `evaluatedAt`**（UTC 日界）。三个维度分别请求会让「知识点说已掌握 7、八层加起来是 6」这类矛盾出现在同一屏上。
+
+
+        分母都随分子返回：`knowledgePoints.total`、`layers[].total`、`books[].total`。
+
+        八层分母之和可能小于全库叶节点数——差额见 `unlayeredLeafCount`，那不是算错了。"
+      "operationId": "getProgressBoard"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ProgressBoard"
+          "description": "三级进度"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "内部错误"
+      "summary": "个人看板：知识点 / 学科 / 课本三级进度"
+      "tags":
+        - "mastery"
   "/api/v1/mastery/{microKpId}":
     "get":
       "description": "证据不足（<3 个变式或 <8 次作答）时 `achieved` 与 `current` 都是 null，调用方应显示「证据不足」而不是 0% —— 「不知道」和「零分」是两件事。"
@@ -8854,6 +9305,51 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "服务内部错误"
       "summary": "定级结果（档位、置信度与逐题复核）"
+  "/api/v1/profile":
+    "get":
+      "operationId": "getProfile"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ProfileResponse"
+          "description": "当前画像"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "读取学习者画像（没填过的字段是 null）"
+    "patch":
+      "operationId": "updateProfile"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/LearnerProfilePatch"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ProfileResponse"
+          "description": "更新后的画像"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求体不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "按字段更新画像（只提交要改的那一个字段）"
   "/api/v1/recommendations":
     "get":
       "description": "推荐由 `@starmap/engine` 的纯函数 `recommend()` 算出，与 `GET /api/v1/graph` 在同一个请求里用同一时刻调用同一个函数，所以两处的 `recommendedIds` 必然一致。理由以结构化事实返回（不是拼好的中文句子），由前端渲染成可点、可加粗的表述。"

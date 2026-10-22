@@ -66,7 +66,7 @@ const selectedTabLabel = (): string | null => {
   expect(selected).toHaveLength(1);
   // 用 `getByRole` 反查可访问名：它吃的就是 aria-selected 为 true 的那个元素。
   const el = selected[0] as HTMLElement;
-  for (const name of ['学习', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库']) {
+  for (const name of ['学习记录', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库']) {
     if (screen.queryByRole('tab', { name, selected: true }) === el) return name;
   }
   throw new Error(`选中的标签可访问名不在预期列表里：${el.outerHTML.slice(0, 120)}`);
@@ -78,9 +78,10 @@ describe('AppShell 顶栏选中态', () => {
     // 顺序 + 可访问名一次断言。`getAllByRole` 返回的是文档顺序，正是标签的
     // 视觉顺序；用可访问名而不是 textContent，理由见文件头。
     //
-    // 「学习」排第一不是排版偏好：`/` 是智能体主页，最常用的入口必须最左。
-    // 票 01 时这里第一项是「看板」（知识点陈列），票 08 之后 `/` 换成
-    // 结构化回合页，看板退到 `/board`。
+    // 第一项是「学习记录」（票 76）：它现在是 `/learning`，不再是 `/`。
+    // 榜首从「学习」改成「学习记录」的理由：首页（`/`）是「现在要学什么」
+    // 的现场，而「我上次学到哪」是每次回来第一件想知道的事 —— 后者是一份
+    // 可回看的清单，前者是一次正在进行的对话。清单更适合当第一入口。
     //
     // 「定级」紧跟「学习」而不放最后：定级是**入学时要走一次**的入口，
     // 放在一排功能页的最右边等于把它当成又一个查询工具，而它其实是
@@ -89,7 +90,7 @@ describe('AppShell 顶栏选中态', () => {
     // 「复验」跟在「定级」之后：两者都是「系统叫你去做一件事」的入口，
     // 不是查询工具。复验的依据是到期了（`next_review_at <= now`），
     // 而不是学生自己想看什么。
-    const names = ['学习', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库'];
+    const names = ['学习记录', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库'];
     const tabs = screen.getAllByRole('tab');
     expect(tabs).toHaveLength(names.length);
     for (const name of names) {
@@ -105,7 +106,7 @@ describe('AppShell 顶栏选中态', () => {
   });
 
   it.each([
-    ['/', '学习'],
+    ['/learning', '学习记录'],
     ['/placement', '定级'],
     ['/review', '复验'],
     ['/board', '看板'],
@@ -119,13 +120,23 @@ describe('AppShell 顶栏选中态', () => {
   });
 
   it.each([
+    ['/'],
+    ['/level/lv-bool-laws'],
+    ['/welcome'],
+    ['/me'],
+  ])('路径 %s 不属于任何导航入口，一个都不高亮', (path) => {
+    renderAt(path);
+    expect(selectedTabLabel()).toBeNull();
+  });
+
+  it.each([
     ['/map/kp-bool', '知识地图'],
     ['/map/kp-bool/extra', '知识地图'],
-    // `/placement/...` 这类子路径也归到「定级」，而不是掉回默认的「学习」。
+    // `/placement/...` 这类子路径也归到「定级」，而不是掉回默认的「学习记录」。
     ['/placement/result', '定级'],
     ['/review/rounds/r-1', '复验'],
-    // 关卡内页不属于任何顶栏标签，按「回到最常用的那个」处理。
-    ['/level/lv-bool-laws', '学习'],
+    // 关卡内页不属于任何顶栏标签：不猜，宁可一个都不高亮。
+    ['/level/lv-bool-laws', null],
   ])('子路径 %s 时选中的是「%s」', (path, expected) => {
     renderAt(path);
     expect(selectedTabLabel()).toBe(expected);
@@ -139,7 +150,7 @@ describe('AppShell 顶栏选中态', () => {
     expect(selectedTabLabel()).toBe('关卡市场');
   });
 
-  it('任何路径都恰好有一个标签被选中（不会出现零个或多个）', () => {
+  it('任何路径至多有一个标签被选中（不会同时高亮两个）', () => {
     // 反向验证过：把 `/market` 分支删掉，这条**仍然是绿的** —— 因为
     // `/market` 会落到默认 `'/'`，仍然恰好一个被选中，只是选错了。
     // 「选中了错误的标签」由上面的 `it.each` 抓。这条守的是另一类问题：
@@ -160,7 +171,7 @@ describe('AppShell 顶栏选中态', () => {
       const { unmount } = renderAt(path);
       const tabs = screen.getAllByRole('tab');
       const selected = tabs.filter((t) => t.getAttribute('aria-selected') === 'true');
-      expect(selected, `路径 ${path} 应恰好选中一个标签`).toHaveLength(1);
+      expect(selected.length, `路径 ${path} 最多选中一个标签`).toBeLessThanOrEqual(1);
       unmount();
     }
   });
@@ -168,11 +179,12 @@ describe('AppShell 顶栏选中态', () => {
   it('内容区渲染子路由，且侧栏不随路径消失', () => {
     renderAt('/market');
     expect(screen.getByText('市场内容')).toBeInTheDocument();
-    /* 改成侧栏之后品牌不再在 `banner` 里：宽屏没有顶栏（窄屏那条 48px 窄条
-       是 `display:none`，从无障碍树里被移除）。所以断言落在**主导航地标**
-       里 —— 那才是「外壳的固定部分」现在所在的位置。 */
+    /* 三列外壳（票 76）之后品牌从侧栏里搬到了第二列：62px 的图标轨道上只
+       留一个圆标，名字与副标题住在 `.sm-nav-panel`。所以断言落在地标与
+       「品牌文字仍在外壳里」两件事上，而不是「aside 里有什么」。 */
     const nav = screen.getByRole('navigation', { name: '主导航' });
-    expect(within(nav.closest('aside') as HTMLElement).getByText('StarMap')).toBeInTheDocument();
+    expect(nav).toBeInTheDocument();
+    expect(screen.getAllByText('StarMap').length).toBeGreaterThan(0);
   });
 });
 
@@ -223,7 +235,7 @@ describe('AppShell 侧栏与抽屉', () => {
     expect(tabs).toHaveLength(8);
     // 全部入口必须在导航地标内，不能散落在页面其它地方 —— 否则屏幕阅读器
     // 的「跳到导航」会漏掉一部分。
-    for (const name of ['学习', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库']) {
+    for (const name of ['学习记录', '定级', '复验', '看板', '知识地图', '关卡市场', '数据库', '技能库']) {
       expect(within(nav).getByRole('tab', { name })).toBeInTheDocument();
     }
   });
@@ -283,7 +295,7 @@ describe('AppShell 侧栏与抽屉', () => {
 
 describe('selectedNavValue：路径 → 入口', () => {
   it.each([
-    ['/', '/'],
+    ['/learning', '/learning'],
     ['/board', '/board'],
     ['/market', '/market'],
     ['/market/generate', '/market'],
@@ -291,10 +303,11 @@ describe('selectedNavValue：路径 → 入口', () => {
     ['/map/kp-bool', '/map'],
     ['/placement/result', '/placement'],
     ['/review/rounds/r-1', '/review'],
-    // 关卡内页不属于任何入口，落回「学习」。
-    ['/level/lv-bool-laws', '/'],
+    // 关卡内页不属于任何入口：返回 null，不落回第一项。
+    ['/level/lv-bool-laws', null],
     // 前缀相同但不是同一段路径：不能因为 `/maple` 以 `/map` 开头就算地图。
-    ['/maple', '/'],
+    ['/maple', null],
+    ['/', null],
   ])('%s → %s', (pathname, expected) => {
     expect(selectedNavValue(pathname)).toBe(expected);
   });

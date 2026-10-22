@@ -4,15 +4,18 @@ import { z } from 'zod';
 import {
   AgentArtifactKindSchema,
   AgentTurnHistoryResponseSchema,
+  AgentSessionListResponseSchema,
   AgentTurnResponseSchema,
   AgentTurnEvidenceResponseSchema,
   type AgentArtifact,
   type AgentArtifactKind,
   type AgentCardAction,
+  type AgentClarify,
   type AgentErrorCard,
   type AgentLanguageCheck,
   type AgentTurnEvidenceResponse,
   type AgentTurnHistoryResponse,
+  type AgentSessionListResponse,
   type AgentTurnRequest,
   type AgentTurnResponse,
   type LearnerTier,
@@ -98,6 +101,207 @@ const REPAIR_INSTRUCTION = [
   '上一次的输出不是可用的 JSON。请重新输出，只输出一个 JSON 对象，不要任何解释、不要代码围栏。',
   '必须包含字段：visibleResponse（简体中文，一句话）、cardKind（level_card / graph_focus / progress_change / probe_form 之一）、rationale（中文，一句话说明为什么给这张卡）。',
 ].join('\n');
+
+/* ────────────────────────────────────────────────────────────────────────
+ * 票 79「问津」：出关卡之前先确认学习意图
+ *
+ * ## 为什么判定要写成纯函数
+ *
+ * 「什么时候该先问一句」是这个功能里唯一真正会出错的判断：问早了像盘问，
+ * 问晚了就又变成「听你说个名词就出关」。把它写成不依赖数据库、不依赖模型的
+ * 函数，才能用表驱动测试把边界钉住（见 `ask-the-way.test.ts`）。
+ *
+ * ## 三条判定规则（与 SKILL.md 正文一致，改一处必须改另一处）
+ *
+ * 1. 话里已经有**目标词**（考试 / 论文 / 作业 / 补基础 …）→ 不问，直接出关；
+ * 2. 学生说「别问了 / 直接开始」→ 尊重，直接出关，意图记 `unspecified`；
+ * 3. 只报了一个宽泛名词（"我想学布尔代数"）→ 问一轮，选项即四个常见目的。
+ *
+ * 已经问过一次（`askTheWay.askedAt` 存在）时，下一句就是答案：解析成意图写回
+ * 会话，不再追问 —— 这就是「1–2 问」里的第二问。
+ * ──────────────────────────────────────────────────────────────────────── */
+
+export const ASK_THE_WAY_QUESTION = '这一轮，你更想为了什么？';
+
+export const ASK_THE_WAY_WHY =
+  '先问一句，免得我按错的深度出题——选完我立刻给关卡。';
+
+export const ASK_THE_WAY_OPTIONS = [
+  '为了解题',
+  '为了看懂论文或教材',
+  '为了补基础',
+  '为了考试',
+] as const;
+
+/** 落库的目标枚举。`unspecified` 是「学生明确说别问了」，不是「没问」。 */
+export type IntentGoal =
+  | 'solve_problem'
+  | 'read_paper'
+  | 'foundation'
+  | 'exam'
+  | 'unspecified';
+
+export interface IntentRecord {
+  goal: IntentGoal;
+  /** 想先做题（true）/ 先看讲解（false）/ 没说（null） */
+  preferPractice: boolean | null;
+  resolvedAt: string;
+}
+
+export type IntentStep =
+  | { kind: 'none' }
+  | { kind: 'ask' }
+  | {
+      kind: 'resolve';
+      goal: IntentGoal;
+      preferPractice: boolean | null;
+      /** 为什么这轮不问 —— 只用于日志，不进响应 */
+      via: 'goal_word' | 'skip' | 'clarify_answer';
+    };
+
+const GOAL_PATTERNS: ReadonlyArray<{ goal: IntentGoal; pattern: RegExp }> = [
+  { goal: 'exam', pattern: /考试|期末|期中|考研|测验|考数电|大考|补考/ },
+  { goal: 'solve_problem', pattern: /解题|做题|作业|习题|算一|算题|这道题|刷题/ },
+  { goal: 'read_paper', pattern: /论文|文献|教材|看懂|读懂|读论文/ },
+  { goal: 'foundation', pattern: /补基础|打基础|基础差|从头学|补一补|基础不牢/ },
+];
+
+/** 「别问了，直接开始」的几种说法。刻意宽一点：拒绝被盘问是合理诉求。 */
+const SKIP_PATTERNS: readonly RegExp[] = [
+  /别问了/,
+  /不用问/,
+  /不问了/,
+  /别问/,
+  /直接开始/,
+  /直接出/,
+  /直接给/,
+  /开始吧/,
+  /少废话/,
+  /别啰嗦/,
+];
+
+/** 明确的学习请求：只有这类话才值得先问一轮意图。
+ *
+ * 判据必须比「提到一个名词」更窄，否则每一轮都会先弹追问：一个正在做题的学生
+ * 说「这个电路怎么算」「前置放大器的噪声来源」，都不是在请求「入门」，打断他们
+ * 是纯粹的骚扰。票面要的是「只说宽泛名词 → 先问」，而现实里「宽泛名词」总是
+ * 裹在某种学习请求里（我想学 X / 讲讲 X / 带我了解一下 X）。
+ */
+const LEARN_REQUEST_PATTERN =
+  /想学|想了解|想入门|想搞懂|想弄懂|想掌握|学一下|了解一下|教我|讲讲|介绍一下|带我学/;
+
+const PRACTICE_FIRST = /先做题|先做点题|先练|直接做题|给我题/;
+const EXPLAIN_FIRST = /先讲|先看讲解|先看解释|讲一讲|先解释|先看视频/;
+
+/** 「为了什么」：命中目标词就返回意图，否则 null（= 需要问）。 */
+export function classifyIntentGoal(utterance: string): IntentGoal | null {
+  const text = utterance.trim();
+  for (const rule of GOAL_PATTERNS) {
+    if (rule.pattern.test(text)) return rule.goal;
+  }
+  return null;
+}
+
+/** 学生是否明确表示「别问了」。 */
+export function saysSkipClarify(utterance: string): boolean {
+  const text = utterance.trim();
+  return SKIP_PATTERNS.some((pattern) => pattern.test(text));
+}
+
+/** 「先做题还是先看讲解」：说了就返回，没说返回 null。 */
+export function classifyPracticePreference(utterance: string): boolean | null {
+  const text = utterance.trim();
+  if (PRACTICE_FIRST.test(text)) return true;
+  if (EXPLAIN_FIRST.test(text)) return false;
+  return null;
+}
+
+/** 从 `sessions.meta` 里取出已确立的意图（形状不对就当没有）。 */
+export function readIntent(meta: Record<string, unknown>): IntentRecord | null {
+  const raw = meta.intent;
+  if (!raw || typeof raw !== 'object') return null;
+  const record = raw as Partial<IntentRecord>;
+  const goal = record.goal;
+  if (
+    goal !== 'solve_problem' &&
+    goal !== 'read_paper' &&
+    goal !== 'foundation' &&
+    goal !== 'exam' &&
+    goal !== 'unspecified'
+  ) {
+    return null;
+  }
+  return {
+    goal,
+    preferPractice: typeof record.preferPractice === 'boolean' ? record.preferPractice : null,
+    resolvedAt: typeof record.resolvedAt === 'string' ? record.resolvedAt : '',
+  };
+}
+
+/** 已经问过一次没有（`askTheWay.askedAt`）。 */
+export function hasAskedTheWay(meta: Record<string, unknown>): boolean {
+  const raw = meta.askTheWay;
+  return !!raw && typeof raw === 'object' && typeof (raw as { askedAt?: unknown }).askedAt === 'string';
+}
+
+/**
+ * 这一轮该怎么处理意图：不问 / 问一句 / 直接定下来。
+ *
+ * 纯函数：入参只有话、焦点与两个会话标记，没有 IO、没有时钟（`resolvedAt`
+ * 由调用方写）。顺序本身就是规则：
+ *
+ * 1. 意图已定 → 不问（也不覆盖：学生的第一句话就是他的目标，后面聊技术细节
+ *    不该把目标改写掉）；
+ * 2. 「别问了」→ 定成 `unspecified` 放行 —— 尊重学生比补全一条画像重要；
+ * 3. 问过一次 → 这句就是答案，解析后放行（第二问结束）；
+ * 4. 目标词命中 → 放行；
+ * 5. 没有焦点 → 不问（连「为谁问」都不知道，问了像空转）；
+ * 6. 其余 → 问一句。
+ */
+export function resolveIntentStep(input: {
+  utterance: string;
+  microKpId: string | null;
+  intent: IntentRecord | null;
+  askedBefore: boolean;
+}): IntentStep {
+  const { utterance, microKpId, intent, askedBefore } = input;
+  if (intent) return { kind: 'none' };
+
+  if (saysSkipClarify(utterance)) {
+    return {
+      kind: 'resolve',
+      goal: classifyIntentGoal(utterance) ?? 'unspecified',
+      preferPractice: classifyPracticePreference(utterance),
+      via: 'skip',
+    };
+  }
+
+  if (askedBefore) {
+    return {
+      kind: 'resolve',
+      goal: classifyIntentGoal(utterance) ?? 'unspecified',
+      preferPractice: classifyPracticePreference(utterance),
+      via: 'clarify_answer',
+    };
+  }
+
+  const goal = classifyIntentGoal(utterance);
+  if (goal) {
+    return {
+      kind: 'resolve',
+      goal,
+      preferPractice: classifyPracticePreference(utterance),
+      via: 'goal_word',
+    };
+  }
+
+  if (!microKpId) return { kind: 'none' };
+
+  // 不是「我想学……」这类请求，就别打断原有流程。
+  if (!LEARN_REQUEST_PATTERN.test(utterance)) return { kind: 'none' };
+
+  return { kind: 'ask' };
+}
 
 const MAX_EVIDENCE_ROWS = 8;
 
@@ -476,6 +680,8 @@ export class TurnService {
     kpName: string | null;
     /** 焦点是从推荐里挑的（学习者还没选定）时，给模型一句来源说明 */
     focusNote: string | null;
+    /** 本轮已确立的学习意图；有值时这一轮就该出关卡，不再追问 */
+    intent: IntentRecord | null;
     mastery: { achieved: number; current: number; state: string } | null;
     level: { levelId: string; title: string; itemCount: number } | null;
     evidence: GatedChunk[];
@@ -494,6 +700,29 @@ export class TurnService {
       if (input.focusNote) lines.push(input.focusNote);
     } else {
       lines.push('当前知识点：未选定（服务端也没有可推荐的节点，这一轮只能请学习者先自己选）');
+    }
+    if (input.intent) {
+      const goalLabel: Record<IntentGoal, string> = {
+        solve_problem: '为了解题',
+        read_paper: '为了看懂论文或教材',
+        foundation: '为了补基础',
+        exam: '为了考试',
+        unspecified: '没问出来（学生说别问了）',
+      };
+      const practice =
+        input.intent.preferPractice === true
+          ? '先做题'
+          : input.intent.preferPractice === false
+            ? '先看讲解'
+            : '未说';
+      lines.push(
+        `学习意图：${goalLabel[input.intent.goal]}（${input.intent.goal}）；先讲还是先练：${practice}`,
+      );
+      lines.push(
+        input.intent.goal === 'unspecified'
+          ? '（学生明确说了「别问了」：这一轮直接给 level_card，不要再追问意图，也不要再确认。）'
+          : '（意图已经明确：这一轮直接给 level_card，不要再追问意图。）',
+      );
     }
     if (input.mastery) {
       lines.push(
@@ -572,6 +801,49 @@ export class TurnService {
     );
     const microKpId = focus.microKpId;
     const kpName = focus.name;
+
+    // 票 79：出关卡之前先问清意图。这一步刻意排在检索与模型调用**之前** ——
+    // 还没问清「为了什么」时，任何检索与出题都是在赌，而且白花一次上游调用。
+    const meta = await this.readSessionMeta(request.sessionId);
+    const intentStep = resolveIntentStep({
+      utterance: request.utterance,
+      microKpId,
+      intent: readIntent(meta),
+      askedBefore: hasAskedTheWay(meta),
+    });
+    if (intentStep.kind === 'ask') {
+      const turnId = `at-${randomUUID()}`;
+      const createdAt = await this.db.now();
+      return this.persistAskTheWay({
+        request,
+        turnId,
+        createdAt,
+        microKpId,
+        kpName,
+      });
+    }
+    if (intentStep.kind === 'resolve') {
+      await this.writeSessionMetaKey(request.sessionId, 'intent', {
+        goal: intentStep.goal,
+        preferPractice: intentStep.preferPractice,
+        resolvedAt: await this.db.now(),
+      });
+      this.logger.log(
+        `回合前确立意图：${intentStep.goal}（${intentStep.via}）`,
+      );
+    }
+
+    // 本轮生效的意图（可能刚刚确立，也可能是会话里早就定下的）：交给模型一句话，
+    // 让它知道「这一轮该出关卡了，不要再追问意图」。
+    const activeIntent: IntentRecord | null =
+      intentStep.kind === 'resolve'
+        ? {
+            goal: intentStep.goal,
+            preferPractice: intentStep.preferPractice,
+            resolvedAt: '',
+          }
+        : readIntent(meta);
+
     const mastery = microKpId ? await this.currentMastery(microKpId) : null;
     const level = microKpId ? await this.levelFact(microKpId) : null;
     const history = await this.recentTurns(request.sessionId);
@@ -601,6 +873,7 @@ export class TurnService {
       microKpId,
       kpName,
       focusNote: focus.note,
+      intent: activeIntent,
       mastery,
       level,
       evidence: allowedEvidence,
@@ -697,6 +970,118 @@ export class TurnService {
   }
 
   /** 正常路径：模型给了可用的意图 → 服务端渲染成卡 → 落库。 */
+  /** 读会话 meta（没有就是空对象）。 */
+  private async readSessionMeta(sessionId: string): Promise<Record<string, unknown>> {
+    const rows = await this.db.query<{ meta: Record<string, unknown> | null }>(
+      'SELECT meta FROM sessions WHERE id = $1',
+      [sessionId],
+    );
+    return rows[0]?.meta ?? {};
+  }
+
+  /** 只覆盖一个键，保留 meta 里其它键（掌握度快照等）。 */
+  private async writeSessionMetaKey(
+    sessionId: string,
+    key: string,
+    value: unknown,
+  ): Promise<void> {
+    await this.db.query(
+      `UPDATE sessions
+          SET meta = COALESCE(meta, '{}'::jsonb) || jsonb_build_object($2::text, $3::jsonb)
+        WHERE id = $1`,
+      [sessionId, key, JSON.stringify(value)],
+    );
+  }
+
+  /**
+   * 「问津」回合：不出关卡，先问一句。
+   *
+   * 产物仍然是 `probe_form` —— 票 79 明确要求复用追问卡的渲染，不新造第五种
+   * 卡。真正的区别在响应的 `clarify` 字段与 `meta.askTheWay` 标记：前者让前端
+   * 知道这是一次意图确认，后者让下一轮知道「这句是答案，不是新话题」。
+   */
+  private async persistAskTheWay(input: {
+    request: AgentTurnRequest;
+    turnId: string;
+    createdAt: string;
+    microKpId: string | null;
+    kpName: string | null;
+  }): Promise<AgentTurnResponse> {
+    const { request, turnId, createdAt, microKpId, kpName } = input;
+
+    const clarify: AgentClarify = {
+      question: ASK_THE_WAY_QUESTION,
+      options: [...ASK_THE_WAY_OPTIONS],
+      why: ASK_THE_WAY_WHY,
+    };
+    const languageCheck: AgentLanguageCheck = (() => {
+      const check = checkChinese(clarify.question);
+      return { ok: check.ok, offenders: check.offenders };
+    })();
+
+    const actions = defaultActions('probe_form');
+    const hydrated = hydrateArtifact(
+      {
+        kind: 'probe_form',
+        cardId: turnId,
+        createdAt,
+        probeId: `clarify-${turnId}`,
+        microKpId: microKpId ?? '',
+        question: clarify.question,
+        ladderLevel: 1,
+        ladderCap: 1,
+        inputKind: 'choice',
+        choices: [...ASK_THE_WAY_OPTIONS],
+        actions,
+        rationale: clarify.why,
+        title: kpName ? `问津：${kpName}` : '问津',
+      },
+      { cardId: turnId, createdAt, actions },
+    );
+
+    const ordinal = await this.nextOrdinal(request.sessionId);
+    await this.db.query(
+      `INSERT INTO agent_turns
+         (id, session_id, ordinal, utterance, visible_response, visible_response_kind,
+          artifact_kind, card_title, degraded, retry_count, artifact, language_check, micro_kp_id)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,false,0,$9::jsonb,$10::jsonb,$11)`,
+      [
+        turnId,
+        request.sessionId,
+        ordinal,
+        request.utterance,
+        clarify.question,
+        'probe_question' satisfies VisibleResponseKind,
+        hydrated.kind,
+        hydrated.title || this.titleOf(hydrated),
+        JSON.stringify(hydrated),
+        JSON.stringify(languageCheck),
+        microKpId,
+      ],
+    );
+
+    // 记「问过一次」：下一轮的回答就是意图，不再追问。
+    await this.writeSessionMetaKey(request.sessionId, 'askTheWay', {
+      askedAt: createdAt,
+      microKpId,
+    });
+
+    return AgentTurnResponseSchema.parse({
+      turnId,
+      sessionId: request.sessionId,
+      artifact: hydrated,
+      errorCard: null,
+      degraded: false,
+      retryCount: 0,
+      visibleResponse: clarify.question,
+      visibleResponseKind: 'probe_question',
+      languageCheck,
+      actions,
+      clarify,
+      createdAt,
+    });
+  }
+
   private async persistTurn(input: {
     request: AgentTurnRequest;
     turnId: string;
@@ -1099,6 +1484,70 @@ export class TurnService {
   }
 
   /**
+   * 「学习记录」的会话列表（票 76）。
+   *
+   * ## 为什么是一条 SQL 而不是「先查会话、再逐个查首句」
+   *
+   * 会话列表一屏 50 条，N+1 就是 51 次往返；而首句与聚合都能在同一次扫描里
+   * 算出来。这里用 `DISTINCT ON (session_id) ... ORDER BY session_id, ordinal`
+   * 取每会话 `ordinal` 最小那轮（**不是** `created_at` 最早那轮：重试/回填会让
+   * 两者的顺序不一致，而 `ordinal` 才是「这一轮是第几句」的权威），外层再
+   * JOIN 一张 `count/min/max` 聚合表。
+   *
+   * ## 为什么空库返回 `{sessions: []}`
+   *
+   * 「还没有任何会话」是一个合法状态，不是错误。404 会让前端把它渲染成失败，
+   * 学生会以为是自己网络坏了。
+   */
+  async sessions(limit = 50): Promise<AgentSessionListResponse> {
+    const rows = await this.db.query<{
+      session_id: string;
+      started_at: Date | string | null;
+      ended_at: Date | string | null;
+      turn_count: number;
+      first_utterance: string;
+      last_activity_at: Date | string;
+    }>(
+      `SELECT first_turn.session_id,
+              sessions.started_at,
+              sessions.ended_at,
+              totals.turn_count,
+              first_turn.utterance AS first_utterance,
+              totals.last_activity_at
+         FROM (
+                SELECT DISTINCT ON (session_id) session_id, utterance, created_at
+                  FROM agent_turns
+                 ORDER BY session_id, ordinal ASC
+              ) AS first_turn
+         JOIN (
+                SELECT session_id,
+                       count(*)::int AS turn_count,
+                       min(created_at) AS first_activity_at,
+                       max(created_at) AS last_activity_at
+                  FROM agent_turns
+                 GROUP BY session_id
+              ) AS totals ON totals.session_id = first_turn.session_id
+         LEFT JOIN sessions ON sessions.id = first_turn.session_id
+        ORDER BY totals.last_activity_at DESC, first_turn.session_id DESC
+        LIMIT $1`,
+      [limit],
+    );
+
+    return AgentSessionListResponseSchema.parse({
+      sessions: rows.map((row) => ({
+        sessionId: row.session_id,
+        // `sessions.started_at` 有默认值，但历史行可能被人工清过；回落到首轮时间
+        // 而不是给一个空字符串 —— 空字符串会让前端 `new Date('')` 得到 Invalid Date。
+        startedAt: isoTimestamp(row.started_at ?? row.last_activity_at),
+        endedAt: row.ended_at === null ? null : isoTimestamp(row.ended_at),
+        turnCount: row.turn_count,
+        firstUtterance: summarizeUtterance(row.first_utterance),
+        lastActivityAt: isoTimestamp(row.last_activity_at),
+      })),
+    });
+  }
+
+  /**
    * 单轮回看（票 08 的「可回看」）。
    *
    * 日志只记「第几轮、说了什么、出过哪种卡、标题是什么」；点开某一行要看的是
@@ -1238,6 +1687,22 @@ export class TurnService {
  */
 function isoTimestamp(value: Date | string): string {
   return value instanceof Date ? value.toISOString() : value;
+}
+
+/**
+ * 首句摘要：最多 60 个字符，超出补 `…`。
+ *
+ * 用 `Array.from` 而不是 `slice`：`slice(0, 60)` 数的是 UTF-16 码元，一个 emoji
+ * 占两个，会把代理对劈成半个字符（页面上显示成 `�`）。按码点计数才对得上
+ * 「60 个字符」这句话。
+ */
+export const SUMMARY_MAX_CHARS = 60;
+
+export function summarizeUtterance(utterance: string): string {
+  const compact = utterance.replace(/\s+/g, ' ').trim();
+  const chars = Array.from(compact);
+  if (chars.length <= SUMMARY_MAX_CHARS) return compact;
+  return `${chars.slice(0, SUMMARY_MAX_CHARS).join('')}…`;
 }
 
 function tryParse(text: string): unknown {

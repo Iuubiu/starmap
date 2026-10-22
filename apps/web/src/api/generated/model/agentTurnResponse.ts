@@ -7,6 +7,7 @@
  */
 import type { AgentTurnResponseActionsItem } from './agentTurnResponseActionsItem.js';
 import type { AgentTurnResponseArtifact } from './agentTurnResponseArtifact.js';
+import type { AgentTurnResponseClarify } from './agentTurnResponseClarify.js';
 import type { AgentTurnResponseErrorCard } from './agentTurnResponseErrorCard.js';
 import type { AgentTurnResponseLanguageCheck } from './agentTurnResponseLanguageCheck.js';
 import type { AgentTurnResponseVisibleResponseKind } from './agentTurnResponseVisibleResponseKind.js';
@@ -14,6 +15,7 @@ import type { AgentTurnResponseVisibleResponseKind } from './agentTurnResponseVi
 export interface AgentTurnResponse {
   actions: AgentTurnResponseActionsItem[];
   artifact: AgentTurnResponseArtifact;
+  clarify?: AgentTurnResponseClarify;
   createdAt: string;
   degraded: boolean;
   errorCard: AgentTurnResponseErrorCard;

@@ -1,0 +1,877 @@
+/*
+ * 液态玻璃视觉层（glassmorphism + liquid flow）。
+ *
+ * ## 这一层负责什么
+ *
+ * 三件事，全部是纯视觉，不含任何业务逻辑：
+ *   1. 背景：5 个大的彩色光团在缓慢漂移 / 缩放 / 形变（40–90s，非线性），
+ *      叠在画布底色上，靠 `filter: blur()` 融成液体混合感。
+ *   2. 一张全屏毛玻璃「膜」（`.sm-liquid-sheet`）：它同时盖住背景与导航，
+ *      所以导航与背景是**同一张玻璃**，中间没有接缝、没有第二条边框。
+ *   3. 玻璃表面原语（`.sm-glass`）：半透明填充 + `backdrop-filter` + 左上
+ *      渐弱的白色内阴影（折射感）+ 底部「液态沉积」暗边（厚度感）+
+ *      **不均匀的**渐变描边（`mask` + `padding` 技法，不是 1px 白线）。
+ *
+ * ## 为什么是手写 CSS 而不是 Griffel
+ *
+ * 这里用到 `mask-composite`、`backdrop-filter`、多段 `keyframes` 与非对称
+ * `border-radius`。Griffel 的 `makeStyles` 能表达其中大部分，但每一项都要
+ * 写成对象字面量、且 `mask`/`mask-composite` 需要 `-webkit-` 双写，可读性
+ * 会掉到「看不懂在画什么」的程度。视觉层用 CSS 写、组件只挂类名，改视觉时
+ * 不用碰 TSX —— 这也是本仓 `tokens.css` 已有的分工。
+ *
+ * ## 颜色仍然来自 token
+ *
+ * 玻璃的填充色、光团色、描边高光都声明在 `:root[data-sm-theme='dark'|'light']`
+ * 两个块里，语义键一一对应；组件里**不出现** `isDark ? A : B`。
+ *
+ * ## 降级（三档，逐档更省）
+ *
+ *   - `prefers-reduced-motion: reduce` → 光团停止漂移，保留静态渐变。
+ *   - `:root[data-sm-lowfx='true']`（运行时掉帧探针判定）→ 同上，且关掉
+ *     膜的高斯模糊，只留半透明填充。
+ *   - 浏览器不支持 `backdrop-filter` → `@supports not` 分支把玻璃换成
+ *     不透明的等效填充，文字对比度不受影响。
+ */
+
+:root {
+  /* ---- 形状：连续变化的柔和轮廓，不是固定圆角矩形 ---- */
+  --sm-liquid-r-card: 28px 24px 30px 26px;
+  --sm-liquid-r-panel: 34px 30px 36px 32px;
+  --sm-liquid-r-inset: 20px 22px 18px 24px;
+  --sm-liquid-r-pill: 999px;
+
+  /* ---- 玻璃物理参数 ---- */
+  --sm-liquid-blur: 34px;
+  --sm-liquid-sat: 180%;
+  /* 左上渐弱的白色内阴影 = 边缘折射感。这是「玻璃」与「半透明色块」的分界。 */
+  --sm-liquid-hi: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  /* 底部「液态沉积」暗边 = 厚度感。少了它，卡片像贴纸。 */
+  --sm-liquid-deposit: inset 0 -20px 34px -26px rgba(0, 0, 0, 0.55);
+
+  /* ---- 动效：弹簧感缓动（有轻微过冲），全站唯一 ---- */
+  --sm-glass-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --sm-glass-dur: 340ms;
+  --sm-glass-dur-fast: 180ms;
+
+  /* ---- 导航四形态的宽度 ---- */
+  /* 票 76：外壳三列。图标轨 56px + 导航列 216px 都是定宽，内容列吃掉剩余。
+     定宽是为了让「正文左右间隙相等」成为结构事实，而不是居中算式的结果。 */
+  --sm-rail-icons: 56px;
+  --sm-rail-labels: 216px;
+}
+
+/* ============================ 深色（默认） ============================ */
+:root[data-sm-theme='dark'] {
+  --sm-glass-fill: rgba(20, 22, 28, 0.55);
+  --sm-glass-fill-strong: rgba(16, 18, 24, 0.72);
+  --sm-glass-fill-soft: rgba(30, 32, 40, 0.38);
+  /* 不支持 backdrop-filter 时的等效不透明填充 */
+  --sm-glass-solid: rgba(20, 22, 28, 0.96);
+  --sm-sheet-a: rgba(18, 20, 26, 0.34);
+  --sm-sheet-b: rgba(10, 11, 16, 0.52);
+  --sm-glass-stroke-a: rgba(255, 255, 255, 0.34);
+  --sm-glass-stroke-b: rgba(255, 255, 255, 0.05);
+  --sm-liquid-shadow: 0 28px 64px -34px rgba(0, 0, 0, 0.86);
+  --sm-flyout-fill: rgba(22, 24, 31, 0.72);
+
+  /* 光团：紫 / 青 / 珊瑚（唯一强调色）/ 薄荷 / 淡紫 */
+  --sm-blob-1: rgba(126, 110, 255, 0.5);
+  --sm-blob-2: rgba(56, 189, 248, 0.4);
+  --sm-blob-3: rgba(255, 107, 107, 0.42);
+  --sm-blob-4: rgba(72, 233, 196, 0.26);
+  --sm-blob-5: rgba(196, 132, 252, 0.34);
+  --sm-blob-opacity: 0.9;
+}
+
+/* ============================ 明亮 ============================ */
+:root[data-sm-theme='light'] {
+  --sm-glass-fill: rgba(255, 255, 255, 0.55);
+  --sm-glass-fill-strong: rgba(255, 255, 255, 0.74);
+  --sm-glass-fill-soft: rgba(255, 255, 255, 0.38);
+  --sm-glass-solid: rgba(252, 252, 254, 0.97);
+  --sm-sheet-a: rgba(255, 255, 255, 0.42);
+  --sm-sheet-b: rgba(244, 246, 252, 0.3);
+  --sm-glass-stroke-a: rgba(255, 255, 255, 0.92);
+  --sm-glass-stroke-b: rgba(120, 130, 160, 0.14);
+  --sm-liquid-shadow: 0 26px 56px -32px rgba(52, 62, 92, 0.36);
+  --sm-flyout-fill: rgba(255, 255, 255, 0.8);
+
+  --sm-blob-1: rgba(150, 138, 255, 0.42);
+  --sm-blob-2: rgba(88, 198, 255, 0.36);
+  --sm-blob-3: rgba(255, 130, 130, 0.34);
+  --sm-blob-4: rgba(96, 232, 200, 0.3);
+  --sm-blob-5: rgba(206, 152, 255, 0.32);
+  --sm-blob-opacity: 0.95;
+}
+
+/* ============================ 1. 流动的背景 ============================ */
+
+.sm-liquid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--sm-bg-canvas);
+  contain: strict;
+}
+
+.sm-blob {
+  position: absolute;
+  width: 62vmax;
+  height: 62vmax;
+  opacity: var(--sm-blob-opacity);
+  /* 半径每帧在 keyframes 里变化 —— 圆会「呼吸」成不规则软体，这是液态感的
+     主要来源，比单纯的位移更像液体。 */
+  border-radius: 58% 42% 51% 49% / 47% 55% 45% 53%;
+  filter: blur(96px);
+  will-change: transform, border-radius;
+  animation: sm-liquid-drift-a 62s var(--sm-glass-ease) infinite alternate;
+}
+
+.sm-blob:nth-child(1) {
+  top: -22vmax;
+  left: -14vmax;
+  background: radial-gradient(circle at 34% 36%, var(--sm-blob-1), transparent 68%);
+}
+.sm-blob:nth-child(2) {
+  top: -10vmax;
+  right: -18vmax;
+  background: radial-gradient(circle at 62% 40%, var(--sm-blob-2), transparent 66%);
+  animation-name: sm-liquid-drift-b;
+  animation-duration: 74s;
+  animation-delay: -18s;
+}
+.sm-blob:nth-child(3) {
+  bottom: -26vmax;
+  left: 6vmax;
+  background: radial-gradient(circle at 48% 58%, var(--sm-blob-3), transparent 70%);
+  animation-name: sm-liquid-drift-c;
+  animation-duration: 88s;
+  animation-delay: -34s;
+}
+.sm-blob:nth-child(4) {
+  bottom: -30vmax;
+  right: -8vmax;
+  background: radial-gradient(circle at 56% 44%, var(--sm-blob-4), transparent 68%);
+  animation-name: sm-liquid-drift-d;
+  animation-duration: 46s;
+  animation-delay: -9s;
+}
+.sm-blob:nth-child(5) {
+  top: 22vmax;
+  left: 30vmax;
+  width: 48vmax;
+  height: 48vmax;
+  background: radial-gradient(circle at 50% 50%, var(--sm-blob-5), transparent 72%);
+  animation-name: sm-liquid-drift-e;
+  animation-duration: 70s;
+  animation-delay: -42s;
+}
+
+@keyframes sm-liquid-drift-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    border-radius: 58% 42% 51% 49% / 47% 55% 45% 53%;
+  }
+  50% {
+    transform: translate3d(6vmax, 4vmax, 0) scale(1.14);
+    border-radius: 44% 56% 39% 61% / 58% 42% 58% 42%;
+  }
+  100% {
+    transform: translate3d(-3vmax, 9vmax, 0) scale(0.94);
+    border-radius: 62% 38% 57% 43% / 41% 61% 39% 59%;
+  }
+}
+
+@keyframes sm-liquid-drift-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.06);
+    border-radius: 51% 49% 44% 56% / 56% 44% 60% 40%;
+  }
+  50% {
+    transform: translate3d(-7vmax, 6vmax, 0) scale(0.9);
+    border-radius: 63% 37% 52% 48% / 45% 57% 43% 55%;
+  }
+  100% {
+    transform: translate3d(-2vmax, 11vmax, 0) scale(1.18);
+    border-radius: 40% 60% 61% 39% / 52% 48% 56% 44%;
+  }
+}
+
+@keyframes sm-liquid-drift-c {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.96);
+    border-radius: 47% 53% 58% 42% / 52% 48% 54% 46%;
+  }
+  50% {
+    transform: translate3d(8vmax, -5vmax, 0) scale(1.16);
+    border-radius: 61% 39% 42% 58% / 44% 56% 47% 53%;
+  }
+  100% {
+    transform: translate3d(2vmax, -10vmax, 0) scale(1);
+    border-radius: 39% 61% 55% 45% / 59% 41% 51% 49%;
+  }
+}
+
+@keyframes sm-liquid-drift-d {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.1);
+    border-radius: 55% 45% 49% 51% / 43% 57% 48% 52%;
+  }
+  50% {
+    transform: translate3d(-6vmax, -7vmax, 0) scale(0.92);
+    border-radius: 42% 58% 63% 37% / 57% 43% 55% 45%;
+  }
+  100% {
+    transform: translate3d(-11vmax, -2vmax, 0) scale(1.12);
+    border-radius: 60% 40% 45% 55% / 48% 52% 41% 59%;
+  }
+}
+
+@keyframes sm-liquid-drift-e {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.88);
+    border-radius: 50% 50% 46% 54% / 54% 46% 55% 45%;
+  }
+  50% {
+    transform: translate3d(5vmax, -6vmax, 0) scale(1.1);
+    border-radius: 64% 36% 54% 46% / 42% 58% 44% 56%;
+  }
+  100% {
+    transform: translate3d(-4vmax, 5vmax, 0) scale(0.95);
+    border-radius: 45% 55% 38% 62% / 60% 40% 57% 43%;
+  }
+}
+
+/* ==================== 2. 全屏毛玻璃膜（背景与导航同一张） ==================== */
+
+.sm-liquid-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: linear-gradient(158deg, var(--sm-sheet-a), var(--sm-sheet-b));
+  -webkit-backdrop-filter: blur(26px) saturate(168%);
+  backdrop-filter: blur(26px) saturate(168%);
+}
+
+/* ============================ 3. 玻璃表面原语 ============================ */
+
+.sm-glass {
+  position: relative;
+  background-color: var(--sm-glass-fill);
+  -webkit-backdrop-filter: blur(var(--sm-liquid-blur)) saturate(var(--sm-liquid-sat));
+  backdrop-filter: blur(var(--sm-liquid-blur)) saturate(var(--sm-liquid-sat));
+  border-radius: var(--sm-liquid-r-panel);
+  box-shadow: var(--sm-liquid-hi), var(--sm-liquid-deposit), var(--sm-liquid-shadow);
+}
+
+/*
+ * 不均匀的渐变描边。
+ *
+ * `padding: 1px` + 两层 mask 求差 = 只保留 1px 边框环；渐变沿对角线从
+ * 「左上强 → 中段几乎消失 → 右下回光」，因此四条边的亮度不一样 —— 这正是
+ * 玻璃边缘的观感。均匀 1px 白线是禁止项（那是 Fluent 的 neutralStroke）。
+ */
+.sm-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    148deg,
+    var(--sm-glass-stroke-a) 0%,
+    var(--sm-glass-stroke-b) 34%,
+    rgba(255, 255, 255, 0.02) 58%,
+    var(--sm-glass-stroke-a) 88%,
+    var(--sm-glass-stroke-b) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.sm-glass--card {
+  border-radius: var(--sm-liquid-r-card);
+  background-color: var(--sm-glass-fill-soft);
+}
+
+.sm-glass--inset {
+  border-radius: var(--sm-liquid-r-inset);
+  background-color: var(--sm-glass-fill-soft);
+  box-shadow: var(--sm-liquid-hi);
+}
+
+/* ============================ 4. 外壳与导航 ============================ */
+
+.sm-shell {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.sm-shell-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: var(--sm-rail-icons) var(--sm-rail-labels) minmax(0, 1fr);
+  /* 行高必须是 `minmax(0, 1fr)` 而不是 auto：auto 行会被内容顶高，
+     于是 `main` 长成内容那么高、整页出滚动条，而外壳的验收要求是
+     「内容区底边恒等于视口高，滚动只发生在 main 里」。
+     `.scratch/qa/scenarios/zz-shell-fit.spec.ts` 逐页量这一条。 */
+  grid-template-rows: minmax(0, 1fr);
+  height: 100vh;
+  height: 100dvh;
+  transition: grid-template-columns var(--sm-glass-dur) var(--sm-glass-ease);
+}
+
+/* 导航与背景是同一张玻璃：这里**没有**自己的背景色、没有右侧描边。 */
+.sm-rail {
+  grid-column: 1;
+  grid-row: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 10px 12px;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sm-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 2px;
+  min-height: 40px;
+}
+
+.sm-brand-mark {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 46% 54% 52% 48% / 54% 46% 54% 46%;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  background: linear-gradient(150deg, var(--sm-accent) 0%, var(--sm-accent-fill) 100%);
+  box-shadow: 0 10px 24px -12px var(--sm-accent), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.sm-brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sm-brand-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--sm-text-primary);
+}
+
+.sm-brand-caption {
+  font-size: 11px;
+  line-height: 15px;
+  color: var(--sm-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 图标轨道态：文字整体收起（不占位、不可见），只剩图标。 */
+.sm-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.sm-tablist {
+  width: 100%;
+  align-items: stretch;
+  gap: 2px;
+  background: transparent;
+}
+
+/*
+ * 单个导航项。
+ *
+ * 交互是「形变」而不是位移：悬浮时轻微放大 + 圆角变圆，像水滴被压了一下。
+ * 位移（translateY）属于另一套语言，这里不用。
+ */
+/*
+ * 为什么选择器要写到 `.sm-shell .sm-nav .sm-nav-item`
+ *
+ * Fluent 的 `Tab` 自带一份 Griffel 类（`.fui-Tab` + 一长串原子类），它的
+ * `border-radius: 10px` 与 `.sm-nav-item` 同权重，而 Griffel 的样式在运行时
+ * 注入、排在后面 —— 实测悬浮时圆角纹丝不动（仍是 10px）、`transform` 停在
+ * 单位矩阵。把选择器提到 0,3,0 才压得过它。`!important` 也能赢，但会让
+ * 「为什么这里要 !important」变成一个没人敢删的谜。
+ *
+ * 中间一段是 `.sm-nav` 而不是 `.sm-rail`：窄屏抽屉里的导航项不住在轨道里，
+ * 用 `.sm-rail` 会让抽屉里的项退回 Fluent 的默认样式（实测过）。
+ */
+.sm-shell .sm-nav .sm-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: var(--sm-liquid-r-pill);
+  color: var(--sm-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    transform var(--sm-glass-dur-fast) var(--sm-glass-ease),
+    border-radius var(--sm-glass-dur-fast) var(--sm-glass-ease),
+    background-color var(--sm-glass-dur-fast) ease,
+    color var(--sm-glass-dur-fast) ease;
+}
+
+.sm-shell .sm-nav .sm-nav-item:hover {
+  transform: scale(1.045);
+  border-radius: 22px 18px 24px 20px;
+  background-color: var(--sm-glass-fill-strong);
+  color: var(--sm-text-primary);
+}
+
+.sm-shell .sm-nav .sm-nav-item:active {
+  transform: scale(0.97);
+}
+
+/*
+ * 选中态：玻璃面上的**提亮**（不是纯白胶囊）+ 加粗 + 2px 左竖条。
+ *
+ * 为什么不用 `--sm-glass-fill-strong`：它在深色主题下是一块偏亮的填充，
+ * 整块看起来像「浮起来的白色按钮」，比未选中项重得多。这里改成在玻璃上
+ * 叠 7% 白（亮主题下叠 6% 墨），alpha ≤ 0.12 —— 提亮而不换材质。
+ */
+.sm-shell .sm-nav .sm-nav-item[aria-selected='true'] {
+  color: var(--sm-text-primary);
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.07);
+  box-shadow: var(--sm-liquid-hi);
+}
+
+:root[data-sm-theme='light'] .sm-shell .sm-nav .sm-nav-item[aria-selected='true'] {
+  background-color: rgba(22, 22, 26, 0.06);
+}
+
+.sm-shell .sm-nav .sm-nav-item[aria-selected='true']::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 2px;
+  height: 20px;
+  transform: translateY(-50%);
+  border-radius: var(--sm-liquid-r-pill);
+  background: linear-gradient(180deg, var(--sm-accent), var(--sm-accent-fill));
+  box-shadow: 0 0 12px var(--sm-accent);
+}
+
+.sm-shell .sm-nav .sm-nav-item:focus-visible {
+  outline: 2px solid var(--sm-border-focus);
+  outline-offset: 2px;
+}
+
+/*
+ * Fluent 的 `Tab` 把内容包在 `.fui-Tab__content` 里，它默认是 `display:block`、
+ * 宽度按内容收缩。不接管它的话，「图标 + 文字」在展开态会挤成两行：图标一行、
+ * 文字掉到下一行（实测 260px 宽的侧栏里内容只有 28px 宽）。这里把它变成
+ * 一个撑满的横向 flex，文字才拿得到剩余宽度去做省略。
+ */
+.sm-shell .sm-nav .sm-nav-item > .fui-Tab__content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: auto;
+}
+
+.sm-nav-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+}
+
+.sm-nav-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sm-nav-sub {
+  flex: 0 0 auto;
+  font-size: 10px;
+  color: var(--sm-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * 状态条：内容列的最底部，一条贴在玻璃里的细线。
+ *
+ * 它曾经在导航轨道里，但轨道只有 72px 宽，「数据库 20:02:27」放不下会被
+ * 省略成「数据…」—— 而 `e2e/smoke.spec.ts` 断言的就是这串时间可见（它证明
+ * 后端真的连上了库）。放到内容列底部后宽度由视口决定，窄屏也不会截断。
+ */
+.sm-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 0 10px 6px;
+  min-height: 20px;
+  color: var(--sm-text-tertiary);
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================ 5. 导航列 ============================ */
+
+/*
+ * 第 2 列：216px 的导航列。名称常驻，不再靠悬浮浮层揭示。
+ *
+ * 为什么把「名称」从浮层搬进常驻列：浮层是纯视觉的（`aria-hidden`），
+ * 悬浮才出现意味着**键盘用户与触屏用户看不到入口名称**；而且浮层覆盖在
+ * 内容上，与「左右留白相等」的验收天然打架（浮层宽度不计入列宽）。
+ */
+.sm-nav-panel {
+  grid-column: 2;
+  grid-row: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 10px 12px 0;
+  overflow: hidden;
+}
+
+/* ============================ 6. 内容区 ============================ */
+
+.sm-content {
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  /* 底部不留缝：内容舞台一直铺到视口底边，滚动条只出现在 main 里。
+     这一条被 `.scratch/qa/scenarios/zz-shell-fit.spec.ts` 逐页量过。
+
+     票 76：左右留白必须相等（旧值 2px / 14px 就是 47 vs 65 的一半来源）。 */
+  padding: 12px 16px 0;
+}
+
+.sm-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* 底部两个角随视口出画（半径仍是非对称的），这样「内容铺到视口底边」
+     与「圆角」不打架 —— 用 padding 换圆角会重新露出一条缝。 */
+  border-radius: 34px 30px 0 0;
+  background-color: var(--sm-glass-fill);
+  -webkit-backdrop-filter: blur(var(--sm-liquid-blur)) saturate(var(--sm-liquid-sat));
+  backdrop-filter: blur(var(--sm-liquid-blur)) saturate(var(--sm-liquid-sat));
+  box-shadow: var(--sm-liquid-hi), var(--sm-liquid-deposit), var(--sm-liquid-shadow);
+}
+
+.sm-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    148deg,
+    var(--sm-glass-stroke-a) 0%,
+    var(--sm-glass-stroke-b) 34%,
+    rgba(255, 255, 255, 0.02) 58%,
+    var(--sm-glass-stroke-a) 88%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.sm-main {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  /* 滚动条只吃一侧时，同一页在「能滚」与「不能滚」两态下正文会横跳 15px。
+     `stable both-edges` 让两侧都预留槽位，居中不再取决于有没有滚动条。 */
+  scrollbar-gutter: stable both-edges;
+}
+
+/*
+ * 页面切换：像液体一样淡入 + 轻微上浮 + 模糊收敛。
+ *
+ * `height: 100%` 而不是 `min-height: 100%`：这一层是 `main` 与页面之间的
+ * 包装节点，页面根元素普遍写着 `height: '100%'`（`MapPage` 的 `page`、
+ * `HomePage` 的根列）。百分比高度只能对着**有确定高度**的包含块解析，
+ * 而 `min-height` 不给出确定高度 —— 于是 `height: 100%` 退化成 `auto`，
+ * 地图页的画布按内容撑开成 14624px 高（实测），`mouse.wheel` 全落在
+ * 滚动容器上，sigma 收不到缩放事件（`e2e/graph.spec.ts` 两条相机断言
+ * 因此失败）。写死 100% 后高度链重新接通；内容更高的页面靠 `main` 的
+ * `overflow: auto` 照常滚动（溢出内容仍计入 scrollHeight）。
+ */
+.sm-page-in {
+  height: 100%;
+  /*
+   * 票 76：中间内容区 `1fr min(760px, 100%) 1fr`，页面根元素一律落在第 2 列。
+   * 这样「正文左右间隙相等」不需要任何居中算式：两侧 1fr 天然等宽，滚动条
+   * 的槽位由 `main` 的 `scrollbar-gutter: both-edges` 两侧对称预留。
+   * 行模板写 `minmax(0, 1fr)` 而不是 auto：页面根元素普遍带 `height: 100%`，
+   * 百分比高度必须有确定高度的包含块（否则地图页会撑成内容高度）。
+   */
+  display: grid;
+  /*
+   * 票 76：中间内容区 `1fr min(760px, 100%) 1fr`，页面根元素一律落在第 2 列。
+   * 这里写成 `minmax(0, 760px)` 而不是 `min(760px, 100%)`：百分比在网格里要
+   * 先解析包含块宽度，窄屏 + 滚动条槽位下会解析出「比容器还宽 39px」的结果
+   * （实测 /board 在 375px 下 page 宽 304、`#main.clientWidth` 265，横向溢出）。
+   * `minmax(0, 760px)` 的基准是 0、上限是 760：容器宽 265 时就用 265，容器
+   * 宽 1008 时用 760 并把余量平分给两侧 1fr —— 两种宽度都不需要再算一次。
+   */
+  grid-template-columns: 1fr minmax(0, 760px) 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  animation: sm-liquid-page-in var(--sm-glass-dur) var(--sm-glass-ease) both;
+}
+
+.sm-page-in > * {
+  grid-column: 2;
+  min-width: 0;
+  /*
+   * `max-width: 100%` 不是冗余：页面根元素自己带 `padding: 32px` 且
+   * `box-sizing` 是 content-box 时，它的 min-content = 内容 + 两侧 padding，
+   * 会比轨道宽（375px 下 /board 实测 304 vs 265）。网格项 stretch 只保证
+   * 「不小于轨道」，不保证「不超」；`max-width` 才是那条上界。
+   */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/*
+ * 页面根元素自己常带 `margin: 0 auto`（Fluent 原子类，注入顺序在外壳样式
+ * 之后）。网格项一旦有 auto 外边距就不再 stretch，宽度退回 fit-content
+ * —— min-content 比轨道宽时直接溢出（375px /board 实测 304 vs 265）。
+ * 这里用 `:first-child` 提一级特异性压过它：居中已经由两侧 1fr 轨道完成，
+ * 页面自己不需要再居中一次。
+ */
+.sm-page-in > :first-child {
+  margin-inline: 0;
+}
+
+@keyframes sm-liquid-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.994);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ============================ 7. 跳过链接 ============================ */
+
+.sm-skip {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  z-index: 6;
+  padding: 8px 14px;
+  border-radius: var(--sm-liquid-r-pill);
+  background-color: var(--sm-glass-solid);
+  color: var(--sm-text-primary);
+  font-size: 13px;
+  text-decoration: none;
+  transform: translateY(-220%);
+  transition: transform var(--sm-glass-dur-fast) var(--sm-glass-ease);
+}
+
+.sm-skip:focus {
+  transform: translateY(0);
+}
+
+/* ============================ 8. 窄屏 ============================ */
+
+@media (max-width: 767px) {
+  /* 窄屏：两列 —— 图标轨 + 内容。导航列整列不渲染（进抽屉），
+     所以内容列是第 2 列而不是第 3 列。 */
+  .sm-shell-grid {
+    grid-template-columns: var(--sm-rail-icons) minmax(0, 1fr);
+  }
+
+  .sm-rail {
+    padding: 10px 6px 8px;
+  }
+
+  .sm-content {
+    grid-column: 2;
+    padding: 10px 12px 0;
+  }
+}
+
+.sm-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  background-color: var(--sm-bg-scrim);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: sm-fade-in var(--sm-glass-dur-fast) ease both;
+}
+
+@keyframes sm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 抽屉本体：从左侧滑入的玻璃板。 */
+.sm-drawer {
+  position: fixed;
+  top: 12px;
+  bottom: 12px;
+  left: 12px;
+  z-index: 4;
+  width: min(78vw, 300px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 12px;
+  border-radius: var(--sm-liquid-r-panel);
+  background-color: var(--sm-flyout-fill);
+  -webkit-backdrop-filter: blur(40px) saturate(190%);
+  backdrop-filter: blur(40px) saturate(190%);
+  box-shadow: var(--sm-liquid-hi), var(--sm-liquid-deposit), var(--sm-liquid-shadow);
+  animation: sm-drawer-in var(--sm-glass-dur) var(--sm-glass-ease) both;
+}
+
+/*
+ * 收起态：`visibility: hidden` 而不是 `display: none`。
+ *
+ * 抽屉节点始终在文档里 —— `aria-controls="app-nav"` 必须指向一个真实存在的
+ * 元素（指错 id 时辅助技术会认为「没有可展开的东西」）。`visibility: hidden`
+ * 让它在收起时不进无障碍树、不可聚焦，与 `display:none` 对 AT 等价，但保留
+ * 了过渡动画的能力。
+ */
+.sm-drawer[data-open='false'] {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(-14px) scale(0.98);
+  animation: none;
+}
+
+@keyframes sm-drawer-in {
+  from {
+    opacity: 0;
+    transform: translateX(-14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* ============================ 9. 降级 ============================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-blob {
+    animation: none !important;
+  }
+
+  .sm-page-in,
+  .sm-drawer,
+  .sm-scrim {
+    animation: none !important;
+  }
+
+  .sm-nav-item,
+  .sm-shell-grid,
+  .sm-skip {
+    transition: none !important;
+  }
+}
+
+/* 运行时掉帧探针判定为低端 GPU：停掉漂移、关掉膜的高斯模糊，只留静态渐变。 */
+:root[data-sm-lowfx='true'] .sm-blob {
+  animation: none !important;
+}
+
+:root[data-sm-lowfx='true'] .sm-liquid-sheet {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+:root[data-sm-lowfx='true'] .sm-stage,
+:root[data-sm-lowfx='true'] .sm-drawer {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* 不支持 backdrop-filter（老 Firefox / 部分嵌入式 WebView）：换成不透明等效填充。 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .sm-liquid-sheet {
+    background-image: linear-gradient(158deg, var(--sm-glass-solid), var(--sm-bg-canvas));
+  }
+
+  .sm-stage,
+  .sm-glass,
+  .sm-drawer {
+    background-color: var(--sm-glass-solid);
+  }
+
+  .sm-blob {
+    filter: blur(64px);
+    opacity: 0.5;
+  }
+}

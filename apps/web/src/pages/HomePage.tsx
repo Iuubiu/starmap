@@ -59,16 +59,28 @@ import { TurnLog } from '../agent/TurnLog';
 import { currentSessionId, resetSessionId } from '../agent/session';
 import type { AgentTurnResponse } from '../api/generated/model';
 
+/**
+ * 首页的视觉层：液态玻璃。
+ *
+ * ## 为什么样式里几乎没有 tokens.* 了
+ *
+ * 造型语言（非对称大圆角、玻璃填充、内辉、液态沉积暗边）住在
+ * `theme/glass.css` 的类上，颜色住在 `:root[data-sm-theme=...]` 的变量里。
+ * Griffel 只保留**布局**（grid/flex/间距/溢出）。这样做的收益是具体的：
+ * 换视觉不用改 TSX，且「深色/明亮」的差异只在 CSS 变量那一层存在，组件里
+ * 不会出现 `isDark ? A : B`。
+ */
 const useStyles = makeStyles({
   page: {
-    padding: '24px 32px 0',
-    maxWidth: '1180px',
-    margin: '0 auto',
+    // 票 76：宽度由外壳的第 2 列（`min(760px, 100%)`）决定。
+    // 页面自己再写一个 maxWidth + margin auto，就会与外壳的居中叠成两层算式 ——
+    // 那正是「左右间隙不等」的来源之一。这里只负责列内布局。
+    padding: '22px 0 0',
     display: 'grid',
     // 主工作区 + 学习日志。日志窄、固定，因为它是参照物不是主体。
     gridTemplateColumns: 'minmax(0, 1fr) minmax(240px, 300px)',
     gridTemplateRows: '1fr auto',
-    gap: '20px',
+    gap: '18px',
     // 让输入框贴在可视区底部而不是页面底部。
     //
     // 这里曾经是 `calc(100vh - 48px)`（减掉 AppShell 的顶栏）。外壳改成
@@ -82,19 +94,21 @@ const useStyles = makeStyles({
   stage: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '16px',
+    gap: '14px',
     paddingBottom: '16px',
     minWidth: 0,
   },
   heading: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '6px',
+    gap: '4px',
   },
   title: {
-    fontSize: tokens.fontSizeHero700,
-    fontWeight: tokens.fontWeightSemibold,
-    lineHeight: tokens.lineHeightHero700,
+    fontSize: '28px',
+    fontWeight: 600,
+    lineHeight: '36px',
+    letterSpacing: '-0.02em',
+    color: 'var(--sm-text-primary)',
   },
   cardArea: {
     display: 'flex',
@@ -103,11 +117,12 @@ const useStyles = makeStyles({
     alignItems: 'stretch',
   },
   visibleResponse: {
-    fontSize: tokens.fontSizeBase400,
-    lineHeight: tokens.lineHeightBase400,
-    padding: '12px 14px',
-    borderRadius: tokens.borderRadiusMedium,
-    backgroundColor: tokens.colorNeutralBackground3,
+    fontSize: '14px',
+    lineHeight: '22px',
+    padding: '14px 16px',
+    borderRadius: 'var(--sm-liquid-r-card)',
+    backgroundColor: 'var(--sm-glass-fill-soft)',
+    boxShadow: 'var(--sm-liquid-hi)',
     wordBreak: 'break-word',
   },
   actions: {
@@ -120,8 +135,12 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
+    padding: '14px',
     paddingBottom: '16px',
     minWidth: 0,
+    borderRadius: 'var(--sm-liquid-r-inset)',
+    backgroundColor: 'var(--sm-glass-fill-soft)',
+    boxShadow: 'var(--sm-liquid-hi)',
   },
   sideTitle: {
     display: 'flex',
@@ -133,6 +152,7 @@ const useStyles = makeStyles({
     overflowY: 'auto',
     maxHeight: 'calc(100vh - 220px)',
   },
+  /* 输入区是「沉在玻璃里」的一条，不是一条带边框的横杠。 */
   composer: {
     gridColumn: '1 / -1',
     position: 'sticky',
@@ -140,9 +160,15 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: '8px',
-    padding: '12px 0 16px',
-    backgroundColor: tokens.colorNeutralBackground1,
-    borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
+    // 票 76：不再用负边距把输入区拉出列外（那会让它的左右间隙与正文不同，
+    // 也把滚动宽度撑出列）。它现在与正文同宽，玻璃条铺满第 2 列。
+    margin: 0,
+    padding: '14px 0 18px',
+    backgroundColor: 'var(--sm-glass-fill-strong)',
+    WebkitBackdropFilter: 'blur(24px) saturate(170%)',
+    backdropFilter: 'blur(24px) saturate(170%)',
+    borderRadius: 'var(--sm-liquid-r-panel) var(--sm-liquid-r-panel) 0 0',
+    boxShadow: 'var(--sm-liquid-hi)',
   },
   composerRow: {
     display: 'flex',
@@ -154,7 +180,7 @@ const useStyles = makeStyles({
   counter: {
     display: 'block',
     textAlign: 'right',
-    color: tokens.colorNeutralForeground3,
+    color: 'var(--sm-text-tertiary)',
   },
   contextRow: {
     display: 'flex',
@@ -163,10 +189,35 @@ const useStyles = makeStyles({
     flexWrap: 'wrap',
   },
   errorCard: {
-    borderLeft: `4px solid ${tokens.colorPaletteRedBorderActive}`,
+    borderLeft: '4px solid var(--sm-accent)',
+    borderRadius: 'var(--sm-liquid-r-card)',
   },
-  subtle: { color: tokens.colorNeutralForeground3 },
+  subtle: { color: 'var(--sm-text-tertiary)' },
 });
+
+/**
+ * 「学习记录」页的空态输入框把话带到这里。
+ *
+ * 为什么走 `sessionStorage` 而不是 URL：这句话是**还没提交**的草稿，放进
+ * 地址栏会被复制传播（会话内容不该出现在链接里），而且刷新后还会留着。
+ * `sessionStorage` 的边界正好是「这个标签页的这一次导航」：取走就删，
+ * 用户在首页刷新时不会突然看到上一页的半句话。
+ *
+ * 键名与票 76 的 `/learning` 页共用 `starmap.draft`。
+ */
+const DRAFT_KEY = 'starmap.draft';
+
+function takeDraft(): string {
+  try {
+    const draft = window.sessionStorage.getItem(DRAFT_KEY);
+    if (draft === null) return '';
+    window.sessionStorage.removeItem(DRAFT_KEY);
+    return draft;
+  } catch {
+    /* 隐私模式：读不到就当没有草稿，页面照常工作。 */
+    return '';
+  }
+}
 
 /** 一段可点选的上下文（知识点）。没选中任何点时显示提示。 */
 const EMPTY_HINT =
@@ -201,7 +252,7 @@ export function HomePage() {
   const initialFocus = searchParams.get('kp');
 
   const [sessionId, setSessionId] = useState<string>(() => currentSessionId());
-  const [utterance, setUtterance] = useState('');
+  const [utterance, setUtterance] = useState(takeDraft);
   /*
    * 最后一次**真正发出去**的那句话。
    *
@@ -372,7 +423,9 @@ export function HomePage() {
               <Text className={styles.visibleResponse}>{shown.visibleResponse}</Text>
             )}
 
-            {shown.artifact && <ArtifactCard artifact={shown.artifact} />}
+            {shown.artifact && (
+              <ArtifactCard artifact={shown.artifact} clarify={shown.clarify} />
+            )}
 
             {shown.errorCard && (
               <Card className={styles.errorCard}>

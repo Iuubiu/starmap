@@ -176,6 +176,33 @@ export const AgentTurnRequestSchema = z.object({
   tier: LearnerTierSchema.default('P1'),
 });
 
+/**
+ * 「问津」：出关卡之前先确认学习意图（票 79）。
+ *
+ * ## 为什么它不是第五种产物卡
+ *
+ * 产物卡回答「这一轮给你什么」，四类已经封闭；`clarify` 回答的是**这一轮还
+ * 不该给东西**——学生只说了「我想学布尔代数」，系统无法判断该按考试深度还是
+ * 按看懂论文的深度出题。所以 `clarify` 是响应的一个可选字段，伴随一张
+ * `probe_form` 卡（复用同一套渲染，不新造第五种卡）。
+ *
+ * ## 与 `level_card` 互斥
+ *
+ * 「先问意图」和「直接出关」是两条互斥的路径：既然还没问清，这轮就不能出关；
+ * 既然出了关，就说明意图已经够了。这条写进 schema 的 `superRefine`，任何一条
+ * 路径想两头都要都会在 parse 时炸掉。
+ */
+export const AgentClarifySchema = z.object({
+  /** 只问一个问题（以问号结尾），与 probe_form 的 `question` 一致 */
+  question: z.string().min(1),
+  /** 2–4 个可点选项；自由作答仍走输入框 */
+  options: z.array(z.string().min(1)).min(2).max(4),
+  /** 一句「为什么问这个」——学生要知道这问题有什么用 */
+  why: z.string().min(1),
+});
+
+export type AgentClarify = z.infer<typeof AgentClarifySchema>;
+
 export const AgentTurnResponseSchema = z
   .object({
     turnId: z.string(),
@@ -190,6 +217,14 @@ export const AgentTurnResponseSchema = z
     visibleResponseKind: VisibleResponseKindSchema,
     languageCheck: AgentLanguageCheckSchema,
     actions: z.array(AgentCardActionSchema),
+    /**
+     * 出关卡前的意图确认（票 79）。缺省表示「不需要问」。
+     *
+     * 用可选字段而不是 `null`：`undefined` 在 JSON 里直接消失，客户端拿到的
+     * 对象没有这个键，前端 `clarify ? ... : ...` 的分支就不会被一个 `null`
+     * 值提前触发。
+     */
+    clarify: AgentClarifySchema.optional(),
     createdAt: z.string(),
   })
   .superRefine((value, ctx) => {
@@ -207,6 +242,20 @@ export const AgentTurnResponseSchema = z
         code: 'custom',
         path: ['degraded'],
         message: '出现降级卡时 degraded 必须为 true',
+      });
+    }
+    if (value.clarify && value.artifact?.kind === 'level_card') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['clarify'],
+        message: '问津与出关卡不能同时出现：还没问清意图，就不该出关卡',
+      });
+    }
+    if (value.clarify && value.artifact !== null && value.artifact.kind !== 'probe_form') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['clarify'],
+        message: '问津卡必须伴随一张 probe_form（复用追问卡的渲染，不新造卡种）',
       });
     }
     if (
@@ -243,6 +292,31 @@ export const AgentTurnHistoryResponseSchema = z.object({
   sessionId: z.string(),
   items: z.array(AgentTurnRecordSchema),
   nextCursor: z.string().nullable(),
+});
+
+/** GET /api/v1/agent/sessions 里的一行：「学习记录」页左侧的一条会话。 */
+export const AgentSessionSummarySchema = z.object({
+  sessionId: z.string(),
+  /** 会话建立时间；`sessions` 表里旧行可能没有，回落到首轮时间。 */
+  startedAt: z.string(),
+  endedAt: z.string().nullable(),
+  /**
+   * 会话里有多少轮。**分母必须来自数据**：0 轮的会话不会出现（它根本没有
+   * `agent_turns` 行），所以这里最小是 1。
+   */
+  turnCount: z.number().int().min(1),
+  /**
+   * 首句摘要，最多 60 个字符（超出由服务端截断并补 `…`）。取的是 `ordinal`
+   * 最小那轮，不是 `created_at` 最早那轮 —— 见 `TurnService.sessions`。
+   */
+  firstUtterance: z.string(),
+  /** 最近一轮的时间，列表按它倒序。 */
+  lastActivityAt: z.string(),
+});
+
+/** GET /api/v1/agent/sessions */
+export const AgentSessionListResponseSchema = z.object({
+  sessions: z.array(AgentSessionSummarySchema),
 });
 
 /** 「看依据」里的一个切片：是否答案块、是否被门控排除、为什么。 */
@@ -543,6 +617,8 @@ export type AgentTurnRequest = z.infer<typeof AgentTurnRequestSchema>;
 export type AgentTurnResponse = z.infer<typeof AgentTurnResponseSchema>;
 export type AgentTurnRecord = z.infer<typeof AgentTurnRecordSchema>;
 export type AgentTurnHistoryResponse = z.infer<typeof AgentTurnHistoryResponseSchema>;
+export type AgentSessionSummary = z.infer<typeof AgentSessionSummarySchema>;
+export type AgentSessionListResponse = z.infer<typeof AgentSessionListResponseSchema>;
 export type AgentEvidenceChunk = z.infer<typeof AgentEvidenceChunkSchema>;
 export type AgentTurnEvidenceResponse = z.infer<typeof AgentTurnEvidenceResponseSchema>;
 export type GateTierName = z.infer<typeof GateTierSchema>;

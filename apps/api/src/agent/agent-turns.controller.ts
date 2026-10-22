@@ -13,9 +13,11 @@ import {
 import { z } from 'zod';
 import {
   AgentTurnHistoryResponseSchema,
+  AgentSessionListResponseSchema,
   AgentTurnRequestSchema,
   AgentTurnResponseSchema,
   type AgentTurnHistoryResponse,
+  type AgentSessionListResponse,
   type AgentTurnResponse,
   type AgentTurnEvidenceResponse,
 } from '@starmap/api-contract';
@@ -51,6 +53,10 @@ function firstIssueHint(issues: readonly { path: PropertyKey[]; code: string; me
  * 这里只做三件事：校验入参、调服务、按契约 schema 校验出参。
  * 业务判断一条都不在这层——回合服务拿不到 HTTP 上下文才能被单测覆盖。
  */
+
+const SessionListQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(200).default(50),
+});
 
 const HistoryQuerySchema = z.object({
   sessionId: z.string().min(1),
@@ -93,6 +99,21 @@ export class AgentTurnsController {
   }
 
   /** 学习日志：这一会话里出过哪些卡，按时间正序。 */
+  /** 「学习记录」：会话列表，按最近活动倒序。空库返回 `{sessions: []}`。 */
+  @Get('agent/sessions')
+  async sessions(@Query() rawQuery: unknown): Promise<AgentSessionListResponse> {
+    const parsed = SessionListQuerySchema.safeParse(rawQuery);
+    if (!parsed.success) {
+      throw new BadRequestException({
+        code: 'VALIDATION_FAILED',
+        message: '查询参数不合法',
+        details: parsed.error.issues,
+      });
+    }
+    const response = await this.turns.sessions(parsed.data.limit);
+    return AgentSessionListResponseSchema.parse(response);
+  }
+
   @Get('agent/turns')
   async list(@Query() rawQuery: unknown): Promise<AgentTurnHistoryResponse> {
     const parsed = HistoryQuerySchema.safeParse(rawQuery);

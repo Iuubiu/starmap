@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
+import { makeStyles, tokens, Button, TabList, Tab, Text, Spinner } from '@fluentui/react-components';
 import {
-  makeStyles,
-  tokens,
-  Button,
-  TabList,
-  Tab,
-  Text,
-  Spinner,
-} from '@fluentui/react-components';
-import {
+  ArrowClockwise24Filled,
   ArrowClockwise24Regular,
+  Board24Filled,
   Board24Regular,
-  BookOpen24Regular,
+  BrainCircuit24Filled,
   BrainCircuit24Regular,
+  Clock24Filled,
+  Clock24Regular,
+  Database24Filled,
   Database24Regular,
   Dismiss24Regular,
+  Map24Filled,
   Map24Regular,
   Navigation24Regular,
+  Tag24Filled,
   Tag24Regular,
+  Target24Filled,
   Target24Regular,
 } from '@fluentui/react-icons';
 import { useHealth } from '../api/queries';
@@ -26,18 +26,70 @@ import { useHealth } from '../api/queries';
 /**
  * 主导航的八个入口。顺序与理由见 `AppShell.test.tsx`。
  *
- * 图标只是**补充**，不是唯一的识别方式：窄屏下也始终保留文字（见下面
- * 宽度断点的说明），所以不会出现「只有图标、靠猜」的导航。
+ * `sub` 是「次级说明」（这个入口进去之后看到的是哪一层），显示在名称下方，
+ * 不承载第二个导航目标 —— 真正的控件始终是 tab。
+ *
+ * `Icon` / `IconActive` 成对：未选中用 `...24Regular`（线性、退到次级文字色），
+ * 选中用 `...24Filled`。图标库对八个入口都有成对变体，这是「激活态靠形状 +
+ * 颜色一起说话」而不是只靠底色的前提。
  */
 const NAV_ITEMS = [
-  { value: '/', label: '学习', Icon: BookOpen24Regular },
-  { value: '/placement', label: '定级', Icon: Target24Regular },
-  { value: '/review', label: '复验', Icon: ArrowClockwise24Regular },
-  { value: '/board', label: '看板', Icon: Board24Regular },
-  { value: '/map', label: '知识地图', Icon: Map24Regular },
-  { value: '/market', label: '关卡市场', Icon: Tag24Regular },
-  { value: '/database', label: '数据库', Icon: Database24Regular },
-  { value: '/skills', label: '技能库', Icon: BrainCircuit24Regular },
+  {
+    value: '/learning',
+    label: '学习记录',
+    sub: '历次会话',
+    Icon: Clock24Regular,
+    IconActive: Clock24Filled,
+  },
+  {
+    value: '/placement',
+    label: '定级',
+    sub: '三档判定',
+    Icon: Target24Regular,
+    IconActive: Target24Filled,
+  },
+  {
+    value: '/review',
+    label: '复验',
+    sub: '间隔排期',
+    Icon: ArrowClockwise24Regular,
+    IconActive: ArrowClockwise24Filled,
+  },
+  {
+    value: '/board',
+    label: '看板',
+    sub: '推荐与进度',
+    Icon: Board24Regular,
+    IconActive: Board24Filled,
+  },
+  {
+    value: '/map',
+    label: '知识地图',
+    sub: '节点与出处',
+    Icon: Map24Regular,
+    IconActive: Map24Filled,
+  },
+  {
+    value: '/market',
+    label: '关卡市场',
+    sub: '模板与生成',
+    Icon: Tag24Regular,
+    IconActive: Tag24Filled,
+  },
+  {
+    value: '/database',
+    label: '数据库',
+    sub: '教材与索引',
+    Icon: Database24Regular,
+    IconActive: Database24Filled,
+  },
+  {
+    value: '/skills',
+    label: '技能库',
+    sub: '技能说明',
+    Icon: BrainCircuit24Regular,
+    IconActive: BrainCircuit24Filled,
+  },
 ] as const;
 
 /**
@@ -74,156 +126,65 @@ function useIsNarrow(query = '(max-width: 767px)'): boolean {
   return narrow;
 }
 
-/** 侧栏在 1024px 以上、收窄侧栏在 768–1023px、抽屉在 768px 以下。 */
-const RAIL_WIDE = '240px';
-const RAIL_NARROW = '200px';
+/**
+ * 低端 GPU 退化探针。
+ *
+ * 背景是 5 个大半径 `blur()` 的漂移层 + 全屏 `backdrop-filter`，在集成显卡上
+ * 可能掉到 20fps 以下。这里采样 45 帧：中位帧间隔超过 28ms（≈36fps）就认定
+ * 这台机器吃不住，把 `<html data-sm-lowfx="true">` 打开，`glass.css` 里对应
+ * 的规则会停掉漂移、关掉膜的高斯模糊，只留静态渐变。
+ *
+ * 判定**只降不升**：一旦退化就保持，避免「跑一会儿又试一次」造成的闪烁。
+ * 探针本身在 rAF 里做，开销是一次减法 + 一次数组 push，可以忽略。
+ */
+function useLowFxProbe(): void {
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.requestAnimationFrame !== 'function') return;
+    const root = document.documentElement;
+    if (root.dataset.smLowfx === 'true') return;
 
+    const gaps: number[] = [];
+    let last = 0;
+    let raf = 0;
+    let done = false;
+
+    const tick = (now: number) => {
+      if (done) return;
+      if (last > 0) gaps.push(now - last);
+      last = now;
+      if (gaps.length < 45) {
+        raf = window.requestAnimationFrame(tick);
+        return;
+      }
+      done = true;
+      const sorted = [...gaps].sort((a, b) => a - b);
+      const median = sorted[Math.floor(sorted.length / 2)] ?? 0;
+      if (median > 28) root.dataset.smLowfx = 'true';
+    };
+
+    raf = window.requestAnimationFrame(tick);
+    return () => {
+      done = true;
+      window.cancelAnimationFrame(raf);
+    };
+  }, []);
+}
+
+/** 内容区留白与外壳自身的样式（液态形状在 `theme/glass.css`）。 */
 const useStyles = makeStyles({
-  root: {
-    display: 'grid',
-    gridTemplateColumns: `${RAIL_WIDE} minmax(0, 1fr)`,
-    height: '100vh',
-    backgroundColor: tokens.colorNeutralBackground2,
-    '@media (max-width: 1023px)': {
-      gridTemplateColumns: `${RAIL_NARROW} minmax(0, 1fr)`,
-    },
-    /* 窄屏侧栏变成抽屉，不再占列 —— 这一行同时消掉「固定宽度把 shell
-       撑宽」那类横向溢出（顶栏版本的实测症状是 375px 窗口溢出 304px）。 */
-    '@media (max-width: 767px)': {
-      gridTemplateColumns: 'minmax(0, 1fr)',
-    },
-  },
-
-  skipLink: {
-    position: 'absolute',
-    left: '8px',
-    top: '8px',
-    zIndex: 3,
-    padding: '8px 12px',
-    borderRadius: tokens.borderRadiusMedium,
-    backgroundColor: tokens.colorNeutralBackground1,
-    color: tokens.colorNeutralForeground1,
-    boxShadow: tokens.shadow16,
-    transform: 'translateY(-200%)',
-    ':focus': { transform: 'translateY(0)' },
-  },
-
-  rail: {
-    gridColumn: '1',
-    gridRow: '1',
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: 0,
-    borderRight: `1px solid ${tokens.colorNeutralStroke2}`,
-    backgroundColor: tokens.colorNeutralBackground1,
-    /* 窄屏：脱离网格流，变成从左滑入的抽屉。关闭态用 `translateX(-100%)`
-       而不是 `display:none`，这样过渡动画存在、且元素始终可被 `aria-controls`
-       指向（`display:none` 会让它从无障碍树里消失，按钮的 aria-controls
-       就指向一个不存在的东西）。 */
-    '@media (max-width: 767px)': {
-      position: 'fixed',
-      top: '0',
-      bottom: '0',
-      left: '0',
-      width: RAIL_WIDE,
-      zIndex: 2,
-      transform: 'translateX(-100%)',
-      transitionProperty: 'transform',
-      transitionDuration: tokens.durationNormal,
-      transitionTimingFunction: tokens.curveEasyEase,
-      boxShadow: tokens.shadow64,
-      '&[data-open="true"]': { transform: 'translateX(0)' },
-    },
-  },
-
-  brandRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '16px 16px 12px',
-  },
-  brand: {
-    fontWeight: tokens.fontWeightSemibold,
-    fontSize: tokens.fontSizeBase400,
-    letterSpacing: '0.02em',
-  },
-  brandCaption: {
-    color: tokens.colorNeutralForeground3,
-    padding: '0 16px 12px',
-  },
-  /* 抽屉里的「收起」只在窄屏渲染（见 useIsNarrow），宽屏没有可收的东西。 */
-  closeButton: {
-    marginLeft: 'auto',
-  },
-
-  nav: {
-    flex: 1,
-    minHeight: 0,
-    overflowY: 'auto',
-    padding: '0 8px',
-  },
-  tabList: {
-    width: '100%',
-    alignItems: 'stretch',
-  },
-  tab: {
-    justifyContent: 'flex-start',
-    width: '100%',
-    paddingLeft: '10px',
-  },
-
-  status: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    padding: '12px 16px',
-    borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
-    color: tokens.colorNeutralForeground3,
-    minHeight: '44px',
-  },
-
-  content: {
-    gridColumn: '2',
-    gridRow: '1',
-    display: 'grid',
-    gridTemplateRows: 'auto minmax(0, 1fr)',
-    minWidth: 0,
-    minHeight: 0,
-    '@media (max-width: 767px)': { gridColumn: '1' },
-  },
-
-  /* 窄屏顶部只留一条「打开导航」的窄条；宽屏根本不渲染它。 */
   compactBar: {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    padding: '0 12px',
-    height: '48px',
-    borderBottom: `1px solid ${tokens.colorNeutralStroke2}`,
-    backgroundColor: tokens.colorNeutralBackground1,
+    padding: '4px 4px 10px',
   },
-
-  main: {
-    /* 显式钉在第 2 行。宽屏没有顶部条时，第 1 行（`auto`）是空行、高度 0，
-       第 2 行才吃掉 `minmax(0,1fr)`；如果交给自动排布，`main` 会落到第 1 行
-       的 `auto` 上，于是页面高度只有内容那么高 —— 实测 `/` 是 433px、
-       `/review` 是 368px（视口 800），内容区底部露出一条背景色。 */
-    gridRow: '2',
-    overflow: 'auto',
-    /* `minmax(0,1fr)` + `minWidth:0` 一起用：只写其中一个时，网格项仍然会被
-       内部超宽内容（表格、画布）顶出去，表现为整页横向滚动。 */
-    minWidth: 0,
+  compactTitle: {
+    fontSize: '13px',
+    fontWeight: tokens.fontWeightSemibold,
+    letterSpacing: '0.01em',
   },
-
-  scrim: {
-    display: 'none',
-    '@media (max-width: 767px)': {
-      display: 'block',
-      position: 'fixed',
-      inset: 0,
-      zIndex: 1,
-      backgroundColor: tokens.colorBackgroundOverlay,
-    },
+  drawerClose: {
+    marginLeft: 'auto',
   },
 });
 
@@ -235,49 +196,51 @@ const useStyles = makeStyles({
  * `startsWith('/ma')`，市场页就会高亮成知识地图。这里要求 `value` 之后
  * 紧跟 `/` 或结束，且取最长命中，所以 `/market` 只会命中 `/market`。
  *
- * 关卡内页（`/level/...`）不属于任何一个入口，落回默认的「学习」。
+ * 没有命中时返回 `null`（而不是偷偷落回第一项）：
+ * - `/` 是「对话」本身，不是「学习记录」列表。把它高亮成学习记录会让
+ *   「我现在在哪」说谎 —— 首页的标题已经写着「学习」，导航再去抢这一格
+ *   没有必要。同理 `/level/...`、`/welcome`、`/me` 也不属于任何一项。
+ * - `TabList` 的 `selectedValue` 传 `undefined` 就是不选中任何项，行为明确；
+ *   悄悄落回第一项则会让「什么路径都不匹配」这个 bug 变成一次高亮。
  */
-export function selectedNavValue(pathname: string): string {
-  let best = '/';
+export function selectedNavValue(pathname: string): string | null {
+  let best: string | null = null;
   for (const item of NAV_ITEMS) {
-    if (item.value === '/') continue;
     if (pathname === item.value || pathname.startsWith(`${item.value}/`)) {
-      if (item.value.length > best.length) best = item.value;
+      if (best === null || item.value.length > best.length) best = item.value;
     }
   }
   return best;
 }
 
 /**
- * 应用外壳：左侧导航 + 内容区。
+ * 应用外壳：液态玻璃 + 液态流动的导航与内容容器。
  *
- * ## 为什么是侧栏而不是顶栏
+ * ## 结构（三层，z 轴自下而上）
  *
- * 顶栏要横着排八个入口，宽度是由**最长的标签组合**决定的固定值（实测
- * `TabList` 固定 500px 把 shell 撑到 679px），于是任何比它窄的窗口都会
- * 横向溢出：375px 窗口溢出 304px —— 整页可横向拖动，顶栏被截断。侧栏
- * 把导航放在竖直方向，宽度是**我们选的**而不是内容撑出来的，横向溢出
- * 这个失效模式就从结构上消失了。
+ * 1. `.sm-liquid-bg`：5 个 blur 光团在缓慢漂移/缩放/形变（40–90s）。
+ * 2. `.sm-liquid-sheet`：一张**全屏**毛玻璃膜。它同时盖住背景与导航，所以
+ *    导航和背景是同一张玻璃 —— 侧栏没有自己的背景色、没有右侧描边，中间
+ *    不存在接缝。这是「一体化」的物理实现，不是靠把两块颜色调成一样。
+ * 3. `.sm-shell-grid`：三列 —— 图标轨道 56px + 导航列 216px + 内容列
+ *    `minmax(0, 1fr)`。窄屏只有两列（56px + 内容），导航进抽屉。
  *
- * 侧栏还能放两样顶栏放不下的东西：产品定位（副标题）与后端状态。状态
- * 放在最底部而不是右上角，是因为它验证的是「后端真的连上了数据库」这条
- * 最小闭环（票 01 的验收要求），属于常驻但不打扰的信息。
+ * ## 为什么是「三列」而不是「一条会伸缩的侧栏」
  *
- * ## 为什么窄屏用抽屉而不是图标栏
- *
- * 八个入口里有五个是两个字、三个是四个字的中文。图标栏要用户先学会
- * 「哪个图标是复验」，而抽屉只在需要时占屏，文字始终在。抽屉打开时
- * 背景压一层遮罩、`Esc` 可关、选中入口后自动收起。
+ * 票 76 的验收是「正文左右间隙相等」。间隙不对称的来源有两个：滚动条只吃
+ * 一侧、居中算式叠在滚动容器上。三列结构把这两件事都从结构上消掉：图标轨
+ * 与导航列都是定宽，内容列吃掉剩余宽度，再从内容列里划出对称的三段。
  *
  * ## 无障碍
  *
- * - `<nav aria-label="主导航">` 给侧栏一个地标名（页面里只有一个导航地标）。
- * - 保留 `TabList`/`Tab` 而不改成链接：仓库里的 e2e（`graph.spec.ts`、
+ * - `<nav aria-label="主导航">` 一个地标，八个入口全在里面。
+ * - 保留 `TabList`/`Tab` 与 `role=tab`：仓库里的 e2e（`graph.spec.ts`、
  *   `smoke.spec.ts`）与 `tools/eval` 的阶段驱动都按 `role=tab` +
- *   `aria-selected` 找导航项，改成链接会同时改三处调用方，而这次改动
- *   要解决的是**布局**问题。语义化改造（`<a aria-current="page">`）单独做。
- * - 抽屉按钮带 `aria-expanded` 与 `aria-controls`，并在窄屏外不渲染。
- * - 首屏第一个可聚焦元素是「跳到主要内容」，跳过八个导航项。
+ *   `aria-selected` 找导航项。宽屏名称常驻；窄屏名称在抽屉里，可访问名由
+ *   `aria-label` 提供 —— 名字在任何形态下都不丢。
+ * - 首个可聚焦元素是「跳到主要内容」。
+ * - 抽屉按钮带 `aria-expanded` 与 `aria-controls="app-nav"`，`Esc` 可关，
+ *   选中入口后自动收起；宽屏下这个按钮根本不渲染。
  */
 export function AppShell() {
   const styles = useStyles();
@@ -286,6 +249,8 @@ export function AppShell() {
   const health = useHealth();
   const narrow = useIsNarrow();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useLowFxProbe();
 
   const selected = selectedNavValue(location.pathname);
 
@@ -311,75 +276,84 @@ export function AppShell() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [drawerOpen]);
 
+  const onTabSelect = useCallback(
+    (value: string) => {
+      navigate(value);
+      setDrawerOpen(false);
+    },
+    [navigate],
+  );
+
+  const tabList = (
+    <TabList
+      vertical
+      className="sm-tablist"
+      selectedValue={selected ?? undefined}
+      onTabSelect={(_, data) => onTabSelect(data.value as string)}
+    >
+      {NAV_ITEMS.map(({ value, label, Icon, IconActive }) => {
+        const active = value === selected;
+        const Glyph = active ? IconActive : Icon;
+        return (
+          <Tab key={value} value={value} className="sm-nav-item" aria-label={label}>
+            {/*
+             * 激活项换成 `...24Filled`，并把变体名写进 className：
+             * 图标「实心」这件事是**元素事实**，不靠 CSS 伪装。`sm-nav-icon-Filled`
+             * 是给验收脚本与后来人看的锚点（`classList` 里能直接读到 Filled）。
+             */}
+            <span
+              className={active ? 'sm-nav-icon sm-nav-icon-Filled' : 'sm-nav-icon'}
+              aria-hidden="true"
+            >
+              <Glyph />
+            </span>
+            <span className="sm-nav-label">{label}</span>
+          </Tab>
+        );
+      })}
+    </TabList>
+  );
+
   const status = (
-    <div className={styles.status}>
+    <div className="sm-status">
       {health.isPending && <Spinner size="extra-tiny" />}
-      {health.isError && <Text size={200}>后端未连接</Text>}
-      {health.payload && <Text size={200}>数据库 {health.payload.dbNow.slice(11, 19)}</Text>}
+      {health.isError && <span className="sm-status-text">后端未连接</span>}
+      {health.payload && <span className="sm-status-text">数据库 {health.payload.dbNow.slice(11, 19)}</span>}
     </div>
   );
 
+  const brandMark = (
+    <span className="sm-brand-mark" aria-hidden="true">
+      S
+    </span>
+  );
+
   return (
-    <div className={styles.root}>
-      <a className={styles.skipLink} href="#main">
+    <div
+      className="sm-shell"
+      data-nav={narrow ? 'narrow' : 'wide'}
+      data-drawer={drawerOpen ? 'open' : 'closed'}
+    >
+      {/* 1. 流动的背景：五个 blur 光团。装饰性，不进无障碍树。 */}
+      <div className="sm-liquid-bg" aria-hidden="true">
+        <div className="sm-blob" />
+        <div className="sm-blob" />
+        <div className="sm-blob" />
+        <div className="sm-blob" />
+        <div className="sm-blob" />
+      </div>
+      {/* 2. 全屏毛玻璃膜：背景与导航共用这一张，因此没有接缝。 */}
+      <div className="sm-liquid-sheet" aria-hidden="true" />
+
+      <a className="sm-skip" href="#main">
         跳到主要内容
       </a>
 
-      <aside className={styles.rail} id="app-nav" data-open={drawerOpen ? 'true' : 'false'}>
-        <div className={styles.brandRow}>
-          <Text className={styles.brand}>StarMap</Text>
+      <div className="sm-shell-grid">
+        {/* 第 1 列：56px 图标轨道。只放品牌标记与窄屏的抽屉入口。 */}
+        <aside className="sm-rail">
+          {brandMark}
           {narrow && (
-            <Button
-              appearance="subtle"
-              className={styles.closeButton}
-              icon={<Dismiss24Regular />}
-              aria-label="收起导航"
-              onClick={() => setDrawerOpen(false)}
-            />
-          )}
-        </div>
-        <Text size={200} className={styles.brandCaption}>
-          核电子学学习工作站
-        </Text>
-
-        <nav className={styles.nav} aria-label="主导航">
-          <TabList
-            vertical
-            className={styles.tabList}
-            selectedValue={selected}
-            onTabSelect={(_, data) => {
-              navigate(data.value as string);
-              setDrawerOpen(false);
-            }}
-          >
-            {NAV_ITEMS.map(({ value, label, Icon }) => (
-              <Tab
-                key={value}
-                value={value}
-                className={styles.tab}
-                icon={<Icon />}
-                aria-label={label}
-              >
-                {label}
-              </Tab>
-            ))}
-          </TabList>
-        </nav>
-
-        {status}
-      </aside>
-
-      {narrow && drawerOpen && (
-        <div
-          className={styles.scrim}
-          role="presentation"
-          onClick={() => setDrawerOpen(false)}
-        />
-      )}
-
-      <div className={styles.content}>
-        {narrow && (
-          <header className={styles.compactBar}>
             <Button
               appearance="subtle"
               icon={<Navigation24Regular />}
@@ -388,12 +362,66 @@ export function AppShell() {
               aria-controls="app-nav"
               onClick={() => setDrawerOpen(true)}
             />
-            <Text className={styles.brand}>StarMap</Text>
-          </header>
+          )}
+        </aside>
+
+        {/* 第 2 列：216px 导航列。宽屏常驻；窄屏整列不渲染（导航进抽屉）。 */}
+        {!narrow && (
+          <div className="sm-nav-panel">
+            <div className="sm-brand-row">
+              <span className="sm-brand-text">
+                <span className="sm-brand-name">StarMap</span>
+                <span className="sm-brand-caption">核电子学学习工作站</span>
+              </span>
+            </div>
+            <nav className="sm-nav" id="app-nav" aria-label="主导航">
+              {tabList}
+            </nav>
+          </div>
         )}
-        <main className={styles.main} id="main">
-          <Outlet />
-        </main>
+
+        {narrow && drawerOpen && (
+          <div className="sm-scrim" role="presentation" onClick={() => setDrawerOpen(false)} />
+        )}
+
+        {narrow && (
+          <div className="sm-drawer" id="app-nav" data-open={drawerOpen ? 'true' : 'false'}>
+            <div className="sm-brand-row">
+              {brandMark}
+              <span className="sm-brand-text">
+                <span className="sm-brand-name">StarMap</span>
+                <span className="sm-brand-caption">核电子学学习工作站</span>
+              </span>
+              <Button
+                appearance="subtle"
+                className={styles.drawerClose}
+                icon={<Dismiss24Regular />}
+                aria-label="收起导航"
+                onClick={() => setDrawerOpen(false)}
+              />
+            </div>
+            <nav className="sm-nav" aria-label="主导航">
+              {tabList}
+            </nav>
+          </div>
+        )}
+
+        {/* 第 3 列：内容区。三段式对称留白在 `glass.css` 的 `.sm-page-in` 上。 */}
+        <div className="sm-content">
+          {narrow && (
+            <header className={styles.compactBar}>
+              <Text className={styles.compactTitle}>StarMap</Text>
+            </header>
+          )}
+          {status}
+          <div className="sm-stage">
+            <main className="sm-main" id="main">
+              <div className="sm-page-in" key={location.pathname}>
+                <Outlet />
+              </div>
+            </main>
+          </div>
+        </div>
       </div>
     </div>
   );

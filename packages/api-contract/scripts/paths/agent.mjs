@@ -13,6 +13,7 @@ import {
   AgentTurnResponseSchema,
   AgentTurnHistoryResponseSchema,
   AgentTurnEvidenceResponseSchema,
+  AgentSessionListResponseSchema,
   RetrievalDebugResponseSchema,
   RetrievalBandsResponseSchema,
   RetrievalExpansionSchema,
@@ -46,6 +47,7 @@ export const components = {
   AgentTurnResponse: jsonSchema(AgentTurnResponseSchema),
   AgentTurnHistoryResponse: jsonSchema(AgentTurnHistoryResponseSchema),
   AgentTurnEvidenceResponse: jsonSchema(AgentTurnEvidenceResponseSchema),
+  AgentSessionListResponse: jsonSchema(AgentSessionListResponseSchema),
   RetrievalDebugResponse: jsonSchema(RetrievalDebugResponseSchema),
   RetrievalBandsResponse: jsonSchema(RetrievalBandsResponseSchema),
   RetrievalExpansion: jsonSchema(RetrievalExpansionSchema),
@@ -58,6 +60,20 @@ export const components = {
 };
 
 export const paths = {
+  '/api/v1/agent/sessions': {
+    get: {
+      operationId: 'listAgentSessions',
+      summary: '「学习记录」的会话列表（按最近活动倒序）',
+      parameters: [
+        { name: 'limit', in: 'query', schema: { type: 'integer', minimum: 1, maximum: 200, default: 50 } },
+      ],
+      responses: {
+        '200': jsonResponse('会话列表（空库返回空数组，不是 404）', 'AgentSessionListResponse'),
+        '400': errorResponses['400'],
+        '500': errorResponses['500'],
+      },
+    },
+  },
   '/api/v1/agent/turns': {
     post: {
       operationId: 'createAgentTurn',

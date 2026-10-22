@@ -21,6 +21,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AgentSessionListResponse,
   AgentTurnEvidenceResponse,
   AgentTurnHistoryResponse,
   AgentTurnRequest,
@@ -39,6 +40,7 @@ import type {
   GetTierChangesParams,
   GraphResponse,
   HealthResponse,
+  LearnerProfilePatch,
   LevelDetailResponse,
   LevelExportFile,
   LevelImportResponse,
@@ -46,6 +48,7 @@ import type {
   LevelTemplatePreviewRequest,
   LevelTemplatePreviewResponse,
   LevelVideoClipListResponse,
+  ListAgentSessionsParams,
   ListAgentTurnsParams,
   ListNodesParams,
   ListVideoClipsParams,
@@ -71,6 +74,7 @@ import type {
   ProbeSessionResponse,
   ProbeStartRequest,
   ProbeTurnResponse,
+  ProfileResponse,
   RecommendationListResponse,
   RedirectRequest,
   RedirectResponse,
@@ -915,6 +919,137 @@ export function useDebugRetrieval<TData = Awaited<ReturnType<typeof debugRetriev
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getDebugRetrievalQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type listAgentSessionsResponse200 = {
+  data: AgentSessionListResponse
+  status: 200
+}
+
+export type listAgentSessionsResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type listAgentSessionsResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type listAgentSessionsResponseSuccess = (listAgentSessionsResponse200) & {
+  headers: Headers;
+};
+export type listAgentSessionsResponseError = (listAgentSessionsResponse400 | listAgentSessionsResponse500) & {
+  headers: Headers;
+};
+
+export type listAgentSessionsResponse = (listAgentSessionsResponseSuccess | listAgentSessionsResponseError)
+
+export const getListAgentSessionsUrl = (params?: ListAgentSessionsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/v1/agent/sessions?${stringifiedParams}` : `/api/v1/agent/sessions`
+}
+
+/**
+ * @summary 「学习记录」的会话列表（按最近活动倒序）
+ */
+export const listAgentSessions = async (params?: ListAgentSessionsParams, options?: Parameters<typeof customFetch>[1]): Promise<listAgentSessionsResponse> => {
+
+  return customFetch<listAgentSessionsResponse>(getListAgentSessionsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListAgentSessionsQueryKey = (params?: ListAgentSessionsParams,) => {
+    return [
+    `/api/v1/agent/sessions`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListAgentSessionsQueryOptions = <TData = Awaited<ReturnType<typeof listAgentSessions>>, TError = ApiError>(params?: ListAgentSessionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentSessions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListAgentSessionsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listAgentSessions>>> = ({ signal }) => listAgentSessions(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listAgentSessions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListAgentSessionsQueryResult = NonNullable<Awaited<ReturnType<typeof listAgentSessions>>>
+export type ListAgentSessionsQueryError = ApiError
+
+
+export function useListAgentSessions<TData = Awaited<ReturnType<typeof listAgentSessions>>, TError = ApiError>(
+ params: undefined |  ListAgentSessionsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentSessions>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listAgentSessions>>,
+          TError,
+          Awaited<ReturnType<typeof listAgentSessions>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListAgentSessions<TData = Awaited<ReturnType<typeof listAgentSessions>>, TError = ApiError>(
+ params?: ListAgentSessionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentSessions>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listAgentSessions>>,
+          TError,
+          Awaited<ReturnType<typeof listAgentSessions>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListAgentSessions<TData = Awaited<ReturnType<typeof listAgentSessions>>, TError = ApiError>(
+ params?: ListAgentSessionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentSessions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 「学习记录」的会话列表（按最近活动倒序）
+ */
+
+export function useListAgentSessions<TData = Awaited<ReturnType<typeof listAgentSessions>>, TError = ApiError>(
+ params?: ListAgentSessionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAgentSessions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListAgentSessionsQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -6120,6 +6255,263 @@ export function useGetPlacementResult<TData = Awaited<ReturnType<typeof getPlace
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetPlacementResultQueryOptions(sessionId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getProfileResponse200 = {
+  data: ProfileResponse
+  status: 200
+}
+
+export type getProfileResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getProfileResponseSuccess = (getProfileResponse200) & {
+  headers: Headers;
+};
+export type getProfileResponseError = (getProfileResponse500) & {
+  headers: Headers;
+};
+
+export type getProfileResponse = (getProfileResponseSuccess | getProfileResponseError)
+
+export const getGetProfileUrl = () => {
+
+
+
+
+  return `/api/v1/profile`
+}
+
+/**
+ * @summary 读取学习者画像（没填过的字段是 null）
+ */
+export const getProfile = async ( options?: Parameters<typeof customFetch>[1]): Promise<getProfileResponse> => {
+
+  return customFetch<getProfileResponse>(getGetProfileUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetProfileQueryKey = () => {
+    return [
+    `/api/v1/profile`
+    ] as const;
+    }
+
+
+export const getGetProfileQueryOptions = <TData = Awaited<ReturnType<typeof getProfile>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetProfileQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProfile>>> = ({ signal }) => getProfile({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getProfile>>>
+export type GetProfileQueryError = ApiError
+
+
+export function useGetProfile<TData = Awaited<ReturnType<typeof getProfile>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfile>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProfile>>,
+          TError,
+          Awaited<ReturnType<typeof getProfile>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetProfile<TData = Awaited<ReturnType<typeof getProfile>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfile>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProfile>>,
+          TError,
+          Awaited<ReturnType<typeof getProfile>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetProfile<TData = Awaited<ReturnType<typeof getProfile>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 读取学习者画像（没填过的字段是 null）
+ */
+
+export function useGetProfile<TData = Awaited<ReturnType<typeof getProfile>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetProfileQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type updateProfileResponse200 = {
+  data: ProfileResponse
+  status: 200
+}
+
+export type updateProfileResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type updateProfileResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type updateProfileResponseSuccess = (updateProfileResponse200) & {
+  headers: Headers;
+};
+export type updateProfileResponseError = (updateProfileResponse400 | updateProfileResponse500) & {
+  headers: Headers;
+};
+
+export type updateProfileResponse = (updateProfileResponseSuccess | updateProfileResponseError)
+
+export const getUpdateProfileUrl = () => {
+
+
+
+
+  return `/api/v1/profile`
+}
+
+/**
+ * @summary 按字段更新画像（只提交要改的那一个字段）
+ */
+export const updateProfile = async (learnerProfilePatch: LearnerProfilePatch, options?: Parameters<typeof customFetch>[1]): Promise<updateProfileResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<updateProfileResponse>(getUpdateProfileUrl(),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(learnerProfilePatch)
+  }
+);}
+
+
+
+
+
+export const getUpdateProfileQueryKey = (learnerProfilePatch?: LearnerProfilePatch,) => {
+    return [
+    'PATCH', `/api/v1/profile`, learnerProfilePatch
+    ] as const;
+    }
+
+
+export const getUpdateProfileQueryOptions = <TData = Awaited<ReturnType<typeof updateProfile>>, TError = ApiError>(learnerProfilePatch: LearnerProfilePatch, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof updateProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getUpdateProfileQueryKey(learnerProfilePatch);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof updateProfile>>> = ({ signal }) => updateProfile(learnerProfilePatch, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof updateProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type UpdateProfileQueryResult = NonNullable<Awaited<ReturnType<typeof updateProfile>>>
+export type UpdateProfileQueryError = ApiError
+
+
+export function useUpdateProfile<TData = Awaited<ReturnType<typeof updateProfile>>, TError = ApiError>(
+ learnerProfilePatch: LearnerProfilePatch, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof updateProfile>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof updateProfile>>,
+          TError,
+          Awaited<ReturnType<typeof updateProfile>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useUpdateProfile<TData = Awaited<ReturnType<typeof updateProfile>>, TError = ApiError>(
+ learnerProfilePatch: LearnerProfilePatch, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof updateProfile>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof updateProfile>>,
+          TError,
+          Awaited<ReturnType<typeof updateProfile>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useUpdateProfile<TData = Awaited<ReturnType<typeof updateProfile>>, TError = ApiError>(
+ learnerProfilePatch: LearnerProfilePatch, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof updateProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 按字段更新画像（只提交要改的那一个字段）
+ */
+
+export function useUpdateProfile<TData = Awaited<ReturnType<typeof updateProfile>>, TError = ApiError>(
+ learnerProfilePatch: LearnerProfilePatch, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof updateProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getUpdateProfileQueryOptions(learnerProfilePatch,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

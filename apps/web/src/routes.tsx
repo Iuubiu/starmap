@@ -13,6 +13,9 @@ import { SkillsPage } from './pages/SkillsPage';
 import { PlacementPage } from './pages/PlacementPage';
 import { ReviewPage } from './pages/ReviewPage';
 import { NotFoundPage, RouteErrorPage } from './pages/NotFoundPage';
+import { MePage } from './pages/MePage';
+import { LearningPage } from './pages/LearningPage';
+import { FirstVisitGate, WelcomePage } from './pages/WelcomePage';
 
 /**
  * 路由表 —— **新增页面只改这一个文件**。
@@ -43,7 +46,20 @@ export const appRoutes: RouteObject[] = [
       // 看板（推荐 + 今日摘要）在 `/board`。票 01 时 `/` 一度是知识点列表，
       // 那是「先有数据、后有智能体」阶段的临时形状；票 08 落地后必须换回来，
       // 否则最常用的入口是陈列架而不是工作台。
-      { index: true, element: <HomePage /> },
+      // 「初识」还没走完时先让位给欢迎页（票 78）：第一次进来看到的是十个问题，
+      // 而不是一个它还读不懂的学习台。走过一遍后由 localStorage 里的标记放行。
+      {
+        index: true,
+        element: (
+          <FirstVisitGate>
+            <HomePage />
+          </FirstVisitGate>
+        ),
+      },
+      { path: 'welcome', element: <WelcomePage /> },
+      // 学习记录（票 76）：历次会话按「今天/昨天/更早」聚合，点一条回到那一轮。
+      { path: 'learning', element: <LearningPage /> },
+      { path: 'me', element: <MePage /> },
       { path: 'placement', element: <PlacementPage /> },
       { path: 'board', element: <DashboardPage /> },
       { path: 'map', element: <MapPage /> },
