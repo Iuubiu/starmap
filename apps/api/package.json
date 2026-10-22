@@ -14,7 +14,8 @@
     "db:migrate": "tsx --env-file=../../.env ./scripts/migrate.ts up",
     "db:rollback": "tsx --env-file=../../.env ./scripts/migrate.ts down",
     "db:seed": "tsx --env-file=../../.env ./scripts/migrate.ts seed",
-    "content:import": "tsx --env-file=../../.env ./scripts/import-content.ts"
+    "content:import": "tsx --env-file=../../.env ./scripts/import-content.ts",
+    "shuffle:items": "tsx ./scripts/shuffle-item-options.ts"
   },
   "dependencies": {
     "@mastra/core": "1.78.0",

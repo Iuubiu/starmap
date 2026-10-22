@@ -202,6 +202,61 @@ export interface AssembleInput {
  * 自检：如果组装产物不合法，那是**我们的 bug** 而不是模型的错，返回的失败
  * 分类是 `schema_invalid` 且 message 会点明「组装产物不合法」。
  */
+/**
+ * 把选项顺序打乱，并把 `answer` 下标跟着改。
+ *
+ * ## 为什么必须在服务端做，而不是指望提示词
+ *
+ * 实测：库里 44 道题有 37 道的正确答案落在下标 0（其中 5 道题 5/5 全在 0；
+ * 真随机时这个概率是 0.25^5 ≈ 0.098%）。原因不神秘 —— 提示词的输出样例里
+ * 就写着 `"answer": 0`，模型照着抄。这类偏差一旦进了题池，学生「永远选第一个」
+ * 就能拿满分，掌握度会被彻底污染，而且从界面上完全看不出来。
+ *
+ * 提示词里加一句「请随机」治不了本：模型对「随机」的自觉与均匀分布是两件事。
+ * 所以这里是**确定性重排**：用题目 id 派生种子，同一道题每次重跑得到同一个
+ * 排列（可复现、测试可断言），但下标不再与模型的选择相关。
+ */
+export function shuffleOptions<T extends { id: string; options: string[]; answer: number }>(
+  item: T,
+): T {
+  const n = item.options.length;
+  if (n < 2) return item;
+  const rand = mulberry32(hashSeed(item.id));
+  const order = item.options.map((_, i) => i);
+  for (let i = n - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1));
+    const t = order[i]!;
+    order[i] = order[j]!;
+    order[j] = t;
+  }
+  const options = order.map((idx) => item.options[idx]!);
+  // 原来第 answer 个选项，现在排到了 order.indexOf(answer) 这个位置。
+  const answer = order.indexOf(item.answer);
+  return { ...item, options, answer };
+}
+
+/** 32 位字符串哈希（FNV-1a 简化版）：只需要稳定，不需要抗碰撞。 */
+function hashSeed(text: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i += 1) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h >>> 0;
+}
+
+/** mulberry32：8 行的确定性 PRNG，够用且不引入依赖。 */
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 export function assembleLevelSpec(input: AssembleInput):
   | { ok: true; spec: LevelSpec }
   | { ok: false; kind: GenerationFailureKind; message: string; detail?: unknown } {
@@ -210,21 +265,23 @@ export function assembleLevelSpec(input: AssembleInput):
     return { ok: false, kind: 'schema_invalid', message: '没有可组装的题目' };
   }
 
-  const items = questions.map((q, i) => ({
-    id: `${input.levelId}-q${i + 1}`,
-    kind: 'concept' as const,
-    stem: q.stem,
-    options: q.options,
-    answer: q.answer,
-    variantGroup: `${input.levelId}-vg${i + 1}`,
-    explainCorrect: q.explainCorrect,
-    explainWrong: q.explainWrong,
-    misconceptionTags: q.misconceptionTags,
-    sourceRef: q.sourceRef,
-    // ↓ 这一行是验收④。它是字面量，不是变量。
-    pool: 'practice' as const,
-    hintLadder: q.hintLadder,
-  }));
+  const items = questions.map((q, i) =>
+    shuffleOptions({
+      id: `${input.levelId}-q${i + 1}`,
+      kind: 'concept' as const,
+      stem: q.stem,
+      options: q.options,
+      answer: q.answer,
+      variantGroup: `${input.levelId}-vg${i + 1}`,
+      explainCorrect: q.explainCorrect,
+      explainWrong: q.explainWrong,
+      misconceptionTags: q.misconceptionTags,
+      sourceRef: q.sourceRef,
+      // ↓ 这一行是验收④。它是字面量，不是变量。
+      pool: 'practice' as const,
+      hintLadder: q.hintLadder,
+    }),
+  );
 
   const draft = {
     schemaVersion: 1 as const,
