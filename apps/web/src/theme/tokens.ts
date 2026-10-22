@@ -137,7 +137,7 @@ export const darkPalette: Palette = {
   'bg-elevated': '#1C1C22',
   'bg-sunken': '#08080B',
   'bg-hover': '#22222A',
-  'bg-selected': '#2A2A33',
+  'bg-selected': '#26262C',
   'bg-input': '#101014',
   'bg-scrim': 'rgba(5,5,8,0.72)',
   'bg-disabled': '#14141A',
