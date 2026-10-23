@@ -915,3 +915,34 @@
 .v2-railbox .metric b.rail-big { font-size: var(--tx-num); line-height: var(--tx-num-line); }
 .v2-railbox .metric b.rail-pct { font-size: var(--tx-num-sm); }
 .v2-log h2 { font-size: var(--tx-body); font-weight: 600; margin: 0 0 2px; }
+
+/* 中栏首屏：问好居中。
+   卡片一出场（sent 或 latest 存在）就让位，避免和内容抢视线。 */
+.v2-col {
+  display: flex;
+  flex-direction: column;
+}
+.v2-hello {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 40px 40px;
+  text-align: center;
+}
+.v2-hello-hi {
+  margin: 0;
+  font-size: var(--tx-h1, 30px);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--sm-text-primary, #14161a);
+}
+.v2-hello-sub {
+  margin: 0;
+  max-width: 30em;
+  font-size: var(--tx-body, 15px);
+  line-height: 1.7;
+  color: var(--sm-text-secondary, #565b66);
+}

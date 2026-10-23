@@ -64,8 +64,11 @@ describe('HomeV2（t96：外壳已抽到 V2Shell）', () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole('heading', { name: '学习' })).toBeTruthy();
-    expect(screen.getByText('STARMAP')).toBeTruthy();
+    /* 顶部三行（学习 / STARMAP / 说明）已按用户 s(m39578) 的要求删除，
+       改为中栏居中一句问好。这里断言的是新契约：标题不存在、问好在、说明还在。 */
+    expect(screen.queryByRole('heading', { name: '学习' })).toBeNull();
+    expect(screen.queryByText('STARMAP')).toBeNull();
+    expect(screen.getByText('今天想学点什么？')).toBeTruthy();
     expect(screen.getAllByText(/说一句你想学什么/).length).toBeGreaterThan(0);
     // 这一轮的真实记录仍在学习日志里（抽外壳时不能把数据流一起抽走）。
     expect(screen.getAllByText(/先把布尔代数基本运算过一遍/).length).toBeGreaterThan(0);

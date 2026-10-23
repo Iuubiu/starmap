@@ -146,11 +146,22 @@ export function HomeV2() {
     <>
       <main className="v2-main">
         <div className="v2-col" ref={listRef}>
-          <h1 className="v2-title">学习</h1>
-          <p className="v2-caption">STARMAP</p>
-          <p className="v2-say">
-            说一句你想学什么，或者你卡在哪一步。每轮只给一张卡片：一个关卡、一张图谱、一次追问，或一段进度。
-          </p>
+          {/*
+            * 顶部不再有「学习 / STARMAP / 说一句你想学什么…」那三行。
+            * 用户 s(m39578) 明确要求删掉它，改为「中栏页面居中展示：问好等内容」。
+            *
+            * 为什么不是简单删掉：删空后首屏就成了「一个空输入框挂在底部」，
+            * 没有东西告诉学习者该干什么。所以把这一行文字挪到中栏的**垂直居中位置**，
+            * 并改成一句问好 + 一句说明（`v2-hello`），只在本轮还没有任何卡片时出现。
+            */}
+          {!sent && !latest && (
+            <div className="v2-hello">
+              <p className="v2-hello-hi">今天想学点什么？</p>
+              <p className="v2-hello-sub">
+                说一句你想学什么，或者你卡在哪一步。每轮只给一张卡片：一个关卡、一张图谱、一次追问，或一段进度。
+              </p>
+            </div>
+          )}
 
           {sent && (
             <div className="v2-me">
