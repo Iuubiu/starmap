@@ -215,6 +215,34 @@ export const AgentClarifySchema = z.object({
 
 export type AgentClarify = z.infer<typeof AgentClarifySchema>;
 
+/**
+ * 流式回合的事件（`POST /api/v1/agent/turns/stream` 的 SSE 帧）。
+ *
+ * 为什么用 discriminated union 而不是「一个对象带若干可选字段」：前端是
+ * switch (event.type) 逐帧消费的，可选字段会逼它猜「这帧到底算哪一类」，
+ * 猜错的表现是静默丢事件——这类 bug 在浏览器里极难复现。
+ *
+ * 四段 stage 是**真的分阶段**，不是装饰：技能注入 → 检索 → 判定 → 模型。
+ * 学生等 30 秒时看到「正在检索教材第 3 段」和看到一个转圈的 spinner，
+ * 是完全不同的两种体验；而且哪一段慢，界面上直接看得出来。
+ */
+export const AgentStreamEventSchema = z.discriminatedUnion('type', [
+  /** 阶段推进。`detail` 是给人看的短句，不是日志。 */
+  z.object({
+    type: z.literal('stage'),
+    stage: z.enum(['skills', 'retrieval', 'decision', 'model']),
+    detail: z.string().min(1),
+  }),
+  /** 模型逐字吐出的增量。只含**可见正文**，不含 reasoning。 */
+  z.object({ type: z.literal('token'), text: z.string() }),
+  /** 收尾：payload 与一次性接口的响应体**同形**，前端可以直接替换本地状态。 */
+  z.object({ type: z.literal('done'), response: z.record(z.string(), z.unknown()) }),
+  /** 出错：`message` 已是不可信上游文本的安全摘要。 */
+  z.object({ type: z.literal('error'), message: z.string().min(1) }),
+]);
+
+export type AgentStreamEvent = z.infer<typeof AgentStreamEventSchema>;
+
 export const AgentTurnResponseSchema = z
   .object({
   /**
