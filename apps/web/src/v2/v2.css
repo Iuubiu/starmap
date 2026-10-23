@@ -120,9 +120,9 @@
   display: grid;
   /* 工作区 = 右侧一整块**低透明度、微磨玻璃**的圆角矩形；内部三块只用竖线分隔，
      不再各自成块（用户定义：一个工作区 + 三块，不是三个圆角矩形）。 */
-  /* 三栏按比例而不是固定宽度：会话列 9.4%、右栏 44%（取自真实 2560 截图的反算比例），
+  /* 三栏按比例而不是固定宽度：会话列 15%、中栏 50%、右栏 35%（用户指定比例），
      小屏用 min 兜底，避免全屏时两边被钉死、越宽越显窄 */
-  grid-template-columns: minmax(180px, 9.4%) minmax(0, 1fr) minmax(300px, 44%);
+  grid-template-columns: minmax(180px, 15%) minmax(0, 1fr) minmax(300px, 35%);
   min-height: 0;
   min-width: 0;
   margin: 12px 12px 12px 6px;
@@ -463,7 +463,7 @@
    右栏（学习档案 / 学习日志）**不加面板**，直接坐在渐变背景上，宽度 157 → 314。 */
 .v2-panel { /* 三栏按比例而不是固定宽度：会话列 9.4%、右栏 44%（取自真实 2560 截图的反算比例），
      小屏用 min 兜底，避免全屏时两边被钉死、越宽越显窄 */
-  grid-template-columns: minmax(180px, 9.4%) minmax(0, 1fr) minmax(300px, 44%); }
+  grid-template-columns: minmax(180px, 15%) minmax(0, 1fr) minmax(300px, 35%); }
 
 .v2-sessions {
   /* 工作区第一块：不再有自己的材质，只留一条竖线 */
