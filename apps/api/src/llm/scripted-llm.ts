@@ -1,4 +1,4 @@
-import type { LlmCompleteOptions, LlmPort, LlmResult } from './llm.port.js';
+import type { LlmCompleteOptions, LlmDelta, LlmPort, LlmResult, LlmStreamResult } from './llm.port.js';
 
 export interface ScriptedReply {
   /** 精确匹配用户最后一条消息；不匹配时用 fallback */
@@ -35,6 +35,24 @@ export class ScriptedLlm implements LlmPort {
     }
 
     return { text: hit.text, parsed: options.schema ? tryParse(hit.text) : null };
+  }
+
+  /**
+   * 逐字流的假实现：把同一段文本按固定宽度切片吐出。
+   *
+   * 为什么要 `await Promise.resolve()`：不加的话整个流会在一个微任务里跑完，
+   * 前端根本观察不到「逐字」，那流式路径的测试就等于没测。
+   * 切片宽度取 7 是随手定的：既不是 1（碎片太多、断言噪音大），
+   * 也不至于把整段一口吐完。
+   */
+  async *stream(options: LlmCompleteOptions): AsyncGenerator<LlmDelta, LlmStreamResult> {
+    const result = await this.complete(options);
+    const size = 7;
+    for (let i = 0; i < result.text.length; i += size) {
+      await Promise.resolve();
+      yield { text: result.text.slice(i, i + size) };
+    }
+    return { final: result };
   }
 }
 

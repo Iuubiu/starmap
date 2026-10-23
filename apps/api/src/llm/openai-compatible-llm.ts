@@ -1,4 +1,4 @@
-import type { LlmCompleteOptions, LlmPort, LlmResult } from './llm.port.js';
+import type { LlmCompleteOptions, LlmDelta, LlmPort, LlmResult, LlmStreamResult } from './llm.port.js';
 
 /**
  * 真实实现：走 OpenAI 兼容的 /chat/completions。
@@ -25,14 +25,37 @@ export class OpenAiCompatibleLlm implements LlmPort {
    */
   private readonly timeoutMs: number;
 
+  /**
+   * 流式调用的**空闲**超时毫秒，`LLM_STREAM_IDLE_MS` 可改。
+   *
+   * 为什么不复用上面那个 45 秒：流式下「总时长」没有意义——一个正经的长回答
+   * 可以吐 3 分钟，只要它一直在吐字就不该被打断。要看的是「多久没吐新东西」：
+   * 30 秒没有任何 chunk 才认定上游死了。这两个数服务于不同的事实，
+   * 混成一个会让长回答被从中间砍断（那比慢更糟：学生拿到半句话）。
+   */
+  private readonly streamIdleMs: number;
+
   constructor(
     private readonly baseUrl: string,
     private readonly apiKey: string,
     private readonly model: string,
     timeoutMs = Number(process.env.LLM_TIMEOUT_MS ?? 45_000),
+    streamIdleMs = Number(process.env.LLM_STREAM_IDLE_MS ?? 30_000),
   ) {
     this.id = `openai-compatible:${model}`;
     this.timeoutMs = Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 45_000;
+    this.streamIdleMs = Number.isFinite(streamIdleMs) && streamIdleMs > 0 ? streamIdleMs : 30_000;
+  }
+
+  private endpoint(): string {
+    return `${this.baseUrl.replace(/\/$/, '')}/chat/completions`;
+  }
+
+  private headers(): Record<string, string> {
+    return {
+      'content-type': 'application/json',
+      authorization: `Bearer ${this.apiKey}`,
+    };
   }
 
   async complete(options: LlmCompleteOptions): Promise<LlmResult> {
@@ -50,12 +73,9 @@ export class OpenAiCompatibleLlm implements LlmPort {
     if (options.signal) signals.push(options.signal);
 
     const t0 = Date.now();
-    const res = await fetch(`${this.baseUrl.replace(/\/$/, '')}/chat/completions`, {
+    const res = await fetch(this.endpoint(), {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${this.apiKey}`,
-      },
+      headers: this.headers(),
       body: JSON.stringify(body),
       signal: AbortSignal.any(signals),
     });
@@ -65,11 +85,7 @@ export class OpenAiCompatibleLlm implements LlmPort {
       throw new Error(`LLM 请求失败 ${res.status}: ${text.slice(0, 500)}`);
     }
 
-    const json = (await res.json()) as {
-      model?: string;
-      choices?: Array<{ message?: { content?: string; reasoning_content?: string } }>;
-      usage?: { prompt_tokens: number; completion_tokens: number };
-    };
+    const json = (await res.json()) as CompletionJson;
 
     const text = json.choices?.[0]?.message?.content ?? '';
     const reasoning = json.choices?.[0]?.message?.reasoning_content;
@@ -94,6 +110,141 @@ export class OpenAiCompatibleLlm implements LlmPort {
         : {}),
     };
   }
+
+  /**
+   * 逐字流。与 `complete()` 走同一个端点，只是 `stream: true`。
+   *
+   * 三个容易写错的地方，都在实测里踩过：
+   *
+   * 1. **超时必须是「空闲」而不是「总时长」**：见 `streamIdleMs` 的注释。
+   *    这里用一个自建的 `AbortController`，每收到一个 chunk 就 `clearTimeout` +
+   *    重新计时；调用方的 `options.signal` 也要并进去（客户端一断开就停，别继续烧钱）。
+   *
+   * 2. **网络分片不等于行边界**：`ReadableStream` 的 chunk 可能把一个 `data: {...}`
+   *    从中间切开。所以用文本解码器累积到 `buffer`，按换行切，最后一段留在 buffer 里
+   *    等下一片——丢掉它就会偶发地吞掉半个 token。
+   *
+   * 3. **`final` 必须与 `complete()` 同形**：调用方（`turn.service`）拿 `final` 去
+   *    做 schema 校验、掌握度计算、落库，与走 `complete()` 的那条路完全一致。
+   *    流式只多了一个「边收边吐」，不该在结果形状上分叉，否则两条路的差异
+   *    会变成只有流式才出现的 bug。
+   */
+  async *stream(options: LlmCompleteOptions): AsyncGenerator<LlmDelta, LlmStreamResult> {
+    const body: Record<string, unknown> = {
+      model: this.model,
+      messages: options.messages,
+      temperature: options.temperature ?? 0.3,
+      stream: true,
+    };
+    if (options.maxTokens) body.max_tokens = options.maxTokens;
+    // 注意：这里**不**设 response_format。实测 JSON 模式下上游仍可能吐中文解释，
+    // 而流式下解析不完整 JSON 毫无意义——结构化的事留给 final 之后做。
+    // 反过来说，走流式的调用点不该指望「边收边 parse」，这是已知限制，不是遗漏。
+
+    const abort = new AbortController();
+    const signals = [abort.signal];
+    if (options.signal) signals.push(options.signal);
+
+    let idleTimer: NodeJS.Timeout | undefined;
+    const resetIdle = (): void => {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => abort.abort(), this.streamIdleMs);
+    };
+
+    const t0 = Date.now();
+    let text = '';
+    let reasoning = '';
+    let model = this.model;
+    let usage: LlmResult['usage'];
+    let sawDone = false;
+
+    try {
+      resetIdle();
+      const res = await fetch(this.endpoint(), {
+        method: 'POST',
+        headers: this.headers(),
+        body: JSON.stringify(body),
+        signal: AbortSignal.any(signals),
+      });
+
+      if (!res.ok) {
+        const detail = await res.text().catch(() => '');
+        throw new Error(`LLM 流式请求失败 ${res.status}: ${detail.slice(0, 500)}`);
+      }
+      if (!res.body) throw new Error('LLM 流式响应没有 body');
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        resetIdle();
+        buffer += decoder.decode(value, { stream: true });
+
+        // 按换行切；最后一段（可能不完整）留在 buffer 里等下一片。
+        const lines = buffer.split('\n');
+        buffer = lines.pop() ?? '';
+
+        for (const raw of lines) {
+          const line = raw.trim();
+          if (!line.startsWith('data:')) continue; // 注释行/心跳/空行
+          const payload = line.slice(5).trim();
+          if (payload === '[DONE]') {
+            sawDone = true;
+            break;
+          }
+          const parsed = safeJsonParse(payload) as StreamChunk | null;
+          if (!parsed) continue; // 半个 JSON 之类，跳过而不是崩
+          if (parsed.model) model = parsed.model;
+          if (parsed.usage) {
+            usage = {
+              promptTokens: parsed.usage.prompt_tokens,
+              completionTokens: parsed.usage.completion_tokens,
+            };
+          }
+          const delta = parsed.choices?.[0]?.delta;
+          const piece = delta?.content;
+          const think = delta?.reasoning_content;
+          if (think) reasoning += think;
+          if (piece) {
+            text += piece;
+            yield { text: piece };
+          }
+        }
+        if (sawDone) break;
+      }
+    } finally {
+      if (idleTimer) clearTimeout(idleTimer);
+    }
+
+    let parsedResult: unknown = null;
+    if (options.schema) parsedResult = safeJsonParse(text);
+
+    return {
+      final: {
+        text,
+        parsed: parsedResult,
+        model,
+        latencyMs: Date.now() - t0,
+        ...(reasoning ? { reasoning } : {}),
+        ...(usage ? { usage } : {}),
+      },
+    };
+  }
+}
+
+interface CompletionJson {
+  model?: string;
+  choices?: Array<{ message?: { content?: string; reasoning_content?: string } }>;
+  usage?: { prompt_tokens: number; completion_tokens: number };
+}
+
+interface StreamChunk {
+  model?: string;
+  choices?: Array<{ delta?: { content?: string; reasoning_content?: string } }>;
+  usage?: { prompt_tokens: number; completion_tokens: number };
 }
 
 /** 模型常在 JSON 外包一层 ```；剥掉再解析，仍失败返回 null */
