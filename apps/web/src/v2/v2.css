@@ -554,3 +554,37 @@
 .v2-composer .sm-composer-box {
   box-shadow: 0 1px 2px rgba(16, 18, 24, 0.04), 0 8px 20px rgba(16, 18, 24, 0.05);
 }
+
+/* ── 输入框与标题收口（captain，按用户四点反馈）──────────────────────
+   ① 横线要贯穿整个对话框：context 原来是框内左右各退 16px 的一行，
+      横线只有中间一截；改成负边距撑满到框边，横线自然贯通。
+   ② 对话框太高：textarea 最小高 52 → 26，整体高度压掉约 30px。
+   ③ 标题「学习」太大且居中感：改 22px、左对齐、上边距压到 8px。
+   ④ 框下工具条（期刊下载器/文件/插件/视图切换）先不展示。 */
+.v2-composer .sm-composer-context {
+  margin: 0 -16px;
+  padding: 0 16px 8px;
+  border-bottom: 1px solid rgba(16, 18, 24, 0.09);
+}
+.v2-composer .kpbar {
+  border-bottom: 0;          /* 横线交给上面那层贯通到底 */
+  padding: 0;
+  margin: 0;
+}
+.v2-composer .sm-composer-input {
+  min-height: 26px;
+  height: 26px;
+}
+.v2-composer .sm-composer-tools {
+  display: none;
+}
+.v2-title {
+  margin: 8px 0 4px;
+  font-size: 22px;
+  line-height: 30px;
+  text-align: left;
+}
+/* 右下角那个浏览器原生拖动柄（resize: vertical）在样例里没有，属「没用的东西」 */
+.v2-composer .sm-composer-input {
+  resize: none;
+}
