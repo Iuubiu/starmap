@@ -483,3 +483,26 @@
 .v2-archive .metric b { font-size: 15.5px; color: var(--sm-text-primary, #1b1f27); }
 .v2-archive .bar { height: 6px; border-radius: 99px; background: rgba(16, 18, 24, 0.08); overflow: hidden; margin-top: 8px; }
 .v2-archive .bar i { display: block; height: 100%; border-radius: 99px; background: #3f7d4f; }
+
+/* 输入框上方的知识点横条（用户 m38454：对话框上边的知识点横条） */
+.v2-composer .kpbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px 10px;
+  font-size: 14px;
+  color: var(--sm-text-secondary, #4b5160);
+}
+.v2-composer .kpbar .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sm-accent, #c42b31);
+}
+.v2-composer .kpbar .kpname {
+  font-weight: 600;
+  color: var(--sm-text-primary, #14161c);
+}
+.v2-composer .kpbar .kphint {
+  color: var(--sm-text-tertiary, #6b7280);
+}

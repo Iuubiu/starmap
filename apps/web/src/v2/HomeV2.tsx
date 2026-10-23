@@ -70,6 +70,25 @@ export function HomeV2() {
   const [draft, setDraft] = useState('');
   const [sent, setSent] = useState<string>('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [kpName, setKpName] = useState<string | null>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('kp');
+    if (!id) {
+      setKpName(null);
+      return;
+    }
+    let alive = true;
+    fetch(`/api/v1/nodes/${encodeURIComponent(id)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json: { node?: { name?: string } } | null) => {
+        if (alive && json?.node?.name) setKpName(json.node.name);
+      })
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   const [advice, setAdvice] = useState<Array<{ id: string; text: string }>>([]);
   const listRef = useRef<HTMLDivElement | null>(null);
 
@@ -273,6 +292,11 @@ export function HomeV2() {
         </div>
 
         <div className="v2-composer">
+          <div className="kpbar">
+            <span className="dot" aria-hidden="true" />
+            <span className="kpname">{kpName ?? '未选定知识点'}</span>
+            {!kpName && <span className="kphint">去知识地图选一个，或直接说你卡在哪一步</span>}
+          </div>
           <textarea
             value={draft}
             placeholder="说说你想学什么，或者你卡在哪一步…"
@@ -299,7 +323,6 @@ export function HomeV2() {
               <Send24Filled />
             </button>
           </div>
-          <div className="hint">Enter 提交 · Shift+Enter 换行</div>
         </div>
       </main>
 
