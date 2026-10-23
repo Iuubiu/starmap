@@ -8,8 +8,10 @@ import {
   Param,
   Post,
   Query,
+  Res,
   UseFilters,
 } from '@nestjs/common';
+import type { Response } from 'express';
 import { z } from 'zod';
 import {
   AgentTurnHistoryResponseSchema,
@@ -96,6 +98,70 @@ export class AgentTurnsController {
     const response = await this.turns.turn(parsed.data);
     // 服务层已经 parse 过一次；这里再 parse 是防「服务层改字段没改契约」。
     return AgentTurnResponseSchema.parse(response);
+  }
+
+  /**
+   * 流式回合：`text/event-stream`，四段 stage → 若干 token → 一个 done。
+   *
+   * ## 为什么不用 `@Sse()`
+   *
+   * Nest 的 `@Sse()` 包的是 **RxJS**，而这里的源是 `for await` 的异步生成器，
+   * 套进去要 hand-roll 一个 Subject 并自己管背压。直接拿 `@Res()` 写原生 SSE
+   * 反而更短、更可控：什么时候 flush、什么时候关流，都在这一处说清。
+   *
+   * ## 三条必须成立的性质
+   *
+   * 1. **先 flush 头再吐事件**：不 `flushHeaders()` 的话，浏览器会把响应缓到
+   *    缓冲区满才显示，观感上和「没流式」一模一样。
+   * 2. **`done` 携带完整响应体**，与一次性接口同形 —— 前端拿它直接替换本地
+   *    状态，不需要另跑一次 GET 去对齐（那会让界面闪一下）。
+   * 3. **出错也要发一帧 `error` 再关**：直接断开的话前端只能看到
+   *    `net::ERR_INCOMPLETE_CHUNKED_ENCODING`，无法区分「网断了」和「模型出错」。
+   *
+   * 校验失败仍走 JSON 400（不是 SSE）：参数错误在开流之前就能判定，
+   * 用一个合法的 HTTP 状态码比在流里塞一个 error 帧更诚实。
+   */
+  @Post('agent/turns/stream')
+  @HttpCode(200)
+  async stream(@Body() rawBody: unknown, @Res() res: Response): Promise<void> {
+    const parsed = AgentTurnRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      res.status(400).json({
+        code: 'VALIDATION_FAILED',
+        message: `请求体不合法${firstIssueHint(parsed.error.issues)}`,
+        details: parsed.error.issues,
+      });
+      return;
+    }
+
+    res.setHeader('content-type', 'text/event-stream; charset=utf-8');
+    res.setHeader('cache-control', 'no-cache, no-transform');
+    res.setHeader('connection', 'keep-alive');
+    // 关掉 nginx 等反代的缓冲，否则 token 会被攒着一起到
+    res.setHeader('x-accel-buffering', 'no');
+    res.flushHeaders();
+
+    const send = (event: unknown): void => {
+      res.write(`data: ${JSON.stringify(event)}
+
+`);
+    };
+
+    try {
+      const response = await this.turns.turn(parsed.data, {
+        onStage: (stage, detail) => send({ type: 'stage', stage, detail }),
+        onToken: (text) => send({ type: 'token', text }),
+      });
+      // 服务层已 parse 过一次；这里再 parse 防「服务层改字段没改契约」。
+      send({ type: 'done', response: AgentTurnResponseSchema.parse(response) });
+    } catch (error) {
+      send({
+        type: 'error',
+        message: error instanceof Error ? error.message.slice(0, 300) : '未知错误',
+      });
+    } finally {
+      res.end();
+    }
   }
 
   /** 学习日志：这一会话里出过哪些卡，按时间正序。 */
