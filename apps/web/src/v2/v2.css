@@ -118,19 +118,11 @@
 /* ── 中间：920 居中，纵向 flex，输入区贴底 ─────────────────────────── */
 .v2-panel {
   display: grid;
-  /* 样例 .shell 的后三列：200 会话列 / 内容列 / 314 日志列 */
+  /* 三列各自独立成块（回到 v2-kpbar 那一版）：面板只负责分栏，不带材质 */
   grid-template-columns: 200px minmax(0, 1fr) 314px;
   min-height: 0;
   min-width: 0;
-  /* 会话历史与学习模块是**一整块**面板，右栏（学习档案/日志）留在毛玻璃背景层上；
-     这层玻璃要比里面的白卡淡，否则白卡读不出「浮在面板上」的层次 */
-  margin: 12px 8px 12px 6px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(16px) saturate(115%);
-  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.06);
   overflow: hidden;
-  border-right: 0;
 }
 /* 已删除：旧规则「只有中间列是玻璃」会把 .v2-main 的白卡覆盖回毛玻璃。
    现在材质由 .v2-panel（会话+内容共用）承担，.v2-main 是它内部的白卡。 */
@@ -142,18 +134,12 @@
   min-width: 0;
   /* 样例 .main{padding:20px 24px} */
   padding: 20px 24px;
-  /* 学习窗口本身是一块白色圆角矩形，坐在「会话列 + 内容」共用那块玻璃面板上 */
-  margin: 8px 8px 8px 0;
-  border-radius: 14px;
-  /* 白卡与面板的差只有 0.2 左右的明度，单靠背景差读不出边界：
-     补一条 1px 内描边 + 一层贴地投影，让「窗口浮在面板上」在浅色背景上也成立 */
-  /* B 案（保玻璃）：不做纯白，改 0.88 半透明白 + 1px 描边 0.14 + 更深投影。
-     纯白在浅渐变上和白面板只差 1–2 个灰阶，边界读不出来；半透明白能同时
-     「比面板亮一档」且「透出一点背景色」，边界靠描边和投影撑住。 */
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(6px) saturate(110%);
-  border: 1px solid rgba(16, 18, 24, 0.14);
-  box-shadow: 0 2px 4px rgba(16, 18, 24, 0.10), 0 14px 36px rgba(16, 18, 24, 0.12);
+  /* 内容列自己是一块白色圆角面板（与 v2-kpbar 那一版一致） */
+  margin: 12px 8px 12px 0;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.46);
+  backdrop-filter: blur(16px) saturate(115%);
+  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.06);
 }
 .v2-col {
   display: flex;
@@ -474,8 +460,12 @@
 .v2-panel { grid-template-columns: 200px minmax(0, 1fr) 314px; }
 
 .v2-sessions {
-  /* 与内容栏同属一整块面板：自己不再有圆角/毛玻璃，只靠一条竖线与内容分隔 */
-  border-right: 1px solid rgba(16, 18, 24, 0.08);
+  /* 会话列自己是一块白色圆角面板 */
+  margin: 12px 0 12px 6px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.46);
+  backdrop-filter: blur(16px) saturate(115%);
+  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.06);
   overflow: hidden;
 }
 
