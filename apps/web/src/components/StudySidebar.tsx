@@ -42,6 +42,7 @@
 import { Button, Caption1, Card, Text } from '@fluentui/react-components';
 import type { ReactNode } from 'react';
 import type { GateHistoryResponse, MasteryView, UnlockState } from '../api/queries';
+import type { KpProgressView } from '@starmap/api-contract';
 
 /** `packages/engine/src/mastery.ts` 的 `MASTERY_MIN_ATTEMPTS`。 */
 export const ATTEMPT_TARGET = 8;
@@ -69,6 +70,11 @@ export interface StudySidebarProps {
   gateHistory?: GateHistoryResponse | undefined;
   /** 最近一条追问卡的问题。没有就不出这条建议 */
   lastProbe?: string | undefined;
+  /**
+   * 票 89：本关门槛进度（`GET /api/v1/mastery/kp/:id`）。给了它就用接口的
+   * 值 / 阈值 / 比例，`mastery` 只作为旧路径的回退。
+   */
+  progress?: KpProgressView | undefined;
   /** 建议被点击：只填进输入框，不发送 */
   onAsk: (text: string) => void;
   /** 掌握度请求还在路上 */
@@ -168,9 +174,34 @@ interface ProgressRow {
   /** `null` = 证据不足，显示「—」而不是 0 */
   value: number | null;
   target: number;
+  /** 票 89：服务端算好的比例（0–1）。缺失时按 value/target 兜底 */
+  ratio?: number;
+  reached?: boolean;
+  /** 本关真实累计（可能远大于 target），只用于悬浮说明 */
+  cumulative?: number;
+  unit?: string;
 }
 
 /** 三门槛的实测值。`mastery` 缺失 → 三条都是 `null`。 */
+/**
+ * 票 89：本知识点进度直接读服务端算好的数字。
+ *
+ * 三个数字（值 / 阈值 / 比例）全部来自 `GET /api/v1/mastery/kp/:id`：
+ * 前端不再持有 8 / 3 / 2，也不再做除法 —— 阈值随档位变，硬编码在那天会静默错。
+ */
+export function progressRowsFromView(progress: KpProgressView | undefined): ProgressRow[] {
+  if (!progress) return progressRows(undefined, null);
+  return progress.gates.map((gate) => ({
+    label: gate.label,
+    value: gate.value,
+    target: gate.target,
+    ratio: gate.ratio,
+    reached: gate.reached,
+    cumulative: gate.cumulative,
+    unit: gate.unit,
+  }));
+}
+
 export function progressRows(
   mastery: MasteryView | undefined,
   streak: number | null,
@@ -183,9 +214,11 @@ export function progressRows(
   ];
 }
 
-function Row({ row }: { row: ProgressRow }) {
+function Row({ row, gatePassed = false }: { row: ProgressRow; gatePassed?: boolean }) {
   const ratio =
-    row.value === null ? 0 : Math.max(0, Math.min(1, row.value / Math.max(1, row.target)));
+    row.value === null
+      ? 0
+      : (row.ratio ?? Math.max(0, Math.min(1, row.value / Math.max(1, row.target))));
   /*
    * 达标 = 这一条门槛真的到线了（`value >= target`）。
    *
@@ -193,17 +226,34 @@ function Row({ row }: { row: ProgressRow }) {
    * 到线才换成 `success`。**不用 accent** —— 本仓 accent 是红色，红色在这
    * 里的含义是告警/答错，拿来画进度会让学生以为自己在出错（见 glass.css）。
    */
-  const reached = row.value !== null && row.value >= row.target;
+  const reached = row.reached ?? (row.value !== null && row.value >= row.target);
+  /*
+   * 票 89：绿色只留给「本关判定已达标」。这条门槛自己的数字到线不算 ——
+   * 数字是累计口径，判定是另一件事，混在一起会让人以为「做够了 8 题就过关了」。
+   */
+  const tone = gatePassed ? 'success' : 'neutral';
   return (
-    <div className="sm-study-row" data-study-row={row.label} data-reached={reached ? 'true' : 'false'}>
+    <div
+      className="sm-study-row"
+      data-study-row={row.label}
+      data-reached={reached ? 'true' : 'false'}
+      data-tone={tone}
+    >
       <span className="sm-study-row-label">{row.label}</span>
       <span className="sm-study-track" aria-hidden>
         <span className="sm-study-fill" style={{ width: `${ratio * 100}%` }} />
       </span>
-      <span className="sm-study-row-value" title={row.value === null ? undefined : `累计 ${row.value} 次，本关需 ≥${row.target}`}>
-        {row.value === null
-          ? '证据不足'
-          : `${Math.min(row.value, row.target)} / ${row.target}`}
+      <span
+        className="sm-study-row-value"
+        title={
+          row.value === null
+            ? undefined
+            : row.cumulative !== undefined && row.cumulative > row.target
+              ? `本关累计 ${row.cumulative} ${row.unit ?? ''}，已到线（阈值 ${row.target}）`
+              : `本关 ${row.value} ${row.unit ?? ''}，阈值 ${row.target}`
+        }
+      >
+        {row.value === null ? '证据不足' : `${row.value} / ${row.target}`}
       </span>
     </div>
   );
@@ -215,11 +265,13 @@ export function StudySidebar({
   unlock,
   gateHistory,
   lastProbe,
+  progress,
   onAsk,
   pending = false,
 }: StudySidebarProps) {
   const streak = trailingCorrect(gateHistory);
-  const rows = progressRows(mastery, streak);
+  // 票 89：有服务端的本关进度就用它（数字/阈值/比例都是接口算的），否则退回旧路径
+  const rows = progress ? progressRowsFromView(progress) : progressRows(mastery, streak);
   const suggestions = buildSuggestions({ mastery, unlock, lastProbe });
   const evidenceEnough = mastery?.evidenceSufficient === true;
 
@@ -249,7 +301,7 @@ export function StudySidebar({
             <>
               <div className="sm-study-rows">
                 {rows.map((row) => (
-                  <Row key={row.label} row={row} />
+                  <Row key={row.label} row={row} gatePassed={progress?.gatePassed ?? false} />
                 ))}
               </div>
               <Caption1 className="sm-study-note">

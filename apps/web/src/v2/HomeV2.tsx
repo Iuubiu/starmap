@@ -9,70 +9,25 @@
  * 版式取自样例的四个硬数字：左轨 48 · 会话列 200 · 内容列 920 居中 · 日志列 300。
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  BookOpen24Regular,
-  Clock24Regular,
-  Bookmark24Regular,
-  DataBarVertical24Regular,
-  Library24Regular,
-  Map24Regular,
-  Person24Regular,
-  Target24Regular,
-} from '@fluentui/react-icons';
 import { useAgentTurns, useSubmitTurn } from '../api/queries/agent';
 import { ArtifactCard } from '../agent/ArtifactCard';
 import { Composer } from '../components/Composer';
-import { currentSessionId, resetSessionId } from '../agent/session';
+import { currentSessionId } from '../agent/session';
 import type { AgentTurnResponse } from '../api/generated/model';
+import type { KpProgressView } from '@starmap/api-contract';
 import './v2.css';
 
 type Row = { id?: string; utterance?: string; visibleResponse?: string | null; createdAt?: string };
-
-const NAV = [
-  { key: 'learn', label: '学习', icon: BookOpen24Regular },
-  { key: 'placement', label: '定级', icon: Target24Regular },
-  { key: 'review', label: '复验', icon: Clock24Regular },
-  { key: 'board', label: '看板', icon: DataBarVertical24Regular },
-  { key: 'map', label: '知识地图', icon: Map24Regular },
-  { key: 'market', label: '关卡市场', icon: Bookmark24Regular },
-  { key: 'library', label: '内容库', icon: Library24Regular },
-  { key: 'me', label: '我的', icon: Person24Regular },
-];
-
-/** 左下角固定项（账户），不参与上方导航循环。 */
-const ME_NAV = NAV[NAV.length - 1];
-
-/** 会话记录按「今天 / 昨天 / 更早」分组 —— 样例里就是这个分组。 */
-function groupByDay(rows: Row[]): Array<{ label: string; items: Row[] }> {
-  const now = new Date();
-  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const startOfYesterday = startOfToday - 86_400_000;
-  const today: Row[] = [];
-  const yesterday: Row[] = [];
-  const earlier: Row[] = [];
-  const buckets: Array<{ label: string; items: Row[] }> = [
-    { label: '今天', items: today },
-    { label: '昨天', items: yesterday },
-    { label: '更早', items: earlier },
-  ];
-  for (const row of rows) {
-    const created = row.createdAt;
-    const at = created ? new Date(created).getTime() : now.getTime();
-    if (at >= startOfToday) today.push(row);
-    else if (at >= startOfYesterday) yesterday.push(row);
-    else earlier.push(row);
-  }
-  return buckets.filter((b) => b.items.length > 0);
-}
 
 export function HomeV2() {
   const [sessionId, setSessionId] = useState(() => currentSessionId());
   const [draft, setDraft] = useState('');
   const [sent, setSent] = useState<string>('');
-  const [menuOpen, setMenuOpen] = useState(false);
   const [kpName, setKpName] = useState<string | null>(null);
+  const [kpId, setKpId] = useState<string | null>(null);
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get('kp');
+    setKpId(id);
     if (!id) {
       setKpName(null);
       return;
@@ -89,31 +44,32 @@ export function HomeV2() {
     };
   }, []);
 
-  const [advice, setAdvice] = useState<Array<{ id: string; text: string }>>([]);
-  const listRef = useRef<HTMLDivElement | null>(null);
-
-  const [sessions, setSessions] = useState<Row[]>([]);
+  /*
+   * 本知识点进度（票 89）。三个数字全部来自 `GET /api/v1/mastery/kp/:id`：
+   * 阈值（8 / 3 / 连对 2）与比例都由服务端给，前端不硬编码、不做除法。
+   * 以前这里显示「作答 474/8」，因为分子喂的是累计作答数；接口现在发的是
+   * 本关数字（服务端已饱和到阈值），累计真数留在 `cumulative` 里做悬浮说明。
+   */
+  const [progress, setProgress] = useState<KpProgressView | null>(null);
   useEffect(() => {
+    if (!kpId) {
+      setProgress(null);
+      return;
+    }
     let alive = true;
-    fetch('/api/v1/agent/sessions?limit=40')
-      .then((r) => (r.ok ? r.json() : { items: [] }))
-      .then((json: { sessions?: Array<{ sessionId?: string; firstUtterance?: string | null; lastActivityAt?: string }> }) => {
-        if (!alive || !Array.isArray(json.sessions)) return;
-        setSessions(
-          json.sessions.map((it) => ({
-            id: it.sessionId,
-            utterance: it.firstUtterance ?? '（未记录原话）',
-            createdAt: it.lastActivityAt,
-          })),
-        );
+    fetch(`/api/v1/mastery/kp/${encodeURIComponent(kpId)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json: KpProgressView | null) => {
+        if (alive) setProgress(json);
       })
-      .catch(() => {
-        /* 会话列表读不到不影响主流程：进度条与输入框照常可用 */
-      });
+      .catch(() => undefined);
     return () => {
       alive = false;
     };
-  }, []);
+  }, [kpId]);
+
+  const [advice, setAdvice] = useState<Array<{ id: string; text: string }>>([]);
+  const listRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -146,28 +102,9 @@ export function HomeV2() {
   }, [history.data]);
 
   const latest: AgentTurnResponse | undefined = submit.data;
-  const groups = useMemo(() => groupByDay(rows), [rows]);
-  /* 会话列按时间切分（用户 m38478）：今天 / 昨天 / 本周 / 更早，用 lastActivityAt 真值。 */
-  const sessBuckets = useMemo(() => {
-    const dayStart = new Date().setHours(0, 0, 0, 0);
-    const out: Array<{ label: string; items: typeof sessions }> = [
-      { label: '今天', items: [] },
-      { label: '昨天', items: [] },
-      { label: '本周', items: [] },
-      { label: '更早', items: [] },
-    ];
-    for (const row of sessions) {
-      const d = row.createdAt ? new Date(row.createdAt).setHours(0, 0, 0, 0) : dayStart;
-      const days = Math.round((dayStart - d) / 86400000);
-      const idx = days <= 0 ? 0 : days === 1 ? 1 : days < 7 ? 2 : 3;
-      out[idx]?.items.push(row);
-    }
-    return out.filter((b) => b.items.length > 0);
-  }, [sessions]);
-
-
   useEffect(() => {
-    listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
+    // 测试环境（jsdom）没有 scrollTo：有则滚，无则跳过，不因此炸掉整页。
+    listRef.current?.scrollTo?.({ top: listRef.current.scrollHeight });
   }, [rows.length, latest]);
 
   const send = () => {
@@ -176,12 +113,6 @@ export function HomeV2() {
     setSent(text);
     setDraft('');
     submit.mutate({ utterance: text, microKpId: '', tier: 'P2' });
-  };
-
-  const newSession = () => {
-    resetSessionId();
-    setSessionId(currentSessionId());
-    setSent('');
   };
 
   /* 右栏「学习档案」用的三个数：档位取真实 placement，作答/变式暂无接口时显示 0
@@ -204,104 +135,8 @@ export function HomeV2() {
     };
   }, []);
   const tierLabel = tier ?? '—';
-  const answeredCount: number | null = null;
-  const variantCount: number | null = null;
-
   return (
-    <div className="v2-shell">
-      <nav className="v2-rail" aria-label="主导航">
-        {NAV.slice(0, -1).map(({ key, label, icon: Icon }) => (
-          <button
-            key={key}
-            type="button"
-            title={label}
-            aria-label={label}
-            aria-current={key === 'learn' ? 'page' : undefined}
-            onClick={() => {
-              if (key === 'learn') window.location.assign('/');
-              else window.location.assign(`/${key === 'market' ? 'market' : key}`);
-            }}
-          >
-            <Icon />
-          </button>
-        ))}
-        {ME_NAV && (
-          <div className="me-wrap">
-            {menuOpen && (
-              <div className="me-menu" role="menu">
-                <button type="button" role="menuitem" onClick={() => window.location.assign('/me')}>
-                  我的
-                </button>
-                <button type="button" role="menuitem" onClick={() => window.location.assign('/learning')}>
-                  学习记录
-                </button>
-                <button
-                  type="button"
-                  role="menuitem"
-                  onClick={() => {
-                    const next = document.documentElement.dataset.smTheme === 'dark' ? 'light' : 'dark';
-                    document.documentElement.dataset.smTheme = next;
-                    localStorage.setItem('sm-theme', next);
-                  }}
-                >
-                  切换主题
-                </button>
-                <button type="button" role="menuitem" onClick={() => window.location.assign('/me')}>
-                  账户设置
-                </button>
-              </div>
-            )}
-            <button
-              type="button"
-              className="me"
-              title={ME_NAV.label}
-              aria-label={ME_NAV.label}
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen((v) => !v)}
-            >
-              <ME_NAV.icon />
-            </button>
-          </div>
-        )}
-      </nav>
-
-      <div className="v2-panel">
-      <aside className="v2-sessions" aria-label="学习记录">
-        <button type="button" className="new-row" onClick={newSession}>
-          <span aria-hidden="true">✎</span>
-          <span>新对话</span>
-        </button>
-        <button type="button" className="row entry" onClick={() => window.location.assign('/learning')}>
-          <span>学习记录</span>
-        </button>
-        {sessBuckets.map((b) => (
-          <div key={b.label}>
-            <div className="grp">{b.label}</div>
-            {b.items.slice(0, 8).map((row, i) => (
-              <button key={row.id ?? `${b.label}-${i}`} type="button" className="row" title={row.utterance}>
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {row.utterance ?? '（未记录原话）'}
-                </span>
-                <span>{row.createdAt ? new Date(row.createdAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) : ''}</span>
-              </button>
-            ))}
-          </div>
-        ))}
-        {groups.map((g) => (
-          <div key={g.label}>
-            <div className="grp">{g.label}</div>
-            {g.items.slice(0, 8).map((row, i) => (
-              <button key={row.id ?? `${g.label}-${i}`} type="button" className="row" title={row.utterance}>
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {row.utterance ?? '（未记录原话）'}
-                </span>
-                <span>{row.createdAt ? new Date(row.createdAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) : ''}</span>
-              </button>
-            ))}
-          </div>
-        ))}
-      </aside>
-
+    <>
       <main className="v2-main">
         <div className="v2-col" ref={listRef}>
           <h1 className="v2-title">学习</h1>
@@ -360,28 +195,51 @@ export function HomeV2() {
               档位是作答证据的测量结果，不能自选；想改档只能多做题。
             </div>
           </div>
-          <div className="card">
+          <div className="card" data-kp-progress>
             <div className="metric">
-              <b>作答</b>
-              {answeredCount === null ? '—' : `${answeredCount} 题`}
+              <b>本知识点进度</b>
+              {kpName ?? '未选定知识点'}
             </div>
-            {answeredCount === null ? (
-              <div className="why">这个数还没接上接口，不显示 0 —— 0 会误导成「一题没做」。</div>
-            ) : (
-              <div className="bar">
-                <i style={{ width: `${Math.min(100, answeredCount * 12)}%` }} />
+            {progress === null ? (
+              <div className="why">
+                {kpId ? '正在读进度…' : '还没选知识点：去知识地图点一个，或在地址后面加 ?kp=<知识点 id>。'}
               </div>
-            )}
-            <div className="metric" style={{ marginTop: 10 }}>
-              <b>变式</b>
-              {variantCount === null ? '—' : `${variantCount} 组`}
-            </div>
-            {variantCount === null ? (
-              <div className="why">同上，等进度接口接上再显示。</div>
             ) : (
-              <div className="bar">
-                <i style={{ width: `${Math.min(100, variantCount * 33)}%` }} />
-              </div>
+              <>
+                {progress.gates.map((gate) => (
+                  <div
+                    className="gate"
+                    key={gate.key}
+                    data-gate={gate.key}
+                    data-reached={gate.reached ? 'true' : 'false'}
+                  >
+                    <span className="gate-label">{gate.label}</span>
+                    <span className="gate-track" aria-hidden>
+                      {/* 宽度直接用服务端算好的比例：前端不做除法 */}
+                      <i
+                        className="gate-fill"
+                        data-tone={progress.gatePassed ? 'success' : 'neutral'}
+                        style={{ width: `${Math.round(gate.ratio * 100)}%` }}
+                      />
+                    </span>
+                    <span
+                      className="gate-value"
+                      title={
+                        gate.cumulative > gate.target
+                          ? `本关累计 ${gate.cumulative} ${gate.unit}，已到线（阈值 ${gate.target}）`
+                          : `本关 ${gate.value} ${gate.unit}，阈值 ${gate.target}`
+                      }
+                    >
+                      {gate.value} / {gate.target}
+                    </span>
+                  </div>
+                ))}
+                <div className="why">
+                  {progress.gatePassed
+                    ? `本关判定已达标${progress.gateEvaluatedAt ? `（${new Date(progress.gateEvaluatedAt).toLocaleDateString('zh-CN')}）` : ''}`
+                    : `本关判定还没达标${progress.levelTitle ? `：${progress.levelTitle}` : ''}`}
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -405,7 +263,6 @@ export function HomeV2() {
           </div>
         ))}
       </aside>
-      </div>
-    </div>
+    </>
   );
 }

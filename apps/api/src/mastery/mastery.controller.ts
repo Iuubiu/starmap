@@ -1,8 +1,10 @@
 import { Controller, Get, Inject, Param, UseFilters } from '@nestjs/common';
-import type { MasteryView, ProgressBoard } from '@starmap/api-contract';
+import type { KpProgressView, MasteryView, ProgressBoard } from '@starmap/api-contract';
+import { tierParams } from '@starmap/engine';
 import { DatabaseService } from '../db/database.service.js';
 import { ApiExceptionFilter } from '../common/api-exception.filter.js';
 import { MasteryService } from './mastery.service.js';
+import { PlacementService } from '../placement/placement.service.js';
 
 /**
  * 读一个知识点的双字段掌握度。
@@ -20,8 +22,11 @@ import { MasteryService } from './mastery.service.js';
 export class MasteryController {
   private readonly mastery: MasteryService;
 
-  constructor(@Inject(DatabaseService) db: DatabaseService) {
+  private readonly placement: PlacementService;
+
+  constructor(@Inject(DatabaseService) private readonly db: DatabaseService) {
     this.mastery = new MasteryService(db);
+    this.placement = new PlacementService(db);
   }
 
   /**
@@ -35,6 +40,23 @@ export class MasteryController {
   async board(): Promise<ProgressBoard> {
     const evaluatedAt = await this.mastery.now();
     return this.mastery.board(evaluatedAt);
+  }
+
+
+  /**
+   * 学习页右栏的本知识点进度（票 89）。
+   *
+   * 路径里带 `/kp/`：它和 `mastery/:microKpId` 返回的是两件事（掌握度回放 vs
+   * 本关门槛进度），共用一个参数路由会让调用方分不清拿到的是哪一种。声明顺序
+   * 仍在参数路由之前 —— 与 `mastery/board` 同理。
+   */
+  @Get('mastery/kp/:microKpId')
+  async kp(@Param('microKpId') microKpId: string): Promise<KpProgressView> {
+    const evaluatedAt = await this.mastery.now();
+    // 连对阈值随档位变（P1 是 2 题），档位只能走 placement 这一层读
+    const status = await this.placement.status();
+    const streakTarget = tierParams(status.tier ?? 'P1').masteryRule.consecutiveCorrect;
+    return this.mastery.kpProgress(microKpId, evaluatedAt, streakTarget);
   }
 
   @Get('mastery/:microKpId')

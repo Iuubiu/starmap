@@ -1,6 +1,7 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import type { MasteryView, ProgressBoard } from '@starmap/api-contract';
-import { deriveState, type MasterySnapshot } from '@starmap/engine';
+import type { KpGateProgress, KpProgressView, MasteryView, ProgressBoard } from '@starmap/api-contract';
+import { KpProgressViewSchema } from '@starmap/api-contract';
+import { MASTERY_MIN_ATTEMPTS, MASTERY_MIN_VARIANTS, deriveState, type MasterySnapshot } from '@starmap/engine';
 import { DatabaseService } from '../db/database.service.js';
 import { aggregateSnapshots, groupByMicroKp, snapshotOf } from './evidence.js';
 import {
@@ -184,6 +185,96 @@ export class MasteryService {
    * 在方法内部逐节点取时刻会让同一响应里的数字分属不同时刻，`current` 连续
    * 衰减，差几毫秒就差千分之一——列表里两个节点的百分比会互相不可比。
    */
+
+  /**
+   * 票 89：学习页右栏「本知识点进度」。
+   *
+   * 和三件事有关，所以放在服务端算：
+   *
+   * 1. **分母不能前端硬编码**。8 / 3 是引擎阈值（`MASTERY_MIN_ATTEMPTS` /
+   *    `MASTERY_MIN_VARIANTS`），连对阈值是当前档位的 `consecutiveCorrect` ——
+   *    改阈值只要改引擎，界面跟着变。
+   * 2. **分子必须是本关的**。`view()` 的 `attemptCount` 是**累计作答**（474），
+   *    拿它当分子就会出现「作答 474/8」。这里按关卡收窄，并在服务端饱和到阈值，
+   *    真数留在 `cumulative` 里。
+   * 3. **比例在服务端算**。「这条走了多少」是判定口径的一部分，客户端各自除法
+   *    就会各自漂。
+   */
+  async kpProgress(
+    microKpId: string,
+    evaluatedAt: string,
+    streakTarget: number,
+  ): Promise<KpProgressView> {
+    const point = await findKnowledgePoint(this.runner, microKpId);
+    if (!point) {
+      throw new NotFoundException({ code: 'NOT_FOUND', message: `知识点不存在: ${microKpId}` });
+    }
+
+    const levels = (await this.runner(
+      `SELECT id, title FROM app.levels WHERE micro_kp_id = $1 ORDER BY ordinal DESC, id DESC LIMIT 1`,
+      [microKpId],
+    )) as { id: string; title: string }[];
+    const level = levels[0] ?? null;
+
+    const counters = (await this.runner(
+      `SELECT
+         count(*) FILTER (WHERE counts_toward_mastery)::int            AS counted,
+         count(DISTINCT variant_group)
+           FILTER (WHERE counts_toward_mastery)::int                   AS variants
+       FROM app.attempts
+       WHERE micro_kp_id = $1
+         AND level_id IS NOT DISTINCT FROM $2::text`,
+      [microKpId, level?.id ?? null],
+    )) as { counted: number; variants: number }[];
+
+    // 连对：从最新一条往前数连续答对的条数。答案本身不在这里算，只数布尔。
+    const recent = (await this.runner(
+      `SELECT correct FROM app.attempts
+        WHERE micro_kp_id = $1
+          AND level_id IS NOT DISTINCT FROM $2::text
+        ORDER BY created_at DESC, id DESC
+        LIMIT 200`,
+      [microKpId, level?.id ?? null],
+    )) as { correct: boolean }[];
+    let streak = 0;
+    for (const row of recent) {
+      if (!row.correct) break;
+      streak += 1;
+    }
+
+    const gate = (await this.runner(
+      `SELECT payload, created_at FROM learning_log
+        WHERE micro_kp_id = $1
+          AND event LIKE 'gate!_%' ESCAPE '!'
+          AND ($2::text IS NULL OR payload->>'levelId' = $2)
+        ORDER BY created_at DESC, id DESC
+        LIMIT 1`,
+      [microKpId, level?.id ?? null],
+    )) as { payload: unknown; created_at: Date | string }[];
+
+    const gatePassed = readGatePassed(gate[0]?.payload);
+    const gateEvaluatedAt = gate[0] ? toIso(gate[0].created_at) : null;
+
+    const counted = counters[0]?.counted ?? 0;
+    const variants = counters[0]?.variants ?? 0;
+    const gates: KpGateProgress[] = [
+      gateRow('attempts', '作答', counted, MASTERY_MIN_ATTEMPTS, '题'),
+      gateRow('variants', '变式', variants, MASTERY_MIN_VARIANTS, '组'),
+      gateRow('streak', '连对', streak, streakTarget, '题'),
+    ];
+
+    return KpProgressViewSchema.parse({
+      microKpId: point.id,
+      name: point.name,
+      levelId: level?.id ?? null,
+      levelTitle: level?.title ?? null,
+      gates,
+      gatePassed,
+      gateEvaluatedAt,
+      evaluatedAt,
+    });
+  }
+
   async viewMany(
     microKpIds: readonly string[],
     evaluatedAt: string,
@@ -344,4 +435,38 @@ export class MasteryService {
       aggregatedLeafCount,
     };
   }
+}
+
+/** 一条门槛：分子饱和到阈值，真数留在 cumulative 里。 */
+function gateRow(
+  key: KpGateProgress['key'],
+  label: string,
+  cumulative: number,
+  target: number,
+  unit: string,
+): KpGateProgress {
+  const value = Math.min(cumulative, target);
+  return {
+    key,
+    label,
+    value,
+    cumulative,
+    target,
+    // 服务端算比例：前端不做除法（票 89 验收 2）
+    ratio: target > 0 ? Number((value / target).toFixed(4)) : 0,
+    reached: cumulative >= target,
+    unit,
+  };
+}
+
+/** 门控日志的 payload 里 `passed` 是布尔；老记录只有 `verdict`。 */
+function readGatePassed(payload: unknown): boolean {
+  if (!payload || typeof payload !== 'object') return false;
+  const record = payload as { passed?: unknown; verdict?: unknown };
+  if (typeof record.passed === 'boolean') return record.passed;
+  return record.verdict === 'passed';
+}
+
+function toIso(value: Date | string): string {
+  return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
 }

@@ -200,6 +200,44 @@ export const MasteryViewSchema = z.object({
   aggregatedLeafCount: z.number().int().min(0),
 });
 
+/**
+ * 票 89：学习页右栏「本知识点进度」的一条门槛。
+ *
+ * `value` 是**本关**（这张关卡）的数字，且在服务端就已饱和到 `target`：
+ * 「作答 474/8」那种分子把累计作答数喂进来的显示，问题不在 UI 而在数据源 ——
+ * 一旦接口把累计数当分子发出去，任何客户端都会原样显示。这里把两件事分开：
+ *
+ * - `value`：算进本关判定的数，永远 ≤ `target`（进度条与文案用它）
+ * - `cumulative`：本关真实累计（可能远超阈值，只给悬浮说明用）
+ *
+ * `target` 来自引擎（`MASTERY_MIN_ATTEMPTS` / `MASTERY_MIN_VARIANTS` / 档位的
+ * `consecutiveCorrect`），`ratio` 也在服务端算好：前端不硬编码 8/3/2，也不做除法。
+ */
+export const KpGateProgressSchema = z.object({
+  key: z.enum(['attempts', 'variants', 'streak']),
+  label: z.string(),
+  value: z.number().int().min(0),
+  cumulative: z.number().int().min(0),
+  target: z.number().int().min(1),
+  ratio: z.number().min(0).max(1),
+  reached: z.boolean(),
+  unit: z.string(),
+});
+
+/** GET /api/v1/mastery/kp/:microKpId 的响应：本知识与本关的门槛进度。 */
+export const KpProgressViewSchema = z.object({
+  microKpId: z.string(),
+  name: z.string(),
+  /** 计入本关统计的关卡；没有关卡时为 null（数字退化成这个知识点自己的） */
+  levelId: z.string().nullable(),
+  levelTitle: z.string().nullable(),
+  gates: z.array(KpGateProgressSchema),
+  /** 本关出口门控最近一次判定是否已达标（没有判定历史时为 false） */
+  gatePassed: z.boolean(),
+  gateEvaluatedAt: z.string().nullable(),
+  evaluatedAt: z.string(),
+});
+
 /** POST /api/v1/attempts 的响应：落库的那条记录 + 更新后的掌握度。 */
 export const AttemptSubmitResponseSchema = z.object({
   attempt: AttemptRecordSchema,
@@ -341,6 +379,8 @@ export type GateResponse = z.infer<typeof GateResponseSchema>;
 export type AttemptSubmitRequest = z.infer<typeof AttemptSubmitRequestSchema>;
 export type AttemptRecord = z.infer<typeof AttemptRecordSchema>;
 export type MasteryView = z.infer<typeof MasteryViewSchema>;
+export type KpGateProgress = z.infer<typeof KpGateProgressSchema>;
+export type KpProgressView = z.infer<typeof KpProgressViewSchema>;
 export type AttemptSubmitResponse = z.infer<typeof AttemptSubmitResponseSchema>;
 
 // ---------------------------------------------------------------------------

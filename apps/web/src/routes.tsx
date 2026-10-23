@@ -9,6 +9,7 @@ import { MarketPage } from './pages/MarketPage';
 import { MarketAuthorPage } from './pages/MarketAuthorPage';
 import { GenerationPage } from './pages/GenerationPage';
 import { HomeV2 } from './v2/HomeV2';
+import { V2Main, V2Shell } from './v2/V2Shell';
 import { LibraryPage } from './pages/LibraryPage';
 import { SkillsPage } from './pages/SkillsPage';
 import { PlacementPage } from './pages/PlacementPage';
@@ -37,16 +38,28 @@ import { FirstVisitGate, WelcomePage } from './pages/WelcomePage';
  * 的 dependency-cruiser 有 `no-circular` 规则，会直接判违规）。
  */
 export const appRoutes: RouteObject[] = [
-  // 学习页（v2）：自带四列外壳（轨道 / 会话 / 内容 / 日志），
-  // 因此必须挂在 AppShell **外面** —— 套进去会得到两层侧栏。
-  // 其余页面暂时仍走 AppShell，等外壳重写完成后再统一。
+  // v2 外壳（票 96）：`/`、`/learning`、`/market`、`/map` 共用**同一套**外壳
+  // （左轨 68 / 会话列 200 / 主列 / 右栏 314）。布局路由不带 path，子路由写绝对路径。
+  //
+  // 页面自己只渲染主列（`<main className="v2-main">`）；`/` 额外渲染右栏
+  // （`aside.v2-log`），作为外壳的右侧 slot。主列宽度因此四页一致。
   {
-    path: '/',
-    element: (
-      <FirstVisitGate>
-        <HomeV2 />
-      </FirstVisitGate>
-    ),
+    element: <V2Shell />,
+    errorElement: <RouteErrorPage />,
+    children: [
+      {
+        path: '/',
+        element: (
+          <FirstVisitGate>
+            <HomeV2 />
+          </FirstVisitGate>
+        ),
+      },
+      { path: '/learning', element: <V2Main><LearningPage /></V2Main> },
+      { path: '/market', element: <V2Main><MarketPage /></V2Main> },
+      // 地图要的是「画布跟着窗口长」：主列不滚，页面撑满高度。
+      { path: '/map', element: <V2Main fill><MapPage /></V2Main> },
+    ],
   },
   {
     path: '/',
@@ -61,19 +74,15 @@ export const appRoutes: RouteObject[] = [
       // 「初识」还没走完时先让位给欢迎页（票 78）：第一次进来看到的是十个问题，
       // 而不是一个它还读不懂的学习台。走过一遍后由 localStorage 里的标记放行。
       { path: 'welcome', element: <WelcomePage /> },
-      // 学习记录（票 76）：历次会话按「今天/昨天/更早」聚合，点一条回到那一轮。
-      { path: 'learning', element: <LearningPage /> },
       { path: 'me', element: <MePage /> },
       { path: 'placement', element: <PlacementPage /> },
       { path: 'board', element: <DashboardPage /> },
-      { path: 'map', element: <MapPage /> },
       { path: 'map/:microKpId', element: <NodeDetailPage /> },
       { path: 'level/:levelId', element: <LevelPage /> },
       // 复验（票 07）单独开一页，不嵌在知识点详情页里：验收第 1 条要求
       // 「多个知识点交错出现而不是同一个连考」—— 单知识点页天然只有一张卷。
       { path: 'review', element: <ReviewPage /> },
       { path: 'database', element: <DatabasePage /> },
-      { path: 'market', element: <MarketPage /> },
       { path: 'market/author/:microKpId', element: <MarketAuthorPage /> },
       { path: 'market/generate', element: <GenerationPage /> },
       { path: 'skills', element: <SkillsPage /> },

@@ -13,6 +13,7 @@ import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import type { GateHistoryResponse, MasteryView, UnlockState } from '../api/queries';
+import type { KpProgressView } from '@starmap/api-contract';
 import {
   ATTEMPT_TARGET,
   STREAK_TARGET,
@@ -20,6 +21,7 @@ import {
   VARIANT_TARGET,
   buildSuggestions,
   progressRows,
+  progressRowsFromView,
   trailingCorrect,
 } from './StudySidebar';
 
@@ -249,5 +251,59 @@ describe('StudySidebar：建议点击只填不发', () => {
       gateHistory: gateHistory(['a'], []),
     });
     expect(screen.getByText(/暂时没有更强的建议/)).toBeInTheDocument();
+  });
+});
+
+describe('票 89：进度读接口（前端不硬编码阈值、不做除法）', () => {
+  const view: KpProgressView = {
+    microKpId: 'kp-bool',
+    name: '布尔代数基本运算',
+    levelId: 'lv-bool-laws',
+    levelTitle: '逻辑代数基本律：吸收律与德摩根律',
+    // 服务端饱和后的数字：474 次累计 → 8（阈值 8），真数留在 cumulative
+    gates: [
+      { key: 'attempts', label: '作答', value: 8, cumulative: 474, target: 8, ratio: 1, reached: true, unit: '题' },
+      { key: 'variants', label: '变式', value: 3, cumulative: 3, target: 3, ratio: 1, reached: true, unit: '组' },
+      { key: 'streak', label: '连对', value: 1, cumulative: 1, target: 2, ratio: 0.5, reached: false, unit: '题' },
+    ],
+    gatePassed: false,
+    gateEvaluatedAt: null,
+    evaluatedAt: '2026-10-23T00:00:00.000Z',
+  };
+
+  it('三条门槛的值、阈值、比例都来自接口，400 次累计不会显示成「474 / 8」', () => {
+    const rows = progressRowsFromView(view);
+    expect(rows.map((r) => r.label)).toEqual(['作答', '变式', '连对']);
+    expect(rows.map((r) => `${r.value} / ${r.target}`)).toEqual(['8 / 8', '3 / 3', '1 / 2']);
+    expect(rows[0]?.ratio).toBe(1);
+    expect(rows[2]?.ratio).toBe(0.5);
+    // 真数在 cumulative 里，只用于悬浮说明
+    expect(rows[0]?.cumulative).toBe(474);
+  });
+
+  it('本关判定没达标时进度条走中性色；达标才换 success', () => {
+    const { container, rerender } = render(
+      <FluentProvider theme={webLightTheme}>
+        <StudySidebar microKpName={view.name} progress={view} onAsk={() => undefined} />
+      </FluentProvider>,
+    );
+    const tones = Array.from(container.querySelectorAll('[data-study-row]')).map((n) =>
+      n.getAttribute('data-tone'),
+    );
+    expect(tones).toEqual(['neutral', 'neutral', 'neutral']);
+
+    rerender(
+      <FluentProvider theme={webLightTheme}>
+        <StudySidebar
+          microKpName={view.name}
+          progress={{ ...view, gatePassed: true }}
+          onAsk={() => undefined}
+        />
+      </FluentProvider>,
+    );
+    const passed = Array.from(container.querySelectorAll('[data-study-row]')).map((n) =>
+      n.getAttribute('data-tone'),
+    );
+    expect(passed).toEqual(['success', 'success', 'success']);
   });
 });
