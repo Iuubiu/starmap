@@ -118,23 +118,22 @@
 /* ── 中间：920 居中，纵向 flex，输入区贴底 ─────────────────────────── */
 .v2-panel {
   display: grid;
-  /* 样例 .shell 的后三列：200 会话列 / 内容列 / 236 日志列 */
-  grid-template-columns: 200px minmax(0, 1fr) 157px;
+  /* 样例 .shell 的后三列：200 会话列 / 内容列 / 314 日志列 */
+  grid-template-columns: 200px minmax(0, 1fr) 314px;
   min-height: 0;
   min-width: 0;
-  overflow: hidden;
-}
-/* 样例里只有中间那列是一块玻璃（.main{margin:12px 12px 12px 6px;radius 18}），
-   会话列与日志列直接坐在渐变上。所以板子的材质挪到 .v2-main，外壳本身透明。 */
-.v2-panel > .v2-main {
-  margin: 12px 12px 12px 6px;
+  /* 会话历史与学习模块是**一整块**面板，右栏（学习档案/日志）留在毛玻璃背景层上；
+     这层玻璃要比里面的白卡淡，否则白卡读不出「浮在面板上」的层次 */
+  margin: 12px 8px 12px 6px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(24px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 8px 24px rgba(20, 30, 60, 0.08);
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(16px) saturate(115%);
+  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.06);
   overflow: hidden;
+  border-right: 0;
 }
+/* 已删除：旧规则「只有中间列是玻璃」会把 .v2-main 的白卡覆盖回毛玻璃。
+   现在材质由 .v2-panel（会话+内容共用）承担，.v2-main 是它内部的白卡。 */
 
 .v2-main {
   display: flex;
@@ -143,6 +142,14 @@
   min-width: 0;
   /* 样例 .main{padding:20px 24px} */
   padding: 20px 24px;
+  /* 学习窗口本身是一块白色圆角矩形，坐在「会话列 + 内容」共用那块玻璃面板上 */
+  margin: 8px 8px 8px 0;
+  border-radius: 14px;
+  background: #ffffff;
+  /* 白卡与面板的差只有 0.2 左右的明度，单靠背景差读不出边界：
+     补一条 1px 内描边 + 一层贴地投影，让「窗口浮在面板上」在浅色背景上也成立 */
+  border: 1px solid rgba(16, 18, 24, 0.10);
+  box-shadow: 0 1px 2px rgba(16, 18, 24, 0.06), 0 10px 28px rgba(16, 18, 24, 0.07);
 }
 .v2-col {
   display: flex;
@@ -463,11 +470,8 @@
 .v2-panel { grid-template-columns: 200px minmax(0, 1fr) 314px; }
 
 .v2-sessions {
-  margin: 12px 0 12px 6px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.46);
-  backdrop-filter: blur(16px) saturate(115%);
-  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.06);
+  /* 与内容栏同属一整块面板：自己不再有圆角/毛玻璃，只靠一条竖线与内容分隔 */
+  border-right: 1px solid rgba(16, 18, 24, 0.08);
   overflow: hidden;
 }
 
@@ -476,4 +480,68 @@
   backdrop-filter: none;
   box-shadow: none;
   border: 0;
+}
+
+
+/* ── 票 96：迁移到 V2Shell 的页面主列 ─────────────────────────────────
+   页面自己带内边距（Map 24/32、Learning 22/0），外壳不再叠一层；阅读宽度
+   （Learning 的 maxWidth: min(1200px,100%)）由外壳解除 —— 迁移后「多宽」
+   归外壳管，页面不该再自己封顶。`/` 的 `.v2-col` 不在 `--page` 变体下，
+   920px 阅读列不受影响。 */
+.v2-main--page {
+  padding: 0;
+  overflow-y: auto;
+}
+.v2-main--fill {
+  padding: 0;
+  overflow: hidden;
+}
+.v2-main--page > * {
+  width: 100%;
+  max-width: none !important;
+  min-width: 0;
+  margin-inline: 0;
+}
+.v2-main--fill > * {
+  height: 100%;
+  min-height: 0;
+}
+
+/* 票 89：本知识点进度 —— 三条门槛（作答 / 变式 / 连对）。
+   颜色只说明一件事：本关判定达标才是成功绿；没达标一律中性灰。
+   不用 accent（本仓 accent 是红，会被读成告警）。 */
+.v2-archive .metric b {
+  font-weight: 600;
+}
+.v2-archive .gate {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--sm-t2, #5a6172);
+}
+.v2-archive .gate-label {
+  white-space: nowrap;
+}
+.v2-archive .gate-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(20, 30, 60, 0.08);
+  overflow: hidden;
+}
+.v2-archive .gate-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #9aa3b2;
+  transition: width 0.2s ease;
+}
+.v2-archive .gate-fill[data-tone='success'] {
+  background: #2e7d4f;
+}
+.v2-archive .gate-value {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
