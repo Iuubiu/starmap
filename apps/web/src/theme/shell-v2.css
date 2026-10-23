@@ -1,0 +1,53 @@
+/*
+ * shell-v2.css —— 按已通过的样例（.scratch/design/cx-1.png / cx-2.png）重写外壳版式。
+ *
+ * 为什么单独一个文件、且在 glass.css 之后加载：
+ * glass.css 里既有「玻璃材质」（背景、模糊、投影）也有「版式」（列宽、留白、间距）。
+ * 这两件事的返工频率完全不同 —— 材质一次定稿后几乎不动，版式我改了六轮。
+ * 混在一个文件里，每次调间距都要读 1200 行材质代码，且容易误改到不该动的地方。
+ * 所以这里只做版式覆盖，不碰任何颜色/模糊/阴影。
+ *
+ * 样例的三个硬数字（从光-v1 稿里量出来的）：
+ *   左轨 48px（纯图标）· 第二列 200px（列表）· 内容列 min(920px,100%) 居中，gap 14px
+ * 本文件把应用外壳往这三个数字上收。
+ */
+
+/* ── 三列宽度：左轨收到样例的 48px，第二列 200px ───────────────────── */
+.sm-shell-grid {
+  grid-template-columns: 48px 200px minmax(0, 1fr);
+}
+
+/* ── 内容列：920 居中。这是「像不像样例」最明显的一条 ───────────────── */
+.sm-page-in {
+  width: min(920px, 100%);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── 页面滚动条：样例没有可见滚动条，内容在列内自然流动 ───────────────── */
+.sm-content,
+.sm-main {
+  scrollbar-width: none;
+}
+.sm-content::-webkit-scrollbar,
+.sm-main::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* ── 输入区贴底：样例里输入框压在窗口底部，不被裁 ───────────────────── */
+.sm-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* 窄屏（<1024px）：左轨与第二列合并成抽屉，内容占满，920 上限保留 */
+@media (max-width: 1023px) {
+  .sm-shell-grid {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+}

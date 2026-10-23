@@ -5,6 +5,8 @@ import { ThemeProvider } from './theme/ThemeProvider';
 import './theme/tokens.css';
 import './theme/motion.css';
 import './theme/glass.css';
+/* 版式覆盖层：只改列宽/留白，不碰材质。必须排在 glass.css 之后。 */
+import './theme/shell-v2.css';
 
 /**
  * 应用入口。
