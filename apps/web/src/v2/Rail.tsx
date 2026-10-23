@@ -67,6 +67,22 @@ const PAGES: Record<string, PageSpec> = {
       { label: '去做复验', to: '/review' },
     ],
   },
+  '/database': {
+    title: '数据库',
+    quick: [
+      { label: '知识点、切片、答案块各多少，去内容库看一张表', to: '/library' },
+      { label: '查某个知识点的内容从哪几页来', to: '/library' },
+      { label: '回看板看今天该学什么', to: '/board' },
+    ],
+  },
+  '/skills': {
+    title: '技能库',
+    quick: [
+      { label: '看教学技能在哪些场景被调用', to: '/skills' },
+      { label: '去学习页试一句，看技能怎么响应', to: '/' },
+      { label: '回看板看今天该学什么', to: '/board' },
+    ],
+  },
   '/placement': {
     title: '初始定级',
     quick: [
