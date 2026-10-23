@@ -70,6 +70,7 @@ export function HomeV2() {
   const [draft, setDraft] = useState('');
   const [sent, setSent] = useState<string>('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [advice, setAdvice] = useState<Array<{ id: string; text: string }>>([]);
   const listRef = useRef<HTMLDivElement | null>(null);
 
   const [sessions, setSessions] = useState<Row[]>([]);
@@ -89,6 +90,28 @@ export function HomeV2() {
       })
       .catch(() => {
         /* 会话列表读不到不影响主流程：进度条与输入框照常可用 */
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/v1/recommendations')
+      .then((r) => (r.ok ? r.json() : { items: [] }))
+      .then((json: { recommendations?: Array<{ microKpId?: string; name?: string; gating?: { mode?: string } }> }) => {
+        if (!alive) return;
+        const items = Array.isArray(json.recommendations) ? json.recommendations : [];
+        setAdvice(
+          items.slice(0, 3).map((it, i) => ({
+            id: it.microKpId ?? `a-${i}`,
+            text: `${it.name ?? '这个知识点'}：${it.gating?.mode === 'none' ? '没有前置要求，可以直接开始' : '前置已满足，可以开始'}`,
+          })),
+        );
+      })
+      .catch(() => {
+        /* 建议读不到不影响主流程 */
       });
     return () => {
       alive = false;
@@ -282,6 +305,17 @@ export function HomeV2() {
 
       <aside className="v2-log" aria-label="学习日志">
         <h2>学习日志</h2>
+        <h3>实时建议</h3>
+        {advice.length === 0 ? (
+          <div className="row">还没有建议。说一句你想学什么，这里会出现三条。</div>
+        ) : (
+          <ul className="advice">
+            {advice.map((a) => (
+              <li key={a.id}>{a.text}</li>
+            ))}
+          </ul>
+        )}
+        <h3>这一会话</h3>
         {rows.length === 0 && <div className="row">还没有记录。说第一句话后这里会出现。</div>}
         {rows.slice(-6).reverse().map((row, i) => (
           <div className="row" key={row.id ?? `log-${i}`}>

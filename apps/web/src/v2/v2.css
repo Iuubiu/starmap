@@ -119,9 +119,14 @@
   margin: 12px 12px 12px 6px;
   border-radius: 20px;
   /* 「太透明」的修正：从 0.22 抬到 0.62，背景仍透但文字区已经是实心感 */
-  background: rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(22px) saturate(120%);
-  box-shadow: 0 20px 54px rgba(16, 18, 24, 0.09);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(120%);
+  /* 全屏下 0.62 的面板与浅渐变几乎同色，边界消失：
+     一圈 1px 亮边 + 加深投影，让它在 2560 上也看得出是「一块板」 */
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 26px 64px rgba(16, 18, 24, 0.13),
+    0 2px 6px rgba(16, 18, 24, 0.05);
   overflow: hidden;
 }
 .v2-panel > .v2-main {
@@ -311,6 +316,35 @@
   font-size: 12.5px;
   color: var(--sm-text-secondary, #4b5160);
 }
+.v2-log .advice {
+  margin: 0;
+  padding: 0 0 0 14px;
+  list-style: none;
+}
+.v2-log .advice li {
+  position: relative;
+  padding: 6px 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--sm-text-secondary, #4b5160);
+}
+.v2-log .advice li::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 13px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--sm-accent, #be283c);
+  opacity: 0.55;
+}
+.v2-log h3 {
+  margin: 6px 0 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sm-text-tertiary, #7b8293);
+}
 .v2-log .row time {
   display: block;
   margin-top: 4px;
@@ -350,8 +384,9 @@
 }
 .v2-rail .me-menu {
   position: absolute;
-  left: 44px;
-  bottom: 0;
+  left: 52px;
+  bottom: 4px;
+  z-index: 40;
   min-width: 132px;
   padding: 6px;
   border-radius: 10px;
