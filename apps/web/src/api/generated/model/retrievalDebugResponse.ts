@@ -8,6 +8,7 @@
 import type { RetrievalDebugResponseExpansionsItem } from './retrievalDebugResponseExpansionsItem.js';
 import type { RetrievalDebugResponseGateTier } from './retrievalDebugResponseGateTier.js';
 import type { RetrievalDebugResponseHitsItem } from './retrievalDebugResponseHitsItem.js';
+import type { RetrievalDebugResponseSemantic } from './retrievalDebugResponseSemantic.js';
 
 export interface RetrievalDebugResponse {
   /**
@@ -26,6 +27,7 @@ export interface RetrievalDebugResponse {
   hits: RetrievalDebugResponseHitsItem[];
   microKpId: string;
   query: string;
+  semantic: RetrievalDebugResponseSemantic;
   /**
      * @minimum 0
      * @maximum 9007199254740991

@@ -20,6 +20,7 @@ export type RetrievalDebugResponseHitsItem = {
   page: number | null;
   score: number;
   snippet: string;
+  sourceId: string;
   sourceTitle: string;
   tier: RetrievalDebugResponseHitsItemTier;
 };

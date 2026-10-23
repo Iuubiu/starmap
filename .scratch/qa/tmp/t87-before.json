@@ -1,0 +1,196 @@
+{
+  "/@1280": {
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    },
+    "main": {
+      "x": 288,
+      "y": 32,
+      "w": 976,
+      "h": 768
+    },
+    "page": {
+      "x": 303,
+      "y": 32,
+      "w": 946,
+      "h": 768
+    },
+    "pageColumns": "628px 300px",
+    "pageGap": "18px",
+    "pageMaxWidth": "min(1080px, 100%)",
+    "pagePadding": "22px 0px 0px",
+    "gutters": {
+      "left": 15,
+      "right": 15
+    },
+    "widestText": null,
+    "composer": {
+      "x": 303,
+      "y": 608,
+      "w": 628,
+      "h": 174
+    },
+    "composerBox": {
+      "x": 303,
+      "y": 638,
+      "w": 628,
+      "h": 110
+    },
+    "composerBottom": 18,
+    "factCells": [],
+    "progress": {
+      "track": "rgb(113, 113, 125)",
+      "fill": "rgb(85, 85, 94)",
+      "fillWidth": 0,
+      "trackWidth": 140
+    }
+  },
+  "/@2566": {
+    "viewport": {
+      "w": 2566,
+      "h": 1080
+    },
+    "main": {
+      "x": 288,
+      "y": 32,
+      "w": 2262,
+      "h": 1048
+    },
+    "page": {
+      "x": 879,
+      "y": 32,
+      "w": 1080,
+      "h": 1048
+    },
+    "pageColumns": "762px 300px",
+    "pageGap": "18px",
+    "pageMaxWidth": "min(1080px, 100%)",
+    "pagePadding": "22px 0px 0px",
+    "gutters": {
+      "left": 591,
+      "right": 591
+    },
+    "widestText": null,
+    "composer": {
+      "x": 879,
+      "y": 888,
+      "w": 762,
+      "h": 174
+    },
+    "composerBox": {
+      "x": 879,
+      "y": 918,
+      "w": 762,
+      "h": 110
+    },
+    "composerBottom": 18,
+    "factCells": [],
+    "progress": {
+      "track": "rgb(113, 113, 125)",
+      "fill": "rgb(85, 85, 94)",
+      "fillWidth": 0,
+      "trackWidth": 140
+    }
+  },
+  "/learning@1280": {
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    },
+    "main": {
+      "x": 288,
+      "y": 32,
+      "w": 976,
+      "h": 768
+    },
+    "page": {
+      "x": 303,
+      "y": 32,
+      "w": 946,
+      "h": 768
+    },
+    "pageColumns": "320px 608px",
+    "pageGap": "18px",
+    "pageMaxWidth": "min(1200px, 100%)",
+    "pagePadding": "22px 0px 0px",
+    "gutters": {
+      "left": 15,
+      "right": 15
+    },
+    "widestText": {
+      "w": 420,
+      "tag": "P"
+    },
+    "composer": {
+      "x": 685,
+      "y": 414,
+      "w": 520,
+      "h": 144
+    },
+    "composerBox": {
+      "x": 685,
+      "y": 414,
+      "w": 520,
+      "h": 110
+    },
+    "composerBottom": 242,
+    "factCells": [],
+    "progress": {
+      "track": null,
+      "fill": null,
+      "fillWidth": null,
+      "trackWidth": null
+    }
+  },
+  "/learning@2566": {
+    "viewport": {
+      "w": 2566,
+      "h": 1080
+    },
+    "main": {
+      "x": 288,
+      "y": 32,
+      "w": 2262,
+      "h": 1048
+    },
+    "page": {
+      "x": 823,
+      "y": 47,
+      "w": 1193,
+      "h": 1042
+    },
+    "pageColumns": "320px 862px",
+    "pageGap": "18px",
+    "pageMaxWidth": "min(1200px, 100%)",
+    "pagePadding": "22px 0px 0px",
+    "gutters": {
+      "left": 535,
+      "right": 534
+    },
+    "widestText": {
+      "w": 417,
+      "tag": "P"
+    },
+    "composer": {
+      "x": 1329,
+      "y": 566,
+      "w": 517,
+      "h": 143
+    },
+    "composerBox": {
+      "x": 1329,
+      "y": 566,
+      "w": 517,
+      "h": 109
+    },
+    "composerBottom": 371,
+    "factCells": [],
+    "progress": {
+      "track": null,
+      "fill": null,
+      "fillWidth": null,
+      "trackWidth": null
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "/": {
+    "composer": 1,
+    "box": 1,
+    "textarea": 1
+  },
+  "/learning": {
+    "composer": 1,
+    "box": 1,
+    "textarea": 1
+  }
+}

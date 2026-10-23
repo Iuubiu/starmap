@@ -1,0 +1,82 @@
+[
+  {
+    "page": "home",
+    "width": 1280,
+    "mainWidth": 946,
+    "contentWidth": 946,
+    "left": 15,
+    "right": 15,
+    "fillRatio": 1,
+    "windowWidth": 1280
+  },
+  {
+    "page": "learning",
+    "width": 1280,
+    "mainWidth": 946,
+    "contentWidth": 946,
+    "left": 15,
+    "right": 15,
+    "fillRatio": 1,
+    "windowWidth": 1280
+  },
+  {
+    "page": "market",
+    "width": 1280,
+    "mainWidth": 946,
+    "contentWidth": 946,
+    "left": 15,
+    "right": 15,
+    "fillRatio": 1,
+    "windowWidth": 1280
+  },
+  {
+    "page": "map",
+    "width": 1280,
+    "mainWidth": 946,
+    "contentWidth": 946,
+    "left": 15,
+    "right": 15,
+    "fillRatio": 1,
+    "windowWidth": 1280
+  },
+  {
+    "page": "home",
+    "width": 2560,
+    "mainWidth": 2226,
+    "contentWidth": 1080,
+    "left": 591.24,
+    "right": 591.24,
+    "fillRatio": 0.485,
+    "windowWidth": 2560
+  },
+  {
+    "page": "learning",
+    "width": 2560,
+    "mainWidth": 2226,
+    "contentWidth": 1200,
+    "left": 528,
+    "right": 528,
+    "fillRatio": 0.539,
+    "windowWidth": 2560
+  },
+  {
+    "page": "market",
+    "width": 2560,
+    "mainWidth": 2226,
+    "contentWidth": 2226,
+    "left": 15,
+    "right": 15,
+    "fillRatio": 1,
+    "windowWidth": 2560
+  },
+  {
+    "page": "map",
+    "width": 2560,
+    "mainWidth": 2226,
+    "contentWidth": 2226,
+    "left": 15,
+    "right": 15,
+    "fillRatio": 1,
+    "windowWidth": 2560
+  }
+]

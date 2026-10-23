@@ -1,0 +1,136 @@
+[
+  {
+    "width": 1280,
+    "path": "/",
+    "window": 1280,
+    "mainW": 946,
+    "page": {
+      "left": 15,
+      "right": 15,
+      "w": 946
+    },
+    "composer": {
+      "x": 303,
+      "y": 708,
+      "w": 628,
+      "h": 174
+    },
+    "stage": {
+      "x": 288,
+      "y": 34,
+      "w": 976,
+      "h": 866
+    },
+    "sidebar": {
+      "x": 963,
+      "y": 70,
+      "w": 272,
+      "h": 230
+    },
+    "firstCard": null,
+    "pageIn": {
+      "x": 303,
+      "y": 34,
+      "w": 946,
+      "h": 866
+    }
+  },
+  {
+    "width": 1280,
+    "path": "/learning",
+    "window": 1280,
+    "mainW": 946,
+    "page": {
+      "left": 15,
+      "right": 15,
+      "w": 946
+    },
+    "composer": {
+      "x": 685,
+      "y": 464,
+      "w": 520,
+      "h": 144
+    },
+    "stage": {
+      "x": 288,
+      "y": 32,
+      "w": 976,
+      "h": 868
+    },
+    "sidebar": null,
+    "firstCard": null,
+    "pageIn": {
+      "x": 303,
+      "y": 32,
+      "w": 946,
+      "h": 868
+    }
+  },
+  {
+    "width": 2566,
+    "path": "/",
+    "window": 2566,
+    "mainW": 2232,
+    "page": {
+      "left": 591,
+      "right": 591,
+      "w": 1080
+    },
+    "composer": {
+      "x": 879,
+      "y": 708,
+      "w": 762,
+      "h": 174
+    },
+    "stage": {
+      "x": 288,
+      "y": 34,
+      "w": 2262,
+      "h": 866
+    },
+    "sidebar": {
+      "x": 1673,
+      "y": 70,
+      "w": 272,
+      "h": 230
+    },
+    "firstCard": null,
+    "pageIn": {
+      "x": 303,
+      "y": 34,
+      "w": 2232,
+      "h": 866
+    }
+  },
+  {
+    "width": 2566,
+    "path": "/learning",
+    "window": 2566,
+    "mainW": 2232,
+    "page": {
+      "left": 531,
+      "right": 531,
+      "w": 1200
+    },
+    "composer": {
+      "x": 1328,
+      "y": 464,
+      "w": 520,
+      "h": 144
+    },
+    "stage": {
+      "x": 288,
+      "y": 32,
+      "w": 2262,
+      "h": 868
+    },
+    "sidebar": null,
+    "firstCard": null,
+    "pageIn": {
+      "x": 303,
+      "y": 32,
+      "w": 2232,
+      "h": 868
+    }
+  }
+]

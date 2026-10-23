@@ -1,0 +1,146 @@
+[
+  {
+    "page": "home",
+    "width": 1280,
+    "mainWidth": 946,
+    "contentWidth": 946,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": null
+  },
+  {
+    "page": "learning",
+    "width": 1280,
+    "mainWidth": 946,
+    "contentWidth": 946,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": null
+  },
+  {
+    "page": "market",
+    "width": 1280,
+    "mainWidth": 946,
+    "contentWidth": 946,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": null
+  },
+  {
+    "page": "map",
+    "width": 1280,
+    "mainWidth": 946,
+    "contentWidth": 946,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": 542
+  },
+  {
+    "page": "home",
+    "width": 1440,
+    "mainWidth": 1106,
+    "contentWidth": 1080,
+    "left": 28,
+    "right": 28,
+    "canvasWidth": null
+  },
+  {
+    "page": "learning",
+    "width": 1440,
+    "mainWidth": 1106,
+    "contentWidth": 1106,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": null
+  },
+  {
+    "page": "market",
+    "width": 1440,
+    "mainWidth": 1106,
+    "contentWidth": 1106,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": null
+  },
+  {
+    "page": "map",
+    "width": 1440,
+    "mainWidth": 1106,
+    "contentWidth": 1106,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": 702
+  },
+  {
+    "page": "home",
+    "width": 1920,
+    "mainWidth": 1586,
+    "contentWidth": 1080,
+    "left": 268,
+    "right": 268,
+    "canvasWidth": null
+  },
+  {
+    "page": "learning",
+    "width": 1920,
+    "mainWidth": 1586,
+    "contentWidth": 1200,
+    "left": 208,
+    "right": 208,
+    "canvasWidth": null
+  },
+  {
+    "page": "market",
+    "width": 1920,
+    "mainWidth": 1586,
+    "contentWidth": 1586,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": null
+  },
+  {
+    "page": "map",
+    "width": 1920,
+    "mainWidth": 1586,
+    "contentWidth": 1586,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": 1182
+  },
+  {
+    "page": "home",
+    "width": 2560,
+    "mainWidth": 2226,
+    "contentWidth": 1080,
+    "left": 591.24,
+    "right": 591.24,
+    "canvasWidth": null
+  },
+  {
+    "page": "learning",
+    "width": 2560,
+    "mainWidth": 2226,
+    "contentWidth": 1200,
+    "left": 528,
+    "right": 528,
+    "canvasWidth": null
+  },
+  {
+    "page": "market",
+    "width": 2560,
+    "mainWidth": 2226,
+    "contentWidth": 2226,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": null
+  },
+  {
+    "page": "map",
+    "width": 2560,
+    "mainWidth": 2226,
+    "contentWidth": 2226,
+    "left": 15,
+    "right": 15,
+    "canvasWidth": 1822
+  }
+]

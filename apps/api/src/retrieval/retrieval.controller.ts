@@ -88,6 +88,7 @@ export class RetrievalController {
         snippet: this.retrieval.snippet(hit.text, query, outcome.extraTerms),
         kind: hit.kind,
         page: hit.page,
+        sourceId: hit.sourceId,
         sourceTitle: hit.sourceTitle,
         isAnswerChunk: hit.isAnswerChunk,
         allowed: hit.allowed,
@@ -98,6 +99,7 @@ export class RetrievalController {
       answerChunkCount: outcome.candidates.filter((c) => outcome.answerChunkIds.includes(c.id)).length,
       excludedCount: outcome.excluded.length,
       expansions: outcome.expansions,
+      semantic: outcome.semantic,
     });
   }
 

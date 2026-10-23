@@ -6211,6 +6211,8 @@
                 "type": "number"
               "snippet":
                 "type": "string"
+              "sourceId":
+                "type": "string"
               "sourceTitle":
                 "type": "string"
               "tier":
@@ -6226,6 +6228,7 @@
               - "snippet"
               - "kind"
               - "page"
+              - "sourceId"
               - "sourceTitle"
               - "isAnswerChunk"
               - "allowed"
@@ -6237,6 +6240,24 @@
           "type": "string"
         "query":
           "type": "string"
+        "semantic":
+          "additionalProperties": false
+          "properties":
+            "enabled":
+              "type": "boolean"
+            "reason":
+              "type":
+                - "string"
+                - "null"
+            "reranked":
+              "maximum": 9007199254740991
+              "minimum": 0
+              "type": "integer"
+          "required":
+            - "enabled"
+            - "reason"
+            - "reranked"
+          "type": "object"
         "totalMatched":
           "maximum": 9007199254740991
           "minimum": 0
@@ -6251,6 +6272,7 @@
         - "answerChunkCount"
         - "excludedCount"
         - "expansions"
+        - "semantic"
       "type": "object"
     "RetrievalExpansion":
       "additionalProperties": false

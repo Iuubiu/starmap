@@ -890,10 +890,22 @@
   color: var(--sm-text-secondary);
 }
 
+/*
+ * 进度条：轨道用 `border-control`、填充用 `text-secondary`，达标才换 `success`。
+ *
+ * ## 为什么不是 accent
+ *
+ * 本仓的 `accent` 本身就是红色（深色 `#FF6B6B` / 明亮 `#C42B31`）。用 accent
+ * 当填充色，「进度」在屏幕上就是一条红杠 —— 而红色在这个仓里的含义是
+ * **告警 / 答错**（`.sm-level-feedback--wrong`、错误条、危险按钮都用它）。
+ * 一条 40% 的红进度条会被读成「你出问题了」，而不是「你走到 40%」。
+ *
+ * 所以：未达标 = 中性（灰），已达标 = `success`（绿）。红不再兼职表示进度。
+ */
 .sm-study-track {
   height: 6px;
   border-radius: var(--sm-liquid-r-pill);
-  background-color: var(--sm-glass-fill-soft);
+  background-color: var(--sm-border-control);
   overflow: hidden;
 }
 
@@ -901,7 +913,13 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background-color: var(--sm-accent);
+  background-color: var(--sm-text-secondary);
+  transition: background-color var(--sm-glass-dur-fast) ease;
+}
+
+/* 本关判定已达标：这一条门槛真的到了线，才换成 success。 */
+.sm-study-row[data-reached='true'] .sm-study-fill {
+  background-color: var(--sm-success);
 }
 
 .sm-study-row-value {

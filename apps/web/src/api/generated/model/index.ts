@@ -361,6 +361,7 @@ export * from './retrievalDebugResponseGateTier.js';
 export * from './retrievalDebugResponseHitsItem.js';
 export * from './retrievalDebugResponseHitsItemKind.js';
 export * from './retrievalDebugResponseHitsItemTier.js';
+export * from './retrievalDebugResponseSemantic.js';
 export * from './retrievalExpansion.js';
 export * from './reviewCompleteResponse.js';
 export * from './reviewCompleteResponseMasteryItem.js';

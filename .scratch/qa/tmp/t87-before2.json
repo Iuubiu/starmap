@@ -1,0 +1,430 @@
+{
+  "/@1280": {
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    },
+    "composer": {
+      "x": 303,
+      "y": 608,
+      "w": 628,
+      "h": 174,
+      "bottom": 782
+    },
+    "lastContentBottom": null,
+    "contentGap": null,
+    "factGrid": {
+      "x": 303,
+      "y": 754,
+      "w": 628,
+      "h": 28,
+      "bottom": 782
+    },
+    "cardBg": null,
+    "factCells": [
+      {
+        "label": "",
+        "value": "期刊下载器",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 307,
+          "y": 754,
+          "w": 110,
+          "h": 28,
+          "bottom": 782
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "文件",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 421,
+          "y": 754,
+          "w": 74,
+          "h": 28,
+          "bottom": 782
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "插件",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 499,
+          "y": 754,
+          "w": 74,
+          "h": 28,
+          "bottom": 782
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "视图切换",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 577,
+          "y": 754,
+          "w": 98,
+          "h": 28,
+          "bottom": 782
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      }
+    ],
+    "side": {
+      "rect": {
+        "x": 963,
+        "y": 68,
+        "w": 272,
+        "h": 494,
+        "bottom": 562
+      },
+      "children": 2,
+      "gaps": [
+        10
+      ],
+      "nestedBoxes": 4
+    }
+  },
+  "/@2566": {
+    "viewport": {
+      "w": 2566,
+      "h": 1080
+    },
+    "composer": {
+      "x": 879,
+      "y": 888,
+      "w": 762,
+      "h": 174,
+      "bottom": 1062
+    },
+    "lastContentBottom": null,
+    "contentGap": null,
+    "factGrid": {
+      "x": 879,
+      "y": 1034,
+      "w": 762,
+      "h": 28,
+      "bottom": 1062
+    },
+    "cardBg": null,
+    "factCells": [
+      {
+        "label": "",
+        "value": "期刊下载器",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 883,
+          "y": 1034,
+          "w": 110,
+          "h": 28,
+          "bottom": 1062
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "文件",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 997,
+          "y": 1034,
+          "w": 74,
+          "h": 28,
+          "bottom": 1062
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "插件",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 1075,
+          "y": 1034,
+          "w": 74,
+          "h": 28,
+          "bottom": 1062
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "视图切换",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 1153,
+          "y": 1034,
+          "w": 98,
+          "h": 28,
+          "bottom": 1062
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      }
+    ],
+    "side": {
+      "rect": {
+        "x": 1673,
+        "y": 68,
+        "w": 272,
+        "h": 494,
+        "bottom": 562
+      },
+      "children": 2,
+      "gaps": [
+        10
+      ],
+      "nestedBoxes": 4
+    }
+  },
+  "/learning@1280": {
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    },
+    "composer": {
+      "x": 685,
+      "y": 414,
+      "w": 520,
+      "h": 144,
+      "bottom": 558
+    },
+    "lastContentBottom": null,
+    "contentGap": null,
+    "factGrid": {
+      "x": 685,
+      "y": 530,
+      "w": 520,
+      "h": 28,
+      "bottom": 558
+    },
+    "cardBg": null,
+    "factCells": [
+      {
+        "label": "",
+        "value": "期刊下载器",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 689,
+          "y": 530,
+          "w": 110,
+          "h": 28,
+          "bottom": 558
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "文件",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 803,
+          "y": 530,
+          "w": 74,
+          "h": 28,
+          "bottom": 558
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "插件",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 881,
+          "y": 530,
+          "w": 74,
+          "h": 28,
+          "bottom": 558
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "视图切换",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 959,
+          "y": 530,
+          "w": 98,
+          "h": 28,
+          "bottom": 558
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      }
+    ],
+    "side": {
+      "rect": null,
+      "children": 0,
+      "gaps": [],
+      "nestedBoxes": null
+    }
+  },
+  "/learning@2566": {
+    "viewport": {
+      "w": 2566,
+      "h": 1080
+    },
+    "composer": {
+      "x": 1329,
+      "y": 566,
+      "w": 517,
+      "h": 143,
+      "bottom": 709
+    },
+    "lastContentBottom": null,
+    "contentGap": null,
+    "factGrid": {
+      "x": 1329,
+      "y": 681,
+      "w": 517,
+      "h": 28,
+      "bottom": 709
+    },
+    "cardBg": null,
+    "factCells": [
+      {
+        "label": "",
+        "value": "期刊下载器",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 1333,
+          "y": 681,
+          "w": 109,
+          "h": 28,
+          "bottom": 709
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "文件",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 1446,
+          "y": 681,
+          "w": 74,
+          "h": 28,
+          "bottom": 709
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "插件",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 1523,
+          "y": 681,
+          "w": 74,
+          "h": 28,
+          "bottom": 709
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      },
+      {
+        "label": "",
+        "value": "视图切换",
+        "bg": "rgba(0, 0, 0, 0)",
+        "radius": "999px",
+        "padding": "0px 10px",
+        "rect": {
+          "x": 1601,
+          "y": 681,
+          "w": 97,
+          "h": 28,
+          "bottom": 709
+        },
+        "labelSize": "12px",
+        "labelColor": "rgb(85, 85, 94)",
+        "valueSize": "12px",
+        "valueWeight": "400"
+      }
+    ],
+    "side": {
+      "rect": null,
+      "children": 0,
+      "gaps": [],
+      "nestedBoxes": null
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "home@1280": {
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    },
+    "gridRect": null,
+    "cardBg": null,
+    "cells": [],
+    "side": {
+      "rect": {
+        "x": 963,
+        "y": 68,
+        "w": 272,
+        "h": 494
+      },
+      "children": [
+        {
+          "cls": "fui-Card rfxo2k2 sm-glass sm-study-card ",
+          "rect": {
+            "x": 963,
+            "y": 68,
+            "w": 272,
+            "h": 208
+          }
+        },
+        {
+          "cls": "fui-Card rfxo2k2 sm-glass sm-study-card ",
+          "rect": {
+            "x": 963,
+            "y": 286,
+            "w": 272,
+            "h": 276
+          }
+        }
+      ],
+      "gaps": [
+        10
+      ],
+      "nestedBoxes": 4,
+      "nestedSample": [
+        {
+          "cls": "fui-Card rfxo2k2 sm-glass sm-study-c",
+          "bg": "rgb(255, 255, 255)",
+          "rect": {
+            "x": 963,
+            "y": 68,
+            "w": 272,
+            "h": 208
+          }
+        },
+        {
+          "cls": "fui-Card rfxo2k2 sm-glass sm-study-c",
+          "bg": "rgb(255, 255, 255)",
+          "rect": {
+            "x": 963,
+            "y": 286,
+            "w": 272,
+            "h": 276
+          }
+        },
+        {
+          "cls": "sm-study-suggestion",
+          "bg": "rgba(255, 255, 255, 0.38)",
+          "rect": {
+            "x": 975,
+            "y": 360,
+            "w": 248,
+            "h": 78
+          }
+        },
+        {
+          "cls": "sm-study-suggestion",
+          "bg": "rgba(255, 255, 255, 0.38)",
+          "rect": {
+            "x": 975,
+            "y": 444,
+            "w": 248,
+            "h": 78
+          }
+        }
+      ]
+    },
+    "seam": -301,
+    "bubbles": []
+  },
+  "home@2566": {
+    "viewport": {
+      "w": 2566,
+      "h": 1080
+    },
+    "gridRect": null,
+    "cardBg": null,
+    "cells": [],
+    "side": {
+      "rect": {
+        "x": 1673,
+        "y": 68,
+        "w": 272,
+        "h": 494
+      },
+      "children": [
+        {
+          "cls": "fui-Card rfxo2k2 sm-glass sm-study-card ",
+          "rect": {
+            "x": 1673,
+            "y": 68,
+            "w": 272,
+            "h": 208
+          }
+        },
+        {
+          "cls": "fui-Card rfxo2k2 sm-glass sm-study-card ",
+          "rect": {
+            "x": 1673,
+            "y": 286,
+            "w": 272,
+            "h": 276
+          }
+        }
+      ],
+      "gaps": [
+        10
+      ],
+      "nestedBoxes": 4,
+      "nestedSample": [
+        {
+          "cls": "fui-Card rfxo2k2 sm-glass sm-study-c",
+          "bg": "rgb(255, 255, 255)",
+          "rect": {
+            "x": 1673,
+            "y": 68,
+            "w": 272,
+            "h": 208
+          }
+        },
+        {
+          "cls": "fui-Card rfxo2k2 sm-glass sm-study-c",
+          "bg": "rgb(255, 255, 255)",
+          "rect": {
+            "x": 1673,
+            "y": 286,
+            "w": 272,
+            "h": 276
+          }
+        },
+        {
+          "cls": "sm-study-suggestion",
+          "bg": "rgba(255, 255, 255, 0.38)",
+          "rect": {
+            "x": 1685,
+            "y": 360,
+            "w": 248,
+            "h": 78
+          }
+        },
+        {
+          "cls": "sm-study-suggestion",
+          "bg": "rgba(255, 255, 255, 0.38)",
+          "rect": {
+            "x": 1685,
+            "y": 444,
+            "w": 248,
+            "h": 78
+          }
+        }
+      ]
+    },
+    "seam": -877,
+    "bubbles": []
+  }
+}

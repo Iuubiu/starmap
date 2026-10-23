@@ -1,0 +1,14 @@
+{
+  "api": {
+    "attemptCount": 474,
+    "variantCount": 3,
+    "evidenceSufficient": true
+  },
+  "gateEvaluations": 0,
+  "rendered": {
+    "作答": "8 / 8",
+    "变式": "3 / 3",
+    "连对": "证据不足"
+  },
+  "suggestions": []
+}

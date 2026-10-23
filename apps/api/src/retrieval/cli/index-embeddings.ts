@@ -20,10 +20,12 @@
  * ## 用法
  *
  * ```bash
- * node --env-file=.env tools/retrieval/index-embeddings.mjs
- * node --env-file=.env tools/retrieval/index-embeddings.mjs --limit 200   # 冒烟
- * node --env-file=.env tools/retrieval/index-embeddings.mjs --rebuild     # 忽略台账
+ * pnpm index:embeddings                                          # 增量（可重入）
+ * pnpm index:embeddings --limit 200                              # 冒烟
+ * pnpm index:embeddings --rebuild                                # 忽略台账，全部重嵌
  * ```
+ *
+ * 也可以直接 `pnpm --filter @starmap/api exec tsx --env-file=../../.env src/retrieval/cli/index-embeddings.ts`。
  */
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
@@ -37,6 +39,7 @@ import {
   defaultLedgerPath,
   defaultVectorDbPath,
 } from '../semantic-search.js';
+import { ensureCompressedIndex, inspectIndexShadow } from '../vector-index-ddl.js';
 
 /** 嵌入维度。`bge-m3` 是 1024。写死会让换模型时静默错位，所以从首条结果取。 */
 const FALLBACK_DIMENSION = 1024;
@@ -120,6 +123,8 @@ export interface IndexResult {
   /** 每次 doEmbed 的耗时（毫秒），用于算单条 p50 */
   batchMs: number[];
   dbPath: string;
+  /** 磁盘占用与索引行宽；索引文件缺失时为 `null` */
+  disk: { rows: number; avgRowBytes: number; dbBytes: number } | null;
 }
 
 /**
@@ -183,7 +188,7 @@ export async function indexEmbeddings(options: IndexOptions = {}): Promise<Index
   });
 
   const { LibSQLVector } = await import('@mastra/libsql');
-  const store = new LibSQLVector({ id: 'starmap-chunks', url: `file:${dbPath}` });
+  let store = new LibSQLVector({ id: 'starmap-chunks', url: `file:${dbPath}` });
   const model_ = await createEmbedder();
 
   let embedded = 0;
@@ -205,14 +210,18 @@ export async function indexEmbeddings(options: IndexOptions = {}): Promise<Index
       // 旧索引的向量不可比 —— 直接报错让人重建，别悄悄混两种维度。
       if (Object.keys(ledger.chunks).length === 0) {
         ledger.dimension = dimension;
-        if (!indexes.includes(DEFAULT_INDEX_NAME)) {
-          await store.deleteIndex({ indexName: DEFAULT_INDEX_NAME }).catch(() => undefined);
-          await store.createIndex({
-            indexName: DEFAULT_INDEX_NAME,
-            dimension,
-            metric: 'cosine',
-          });
-        }
+        // 表是按 FALLBACK_DIMENSION 预建的，真实维度不同就得重来一遍。
+        // 走 drop + 重跑 ensureCompressedIndex，而不是 `store.createIndex()` ——
+        // 后者会建出未压缩的索引（见文件头与 vector-index-ddl.ts 的说明）。
+        await store.deleteIndex({ indexName: DEFAULT_INDEX_NAME }).catch(() => undefined);
+        await ensureCompressedIndex({
+          dbPath,
+          indexName: DEFAULT_INDEX_NAME,
+          dimension,
+          log,
+        });
+        store.close();
+        store = new LibSQLVector({ id: 'starmap-chunks', url: `file:${dbPath}` });
       } else {
         throw new Error(
           `向量维度与台账不一致：台账 ${ledger.dimension}，网关 ${dimension}（换了嵌入模型？用 --rebuild）`,
@@ -256,6 +265,8 @@ export async function indexEmbeddings(options: IndexOptions = {}): Promise<Index
   }
 
   const stats = await store.describeIndex({ indexName: DEFAULT_INDEX_NAME });
+  const shadow = await inspectIndexShadow({ dbPath, indexName: DEFAULT_INDEX_NAME });
+  await store.close();
   return {
     embedded,
     skipped,
@@ -264,11 +275,13 @@ export async function indexEmbeddings(options: IndexOptions = {}): Promise<Index
     durationMs: Date.now() - startedAt,
     batchMs,
     dbPath,
+    disk: shadow,
   };
 }
 
 /** 命令行入口。`--limit N` / `--rebuild` / `--batch N`。 */
-export async function main(argv: readonly string[] = process.argv.slice(2)): Promise<number> {  const limitIndex = argv.indexOf('--limit');
+export async function main(argv: readonly string[] = process.argv.slice(2)): Promise<number> {
+  const limitIndex = argv.indexOf('--limit');
   const batchIndex = argv.indexOf('--batch');
   const result = await indexEmbeddings({
     limit: limitIndex >= 0 ? Number(argv[limitIndex + 1]) : undefined,
@@ -283,6 +296,12 @@ export async function main(argv: readonly string[] = process.argv.slice(2)): Pro
   console.log(`✓ 索引完成：嵌入 ${result.embedded} 条，跳过 ${result.skipped} 条，清理 ${result.removed} 条`);
   console.log(`  向量库：${result.dbPath}（共 ${result.total} 条向量）`);
   console.log(`  耗时：${(result.durationMs / 1000).toFixed(1)}s（单条约 ${perItem}ms，单批 p50 ${p50}ms）`);
+  if (result.disk) {
+    const { rows, avgRowBytes, dbBytes } = result.disk;
+    console.log(
+      `  磁盘：${(dbBytes / 1024 / 1024).toFixed(1)} MB（索引 shadow ${rows} 行 × ${avgRowBytes.toLocaleString('en-US')} B/行）`,
+    );
+  }
   return 0;
 }
 

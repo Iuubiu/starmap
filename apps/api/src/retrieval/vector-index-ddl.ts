@@ -57,6 +57,10 @@ interface LibsqlClient {
   close(): void;
 }
 
+interface LibsqlClientModule {
+  createClient: (config: { url: string }) => LibsqlClient;
+}
+
 /**
  * 拿 `@libsql/client`。
  *
@@ -65,14 +69,11 @@ interface LibsqlClient {
  * （实测 MODULE_NOT_FOUND）。这里从 `@mastra/libsql` 的**已解析路径**出发再解析，
  * 拿到的一定是 Mastra 自己用的那一份 —— 版本不会与它错开。
  */
-async function libsqlClient(): Promise<LibsqlClient> {
+async function libsqlClient(): Promise<LibsqlClientModule> {
   const req = createRequire(import.meta.url);
   const libsqlEntry = req.resolve('@mastra/libsql');
   const nested = createRequire(libsqlEntry);
-  const mod = nested('@libsql/client') as {
-    createClient: (config: { url: string }) => LibsqlClient;
-  };
-  return mod;
+  return nested('@libsql/client') as LibsqlClientModule;
 }
 
 /** 建表语句与 `LibSQLVector.doCreateIndex` 逐字一致（列名、约束、默认值）。 */
@@ -154,6 +155,15 @@ export async function ensureCompressedIndex(options: {
     log(
       `建压缩索引 ${options.indexName}_vector_idx（${VECTOR_INDEX_OPTIONS}）：${rows} 行，${rebuildMs}ms`,
     );
+
+    // **DROP INDEX 不会让文件变小**：旧 shadow 表的页进了 freelist，文件仍是
+    // 946 MB。不 VACUUM 的话，日志里「20,880 B/行」与 `ls -l` 看到的 946 MB 会
+    // 互相矛盾 —— 而看 `ls` 的人会以为压缩没生效。实测 4,384 行 VACUUM 68s
+    // （78k 行约 10 分钟，与重建索引同量级），只在真正重建过索引时才做。
+    const vacuumStartedAt = Date.now();
+    await client.execute('VACUUM');
+    log(`回收磁盘（VACUUM）：${Date.now() - vacuumStartedAt}ms`);
+
     return { createdTable, rebuiltIndex: true, rows, rebuildMs };
   } finally {
     client.close();

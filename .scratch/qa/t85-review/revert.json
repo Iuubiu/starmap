@@ -1,0 +1,14 @@
+{
+  "before": {
+    "mainWidth": 2226,
+    "contentWidth": 1080,
+    "left": 588,
+    "right": 588
+  },
+  "after": {
+    "mainWidth": 2226,
+    "contentWidth": 733,
+    "left": 15,
+    "right": 1508
+  }
+}

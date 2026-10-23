@@ -368,6 +368,14 @@ export const RetrievalDebugHitSchema = z.object({
   snippet: z.string(),
   kind: z.enum(['text', 'formula', 'figure', 'table']),
   page: z.number().int().nullable(),
+  /**
+   * 来源 id（`app.sources.id`）。
+   *
+   * 只有 `sourceTitle` 时「这条来自哪本书」只能靠标题字符串比对，而标题里有
+   * 全角括号、版次、作者顺序 —— 拿它做关联迟早会错。验收要求「每条带
+   * `sourceId` 与页码」，调试器与评估都需要能直接 join 内容库。
+   */
+  sourceId: z.string(),
   sourceTitle: z.string(),
   /** 对**当前知识点**而言是否答案块——同一 chunk 换个知识点会翻转 */
   isAnswerChunk: z.boolean(),
@@ -410,6 +418,20 @@ export const RetrievalDebugResponseSchema = z.object({
    * 但新客户端不该猜。
    */
   expansions: z.array(RetrievalExpansionSchema),
+  /**
+   * 语义重排（t82）这次是否参与、重排了几条。
+   *
+   * **不是可选字段**，理由同 `expansions`：可选会让「没接语义」与「老后端」
+   * 混为一谈。`reranked: 0` 且 `enabled: true` 是合法状态（候选为空，或向量库
+   * 里一条都对不上），与 `enabled: false` 是两件事。
+   */
+  semantic: z.object({
+    enabled: z.boolean(),
+    /** 未参与时的具体原因（人话）；参与时为 null */
+    reason: z.string().nullable(),
+    /** 被向量分改变了名次的条数 */
+    reranked: z.number().int().min(0),
+  }),
 });
 
 export const RetrievalBandSchema = z.object({

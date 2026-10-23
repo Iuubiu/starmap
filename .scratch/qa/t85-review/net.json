@@ -1,0 +1,53 @@
+{
+  "seen": [
+    {
+      "url": "http://localhost:5173/api/v1/mastery/kp-bool",
+      "status": 200,
+      "body": {
+        "microKpId": "kp-bool",
+        "name": "布尔代数基本运算",
+        "isLeaf": true,
+        "state": "proficient",
+        "achieved": 0.999999,
+        "current": 0.9282191147043836,
+        "attemptCount": 474,
+        "variantCount": 3,
+        "evidenceSufficient": true,
+        "halfLifeDays": 14,
+        "lastEvidenceAt": "2026-10-22T19:47:38.760Z",
+        "aggregatedLeafCount": 0
+      }
+    },
+    {
+      "url": "http://localhost:5173/api/v1/nodes/kp-bool/unlock",
+      "status": 200,
+      "body": {
+        "microKpId": "kp-bool",
+        "unlocked": true,
+        "blockers": []
+      }
+    },
+    {
+      "url": "http://localhost:5173/api/v1/levels/lv-bool-laws/gate/history",
+      "status": 200,
+      "body": {
+        "levelId": "lv-bool-laws",
+        "evaluations": []
+      }
+    }
+  ],
+  "rows": [
+    {
+      "label": "作答",
+      "value": "474 / 8"
+    },
+    {
+      "label": "变式",
+      "value": "3 / 3"
+    },
+    {
+      "label": "连对",
+      "value": "证据不足"
+    }
+  ]
+}

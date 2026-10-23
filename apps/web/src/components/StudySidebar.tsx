@@ -186,8 +186,16 @@ export function progressRows(
 function Row({ row }: { row: ProgressRow }) {
   const ratio =
     row.value === null ? 0 : Math.max(0, Math.min(1, row.value / Math.max(1, row.target)));
+  /*
+   * 达标 = 这一条门槛真的到线了（`value >= target`）。
+   *
+   * 颜色只表达这一个事实：未到线是中性灰（`.sm-study-fill` 的默认色），
+   * 到线才换成 `success`。**不用 accent** —— 本仓 accent 是红色，红色在这
+   * 里的含义是告警/答错，拿来画进度会让学生以为自己在出错（见 glass.css）。
+   */
+  const reached = row.value !== null && row.value >= row.target;
   return (
-    <div className="sm-study-row" data-study-row={row.label}>
+    <div className="sm-study-row" data-study-row={row.label} data-reached={reached ? 'true' : 'false'}>
       <span className="sm-study-row-label">{row.label}</span>
       <span className="sm-study-track" aria-hidden>
         <span className="sm-study-fill" style={{ width: `${ratio * 100}%` }} />

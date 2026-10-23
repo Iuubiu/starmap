@@ -1,0 +1,44 @@
+{
+  "picked": {
+    "id": "kp-chenboxian-2011-1-1",
+    "name": "原子核的组成、质量和半径",
+    "mastery": {
+      "microKpId": "kp-chenboxian-2011-1-1",
+      "name": "原子核的组成、质量和半径",
+      "isLeaf": true,
+      "state": "unseen",
+      "achieved": null,
+      "current": null,
+      "attemptCount": 0,
+      "variantCount": 0,
+      "evidenceSufficient": false,
+      "halfLifeDays": 30,
+      "lastEvidenceAt": null,
+      "aggregatedLeafCount": 0
+    }
+  },
+  "ui": {
+    "rows": [
+      {
+        "label": "作答",
+        "value": "证据不足"
+      },
+      {
+        "label": "变式",
+        "value": "证据不足"
+      },
+      {
+        "label": "连对",
+        "value": "证据不足"
+      }
+    ],
+    "suggestions": [
+      {
+        "source": "threshold",
+        "text": "这个知识点还差 8 道题到证据线（现在 0/8），先多做几题，我再判断你掌握到哪了。"
+      }
+    ]
+  },
+  "inputValue": "这个知识点还差 8 道题到证据线（现在 0/8），先多做几题，我再判断你掌握到哪了。",
+  "posted": 0
+}
