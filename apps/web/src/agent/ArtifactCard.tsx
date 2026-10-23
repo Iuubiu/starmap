@@ -97,18 +97,22 @@ const useStyles = makeStyles({
     color: tokens.colorNeutralForeground2,
     lineHeight: tokens.lineHeightBase300,
   },
+  /* 样例（cx-1.png）里这四组是**无框**的：标签在上、数值在下，靠 26px 列间距分组。
+     之前每格套一个灰底小盒，四个盒子把卡片压成了「表单」，不像一关的摘要。
+     去掉底色与内边距，只留间距。 */
   factGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-    gap: '10px',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(110px, max-content))',
+    columnGap: '26px',
+    rowGap: '10px',
+    marginTop: '14px',
   },
   fact: {
     display: 'flex',
     flexDirection: 'column',
     gap: '2px',
-    padding: '8px 10px',
-    backgroundColor: tokens.colorNeutralBackground2,
-    borderRadius: tokens.borderRadiusMedium,
+    padding: 0,
+    backgroundColor: 'transparent',
   },
   factValue: {
     fontSize: tokens.fontSizeBase500,
