@@ -835,3 +835,4 @@
 }
 .v2-railbox .rail-chip b { font-size: 14px; margin-left: 2px; }
 .v2-railbox .rail-chip[data-kind='mastered'] b { color: #2f7d3a; }
+.v2-railbox .rail-note { font-size: 11.5px; opacity: 0.5; margin-left: auto; }

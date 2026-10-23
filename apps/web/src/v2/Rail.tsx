@@ -180,6 +180,9 @@ function KpProgress({ kpId, name }: { kpId: string; name: string }) {
       <div className="metric">
         <b>正在学</b>
         <span className="metric-label">{name}</span>
+        {/* 「正在学」的选法是「有证据但未达标、掌握度最高的那个」——
+            图谱接口不返回作答时间，所以这里不能说「最近」。如实标注选法。 */}
+        <span className="rail-note">按掌握度最高挑出</span>
       </div>
       {view === null ? (
         <div className="why">正在读进度…</div>
