@@ -8,7 +8,7 @@ import { LevelPage } from './pages/LevelPage';
 import { MarketPage } from './pages/MarketPage';
 import { MarketAuthorPage } from './pages/MarketAuthorPage';
 import { GenerationPage } from './pages/GenerationPage';
-import { HomePage } from './pages/HomePage';
+import { HomeV2 } from './v2/HomeV2';
 import { LibraryPage } from './pages/LibraryPage';
 import { SkillsPage } from './pages/SkillsPage';
 import { PlacementPage } from './pages/PlacementPage';
@@ -37,6 +37,17 @@ import { FirstVisitGate, WelcomePage } from './pages/WelcomePage';
  * 的 dependency-cruiser 有 `no-circular` 规则，会直接判违规）。
  */
 export const appRoutes: RouteObject[] = [
+  // 学习页（v2）：自带四列外壳（轨道 / 会话 / 内容 / 日志），
+  // 因此必须挂在 AppShell **外面** —— 套进去会得到两层侧栏。
+  // 其余页面暂时仍走 AppShell，等外壳重写完成后再统一。
+  {
+    path: '/',
+    element: (
+      <FirstVisitGate>
+        <HomeV2 />
+      </FirstVisitGate>
+    ),
+  },
   {
     path: '/',
     element: <AppShell />,
@@ -49,14 +60,6 @@ export const appRoutes: RouteObject[] = [
       // 否则最常用的入口是陈列架而不是工作台。
       // 「初识」还没走完时先让位给欢迎页（票 78）：第一次进来看到的是十个问题，
       // 而不是一个它还读不懂的学习台。走过一遍后由 localStorage 里的标记放行。
-      {
-        index: true,
-        element: (
-          <FirstVisitGate>
-            <HomePage />
-          </FirstVisitGate>
-        ),
-      },
       { path: 'welcome', element: <WelcomePage /> },
       // 学习记录（票 76）：历次会话按「今天/昨天/更早」聚合，点一条回到那一轮。
       { path: 'learning', element: <LearningPage /> },
