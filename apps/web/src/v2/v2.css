@@ -11,7 +11,7 @@
 
 .v2-shell {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-columns: 68px minmax(0, 1fr);
   height: 100vh;
   overflow: hidden;
   /* 材质层：三层柔和渐变打底，玻璃才有东西可「透」。
@@ -84,7 +84,7 @@
 }
 .v2-sessions .grp {
   margin: 10px 2px 4px;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--sm-text-tertiary, #7b8293);
 }
 .v2-sessions .row {
@@ -97,7 +97,7 @@
   border-radius: 8px;
   background: transparent;
   color: var(--sm-text-secondary, #4b5160);
-  font-size: 14.5px;
+  font-size: 16.5px;
   text-align: left;
   cursor: pointer;
 }
@@ -113,7 +113,7 @@
 /* ── 中间：920 居中，纵向 flex，输入区贴底 ─────────────────────────── */
 .v2-panel {
   display: grid;
-  grid-template-columns: minmax(220px, 16%) minmax(0, 1fr) minmax(320px, 42%);
+  grid-template-columns: minmax(210px, 9.6%) minmax(0, 1fr) minmax(340px, 45%);
   min-height: 0;
   min-width: 0;
   margin: 12px 12px 12px 6px;
@@ -145,9 +145,9 @@
   flex: 1;
   flex-direction: column;
   gap: 14px;
-  width: min(1010px, 100%);
+  width: min(1120px, 100%);
   margin: 0 auto;
-  padding: 22px 0 0;
+  padding: 26px 0 0;
   overflow-y: auto;
   scrollbar-width: none;
 }
@@ -173,7 +173,7 @@
 
 .v2-caption {
   margin: 0 0 -6px;
-  font-size: 12.5px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--sm-text-tertiary, #7b8293);
@@ -181,8 +181,8 @@
 
 .v2-say {
   margin: 0;
-  font-size: 16.5px;
-  line-height: 27px;
+  font-size: 19px;
+  line-height: 30px;
   color: var(--sm-text-primary, #16181d);
 }
 
@@ -195,8 +195,8 @@
 
 /* ── 输入区：悬浮胶囊，贴底不裁 ───────────────────────────────────── */
 .v2-composer {
-  width: min(1010px, 100%);
-  margin: 0 auto 18px;
+  width: min(1080px, 100%);
+  margin: 0 auto 20px;
   padding: 14px 16px 12px;
   border-radius: 16px;
   background: var(--sm-bg-raised, #fff);
@@ -212,15 +212,15 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 16.5px;
-  line-height: 25px;
+  font-size: 19px;
+  line-height: 28px;
 }
 .v2-composer .bar {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 6px;
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--sm-text-tertiary, #7b8293);
 }
 .v2-composer .chip {
@@ -233,7 +233,7 @@
   border-radius: 8px;
   background: transparent;
   color: var(--sm-text-secondary, #4b5160);
-  font-size: 12.5px;
+  font-size: 14px;
   cursor: pointer;
 }
 .v2-composer .chip:hover {
@@ -305,7 +305,7 @@
 }
 .v2-log h2 {
   margin: 0 0 2px;
-  font-size: 15.5px;
+  font-size: 18px;
   font-weight: 600;
 }
 .v2-log .row {
@@ -313,7 +313,7 @@
   border-radius: 10px;
   background: var(--sm-bg-raised, #fff);
   box-shadow: 0 6px 18px rgba(16, 18, 24, 0.06);
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--sm-text-secondary, #4b5160);
 }
 .v2-log .advice {
@@ -324,8 +324,8 @@
 .v2-log .advice li {
   position: relative;
   padding: 6px 0;
-  font-size: 14.5px;
-  line-height: 21px;
+  font-size: 16.5px;
+  line-height: 24px;
   color: var(--sm-text-secondary, #4b5160);
 }
 .v2-log .advice li::before {
@@ -341,7 +341,7 @@
 }
 .v2-log h3 {
   margin: 6px 0 2px;
-  font-size: 13.5px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--sm-text-tertiary, #7b8293);
 }
@@ -404,7 +404,7 @@
   border-radius: 7px;
   background: transparent;
   color: var(--sm-text-primary, #16181d);
-  font-size: 12.5px;
+  font-size: 14px;
   text-align: left;
   cursor: pointer;
 }
@@ -419,7 +419,7 @@
 /* 页面标题行（样例里「学习」是独立一行，与说明段分开） */
 .v2-title {
   margin: 6px 0 2px;
-  font-size: 27px;
+  font-size: 31px;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
