@@ -69,6 +69,7 @@ export function HomeV2() {
   const [sessionId, setSessionId] = useState(() => currentSessionId());
   const [draft, setDraft] = useState('');
   const [sent, setSent] = useState<string>('');
+  const [menuOpen, setMenuOpen] = useState(false);
   const listRef = useRef<HTMLDivElement | null>(null);
 
   const [sessions, setSessions] = useState<Row[]>([]);
@@ -145,22 +146,50 @@ export function HomeV2() {
           </button>
         ))}
         {ME_NAV && (
-          <button
-            type="button"
-            className="me"
-            title={ME_NAV.label}
-            aria-label={ME_NAV.label}
-            onClick={() => window.location.assign('/me')}
-          >
-            <ME_NAV.icon />
-          </button>
+          <div className="me-wrap">
+            {menuOpen && (
+              <div className="me-menu" role="menu">
+                <button type="button" role="menuitem" onClick={() => window.location.assign('/me')}>
+                  我的
+                </button>
+                <button type="button" role="menuitem" onClick={() => window.location.assign('/learning')}>
+                  学习记录
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() => {
+                    const next = document.documentElement.dataset.smTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.dataset.smTheme = next;
+                    localStorage.setItem('sm-theme', next);
+                  }}
+                >
+                  切换主题
+                </button>
+                <button type="button" role="menuitem" onClick={() => window.location.assign('/me')}>
+                  账户设置
+                </button>
+              </div>
+            )}
+            <button
+              type="button"
+              className="me"
+              title={ME_NAV.label}
+              aria-label={ME_NAV.label}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              <ME_NAV.icon />
+            </button>
+          </div>
         )}
       </nav>
 
       <div className="v2-panel">
       <aside className="v2-sessions" aria-label="学习记录">
-        <button type="button" className="new" onClick={newSession}>
-          新对话
+        <button type="button" className="new-row" onClick={newSession}>
+          <span aria-hidden="true">✎</span>
+          <span>新对话</span>
         </button>
         <button type="button" className="row entry" onClick={() => window.location.assign('/learning')}>
           <span>学习记录</span>

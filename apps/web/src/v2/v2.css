@@ -65,20 +65,22 @@
   /* 三栏之间给一条极淡的分割线：面板是一整块玻璃，没有线时两栏会「糊」在一起 */
   border-right: 1px solid var(--sm-border-hairline, rgba(16, 18, 24, 0.07));
 }
-.v2-sessions .new {
+.v2-sessions .new-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 34px;
-  margin-bottom: 8px;
+  gap: 8px;
+  height: 32px;
+  margin-bottom: 6px;
+  padding: 0 8px;
   border: 0;
-  border-radius: 9px;
-  background: var(--sm-accent, #be283c);
-  color: #fff;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sm-text-secondary, #4b5160);
   font-size: 13px;
-  font-weight: 600;
   cursor: pointer;
+}
+.v2-sessions .new-row:hover {
+  background: var(--sm-bg-hover, rgba(16, 18, 24, 0.05));
 }
 .v2-sessions .grp {
   margin: 10px 2px 4px;
@@ -111,7 +113,7 @@
 /* ── 中间：920 居中，纵向 flex，输入区贴底 ─────────────────────────── */
 .v2-panel {
   display: grid;
-  grid-template-columns: 200px minmax(0, 1fr) 300px;
+  grid-template-columns: 260px minmax(0, 1fr) 380px;
   min-height: 0;
   min-width: 0;
   margin: 12px 12px 12px 6px;
@@ -138,7 +140,7 @@
   flex: 1;
   flex-direction: column;
   gap: 14px;
-  width: min(1180px, 100%);
+  width: min(860px, 100%);
   margin: 0 auto;
   padding: 22px 0 0;
   overflow-y: auto;
@@ -188,7 +190,7 @@
 
 /* ── 输入区：悬浮胶囊，贴底不裁 ───────────────────────────────────── */
 .v2-composer {
-  width: min(1180px, 100%);
+  width: min(860px, 100%);
   margin: 0 auto 18px;
   padding: 14px 16px 12px;
   border-radius: 16px;
@@ -342,8 +344,39 @@
   height: 6px;
 }
 /* 「我的」固定在左下角：与导航项拉开距离，位置上就是「账户」而不是「一个页面」 */
-.v2-rail .me {
+.v2-rail .me-wrap {
+  position: relative;
   margin-top: auto;
+}
+.v2-rail .me-menu {
+  position: absolute;
+  left: 44px;
+  bottom: 0;
+  min-width: 132px;
+  padding: 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 14px 34px rgba(16, 18, 24, 0.16);
+  display: flex;
+  flex-direction: column;
+}
+.v2-rail .me-menu button {
+  width: 100%;
+  height: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--sm-text-primary, #16181d);
+  font-size: 12.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.v2-rail .me-menu button:hover {
+  background: var(--sm-bg-hover, rgba(16, 18, 24, 0.06));
+}
+.v2-rail .me {
   background: var(--sm-brand-soft, rgba(190, 40, 60, 0.14));
   color: var(--sm-accent, #be283c);
 }
