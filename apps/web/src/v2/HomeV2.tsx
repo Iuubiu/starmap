@@ -260,7 +260,7 @@ export function HomeV2() {
                 <button
                   type="button"
                   className="advice-btn"
-                  onClick={() => sendText(a.prompt)}
+                  onClick={() => { setDraft(a.prompt); sendText(a.prompt); }}
                   disabled={submit.isPending}
                   title={`点击直接用：${a.prompt}`}
                 >
@@ -270,20 +270,6 @@ export function HomeV2() {
             ))}
           </ul>
         )}
-        <h3>常用指令</h3>
-        <div className="quick">
-          {['给我一道题练手', '讲讲这个知识点的要点', '我卡住了，给个提示', '换一个知识点'].map((q) => (
-            <button
-              key={q}
-              type="button"
-              className="quick-btn"
-              onClick={() => sendText(q)}
-              disabled={submit.isPending}
-            >
-              {q}
-            </button>
-          ))}
-        </div>
         <h3>这一会话</h3>
         {rows.length === 0 && <div className="row">还没有记录。说第一句话后这里会出现。</div>}
         {rows.slice(-6).reverse().map((row, i) => (
