@@ -627,3 +627,67 @@
   max-width: 760px;
   margin: 0 auto;
 }
+
+/* ── 三块工作区内边距与字体（用户：内边距更美观、字偏小、左边太贴边、长名字被右侧吞） */
+.v2-main {
+  padding: 0 32px 20px;
+}
+.v2-sessions {
+  padding: 14px 10px 14px 16px;
+}
+.v2-log {
+  padding: 20px 30px 24px 26px;
+}
+/* 会话行：名字占满剩余宽度并省略，时间固定在右侧不被挤走 */
+.v2-sessions .row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 7px 8px 7px 10px;
+}
+.v2-sessions .row .name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.v2-sessions .row time {
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+  opacity: 0.55;
+}
+/* 字号：19 → 20，会话行 16.5 → 17 */
+.v2-say,
+.v2-composer .sm-composer-input {
+  font-size: 20px;
+  line-height: 31px;
+}
+.v2-sessions .row .name {
+  font-size: 17px;
+}
+
+/* 会话行真实结构是 <button class="row entry"><span>名字</span><time>08:39</time></button>：
+   名字占满并省略，时间固定不被挤走 */
+.v2-sessions .row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+}
+.v2-sessions .row > span:first-of-type {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 17px;
+}
+.v2-sessions .row time {
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+  opacity: 0.55;
+  font-size: 13px;
+}
