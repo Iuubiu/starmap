@@ -40,6 +40,7 @@ import type {
   GetTierChangesParams,
   GraphResponse,
   HealthResponse,
+  KpProgressView,
   LearnerProfilePatch,
   LevelDetailResponse,
   LevelExportFile,
@@ -4558,6 +4559,131 @@ export function useGetMarketLevel<TData = Awaited<ReturnType<typeof getMarketLev
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetMarketLevelQueryOptions(levelId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type getKpProgressResponse200 = {
+  data: KpProgressView
+  status: 200
+}
+
+export type getKpProgressResponse404 = {
+  data: ApiError
+  status: 404
+}
+
+export type getKpProgressResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type getKpProgressResponseSuccess = (getKpProgressResponse200) & {
+  headers: Headers;
+};
+export type getKpProgressResponseError = (getKpProgressResponse404 | getKpProgressResponse500) & {
+  headers: Headers;
+};
+
+export type getKpProgressResponse = (getKpProgressResponseSuccess | getKpProgressResponseError)
+
+export const getGetKpProgressUrl = (microKpId: string,) => {
+
+
+
+
+  return `/api/v1/mastery/kp/${microKpId}`
+}
+
+/**
+ * `value` 是累计真数，`cumulative` 是按关卡收窄后的分子，`target` 是阈值。`passed` 只在三条同时达标时为 true —— 前端不得自行用百分比推断达标。
+ * @summary 本知识点的判定门槛进度（作答 / 变式 / 连对 三条）
+ */
+export const getKpProgress = async (microKpId: string, options?: Parameters<typeof customFetch>[1]): Promise<getKpProgressResponse> => {
+
+  return customFetch<getKpProgressResponse>(getGetKpProgressUrl(microKpId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetKpProgressQueryKey = (microKpId: string,) => {
+    return [
+    `/api/v1/mastery/kp/${microKpId}`
+    ] as const;
+    }
+
+
+export const getGetKpProgressQueryOptions = <TData = Awaited<ReturnType<typeof getKpProgress>>, TError = ApiError>(microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKpProgress>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetKpProgressQueryKey(microKpId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKpProgress>>> = ({ signal }) => getKpProgress(microKpId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: microKpId !== null && microKpId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKpProgress>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetKpProgressQueryResult = NonNullable<Awaited<ReturnType<typeof getKpProgress>>>
+export type GetKpProgressQueryError = ApiError
+
+
+export function useGetKpProgress<TData = Awaited<ReturnType<typeof getKpProgress>>, TError = ApiError>(
+ microKpId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKpProgress>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKpProgress>>,
+          TError,
+          Awaited<ReturnType<typeof getKpProgress>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetKpProgress<TData = Awaited<ReturnType<typeof getKpProgress>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKpProgress>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKpProgress>>,
+          TError,
+          Awaited<ReturnType<typeof getKpProgress>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetKpProgress<TData = Awaited<ReturnType<typeof getKpProgress>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKpProgress>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 本知识点的判定门槛进度（作答 / 变式 / 连对 三条）
+ */
+
+export function useGetKpProgress<TData = Awaited<ReturnType<typeof getKpProgress>>, TError = ApiError>(
+ microKpId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKpProgress>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetKpProgressQueryOptions(microKpId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

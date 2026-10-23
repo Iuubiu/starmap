@@ -956,3 +956,54 @@
   max-width: 760px;
   margin-left: 0;
 }
+
+/* 决策链：默认收起，展开后四段依次排列。用 <details> 而不是自管 state，
+   因为它是纯展示、不需要跨渲染保持，浏览器原生就给了键盘可达性。 */
+.v2-trace {
+  margin-top: 12px;
+  border: 1px solid var(--sm-border-subtle, rgba(16,18,24,.10));
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,.62);
+  font-size: var(--tx-label, 13px);
+}
+.v2-trace > summary { cursor: pointer; color: var(--sm-text-secondary, #565b66); }
+.v2-trace section { margin-top: 10px; }
+.v2-trace h4 { margin: 0 0 4px; font-size: var(--tx-body, 15px); }
+.v2-trace ul, .v2-trace ol { margin: 4px 0 0 18px; padding: 0; }
+.v2-trace li { margin: 2px 0; line-height: 1.6; }
+.v2-trace code { font-family: var(--sm-font-mono, ui-monospace, monospace); }
+.v2-trace-note { color: var(--sm-text-tertiary, #8a8f99); }
+.v2-trace blockquote {
+  margin: 4px 0 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--sm-border-subtle, rgba(16,18,24,.16));
+  white-space: pre-wrap;
+}
+
+/* 中栏所有直接子元素统一到同一量尺（760）并居中。
+   用户 m39802：对话位置严重错位。实测截图里用户气泡贴在工作区右上角、
+   跑到卡片右侧外面去了 —— 原因是气泡不在 .v2-col 里（它是 .v2-main 的
+   另一个直接子元素），而 .v2-main 有 1237px 宽、气泡靠 flex-end 就顶到了最右。
+   用一条规则把「谁掉队」的容错补上，别再靠每处单独写宽度。 */
+.v2-main > * {
+  width: 100%;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 中栏是 flex 列容器：横向居中靠 align-items，不靠 margin:auto。
+   实测错位根因就在这里 —— 内容列走了 margin:auto（没生效，贴左），
+   而输入框的父级约束使它居中，两者左边界相差 206px。 */
+.v2-main {
+  align-items: center;
+}
+.v2-main > * {
+  flex: 0 0 auto;
+}
+.v2-main .v2-col {
+  flex: 1 1 auto;
+  margin-left: 0;
+  margin-right: 0;
+}

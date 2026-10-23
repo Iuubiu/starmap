@@ -10,6 +10,7 @@ import type { AgentTurnResponseArtifact } from './agentTurnResponseArtifact.js';
 import type { AgentTurnResponseClarify } from './agentTurnResponseClarify.js';
 import type { AgentTurnResponseErrorCard } from './agentTurnResponseErrorCard.js';
 import type { AgentTurnResponseLanguageCheck } from './agentTurnResponseLanguageCheck.js';
+import type { AgentTurnResponseTrace } from './agentTurnResponseTrace.js';
 import type { AgentTurnResponseVisibleResponseKind } from './agentTurnResponseVisibleResponseKind.js';
 
 export interface AgentTurnResponse {
@@ -26,6 +27,7 @@ export interface AgentTurnResponse {
      */
   retryCount: number;
   sessionId: string;
+  trace?: AgentTurnResponseTrace;
   turnId: string;
   visibleResponse: string;
   visibleResponseKind: AgentTurnResponseVisibleResponseKind;

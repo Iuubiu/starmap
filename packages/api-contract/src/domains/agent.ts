@@ -217,6 +217,13 @@ export type AgentClarify = z.infer<typeof AgentClarifySchema>;
 
 export const AgentTurnResponseSchema = z
   .object({
+  /**
+   * 本轮的决策链快照（迁移 0072）。可选：老轮次没有这一列，界面必须能处理缺失，
+   * 不能因此把整张卡片判成坏数据。
+   * 形状固定四段：skills[] / retrieval{candidates,allowed,used,chunks[]} /
+   * decisions{tier,focusNote,retryCount,degraded} / model{name,latencyMs,reasoning}。
+   */
+  trace: z.record(z.string(), z.unknown()).optional(),
     turnId: z.string(),
     sessionId: z.string(),
     /** 与 errorCard 恰好一个非空 */

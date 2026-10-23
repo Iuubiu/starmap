@@ -553,6 +553,11 @@
           "type": "integer"
         "sessionId":
           "type": "string"
+        "trace":
+          "additionalProperties": {}
+          "propertyNames":
+            "type": "string"
+          "type": "object"
         "turnId":
           "type": "string"
         "visibleResponse":
@@ -1870,6 +1875,82 @@
         - "version"
         - "semanticSearch"
         - "semanticSearchReason"
+      "type": "object"
+    "KpProgressView":
+      "additionalProperties": false
+      "properties":
+        "evaluatedAt":
+          "type": "string"
+        "gateEvaluatedAt":
+          "type":
+            - "string"
+            - "null"
+        "gatePassed":
+          "type": "boolean"
+        "gates":
+          "items":
+            "additionalProperties": false
+            "properties":
+              "cumulative":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+              "key":
+                "enum":
+                  - "attempts"
+                  - "variants"
+                  - "streak"
+                "type": "string"
+              "label":
+                "type": "string"
+              "ratio":
+                "maximum": 1
+                "minimum": 0
+                "type": "number"
+              "reached":
+                "type": "boolean"
+              "target":
+                "maximum": 9007199254740991
+                "minimum": 1
+                "type": "integer"
+              "unit":
+                "type": "string"
+              "value":
+                "maximum": 9007199254740991
+                "minimum": 0
+                "type": "integer"
+            "required":
+              - "key"
+              - "label"
+              - "value"
+              - "cumulative"
+              - "target"
+              - "ratio"
+              - "reached"
+              - "unit"
+            "type": "object"
+          "type": "array"
+        "levelId":
+          "type":
+            - "string"
+            - "null"
+        "levelTitle":
+          "type":
+            - "string"
+            - "null"
+        "microKpId":
+          "type": "string"
+        "name":
+          "type": "string"
+      "required":
+        - "microKpId"
+        - "name"
+        - "levelId"
+        - "levelTitle"
+        - "gates"
+        - "gatePassed"
+        - "gateEvaluatedAt"
+        - "evaluatedAt"
       "type": "object"
     "LearnerBackground":
       "enum":
@@ -8953,6 +9034,36 @@
       "summary": "个人看板：知识点 / 学科 / 课本三级进度"
       "tags":
         - "mastery"
+  "/api/v1/mastery/kp/{microKpId}":
+    "get":
+      "description": "`value` 是累计真数，`cumulative` 是按关卡收窄后的分子，`target` 是阈值。`passed` 只在三条同时达标时为 true —— 前端不得自行用百分比推断达标。"
+      "operationId": "getKpProgress"
+      "parameters":
+        - "in": "path"
+          "name": "microKpId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/KpProgressView"
+          "description": "本知识点的门槛进度"
+        "404":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "知识点不存在"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "本知识点的判定门槛进度（作答 / 变式 / 连对 三条）"
   "/api/v1/mastery/{microKpId}":
     "get":
       "description": "证据不足（<3 个变式或 <8 次作答）时 `achieved` 与 `current` 都是 null，调用方应显示「证据不足」而不是 0% —— 「不知道」和「零分」是两件事。"

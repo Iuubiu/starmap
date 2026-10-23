@@ -917,6 +917,14 @@ export class TurnService {
     const allowedEvidence = gated.filter((chunk) => chunk.allowed).slice(0, 6);
 
     const systemMessage = await this.skills.composeSystemMessage();
+    /**
+     * 本轮真正注入的技能。判据是「启用」（`skill_switches` 表里没行就是启用），
+     * 与 `composeSystemMessage` 用的是同一份扫描结果，所以链上列出的就是提示里
+     * 真出现过的那几个 —— 不是「库里有哪些」。
+     */
+    const injectedSkills = (await this.skills.list())
+      .items.filter((item) => item.enabled)
+      .map((item) => ({ name: item.name, description: item.description }));
     const userMessage = this.buildUserMessage({
       utterance: request.utterance,
       tier: request.tier,
@@ -937,6 +945,13 @@ export class TurnService {
 
     let retryCount = 0;
     let plan: Plan | null = null;
+    /**
+     * 决策链的原料。只收「本项目自己做出的决定」与端口能给的模型元数据：
+     * - 检索：候选多少条、门控放行多少条、放行的是哪些 chunk（id + 分数 + 开头）
+     * - 判定：档位、焦点、是否重试、是否降级
+     * - 模型：名字与墙钟耗时；reasoning 拿不到就是 null（界面显示「未返回」）
+     */
+    const modelFacts: { model?: string; latencyMs?: number; reasoning?: string } = {};
     let lastIssues: string[] = [];
     let upstreamError: string | null = null;
 
@@ -946,6 +961,11 @@ export class TurnService {
           messages,
           schema: PLAN_JSON_SCHEMA,
           temperature: 0.4,
+        });
+        Object.assign(modelFacts, {
+          model: result.model,
+          latencyMs: result.latencyMs,
+          reasoning: result.reasoning,
         });
         // 先剥内部字段再校验：模型塞进来的 reasoning/answer 不该让整轮作废，
         // 但它们更不能进响应、进 DOM。
@@ -978,6 +998,17 @@ export class TurnService {
         request,
         turnId,
         createdAt,
+        trace: this.buildTrace({
+          skills: injectedSkills,
+          gated,
+          allowedEvidence,
+          tier: request.tier,
+          focusNote: focus.note,
+          retryCount,
+          modelFacts,
+          degraded: true,
+          degradedReason: upstreamError ?? lastIssues.join('；'),
+        }),
         retryCount,
         issues: lastIssues,
         upstreamError,
@@ -1005,9 +1036,21 @@ export class TurnService {
       }
     }
 
+    const trace = this.buildTrace({
+      skills: injectedSkills,
+      gated,
+      allowedEvidence,
+      tier: request.tier,
+      focusNote: focus.note,
+      retryCount,
+      modelFacts,
+      degraded: false,
+    });
+
     return this.persistTurn({
       request,
       turnId,
+      trace,
       createdAt,
       retryCount,
       plan,
@@ -1106,8 +1149,8 @@ export class TurnService {
     await this.db.query(
       `INSERT INTO agent_turns
          (id, session_id, ordinal, utterance, visible_response, visible_response_kind,
-          artifact_kind, card_title, degraded, retry_count, artifact, language_check, micro_kp_id)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,false,0,$9::jsonb,$10::jsonb,$11)`,
+          artifact_kind, card_title, degraded, retry_count, artifact, language_check, micro_kp_id, trace)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,false,0,$9::jsonb,$10::jsonb,$11,$12::jsonb)`,
       [
         turnId,
         request.sessionId,
@@ -1120,6 +1163,19 @@ export class TurnService {
         JSON.stringify(hydrated),
         JSON.stringify(languageCheck),
         microKpId,
+        // 问津这一轮不调模型，但「为什么问、问了什么」本身就是决策链的一环，
+        // 所以也落一份最小 trace：只有 decisions（无检索命中、无模型耗时）。
+        JSON.stringify({
+          skills: [],
+          retrieval: { candidates: 0, allowed: 0, used: 0, chunks: [] },
+          decisions: {
+            tier: request.tier ?? null,
+            focusNote: '问津：意图未明，先问一句再决定教什么',
+            retryCount: 0,
+            degraded: false,
+          },
+          model: { name: null, latencyMs: null, reasoning: null },
+        }),
       ],
     );
 
@@ -1130,6 +1186,18 @@ export class TurnService {
     });
 
     return AgentTurnResponseSchema.parse({
+      // 问津这一轮的决策链与上面落库的那份是同一份，避免界面与库内不一致
+      trace: {
+        skills: [],
+        retrieval: { candidates: 0, allowed: 0, used: 0, chunks: [] },
+        decisions: {
+          tier: request.tier ?? null,
+          focusNote: '问津：意图未明，先问一句再决定教什么',
+          retryCount: 0,
+          degraded: false,
+        },
+        model: { name: null, latencyMs: null, reasoning: null },
+      },
       turnId,
       sessionId: request.sessionId,
       artifact: hydrated,
@@ -1156,6 +1224,7 @@ export class TurnService {
     mastery: { achieved: number; current: number; state: string } | null;
     level: { levelId: string; title: string; itemCount: number; firstStepKind: string; estimatedMinutes: number } | null;
     gated: GatedChunk[];
+    trace: Record<string, unknown>;
   }): Promise<AgentTurnResponse> {
     const { plan, turnId, createdAt } = input;
     const visibleResponse = plan.visibleResponse.trim();
@@ -1191,8 +1260,8 @@ export class TurnService {
     await this.db.query(
       `INSERT INTO agent_turns
          (id, session_id, ordinal, utterance, visible_response, visible_response_kind,
-          artifact_kind, card_title, degraded, retry_count, artifact, language_check, micro_kp_id)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,false,$9,$10::jsonb,$11::jsonb,$12)`,
+          artifact_kind, card_title, degraded, retry_count, artifact, language_check, micro_kp_id, trace)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,false,$9,$10::jsonb,$11::jsonb,$12,$13::jsonb)`,
       [
         turnId,
         input.request.sessionId,
@@ -1206,6 +1275,7 @@ export class TurnService {
         JSON.stringify(hydrated),
         JSON.stringify(languageCheck),
         input.microKpId,
+        JSON.stringify(input.trace),
       ],
     );
 
@@ -1214,6 +1284,7 @@ export class TurnService {
     const response = AgentTurnResponseSchema.parse({
       turnId,
       sessionId: input.request.sessionId,
+      trace: input.trace,
       artifact: hydrated,
       errorCard: null,
       degraded: false,
@@ -1378,6 +1449,68 @@ export class TurnService {
   }
 
   /** 依据留痕：命中什么、是否答案块、为什么被排除。 */
+  /**
+   * 把本轮的决策原料压成一份可核对的快照。
+   *
+   * 刻意只放「有据可查」的东西：`gated` 的每一条都来自检索服务，`allowed`
+   * 是门控真实判定，`model.latencyMs` 是端口实测。没有一项是估算。
+   * `reasoning` 只在 provider 真返回时才有值，否则 null —— 界面据此显示
+   * 「该模型未返回推理内容」，不编造思考过程。
+   */
+  private buildTrace(input: {
+    skills: Array<{ name: string; description: string }>;
+    gated: GatedChunk[];
+    allowedEvidence: GatedChunk[];
+    tier?: string;
+    focusNote?: string | null;
+    retryCount: number;
+    modelFacts: { model?: string; latencyMs?: number; reasoning?: string };
+    degraded: boolean;
+    degradedReason?: string;
+  }): Record<string, unknown> {
+    const pick = (chunk: GatedChunk): Record<string, unknown> => {
+      const raw = chunk as unknown as {
+        chunkId?: string;
+        score?: number;
+        allowed?: boolean;
+        reason?: string;
+        text?: string;
+      };
+      return {
+        chunkId: raw.chunkId ?? null,
+        score: typeof raw.score === 'number' ? Number(raw.score.toFixed(4)) : null,
+        allowed: raw.allowed === true,
+        gateReason: raw.reason ?? null,
+        excerpt: (raw.text ?? '').slice(0, 80),
+      };
+    };
+
+    return {
+      skills: input.skills.map((skill) => ({
+        name: skill.name,
+        description: skill.description.slice(0, 60),
+      })),
+      retrieval: {
+        candidates: input.gated.length,
+        allowed: input.gated.filter((chunk) => chunk.allowed === true).length,
+        used: input.allowedEvidence.length,
+        chunks: input.gated.slice(0, 8).map(pick),
+      },
+      decisions: {
+        tier: input.tier ?? null,
+        focusNote: input.focusNote ?? null,
+        retryCount: input.retryCount,
+        degraded: input.degraded,
+        ...(input.degraded ? { degradedReason: input.degradedReason ?? null } : {}),
+      },
+      model: {
+        name: input.modelFacts.model ?? null,
+        latencyMs: input.modelFacts.latencyMs ?? null,
+        reasoning: input.modelFacts.reasoning ?? null,
+      },
+    };
+  }
+
   private async persistEvidence(turnId: string, gated: GatedChunk[]): Promise<void> {
     const rows = gated.slice(0, MAX_EVIDENCE_ROWS);
     if (rows.length === 0) return;
@@ -1424,6 +1557,7 @@ export class TurnService {
     issues: string[];
     upstreamError: string | null;
     gated: GatedChunk[];
+    trace: Record<string, unknown>;
   }): Promise<AgentTurnResponse> {
     const debugId = createHash('sha256')
       .update(`${input.turnId}:${input.issues.join('|')}:${input.upstreamError ?? ''}`)
@@ -1460,7 +1594,7 @@ export class TurnService {
       `INSERT INTO agent_turns
          (id, session_id, ordinal, utterance, visible_response, visible_response_kind,
           artifact_kind, card_title, degraded, retry_count, artifact, language_check, micro_kp_id)
-       VALUES ($1,$2,$3,$4,$5,'statement','error_card',$6,true,$7,$8::jsonb,$9::jsonb,$10)`,
+       VALUES ($1,$2,$3,$4,$5,'statement','error_card',$6,true,$7,$8::jsonb,$9::jsonb,$10,$11::jsonb)`,
       [
         input.turnId,
         input.request.sessionId,
@@ -1476,6 +1610,7 @@ export class TurnService {
         JSON.stringify({ errorCard }),
         JSON.stringify(languageCheck),
         input.request.microKpId,
+        JSON.stringify(input.trace),
       ],
     );
     await this.persistEvidence(input.turnId, input.gated);
@@ -1488,6 +1623,7 @@ export class TurnService {
     return AgentTurnResponseSchema.parse({
       turnId: input.turnId,
       sessionId: input.request.sessionId,
+      trace: input.trace,
       artifact: null,
       errorCard,
       degraded: true,

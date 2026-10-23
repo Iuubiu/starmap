@@ -18,6 +18,7 @@ import {
   LevelTemplateListResponseSchema,
   LevelTemplatePreviewRequestSchema,
   LevelTemplatePreviewResponseSchema,
+  KpProgressViewSchema,
   MasteryViewSchema,
   ReviewCompleteResponseSchema,
   ReviewQueueResponseSchema,
@@ -38,6 +39,8 @@ export const components = {
   AttemptSubmitRequest: jsonSchema(AttemptSubmitRequestSchema),
   AttemptRecord: jsonSchema(AttemptRecordSchema),
   MasteryView: jsonSchema(MasteryViewSchema),
+  // 票 89：本知识点的三条判定门槛（与 MasteryView 是两件事，不共用一个组件）
+  KpProgressView: jsonSchema(KpProgressViewSchema),
   AttemptSubmitResponse: jsonSchema(AttemptSubmitResponseSchema),
   // 票 06：出口门控与解锁
   GateEvaluation: jsonSchema(GateEvaluationSchema),
@@ -130,6 +133,33 @@ export const paths = {
       parameters: [pathParam('microKpId')],
       responses: {
         '200': jsonResponse('掌握度', 'MasteryView'),
+        '404': err('知识点不存在'),
+        '500': err('服务内部错误'),
+      },
+    },
+  },
+
+  /**
+   * 学习页右栏的「本知识点进度」（票 89）。
+   *
+   * 与上面的 `mastery/{microKpId}` 不是同一件事：那个返回掌握度回放（achieved /
+   * current），这个返回**本关判定用的三条硬门槛**（作答 8 次 / 变式 3 组 / 连对 N）
+   * 的当前值与阈值。路径里带 `/kp/` 就是为了让调用方一眼分清，声明顺序也必须在
+   * 参数路由 `mastery/{microKpId}` 之前。
+   *
+   * 连对阈值随档位变（P1 是 2 题），所以服务端要读一次 placement；前端不应该自己
+   * 拿档位去乘 —— 那会在档位变更后出现两套数字。
+   */
+  '/api/v1/mastery/kp/{microKpId}': {
+    get: {
+      operationId: 'getKpProgress',
+      summary: '本知识点的判定门槛进度（作答 / 变式 / 连对 三条）',
+      description:
+        '`value` 是累计真数，`cumulative` 是按关卡收窄后的分子，`target` 是阈值。' +
+        '`passed` 只在三条同时达标时为 true —— 前端不得自行用百分比推断达标。',
+      parameters: [pathParam('microKpId')],
+      responses: {
+        '200': jsonResponse('本知识点的门槛进度', 'KpProgressView'),
         '404': err('知识点不存在'),
         '500': err('服务内部错误'),
       },

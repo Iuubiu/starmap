@@ -181,6 +181,8 @@ export function HomeV2() {
               <ArtifactCard artifact={latest.artifact} />
             </div>
           )}
+
+          {latest?.trace && <TracePanel trace={latest.trace as TraceShape} />}
         </div>
 
         <Composer
@@ -296,5 +298,97 @@ export function HomeV2() {
         ))}
       </aside>
     </>
+  );
+}
+
+
+/** 决策链的四段结构（后端 `buildTrace` 的镜像；字段缺失都要能容忍） */
+interface TraceShape {
+  skills?: Array<{ name: string; description?: string }>;
+  retrieval?: {
+    candidates?: number;
+    allowed?: number;
+    used?: number;
+    chunks?: Array<{ chunkId: string | null; score: number | null; allowed: boolean; gateReason: string | null; excerpt: string }>;
+  };
+  decisions?: { tier?: string | null; focusNote?: string | null; retryCount?: number; degraded?: boolean; degradedReason?: string | null };
+  model?: { name?: string | null; latencyMs?: number | null; reasoning?: string | null };
+}
+
+/**
+ * 决策链面板。
+ *
+ * 只展示**有据可查**的四类事实：注入了哪些 skill、检索命中了什么、
+ * 本项目做了哪些判定、模型叫什么与耗时多少。模型的 `reasoning` 如果为空，
+ * 就明写「该模型未返回推理内容」—— 不编一段思考过程：那会是整页里
+ * 唯一无法核对的内容，比不展示更糟。
+ */
+function TracePanel({ trace }: { trace: TraceShape }) {
+  const skills = trace.skills ?? [];
+  const retrieval = trace.retrieval ?? {};
+  const decisions = trace.decisions ?? {};
+  const model = trace.model ?? {};
+  const chunks = retrieval.chunks ?? [];
+  return (
+    <details className="v2-trace">
+      <summary>
+        决策链 · 技能 {skills.length} · 检索 {retrieval.used ?? 0}/{retrieval.candidates ?? 0}
+        {typeof model.latencyMs === 'number' ? ` · ${Math.round(model.latencyMs)}ms` : ''}
+      </summary>
+      <section>
+        <h4>调用的技能</h4>
+        {skills.length === 0 ? (
+          <p>本轮没有注入技能（技能库为空或全部禁用）。</p>
+        ) : (
+          <ul>
+            {skills.map((skill) => (
+              <li key={skill.name}>
+                <b>{skill.name}</b>
+                {skill.description ? ` · ${skill.description}` : ''}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+      <section>
+        <h4>检索与门控</h4>
+        <p>
+          候选 {retrieval.candidates ?? 0} 条 · 门控放行 {retrieval.allowed ?? 0} 条 · 实际用于本轮 {retrieval.used ?? 0} 条
+        </p>
+        {chunks.length > 0 && (
+          <ol>
+            {chunks.map((chunk, index) => (
+              <li key={`${chunk.chunkId ?? 'x'}-${index}`}>
+                <code>{chunk.chunkId ?? '（无 id）'}</code>
+                {typeof chunk.score === 'number' ? ` · 分数 ${chunk.score}` : ''}
+                {` · ${chunk.allowed ? '放行' : '拦截'}`}
+                {chunk.gateReason ? `（${chunk.gateReason}）` : ''}
+                <div>{chunk.excerpt}</div>
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
+      <section>
+        <h4>判定</h4>
+        <p>
+          档位 {decisions.tier ?? '—'} · 焦点 {decisions.focusNote ?? '—'}
+          {typeof decisions.retryCount === 'number' && decisions.retryCount > 0 ? ` · 重试 ${decisions.retryCount} 次` : ''}
+          {decisions.degraded ? ` · 已降级（${decisions.degradedReason ?? '原因未记录'}）` : ' · 未降级'}
+        </p>
+      </section>
+      <section>
+        <h4>模型</h4>
+        <p>
+          {model.name ?? '未记录模型名'}
+          {typeof model.latencyMs === 'number' ? ` · 耗时 ${Math.round(model.latencyMs)}ms` : ''}
+        </p>
+        {model.reasoning ? (
+          <blockquote>{model.reasoning}</blockquote>
+        ) : (
+          <p className="v2-trace-note">该模型未返回推理内容（provider 不回传 reasoning_content），这里不编造思考过程。</p>
+        )}
+      </section>
+    </details>
   );
 }
