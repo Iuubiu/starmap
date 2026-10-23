@@ -100,6 +100,13 @@ export function HomeV2() {
   return (
     <div className="v2-shell">
       <nav className="v2-rail" aria-label="主导航">
+        <button type="button" className="brand" title="StarMap" aria-label="StarMap 首页" onClick={() => window.location.assign('/')}>
+          S
+        </button>
+        <button type="button" title="学习记录" aria-label="学习记录" onClick={() => window.location.assign('/learning')}>
+          <Clock24Regular />
+        </button>
+        <span className="rail-gap" />
         {NAV.map(({ key, label, icon: Icon }) => (
           <button
             key={key}
@@ -176,12 +183,24 @@ export function HomeV2() {
             }}
           />
           <div className="bar">
-            <span>Enter 提交 · Shift+Enter 换行</span>
+            <button type="button" className="plus" title="添加附件" aria-label="添加附件">
+              +
+            </button>
+            <button type="button" className="chip" title="难度档（当前 P2）">
+              P2
+            </button>
             <span className="spacer" />
+            <button type="button" className="chip" title="模型（当前默认模型）">
+              默认模型
+            </button>
+            <button type="button" className="mic" title="语音输入（下一步接入）" aria-label="语音输入">
+              ◎
+            </button>
             <button type="button" className="send" onClick={send} disabled={!draft.trim() || submit.isPending} aria-label="提交这一轮">
               <Send24Filled />
             </button>
           </div>
+          <div className="hint">Enter 提交 · Shift+Enter 换行</div>
         </div>
       </main>
 

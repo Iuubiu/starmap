@@ -14,13 +14,21 @@
   grid-template-columns: 48px 200px minmax(0, 1fr) 300px;
   height: 100vh;
   overflow: hidden;
-  background: var(--sm-bg-canvas, #f4f6fb);
+  /* 材质层：三层柔和渐变打底，玻璃才有东西可「透」。
+     纯色底上做毛玻璃只会得到一块灰，这是前几版看起来发闷的直接原因。 */
+  background:
+    radial-gradient(900px 620px at 12% 8%, rgba(255, 205, 218, 0.55), transparent 62%),
+    radial-gradient(880px 640px at 88% 4%, rgba(198, 220, 252, 0.6), transparent 64%),
+    radial-gradient(1000px 760px at 52% 100%, rgba(198, 236, 220, 0.5), transparent 66%),
+    var(--sm-bg-canvas, #f4f6fb);
   color: var(--sm-text-primary, #16181d);
 }
 
 /* ── 左轨：纯图标，居中竖排 ───────────────────────────────────────── */
 .v2-rail {
   display: flex;
+  backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.38);
   flex-direction: column;
   align-items: center;
   gap: 6px;
@@ -49,6 +57,8 @@
 /* ── 会话列：样例里是「今天 / 昨天 / 更早」分组的记录列表 ─────────────── */
 .v2-sessions {
   display: flex;
+  backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.34);
   flex-direction: column;
   gap: 2px;
   padding: 14px 10px;
@@ -184,10 +194,57 @@
 .v2-composer .bar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-top: 6px;
   font-size: 12.5px;
   color: var(--sm-text-tertiary, #7b8293);
+}
+.v2-composer .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sm-text-secondary, #4b5160);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.v2-composer .chip:hover {
+  background: var(--sm-bg-hover, rgba(16, 18, 24, 0.05));
+}
+.v2-composer .plus {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sm-text-secondary, #4b5160);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.v2-composer .plus:hover {
+  background: var(--sm-bg-hover, rgba(16, 18, 24, 0.05));
+}
+.v2-composer .mic {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sm-text-tertiary, #7b8293);
+  font-size: 13px;
+  cursor: pointer;
+}
+.v2-composer .hint {
+  margin-right: 4px;
 }
 .v2-composer .spacer {
   flex: 1;
@@ -211,6 +268,8 @@
 /* ── 右列：学习日志 ───────────────────────────────────────────────── */
 .v2-log {
   display: flex;
+  backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.34);
   flex-direction: column;
   gap: 10px;
   padding: 18px 16px;
@@ -250,4 +309,19 @@
   .v2-log {
     display: none;
   }
+}
+
+/* 左轨品牌标识（样例里是一个「S」圆角方块） */
+.v2-rail .brand {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 4px;
+  border-radius: 9px;
+  background: var(--sm-accent, #be283c);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+.v2-rail .rail-gap {
+  height: 6px;
 }
