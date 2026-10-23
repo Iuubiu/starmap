@@ -68,6 +68,29 @@ export function HomeV2() {
   const [sent, setSent] = useState<string>('');
   const listRef = useRef<HTMLDivElement | null>(null);
 
+  const [sessions, setSessions] = useState<Row[]>([]);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/v1/agent/sessions?limit=40')
+      .then((r) => (r.ok ? r.json() : { items: [] }))
+      .then((json: { sessions?: Array<{ sessionId?: string; firstUtterance?: string | null; lastActivityAt?: string }> }) => {
+        if (!alive || !Array.isArray(json.sessions)) return;
+        setSessions(
+          json.sessions.map((it) => ({
+            id: it.sessionId,
+            utterance: it.firstUtterance ?? '（未记录原话）',
+            createdAt: it.lastActivityAt,
+          })),
+        );
+      })
+      .catch(() => {
+        /* 会话列表读不到不影响主流程：进度条与输入框照常可用 */
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   const history = useAgentTurns(sessionId);
   const submit = useSubmitTurn(sessionId);
 
@@ -103,10 +126,6 @@ export function HomeV2() {
         <button type="button" className="brand" title="StarMap" aria-label="StarMap 首页" onClick={() => window.location.assign('/')}>
           S
         </button>
-        <button type="button" title="学习记录" aria-label="学习记录" onClick={() => window.location.assign('/learning')}>
-          <Clock24Regular />
-        </button>
-        <span className="rail-gap" />
         {NAV.map(({ key, label, icon: Icon }) => (
           <button
             key={key}
@@ -128,6 +147,18 @@ export function HomeV2() {
         <button type="button" className="new" onClick={newSession}>
           新对话
         </button>
+        <button type="button" className="row entry" onClick={() => window.location.assign('/learning')}>
+          <span>学习记录</span>
+        </button>
+        {groups.length === 0 &&
+          sessions.slice(0, 12).map((row, i) => (
+            <button key={row.id ?? `s-${i}`} type="button" className="row" title={row.utterance}>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {row.utterance ?? '（未记录原话）'}
+              </span>
+              <span>{row.createdAt ? new Date(row.createdAt).toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' }) : ''}</span>
+            </button>
+          ))}
         {groups.map((g) => (
           <div key={g.label}>
             <div className="grp">{g.label}</div>
@@ -145,6 +176,7 @@ export function HomeV2() {
 
       <main className="v2-main">
         <div className="v2-col" ref={listRef}>
+          <h1 className="v2-title">学习</h1>
           <p className="v2-caption">STARMAP</p>
           <p className="v2-say">
             说一句你想学什么，或者你卡在哪一步。每轮只给一张卡片：一个关卡、一张图谱、一次追问，或一段进度。

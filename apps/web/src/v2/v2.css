@@ -325,3 +325,16 @@
 .v2-rail .rail-gap {
   height: 6px;
 }
+
+/* 页面标题行（样例里「学习」是独立一行，与说明段分开） */
+.v2-title {
+  margin: 6px 0 2px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.v2-sessions .row.entry {
+  color: var(--sm-text-primary, #16181d);
+  font-weight: 600;
+}
