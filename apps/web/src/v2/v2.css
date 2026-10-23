@@ -588,3 +588,31 @@
 .v2-composer .sm-composer-input {
   resize: none;
 }
+
+/* 输入框自适应高度：不靠 JS 量 scrollHeight，直接用 field-sizing: content，
+   内容几行就是几行，到 200px 封顶后再滚。拖动柄与滚动条都藏掉。 */
+.v2-composer .sm-composer-input {
+  resize: none;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+.v2-composer .sm-composer-input::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+@supports (field-sizing: content) {
+  .v2-composer .sm-composer-input {
+    field-sizing: content;
+    height: auto;      /* 关键：上面那条早期规则把高度钉在 26px，会压死自适应 */
+    max-height: 200px;
+  }
+}
+/* 老浏览器没有 field-sizing 时退回可滚 + 显式高度，至少不会截断内容 */
+@supports not (field-sizing: content) {
+  .v2-composer .sm-composer-input {
+    height: auto;
+    min-height: 26px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}
