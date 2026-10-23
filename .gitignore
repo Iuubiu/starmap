@@ -72,3 +72,9 @@ content/embeddings/
 
 # 外部 clone 进来的仓库，不入版本库
 .scratch/skill-dl/
+
+# 内容管线的"修复前快照"副本：tools/ingest 的 --dry-run 重放用，体积大（~326MB），可随时用 git archive 重建
+.scratch/qa/t94-pre/
+# 探针/救援临时产物
+.scratch/salvage/
+.scratch/*.bak-*
