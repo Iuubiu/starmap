@@ -62,7 +62,8 @@
   gap: 2px;
   padding: 14px 10px;
   overflow: hidden;
-  border-right: 0;
+  /* 三栏之间给一条极淡的分割线：面板是一整块玻璃，没有线时两栏会「糊」在一起 */
+  border-right: 1px solid var(--sm-border-hairline, rgba(16, 18, 24, 0.07));
 }
 .v2-sessions .new {
   display: flex;
@@ -289,7 +290,7 @@
   gap: 10px;
   padding: 18px 16px;
   overflow-y: auto;
-  border-left: 0;
+  border-left: 1px solid var(--sm-border-hairline, rgba(16, 18, 24, 0.07));
   scrollbar-width: none;
 }
 .v2-log::-webkit-scrollbar {
@@ -339,6 +340,12 @@
 }
 .v2-rail .rail-gap {
   height: 6px;
+}
+/* 「我的」固定在左下角：与导航项拉开距离，位置上就是「账户」而不是「一个页面」 */
+.v2-rail .me {
+  margin-top: auto;
+  background: var(--sm-brand-soft, rgba(190, 40, 60, 0.14));
+  color: var(--sm-accent, #be283c);
 }
 
 /* 页面标题行（样例里「学习」是独立一行，与说明段分开） */

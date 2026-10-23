@@ -39,6 +39,9 @@ const NAV = [
   { key: 'me', label: '我的', icon: Person24Regular },
 ];
 
+/** 左下角固定项（账户），不参与上方导航循环。 */
+const ME_NAV = NAV[NAV.length - 1];
+
 /** 会话记录按「今天 / 昨天 / 更早」分组 —— 样例里就是这个分组。 */
 function groupByDay(rows: Row[]): Array<{ label: string; items: Row[] }> {
   const now = new Date();
@@ -126,7 +129,7 @@ export function HomeV2() {
         <button type="button" className="brand" title="StarMap" aria-label="StarMap 首页" onClick={() => window.location.assign('/')}>
           S
         </button>
-        {NAV.map(({ key, label, icon: Icon }) => (
+        {NAV.slice(0, -1).map(({ key, label, icon: Icon }) => (
           <button
             key={key}
             type="button"
@@ -141,6 +144,17 @@ export function HomeV2() {
             <Icon />
           </button>
         ))}
+        {ME_NAV && (
+          <button
+            type="button"
+            className="me"
+            title={ME_NAV.label}
+            aria-label={ME_NAV.label}
+            onClick={() => window.location.assign('/me')}
+          >
+            <ME_NAV.icon />
+          </button>
+        )}
       </nav>
 
       <div className="v2-panel">
