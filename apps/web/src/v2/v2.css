@@ -772,3 +772,34 @@
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+/* 非聊天页现在也是两列：内容 + 右栏。
+   ≥1500 右栏占 24%，1200–1500 降到 22%，更窄时右栏收起（内容优先） */
+@media (min-width: 1500px) {
+  .v2-panel--wide {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 24%);
+  }
+}
+@media (min-width: 1200px) and (max-width: 1499px) {
+  .v2-panel--wide {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 22%);
+  }
+}
+@media (max-width: 1199px) {
+  .v2-panel--wide .v2-railbox {
+    display: none;
+  }
+}
+/* 右栏的数字项与说明 */
+.v2-railbox .metric {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.v2-railbox .metric b {
+  font-size: 22px;
+}
+.v2-railbox .metric-label {
+  font-size: 13px;
+  opacity: 0.7;
+}

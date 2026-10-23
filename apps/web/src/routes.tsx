@@ -59,6 +59,15 @@ export const appRoutes: RouteObject[] = [
       { path: '/market', element: <V2Main><MarketPage /></V2Main> },
       // 地图要的是「画布跟着窗口长」：主列不滚，页面撑满高度。
       { path: '/map', element: <V2Main fill><MapPage /></V2Main> },
+      /* 以下六页从旧 AppShell 迁入 v2 外壳（2026-10-23）：它们都在左侧图标导航上，
+         一半页面用旧顶栏、一半用新外壳，切页时整块界面会变样 —— 这正是用户说的
+         「两套 UI」。迁入后左轨常驻、右栏按页给内容。 */
+      { path: '/placement', element: <V2Main><PlacementPage /></V2Main> },
+      { path: '/board', element: <V2Main><DashboardPage /></V2Main> },
+      { path: '/review', element: <V2Main><ReviewPage /></V2Main> },
+      { path: '/library', element: <V2Main><LibraryPage /></V2Main> },
+      { path: '/database', element: <V2Main><DatabasePage /></V2Main> },
+      { path: '/skills', element: <V2Main><SkillsPage /></V2Main> },
     ],
   },
   {
@@ -75,18 +84,12 @@ export const appRoutes: RouteObject[] = [
       // 而不是一个它还读不懂的学习台。走过一遍后由 localStorage 里的标记放行。
       { path: 'welcome', element: <WelcomePage /> },
       { path: 'me', element: <MePage /> },
-      { path: 'placement', element: <PlacementPage /> },
-      { path: 'board', element: <DashboardPage /> },
       { path: 'map/:microKpId', element: <NodeDetailPage /> },
       { path: 'level/:levelId', element: <LevelPage /> },
       // 复验（票 07）单独开一页，不嵌在知识点详情页里：验收第 1 条要求
       // 「多个知识点交错出现而不是同一个连考」—— 单知识点页天然只有一张卷。
-      { path: 'review', element: <ReviewPage /> },
-      { path: 'database', element: <DatabasePage /> },
       { path: 'market/author/:microKpId', element: <MarketAuthorPage /> },
       { path: 'market/generate', element: <GenerationPage /> },
-      { path: 'skills', element: <SkillsPage /> },
-      { path: 'library', element: <LibraryPage /> },
       // 兜底：没有它时 React Router 会渲染内置的英文开发者错误页。
       // 本地单用户的 URL 很容易改错一个字符，那时该看到中文说明而不是 💿。
       { path: '*', element: <NotFoundPage /> },

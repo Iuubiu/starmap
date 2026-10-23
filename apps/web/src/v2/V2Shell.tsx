@@ -28,6 +28,7 @@
  */
 import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation } from 'react-router';
+import { Rail } from './Rail';
 import {
   BookOpen24Regular,
   Clock24Regular,
@@ -237,6 +238,9 @@ export function V2Shell() {
           {sessionsError && <div className="grp">会话列表暂时读不到</div>}
         </aside>
         <Outlet />
+        {/* 非聊天页的右栏：个人现状 + 该页快捷指令（每项都能点、点了有用）。
+            聊天页的右栏由 HomeV2 自己渲染（它的内容是「本次会话」相关的）。 */}
+        {!isChat && <Rail />}
       </div>
     </div>
   );
