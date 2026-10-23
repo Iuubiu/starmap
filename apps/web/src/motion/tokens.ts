@@ -98,3 +98,85 @@ export function easeOutProgress(t: number): number {
   const inverted = 1 - t;
   return 1 - inverted * inverted * inverted;
 }
+
+// ---------------------------------------------------------------------------
+// t60：阶段转场的镜头语言
+// ---------------------------------------------------------------------------
+//
+// 上面那组（instant/quick/standard/slow）是**界面微交互**的时长；这一组是
+// **镜头**的。两者分开的理由不是审美，是量纲：微交互发生在同一屏内，人对
+// 100ms 与 200ms 的差别极其敏感；镜头跨越的是「一屏到另一屏」，距离本身
+// 就在变，时长必须随距离走，写死任何一个值都会在近处显得拖、在远处显得闪。
+
+/**
+ * 面板开合（侧栏抽屉、下拉、浮层）：比微交互长一点，但仍在「一个呼吸」内。
+ *
+ * 160ms 是 Material 的「medium」档。Raycast 的手感比 Apple 更硬：面板滑出
+ * 时不带过冲，落位就停。
+ */
+export const panel = 160;
+
+/** 镜头最短时长（相邻/很近的两个点）：再短就看不出「缩」了。 */
+export const cinematicMin = 420;
+
+/** 镜头最长时长（全图对角线的两端）：再长会让人等。 */
+export const cinematicMax = 600;
+
+/**
+ * 镜头硬上限。指令写的范围是 420–600，这里留一个 700 的硬顶：
+ * 调用方显式给时长时（`clampCinematicMs`）可以被夹到这里，但自动算出来的
+ * 永远不会超过 `cinematicMax`。
+ */
+export const cinematicCap = 700;
+
+/**
+ * 「满程」距离：多远算「从地球到地面」。
+ *
+ * 归一化到 1 个视口宽（`extent`）之后，0.9 已经是穿过大半个图了。用 0.9
+ * 而不是 1：图的最远两点连线（对角线）上，起点终点通常不会正好在角上。
+ */
+export const cinematicFullDistance = 0.9;
+
+/**
+ * 入场缓动：快出慢收，落位时几乎停住。
+ *
+ * `cubic-bezier(0.16, 1, 0.3, 1)` 前 16% 的时间走完大半距离，尾巴 40% 只走
+ * 最后几个像素——这是「重的东西稳稳停下」的观感。**不要** bounce/elastic：
+ * 镜头不是弹簧，过冲会让人以为画面在抖。
+ */
+export const easeEnter = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+/**
+ * 退出缓动：慢启动、加速离开。
+ *
+ * `cubic-bezier(0.7, 0, 0.84, 0)` 是入场曲线的反向镜像：给人「退场的东西
+ * 是被带走的」，而不是「掉了」。
+ */
+export const easeExit = 'cubic-bezier(0.7, 0, 0.84, 0)';
+
+/**
+ * 按距离算镜头时长。
+ *
+ * `distance` 是**归一化距离**（除以 `extent`，一个视口宽 = 1），不是图坐标
+ * 的绝对值——图坐标的量纲随布局漂移，直接喂进来会让时长随机。
+ *
+ * 非法/非正输入归最短档：调用方算出 NaN（相机还没初始化）时应当得到一段
+ * 正常的镜头，而不是 `animation: 0ms` 那种「跳过去」。
+ */
+export function cinematicDuration(distance: number): number {
+  if (!Number.isFinite(distance) || distance <= 0) return cinematicMin;
+  const t = Math.min(1, distance / cinematicFullDistance);
+  const ms = Math.round(cinematicMin + (cinematicMax - cinematicMin) * t);
+  return Math.min(cinematicCap, ms);
+}
+
+/**
+ * 夹取显式给的镜头时长。
+ *
+ * 与 `cinematicDuration` 的区别：那个是「按距离推荐」，这个是「调用方指
+ * 定」。所以 0/非法值折成 0（= 瞬移，不是「最短一档」），过大的夹到硬顶。
+ */
+export function clampCinematicMs(ms: number): number {
+  if (!Number.isFinite(ms) || ms <= 0) return 0;
+  return Math.min(cinematicCap, Math.round(ms));
+}

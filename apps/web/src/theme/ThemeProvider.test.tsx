@@ -73,9 +73,9 @@ describe('readInitialTheme', () => {
     expect(readInitialTheme()).toBe('light');
   });
 
-  it('系统也说不出话时落到深色', () => {
+  it('系统也说不出话时落到浅色（默认主题已改为浅色，见 56b7d08）', () => {
     stubColorScheme('none');
-    expect(readInitialTheme()).toBe('dark');
+    expect(readInitialTheme()).toBe('light');
   });
 
   it('localStorage 抛异常不影响出结果（隐私模式）', () => {
@@ -84,7 +84,7 @@ describe('readInitialTheme', () => {
     });
     stubColorScheme('dark');
     expect(() => readInitialTheme()).not.toThrow();
-    expect(readInitialTheme()).toBe('dark');
+    expect(readInitialTheme()).toBe('light');
   });
 
   it('localStorage 里是垃圾值时忽略它', () => {

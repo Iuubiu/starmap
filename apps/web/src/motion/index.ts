@@ -13,10 +13,19 @@
 export {
   ENTER_OFFSET_PX,
   REDUCED_MOTION_QUERY,
+  cinematicCap,
+  cinematicDuration,
+  cinematicFullDistance,
+  cinematicMax,
+  cinematicMin,
+  clampCinematicMs,
+  easeEnter,
+  easeExit,
   easeInOut,
   easeOut,
   easeOutProgress,
   instant,
+  panel,
   quick,
   resolveDuration,
   slow,
@@ -26,3 +35,47 @@ export {
 export { useReducedMotion } from './useReducedMotion';
 export { useCountUp, type CountUpOptions } from './useCountUp';
 export { EnterOnMount, useEnterAnimation, type EnterOnMountProps } from './EnterOnMount';
+
+// t60：阶段转场的编排层。用 View Transitions 起手，不支持时退化为 200ms
+// 推近；reduce 下只做更新、不做动画。
+export {
+  FALLBACK_OPACITY_FLOOR,
+  FALLBACK_SCALE_FROM,
+  TRANSITION_ATTR,
+  fallbackKeyframes,
+  playScaleOpacityFallback,
+  runStageTransition,
+  stageDepth,
+  stageTransitionKind,
+  supportsViewTransitions,
+  type StageTransitionKind,
+  type StageTransitionOptions,
+  type StageTransitionOutcome,
+  type ViewTransitionLike,
+} from './transitions';
+
+export { useRouteTransition, runRouteTransition, type RouteTransitionApi, type RouteTransitionOptions } from './useRouteTransition';
+
+// t60：连续缩放镜头（地图全局 → 知识点近景）。
+export {
+  AVOID_CORRIDOR,
+  AVOID_DETOUR,
+  AVOID_TRIGGER,
+  MIN_RATIO,
+  PATH_SAMPLES,
+  cancelCinematicZoom,
+  densityAlong,
+  planCinematicZoom,
+  prefersReducedMotion,
+  runCinematicZoom,
+  stateAt,
+  useCinematicZoom,
+  zoomToNode,
+  type CinematicZoomPlan,
+  type NearbyNode,
+  type PlanCinematicZoomInput,
+  type ZoomCameraSink,
+  type ZoomCameraState,
+  type ZoomSample,
+  type ZoomTarget,
+} from './useCinematicZoom';
