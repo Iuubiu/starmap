@@ -9,6 +9,7 @@
  * 前缀 `Agent` / `Skill` 是本泳道的命名空间。
  */
 import {
+  AgentStreamEventSchema,
   AgentTurnRequestSchema,
   AgentTurnResponseSchema,
   AgentTurnHistoryResponseSchema,
@@ -44,6 +45,7 @@ export const components = {
   ProbeStartRequest: jsonSchema(ProbeStartRequestSchema),
   ProbeReplyRequest: jsonSchema(ProbeReplyRequestSchema),
   SkillToggleRequest: jsonSchema(SkillToggleRequestSchema),
+  AgentStreamEvent: jsonSchema(AgentStreamEventSchema),
   AgentTurnResponse: jsonSchema(AgentTurnResponseSchema),
   AgentTurnHistoryResponse: jsonSchema(AgentTurnHistoryResponseSchema),
   AgentTurnEvidenceResponse: jsonSchema(AgentTurnEvidenceResponseSchema),
@@ -95,6 +97,27 @@ export const paths = {
       ],
       responses: {
         '200': jsonResponse('学习日志', 'AgentTurnHistoryResponse'),
+        '400': errorResponses['400'],
+        '500': errorResponses['500'],
+      },
+    },
+  },
+  '/api/v1/agent/turns/stream': {
+    post: {
+      operationId: 'createAgentTurnStream',
+      summary: '流式回合：先分阶段推进，再把可见回复逐字吐出',
+      description:
+        '帧序：四段 stage（skills → retrieval → decision → model）→ 若干 token → 一个 done。' +
+        'done 帧里的 response 与一次性接口同形，前端可直接替换本地状态。' +
+        '参数校验失败走 JSON 400 而不是 SSE —— 参数错误在开流之前就能判定。',
+      requestBody: jsonBody('AgentTurnRequest'),
+      responses: {
+        '200': {
+          description: 'SSE 事件流（见 AgentStreamEvent）',
+          content: {
+            'text/event-stream': { schema: { $ref: '#/components/schemas/AgentStreamEvent' } },
+          },
+        },
         '400': errorResponses['400'],
         '500': errorResponses['500'],
       },

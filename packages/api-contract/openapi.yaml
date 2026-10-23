@@ -38,6 +38,65 @@
       "required":
         - "sessions"
       "type": "object"
+    "AgentStreamEvent":
+      "oneOf":
+        - "additionalProperties": false
+          "properties":
+            "detail":
+              "minLength": 1
+              "type": "string"
+            "stage":
+              "enum":
+                - "skills"
+                - "retrieval"
+                - "decision"
+                - "model"
+              "type": "string"
+            "type":
+              "const": "stage"
+              "type": "string"
+          "required":
+            - "type"
+            - "stage"
+            - "detail"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "text":
+              "type": "string"
+            "type":
+              "const": "token"
+              "type": "string"
+          "required":
+            - "type"
+            - "text"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "response":
+              "additionalProperties": {}
+              "propertyNames":
+                "type": "string"
+              "type": "object"
+            "type":
+              "const": "done"
+              "type": "string"
+          "required":
+            - "type"
+            - "response"
+          "type": "object"
+        - "additionalProperties": false
+          "properties":
+            "message":
+              "minLength": 1
+              "type": "string"
+            "type":
+              "const": "error"
+              "type": "string"
+          "required":
+            - "type"
+            - "message"
+          "type": "object"
     "AgentTurnEvidenceResponse":
       "additionalProperties": false
       "properties":
@@ -8395,6 +8454,36 @@
                 "$ref": "#/components/schemas/ApiError"
           "description": "模型上游不可用"
       "summary": "提交一句话，产出一张结构化产物卡"
+  "/api/v1/agent/turns/stream":
+    "post":
+      "description": "帧序：四段 stage（skills → retrieval → decision → model）→ 若干 token → 一个 done。done 帧里的 response 与一次性接口同形，前端可直接替换本地状态。参数校验失败走 JSON 400 而不是 SSE —— 参数错误在开流之前就能判定。"
+      "operationId": "createAgentTurnStream"
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/AgentTurnRequest"
+        "required": true
+      "responses":
+        "200":
+          "content":
+            "text/event-stream":
+              "schema":
+                "$ref": "#/components/schemas/AgentStreamEvent"
+          "description": "SSE 事件流（见 AgentStreamEvent）"
+        "400":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "请求参数不合法"
+        "500":
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ApiError"
+          "description": "服务内部错误"
+      "summary": "流式回合：先分阶段推进，再把可见回复逐字吐出"
   "/api/v1/agent/turns/{turnId}":
     "get":
       "operationId": "getAgentTurn"

@@ -22,6 +22,7 @@ import type {
 
 import type {
   AgentSessionListResponse,
+  AgentStreamEvent,
   AgentTurnEvidenceResponse,
   AgentTurnHistoryResponse,
   AgentTurnRequest,
@@ -1837,6 +1838,145 @@ export function useCreateAgentTurn<TData = Awaited<ReturnType<typeof createAgent
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getCreateAgentTurnQueryOptions(agentTurnRequest,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type createAgentTurnStreamResponse200 = {
+  data: AgentStreamEvent
+  status: 200
+}
+
+export type createAgentTurnStreamResponse400 = {
+  data: ApiError
+  status: 400
+}
+
+export type createAgentTurnStreamResponse500 = {
+  data: ApiError
+  status: 500
+}
+
+export type createAgentTurnStreamResponseSuccess = (createAgentTurnStreamResponse200) & {
+  headers: Headers;
+};
+export type createAgentTurnStreamResponseError = (createAgentTurnStreamResponse400 | createAgentTurnStreamResponse500) & {
+  headers: Headers;
+};
+
+export type createAgentTurnStreamResponse = (createAgentTurnStreamResponseSuccess | createAgentTurnStreamResponseError)
+
+export const getCreateAgentTurnStreamUrl = () => {
+
+
+
+
+  return `/api/v1/agent/turns/stream`
+}
+
+/**
+ * 帧序：四段 stage（skills → retrieval → decision → model）→ 若干 token → 一个 done。done 帧里的 response 与一次性接口同形，前端可直接替换本地状态。参数校验失败走 JSON 400 而不是 SSE —— 参数错误在开流之前就能判定。
+ * @summary 流式回合：先分阶段推进，再把可见回复逐字吐出
+ */
+export const createAgentTurnStream = async (agentTurnRequest: AgentTurnRequest, options?: Parameters<typeof customFetch>[1]): Promise<createAgentTurnStreamResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<createAgentTurnStreamResponse>(getCreateAgentTurnStreamUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(agentTurnRequest)
+  }
+);}
+
+
+
+
+
+export const getCreateAgentTurnStreamQueryKey = (agentTurnRequest?: AgentTurnRequest,) => {
+    return [
+    'POST', `/api/v1/agent/turns/stream`, agentTurnRequest
+    ] as const;
+    }
+
+
+export const getCreateAgentTurnStreamQueryOptions = <TData = Awaited<ReturnType<typeof createAgentTurnStream>>, TError = ApiError>(agentTurnRequest: AgentTurnRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurnStream>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCreateAgentTurnStreamQueryKey(agentTurnRequest);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof createAgentTurnStream>>> = ({ signal }) => createAgentTurnStream(agentTurnRequest, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof createAgentTurnStream>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CreateAgentTurnStreamQueryResult = NonNullable<Awaited<ReturnType<typeof createAgentTurnStream>>>
+export type CreateAgentTurnStreamQueryError = ApiError
+
+
+export function useCreateAgentTurnStream<TData = Awaited<ReturnType<typeof createAgentTurnStream>>, TError = ApiError>(
+ agentTurnRequest: AgentTurnRequest, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurnStream>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof createAgentTurnStream>>,
+          TError,
+          Awaited<ReturnType<typeof createAgentTurnStream>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCreateAgentTurnStream<TData = Awaited<ReturnType<typeof createAgentTurnStream>>, TError = ApiError>(
+ agentTurnRequest: AgentTurnRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurnStream>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof createAgentTurnStream>>,
+          TError,
+          Awaited<ReturnType<typeof createAgentTurnStream>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCreateAgentTurnStream<TData = Awaited<ReturnType<typeof createAgentTurnStream>>, TError = ApiError>(
+ agentTurnRequest: AgentTurnRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurnStream>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 流式回合：先分阶段推进，再把可见回复逐字吐出
+ */
+
+export function useCreateAgentTurnStream<TData = Awaited<ReturnType<typeof createAgentTurnStream>>, TError = ApiError>(
+ agentTurnRequest: AgentTurnRequest, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof createAgentTurnStream>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCreateAgentTurnStreamQueryOptions(agentTurnRequest,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

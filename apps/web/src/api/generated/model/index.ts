@@ -8,6 +8,7 @@
 
 export * from './agentSessionListResponse.js';
 export * from './agentSessionListResponseSessionsItem.js';
+export * from './agentStreamEvent.js';
 export * from './agentTurnEvidenceResponse.js';
 export * from './agentTurnEvidenceResponseGateTier.js';
 export * from './agentTurnEvidenceResponseItemsItem.js';
