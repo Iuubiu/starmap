@@ -127,6 +127,7 @@ export function V2Shell() {
 
   const buckets = useMemo(() => bucketSessions(sessions), [sessions]);
   const current = activeKey(location.pathname);
+  const isChat = location.pathname === '/';
 
   const startNewSession = () => {
     resetSessionId();
@@ -198,7 +199,10 @@ export function V2Shell() {
         )}
       </nav>
 
-      <div className="v2-panel">
+      {/* 非聊天页（学习页以外）左栏收起：会话列表只对「继续某个学习对话」有意义，
+          在定级/复验/地图/市场/内容库/技能库上占掉 15% 宽度纯属浪费。
+          用户 2026-10-23 裁定：非聊天界面左中栏合并。 */}
+      <div className={isChat ? 'v2-panel' : 'v2-panel v2-panel--wide'}>
         <aside className="v2-sessions" aria-label="学习记录">
           <button type="button" className="new-row" onClick={startNewSession}>
             <span aria-hidden="true">✎</span>

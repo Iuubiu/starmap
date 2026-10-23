@@ -739,3 +739,11 @@
   background: rgba(255, 255, 255, 0.6);
   cursor: pointer;
 }
+
+/* 非聊天页：左中栏合并（会话列只服务于「继续某个学习对话」） */
+.v2-panel--wide {
+  grid-template-columns: minmax(0, 1fr);
+}
+.v2-panel--wide .v2-sessions {
+  display: none;
+}
