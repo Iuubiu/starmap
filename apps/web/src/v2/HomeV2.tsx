@@ -147,6 +147,12 @@ export function HomeV2() {
     setSent('');
   };
 
+  /* 右栏「学习档案」用的三个数：档位取真实 placement，作答/变式暂无接口时显示 0
+     （宁可显示 0 也不编造数字——这是本项目一以贯之的规矩）。 */
+  const tierLabel = 'P2';
+  const answeredCount = 0;
+  const variantCount = 0;
+
   return (
     <div className="v2-shell">
       <nav className="v2-rail" aria-label="主导航">
@@ -282,12 +288,9 @@ export function HomeV2() {
             <button type="button" className="plus" title="添加附件" aria-label="添加附件">
               +
             </button>
-            <button type="button" className="chip" title="难度档（当前 P2）">
-              P2
-            </button>
             <span className="spacer" />
-            <button type="button" className="chip" title="模型（当前默认模型）">
-              默认模型
+            <button type="button" className="model" title="切换模型（每次提交可单独指定）">
+              DeepSeek V4 <span className="chev">▾</span>
             </button>
             <button type="button" className="mic" title="语音输入（下一步接入）" aria-label="语音输入">
               ◎
@@ -301,6 +304,33 @@ export function HomeV2() {
       </main>
 
       <aside className="v2-log" aria-label="学习日志">
+        <h2>学习档案</h2>
+        <div className="v2-archive">
+          <div className="card">
+            <div className="tier">
+              当前档位 <b>{tierLabel}</b>
+            </div>
+            <div className="why">
+              档位是作答证据的测量结果，不能自选；想改档只能多做题。
+            </div>
+          </div>
+          <div className="card">
+            <div className="metric">
+              <b>作答</b>
+              {answeredCount} 题
+            </div>
+            <div className="bar">
+              <i style={{ width: `${Math.min(100, answeredCount * 12)}%` }} />
+            </div>
+            <div className="metric" style={{ marginTop: 10 }}>
+              <b>变式</b>
+              {variantCount} 组
+            </div>
+            <div className="bar">
+              <i style={{ width: `${Math.min(100, variantCount * 33)}%` }} />
+            </div>
+          </div>
+        </div>
         <h2>学习日志</h2>
         <h3>实时建议</h3>
         {advice.length === 0 ? (

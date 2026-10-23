@@ -438,3 +438,48 @@
   color: var(--sm-text-primary, #16181d);
   font-weight: 600;
 }
+
+/* 模型选择：不要方框，做成与其它图标同一行的轻量标签（用户 m38367 明确要求） */
+.v2-composer .model {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sm-text-secondary, #4b5160);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+.v2-composer .model:hover { background: rgba(16, 18, 24, 0.05); }
+.v2-composer .model .chev { font-size: 11px; opacity: 0.5; }
+
+/* 右栏「学习档案」：档位是测量结果，只读 */
+.v2-archive { display: flex; flex-direction: column; gap: 12px; }
+.v2-archive .card {
+  border-radius: 14px;
+  padding: 13px 14px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 26px rgba(16, 18, 24, 0.07);
+}
+.v2-archive .tier { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--sm-text-secondary, #4b5160); }
+.v2-archive .tier b {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 8px;
+  background: rgba(16, 18, 24, 0.06);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--sm-text-primary, #1b1f27);
+}
+.v2-archive .why { margin-top: 8px; font-size: 13.5px; line-height: 19px; color: var(--sm-text-tertiary, #8b93a3); }
+.v2-archive .metric { display: flex; align-items: baseline; gap: 8px; font-size: 14.5px; color: var(--sm-text-secondary, #4b5160); }
+.v2-archive .metric b { font-size: 15.5px; color: var(--sm-text-primary, #1b1f27); }
+.v2-archive .bar { height: 6px; border-radius: 99px; background: rgba(16, 18, 24, 0.08); overflow: hidden; margin-top: 8px; }
+.v2-archive .bar i { display: block; height: 100%; border-radius: 99px; background: #3f7d4f; }
