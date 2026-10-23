@@ -143,6 +143,7 @@ export function HomeV2() {
         ))}
       </nav>
 
+      <div className="v2-panel">
       <aside className="v2-sessions" aria-label="学习记录">
         <button type="button" className="new" onClick={newSession}>
           新对话
@@ -246,6 +247,7 @@ export function HomeV2() {
           </div>
         ))}
       </aside>
+      </div>
     </div>
   );
 }
