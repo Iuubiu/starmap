@@ -19,7 +19,7 @@
 
 /* ── 内容列：920 居中。这是「像不像样例」最明显的一条 ───────────────── */
 .sm-page-in {
-  width: min(920px, 100%);
+  width: 100%;
   margin-inline: auto;
   display: flex;
   flex-direction: column;

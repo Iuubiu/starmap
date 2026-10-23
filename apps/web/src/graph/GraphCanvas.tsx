@@ -526,32 +526,9 @@ export function GraphCanvas({
             if (Math.abs(width - lastWidth) < 24) return;
             lastWidth = width;
             if (ratioRef.current > 1.05) return;
-            /* sigma 的 ratio=1 并不是「铺满画布」，而是 1 世界单位 = 1 像素：
-               图有多大就画多大。所以视口变宽后必须**算一个真正的适配比例**，
-               `camera.reset()` 只会回到 ratio 1（实测 2560 下 3085 个点仍只占
-               画布中间约三分之一）。这里按节点包围盒与画布尺寸取较小者。 */
-            let minX = Infinity;
-            let minY = Infinity;
-            let maxX = -Infinity;
-            let maxY = -Infinity;
-            graph.forEachNode((_id, attrs) => {
-              const x = typeof attrs.x === 'number' ? attrs.x : 0;
-              const y = typeof attrs.y === 'number' ? attrs.y : 0;
-              if (x < minX) minX = x;
-              if (y < minY) minY = y;
-              if (x > maxX) maxX = x;
-              if (y > maxY) maxY = y;
-            });
-            const bw = maxX - minX;
-            const bh = maxY - minY;
-            const ch = container.offsetHeight;
-            if (!(bw > 0) || !(bh > 0) || ch <= 0) return;
-            const fit = Math.min(width / bw, ch / bh) * 0.92;
-            created.getCamera().setState({
-              x: (minX + maxX) / 2,
-              y: (minY + maxY) / 2,
-              ratio: Number.isFinite(fit) && fit > 0 ? fit : 1,
-            });
+            /* camera.x/y 是 0..1 归一化、ratio=1 就是全图适配；自算世界坐标会把
+               ratio 打到 0.08 造成整块空白（t74 blocker）。让 sigma 自己重算。 */
+            created.getCamera().reset();
           });
     resizeObserver?.observe(container);
 
