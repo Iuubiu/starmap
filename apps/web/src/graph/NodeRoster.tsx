@@ -47,6 +47,8 @@
 import { useState } from 'react';
 import type { GraphNode } from '../api/generated/model';
 import { useGraphColors } from './palette.js';
+import { RosterSearch } from './RosterSearch.js';
+import { filterRosterNodes, isRosterQueryEmpty } from './roster-search.js';
 import {
   FINE_LABEL,
   formatPercent,
@@ -94,17 +96,47 @@ export function NodeRoster({
   // 语义顺序：模块 → 树深 → 模块内序。与线性主线视图一致，见上方注释。
   const ordered = orderMainline(nodes);
   const now = new Date();
-  const [limit, setLimit] = useState(ROSTER_PAGE);
+  /**
+   * 搜索串与「继续显示」的分页状态（票 86）。
+   *
+   * 分页状态带着**它是在哪个查询下展开的**：查询一变，展开量就作废、回到
+   * 首批 400 条 —— 否则「在 3000 条里展开全部之后搜『knt』」会一次性渲染
+   * 全部命中项，慢机器上又是一次长任务。回到同一个查询串时（比如删掉刚打的
+   * 字）展开量恢复，学生不会因为改主意而重新点一次。
+   */
+  const [query, setQuery] = useState('');
+  const [paging, setPaging] = useState<{ query: string; limit: number }>({
+    query: '',
+    limit: ROSTER_PAGE,
+  });
   const recommended = new Set(recommendedIds ?? []);
 
-  const shown = ordered.length > limit ? ordered.slice(0, limit) : ordered;
-  const remaining = ordered.length - shown.length;
+  const filtered = filterRosterNodes(ordered, query);
+  const effectiveLimit = paging.query === query ? paging.limit : ROSTER_PAGE;
+  const shown = filtered.length > effectiveLimit ? filtered.slice(0, effectiveLimit) : filtered;
+  const remaining = filtered.length - shown.length;
   const truncation = getTruncation();
+  const searching = !isRosterQueryEmpty(query);
 
   return (
     <>
-      <ul className="graph-roster" aria-label="当前视野内的微知识点">
-        {shown.map((node) => {
+      <RosterSearch
+        query={query}
+        onQueryChange={setQuery}
+        total={ordered.length}
+        matched={filtered.length}
+      />
+      {searching && filtered.length === 0 ? (
+        /*
+         * 空结果要**说清楚是筛没了**，而不是渲染一个空列表。空列表与「还没
+         * 加载完」在视觉上无法区分，学生只会以为清单坏了。
+         */
+        <p className="graph-roster-empty" data-roster-empty="true">
+          没有找到叫「{query.trim()}」的知识点。试试中文名或拼音首字母，例如「knt」。
+        </p>
+      ) : (
+        <ul className="graph-roster" id="graph-roster-list" aria-label="当前视野内的微知识点">
+          {shown.map((node) => {
           const status = toDisplayStatus(node, now);
           const isFocus = node.microKpId === focusId;
           const isRecommended = recommended.has(node.microKpId);
@@ -154,9 +186,14 @@ export function NodeRoster({
             </li>
           );
         })}
-      </ul>
+        </ul>
+      )}
       {remaining > 0 && (
-        <button type="button" className="graph-roster-more" onClick={() => setLimit(truncation)}>
+        <button
+          type="button"
+          className="graph-roster-more"
+          onClick={() => setPaging({ query, limit: truncation })}
+        >
           继续显示（还有 {remaining} 个）
         </button>
       )}

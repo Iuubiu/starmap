@@ -161,6 +161,37 @@
   white-space: nowrap;
 }
 
+/*
+ * 悬停名牌（票 86）。
+ *
+ * `pointer-events: none` 不是可选的：名牌从节点旁弹出，正好落在指针附近，
+ * 一旦能命中就会挡住画布的下一次 enter/leave —— 鼠标一动，sigma 收到
+ * leaveNode、名牌消失、指针又落回节点上、名牌再出现，闪烁循环。
+ *
+ * 纵向只做 `translateX(-50%)`：`placeHoverLabel` 返回的 `top` 已经是**名牌
+ * 顶边**（上方放不下时它会翻到指针下方并改算 `top`），再叠一个 `-100%`
+ * 会把名牌整体再抬高一整个自身高度 —— 首版就是这么写的，实测名牌被画布
+ * 顶边裁掉大半（票 86 的 Playwright 截图里只剩一条白边）。
+ */
+.graph-canvas-hover-label {
+  position: absolute;
+  z-index: 3;
+  max-width: 260px;
+  padding: 3px 8px;
+  border: 1px solid var(--sm-border-hairline);
+  border-radius: 6px;
+  background: var(--sm-bg-elevated);
+  color: var(--sm-graph-label);
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  box-shadow: var(--sm-shadow-md);
+  transform: translateX(-50%);
+}
+
 /* ── 图例 ───────────────────────────────────────────────────────────── */
 
 .graph-legend {
@@ -203,6 +234,90 @@
 }
 
 /* ── 节点清单（画布的等价文本替代） ────────────────────────────────── */
+
+/*
+ * 按名字找点（票 86）。
+ *
+ * 搜索区固定在清单顶部（`flex: 0 0 auto`），清单自己滚（`.graph-roster` 的
+ * `flex: 1 1 auto` + `overflow-y: auto`）—— 输入框跟着清单一起滚走的话，
+ * 往下翻两百条之后想改关键词还得先滚回顶部。
+ */
+.graph-roster-search {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.graph-roster-search-label {
+  color: var(--sm-text-secondary);
+  font-size: 12px;
+}
+
+.graph-roster-search-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.graph-roster-search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 1px solid var(--sm-border-control);
+  border-radius: 6px;
+  background: var(--sm-bg-input);
+  color: var(--sm-text-primary);
+  font: inherit;
+  font-size: 13px;
+}
+
+.graph-roster-search-input::placeholder {
+  color: var(--sm-text-tertiary);
+}
+
+.graph-roster-search-input:focus-visible {
+  outline: 2px solid var(--sm-border-focus);
+  outline-offset: 1px;
+}
+
+.graph-roster-search-clear {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border: 1px solid var(--sm-border-control);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--sm-text-secondary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.graph-roster-search-clear:hover {
+  color: var(--sm-text-primary);
+  border-color: var(--sm-accent);
+}
+
+.graph-roster-search-clear:focus-visible {
+  outline: 2px solid var(--sm-border-focus);
+  outline-offset: 2px;
+}
+
+.graph-roster-search-status {
+  margin: 0;
+  color: var(--sm-text-tertiary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 筛空了要说清楚是「没有」而不是「还没加载」 */
+.graph-roster-empty {
+  margin: 8px 0;
+  color: var(--sm-text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
 
 .graph-roster {
   list-style: none;

@@ -27,6 +27,7 @@ import Sigma from 'sigma';
 import { sdfCircle, sdfDiamond, sdfSquare, sdfTriangle } from 'sigma/rendering';
 import type { GraphEdge, GraphNode } from '../api/generated/model';
 import { CinematicCamera } from './camera.js';
+import { estimateHoverLabelWidth, placeHoverLabel } from './hover-label.js';
 import { shouldShowLabels, shouldShowNodeLabel } from './label-threshold.js';
 import { buildLayoutGraph, nodeDiameter, startLayout, type LayoutHandle } from './layout.js';
 import { useGraphColors } from './palette.js';
@@ -185,6 +186,26 @@ export function GraphCanvas({
   const [ratio, setRatio] = useState(1);
   const [displayedLabels, setDisplayedLabels] = useState(0);
   const [highlighted, setHighlighted] = useState<string | null>(null);
+  /**
+   * 悬停节点时跟着指针走的名字名牌（票 86）。
+   *
+   * 为什么用 DOM 浮层而不是 sigma 的标签：1x 下标签按网格避让，只画得下
+   * `data-labels-displayed=9` 个（票 03 的实测），悬停到没被画标签的点上时
+   * 学生仍然「看不到名字」。名牌是**按需**的，一次只画一个，不参与标签
+   * 网格，也就不受 `shouldShowNodeLabel` 的阈值限制。
+   *
+   * 位置在事件里就算好（`placeHoverLabel`），渲染时只写 `left/top`：react
+   * 渲染阶段不去量 DOM，边裁边算都在纯函数里被测过。
+   */
+  const [hover, setHover] = useState<{
+    id: string;
+    name: string;
+    left: number;
+    top: number;
+    below: boolean;
+  } | null>(null);
+  /** 当前悬停节点的 id：`pointermove` 里用它判断「要不要跟着手走」。 */
+  const hoverIdRef = useRef<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   /**
    * 容器暂时量不出宽度（票 47）。
@@ -496,14 +517,61 @@ export function GraphCanvas({
     created.on('afterRender', report);
     report();
 
+    /**
+     * 悬停揭示名字（票 86）。
+     *
+     * 三个来源拼在一起：
+     * - `enterNode` 给出节点 id，名字从 `nodes` 建一次 Map 拿到（节点集变了
+     *   整个 effect 会重建，不会读到旧名字）；
+     * - `pointermove` 记下相对容器的指针坐标，悬停期间每次移动都跟着更新；
+     * - `placeHoverLabel` 把坐标换算成不越界的落点。
+     *
+     * 为什么不在 `enterNode` 里调 sigma 的 `getNodeDisplayData` 取坐标：
+     * `SigmaSurface` 接口（:62-73）根本没有这个方法，为一个名牌去扩测试替身
+     * 的接口面不划算 —— 指针本来就在节点上，用指针位置就是最直接的来源。
+     */
+    const names = new Map(nodes.map((node) => [node.microKpId, node.name]));
+    const pointer = { x: 0, y: 0 };
+    const handlePointerMove = (event: PointerEvent): void => {
+      const rect = container.getBoundingClientRect();
+      pointer.x = event.clientX - rect.left;
+      pointer.y = event.clientY - rect.top;
+      // 没悬停在节点上时什么都不做：否则每挪一下鼠标都 setState 一次。
+      if (hoverIdRef.current === null) return;
+      setHover((previous) => {
+        if (previous === null) return previous;
+        const placement = placeHoverLabel(
+          { x: pointer.x, y: pointer.y },
+          { width: rect.width, height: rect.height },
+          { labelWidth: estimateHoverLabelWidth(previous.name) },
+        );
+        return { ...previous, ...placement };
+      });
+    };
+    container.addEventListener('pointermove', handlePointerMove);
+
     created.on('clickNode', ({ node }) => {
       onOpenNode(node);
     });
     created.on('enterNode', ({ node }) => {
       setHighlighted(node);
+      hoverIdRef.current = node;
+      const name = names.get(node) ?? node;
+      const rect = container.getBoundingClientRect();
+      setHover({
+        id: node,
+        name,
+        ...placeHoverLabel(
+          { x: pointer.x, y: pointer.y },
+          { width: rect.width, height: rect.height },
+          { labelWidth: estimateHoverLabelWidth(name) },
+        ),
+      });
     });
     created.on('leaveNode', () => {
       setHighlighted(null);
+      hoverIdRef.current = null;
+      setHover(null);
     });
 
     /**
@@ -534,6 +602,8 @@ export function GraphCanvas({
 
     return () => {
       cancelled = true;
+      container.removeEventListener('pointermove', handlePointerMove);
+      hoverIdRef.current = null;
       resizeObserver?.disconnect();
       window.clearTimeout(budgetTimer);
       // 尾部补发计时器必须清：它会在组件卸载后调 setState（React 会警告，
@@ -632,6 +702,22 @@ export function GraphCanvas({
       data-layout-source={layoutSource}
     >
       <div className="graph-canvas-webgl" ref={containerRef} aria-hidden="true" />
+      {hover !== null && (
+        /*
+         * 悬停名牌（票 86）：节点名已经在右侧清单里有等价文本，这里只是
+         * 视觉提示 —— `aria-hidden` 避免读屏用户把同一个名字听两遍。
+         * 落点由 `placeHoverLabel` 算好，组件不做二次量测。
+         */
+        <div
+          className="graph-canvas-hover-label"
+          data-hover-node={hover.id}
+          data-below={hover.below ? 'true' : 'false'}
+          style={{ left: `${hover.left}px`, top: `${hover.top}px` }}
+          aria-hidden="true"
+        >
+          {hover.name}
+        </div>
+      )}
       {needsWidth ? (
         /*
          * 宽度不足时如实说明（票 47）。
