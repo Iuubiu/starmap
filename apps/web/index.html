@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-sm-theme="dark">
+<html lang="zh-CN" data-sm-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,13 +18,13 @@
     -->
     <script>
       (function () {
-        var theme = 'dark';
+        var theme = 'light';
         try {
           var stored = window.localStorage.getItem('starmap.theme');
           if (stored === 'dark' || stored === 'light') theme = stored;
           else if (window.matchMedia) {
             if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
-            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dark';
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'light';
           }
         } catch (error) {
           /* 读不到就用默认深色 */

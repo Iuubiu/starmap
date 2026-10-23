@@ -35,7 +35,7 @@ export const THEME_STORAGE_KEY = 'starmap.theme';
 export const DEFAULT_MODE: ThemeMode = 'system';
 
 /** 系统也说不出话时落到哪套色。 */
-export const FALLBACK_THEME: ThemeName = 'dark';
+export const FALLBACK_THEME: ThemeName = 'light';
 
 export const isThemeMode = (value: unknown): value is ThemeMode =>
   value === 'system' || value === 'dark' || value === 'light';

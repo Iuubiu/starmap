@@ -64,7 +64,7 @@ const LIGHT_QUERY = '(prefers-color-scheme: light)';
 /** 系统当前偏好；系统说不出话（无匹配 / 无 matchMedia）时返回 `null`。 */
 function systemPreference(): ThemeName | null {
   try {
-    if (window.matchMedia?.(DARK_QUERY).matches) return 'dark';
+    if (window.matchMedia?.(DARK_QUERY).matches) return 'light';
     if (window.matchMedia?.(LIGHT_QUERY).matches) return 'light';
   } catch {
     /* matchMedia 在极老的浏览器里可能不存在 */
@@ -74,7 +74,7 @@ function systemPreference(): ThemeName | null {
 
 /** 把一个模式解析成真正生效的主题。`system` 说不出话时落到深色。 */
 export function resolveTheme(mode: ThemeMode, system: ThemeName | null = systemPreference()): ThemeName {
-  if (mode === 'system') return system ?? 'dark';
+  if (mode === 'system') return system ?? 'light';
   return mode;
 }
 
