@@ -620,3 +620,10 @@
     overflow-y: auto;
   }
 }
+
+/* 输入框不再撑满中栏：像 Codex 那样居中一条，宽度随视口但封顶 760 */
+.v2-composer {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
