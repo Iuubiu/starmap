@@ -15,7 +15,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
 interface Quick {
   label: string;
@@ -87,6 +87,7 @@ const PAGES: Record<string, PageSpec> = {
 
 interface DashNode {
   microKpId: string;
+  moduleId?: string;
   name: string;
   state: string;
   percent: number | null;
@@ -100,6 +101,7 @@ interface Dashboard {
   learning: DashNode | null;
   /** 学科整体进度：已掌握 / 全部叶节点 */
   ratio: number;
+  subject: { total: number; mastered: number; ratio: number };
 }
 
 /**
@@ -142,6 +144,31 @@ function useDashboard(): { dash: Dashboard | null; failed: boolean } {
           mastered,
           learning: learningPool[0] ?? null,
           ratio: mastered.length / nodes.length,
+          /* 学科口径：用户要的是「核电子学学了 50%」，分母就该是核电子学这批书，
+             不是全库 3085（还含电子技术/电路分析）。按 moduleId 里嵌的来源 slug 判定，
+             这张 slug 表与 `.scratch/seed-demo-50.sql` 的分母完全一致。 */
+          subject: (() => {
+            const SUBJECT = [
+              'nuclear-electronics-wangjingjin-1983',
+              'nuclear-electronics-wangzhiying-1989',
+              'radiation-detectors-dinghonglin-2010',
+              'nuclear-radiation-physics-chenboxian-2011',
+              'nuclear-radiation-measurement-tangbin',
+              'radiation-detector-handbook-jichangsong-1990',
+              'nuclear-physics-experiment-methods-1997',
+              'guojiang-2014',
+              'guojiang-2023',
+            ];
+            const inSubject = nodes.filter((n) =>
+              SUBJECT.some((slug) => (n.moduleId ?? '').includes(slug)),
+            );
+            const done = inSubject.filter((n) => n.state === 'mastered').length;
+            return {
+              total: inSubject.length,
+              mastered: done,
+              ratio: inSubject.length ? done / inSubject.length : 0,
+            };
+          })(),
         });
       })
       .catch(() => {
@@ -156,7 +183,7 @@ function useDashboard(): { dash: Dashboard | null; failed: boolean } {
 }
 
 /** 知识点进度条：百分比与「多少 / 共多少」同时给出，不只画一根条。 */
-function KpProgress({ kpId, name }: { kpId: string; name: string }) {
+function KpProgress({ kpId, name, source }: { kpId: string; name: string; source: string }) {
   const [view, setView] = useState<{
     gates: Array<{ key: string; label: string; value: number; target: number; ratio: number; unit: string }>;
     gatePassed: boolean;
@@ -182,7 +209,7 @@ function KpProgress({ kpId, name }: { kpId: string; name: string }) {
         <span className="metric-label">{name}</span>
         {/* 「正在学」的选法是「有证据但未达标、掌握度最高的那个」——
             图谱接口不返回作答时间，所以这里不能说「最近」。如实标注选法。 */}
-        <span className="rail-note">按掌握度最高挑出</span>
+        <span className="rail-note">{source}</span>
       </div>
       {view === null ? (
         <div className="why">正在读进度…</div>
@@ -211,11 +238,23 @@ export function Rail(): React.JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
   const spec = PAGES[location.pathname] ?? { title: '快捷指令', quick: [] };
+  const [params] = useSearchParams();
+  const kpFromUrl = params.get('kp');
   const { dash, failed } = useDashboard();
+
+  /* 用户要求「精确展示单个知识点的进度」：URL 上带了 ?kp= 就以它为准
+     （从知识地图/详情页点进来时会带），否则退回到「掌握度最高的在学节点」。
+     两条路径都在卡片上写清楚来源，读的人不用猜。 */
+  const focus = kpFromUrl
+    ? (dash?.mastered.find((n) => n.microKpId === kpFromUrl) ??
+       dash?.learning ??
+       { microKpId: kpFromUrl, name: kpFromUrl, state: 'unseen', percent: null })
+    : dash?.learning ?? null;
+  const focusSource = kpFromUrl ? '来自地址里的 ?kp=' : '按掌握度最高挑出';
 
   return (
     <aside className="v2-log v2-railbox" aria-label={`${spec.title} 的个人看板与快捷指令`}>
-      <h2>{spec.title}</h2>
+      {spec.title ? <h2>{spec.title}</h2> : null}
 
       <h3>核电子学 · 学科进度</h3>
       <div className="card" data-rail-subject>
@@ -224,12 +263,12 @@ export function Rail(): React.JSX.Element {
         ) : (
           <>
             <div className="metric">
-              <b className="rail-big">{dash.counts.mastered}</b>
-              <span className="metric-label">/ {dash.total} 个知识点已掌握</span>
-              <b className="rail-pct">{Math.round(dash.ratio * 100)}%</b>
+              <b className="rail-big">{dash.subject.mastered}</b>
+              <span className="metric-label">/ {dash.subject.total} 个核电子学知识点已掌握</span>
+              <b className="rail-pct">{Math.round(dash.subject.ratio * 100)}%</b>
             </div>
             <span className="rail-bar" aria-hidden>
-              <i style={{ width: `${Math.max(2, Math.round(dash.ratio * 100))}%` }} />
+              <i style={{ width: `${Math.max(2, Math.round(dash.subject.ratio * 100))}%` }} />
             </span>
             <div className="rail-chips">
               <span className="rail-chip" data-kind="mastered">已掌握 <b>{dash.counts.mastered}</b></span>
@@ -237,13 +276,14 @@ export function Rail(): React.JSX.Element {
               <span className="rail-chip" data-kind="unseen">未开始 <b>{dash.counts.unseen}</b></span>
             </div>
             <div className="why">
-              分母是全库 {dash.total} 个叶节点；分子是「已掌握」（连对达标，不是看过）。
+              分母是核电子学 9 本书的 {dash.subject.total} 个叶节点；分子是「已掌握」（连对达标，不是看过）。
+              全库另有 {dash.total} 个叶节点（含电子技术、电路分析），全库 {dash.counts.mastered} 个已掌握。
             </div>
           </>
         )}
       </div>
 
-      {dash?.learning ? <KpProgress kpId={dash.learning.microKpId} name={dash.learning.name} /> : null}
+      {focus ? <KpProgress kpId={focus.microKpId} name={focus.name} source={focusSource} /> : null}
 
       <h3>已掌握的知识点</h3>
       {dash === null ? (

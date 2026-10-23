@@ -12,6 +12,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAgentTurns, useSubmitTurn } from '../api/queries/agent';
 import { ArtifactCard } from '../agent/ArtifactCard';
 import { Composer } from '../components/Composer';
+import { Rail } from './Rail';
 import { currentSessionId } from '../agent/session';
 import type { AgentTurnResponse } from '../api/generated/model';
 import type { KpProgressView } from '@starmap/api-contract';
@@ -190,8 +191,12 @@ export function HomeV2() {
 
       </main>
 
-      <aside className="v2-log" aria-label="学习日志">
+      <aside className="v2-log" aria-label="学习档案">
+        {/* 学习页右栏也放同一份学科看板（用户要求「每页特色右栏」，
+            但学科进度/正在学/已掌握这三块是跨页共用的，各页自己再写一遍
+            就会像之前那样出现两套数字）。 */}
         <h2>学习档案</h2>
+        <Rail />
         <div className="v2-archive">
           <div className="card">
             <div className="tier">
