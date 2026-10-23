@@ -27,13 +27,13 @@
 /* ── 左轨：纯图标，居中竖排 ───────────────────────────────────────── */
 .v2-rail {
   display: flex;
-  backdrop-filter: blur(18px);
-  background: rgba(255, 255, 255, 0.38);
+  /* 与背景同层：不做独立玻璃，否则会看到「一条竖着的白条」 */
+  background: transparent;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   padding: 14px 0;
-  border-right: 1px solid var(--sm-border-hairline, rgba(16, 18, 24, 0.06));
+  border-right: 0;
 }
 .v2-rail button {
   width: 34px;
@@ -57,13 +57,12 @@
 /* ── 会话列：样例里是「今天 / 昨天 / 更早」分组的记录列表 ─────────────── */
 .v2-sessions {
   display: flex;
-  backdrop-filter: blur(18px);
-  background: rgba(255, 255, 255, 0.34);
+  background: transparent;
   flex-direction: column;
   gap: 2px;
   padding: 14px 10px;
   overflow: hidden;
-  border-right: 1px solid var(--sm-border-hairline, rgba(16, 18, 24, 0.06));
+  border-right: 0;
 }
 .v2-sessions .new {
   display: flex;
@@ -114,7 +113,13 @@
   flex-direction: column;
   min-height: 0;
   min-width: 0;
+  margin: 12px 12px 12px 4px;
   padding: 0 24px;
+  border-radius: 20px;
+  /* 工作空间是一片圆角玻璃，比导航更亮一点点，但整体透明度压低 */
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(16px) saturate(115%);
+  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.07);
 }
 .v2-col {
   display: flex;
@@ -268,13 +273,12 @@
 /* ── 右列：学习日志 ───────────────────────────────────────────────── */
 .v2-log {
   display: flex;
-  backdrop-filter: blur(18px);
-  background: rgba(255, 255, 255, 0.34);
+  background: transparent;
   flex-direction: column;
   gap: 10px;
   padding: 18px 16px;
   overflow-y: auto;
-  border-left: 1px solid var(--sm-border-hairline, rgba(16, 18, 24, 0.06));
+  border-left: 0;
   scrollbar-width: none;
 }
 .v2-log::-webkit-scrollbar {
