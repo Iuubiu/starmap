@@ -11,7 +11,7 @@
 
 .v2-shell {
   display: grid;
-  grid-template-columns: 68px minmax(0, 1fr);
+  grid-template-columns: 48px minmax(0, 1fr);
   height: 100vh;
   overflow: hidden;
   /* 材质层：三层柔和渐变打底，玻璃才有东西可「透」。
@@ -69,22 +69,22 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 32px;
-  margin-bottom: 6px;
-  padding: 0 8px;
+  margin: 0 2px 8px;
+  padding: 7px 10px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 9px;
   background: transparent;
   color: var(--sm-text-secondary, #4b5160);
-  font-size: 13px;
+  font-size: 12.5px;
+  line-height: 20px;
   cursor: pointer;
 }
 .v2-sessions .new-row:hover {
   background: var(--sm-bg-hover, rgba(16, 18, 24, 0.05));
 }
 .v2-sessions .grp {
-  margin: 10px 2px 4px;
-  font-size: 15px;
+  margin: 10px 6px 6px;
+  font-size: 12px;
   color: var(--sm-text-tertiary, #7b8293);
 }
 .v2-sessions .row {
@@ -97,7 +97,8 @@
   border-radius: 8px;
   background: transparent;
   color: var(--sm-text-secondary, #4b5160);
-  font-size: 16.5px;
+  font-size: 12.5px;
+  line-height: 20px;
   text-align: left;
   cursor: pointer;
 }
@@ -107,30 +108,28 @@
 .v2-sessions .row span {
   flex: none;
   color: var(--sm-text-tertiary, #7b8293);
-  font-size: 13px;
+  font-size: 11px;
 }
 
 /* ── 中间：920 居中，纵向 flex，输入区贴底 ─────────────────────────── */
 .v2-panel {
   display: grid;
-  grid-template-columns: minmax(210px, 9.6%) minmax(0, 1fr) minmax(340px, 45%);
+  /* 样例 .shell 的后三列：200 会话列 / 内容列 / 236 日志列 */
+  grid-template-columns: 200px minmax(0, 1fr) 157px;
   min-height: 0;
   min-width: 0;
-  margin: 12px 12px 12px 6px;
-  border-radius: 20px;
-  /* 「太透明」的修正：从 0.22 抬到 0.62，背景仍透但文字区已经是实心感 */
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(24px) saturate(120%);
-  /* 全屏下 0.62 的面板与浅渐变几乎同色，边界消失：
-     一圈 1px 亮边 + 加深投影，让它在 2560 上也看得出是「一块板」 */
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow:
-    0 26px 64px rgba(16, 18, 24, 0.13),
-    0 2px 6px rgba(16, 18, 24, 0.05);
   overflow: hidden;
 }
+/* 样例里只有中间那列是一块玻璃（.main{margin:12px 12px 12px 6px;radius 18}），
+   会话列与日志列直接坐在渐变上。所以板子的材质挪到 .v2-main，外壳本身透明。 */
 .v2-panel > .v2-main {
-  margin: 0;
+  margin: 12px 12px 12px 6px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(24px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 24px rgba(20, 30, 60, 0.08);
+  overflow: hidden;
 }
 
 .v2-main {
@@ -138,16 +137,17 @@
   flex-direction: column;
   min-height: 0;
   min-width: 0;
-  padding: 0 24px;
+  /* 样例 .main{padding:20px 24px} */
+  padding: 20px 24px;
 }
 .v2-col {
   display: flex;
   flex: 1;
   flex-direction: column;
   gap: 14px;
-  width: min(1120px, 100%);
+  width: min(920px, 100%);
   margin: 0 auto;
-  padding: 26px 0 0;
+  padding: 0;
   overflow-y: auto;
   scrollbar-width: none;
 }
@@ -160,20 +160,32 @@
   justify-content: flex-end;
 }
   .v2-me p {
-  max-width: 78%;
+  max-width: 70%;
   margin: 0;
-  padding: 12px 16px;
-  border-radius: 14px;
+  padding: 11px 15px;
+  /* 样例 .me{border-radius:14px 14px 4px 14px}：右下角收一个尖，指回输入区 */
+  border-radius: 14px 14px 4px 14px;
   background: var(--sm-accent, #be283c);
   color: #fff;
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 22px;
   white-space: pre-wrap;
 }
 
+.v2-ai {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: fit-content;
+  max-width: 88%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--sm-bg-raised, #fff);
+  box-shadow: 0 8px 24px rgba(16, 18, 24, 0.06);
+}
 .v2-caption {
-  margin: 0 0 -6px;
-  font-size: 14px;
+  margin: 0 0 2px;
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--sm-text-tertiary, #7b8293);
@@ -181,72 +193,83 @@
 
 .v2-say {
   margin: 0;
-  font-size: 19px;
-  line-height: 30px;
+  font-size: 14px;
+  line-height: 22px;
   color: var(--sm-text-primary, #16181d);
 }
 
 .v2-card {
-  padding: 18px 20px;
+  padding: 16px 18px;
   border-radius: 14px;
   background: var(--sm-bg-raised, #fff);
   box-shadow: 0 10px 30px rgba(16, 18, 24, 0.08);
 }
 
 /* ── 输入区：悬浮胶囊，贴底不裁 ───────────────────────────────────── */
-.v2-composer {
-  width: min(1080px, 100%);
+/* 输入区三层（样例 .cbox / .crow / .tools）：大圆角框 + 框内一行 + 框下工具条。
+   框宽与内容列同为 920，工具条比框左右各缩 4px。 */
+.v2-composer-wrap {
+  display: flex;
+  flex-direction: column;
+  width: min(920px, 100%);
   margin: 0 auto 20px;
-  padding: 14px 16px 12px;
-  border-radius: 16px;
+}
+.v2-composer {
+  width: 100%;
+  padding: 15px 16px 10px;
+  border-radius: 22px;
   background: var(--sm-bg-raised, #fff);
-  box-shadow: 0 12px 34px rgba(16, 18, 24, 0.1);
+  box-shadow: 0 10px 26px rgba(20, 30, 60, 0.1);
 }
 .v2-composer textarea {
   width: 100%;
-  min-height: 44px;
+  min-height: 54px;
   max-height: 160px;
   border: 0;
   outline: none;
   resize: none;
+  /* textarea 默认是 inline-block，行盒会多出约 6px 的基线尾隙（实测 119 vs 113） */
+  display: block;
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 19px;
-  line-height: 28px;
+  font-size: 15px;
+  line-height: 24px;
 }
 .v2-composer .bar {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 6px;
-  font-size: 14px;
+  margin-top: 0;
+  font-size: 12px;
   color: var(--sm-text-tertiary, #7b8293);
 }
 .v2-composer .chip {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  height: 26px;
+  height: 29px;
   padding: 0 10px;
   border: 0;
   border-radius: 8px;
-  background: transparent;
-  color: var(--sm-text-secondary, #4b5160);
-  font-size: 14px;
+  /* 样例 .perm{bg #FFF3EA;color #C2410C;font-weight 600} */
+  background: #fff3ea;
+  color: #c2410c;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
 }
 .v2-composer .chip:hover {
   background: var(--sm-bg-hover, rgba(16, 18, 24, 0.05));
 }
 .v2-composer .plus {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
   border: 0;
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 9px;
+  background: #f4f6fa;
   color: var(--sm-text-secondary, #4b5160);
   font-size: 16px;
   line-height: 1;
@@ -256,13 +279,13 @@
   background: var(--sm-bg-hover, rgba(16, 18, 24, 0.05));
 }
 .v2-composer .mic {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
   border: 0;
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 9px;
+  background: #f4f6fa;
   color: var(--sm-text-tertiary, #7b8293);
   font-size: 13px;
   cursor: pointer;
@@ -271,6 +294,32 @@
   margin-right: 4px;
 }
 .v2-composer .spacer {
+  flex: 1;
+}
+.v2-composer .tools,
+.v2-composer-wrap .tools {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 4px 0;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 18, 24, 0.06);
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 12.5px;
+  color: var(--sm-text-tertiary, #7b8293);
+}
+.v2-composer .tools button,
+.v2-composer-wrap .tools button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.v2-composer .tools .spacer,
+.v2-composer-wrap .tools .spacer {
   flex: 1;
 }
 .v2-composer .send {
@@ -295,9 +344,8 @@
   background: transparent;
   flex-direction: column;
   gap: 10px;
-  padding: 18px 16px;
+  padding: 20px 16px;
   overflow-y: auto;
-  border-left: 1px solid var(--sm-border-hairline, rgba(16, 18, 24, 0.07));
   scrollbar-width: none;
 }
 .v2-log::-webkit-scrollbar {
@@ -305,15 +353,15 @@
 }
 .v2-log h2 {
   margin: 0 0 2px;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 600;
 }
 .v2-log .row {
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-radius: 10px;
   background: var(--sm-bg-raised, #fff);
   box-shadow: 0 6px 18px rgba(16, 18, 24, 0.06);
-  font-size: 14px;
+  font-size: 12px;
   color: var(--sm-text-secondary, #4b5160);
 }
 .v2-log .advice {
@@ -324,8 +372,8 @@
 .v2-log .advice li {
   position: relative;
   padding: 6px 0;
-  font-size: 16.5px;
-  line-height: 24px;
+  font-size: 12.5px;
+  line-height: 20px;
   color: var(--sm-text-secondary, #4b5160);
 }
 .v2-log .advice li::before {
@@ -341,7 +389,7 @@
 }
 .v2-log h3 {
   margin: 6px 0 2px;
-  font-size: 15px;
+  font-size: 11.5px;
   font-weight: 600;
   color: var(--sm-text-tertiary, #7b8293);
 }
@@ -428,8 +476,8 @@
 
 /* 页面标题行（样例里「学习」是独立一行，与说明段分开） */
 .v2-title {
-  margin: 6px 0 2px;
-  font-size: 31px;
+  margin: 0 0 2px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -445,13 +493,13 @@
   align-items: center;
   gap: 5px;
   height: 30px;
-  padding: 0 6px;
+  padding: 5px 10px;
   border: 0;
   border-radius: 8px;
-  background: transparent;
+  background: #f4f6fa;
   color: var(--sm-text-secondary, #4b5160);
   font: inherit;
-  font-size: 15px;
+  font-size: 12px;
   cursor: pointer;
 }
 .v2-composer .model:hover { background: rgba(16, 18, 24, 0.05); }
@@ -460,37 +508,39 @@
 /* 右栏「学习档案」：档位是测量结果，只读 */
 .v2-archive { display: flex; flex-direction: column; gap: 12px; }
 .v2-archive .card {
-  border-radius: 14px;
-  padding: 13px 14px;
+  border-radius: 10px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 10px 26px rgba(16, 18, 24, 0.07);
 }
-.v2-archive .tier { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--sm-text-secondary, #4b5160); }
+.v2-archive .tier { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--sm-text-secondary, #4b5160); }
 .v2-archive .tier b {
   display: inline-flex;
   align-items: center;
-  height: 26px;
-  padding: 0 9px;
-  border-radius: 8px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
   background: rgba(16, 18, 24, 0.06);
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--sm-text-primary, #1b1f27);
 }
-.v2-archive .why { margin-top: 8px; font-size: 13.5px; line-height: 19px; color: var(--sm-text-tertiary, #8b93a3); }
-.v2-archive .metric { display: flex; align-items: baseline; gap: 8px; font-size: 14.5px; color: var(--sm-text-secondary, #4b5160); }
-.v2-archive .metric b { font-size: 15.5px; color: var(--sm-text-primary, #1b1f27); }
+.v2-archive .why { margin-top: 8px; font-size: 11.5px; line-height: 16px; color: var(--sm-text-tertiary, #8b93a3); }
+.v2-archive .metric { display: flex; align-items: baseline; gap: 8px; font-size: 12px; color: var(--sm-text-secondary, #4b5160); }
+.v2-archive .metric b { font-size: 13px; color: var(--sm-text-primary, #1b1f27); }
 .v2-archive .bar { height: 6px; border-radius: 99px; background: rgba(16, 18, 24, 0.08); overflow: hidden; margin-top: 8px; }
 .v2-archive .bar i { display: block; height: 100%; border-radius: 99px; background: #3f7d4f; }
 
 /* 输入框上方的知识点横条（用户 m38454：对话框上边的知识点横条） */
-.v2-composer .kpbar {
+.v2-composer .kpbar,
+.v2-composer-wrap .kpbar {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 0 4px 10px;
-  font-size: 14px;
+  border-bottom: 1px solid rgba(16, 18, 24, 0.08);
+  font-size: 11.5px;
   color: var(--sm-text-secondary, #4b5160);
 }
 .v2-composer .kpbar .dot {
@@ -505,4 +555,11 @@
 }
 .v2-composer .kpbar .kphint {
   color: var(--sm-text-tertiary, #6b7280);
+}
+
+/* 知识点横条下方一条细线（用户 m38478：更美观）。放最后，避免被上面的同名规则盖掉。 */
+.v2-composer .kpbar,
+.v2-composer .kpbar,
+.v2-composer-wrap .kpbar {
+  border-bottom: 1px solid rgba(16, 18, 24, 0.08);
 }

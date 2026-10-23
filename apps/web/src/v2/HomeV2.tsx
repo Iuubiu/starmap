@@ -147,6 +147,24 @@ export function HomeV2() {
 
   const latest: AgentTurnResponse | undefined = submit.data;
   const groups = useMemo(() => groupByDay(rows), [rows]);
+  /* 会话列按时间切分（用户 m38478）：今天 / 昨天 / 本周 / 更早，用 lastActivityAt 真值。 */
+  const sessBuckets = useMemo(() => {
+    const dayStart = new Date().setHours(0, 0, 0, 0);
+    const out: Array<{ label: string; items: typeof sessions }> = [
+      { label: '今天', items: [] },
+      { label: '昨天', items: [] },
+      { label: '本周', items: [] },
+      { label: '更早', items: [] },
+    ];
+    for (const row of sessions) {
+      const d = row.createdAt ? new Date(row.createdAt).setHours(0, 0, 0, 0) : dayStart;
+      const days = Math.round((dayStart - d) / 86400000);
+      const idx = days <= 0 ? 0 : days === 1 ? 1 : days < 7 ? 2 : 3;
+      out[idx]?.items.push(row);
+    }
+    return out.filter((b) => b.items.length > 0);
+  }, [sessions]);
+
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
@@ -239,15 +257,19 @@ export function HomeV2() {
         <button type="button" className="row entry" onClick={() => window.location.assign('/learning')}>
           <span>学习记录</span>
         </button>
-        {groups.length === 0 &&
-          sessions.slice(0, 12).map((row, i) => (
-            <button key={row.id ?? `s-${i}`} type="button" className="row" title={row.utterance}>
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {row.utterance ?? '（未记录原话）'}
-              </span>
-              <span>{row.createdAt ? new Date(row.createdAt).toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' }) : ''}</span>
-            </button>
-          ))}
+        {sessBuckets.map((b) => (
+          <div key={b.label}>
+            <div className="grp">{b.label}</div>
+            {b.items.slice(0, 8).map((row, i) => (
+              <button key={row.id ?? `${b.label}-${i}`} type="button" className="row" title={row.utterance}>
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {row.utterance ?? '（未记录原话）'}
+                </span>
+                <span>{row.createdAt ? new Date(row.createdAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) : ''}</span>
+              </button>
+            ))}
+          </div>
+        ))}
         {groups.map((g) => (
           <div key={g.label}>
             <div className="grp">{g.label}</div>
