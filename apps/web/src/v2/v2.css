@@ -145,11 +145,15 @@
   /* 学习窗口本身是一块白色圆角矩形，坐在「会话列 + 内容」共用那块玻璃面板上 */
   margin: 8px 8px 8px 0;
   border-radius: 14px;
-  background: #ffffff;
   /* 白卡与面板的差只有 0.2 左右的明度，单靠背景差读不出边界：
      补一条 1px 内描边 + 一层贴地投影，让「窗口浮在面板上」在浅色背景上也成立 */
-  border: 1px solid rgba(16, 18, 24, 0.10);
-  box-shadow: 0 1px 2px rgba(16, 18, 24, 0.06), 0 10px 28px rgba(16, 18, 24, 0.07);
+  /* B 案（保玻璃）：不做纯白，改 0.88 半透明白 + 1px 描边 0.14 + 更深投影。
+     纯白在浅渐变上和白面板只差 1–2 个灰阶，边界读不出来；半透明白能同时
+     「比面板亮一档」且「透出一点背景色」，边界靠描边和投影撑住。 */
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(6px) saturate(110%);
+  border: 1px solid rgba(16, 18, 24, 0.14);
+  box-shadow: 0 2px 4px rgba(16, 18, 24, 0.10), 0 14px 36px rgba(16, 18, 24, 0.12);
 }
 .v2-col {
   display: flex;
