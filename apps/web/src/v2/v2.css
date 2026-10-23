@@ -138,7 +138,7 @@
   flex: 1;
   flex-direction: column;
   gap: 14px;
-  width: min(920px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto;
   padding: 22px 0 0;
   overflow-y: auto;
@@ -188,7 +188,7 @@
 
 /* ── 输入区：悬浮胶囊，贴底不裁 ───────────────────────────────────── */
 .v2-composer {
-  width: min(920px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto 18px;
   padding: 14px 16px 12px;
   border-radius: 16px;
