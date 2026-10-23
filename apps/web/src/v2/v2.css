@@ -747,3 +747,14 @@
 .v2-panel--wide .v2-sessions {
   display: none;
 }
+
+/* 全屏（≥1600）基准：非聊天页的内容列封顶 1400 并居中。
+   不封顶时 2560 下列宽 2474：卡片被拉成一条空白带、正文一行横跨整屏，实测不可读。 */
+@media (min-width: 1600px) {
+  .v2-panel--wide > .v2-main,
+  .v2-panel--wide > *:not(.v2-sessions):not(.v2-main) {
+    max-width: 1700px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}
