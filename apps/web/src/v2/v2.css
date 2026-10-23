@@ -118,10 +118,16 @@
 /* ── 中间：920 居中，纵向 flex，输入区贴底 ─────────────────────────── */
 .v2-panel {
   display: grid;
-  /* 三列各自独立成块（回到 v2-kpbar 那一版）：面板只负责分栏，不带材质 */
+  /* 工作区 = 右侧一整块**低透明度、微磨玻璃**的圆角矩形；内部三块只用竖线分隔，
+     不再各自成块（用户定义：一个工作区 + 三块，不是三个圆角矩形）。 */
   grid-template-columns: 200px minmax(0, 1fr) 314px;
   min-height: 0;
   min-width: 0;
+  margin: 12px 12px 12px 6px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.20);
+  backdrop-filter: blur(10px) saturate(108%);
+  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.06);
   overflow: hidden;
 }
 /* 已删除：旧规则「只有中间列是玻璃」会把 .v2-main 的白卡覆盖回毛玻璃。
@@ -134,12 +140,8 @@
   min-width: 0;
   /* 样例 .main{padding:20px 24px} */
   padding: 20px 24px;
-  /* 内容列自己是一块白色圆角面板（与 v2-kpbar 那一版一致） */
-  margin: 12px 8px 12px 0;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.46);
-  backdrop-filter: blur(16px) saturate(115%);
-  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.06);
+  /* 工作区第二块：与第三块之间只靠竖线分隔 */
+  border-right: 1px solid rgba(16, 18, 24, 0.09);
 }
 .v2-col {
   display: flex;
@@ -460,12 +462,8 @@
 .v2-panel { grid-template-columns: 200px minmax(0, 1fr) 314px; }
 
 .v2-sessions {
-  /* 会话列自己是一块白色圆角面板 */
-  margin: 12px 0 12px 6px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.46);
-  backdrop-filter: blur(16px) saturate(115%);
-  box-shadow: 0 18px 48px rgba(16, 18, 24, 0.06);
+  /* 工作区第一块：不再有自己的材质，只留一条竖线 */
+  border-right: 1px solid rgba(16, 18, 24, 0.09);
   overflow: hidden;
 }
 
