@@ -83,7 +83,7 @@ const useStyles = makeStyles({
     // 票 83：外壳不再给固定上限，阅读宽度由页面自己定。1080 是「正文 +
     // 学习日志」两栏都能舒展的宽度；2560 的窗口上左右各留 ~700px 的呼吸，
     // 且两侧相等（`marginInline: auto` + `#main` 的 scrollbar-gutter 对称）。
-    maxWidth: 'min(1080px, 100%)',
+    maxWidth: 'min(1240px, 100%)',
     marginInline: 'auto',
     /*
      * `marginInline: auto` 会让这个网格项**失去 stretch**，宽度退回
@@ -94,7 +94,7 @@ const useStyles = makeStyles({
     padding: '22px 0 0',
     display: 'grid',
     // 主工作区 + 学习日志。日志窄、固定，因为它是参照物不是主体。
-    gridTemplateColumns: 'minmax(0, 1fr) minmax(240px, 300px)',
+    gridTemplateColumns: 'minmax(0, 1fr) minmax(300px, 340px)',
     gridTemplateRows: '1fr auto',
     gap: '18px',
     // 让输入框贴在可视区底部而不是页面底部。
