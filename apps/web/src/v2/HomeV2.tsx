@@ -68,7 +68,7 @@ export function HomeV2() {
     };
   }, [kpId]);
 
-  const [advice, setAdvice] = useState<Array<{ id: string; text: string }>>([]);
+  const [advice, setAdvice] = useState<Array<{ id: string; text: string; prompt: string }>>([]);
   const listRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -82,6 +82,8 @@ export function HomeV2() {
           items.slice(0, 3).map((it, i) => ({
             id: it.microKpId ?? `a-${i}`,
             text: `${it.name ?? '这个知识点'}：${it.gating?.mode === 'none' ? '没有前置要求，可以直接开始' : '前置已满足，可以开始'}`,
+            /* 点一下就真的开始：这句会原样发出去，等同学生自己打的字 */
+            prompt: `我想学${it.name ?? '这个知识点'}`,
           })),
         );
       })
@@ -107,13 +109,17 @@ export function HomeV2() {
     listRef.current?.scrollTo?.({ top: listRef.current.scrollHeight });
   }, [rows.length, latest]);
 
-  const send = () => {
-    const text = draft.trim();
+  /* 右栏的「建议」「常用指令」都走这一个出口：点了就等于学生自己说了一句话。
+     不在右栏另写一套提交逻辑，否则两处行为迟早不一致。 */
+  const sendText = (raw: string) => {
+    const text = raw.trim();
     if (!text || submit.isPending) return;
     setSent(text);
     setDraft('');
     submit.mutate({ utterance: text, microKpId: '', tier: 'P2' });
   };
+
+  const send = () => sendText(draft);
 
   /* 右栏「学习档案」用的三个数：档位取真实 placement，作答/变式暂无接口时显示 0
      （宁可显示 0 也不编造数字——这是本项目一以贯之的规矩）。 */
@@ -250,10 +256,34 @@ export function HomeV2() {
         ) : (
           <ul className="advice">
             {advice.map((a) => (
-              <li key={a.id}>{a.text}</li>
+              <li key={a.id}>
+                <button
+                  type="button"
+                  className="advice-btn"
+                  onClick={() => sendText(a.prompt)}
+                  disabled={submit.isPending}
+                  title={`点击直接用：${a.prompt}`}
+                >
+                  {a.text}
+                </button>
+              </li>
             ))}
           </ul>
         )}
+        <h3>常用指令</h3>
+        <div className="quick">
+          {['给我一道题练手', '讲讲这个知识点的要点', '我卡住了，给个提示', '换一个知识点'].map((q) => (
+            <button
+              key={q}
+              type="button"
+              className="quick-btn"
+              onClick={() => sendText(q)}
+              disabled={submit.isPending}
+            >
+              {q}
+            </button>
+          ))}
+        </div>
         <h3>这一会话</h3>
         {rows.length === 0 && <div className="row">还没有记录。说第一句话后这里会出现。</div>}
         {rows.slice(-6).reverse().map((row, i) => (

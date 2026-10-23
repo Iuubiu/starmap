@@ -691,3 +691,51 @@
   opacity: 0.55;
   font-size: 13px;
 }
+
+/* 右栏的「建议」与「常用指令」都是按钮：点一下直接发出去 */
+.v2-log .advice,
+.v2-log .quick {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.v2-log .advice-btn {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: 15px;
+  line-height: 21px;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(16, 18, 24, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+}
+.v2-log .advice-btn:hover:not(:disabled),
+.v2-log .quick-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(16, 18, 24, 0.16);
+}
+.v2-log .advice-btn:disabled,
+.v2-log .quick-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.v2-log .quick {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.v2-log .quick-btn {
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 18, 24, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
