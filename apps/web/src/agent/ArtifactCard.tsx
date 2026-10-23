@@ -49,10 +49,13 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
-    padding: '20px 22px',
-    // 卡片是屏幕中央的主工作区，宽度受控：一行超过 80 个中文字符读者会串行。
+    /* 票 87：对齐样例 `light-v1.html` 的 `.card` —— `padding: 16px 18px`、
+       `border-radius: 14px`、宽度 690。原来 `20px 22px` + Fluent 默认 10px 圆角 +
+       720px 上限，比样例「更松更方」，卡片读起来像表单而不是一关的摘要。 */
+    padding: '16px 18px',
+    borderRadius: '14px',
     width: '100%',
-    maxWidth: '720px',
+    maxWidth: '690px',
     margin: '0 auto',
     boxShadow: tokens.shadow8,
   },
