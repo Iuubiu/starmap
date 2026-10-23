@@ -97,7 +97,15 @@ export function HomeV2() {
   }, []);
 
   const history = useAgentTurns(sessionId);
-  const submit = useSubmitTurn(sessionId);
+  /* 逐字流的两块状态：已到达的阶段行、已到达的可见文本。
+     它们只服务于「等待期间」的展示，提交成功后由 latest（done 帧）接管。
+     为什么要分开：阶段行是结构化事件，文本是增量字节；混在一个数组里排序会乱。 */
+  const [stages, setStages] = useState<{ stage: string; detail: string }[]>([]);
+  const [live, setLive] = useState('');
+  const submit = useSubmitTurn(sessionId, {
+    onStage: (e) => setStages((prev) => [...prev, { stage: e.stage, detail: e.detail }]),
+    onToken: (delta) => setLive((prev) => prev + delta),
+  });
 
   const rows: Row[] = useMemo(() => {
     const payload = (history.data as { data?: { items?: Row[] } } | undefined)?.data;
@@ -117,6 +125,8 @@ export function HomeV2() {
     if (!text || submit.isPending) return;
     setSent(text);
     setDraft('');
+    setStages([]);
+    setLive('');
     submit.mutate({ utterance: text, microKpId: '', tier: 'P2' });
   };
 
@@ -169,7 +179,26 @@ export function HomeV2() {
             </div>
           )}
 
-          {submit.isPending && <p className="v2-say">正在准备这一轮的卡片…</p>}
+          {submit.isPending && stages.length === 0 && (
+            <p className="v2-say">正在准备这一轮的卡片…</p>
+          )}
+
+          {stages.length > 0 && (
+            <div className="v2-trace">
+              {stages.map((s, i) => (
+                <div className="v2-trace-row" key={`${s.stage}-${i}`}>
+                  <span className="v2-trace-stage">{s.stage}</span>
+                  <span className="v2-trace-detail">{s.detail}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {live && (
+            <div className="v2-card v2-live">
+              <p>{live}</p>
+            </div>
+          )}
           {submit.isError && (
             <p className="v2-say" style={{ color: 'var(--sm-warning-text, #8a5200)' }}>
               这一轮没提交成功：{submit.error instanceof Error ? submit.error.message : '未知错误'}。你的话还在，可以直接重试。

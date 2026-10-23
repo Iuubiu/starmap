@@ -22,6 +22,7 @@
  * `customFetch` 在 `!res.ok` 时直接 throw，所以运行时 `data` 永远是成功体。
  */
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRef } from 'react';
 import {
   createAgentTurn,
   debugRetrieval,
@@ -55,6 +56,7 @@ import type {
   SkillDetailResponse,
   SkillListResponse,
   SkillSystemPreviewResponse,
+  AgentStreamEvent,
 } from '../generated/model';
 
 /** 所有本领域的 query key 集中在这里，失效时不用去猜前缀。 */
@@ -83,11 +85,75 @@ export const agentKeys = {
  * `onSuccess` 里失效学习日志而不是自己往缓存里塞一条：日志的顺序由
  * 服务端 `ordinal` 决定，前端拼一条就会在「两轮几乎同时返回」时错序。
  */
-export function useSubmitTurn(sessionId: string) {
+export interface TurnStreamHooks {
+  /** 四段 stage 按顺序到达：skills → retrieval → decision → model。 */
+  onStage?: (stage: Extract<AgentStreamEvent, { type: 'stage' }>) => void;
+  /** 增量文本（已是从 JSON plan 里抽出的可见回复，不是上游原始 token）。 */
+  onToken?: (delta: string) => void;
+}
+
+/**
+ * 提交一句话，拿回一张产物卡。
+ *
+ * 走流式端点而不是一次性接口，因为「思维链涌现」要求屏幕在**等待期间**就有东西：
+ * 一次性接口要等 5–20 秒才有第一个字节，那段时间界面只能转圈。
+ *
+ * 为什么自己解析 SSE 而不用生成客户端：Orval 对 `text/event-stream` 只会生成一个
+ * 返回 `any` 的函数，帧要靠手写解析——不如直接把解析写在这里，并让它只负责一件事：
+ * 把字节流变成「stage 回调 / token 回调 / 最终 response」三种事件。
+ *
+ * 校验失败仍走 JSON 400（服务端在开流之前就判定），所以这里先看 content-type：
+ * 不是事件流就把 body 当错误对象读出来，抛给人看的话。
+ */
+export function useSubmitTurn(sessionId: string, hooks: TurnStreamHooks = {}) {
   const queryClient = useQueryClient();
+  const hooksRef = useRef(hooks);
+  hooksRef.current = hooks;
+
   return useMutation<AgentTurnResponse, Error, Omit<AgentTurnRequest, 'sessionId'>>({
-    mutationFn: async (body) =>
-      (await createAgentTurn({ ...body, sessionId })).data as AgentTurnResponse,
+    mutationFn: async (body) => {
+      const res = await fetch('/api/v1/agent/turns/stream', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...body, sessionId }),
+      });
+
+      const contentType = res.headers.get('content-type') ?? '';
+      if (!res.ok || !contentType.includes('text/event-stream')) {
+        const payload = (await res.json().catch(() => null)) as { message?: string } | null;
+        throw new Error(payload?.message ?? `HTTP ${res.status}`);
+      }
+      if (!res.body) throw new Error('浏览器没有给出可读的响应流');
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      const SEP = '\n\n';
+      let buffer = '';
+      let final: AgentTurnResponse | undefined;
+
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        /* SSE 以空行分帧；只处理完整帧，半帧留在 buffer 里等下一块字节。 */
+        let sep = buffer.indexOf(SEP);
+        while (sep !== -1) {
+          const frame = buffer.slice(0, sep);
+          buffer = buffer.slice(sep + SEP.length);
+          sep = buffer.indexOf(SEP);
+          const line = frame.split('\n').find((l) => l.startsWith('data:'));
+          if (!line) continue;
+          const event = JSON.parse(line.slice(5).trim()) as AgentStreamEvent;
+          if (event.type === 'stage') hooksRef.current.onStage?.(event);
+          else if (event.type === 'token') hooksRef.current.onToken?.(event.text);
+          else if (event.type === 'done') final = event.response as unknown as AgentTurnResponse;
+          else if (event.type === 'error') throw new Error(event.message);
+        }
+      }
+
+      if (!final) throw new Error('流结束了但没收到 done 帧');
+      return final;
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: agentKeys.turns(sessionId) });
     },
