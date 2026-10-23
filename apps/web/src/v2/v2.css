@@ -537,3 +537,20 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+/* ── 输入框收口（captain，按用户三点反馈）────────────────────────────
+   ① 知识点横条属于输入框内部的一行（下方一条横线与输入区隔开），不是独立一栏；
+   ② 档位不再在输入行里显示（用户裁定：档位是测量结果，不该出现在输入条上）；
+   ③ 去掉框内的高光/内阴影：`--sm-liquid-hi` 那层 inset 高光在浅底上会
+      读成「框里有一层灰」，看起来脏；只留一层极轻的外投影。 */
+.v2-composer .kpbar {
+  padding: 0 2px 8px;
+  margin: 0 0 8px;
+  border-bottom: 1px solid rgba(16, 18, 24, 0.08);
+}
+.v2-composer .sm-composer-chip {
+  display: none;
+}
+.v2-composer .sm-composer-box {
+  box-shadow: 0 1px 2px rgba(16, 18, 24, 0.04), 0 8px 20px rgba(16, 18, 24, 0.05);
+}

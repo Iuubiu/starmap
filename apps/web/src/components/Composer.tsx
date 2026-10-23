@@ -110,9 +110,9 @@ export function Composer({
 
   return (
     <div className={className ? `sm-composer ${className}` : 'sm-composer'}>
-      {context ? <div className="sm-composer-context">{context}</div> : null}
-
       <div className="sm-composer-box">
+        {/* 上下文条属于输入框内部的一行：下方用横线与输入区隔开，不另起一栏 */}
+        {context ? <div className="sm-composer-context">{context}</div> : null}
         <textarea
           className="sm-composer-input"
           value={value}
