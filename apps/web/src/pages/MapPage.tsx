@@ -158,7 +158,7 @@ const useStyles = makeStyles({
      * 判据是「画布宽度 = 100% − 340px」，有 columnGap 就会多减一次 16px，
      * 数字对不上。视觉上的空隙一点没少，只是它属于清单列的内部留白。
      */
-    gridTemplateColumns: 'minmax(0, 1fr) 340px',
+    gridTemplateColumns: 'minmax(0, 1fr) minmax(220px, 34%)',
     columnGap: 0,
     rowGap: '16px',
     minHeight: `${CANVAS_MIN_HEIGHT}px`,
@@ -181,7 +181,9 @@ const useStyles = makeStyles({
      * 同一档宽度下，画布的最小高度和栅格列数一起切换，不会出现「高度已经
      * 按窄屏算了、列数还是两列」的错位。
      */
-    '@media (max-width: 1080px)': {
+    /* v2 外壳里中栏只占视口的 50%，1440 下中栏约 677px：340px 的清单会把画布
+       挤到 240px（实测）。阈值抬到 1500 让 1080–1500 也走单列，清单落到画布下方。 */
+    '@media (max-width: 1500px)': {
       gridTemplateColumns: 'minmax(0, 1fr)',
     },
     /**
@@ -448,12 +450,36 @@ export function MapPage() {
     [graph.payload],
   );
 
+  /* 无焦点时自动落在一个「枢纽点」上：邻居最多的那个节点。
+     确定性选法（邻居数优先、同数按 id 排序），刷新同一屏结果不变。
+     这样打开地图永远看到一张**能读的**局部网络，而不是 3085 点的密点圆环。 */
+  const autoFocus = useMemo(() => {
+    if (!index || view.focus !== null) return null;
+    let hubId: string | null = null;
+    let hubDeg = -1;
+    for (const node of index.nodes) {
+      const deg = index.neighbors.get(node.microKpId)?.size ?? 0;
+      if (deg > hubDeg || (deg === hubDeg && hubId !== null && node.microKpId < hubId)) {
+        hubDeg = deg;
+        hubId = node.microKpId;
+      }
+    }
+    return hubId !== null && hubDeg >= 2 ? hubId : null;
+  }, [index, view.focus]);
+
+  /** 真正用于渲染的视图状态：无焦点时等价于「以 autoFocus 为中心看 2 跳」。 */
+  const renderView = useMemo(
+    () => (autoFocus === null ? view : { ...view, focus: autoFocus, hops: 2 }),
+    [view, autoFocus],
+  );
+
   const visible = useMemo(() => {
     if (!index) return { nodes: [], edges: [], focusVisible: false };
-    return visibleSubgraph(index, view.focus, view.hops);
-  }, [index, view.focus, view.hops]);
+    return visibleSubgraph(index, renderView.focus, renderView.hops);
+  }, [index, renderView.focus, renderView.hops]);
 
-  const focusNode = index && view.focus !== null ? (index.byId.get(view.focus) ?? null) : null;
+  const focusNode =
+    index && renderView.focus !== null ? (index.byId.get(renderView.focus) ?? null) : null;
   const mainline = useMemo(() => groupMainline(visible.nodes), [visible.nodes]);
   const pickerNodes = useMemo(
     () => (index ? orderMainline(index.nodes) : []),
@@ -522,7 +548,7 @@ export function MapPage() {
           知识地图
         </Text>
         <Body1>
-          深色画布上的每个点是一个微知识点，颜色与形状同时表示掌握状态。点击进入该知识点的关卡。
+          默认看到的是章节骨架（知识点网络总览）。点任一节点进入该章，再用 −1 跳 / +1 跳 逐层展开；颜色与形状同时表示掌握状态。
         </Body1>
       </div>
 
@@ -605,7 +631,7 @@ export function MapPage() {
        * 用一句话播报出来。这是画布的主要可访问替代之一，另一个是节点清单。
        */}
       <p className={styles.status} aria-live="polite" data-view-description>
-        {describeView(view, visible.nodes.length, focusName)}
+        {describeView(renderView, visible.nodes.length, focusName)}
         {view.focus !== null && !visible.focusVisible ? '（该知识点已不在图谱里）' : ''}
       </p>
 
