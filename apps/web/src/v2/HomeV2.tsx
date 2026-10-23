@@ -17,11 +17,11 @@ import {
   Library24Regular,
   Map24Regular,
   Person24Regular,
-  Send24Filled,
   Target24Regular,
 } from '@fluentui/react-icons';
 import { useAgentTurns, useSubmitTurn } from '../api/queries/agent';
 import { ArtifactCard } from '../agent/ArtifactCard';
+import { Composer } from '../components/Composer';
 import { currentSessionId, resetSessionId } from '../agent/session';
 import type { AgentTurnResponse } from '../api/generated/model';
 import './v2.css';
@@ -186,9 +186,26 @@ export function HomeV2() {
 
   /* 右栏「学习档案」用的三个数：档位取真实 placement，作答/变式暂无接口时显示 0
      （宁可显示 0 也不编造数字——这是本项目一以贯之的规矩）。 */
-  const tierLabel = 'P2';
-  const answeredCount = 0;
-  const variantCount = 0;
+  /* 档位与进度必须是真数据（用户 m38601 之后的自查）。
+     档位读 GET /api/v1/placement；作答/变式目前**没有接口**，因此显示「—」而不是 0 ——
+     显示 0 会让人以为「做了 0 题」，而真相是「这个数还没接上」。 */
+  const [tier, setTier] = useState<string | null>(null);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/v1/placement')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json: { status?: string; tier?: string } | null) => {
+        if (!alive || !json) return;
+        setTier(json.tier ?? null);
+      })
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, []);
+  const tierLabel = tier ?? '—';
+  const answeredCount: number | null = null;
+  const variantCount: number | null = null;
 
   return (
     <div className="v2-shell">
@@ -313,39 +330,23 @@ export function HomeV2() {
           )}
         </div>
 
-        <div className="v2-composer">
-          <div className="kpbar">
-            <span className="dot" aria-hidden="true" />
-            <span className="kpname">{kpName ?? '未选定知识点'}</span>
-            {!kpName && <span className="kphint">去知识地图选一个，或直接说你卡在哪一步</span>}
-          </div>
-          <textarea
-            value={draft}
-            placeholder="说说你想学什么，或者你卡在哪一步…"
-            onChange={(e) => setDraft(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                send();
-              }
-            }}
-          />
-          <div className="bar">
-            <button type="button" className="plus" title="添加附件" aria-label="添加附件">
-              +
-            </button>
-            <span className="spacer" />
-            <button type="button" className="model" title="切换模型（每次提交可单独指定）">
-              DeepSeek V4 <span className="chev">▾</span>
-            </button>
-            <button type="button" className="mic" title="语音输入（下一步接入）" aria-label="语音输入">
-              ◎
-            </button>
-            <button type="button" className="send" onClick={send} disabled={!draft.trim() || submit.isPending} aria-label="提交这一轮">
-              <Send24Filled />
-            </button>
-          </div>
-        </div>
+        <Composer
+          className="v2-composer"
+          value={draft}
+          onChange={setDraft}
+          onSubmit={send}
+          busy={submit.isPending}
+          tierLabel={tierLabel}
+          modelLabel="DeepSeek V4"
+          context={
+            <span className="kpbar">
+              <span className="dot" aria-hidden="true" />
+              <span className="kpname">{kpName ?? '未选定知识点'}</span>
+              {!kpName && <span className="kphint">去知识地图选一个，或直接说你卡在哪一步</span>}
+            </span>
+          }
+        />
+
       </main>
 
       <aside className="v2-log" aria-label="学习日志">
@@ -362,18 +363,26 @@ export function HomeV2() {
           <div className="card">
             <div className="metric">
               <b>作答</b>
-              {answeredCount} 题
+              {answeredCount === null ? '—' : `${answeredCount} 题`}
             </div>
-            <div className="bar">
-              <i style={{ width: `${Math.min(100, answeredCount * 12)}%` }} />
-            </div>
+            {answeredCount === null ? (
+              <div className="why">这个数还没接上接口，不显示 0 —— 0 会误导成「一题没做」。</div>
+            ) : (
+              <div className="bar">
+                <i style={{ width: `${Math.min(100, answeredCount * 12)}%` }} />
+              </div>
+            )}
             <div className="metric" style={{ marginTop: 10 }}>
               <b>变式</b>
-              {variantCount} 组
+              {variantCount === null ? '—' : `${variantCount} 组`}
             </div>
-            <div className="bar">
-              <i style={{ width: `${Math.min(100, variantCount * 33)}%` }} />
-            </div>
+            {variantCount === null ? (
+              <div className="why">同上，等进度接口接上再显示。</div>
+            ) : (
+              <div className="bar">
+                <i style={{ width: `${Math.min(100, variantCount * 33)}%` }} />
+              </div>
+            )}
           </div>
         </div>
         <h2>学习日志</h2>
