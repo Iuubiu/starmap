@@ -113,7 +113,7 @@
 /* ── 中间：920 居中，纵向 flex，输入区贴底 ─────────────────────────── */
 .v2-panel {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr) 380px;
+  grid-template-columns: minmax(220px, 16%) minmax(0, 1fr) minmax(320px, 42%);
   min-height: 0;
   min-width: 0;
   margin: 12px 12px 12px 6px;
@@ -145,7 +145,7 @@
   flex: 1;
   flex-direction: column;
   gap: 14px;
-  width: min(860px, 100%);
+  width: min(1010px, 100%);
   margin: 0 auto;
   padding: 22px 0 0;
   overflow-y: auto;
@@ -195,7 +195,7 @@
 
 /* ── 输入区：悬浮胶囊，贴底不裁 ───────────────────────────────────── */
 .v2-composer {
-  width: min(860px, 100%);
+  width: min(1010px, 100%);
   margin: 0 auto 18px;
   padding: 14px 16px 12px;
   border-radius: 16px;
