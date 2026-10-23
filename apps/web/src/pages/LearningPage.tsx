@@ -114,7 +114,8 @@ const useStyles = makeStyles({
     width: '100%',
     padding: '9px 10px',
     border: 'none',
-    borderRadius: 'var(--sm-liquid-r-pill)',
+    // 票 87：样例记录行是 9px 圆角，pill（999px）把它做成了胶囊
+    borderRadius: '9px',
     backgroundColor: 'transparent',
     color: 'var(--sm-text-primary)',
     textAlign: 'left',
@@ -164,7 +165,8 @@ const useStyles = makeStyles({
     display: 'flex',
     gap: '8px',
     alignItems: 'center',
-    width: 'min(520px, 100%)',
+    // 票 87：样例 .cbox 与内容列同宽（690），原 520 比样例窄 170
+    width: 'min(690px, 100%)',
   },
   askInput: { flex: 1, minWidth: 0 },
   status: {

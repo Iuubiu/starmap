@@ -55,10 +55,12 @@
   --sm-glass-dur-fast: 180ms;
 
   /* ---- 导航四形态的宽度 ---- */
-  /* 票 76：外壳三列。图标轨 56px + 导航列 216px 都是定宽，内容列吃掉剩余。
-     定宽是为了让「正文左右间隙相等」成为结构事实，而不是居中算式的结果。 */
-  --sm-rail-icons: 56px;
-  --sm-rail-labels: 216px;
+  /* 票 76：外壳三列。图标轨 + 导航列都是定宽，内容列吃掉剩余。
+     定宽是为了让「正文左右间隙相等」成为结构事实，而不是居中算式的结果。
+     票 87：宽度按样例 `light-v1.html` 的 `.shell`（`48px 200px minmax(0,1fr)`）对齐，
+     原值 56px / 216px 比样例各宽 8px / 16px，是当时六项指标里最大的偏差源。 */
+  --sm-rail-icons: 48px;
+  --sm-rail-labels: 200px;
 }
 
 /* ============================ 深色（默认） ============================ */
@@ -589,8 +591,9 @@
   /* 底部不留缝：内容舞台一直铺到视口底边，滚动条只出现在 main 里。
      这一条被 `.scratch/qa/scenarios/zz-shell-fit.spec.ts` 逐页量过。
 
-     票 76：左右留白必须相等（旧值 2px / 14px 就是 47 vs 65 的一半来源）。 */
-  padding: 12px 16px 0;
+     票 76：左右留白必须相等（旧值 2px / 14px 就是 47 vs 65 的一半来源）。
+     票 87：按样例 `.main` 的 `padding: 20px 24px` 对齐（原 `12px 16px 0`）。 */
+  padding: 20px 24px 0;
 }
 
 .sm-stage {
@@ -722,8 +725,11 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 12px 12px 8px;
-  border-radius: var(--sm-liquid-r-panel);
+  /* 票 87：对齐样例 `light-v1.html` 的 `.cbox` —— 22px 圆角、`15px 16px 10px` 内边距。
+     不写 `var(--sm-liquid-r-panel)` 是因为那个 token 还服务抽屉与其它玻璃面板，
+     改 token 会把别处的形状一起改掉；票面要求「只对齐间距与结构，不动 token」。 */
+  padding: 15px 16px 10px;
+  border-radius: 22px;
   background-color: var(--sm-glass-fill-strong);
   box-shadow: var(--sm-liquid-hi), var(--sm-liquid-deposit), var(--sm-liquid-shadow);
 }
@@ -761,9 +767,11 @@
 .sm-composer-chip {
   display: inline-flex;
   align-items: center;
-  height: 24px;
-  padding: 0 10px;
-  border-radius: var(--sm-liquid-r-pill);
+  /* 票 87：样例 `.perm` / `.pill` 是 29.19px 高、`5px 10px` 内边距、8px 圆角。
+     取 29px（差 0.19px，亚像素级），内边距改成 `5px 10px` 以保住同样的内容基线。 */
+  height: 29px;
+  padding: 5px 10px;
+  border-radius: 8px;
   background-color: var(--sm-glass-fill-soft);
   color: var(--sm-text-secondary);
   font-size: 12px;
@@ -807,8 +815,12 @@
 .sm-composer-toolbar {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 0 4px;
+  /* 票 87：样例 `.tools` 是 `margin:8px 4px 0; padding:9px 14px; border-radius:12px;
+     gap:16px`，撑出 38px 高。可见性仍由 `:focus-within` 控制（票 83 的决定，不在本票范围）。 */
+  gap: 16px;
+  margin: 8px 4px 0;
+  padding: 9px 14px;
+  border-radius: 12px;
   opacity: 0;
   transition: opacity var(--sm-glass-dur-fast) var(--sm-glass-ease);
 }
@@ -817,18 +829,32 @@
   opacity: 1;
 }
 
+/* 票 87：样例 `.plus`/`.mic` 是 30×30、9px 圆角、#F4F6FA 底；
+   Fluent 的 shape="circular" size="small" 给的是 24×24 圆形，用元素+属性选择器压过去。 */
+.sm-composer-row > button[aria-label='添加内容'],
+.sm-composer-row > button[aria-label='语音输入'] {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 9px;
+  background-color: var(--sm-glass-fill-soft);
+}
+
 .sm-composer-tool {
   display: inline-flex;
   align-items: center;
+  /* 票 87：样例里工具项没有自己的底与固定高，38px 由 `.tools` 的 `9px` 上下内边距撑出。
+     所以这里去掉 28px 固定高与 `0 10px` 内边距，让父级决定高度。 */
   gap: 6px;
-  height: 28px;
-  padding: 0 10px;
+  padding: 0;
   border: 0;
   border-radius: var(--sm-liquid-r-pill);
   background: transparent;
   color: var(--sm-text-secondary);
   font: inherit;
-  font-size: 12px;
+  /* 票 87：工具条 38px = 9+9+20，行高按样例 12.5px/20px 给足 */
+  font-size: 12.5px;
+  line-height: 20px;
   cursor: pointer;
 }
 
