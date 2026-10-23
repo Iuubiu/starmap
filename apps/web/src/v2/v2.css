@@ -758,3 +758,17 @@
     width: 100%;
   }
 }
+
+/* 市场卡片栅格：按可用宽度自动排，而不是写死 4 列。
+   2560 全屏（内容列封顶 1700）下卡片约 400px，中文标题会折成三行；
+   改成 auto-fill + minmax(340px) 后：1700 → 4 列每列 ~410，1440 → 3 列，
+   且卡片高度不再被标题撑成参差。 */
+.sm-market-list {
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .sm-market-list {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
