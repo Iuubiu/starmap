@@ -411,9 +411,19 @@
 .v2-rail .me-menu button:hover {
   background: var(--sm-bg-hover, rgba(16, 18, 24, 0.06));
 }
+/* 参考 Codex：左下角是「彩色实底圆 + 白色图标」的账户入口，不是淡色块 */
 .v2-rail .me {
-  background: var(--sm-brand-soft, rgba(190, 40, 60, 0.14));
-  color: var(--sm-accent, #be283c);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--sm-accent, #be283c);
+  color: #fff;
+}
+.v2-rail .me svg {
+  color: #fff;
+}
+.v2-rail .me:hover {
+  background: var(--sm-accent-hover, #a51f31);
 }
 
 /* 页面标题行（样例里「学习」是独立一行，与说明段分开） */
