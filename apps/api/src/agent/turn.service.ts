@@ -938,6 +938,13 @@ export class TurnService {
     const injectedSkills = (await this.skills.list())
       .items.filter((item) => item.enabled)
       .map((item) => ({ name: item.name, description: item.description }));
+    hooks?.onStage?.(
+      'skills',
+      injectedSkills.length > 0
+        ? `注入 ${injectedSkills.length} 个技能：${injectedSkills.map((s) => s.name).join('、')}`
+        : '本轮没有启用的技能',
+    );
+
     hooks?.onStage?.('decision', `判定：档位 ${request.tier}，焦点「${kpName}」`);
 
     const userMessage = this.buildUserMessage({
