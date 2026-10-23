@@ -25,6 +25,16 @@ export interface LlmResult {
   /** 结构化输出解析成功时的结果；失败为 null，调用方决定降级 */
   parsed: unknown;
   usage?: { promptTokens: number; completionTokens: number };
+  /** 实际应答的模型名（服务端可能改写，如指向别名）；拿不到时省略 */
+  model?: string;
+  /** 从发请求到拿到响应的墙钟耗时，毫秒。决策链要显示它，所以由端口返回而不是调用方自己计时 */
+  latencyMs?: number;
+  /**
+   * 服务端返回的推理内容（DeepSeek 的 `reasoning_content` 等）。
+   * 很多 provider 不返回这一项 —— 那就保持 undefined，**不要用模板填充**：
+   * 界面上「未返回」是事实，编一段「思考过程」是造假。
+   */
+  reasoning?: string;
 }
 
 export interface LlmPort {

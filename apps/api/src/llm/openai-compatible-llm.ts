@@ -49,6 +49,7 @@ export class OpenAiCompatibleLlm implements LlmPort {
     const signals = [AbortSignal.timeout(this.timeoutMs)];
     if (options.signal) signals.push(options.signal);
 
+    const t0 = Date.now();
     const res = await fetch(`${this.baseUrl.replace(/\/$/, '')}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -65,11 +66,13 @@ export class OpenAiCompatibleLlm implements LlmPort {
     }
 
     const json = (await res.json()) as {
-      choices?: Array<{ message?: { content?: string } }>;
+      model?: string;
+      choices?: Array<{ message?: { content?: string; reasoning_content?: string } }>;
       usage?: { prompt_tokens: number; completion_tokens: number };
     };
 
     const text = json.choices?.[0]?.message?.content ?? '';
+    const reasoning = json.choices?.[0]?.message?.reasoning_content;
     let parsed: unknown = null;
     if (options.schema) {
       parsed = safeJsonParse(text);
@@ -78,6 +81,9 @@ export class OpenAiCompatibleLlm implements LlmPort {
     return {
       text,
       parsed,
+      ...(json.model ? { model: json.model } : {}),
+      latencyMs: Date.now() - t0,
+      ...(reasoning ? { reasoning } : {}),
       ...(json.usage
         ? {
             usage: {
