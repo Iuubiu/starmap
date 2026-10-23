@@ -803,3 +803,35 @@
   font-size: 13px;
   opacity: 0.7;
 }
+
+/* 右栏看板：进度条 + 数字并列，读得出「多少 / 共多少 / 百分之几」 */
+.v2-railbox .rail-pct { margin-left: auto; font-size: 18px; }
+.v2-railbox .rail-bar {
+  display: block; height: 6px; border-radius: 3px; margin: 8px 0 6px;
+  background: rgba(16, 18, 24, 0.1); overflow: hidden;
+}
+.v2-railbox .rail-bar > i { display: block; height: 100%; background: rgba(16, 18, 24, 0.55); }
+.v2-railbox .rail-gate {
+  display: grid; grid-template-columns: 52px minmax(0, 1fr) auto;
+  align-items: center; gap: 8px; margin-top: 6px; font-size: 13px;
+}
+.v2-railbox .rail-gate-track { height: 6px; border-radius: 3px; background: rgba(16, 18, 24, 0.1); overflow: hidden; }
+.v2-railbox .rail-gate-track > i { display: block; height: 100%; background: rgba(16, 18, 24, 0.45); }
+.v2-railbox .rail-gate-track > i[data-tone='ok'] { background: #2f7d3a; }
+.v2-railbox .rail-mastered { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.v2-railbox .rail-mastered li {
+  display: flex; gap: 8px; align-items: baseline;
+  font-size: 13px; padding: 5px 8px; border-radius: 8px; background: rgba(255, 255, 255, 0.62);
+}
+.v2-railbox .rail-mastered-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 学科进度卡：大号数字 + 三档计数 */
+.v2-railbox .rail-big { font-size: 30px; line-height: 34px; }
+.v2-railbox .rail-bar { height: 10px; border-radius: 5px; }
+.v2-railbox .rail-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.v2-railbox .rail-chip {
+  font-size: 12.5px; padding: 3px 8px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(16, 18, 24, 0.08);
+}
+.v2-railbox .rail-chip b { font-size: 14px; margin-left: 2px; }
+.v2-railbox .rail-chip[data-kind='mastered'] b { color: #2f7d3a; }

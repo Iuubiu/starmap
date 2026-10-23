@@ -85,72 +85,181 @@ const PAGES: Record<string, PageSpec> = {
   },
 };
 
-/** 右栏顶部的「个人现状」：只显示能拿到的真数字，拿不到就说清楚为什么。 */
-function useSnapshot(): { tier: string | null; answered: number | null; stillLoading: boolean } {
-  const [tier, setTier] = useState<string | null>(null);
-  const [answered, setAnswered] = useState<number | null>(null);
-  const [stillLoading, setStillLoading] = useState(true);
+interface DashNode {
+  microKpId: string;
+  name: string;
+  state: string;
+  percent: number | null;
+}
+
+interface Dashboard {
+  total: number;
+  /** 三个分档的计数：已掌握 / 在学（有证据未达标）/ 未开始。右栏要把它们并排显示。 */
+  counts: { mastered: number; learning: number; unseen: number };
+  mastered: DashNode[];
+  learning: DashNode | null;
+  /** 学科整体进度：已掌握 / 全部叶节点 */
+  ratio: number;
+}
+
+/**
+ * 右栏看板的数据：全部从 `GET /api/v1/graph` 一次算出。
+ *
+ * 为什么不用 `GET /placement` 的档位当主指标：档位（P1/P2/P3）是**内部**的
+ * 教学脚手架刻度，学习者看不懂也不该拿它当成绩。用户明确要求展示的是
+ * 「学科整体进度 / 最近在学的知识点进度 / 已掌握的知识点」，且每个都要
+ * **换算成数字**（多少 / 共多少、百分比），不是一句模糊的「还有不少」。
+ */
+function useDashboard(): { dash: Dashboard | null; failed: boolean } {
+  const [dash, setDash] = useState<Dashboard | null>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     let alive = true;
-    Promise.all([
-      fetch('/api/v1/placement')
-        .then((r) => (r.ok ? r.json() : null))
-        .catch(() => null),
-      fetch('/api/v1/recommendations')
-        .then((r) => (r.ok ? r.json() : null))
-        .catch(() => null),
-    ])
-      .then(([placement, rec]) => {
+    fetch('/api/v1/graph')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json: { nodes?: DashNode[] } | null) => {
         if (!alive) return;
-        const t = (placement as { tier?: string } | null)?.tier ?? null;
-        const a = (rec as { summary?: { answered?: number } } | null)?.summary?.answered;
-        setTier(t);
-        setAnswered(typeof a === 'number' ? a : null);
+        const nodes = Array.isArray(json?.nodes) ? json!.nodes : [];
+        if (nodes.length === 0) {
+          setFailed(true);
+          return;
+        }
+        const mastered = nodes.filter((n) => n.state === 'mastered');
+        /* 「最近在学」= 有作答证据但还没掌握、且百分比最高的那一个。
+           拿不到作答时间（图谱接口不返回），所以用掌握度代替「最近」——
+           这比编一个时间戳诚实：题目里说的「最近」在数据上就是「推得最远」。 */
+        const learningPool = nodes
+          .filter((n) => n.state !== 'mastered' && n.state !== 'unseen')
+          .sort((a, b) => (b.percent ?? 0) - (a.percent ?? 0));
+        setDash({
+          total: nodes.length,
+          counts: {
+            mastered: mastered.length,
+            learning: learningPool.length,
+            unseen: nodes.filter((n) => n.state === 'unseen').length,
+          },
+          mastered,
+          learning: learningPool[0] ?? null,
+          ratio: mastered.length / nodes.length,
+        });
       })
-      .finally(() => {
-        if (alive) setStillLoading(false);
+      .catch(() => {
+        if (alive) setFailed(true);
       });
     return () => {
       alive = false;
     };
   }, []);
 
-  return { tier, answered, stillLoading };
+  return { dash, failed };
+}
+
+/** 知识点进度条：百分比与「多少 / 共多少」同时给出，不只画一根条。 */
+function KpProgress({ kpId, name }: { kpId: string; name: string }) {
+  const [view, setView] = useState<{
+    gates: Array<{ key: string; label: string; value: number; target: number; ratio: number; unit: string }>;
+    gatePassed: boolean;
+  } | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    fetch(`/api/v1/mastery/kp/${encodeURIComponent(kpId)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json) => {
+        if (alive && json) setView(json);
+      })
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, [kpId]);
+
+  return (
+    <div className="card" data-rail-kp>
+      <div className="metric">
+        <b>正在学</b>
+        <span className="metric-label">{name}</span>
+      </div>
+      {view === null ? (
+        <div className="why">正在读进度…</div>
+      ) : (
+        view.gates.map((g) => (
+          <div className="rail-gate" key={g.key}>
+            <span className="rail-gate-label">{g.label}</span>
+            <span className="rail-gate-track" aria-hidden>
+              <i style={{ width: `${Math.round(g.ratio * 100)}%` }} data-tone={g.ratio >= 1 ? 'ok' : 'plain'} />
+            </span>
+            <span className="rail-gate-num">
+              {g.value}/{g.target}
+              {g.unit}
+            </span>
+          </div>
+        ))
+      )}
+      <div className="why">
+        {view?.gatePassed ? '本关判定已达标。' : '还没达标：这三条是判定用的硬门槛，不看感觉看数字。'}
+      </div>
+    </div>
+  );
 }
 
 export function Rail(): React.JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
   const spec = PAGES[location.pathname] ?? { title: '快捷指令', quick: [] };
-  const { tier, answered, stillLoading } = useSnapshot();
+  const { dash, failed } = useDashboard();
 
   return (
     <aside className="v2-log v2-railbox" aria-label={`${spec.title} 的个人看板与快捷指令`}>
       <h2>{spec.title}</h2>
 
-      <h3>我的现状</h3>
-      <div className="card">
-        <div className="metric">
-          <span className="metric-label">当前档位</span>
-          <b data-rail-tier>{tier ?? (stillLoading ? '读取中…' : '—')}</b>
-        </div>
-        <div className="why">
-          {tier === null && !stillLoading
-            ? '还没定级：去「初始定级」答完 5 题，这里就有档位了。'
-            : '档位是作答证据的测量结果，不能自选。'}
-        </div>
+      <h3>核电子学 · 学科进度</h3>
+      <div className="card" data-rail-subject>
+        {dash === null ? (
+          <div className="why">{failed ? '图谱接口没返回数据，这一块暂时读不到。' : '正在读图谱…'}</div>
+        ) : (
+          <>
+            <div className="metric">
+              <b className="rail-big">{dash.counts.mastered}</b>
+              <span className="metric-label">/ {dash.total} 个知识点已掌握</span>
+              <b className="rail-pct">{Math.round(dash.ratio * 100)}%</b>
+            </div>
+            <span className="rail-bar" aria-hidden>
+              <i style={{ width: `${Math.max(2, Math.round(dash.ratio * 100))}%` }} />
+            </span>
+            <div className="rail-chips">
+              <span className="rail-chip" data-kind="mastered">已掌握 <b>{dash.counts.mastered}</b></span>
+              <span className="rail-chip" data-kind="learning">在学 <b>{dash.counts.learning}</b></span>
+              <span className="rail-chip" data-kind="unseen">未开始 <b>{dash.counts.unseen}</b></span>
+            </div>
+            <div className="why">
+              分母是全库 {dash.total} 个叶节点；分子是「已掌握」（连对达标，不是看过）。
+            </div>
+          </>
+        )}
       </div>
-      <div className="card">
-        <div className="metric">
-          <span className="metric-label">今天答了</span>
-          <b data-rail-answered>{answered ?? (stillLoading ? '读取中…' : '—')}</b>
-          <span className="metric-label">题</span>
-        </div>
-        <div className="why">
-          {answered === null && !stillLoading ? '推荐接口没返回统计，这个数暂时读不到（不是 0）。' : '含派生练习与复验。'}
-        </div>
-      </div>
+
+      {dash?.learning ? <KpProgress kpId={dash.learning.microKpId} name={dash.learning.name} /> : null}
+
+      <h3>已掌握的知识点</h3>
+      {dash === null ? (
+        <div className="why">正在读图谱…</div>
+      ) : dash.mastered.length === 0 ? (
+        <div className="why">还没有掌握的知识点。答完一关的判定题，这里就会出现第一条。</div>
+      ) : (
+        <ul className="rail-mastered">
+          {dash.mastered.slice(0, 6).map((n) => (
+            <li key={n.microKpId}>
+              <span className="rail-mastered-name">{n.name}</span>
+              <b>{Math.round((n.percent ?? 1) * 100)}%</b>
+            </li>
+          ))}
+        </ul>
+      )}
+      {dash !== null && dash.mastered.length > 6 ? (
+        <div className="why">还有 {dash.mastered.length - 6} 个未列出。</div>
+      ) : null}
 
       <h3>快捷指令</h3>
       <ul className="advice">
