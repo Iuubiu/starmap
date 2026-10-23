@@ -150,9 +150,6 @@ export function HomeV2() {
   return (
     <div className="v2-shell">
       <nav className="v2-rail" aria-label="主导航">
-        <button type="button" className="brand" title="StarMap" aria-label="StarMap 首页" onClick={() => window.location.assign('/')}>
-          S
-        </button>
         {NAV.slice(0, -1).map(({ key, label, icon: Icon }) => (
           <button
             key={key}
