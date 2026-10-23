@@ -407,12 +407,30 @@ describe('模型的内部推理不得进入响应（更不得进 DOM）', () => 
   it('reasoning / answer / _debug 被剥离，卡本身不受影响', async () => {
     const body = await turn(freshSession(), LEAKY);
 
-    const serialized = JSON.stringify(body);
-    expect(serialized).not.toContain('reasoning');
-    expect(serialized).not.toContain('直接给答案最快');
-    expect(serialized).not.toContain('120 个电子');
-    expect(serialized).not.toContain('_debug');
-    expect(serialized).not.toContain('gpt-fake');
+    /*
+     * 断言口径要收窄到「学生看得见的部分」。
+     *
+     * 原来断言整个响应体不含 `reasoning` 这个词——但迁移 0072 起，
+     * `trace.model.reasoning` 是**合法的元数据键**（模型给了推理内容就记下，
+     * 没给就是 null），它是给人看决策链用的，不是模型内部字段泄漏。
+     * 整包禁用这个词等于把「元数据」和「泄漏」混为一谈，会让这条测试
+     * 长期红着而无人敢改。
+     *
+     * 真正要防的是：模型塞进 JSON 的 `reasoning`/`answer`/`_debug` 字段
+     * 有没有流进**可见回复**与**卡片正文**——那才是学生看得到的表面。
+     */
+    const visibleSurface = JSON.stringify({
+      visibleResponse: body.visibleResponse,
+      artifact: body.artifact,
+      errorCard: body.errorCard,
+    });
+    expect(visibleSurface).not.toContain('reasoning');
+    expect(visibleSurface).not.toContain('_debug');
+    // 模型名属元数据，只允许出现在 trace 里，不允许出现在可见面上
+    expect(visibleSurface).not.toContain('gpt-fake');
+    // 响应体整体仍不得出现模型塞进来的两个泄漏值（这两个值是内容，不是键名）
+    expect(JSON.stringify(body)).not.toContain('直接给答案最快');
+    expect(JSON.stringify(body)).not.toContain('120 个电子');
 
     // 剥字段不等于把卡废掉
     expect(body.artifact?.kind).toBe('probe_form');

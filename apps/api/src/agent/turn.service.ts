@@ -24,6 +24,7 @@ import {
 import { checkChinese, checkProbeForm } from '@starmap/engine';
 import { DatabaseService } from '../db/database.service.js';
 import { LLM_PORT, type LlmPort, type LlmMessage } from '../llm/llm.port.js';
+import { completeStreamingWith, type TurnStreamHooks } from './streaming.js';
 import { RetrievalService, type GatedChunk } from '../retrieval/retrieval.service.js';
 import { SkillsService } from '../skills/skills.service.js';
 import { ProbeService } from '../probe/probe.service.js';
@@ -140,6 +141,7 @@ export type IntentGoal =
   | 'foundation'
   | 'exam'
   | 'unspecified';
+
 
 export interface IntentRecord {
   goal: IntentGoal;
@@ -834,7 +836,14 @@ export class TurnService {
    * 上游错误重试。上游 5xx 直接降级（重试上游通常还是 5xx，而且会拖长
    * 学生等待）。票 08 只允许重试一次，所以上限是 1。
    */
-  async turn(request: AgentTurnRequest): Promise<AgentTurnResponse> {
+  async turn(
+    request: AgentTurnRequest,
+    /**
+     * 流式钩子。**不传时行为与之前逐字节相同** —— 这是刻意的：一次性接口
+     * 有 300+ 条测试与三档评估依赖，流式不能改它们的结果形状，只能叠加。
+     */
+    hooks?: TurnStreamHooks,
+  ): Promise<AgentTurnResponse> {
     await this.ensureSession(request.sessionId);
 
     // 学习者没选定时由服务端挑焦点：没有焦点的会话只能反复回同一张占位卡。
@@ -916,6 +925,10 @@ export class TurnService {
     }
     const allowedEvidence = gated.filter((chunk) => chunk.allowed).slice(0, 6);
 
+    hooks?.onStage?.('retrieval', allowedEvidence.length > 0
+      ? `检索命中 ${gated.length} 段，门控放行 ${allowedEvidence.length} 段`
+      : '本轮没有可用的教材依据');
+
     const systemMessage = await this.skills.composeSystemMessage();
     /**
      * 本轮真正注入的技能。判据是「启用」（`skill_switches` 表里没行就是启用），
@@ -925,6 +938,8 @@ export class TurnService {
     const injectedSkills = (await this.skills.list())
       .items.filter((item) => item.enabled)
       .map((item) => ({ name: item.name, description: item.description }));
+    hooks?.onStage?.('decision', `判定：档位 ${request.tier}，焦点「${kpName}」`);
+
     const userMessage = this.buildUserMessage({
       utterance: request.utterance,
       tier: request.tier,
@@ -957,11 +972,14 @@ export class TurnService {
 
     for (let attempt = 0; attempt <= 1; attempt += 1) {
       try {
-        const result = await this.llm.complete({
-          messages,
-          schema: PLAN_JSON_SCHEMA,
-          temperature: 0.4,
-        });
+        hooks?.onStage?.('model', '上游已开始生成');
+        const result = hooks?.onToken
+          ? await completeStreamingWith(this.llm, messages, hooks)
+          : await this.llm.complete({
+              messages,
+              schema: PLAN_JSON_SCHEMA,
+              temperature: 0.4,
+            });
         Object.assign(modelFacts, {
           model: result.model,
           latencyMs: result.latencyMs,
@@ -1593,7 +1611,7 @@ export class TurnService {
     await this.db.query(
       `INSERT INTO agent_turns
          (id, session_id, ordinal, utterance, visible_response, visible_response_kind,
-          artifact_kind, card_title, degraded, retry_count, artifact, language_check, micro_kp_id)
+          artifact_kind, card_title, degraded, retry_count, artifact, language_check, micro_kp_id, trace)
        VALUES ($1,$2,$3,$4,$5,'statement','error_card',$6,true,$7,$8::jsonb,$9::jsonb,$10,$11::jsonb)`,
       [
         input.turnId,
@@ -1927,4 +1945,6 @@ export function assertVisibleResponseForm(
   if (!form.ok) {
     throw new Error(`可见回复形态不合法（${form.reason}）：${visibleResponse.slice(0, 60)}`);
   }
+
+
 }
