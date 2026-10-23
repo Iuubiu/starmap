@@ -836,3 +836,82 @@
 .v2-railbox .rail-chip b { font-size: 14px; margin-left: 2px; }
 .v2-railbox .rail-chip[data-kind='mastered'] b { color: #2f7d3a; }
 .v2-railbox .rail-note { font-size: 11.5px; opacity: 0.5; margin-left: auto; }
+
+/* ── 卡片内文字统一（用户：每个框里的文字分布标准不统一）──────────────────
+   之前每个卡片各自写了一版字号：13 / 12.5 / 11.5 / 14 / 18 / 22 / 30 混着来，
+   「660」与「个核电子学知识点已掌握」还能勉强对齐，但说明行、chips、列表行
+   各差 0.5–1px，整屏看过去就是「没排版」。这里一次性定成五级，之后新增卡片
+   只准用这五级，不再允许出现 11.5px / 12.5px 这类中间值。 */
+.v2-railbox,
+.v2-log {
+  --tx-meta: 12px;    /* 说明、脚注、来源标注 */
+  --tx-label: 13px;   /* 字段名：当前档位 / 作答 / 变式 */
+  --tx-row: 14px;     /* 列表行、chip */
+  --tx-body: 15px;    /* 正文、小节标题 */
+  --tx-num: 28px;     /* 主数值 */
+  --tx-num-sm: 18px;  /* 次数值、百分比 */
+  --tx-num-line: 34px;
+}
+
+/* 统一每张卡的内部节奏：内边距、行距、字段间距都从同一组值来 */
+.v2-railbox .card,
+.v2-log .card {
+  padding: 15px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* 小节标题 */
+.v2-railbox h3,
+.v2-log h3 { font-size: var(--tx-body); font-weight: 600; margin: 0; letter-spacing: 0; }
+
+/* 字段名行：一律 13px，与数值同一基线，不再有 12.5 这种半像素 */
+.v2-railbox .metric-label,
+.v2-railbox .rail-kp-source,
+.v2-log .metric-label { font-size: var(--tx-label); opacity: 0.66; line-height: 1.5; }
+
+/* 主数值与百分比：数字等宽，垂直对齐 */
+.v2-railbox .rail-big {
+  font-size: var(--tx-num);
+  line-height: var(--tx-num-line);
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+.v2-railbox .rail-pct {
+  font-size: var(--tx-num-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+/* 列表行：正文级字号，右侧数值等宽右对齐 */
+.v2-railbox .rail-mastered li {
+  font-size: var(--tx-row);
+  padding: 6px 9px;
+  gap: 10px;
+  align-items: center;
+}
+.v2-railbox .rail-mastered li > span:last-child {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.72;
+  font-size: var(--tx-label);
+}
+
+/* 三条硬门槛：名称 / 进度 / 数字三列，字号同一级 */
+.v2-railbox .rail-gate { font-size: var(--tx-label); gap: 9px; grid-template-columns: 44px minmax(0, 1fr) auto; }
+.v2-railbox .rail-gate > span:last-child { font-variant-numeric: tabular-nums; opacity: 0.75; }
+
+/* chips 与脚注 */
+.v2-railbox .rail-chip { font-size: var(--tx-meta); padding: 3px 9px; }
+.v2-railbox .rail-chip b { font-size: var(--tx-label); font-variant-numeric: tabular-nums; }
+.v2-railbox .rail-note,
+.v2-railbox .rail-foot { font-size: var(--tx-meta); opacity: 0.55; line-height: 1.55; margin: 0; }
+
+/* 会话列表行也归一到同一级（它是右栏之外唯一还乱的地方） */
+.v2-sessions .row { font-size: var(--tx-row); }
+
+/* 覆盖层里 `.metric b`（22px）比 `.rail-big` 更具体，必须用同等或更高选择器才生效 */
+.v2-railbox .metric b.rail-big { font-size: var(--tx-num); line-height: var(--tx-num-line); }
+.v2-railbox .metric b.rail-pct { font-size: var(--tx-num-sm); }
+.v2-log h2 { font-size: var(--tx-body); font-weight: 600; margin: 0 0 2px; }

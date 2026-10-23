@@ -237,7 +237,7 @@ function KpProgress({ kpId, name, source }: { kpId: string; name: string; source
 export function Rail(): React.JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
-  const spec = PAGES[location.pathname] ?? { title: '快捷指令', quick: [] };
+  const spec = PAGES[location.pathname] ?? { title: '', quick: [] };
   const [params] = useSearchParams();
   const kpFromUrl = params.get('kp');
   const { dash, failed } = useDashboard();
@@ -304,7 +304,8 @@ export function Rail(): React.JSX.Element {
         <div className="why">还有 {dash.mastered.length - 6} 个未列出。</div>
       ) : null}
 
-      <h3>快捷指令</h3>
+      {/* 学习页在 PAGES 里没有专属条目，若仍无条件渲染就会出现两个「快捷指令」标题 */}
+      {spec.quick.length > 0 ? <h3>快捷指令</h3> : null}
       <ul className="advice">
         {spec.quick.map((q) => (
           <li key={q.label}>
