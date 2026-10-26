@@ -117,6 +117,33 @@ export const TierOverviewResponseSchema = z.object({
   label: z.string(),
   /** 首轮形态的一句话说明，直接给学习者看 */
   description: z.string(),
+  /**
+   * 判定依据句（票 06），服务端拼好的中文，形状对齐 mockup：
+   * `由 3 次作答判定 · 2 个变式已覆盖 · 连对 1/2`。
+   *
+   * 先例是 `NodeSourceSchema.pageLabel`（graph.ts）：**句子给人，字段给机器**。
+   * 「·」分隔、量词、连对写成 x/y——都是文案，只允许服务端拼一处；数值
+   * 同时用下面三个 `basis*` 字段给出，前端要加粗数字或做进度条时读字段，
+   * 不要正则抠句子。
+   *
+   * `source = 'fallback'`（没定过级）时它是引导句（如「定级后这里会写判定
+   * 依据」）而不是拼 0 的数字句——0/0/0 此刻没有证据可回放，说出口就是编的。
+   */
+  basis: z.string(),
+  /**
+   * 依据窗内的作答数：自上次定级/重评以来累计、计入掌握度的作答数
+   * （`counts_toward_mastery = true`）。三个 basis 数字描述**同一个证据窗**
+   * ——那正是下一次重判会看的作答。fallback 时为 0。
+   */
+  basisAttempts: z.number().int().min(0),
+  /** 依据窗内覆盖到的变式组数（`attempts.variant_group` 去重）。fallback 时为 0。 */
+  basisVariants: z.number().int().min(0),
+  /**
+   * 依据窗内从最新一次作答往前数的连续答对次数。分母**不在契约里**：
+   * 它就是 `params.masteryRule.consecutiveCorrect`，句子里的「/2」由服务端
+   * 从同一份参数拼出来，前端不需要也不应该自己再算一遍。fallback 时为 0。
+   */
+  basisStreak: z.number().int().min(0),
 });
 
 export type TierOverviewResponse = z.infer<typeof TierOverviewResponseSchema>;

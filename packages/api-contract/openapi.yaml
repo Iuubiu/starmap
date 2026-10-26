@@ -7501,6 +7501,20 @@
     "TierOverviewResponse":
       "additionalProperties": false
       "properties":
+        "basis":
+          "type": "string"
+        "basisAttempts":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "basisStreak":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
+        "basisVariants":
+          "maximum": 9007199254740991
+          "minimum": 0
+          "type": "integer"
         "description":
           "type": "string"
         "label":
@@ -7588,6 +7602,10 @@
         - "params"
         - "label"
         - "description"
+        - "basis"
+        - "basisAttempts"
+        - "basisVariants"
+        - "basisStreak"
       "type": "object"
     "TierParams":
       "additionalProperties": false

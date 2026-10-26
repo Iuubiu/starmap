@@ -10,6 +10,22 @@ import type { TierOverviewResponseSource } from './tierOverviewResponseSource.js
 import type { TierOverviewResponseTier } from './tierOverviewResponseTier.js';
 
 export interface TierOverviewResponse {
+  basis: string;
+  /**
+     * @minimum 0
+     * @maximum 9007199254740991
+     */
+  basisAttempts: number;
+  /**
+     * @minimum 0
+     * @maximum 9007199254740991
+     */
+  basisStreak: number;
+  /**
+     * @minimum 0
+     * @maximum 9007199254740991
+     */
+  basisVariants: number;
   description: string;
   label: string;
   params: TierOverviewResponseParams;

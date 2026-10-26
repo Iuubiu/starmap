@@ -78,6 +78,11 @@ interface OverviewBody {
   params: TierParamsBody;
   label: string;
   description: string;
+  /** 判定依据句（票 06）：服务端拼好的中文，形状「由 N 次作答判定 · V 个变式已覆盖 · 连对 S/R」 */
+  basis: string;
+  basisAttempts: number;
+  basisVariants: number;
+  basisStreak: number;
 }
 
 interface LevelPlanBody {
@@ -722,5 +727,64 @@ describe('GET /api/v1/tier/session-plan：单次会话新知识点上限', () =>
     for (const item of body.items) {
       expect(item.name.length).toBeGreaterThan(0);
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// 票 06：判定依据句。句子给人（basis），数字给机器（三个 basis* 字段）。
+// ---------------------------------------------------------------------------
+
+describe('GET /api/v1/tier：判定依据句（票 06）', () => {
+  it('没有定级记录时 basis 是引导句，不是空串也不是编出来的数字', async () => {
+    // beforeEach 已清掉 placement_profile，这里天然是「从没定过级」。
+    const body = await overview();
+    expect(body.basis.length).toBeGreaterThan(0);
+    // 引导句要说「去定级」，而不是硬拼「由 0 次作答判定」——
+    // 0/0/0 那组数字此时没有证据支撑（fallback 根本没有定级记录可回放）。
+    expect(body.basis).toContain('定级');
+    expect(body.basis).not.toMatch(/作答判定/);
+    expect(body.basisAttempts).toBe(0);
+    expect(body.basisVariants).toBe(0);
+    expect(body.basisStreak).toBe(0);
+  });
+
+  it('有定级记录时三个数字从 attempts 回放，整句形状对齐 mockup', async () => {
+    await setTier('P2'); // attempts_baseline = 0，所以证据窗 = 全部作答
+    // 证据窗（旧 → 新）：对(vg-demorgan) / 对(vg-absorb) / 错(vg-demorgan) / 对(vg-demorgan)
+    // ⇒ 4 次作答、2 个变式、连对 1（最新一次对、再往前一次错）。
+    await seedAttempt({ correct: true, knowledgeKind: 'concept', minutesAgo: 30 });
+    await seedAttempt({ correct: true, knowledgeKind: 'fact', minutesAgo: 20 });
+    await seedAttempt({ correct: false, knowledgeKind: 'comprehensive', minutesAgo: 10 });
+    await seedAttempt({ correct: true, knowledgeKind: 'concept', minutesAgo: 5 });
+
+    const body = await overview();
+    expect(body.source).toBe('placement');
+    expect(body.basisAttempts).toBe(4);
+    expect(body.basisVariants).toBe(2);
+    expect(body.basisStreak).toBe(1);
+    expect(body.basis).toBe('由 4 次作答判定 · 2 个变式已覆盖 · 连对 1/2');
+  });
+
+  it('连对的分母来自本档 masteryRule（P3 要求 1 次），不是写死的 2', async () => {
+    await setTier('P3');
+    await seedAttempt({ correct: true, knowledgeKind: 'concept', minutesAgo: 30 });
+    await seedAttempt({ correct: true, knowledgeKind: 'fact', minutesAgo: 20 });
+    await seedAttempt({ correct: false, knowledgeKind: 'comprehensive', minutesAgo: 10 });
+    await seedAttempt({ correct: true, knowledgeKind: 'concept', minutesAgo: 5 });
+
+    const body = await overview();
+    expect(body.basisStreak).toBe(1);
+    expect(body.basis).toBe('由 4 次作答判定 · 2 个变式已覆盖 · 连对 1/1');
+  });
+
+  it('刚定级还没有学习证据时如实报 0，不假装有依据', async () => {
+    await setTier('P2');
+    const body = await overview();
+    expect(body.basisAttempts).toBe(0);
+    expect(body.basisVariants).toBe(0);
+    expect(body.basisStreak).toBe(0);
+    // 「由 0 次作答判定」是诚实的：定级作答不进 attempts 表（票 11 验收 6），
+    // 此刻档位唯一依据就是定级那 8–18 题，学习证据窗确实是空的。
+    expect(body.basis).toBe('由 0 次作答判定 · 0 个变式已覆盖 · 连对 0/2');
   });
 });

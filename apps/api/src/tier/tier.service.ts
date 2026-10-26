@@ -80,22 +80,30 @@ export class TierService {
    *
    * 走 `PlacementService.status()`：它会顺手完成迟到的重判结算，所以这个
    * 函数返回的档位与 `/api/v1/placement` 返回的永远是同一个值。
+   *
+   * `attemptsSince` 顺路带回来（票 06 的判定依据窗）：status() 本来就算
+   * 了它，再算一遍会出现「依据句里的数字与重判看到的证据不是同一批」。
    */
   private async currentTier(): Promise<{
     tier: ProficiencyTier;
     source: 'placement' | 'fallback';
+    attemptsSince: number;
   }> {
     const status = await this.placement.status();
     if (status.tier === null) {
       // 没定过级：参数回落到 P1，但用 `source` 说清「这是默认值，不是结论」。
-      return { tier: 'P1', source: 'fallback' };
+      return { tier: 'P1', source: 'fallback', attemptsSince: status.attemptsSince };
     }
-    return { tier: status.tier as ProficiencyTier, source: 'placement' };
+    return {
+      tier: status.tier as ProficiencyTier,
+      source: 'placement',
+      attemptsSince: status.attemptsSince,
+    };
   }
 
   /** 当前档位与六维参数。 */
   async overview(): Promise<TierOverviewResponse> {
-    const { tier, source } = await this.currentTier();
+    const { tier, source, attemptsSince } = await this.currentTier();
     const params = tierParams(tier);
     return TierOverviewResponseSchema.parse({
       tier,
@@ -103,7 +111,72 @@ export class TierService {
       params,
       label: TIER_LABEL[tier],
       description: FIRST_ROUND_DESCRIPTION[params.firstRoundShape],
+      ...(await this.basisOf(tier, source, attemptsSince)),
     });
+  }
+
+  /**
+   * 判定依据句与三个数值（票 06）。
+   *
+   * ## 三个数字描述同一个证据窗
+   *
+   * 窗口 = 自上次定级/重评以来的作答（`counts_toward_mastery = true`，取最近
+   * `attemptsSince` 条）。选这个窗而不是全历史，是因为它恰好是**下一次重判
+   * 将要看的证据**——依据句说的是「档位靠什么撑着」，全历史会把已经结算过
+   * 的旧证据再算一遍，与 `/tier/changes` 里 `attemptsSince` 的口径漂移。
+   *
+   * ## 连对的分母
+   *
+   * 句子里的「连对 x/y」分母取本档 `masteryRule.consecutiveCorrect`（P1/P2=2、
+   * P3=1），与 `TierMasteryProgress` 用同一条规则——两处分母不同的话，学习者
+   * 会在档位卡与门槛卡看到两个互相矛盾的「还差几次」。
+   *
+   * ## fallback 不拼数字
+   *
+   * 没定级记录就没有基线可减，任何数字都是编的，所以给引导句 + 三个 0
+   * （0 是「没有证据」的诚实值，与 percent=null 的「不知道」语义不同：这里
+   * 字段是 int 不是 nullable，fallback 本身就是「还没有判定」这个结论）。
+   */
+  private async basisOf(
+    tier: ProficiencyTier,
+    source: 'placement' | 'fallback',
+    attemptsSince: number,
+  ): Promise<Pick<TierOverviewResponse, 'basis' | 'basisAttempts' | 'basisVariants' | 'basisStreak'>> {
+    if (source === 'fallback') {
+      return {
+        basis: '定级后这里会写判定依据',
+        basisAttempts: 0,
+        basisVariants: 0,
+        basisStreak: 0,
+      };
+    }
+
+    // 倒序取窗：连对要从最新一条往前数，倒序数组上一个 while 就是它。
+    // `counts_toward_mastery = false` 的行必须排除，与 masteryProgress 的
+    // 过滤条件同一个理由（深究段诚实暴露不会不是反向证据）。
+    const rows = await this.db.query<{ correct: boolean; variant_group: string }>(
+      `SELECT correct, variant_group
+         FROM attempts
+        WHERE counts_toward_mastery = true
+        ORDER BY created_at DESC, id DESC
+        LIMIT $1`,
+      [attemptsSince],
+    );
+
+    const variants = new Set(rows.map((row) => row.variant_group)).size;
+    let streak = 0;
+    for (const row of rows) {
+      if (!row.correct) break;
+      streak += 1;
+    }
+    const required = tierParams(tier).masteryRule.consecutiveCorrect;
+
+    return {
+      basis: `由 ${attemptsSince} 次作答判定 · ${variants} 个变式已覆盖 · 连对 ${streak}/${required}`,
+      basisAttempts: attemptsSince,
+      basisVariants: variants,
+      basisStreak: streak,
+    };
   }
 
   /**
