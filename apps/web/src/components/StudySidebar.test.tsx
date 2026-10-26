@@ -8,10 +8,15 @@
  * 2. 「证据不足」不能显示成 `0 / 8`。
  * 3. 连对从门控判定的 `itemIds − wrongItemIds` 尾部连续段算出来。
  * 4. 建议最多 3 条，点一下只把话交给输入框（`onAsk`），不发送。
+ * 5. 票 02 起：右栏档位卡的两态文案——fallback 不许说「你的水平是 P1」，
+ *    卡里不许出现任何切换档位的控件。
  */
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
+import { server } from '../test/msw';
 import type { GateHistoryResponse, MasteryView, UnlockState } from '../api/queries';
 import type { KpProgressView } from '@starmap/api-contract';
 import {
@@ -88,8 +93,16 @@ function unlock(overrides: Partial<UnlockState> = {}): UnlockState {
   };
 }
 
+/**
+ * 票 02 起右栏卡自己在组件里调 hook 取数（useTierOverview / useTierSessionPlan），
+ * 所以组件测试也要像页面测试一样给一个 QueryClient。
+ *
+ * `retry: false` 是刻意的：msw 里用 server.use 打的错桩如果触发 react-query
+ * 默认的三次退避重试，单测会多等几秒才见到错误分支。
+ */
 function renderSidebar(overrides: Partial<Parameters<typeof StudySidebar>[0]> = {}) {
   const onAsk = vi.fn();
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   const props = {
     microKpName: '布尔代数基本运算',
     mastery: mastery(),
@@ -100,11 +113,36 @@ function renderSidebar(overrides: Partial<Parameters<typeof StudySidebar>[0]> = 
   } as Parameters<typeof StudySidebar>[0];
   render(
     <FluentProvider theme={webLightTheme}>
-      <StudySidebar {...props} />
+      <QueryClientProvider client={client}>
+        <StudySidebar {...props} />
+      </QueryClientProvider>
     </FluentProvider>,
   );
   return { onAsk };
 }
+
+/** 局部覆盖 `GET /api/v1/tier`（默认桩在 test/msw.ts，是 P1 placement）。 */
+const stubTier = (body: Record<string, unknown>) => {
+  server.use(http.get('*/api/v1/tier', () => HttpResponse.json(body)));
+};
+
+/** 一份完整的 TierOverviewResponse 形状；抄漏字段会让「接口透传」的断言失焦。 */
+const tierOverview = (overrides: Record<string, unknown> = {}) => ({
+  tier: 'P2',
+  source: 'placement',
+  params: {
+    tier: 'P2',
+    firstRoundShape: 'completion',
+    ladder: { start: 2, cap: 4 },
+    sessionNewKpLimit: 3,
+    feedbackTiming: 'step_immediate_with_summary',
+    attemptsPerItem: 2,
+    masteryRule: { consecutiveCorrect: 2, requiresTransferItem: true },
+  },
+  label: '补全步骤',
+  description: '样例留一步让你补。',
+  ...overrides,
+});
 
 describe('常量与引擎同源', () => {
   it('三门槛是 8 / 3 / 2（MASTERY_MIN_ATTEMPTS / MASTERY_MIN_VARIANTS / consecutiveCorrect）', () => {
@@ -282,9 +320,12 @@ describe('票 89：进度读接口（前端不硬编码阈值、不做除法）'
   });
 
   it('本关判定没达标时进度条走中性色；达标才换 success', () => {
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
     const { container, rerender } = render(
       <FluentProvider theme={webLightTheme}>
-        <StudySidebar microKpName={view.name} progress={view} onAsk={() => undefined} />
+        <QueryClientProvider client={client}>
+          <StudySidebar microKpName={view.name} progress={view} onAsk={() => undefined} />
+        </QueryClientProvider>
       </FluentProvider>,
     );
     const tones = Array.from(container.querySelectorAll('[data-study-row]')).map((n) =>
@@ -294,16 +335,69 @@ describe('票 89：进度读接口（前端不硬编码阈值、不做除法）'
 
     rerender(
       <FluentProvider theme={webLightTheme}>
-        <StudySidebar
-          microKpName={view.name}
-          progress={{ ...view, gatePassed: true }}
-          onAsk={() => undefined}
-        />
+        <QueryClientProvider client={client}>
+          <StudySidebar
+            microKpName={view.name}
+            progress={{ ...view, gatePassed: true }}
+            onAsk={() => undefined}
+          />
+        </QueryClientProvider>
       </FluentProvider>,
     );
     const passed = Array.from(container.querySelectorAll('[data-study-row]')).map((n) =>
       n.getAttribute('data-tone'),
     );
     expect(passed).toEqual(['success', 'success', 'success']);
+  });
+});
+
+describe('票 02：右栏档位卡——档位是测量结果，不是设置项', () => {
+  it("source='fallback'：说「还没定级，先按完整样例档教」，不说「你的水平是 P1」", async () => {
+    stubTier(tierOverview({ tier: 'P1', source: 'fallback', label: '完整样例' }));
+    renderSidebar();
+
+    expect(await screen.findByText('还没定级，先按完整样例档教')).toBeInTheDocument();
+    // 固定句两态都在
+    expect(screen.getByText('档位是测量结果，不能自选。')).toBeInTheDocument();
+    // fallback 态的禁句：界面不能把默认档说成学习者的水平。
+    expect(screen.queryByText(/你的水平是/)).not.toBeInTheDocument();
+    // 生效档与展示名仍然给出（档位永远有值，靠 source 区分语义）
+    expect(screen.getByText('P1')).toBeInTheDocument();
+    expect(screen.getByText('完整样例')).toBeInTheDocument();
+    expect(screen.queryByText('由定级测得')).not.toBeInTheDocument();
+  });
+
+  it("source='placement'：说「由定级测得」", async () => {
+    stubTier(tierOverview());
+    renderSidebar();
+
+    expect(await screen.findByText('由定级测得')).toBeInTheDocument();
+    expect(screen.getByText('档位是测量结果，不能自选。')).toBeInTheDocument();
+    expect(screen.getByText('P2')).toBeInTheDocument();
+    expect(screen.getByText('补全步骤')).toBeInTheDocument();
+    expect(screen.queryByText(/还没定级/)).not.toBeInTheDocument();
+  });
+
+  it('卡里没有任何按钮——切换档位这种控件不存在', async () => {
+    stubTier(tierOverview());
+    renderSidebar();
+
+    // 先等数据态渲染出来，再数按钮（占位态本来就没有按钮，等到位才算数）
+    expect(await screen.findByText('由定级测得')).toBeInTheDocument();
+    const card = document.querySelector('[data-study-tier]') as HTMLElement;
+    expect(card).not.toBeNull();
+    expect(card.querySelectorAll('button')).toHaveLength(0);
+  });
+
+  it('接口还没回来/挂了：占位不红错，也不把话说死', async () => {
+    server.use(
+      http.get('*/api/v1/tier', () =>
+        HttpResponse.json({ code: 'INTERNAL', message: '档位读不到' }, { status: 500 }),
+      ),
+    );
+    renderSidebar();
+
+    await screen.findByText('档位暂时读不到，先按默认档。');
+    expect(screen.queryByText('档位是测量结果，不能自选。')).not.toBeInTheDocument();
   });
 });

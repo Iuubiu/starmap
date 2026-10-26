@@ -43,6 +43,7 @@ import { Button, Caption1, Card, Text } from '@fluentui/react-components';
 import type { ReactNode } from 'react';
 import type { GateHistoryResponse, MasteryView, UnlockState } from '../api/queries';
 import type { KpProgressView } from '@starmap/api-contract';
+import { TierCard } from './TierCard';
 
 /** `packages/engine/src/mastery.ts` 的 `MASTERY_MIN_ATTEMPTS`。 */
 export const ATTEMPT_TARGET = 8;
@@ -277,6 +278,11 @@ export function StudySidebar({
 
   return (
     <div className="sm-study-sidebar" data-study-sidebar>
+      {/*
+       * 票 02：档位卡自取数（useTierOverview），页面不用传参。放在进度卡之前，
+       * 与 mockup（composer-b4.html 右栏）的「当前档位 → 门槛进度」顺序一致。
+       */}
+      <TierCard />
       <Card className="sm-glass sm-study-card" data-study-progress>
         <Text weight="semibold" as="h3">
           本知识点进度
