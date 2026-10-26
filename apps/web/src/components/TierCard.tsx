@@ -13,10 +13,13 @@
  * P1」——那是在把「我们还不知道」包装成「你是零基础」。话术固定为
  * 「还没定级，先按完整样例档教」。`placement` 才说「由定级测得」。
  *
- * ## 不在这里出现的数字
+ * ## 判定依据句（票 06）为什么是透传的整句
  *
- * 判定依据句（「由 3 次作答判定 · 连对 1/2」）属票 06：等契约加了 `basis`
- * 字段再渲染，这里不编数字。
+ * `basis` 是服务端拼好的中文整句（`TierOverviewResponse.basis` 的契约注释：
+ * 「·」分隔、量词、连对写成 x/y 都是文案，只允许服务端拼一处）。这里整句
+ * 透传——想加粗数字或做进度条时读 `basisAttempts` / `basisVariants` /
+ * `basisStreak` 三个数值字段，不要正则抠句子。fallback 态它已经是引导句
+ * （「定级后这里会写判定依据」），不是拼 0 的数字句，前端不用也不该分岔。
  */
 import { Badge, Caption1, Card, Text } from '@fluentui/react-components';
 import { useTierOverview } from '../api/queries/tier';
@@ -42,6 +45,15 @@ export function TierCard() {
           <Caption1 className="sm-study-kp">
             {payload.source === 'placement' ? '由定级测得' : '还没定级，先按完整样例档教'}
           </Caption1>
+          {/*
+           * why 行（票 06）：服务端拼好的整句，透传不拼。连对数字自本票起
+           * 只住在这句里（门槛卡的连对行已删，见 StudySidebar）。
+           */}
+          {payload.basis ? (
+            <Caption1 className="sm-study-kp" data-tier-basis>
+              {payload.basis}
+            </Caption1>
+          ) : null}
           <Caption1 className="sm-study-note">档位是测量结果，不能自选。</Caption1>
         </>
       ) : (

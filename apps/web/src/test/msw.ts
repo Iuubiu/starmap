@@ -665,6 +665,15 @@ export const handlers = [
       },
       label: '完整样例',
       description: '先完整看一遍样例，再自己动手。',
+      /*
+       * 票 06：判定依据句 + 三个数值字段。默认给 placement 形态的样本句
+       * （与席位 D 后端测试的形状一致）；fallback 引导句
+       * （「定级后这里会写判定依据」+ 三个 0）的用例自己 server.use 覆盖。
+       */
+      basis: '由 3 次作答判定 · 2 个变式已覆盖 · 连对 1/2',
+      basisAttempts: 3,
+      basisVariants: 2,
+      basisStreak: 1,
     }),
   ),
 

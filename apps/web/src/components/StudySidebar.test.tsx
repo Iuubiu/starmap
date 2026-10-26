@@ -1,17 +1,21 @@
 /**
  * StudySidebar（票 83）：三门槛 + 实时建议的组件测试。
  *
- * 这里钉住四件事：
- * 1. 三条门槛的上限是 8 / 3 / 2 —— 与 `packages/engine` 的三个常量一一对应。
+ * 这里钉住这些事：
+ * 1. 门槛上限的镜像常量是 8 / 3 / 2 —— 与 `packages/engine` 的三个常量一一对应。
  *    前端不 import engine（纯函数包不该打进浏览器包），所以用镜像常量，
- *    这条断言就是防漂移的那根钉子。
+ *    这条断言就是防漂移的那根钉子。票 06 起渲染行只剩作答/变式两条
+ *    （连对进了档位卡的 basis 句），但常量仍钉住引擎真值。
  * 2. 「证据不足」不能显示成 `0 / 8`。
- * 3. 连对从门控判定的 `itemIds − wrongItemIds` 尾部连续段算出来。
+ * 3. `trailingCorrect` 从门控判定的 `itemIds − wrongItemIds` 尾部连续段算连对
+ *    （票 06 起不进门槛行，函数保留）。
  * 4. 建议最多 3 条，点一下只把话交给输入框（`onAsk`），不发送。
  * 5. 票 02 起：右栏档位卡的两态文案——fallback 不许说「你的水平是 P1」，
  *    卡里不许出现任何切换档位的控件。
  * 6. 票 03 起：右栏「正在学」卡——名字回到侧栏（细条时代的「名字不在这里
  *    出现」口径随之作废），pageLabel 整句透传，关卡入口两态。
+ * 7. 票 06 起：档位卡 why 行显示服务端拼好的 `basis` 整句（透传，前端不拼）；
+ *    连对行从门槛卡删除，三行变两行。
  */
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -154,6 +158,11 @@ const tierOverview = (overrides: Record<string, unknown> = {}) => ({
   },
   label: '补全步骤',
   description: '样例留一步让你补。',
+  // 票 06：basis 整句 + 三个数值字段（有定级记录的样本形状）
+  basis: '由 3 次作答判定 · 2 个变式已覆盖 · 连对 1/2',
+  basisAttempts: 3,
+  basisVariants: 2,
+  basisStreak: 1,
   ...overrides,
 });
 
@@ -192,43 +201,37 @@ describe('trailingCorrect：连对来自最近一次判定的尾部连续段', (
   });
 });
 
-describe('progressRows：证据不足不显示 0', () => {
-  it('有作答记录时给实测数', () => {
-    const rows = progressRows(mastery({ attemptCount: 3, variantCount: 2 }), 1);
+describe('progressRows：证据不足不显示 0（票 06 起只有作答/变式两行）', () => {
+  it('有作答记录时给实测数；连对行已删，两行', () => {
+    const rows = progressRows(mastery({ attemptCount: 3, variantCount: 2 }));
     expect(rows.map((row) => [row.label, row.value, row.target])).toEqual([
       ['作答', 3, 8],
       ['变式', 2, 3],
-      ['连对', 1, 2],
     ]);
   });
 
-  it('没有 mastery → 三条都是 null', () => {
-    const rows = progressRows(undefined, null);
+  it('没有 mastery → 两条都是 null', () => {
+    const rows = progressRows(undefined);
     expect(rows.every((row) => row.value === null)).toBe(true);
   });
 
   it('有一题但证据不够 → 仍显示实测数（不是 0 假装）', () => {
-    const rows = progressRows(mastery({ attemptCount: 1, evidenceSufficient: false }), null);
+    const rows = progressRows(mastery({ attemptCount: 1, evidenceSufficient: false }));
     expect(rows[0]!.value).toBe(1);
-    expect(rows[2]!.value).toBeNull();
+    expect(rows).toHaveLength(2);
   });
 });
 
-describe('StudySidebar：渲染三门槛', () => {
-  it('作答 3/8、变式 2/3、连对 2/2', () => {
+describe('StudySidebar：渲染两门槛', () => {
+  it('作答 3/8、变式 2/3；连对不出现（票 06：进了档位 basis 句）', () => {
     renderSidebar({
       mastery: mastery({ attemptCount: 3, variantCount: 2 }),
       gateHistory: gateHistory(['a', 'b', 'c'], ['a']),
     });
     expect(screen.getByText('3 / 8')).toBeInTheDocument();
     expect(screen.getByText('2 / 3')).toBeInTheDocument();
-    expect(screen.getByText('2 / 2')).toBeInTheDocument();
-  });
-
-  it('没有判定记录时连对显示「证据不足」', () => {
-    renderSidebar({ gateHistory: undefined });
-    const row = document.querySelector('[data-study-row="连对"]');
-    expect(row?.textContent).toContain('证据不足');
+    expect(screen.queryByText('2 / 2')).not.toBeInTheDocument();
+    expect(document.querySelectorAll('[data-study-row]')).toHaveLength(2);
   });
 
   it('没有知识点时给出选择提示，而不是 0 / 8', () => {
@@ -322,12 +325,12 @@ describe('票 89：进度读接口（前端不硬编码阈值、不做除法）'
     evaluatedAt: '2026-10-23T00:00:00.000Z',
   };
 
-  it('三条门槛的值、阈值、比例都来自接口，400 次累计不会显示成「474 / 8」', () => {
+  it('门槛的值、阈值、比例都来自接口，400 次累计不会显示成「474 / 8」', () => {
     const rows = progressRowsFromView(view);
-    expect(rows.map((r) => r.label)).toEqual(['作答', '变式', '连对']);
-    expect(rows.map((r) => `${r.value} / ${r.target}`)).toEqual(['8 / 8', '3 / 3', '1 / 2']);
+    expect(rows.map((r) => r.label)).toEqual(['作答', '变式']);
+    expect(rows.map((r) => `${r.value} / ${r.target}`)).toEqual(['8 / 8', '3 / 3']);
     expect(rows[0]?.ratio).toBe(1);
-    expect(rows[2]?.ratio).toBe(0.5);
+    expect(rows[1]?.ratio).toBe(1);
     // 真数在 cumulative 里，只用于悬浮说明
     expect(rows[0]?.cumulative).toBe(474);
   });
@@ -344,7 +347,7 @@ describe('票 89：进度读接口（前端不硬编码阈值、不做除法）'
     const tones = Array.from(container.querySelectorAll('[data-study-row]')).map((n) =>
       n.getAttribute('data-tone'),
     );
-    expect(tones).toEqual(['neutral', 'neutral', 'neutral']);
+    expect(tones).toEqual(['neutral', 'neutral']);
 
     rerender(
       <FluentProvider theme={webLightTheme}>
@@ -360,7 +363,7 @@ describe('票 89：进度读接口（前端不硬编码阈值、不做除法）'
     const passed = Array.from(container.querySelectorAll('[data-study-row]')).map((n) =>
       n.getAttribute('data-tone'),
     );
-    expect(passed).toEqual(['success', 'success', 'success']);
+    expect(passed).toEqual(['success', 'success']);
   });
 
   describe('票 05：数值带单位渲染对齐 mockup（单位来自接口，前端不写死）', () => {
@@ -375,17 +378,16 @@ describe('票 89：进度读接口（前端不硬编码阈值、不做除法）'
       );
     };
 
-    it('作答/变式/连对的数值带单位（mockup：作答 5 / 8 题、变式 2 / 3 组）', () => {
+    it('作答/变式的数值带单位（mockup：作答 5 / 8 题、变式 2 / 3 组）', () => {
       renderWithProgress(view);
       expect(screen.getByText('8 / 8 题')).toBeInTheDocument();
       expect(screen.getByText('3 / 3 组')).toBeInTheDocument();
-      expect(screen.getByText('1 / 2 题')).toBeInTheDocument();
     });
 
-    it('连对行保留（票 06 未落地，不得删行）', () => {
+    it('连对行已删（票 06 落地：连对数字进档位卡的 basis 句），三行变两行', () => {
       renderWithProgress(view);
-      expect(document.querySelector('[data-study-row="连对"]')).not.toBeNull();
-      expect(document.querySelectorAll('[data-study-row]')).toHaveLength(3);
+      expect(document.querySelector('[data-study-row="连对"]')).toBeNull();
+      expect(document.querySelectorAll('[data-study-row]')).toHaveLength(2);
     });
 
     it('单位是透传不是前端词典：接口给「次/套」就显示「次/套」', () => {
@@ -505,6 +507,49 @@ describe('票 02：右栏档位卡——档位是测量结果，不是设置项'
 
     await screen.findByText('档位暂时读不到，先按默认档。');
     expect(screen.queryByText('档位是测量结果，不能自选。')).not.toBeInTheDocument();
+  });
+});
+
+describe('票 06：档位卡 why 行——basis 是服务端拼好的整句，前端透传不拼', () => {
+  it("source='placement'：依据句整句显示（「·」分隔与 x/y 都是服务端文案）", async () => {
+    stubTier(tierOverview());
+    renderSidebar();
+
+    expect(
+      await screen.findByText('由 3 次作答判定 · 2 个变式已覆盖 · 连对 1/2'),
+    ).toBeInTheDocument();
+  });
+
+  it("source='fallback'：basis 是引导句，照常显示（不是空串，也不是前端编的数字句）", async () => {
+    stubTier(
+      tierOverview({
+        tier: 'P1',
+        source: 'fallback',
+        label: '完整样例',
+        basis: '定级后这里会写判定依据',
+        basisAttempts: 0,
+        basisVariants: 0,
+        basisStreak: 0,
+      }),
+    );
+    renderSidebar();
+
+    expect(await screen.findByText('定级后这里会写判定依据')).toBeInTheDocument();
+    // 0/0/0 的数字句不许由前端拼出来（拼了就是在编证据）
+    expect(document.querySelector('[data-study-tier]')?.textContent).not.toContain('0 次');
+  });
+
+  it('连对行从门槛卡删除后，basis 句是连对数字的唯一居所', async () => {
+    stubTier(tierOverview());
+    renderSidebar({ gateHistory: gateHistory(['a', 'b'], []) });
+
+    expect(
+      await screen.findByText('由 3 次作答判定 · 2 个变式已覆盖 · 连对 1/2'),
+    ).toBeInTheDocument();
+    // 门槛卡只剩作答/变式（连对 2/2 这类数字不在这张卡里）
+    const progress = document.querySelector('[data-study-progress]') as HTMLElement;
+    expect(progress.querySelectorAll('[data-study-row]')).toHaveLength(2);
+    expect(progress.textContent).not.toContain('连对');
   });
 });
 

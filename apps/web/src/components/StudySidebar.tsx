@@ -1,20 +1,24 @@
 /**
  * 学习页右侧栏：本知识点进度 + 实时建议（票 83）。
  *
- * ## 为什么进度只给「三门槛」而不是一个百分比
+ * ## 为什么进度只给「门槛」而不是一个百分比
  *
  * 掌握度是概率，不是进度。`current = 0.62` 对学生没有可操作性：他既不知道
- * 还差多少才够，也不知道下一步做什么。三条门槛是可数、可核对、可行动的：
+ * 还差多少才够，也不知道下一步做什么。门槛是可数、可核对、可行动的：
  *
  * - 作答次数：再答几题才够证据线；
- * - 变式数：只会一种问法不算会（同一道题换个数字不算新证据）；
- * - 连对：最近一次判定里尾部连续答对的题数。
+ * - 变式数：只会一种问法不算会（同一道题换个数字不算新证据）。
  *
- * 三条的上限都来自 `packages/engine`（`MASTERY_MIN_ATTEMPTS = 8`、
+ * 票 06 起连对行从这张卡删除：连对数字住进档位卡的 `basis` 整句（同一个
+ * 证据窗）。再放一行就是同一个数出现两处、两个口径——档位卡说「连对 1/2」
+ * 而这里说「连对 3 / 2」的那天，没人知道该信哪句。
+ *
+ * 上限来自 `packages/engine`（`MASTERY_MIN_ATTEMPTS = 8`、
  * `MASTERY_MIN_VARIANTS = 3`、`TIER_PARAMS[*].masteryRule.consecutiveCorrect = 2`）。
  * 前端不 import engine（避免把纯函数包打进浏览器包），所以这里是**镜像常量**，
  * `StudySidebar.test.ts` 有一条断言把它们钉在 8/3/2 上，谁改了引擎那边
- * 又忘了这里，测试会红。
+ * 又忘了这里，测试会红。连对常量 `STREAK_TARGET` 仍保留镜像（basis 句分母
+ * 的真值在引擎，虽然拼句在服务端）。
  *
  * ## 「证据不足」不是 0
  *
@@ -74,7 +78,10 @@ export interface StudySidebarProps {
   microKpName: string | null;
   mastery?: MasteryView | undefined;
   unlock?: UnlockState | undefined;
-  /** 这个知识点的关卡最近一次门控判定（用来算「连对」） */
+  /**
+   * 这个知识点的关卡最近一次门控判定。票 06 起连对行删除（数字进档位卡
+   * `basis` 句），这个 prop 不再参与渲染；HomePage 的调用链还没拆，先收下。
+   */
   gateHistory?: GateHistoryResponse | undefined;
   /** 最近一条追问卡的问题。没有就不出这条建议 */
   lastProbe?: string | undefined;
@@ -96,6 +103,10 @@ export interface StudySidebarProps {
  * （`wrongItemIds`），两者相减就是逐题对错序列 —— 不需要新接口。
  *
  * 没有判定记录时返回 `null`（证据不足），不是 0。
+ *
+ * 票 06 起门槛卡不再渲染连对行（数字住进档位卡的 `basis` 句），这个函数
+ * 不再有界面消费方；保留它是因为 `gateHistory` 这条数据链（HomePage 仍在
+ * 传 prop）的形状文档在这里，拆链要动 HomePage，超出接线票的边界。
  */
 export function trailingCorrect(history: GateHistoryResponse | undefined | null): number | null {
   const evaluations = history?.evaluations;
@@ -190,35 +201,39 @@ interface ProgressRow {
   unit?: string;
 }
 
-/** 三门槛的实测值。`mastery` 缺失 → 三条都是 `null`。 */
 /**
  * 票 89：本知识点进度直接读服务端算好的数字。
  *
- * 三个数字（值 / 阈值 / 比例）全部来自 `GET /api/v1/mastery/kp/:id`：
+ * 数字（值 / 阈值 / 比例）全部来自 `GET /api/v1/mastery/kp/:id`：
  * 前端不再持有 8 / 3 / 2，也不再做除法 —— 阈值随档位变，硬编码在那天会静默错。
+ *
+ * 服务端的 `gates` 仍含 `streak`（票 89 契约），这里按 `key` 过滤掉 ——
+ * 连对的界面居所是档位卡 basis 句（票 06），不是这张卡。
  */
 export function progressRowsFromView(progress: KpProgressView | undefined): ProgressRow[] {
-  if (!progress) return progressRows(undefined, null);
-  return progress.gates.map((gate) => ({
-    label: gate.label,
-    value: gate.value,
-    target: gate.target,
-    ratio: gate.ratio,
-    reached: gate.reached,
-    cumulative: gate.cumulative,
-    unit: gate.unit,
-  }));
+  if (!progress) return progressRows(undefined);
+  return progress.gates
+    .filter((gate) => gate.key !== 'streak')
+    .map((gate) => ({
+      label: gate.label,
+      value: gate.value,
+      target: gate.target,
+      ratio: gate.ratio,
+      reached: gate.reached,
+      cumulative: gate.cumulative,
+      unit: gate.unit,
+    }));
 }
 
-export function progressRows(
-  mastery: MasteryView | undefined,
-  streak: number | null,
-): ProgressRow[] {
+/**
+ * 旧回退路径的门槛实测值（没有票 89 接口数据时用）。票 06 起只有作答 /
+ * 变式两条——连对住进档位卡的 `basis` 句。`mastery` 缺失 → 两条都是 `null`。
+ */
+export function progressRows(mastery: MasteryView | undefined): ProgressRow[] {
   const enough = mastery !== undefined && (mastery.evidenceSufficient || mastery.attemptCount > 0);
   return [
     { label: '作答', value: enough ? mastery.attemptCount : null, target: ATTEMPT_TARGET },
     { label: '变式', value: enough ? mastery.variantCount : null, target: VARIANT_TARGET },
-    { label: '连对', value: enough ? streak : null, target: STREAK_TARGET },
   ];
 }
 
@@ -285,9 +300,9 @@ export function StudySidebar({
   onAsk,
   pending = false,
 }: StudySidebarProps) {
-  const streak = trailingCorrect(gateHistory);
-  // 票 89：有服务端的本关进度就用它（数字/阈值/比例都是接口算的），否则退回旧路径
-  const rows = progress ? progressRowsFromView(progress) : progressRows(mastery, streak);
+  // 票 89：有服务端的本关进度就用它（数字/阈值/比例都是接口算的），否则退回旧路径。
+  // 票 06 起两条路径都不再渲染连对（数字进档位卡 basis 句）。
+  const rows = progress ? progressRowsFromView(progress) : progressRows(mastery);
   const suggestions = buildSuggestions({ mastery, unlock, lastProbe });
   const evidenceEnough = mastery?.evidenceSufficient === true;
 
@@ -321,7 +336,7 @@ export function StudySidebar({
         )}
 
         {/*
-         * 没选知识点时**不摆三条空行**：`null / 8` 会让一栏 300px 的侧栏看起来
+         * 没选知识点时**不摆空行**：`null / 8` 会让一栏 300px 的侧栏看起来
          * 像「你已经 0 分」，而事实是还没有对象可算。只留一句怎么办。
          */}
         {microKpName !== null &&
@@ -336,10 +351,10 @@ export function StudySidebar({
               </div>
               <Caption1 className="sm-study-note">
                 {mastery === undefined
-                  ? '证据不足：这个知识点还没有作答记录，三条门槛都不显示数字。'
+                  ? '证据不足：这个知识点还没有作答记录，两条门槛都不显示数字。'
                   : evidenceEnough
-                    ? '证据够了：这三条已经能支撑判定，再练就是在加固。'
-                    : '证据还不够：三条门槛的结论都只是暂时的，别把它当成绩。'}
+                    ? '证据够了：这两条已经能支撑判定，再练就是在加固。'
+                    : '证据还不够：两条门槛的结论都只是暂时的，别把它当成绩。'}
               </Caption1>
             </>
           ))}
