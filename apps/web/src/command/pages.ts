@@ -18,7 +18,8 @@
  * - 带参数的（`/map/:microKpId`、`/level/:levelId`）：它们需要先选中一个
  *   知识点/关卡，不是「跳转到某个页面」。
  * - `*` 兜底路由：它不是目的地，是「没找到」。
- * - 根路由（`/` 的 element 是 `AppShell`）：它是外壳，不是页面。
+ * - 布局路由（不带 path 的外壳）：`buildPageActions` 沿 children 深入，外壳
+ *   本身不产生动作。
  */
 
 import type { RouteObject } from 'react-router';

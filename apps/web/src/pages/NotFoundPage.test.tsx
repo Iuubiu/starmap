@@ -15,8 +15,8 @@ import { appRoutes } from '../routes';
  */
 function renderAt(path: string) {
   const router = createMemoryRouter(appRoutes, { initialEntries: [path] });
-  // AppShell 顶栏会读健康状态（react-query），不套 QueryClientProvider 会抛错
-  // 并被 errorElement 接住 —— 那样测到的就是「出错页」而不是 404 页。
+  // V2Shell 挂载时会读会话列表（fetch + react-query），不套 QueryClientProvider
+  // 会抛错并被 errorElement 接住 —— 那样测到的就是「出错页」而不是 404 页。
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
     <FluentProvider theme={webLightTheme}>

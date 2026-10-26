@@ -1,28 +1,27 @@
 /*
- * V2Shell —— 四页（/、/learning、/market、/map）共用的 v2 外壳。
+ * V2Shell —— **全应用唯一**的外壳（2026-10-26 起旧 AppShell 已删除）。
  *
  * ## 为什么要有这个文件
  *
  * 票 83 之后，只有 `/` 用了 v2 外壳（左轨 68 / 会话列 200 / 内容列 / 右栏），
- * 其余三页仍由 `components/AppShell.tsx` 渲染：四页里三页是旧壳、一页是新壳，
- * 同一个应用里两套侧栏并存。本节把外壳抽出来，`/` 与三页挂到同一个
- * `<V2Shell/>` 布局路由下。
+ * 其余页面仍由 `components/AppShell.tsx` 渲染：同一个应用里两套侧栏并存，
+ * 从新界面点进关卡页会整块切回旧顶栏——用户报告的「两套前端界面」即此。
+ * 现在所有页面（除无壳的 `/welcome` 首访引导）都住在同一个 `<V2Shell/>`
+ * 布局路由下，左轨 `NAV` 是唯一的导航清单（旧壳九项已并入）。
  *
  * ## 边界
  *
- * - **不替换 AppShell**：`/skills`、`/database`、`/level/:id` 等尚未迁移的路由
- *   继续走 `AppShell`，本文件不 import、不改动它。
  * - 页面只负责自己的**主列**（`<main className="v2-main">`），右侧栏作为
  *   slot 由页面自己渲染（`/` 的「学习档案 / 学习日志」就是这么进来的）。
  *   外壳给 `.v2-panel` 固定三列 `200px minmax(0,1fr) 314px`，主列宽度因此
- *   在四页之间**逐像素一致**；某页没有右栏时，第三列留空而不是被主列吃掉。
+ *   在各页之间**逐像素一致**；某页没有右栏时，第三列留空而不是被主列吃掉。
  * - 窄屏复用 `v2.css` 现有的 `@media (max-width: 1180px)` 单列规则
  *   （票面写的 767px 与代码不符，以代码为准，见 evidence）：会话列/右栏收起，
  *   主列占满，左轨仍在。
  *
  * ## 为什么导航用 window.location.assign 而不是 <Link>
  *
- * 四页之间的切换是「换一个工作台」而不是同一页内的状态变化：会话、滚动位置、
+ * 页面之间的切换是「换一个工作台」而不是同一页内的状态变化：会话、滚动位置、
  * 图谱相机都不该跨页带着走。整页导航顺带把外壳也重新挂载，避免旧页的 effect
  * 在后台继续跑。`/` 的会话切换同理（换会话 id 后必须重新拉对话历史）。
  */
@@ -31,9 +30,11 @@ import { Outlet, useLocation } from 'react-router';
 import { Rail } from './Rail';
 import {
   BookOpen24Regular,
+  BrainCircuit24Regular,
   Clock24Regular,
   Bookmark24Regular,
   DataBarVertical24Regular,
+  Database24Regular,
   Library24Regular,
   Map24Regular,
   Person24Regular,
@@ -46,6 +47,11 @@ type Row = { id?: string; utterance?: string; createdAt?: string };
 
 type NavItem = { key: string; label: string; path: string; icon: typeof BookOpen24Regular };
 
+/*
+ * 左轨导航 = 全应用唯一一套导航（旧 AppShell 的九项并进来了：数据库与技能库
+ * 2026-10-26 补齐——统一外壳时若漏掉这两项，它们会从导航里消失，只剩 URL 直达）。
+ * 「我的」固定在左下角（ME_NAV），不参与上方循环。
+ */
 const NAV: NavItem[] = [
   { key: 'learn', label: '学习', path: '/', icon: BookOpen24Regular },
   { key: 'placement', label: '定级', path: '/placement', icon: Target24Regular },
@@ -53,7 +59,9 @@ const NAV: NavItem[] = [
   { key: 'board', label: '看板', path: '/board', icon: DataBarVertical24Regular },
   { key: 'map', label: '知识地图', path: '/map', icon: Map24Regular },
   { key: 'market', label: '关卡市场', path: '/market', icon: Bookmark24Regular },
+  { key: 'database', label: '数据库', path: '/database', icon: Database24Regular },
   { key: 'library', label: '内容库', path: '/library', icon: Library24Regular },
+  { key: 'skills', label: '技能库', path: '/skills', icon: BrainCircuit24Regular },
   { key: 'me', label: '我的', path: '/me', icon: Person24Regular },
 ];
 

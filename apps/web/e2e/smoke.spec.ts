@@ -204,7 +204,8 @@ test('不存在的关卡返回 404，不是 500', async ({ request }) => {
 
 test('侧栏导航能切换到数据库页', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('tab', { name: '数据库' }).click();
+  // 统一外壳后导航是 V2Shell 左轨按钮（aria-label），不再是旧 AppShell 的 tab
+  await page.getByRole('button', { name: '数据库' }).click();
   await expect(page).toHaveURL(/\/database/);
 });
 
