@@ -4352,12 +4352,22 @@
               "type": "string"
             "name":
               "type": "string"
+            "page":
+              "anyOf":
+                - "exclusiveMinimum": 0
+                  "maximum": 9007199254740991
+                  "type": "integer"
+                - "type": "null"
             "percent":
               "anyOf":
                 - "maximum": 1
                   "minimum": 0
                   "type": "number"
                 - "type": "null"
+            "sourceTitle":
+              "type":
+                - "string"
+                - "null"
             "state":
               "enum":
                 - "mastered"
@@ -4372,6 +4382,8 @@
             - "state"
             - "percent"
             - "depth"
+            - "sourceTitle"
+            - "page"
           "type": "object"
         "reasons":
           "items":
@@ -4420,12 +4432,22 @@
                 "type": "string"
               "name":
                 "type": "string"
+              "page":
+                "anyOf":
+                  - "exclusiveMinimum": 0
+                    "maximum": 9007199254740991
+                    "type": "integer"
+                  - "type": "null"
               "percent":
                 "anyOf":
                   - "maximum": 1
                     "minimum": 0
                     "type": "number"
                   - "type": "null"
+              "sourceTitle":
+                "type":
+                  - "string"
+                  - "null"
               "state":
                 "enum":
                   - "mastered"
@@ -4440,6 +4462,8 @@
               - "state"
               - "percent"
               - "depth"
+              - "sourceTitle"
+              - "page"
             "type": "object"
           "type": "array"
         "nextCursor":

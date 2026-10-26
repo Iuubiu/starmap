@@ -15,6 +15,9 @@ export type NodeListResponseItemsItem = {
   depth: number;
   microKpId: string;
   name: string;
+  page: number | null;
   percent: number | null;
+  /** @nullable */
+  sourceTitle: string | null;
   state: NodeListResponseItemsItemState;
 };

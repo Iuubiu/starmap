@@ -143,14 +143,26 @@ export class NodesController {
     }
     const { limit, cursor } = parsed.data;
 
+    // 书名/页码（票 07）直接 LEFT JOIN `sources`，而不是「先查列表再一次把
+    // sources 读进 Map」：sources 是按 id 上的 PK 小表（全库 27 本书），
+    // 对每行最多一次索引点查，查询数一个不增（下面的查询数守卫测试盯着）；
+    // Map 方案反而多一次往返。LEFT JOIN 保住手工节点（source_id NULL →
+    // 两字段 null），INNER JOIN 会让它们从列表里消失。
     const rows = await this.db.query<{
       id: string;
       name: string;
       depth: number;
       is_leaf: boolean;
+      source_id: string | null;
+      source_title: string | null;
+      source_page: number | null;
     }>(
-      `SELECT n.id, n.name, n.depth, n.is_leaf
+      `SELECT n.id, n.name, n.depth, n.is_leaf,
+              s.id AS source_id,
+              s.title AS source_title,
+              n.source_page
          FROM knowledge_points n
+         LEFT JOIN sources s ON s.id = n.source_id
         WHERE n.is_leaf = true
           AND ($1::text IS NULL OR n.id > $1)
         ORDER BY n.id
@@ -174,12 +186,18 @@ export class NodesController {
       if (!view) {
         throw new Error(`节点 ${row.id} 在取掌握度的间隙消失了`);
       }
+      // 复用 `sourceOf` 的三列同生同死检查：它对「有 source_id 却没书名/页码」
+      // 抛错（数据缺陷要有可见度），对手工节点返回 null。列表不吃它拼的
+      // pageLabel（那是详情的句子），只取 title/page 两个数据字段。
+      const source = sourceOf(row);
       return {
         microKpId: row.id,
         name: row.name,
         state: view.state,
         percent: view.current,
         depth: row.depth,
+        sourceTitle: source?.title ?? null,
+        page: source?.page ?? null,
       };
     });
 
@@ -271,6 +289,8 @@ export class NodesController {
     );
     const ancestors = chain.map((row) => row.name);
 
+    const source = sourceOf(row);
+
     return NodeDetailResponseSchema.parse({
       node: {
         microKpId: row.id,
@@ -278,8 +298,12 @@ export class NodesController {
         state: view.state,
         percent,
         depth: row.depth,
+        // `NodeStateSchema` 与列表共用（票 07 起带书名/页码），这里与 `source`
+        // 同值同源：同一行、同一个 sourceOf，两处不会说两套话。
+        sourceTitle: source?.title ?? null,
+        page: source?.page ?? null,
       },
-      source: sourceOf(row),
+      source,
       ancestors,
       levels: levels.map((l) => ({
         levelId: l.id,

@@ -406,4 +406,75 @@ describe('NodesController（集成）', () => {
     expect(res.body.ancestors).toEqual([]);
     assertMatchesContract('/api/v1/nodes/{microKpId}', 'get', 200, res.body);
   });
+
+  // ---------------------------------------------------------------------------
+  // 票 07：列表项带书名与页码（重名消歧与页码搜的数据源）
+  // ---------------------------------------------------------------------------
+
+  it('列表项带 sourceTitle 与 page：有书的节点两字段有值，手工节点为 null', async () => {
+    const res = await request(app.getHttpServer()).get('/api/v1/nodes?limit=200').expect(200);
+    const byId = Object.fromEntries(
+      res.body.items.map((n: { microKpId: string }) => [n.microKpId, n]),
+    );
+
+    // kp-noise 种子：book-a 第 12 页。page 必须等于库里那一列，不是猜的。
+    expect(byId['kp-noise'].sourceTitle).toBe('测试教材甲');
+    expect(byId['kp-noise'].page).toBe(12);
+    const rows = await app
+      .get(DatabaseService)
+      .query<{ source_page: number }>(
+        `SELECT source_page FROM knowledge_points WHERE id = 'kp-noise'`,
+      );
+    expect(byId['kp-noise'].page).toBe(rows[0].source_page);
+
+    // 手工节点（kp-none 无 source_id）：null 而不是 0 或空串 ——
+    // 「没有教材出处」不是「第 0 页」（percent:null 的「不知道≠零分」同一条纪律）。
+    expect(byId['kp-none'].sourceTitle).toBeNull();
+    expect(byId['kp-none'].page).toBeNull();
+
+    // 反向对照：字段存在且为 null，不是「字段缺失」
+    expect('sourceTitle' in byId['kp-none']).toBe(true);
+    expect('page' in byId['kp-none']).toBe(true);
+  });
+
+  it('同名节点靠 sourceTitle 消歧：两本书各有一个「吸收律」', async () => {
+    const db = app.get(DatabaseService);
+    await db.query(
+      `INSERT INTO ${schema.name}.knowledge_points
+         (id, module_id, name, is_leaf, depth, ordinal, source_id, source_page)
+       VALUES ('kp-same-a', 'm-a', '吸收律', true, 1, 30, 'book-a', 3),
+              ('kp-same-b', 'm-a', '吸收律', true, 1, 31, 'book-b', 4)`,
+    );
+
+    const res = await request(app.getHttpServer()).get('/api/v1/nodes?limit=200').expect(200);
+    const hits = res.body.items.filter(
+      (n: { name: string }) => n.name === '吸收律',
+    );
+    // 同名两条、书名不同：缺了 sourceTitle，「找到的是哪本书的吸收律」就说不清
+    expect(hits).toHaveLength(2);
+    expect(new Set(hits.map((n: { sourceTitle: string | null }) => n.sourceTitle))).toEqual(
+      new Set(['测试教材甲', '测试教材乙']),
+    );
+    expect(new Set(hits.map((n: { page: number | null }) => n.page))).toEqual(new Set([3, 4]));
+
+    assertMatchesContract('/api/v1/nodes', 'get', 200, res.body);
+  });
+
+  it('有书没页的数据缺陷让列表 500，不拼「第 null 页」也不静默吞掉', async () => {
+    const db = app.get(DatabaseService);
+    await db.query(
+      `INSERT INTO ${schema.name}.knowledge_points
+         (id, module_id, name, is_leaf, depth, ordinal, source_id, source_page)
+       VALUES ('kp-broken-list', 'm-a', '列表里的坏来源点', true, 1, 40, 'book-a', NULL)`,
+    );
+
+    // 与详情接口同一条纪律：source_id 有、source_page 没有是入库缺陷，
+    // 宁可 500 也不降级成 null —— 悄悄降级会把「某本书的 source_page 丢了」
+    // 变成列表里一行没有页码的节点，而没人会发现。
+    const res = await request(app.getHttpServer()).get('/api/v1/nodes').expect(500);
+    expect(res.body.code).toBe('INTERNAL');
+
+    // 清场：坏行会让后续遍历列表的用例跟着 500
+    await db.query(`DELETE FROM ${schema.name}.knowledge_points WHERE id = 'kp-broken-list'`);
+  });
 });

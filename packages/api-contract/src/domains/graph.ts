@@ -26,6 +26,21 @@ export const NodeStateSchema = z.object({
   /** 证据不足时为 null，不是 0——「不知道」和「零分」是两件事 */
   percent: z.number().min(0).max(1).nullable(),
   depth: z.number().int().min(0),
+  /**
+   * 书名（`app.sources.title`），票 07：列表搜索的重名消歧靠它。库里
+   * 3000+ 节点大量重名（「信号」「小结」），不带书名，「找到的是哪本书的
+   * 那一个」就说不清，mockup 承诺的消歧做不出来。
+   *
+   * **必填但可为 null**：null = 手工知识点（`source_id` 为 NULL 的 3 个
+   * 示例节点），不是「字段没实现」——与本文件 `source` 的必填可为 null
+   * 同一条理由。null 与空串是两件事：「没有教材出处」不拼「」占位。
+   *
+   * 不带 `pageLabel` 句子：列表是给本地索引（票 07 的搜索）吃的**数据**，
+   * 给人看的句子只在详情接口拼一次（`pageLabel` 先例）。
+   */
+  sourceTitle: z.string().nullable(),
+  /** 印刷页码（`knowledge_points.source_page`）：纯数字输入按页码搜靠它。null 语义同 `sourceTitle`。 */
+  page: z.number().int().positive().nullable(),
 });
 
 /** GET /api/v1/nodes */
