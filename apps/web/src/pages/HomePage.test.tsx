@@ -548,6 +548,24 @@ describe('初始焦点来自地址栏', () => {
     expect(seen[1]!.microKpId).toBe('kp-bool');
   });
 
+  it('票 03：/?kp= 带进来的点在右栏「正在学」卡里有名字与关卡入口', async () => {
+    // 默认桩：/nodes 列表含 kp-bool，/nodes/:id 带 source.pageLabel 与一个关卡。
+    renderHome('/?kp=kp-bool');
+
+    expect(await screen.findByRole('heading', { name: '正在学' })).toBeInTheDocument();
+    // 名字走 HomePage 现有解析链（nodeItems 命中 kp-bool；列表回来前是裸 id，
+    // 所以这里等它解析成名字，不与首帧赛跑）。恢复出来的关卡卡也会提到这个
+    // 名字，所以把查询收在卡内（selector），不跟工作区比谁的匹配多。
+    expect(
+      await screen.findByText('布尔代数基本运算', { selector: '[data-study-now] .sm-study-kp' }),
+    ).toBeInTheDocument();
+    // 来源行与关卡入口由卡内 useNodeDetail 自取。
+    expect(await screen.findByRole('button', { name: '打开关卡' })).toBeInTheDocument();
+    expect(
+      screen.getByText('「辐射探测与测量（Knoll 第4版 2010）」第 12 页'),
+    ).toBeInTheDocument();
+  });
+
   it('焦点点不在节点列表那一页里时，仍按 id 单独取名字（展示位由 03 接回）', async () => {
     // 节点列表接口只回两条（`kp-bool` / `kp-kmap`），`kp-far` 不在其中 ——
     // 这正是真实库的情形：`?kp=` 带进来的点可能落在列表前 N 条之外。

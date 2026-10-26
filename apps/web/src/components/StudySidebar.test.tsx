@@ -10,10 +10,13 @@
  * 4. 建议最多 3 条，点一下只把话交给输入框（`onAsk`），不发送。
  * 5. 票 02 起：右栏档位卡的两态文案——fallback 不许说「你的水平是 P1」，
  *    卡里不许出现任何切换档位的控件。
+ * 6. 票 03 起：右栏「正在学」卡——名字回到侧栏（细条时代的「名字不在这里
+ *    出现」口径随之作废），pageLabel 整句透传，关卡入口两态。
  */
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MemoryRouter, Route, Routes } from 'react-router';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 import { server } from '../test/msw';
@@ -97,6 +100,10 @@ function unlock(overrides: Partial<UnlockState> = {}): UnlockState {
  * 票 02 起右栏卡自己在组件里调 hook 取数（useTierOverview / useTierSessionPlan），
  * 所以组件测试也要像页面测试一样给一个 QueryClient。
  *
+ * 票 03 起「正在学」卡里有导航（打开关卡 → /level/:id、去地图选 → /map），
+ * 所以再套一层 MemoryRouter，并给两个目标路由一个占位页 —— 断言「点按钮后
+ * 占位页出现」就是在测真的路由跳转，而不是 mock navigate 数调用次数。
+ *
  * `retry: false` 是刻意的：msw 里用 server.use 打的错桩如果触发 react-query
  * 默认的三次退避重试，单测会多等几秒才见到错误分支。
  */
@@ -114,7 +121,13 @@ function renderSidebar(overrides: Partial<Parameters<typeof StudySidebar>[0]> = 
   render(
     <FluentProvider theme={webLightTheme}>
       <QueryClientProvider client={client}>
-        <StudySidebar {...props} />
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<StudySidebar {...props} />} />
+            <Route path="/level/:levelId" element={<div>关卡页占位</div>} />
+            <Route path="/map" element={<div>地图占位</div>} />
+          </Routes>
+        </MemoryRouter>
       </QueryClientProvider>
     </FluentProvider>,
   );
@@ -492,5 +505,87 @@ describe('票 02：右栏档位卡——档位是测量结果，不是设置项'
 
     await screen.findByText('档位暂时读不到，先按默认档。');
     expect(screen.queryByText('档位是测量结果，不能自选。')).not.toBeInTheDocument();
+  });
+});
+
+/** 局部覆盖 `GET /api/v1/nodes/:id`（默认桩在 test/msw.ts，带 source 与一个关卡）。 */
+const stubNodeDetail = (body: Record<string, unknown>) => {
+  server.use(http.get('*/api/v1/nodes/:id', () => HttpResponse.json(body)));
+};
+
+/** 一份完整的 NodeDetailResponse 形状（抄漏字段会让「透传」断言失焦）。 */
+const nodeDetail = (overrides: Record<string, unknown> = {}) => ({
+  node: { microKpId: 'kp-bool', name: '布尔代数基本运算', state: 'familiar', percent: 0.66, depth: 1 },
+  levels: [
+    {
+      levelId: 'lv-bool-laws',
+      microKpId: 'kp-bool',
+      title: '布尔代数的三条基本律',
+      itemCount: 8,
+      kind: 'teach',
+    },
+  ],
+  reasons: [],
+  source: {
+    sourceId: 'knoll-4e-2010',
+    title: '辐射探测与测量（Knoll 第4版 2010）',
+    page: 12,
+    pageLabel: '「辐射探测与测量（Knoll 第4版 2010）」第 12 页',
+  },
+  ...overrides,
+});
+
+describe('票 03：右栏「正在学」卡——名字回到侧栏，细条时代的口径作废', () => {
+  it('未选知识点：整张卡不渲染，引导句仍在进度卡里（不出现两次）', () => {
+    renderSidebar({ microKpId: null, microKpName: null, mastery: undefined });
+
+    expect(screen.queryByRole('heading', { name: '正在学' })).not.toBeInTheDocument();
+    // 判据 1：引导句沿用，且全文只出现一次（getByText 多匹配会直接抛错）。
+    expect(screen.getByText('还没选知识点：先在下面说一句你想学什么')).toBeInTheDocument();
+  });
+
+  it('选定后：名 / pageLabel / 打开关卡三者都在，pageLabel 是服务端整句透传', async () => {
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    // 名字来自调用方的解析链（microKpName），卡里不再自己解析一遍。
+    expect(screen.getByText('布尔代数基本运算')).toBeInTheDocument();
+    // 来源行是服务端拼好的 pageLabel，前端不拼「书名 · 页码」。
+    expect(
+      await screen.findByText('「辐射探测与测量（Knoll 第4版 2010）」第 12 页'),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '打开关卡' })).toBeInTheDocument();
+  });
+
+  it('「打开关卡」跳关卡页路由，「去地图选」跳地图（票 07 前唯一切换方式）', async () => {
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    fireEvent.click(await screen.findByRole('button', { name: '打开关卡' }));
+    expect(await screen.findByText('关卡页占位')).toBeInTheDocument();
+  });
+
+  it('「去地图选」入口保留在卡里', async () => {
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    fireEvent.click(await screen.findByRole('button', { name: '去地图选' }));
+    expect(await screen.findByText('地图占位')).toBeInTheDocument();
+  });
+
+  it('levels 为空：提示「还没有关卡，说一句让我生成」，不给按钮不自动生成', async () => {
+    stubNodeDetail(nodeDetail({ levels: [] }));
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    expect(await screen.findByText('还没有关卡，说一句让我生成')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '打开关卡' })).not.toBeInTheDocument();
+  });
+
+  it('无 source 的手工知识点：pageLabel 位降级为空，名字与关卡入口照常，不报错', async () => {
+    stubNodeDetail(nodeDetail({ source: null }));
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    expect(await screen.findByRole('button', { name: '打开关卡' })).toBeInTheDocument();
+    expect(screen.getByText('布尔代数基本运算')).toBeInTheDocument();
+    // 降级 = 什么都不渲染，而不是渲染「来源：—」这种占位句子。
+    expect(screen.queryByText(/第 12 页/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/来源/)).not.toBeInTheDocument();
   });
 });

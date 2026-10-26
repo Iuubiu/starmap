@@ -587,6 +587,9 @@ export function HomePage() {
 
       <div className={styles.side}>
         <StudySidebar
+          /* 票 03：右栏「正在学」卡要靠 id 自取 pageLabel 与 levels；
+             与下面 focusedNode 的详情请求同 key，react-query 会去重。 */
+          microKpId={focusedKpId}
           microKpName={
             focusedKpId
               ? (nodeItems.find((n) => n.microKpId === focusedKpId)?.name ??

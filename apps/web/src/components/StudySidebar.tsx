@@ -43,6 +43,7 @@ import { Button, Caption1, Card, Text } from '@fluentui/react-components';
 import type { ReactNode } from 'react';
 import type { GateHistoryResponse, MasteryView, UnlockState } from '../api/queries';
 import type { KpProgressView } from '@starmap/api-contract';
+import { NowLearningCard } from './NowLearningCard';
 import { TierCard } from './TierCard';
 import { SessionLimitCard } from './SessionLimitCard';
 
@@ -64,6 +65,11 @@ export interface Suggestion {
 }
 
 export interface StudySidebarProps {
+  /**
+   * 当前知识点 id；有值时顶部渲染「正在学」卡（票 03），卡内自调
+   * `useNodeDetail` 取 pageLabel 与 levels，页面不必再传详情。
+   */
+  microKpId?: string | null;
   /** 当前知识点名字；null = 还没选知识点 */
   microKpName: string | null;
   mastery?: MasteryView | undefined;
@@ -269,6 +275,7 @@ function Row({ row, gatePassed = false }: { row: ProgressRow; gatePassed?: boole
 }
 
 export function StudySidebar({
+  microKpId,
   microKpName,
   mastery,
   unlock,
@@ -287,8 +294,16 @@ export function StudySidebar({
   return (
     <div className="sm-study-sidebar" data-study-sidebar>
       {/*
-       * 票 02：档位卡自取数（useTierOverview），页面不用传参。放在进度卡之前，
-       * 与 mockup（composer-b4.html 右栏）的「当前档位 → 门槛进度」顺序一致。
+       * 票 03：「正在学」卡放在最顶上（mockup B5 的右栏顺序：正在学 → 档位 →
+       * 门槛进度 → 本档上限）。名字的解析链归调用方，详情（pageLabel/levels）
+       * 卡内自取。没选知识点时整张卡不渲染 —— 空着的「正在学：」比没有这张卡
+       * 更像出了什么问题。
+       */}
+      {microKpId ? (
+        <NowLearningCard microKpId={microKpId} microKpName={microKpName ?? microKpId} />
+      ) : null}
+      {/*
+       * 票 02：档位卡自取数（useTierOverview），页面不用传参。
        */}
       <TierCard />
       <Card className="sm-glass sm-study-card" data-study-progress>
@@ -296,9 +311,10 @@ export function StudySidebar({
           本知识点进度
         </Text>
         {/*
-         * 知识点名字**不在这里再写一遍**：输入框上方那行上下文徽标已经写着它，
-         * 同一句话在 300px 宽的栏里出现两次既挤又吵（也让「按文字查唯一元素」
-         * 的既有测试变成多匹配）。这里只在没选知识点时给一句怎么办。
+         * 票 03 起，知识点名字的唯一居所是上方「正在学」卡（细条时代的
+         * 「侧栏不出现名字」口径已作废）。这张进度卡**仍然不重复**写名字：
+         * 同一个名字在 300px 宽的栏里出现两次既挤又吵（也让「按文字查唯一
+         * 元素」的测试变成多匹配）。没选知识点时那句怎么办保留在这里。
          */}
         {microKpName === null && (
           <Caption1 className="sm-study-kp">还没选知识点：先在下面说一句你想学什么</Caption1>
