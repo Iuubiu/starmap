@@ -6,7 +6,7 @@ import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { http, HttpResponse } from 'msw';
 import { HomePage } from './HomePage';
-import { server } from '../test/msw';
+import { server, sseTurn } from '../test/msw';
 
 /**
  * 票 08 在前端这一侧的验收。
@@ -23,7 +23,7 @@ import { server } from '../test/msw';
  *
  * ## 打桩约定（写断言前必须读）
  *
- * `test/msw.ts` 的**默认** `POST /agent/turns` 桩返回的是**关卡卡**
+ * `test/msw.ts` 的**默认** `POST /agent/turns/stream` 桩返回的是**关卡卡**
  * （`makeTurn()`），因为默认行为应该是「最常见的那条路」。本文件多数用例
  * 关心追问卡或降级卡，所以每条都显式 `stubTurn(...)` 覆盖。
  *
@@ -89,14 +89,13 @@ const probeTurn = (extra: Record<string, unknown> = {}) => ({
 });
 
 /**
- * 把 POST /agent/turns 换成固定的响应体。
+ * 把 POST /agent/turns/stream 换成固定的响应体。
  *
- * 参数类型是 `Record<string, unknown>` 而不是 `unknown`：`HttpResponse.json`
- * 收的是 `JsonBodyType`，`unknown` 过不去。写成 `object` 也一样不行 ——
- * 用宽索引签名，调用处的字面量才能带上 `...spread`。
+ * 参数类型是 `Record<string, unknown>` 而不是 `unknown`：响应体要过
+ * `sseTurn` 包成 SSE 帧，宽索引签名让调用处的字面量能带上 `...spread`。
  */
 const stubTurn = (body: Record<string, unknown>) =>
-  server.use(http.post('*/api/v1/agent/turns', () => HttpResponse.json(body)));
+  server.use(http.post('*/api/v1/agent/turns/stream', () => sseTurn(body)));
 
 /** 输入一句话并点底部那颗提交按钮（等它变成 enabled 再点）。 */
 const submitTurn = async (user: ReturnType<typeof userEvent.setup>, text: string) => {
@@ -152,10 +151,10 @@ describe('首页不是聊天界面', () => {
   it('换一轮时旧卡被替换，不是堆叠', async () => {
     const user = userEvent.setup();
     server.use(
-      http.post('*/api/v1/agent/turns', async ({ request }) => {
+      http.post('*/api/v1/agent/turns/stream', async ({ request }) => {
         const body = (await request.json()) as { utterance: string };
         const second = body.utterance.includes('第二句');
-        return HttpResponse.json(
+        return sseTurn(
           probeTurn({
             turnId: second ? 'turn-2' : 'turn-1',
             artifact: {
@@ -261,10 +260,10 @@ describe('降级不白屏：错误卡要说人话', () => {
     const user = userEvent.setup();
     const seen: string[] = [];
     server.use(
-      http.post('*/api/v1/agent/turns', async ({ request }) => {
+      http.post('*/api/v1/agent/turns/stream', async ({ request }) => {
         const body = (await request.json()) as { utterance: string };
         seen.push(body.utterance);
-        return HttpResponse.json(seen.length === 1 ? degradedTurn() : probeTurn({ turnId: 'turn-2' }));
+        return sseTurn(seen.length === 1 ? degradedTurn() : probeTurn({ turnId: 'turn-2' }));
       }),
     );
 
@@ -284,7 +283,8 @@ describe('降级不白屏：错误卡要说人话', () => {
   it('提交本身失败（500）时不白屏，输入内容也不丢', async () => {
     const user = userEvent.setup();
     server.use(
-      http.post('*/api/v1/agent/turns', () =>
+      // 500 的错误体走 JSON 没关系：流式客户端对 !res.ok 先短路再读类型
+      http.post('*/api/v1/agent/turns/stream', () =>
         HttpResponse.json({ code: 'INTERNAL', message: '服务器内部错误' }, { status: 500 }),
       ),
     );
@@ -404,9 +404,9 @@ describe('提交回合时带的是当前档位，不是写死的 P1（票 12）'
   const captureTier = () => {
     const seen: Array<{ tier?: string; utterance?: string }> = [];
     server.use(
-      http.post('*/api/v1/agent/turns', async ({ request }) => {
+      http.post('*/api/v1/agent/turns/stream', async ({ request }) => {
         seen.push((await request.json()) as { tier?: string; utterance?: string });
-        return HttpResponse.json(probeTurn());
+        return sseTurn(probeTurn());
       }),
     );
     return seen;
@@ -476,9 +476,9 @@ describe('初始焦点来自地址栏', () => {
   const captureFocus = () => {
     const seen: Array<{ microKpId?: string | null; utterance?: string }> = [];
     server.use(
-      http.post('*/api/v1/agent/turns', async ({ request }) => {
+      http.post('*/api/v1/agent/turns/stream', async ({ request }) => {
         seen.push((await request.json()) as { microKpId?: string | null; utterance?: string });
-        return HttpResponse.json(probeTurn());
+        return sseTurn(probeTurn());
       }),
     );
     return seen;
@@ -514,11 +514,11 @@ describe('初始焦点来自地址栏', () => {
     const user = userEvent.setup();
     const seen: Array<{ microKpId?: string | null; utterance?: string }> = [];
     server.use(
-      http.post('*/api/v1/agent/turns', async ({ request }) => {
+      http.post('*/api/v1/agent/turns/stream', async ({ request }) => {
         const body = (await request.json()) as { microKpId?: string | null; utterance?: string };
         seen.push(body);
         // 第二轮起，服务端按学生说的话改给了另一个点
-        return HttpResponse.json(probeTurn({ turnId: `turn-${seen.length}` }));
+        return sseTurn(probeTurn({ turnId: `turn-${seen.length}` }));
       }),
     );
 
