@@ -257,7 +257,6 @@ export function Rail({ showKpProgress = true }: { showKpProgress?: boolean }): R
   const [params] = useSearchParams();
   const kpFromUrl = params.get('kp');
   const { dash, failed } = useDashboard();
-  const hideKp = !showKpProgress;
 
   /* 用户要求「精确展示单个知识点的进度」：URL 上带了 ?kp= 就以它为准
      （从知识地图/详情页点进来时会带），否则退回到「掌握度最高的在学节点」。
@@ -306,7 +305,9 @@ export function Rail({ showKpProgress = true }: { showKpProgress?: boolean }): R
        * 本块的选点是「按掌握度最高挑出」，两个「正在学」同栏必然打架。
        * 其他页面（非聊天页）仍默认显示——那里它是唯一的知识点进度。
        */}
-      {!hideKp && focus ? <KpProgress kpId={focus.microKpId} name={focus.name} source={focusSource} /> : null}
+      {showKpProgress && focus ? (
+        <KpProgress kpId={focus.microKpId} name={focus.name} source={focusSource} />
+      ) : null}
 
       <h3>已掌握的知识点</h3>
       {dash === null ? (

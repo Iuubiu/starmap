@@ -87,6 +87,11 @@ describe('createKpIndex：纯数字按页码精确命中', () => {
     expect(hits.map((hit) => hit.microKpId)).toEqual(['kp-bool']);
   });
 
+  it('全角数字「１２」也命中第 12 页（中文输入法的默认数字形态）', () => {
+    const hits = createKpIndex(NODES).query('１２');
+    expect(hits.map((hit) => hit.microKpId)).toEqual(['kp-bool']);
+  });
+
   it('带空格的数字先 trim 再判（「 210 」也命中第 210 页）', () => {
     const hits = createKpIndex(NODES).query(' 210 ');
     expect(hits.map((hit) => hit.microKpId)).toEqual(['kp-absorb-knoll']);

@@ -702,10 +702,10 @@
  * 票 83 起：Composer（唯一输入条）；票 01 按 B5 定版成一整块。
  *
  * 结构由里到外：`.sm-composer-box`（大圆角玻璃框）→ 里面 `.sm-composer-row`
- * （＋ / 模型 / 麦克风 / 圆形发送）。曾经的另外两层已按 B5 移除：框下
- * `.sm-composer-toolbar`（连 `:focus-within` 显隐一起删）与框内档位
- * `.sm-composer-chip`（档位是测量结果，展示归右栏档位卡）。
- * `.sm-composer-context` 暂为 v2 首页的知识点条保留。
+ * （＋ / 模型 / 麦克风 / 圆形发送）。曾经的另外三层已按 B5 移除：框下
+ * `.sm-composer-toolbar`（连 `:focus-within` 显隐一起删）、框内档位
+ * `.sm-composer-chip`（档位是测量结果，展示归右栏档位卡）、框顶上下文
+ * `.sm-composer-context`（知识点身份归右栏「正在学」卡）。
  */
 .sm-composer {
   display: flex;
@@ -713,13 +713,6 @@
   gap: 6px;
   width: 100%;
   min-width: 0;
-}
-
-.sm-composer-context {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
 }
 
 .sm-composer-box {

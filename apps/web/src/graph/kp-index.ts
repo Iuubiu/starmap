@@ -83,8 +83,15 @@ export function createKpIndex(nodes: readonly KpIndexNode[]): KpIndex {
     query(text: string): readonly KpIndexHit[] {
       const q = text.trim();
       if (q === '') return [];
-      const byPage = DIGITS_ONLY.test(q);
-      const page = byPage ? Number(q) : null;
+      /*
+       * 全角数字（中文输入法在中文态直接敲数字键的默认产物）先归一成半角再判，
+       * 否则「１２」过不了 DIGITS_ONLY，会掉进名字子串路径显示「没找到」。
+       * 只归一判型与页码数值；名字子串仍用原串（节点名里若真有全角数字，
+       * 按用户输入的原样匹配才对）。
+       */
+      const digits = q.replace(/[０-９]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0));
+      const byPage = DIGITS_ONLY.test(digits);
+      const page = byPage ? Number(digits) : null;
       const hits: KpIndexHit[] = [];
       for (const node of entries) {
         const matched = byPage ? node.page !== null && node.page === page : node.name.includes(q);

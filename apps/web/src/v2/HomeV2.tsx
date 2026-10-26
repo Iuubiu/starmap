@@ -11,6 +11,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useAgentTurns, useSubmitTurn } from '../api/queries/agent';
+import { useNodeDetail } from '../api/queries';
 import { useTierOverview } from '../api/queries/tier';
 import { ArtifactCard } from '../agent/ArtifactCard';
 import { Composer } from '../components/Composer';
@@ -36,23 +37,13 @@ export function HomeV2() {
    */
   const [searchParams] = useSearchParams();
   const kpId = searchParams.get('kp');
-  const [kpName, setKpName] = useState<string | null>(null);
-  useEffect(() => {
-    if (!kpId) {
-      setKpName(null);
-      return;
-    }
-    let alive = true;
-    fetch(`/api/v1/nodes/${encodeURIComponent(kpId)}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((json: { node?: { name?: string } } | null) => {
-        if (alive && json?.node?.name) setKpName(json.node.name);
-      })
-      .catch(() => undefined);
-    return () => {
-      alive = false;
-    };
-  }, [kpId]);
+  /*
+   * 名字走 useNodeDetail：与右栏「正在学」卡共享 react-query 缓存（一个请求
+   * 两处用），类型来自契约生成的客户端。此前的裸 fetch + 手写
+   * `{ node?: { name?: string } }` 绕过了「前端类型一律契约生成」的边界。
+   */
+  const { payload: focusedNode } = useNodeDetail(kpId ?? undefined);
+  const kpName = focusedNode?.node.name ?? null;
 
   /*
    * 本知识点进度（票 89）。三个数字全部来自 `GET /api/v1/mastery/kp/:id`：

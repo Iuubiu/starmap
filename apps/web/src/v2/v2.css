@@ -413,38 +413,6 @@
 .v2-archive .bar { height: 6px; border-radius: 99px; background: rgba(16, 18, 24, 0.08); overflow: hidden; margin-top: 8px; }
 .v2-archive .bar i { display: block; height: 100%; border-radius: 99px; background: #3f7d4f; }
 
-/* 输入框上方的知识点横条（用户 m38454：对话框上边的知识点横条） */
-.v2-composer .kpbar,
-.v2-composer-wrap .kpbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 4px 10px;
-  border-bottom: 1px solid rgba(16, 18, 24, 0.08);
-  font-size: 11.5px;
-  color: var(--sm-text-secondary, #4b5160);
-}
-.v2-composer .kpbar .dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--sm-accent, #c42b31);
-}
-.v2-composer .kpbar .kpname {
-  font-weight: 600;
-  color: var(--sm-text-primary, #14161c);
-}
-.v2-composer .kpbar .kphint {
-  color: var(--sm-text-tertiary, #6b7280);
-}
-
-/* 知识点横条下方一条细线（用户 m38478：更美观）。放最后，避免被上面的同名规则盖掉。 */
-.v2-composer .kpbar,
-.v2-composer .kpbar,
-.v2-composer-wrap .kpbar {
-  border-bottom: 1px solid rgba(16, 18, 24, 0.08);
-}
-
 /* ── 冲突裁决（用户指令优先于样例反推）─────────────────────────────
    t87 用 `.scratch/design/light-v1.html` 反推出一套字号（正文 14 / 标题 22 /
    会话行 12.5）与左轨 48。但那套值来自我早期画的样例，用户当时的原话是
@@ -543,44 +511,23 @@
 }
 
 /* ── 输入框收口（captain，按用户三点反馈）────────────────────────────
-   ① 知识点横条属于输入框内部的一行（下方一条横线与输入区隔开），不是独立一栏；
+   ① 知识点横条曾收进输入框内部一行（B5 定版后整条随 .kpbar/.sm-composer-context
+      一起移除——知识点身份归右栏「正在学」卡，规则随之清理）；
    ② 档位不再在输入行里显示（用户裁定：档位是测量结果，不该出现在输入条上）；
    ③ 去掉框内的高光/内阴影：`--sm-liquid-hi` 那层 inset 高光在浅底上会
       读成「框里有一层灰」，看起来脏；只留一层极轻的外投影。 */
-.v2-composer .kpbar {
-  padding: 0 2px 8px;
-  margin: 0 0 8px;
-  border-bottom: 1px solid rgba(16, 18, 24, 0.08);
-}
-.v2-composer .sm-composer-chip {
-  display: none;
-}
 .v2-composer .sm-composer-box {
   box-shadow: 0 1px 2px rgba(16, 18, 24, 0.04), 0 8px 20px rgba(16, 18, 24, 0.05);
 }
 
 /* ── 输入框与标题收口（captain，按用户四点反馈）──────────────────────
-   ① 横线要贯穿整个对话框：context 原来是框内左右各退 16px 的一行，
-      横线只有中间一截；改成负边距撑满到框边，横线自然贯通。
+   ① 横线贯通整框那条随 .sm-composer-context 一起移除（B5 定版，票 01）；
    ② 对话框太高：textarea 最小高 52 → 26，整体高度压掉约 30px。
    ③ 标题「学习」太大且居中感：改 22px、左对齐、上边距压到 8px。
-   ④ 框下工具条（期刊下载器/文件/插件/视图切换）先不展示。 */
-.v2-composer .sm-composer-context {
-  margin: 0 -16px;
-  padding: 0 16px 8px;
-  border-bottom: 1px solid rgba(16, 18, 24, 0.09);
-}
-.v2-composer .kpbar {
-  border-bottom: 0;          /* 横线交给上面那层贯通到底 */
-  padding: 0;
-  margin: 0;
-}
+   ④ 框下工具条（期刊下载器/文件/插件/视图切换）先不展示——B5 后彻底移除。 */
 .v2-composer .sm-composer-input {
   min-height: 26px;
   height: 26px;
-}
-.v2-composer .sm-composer-tools {
-  display: none;
 }
 .v2-title {
   margin: 8px 0 4px;
