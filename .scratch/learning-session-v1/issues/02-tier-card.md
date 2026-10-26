@@ -1,6 +1,6 @@
 # 02 · 右栏档位卡
 
-Status: ready-for-agent
+Status: resolved
 Spec: `../spec.md` §2 T2
 
 ## 输入
@@ -24,3 +24,9 @@ Spec: `../spec.md` §2 T2
 3. 固定句「档位是测量结果，不能自选。」两态都在。
 4. 不出现任何「切换档位」控件（契约无写接口，见 tier.ts 头注释）。
 5. `pnpm --filter @starmap/web test` 相关文件全绿。
+
+## Comments
+
+- 做了什么：新建 `apps/web/src/components/TierCard.tsx`（pill + label + source 两态文案 + 固定句），挂进 StudySidebar 顶部，自调 `useTierOverview`；commit 0f00802。
+- 数字：StudySidebar.test.tsx 26/26 绿（新增 fallback / placement / 无切换控件 / 接口失败占位 4 例），HomePage.test.tsx 20/20 绿。
+- 卡点：无。判定依据句（「由 N 次作答判定」）按票面留给 06。
