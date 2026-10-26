@@ -44,6 +44,7 @@ import type { ReactNode } from 'react';
 import type { GateHistoryResponse, MasteryView, UnlockState } from '../api/queries';
 import type { KpProgressView } from '@starmap/api-contract';
 import { TierCard } from './TierCard';
+import { SessionLimitCard } from './SessionLimitCard';
 
 /** `packages/engine/src/mastery.ts` 的 `MASTERY_MIN_ATTEMPTS`。 */
 export const ATTEMPT_TARGET = 8;
@@ -320,6 +321,12 @@ export function StudySidebar({
             </>
           ))}
       </Card>
+
+      {/*
+       * 票 04：本档上限卡（mockup 的第三张：档位 → 门槛进度 → 本档上限）。
+       * 同样自取数（useTierSessionPlan），页面不加传参。
+       */}
+      <SessionLimitCard />
 
       <Card className="sm-glass sm-study-card" data-study-suggestions>
         <Text weight="semibold" as="h3">

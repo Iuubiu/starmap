@@ -351,6 +351,60 @@ describe('票 89：进度读接口（前端不硬编码阈值、不做除法）'
   });
 });
 
+/** 局部覆盖 `GET /api/v1/tier/session-plan`（默认桩在 test/msw.ts，是 P1/limit2/deferred0）。 */
+const stubSessionPlan = (body: Record<string, unknown>) => {
+  server.use(http.get('*/api/v1/tier/session-plan', () => HttpResponse.json(body)));
+};
+
+/** 一份完整的 TierSessionPlanResponse 形状。 */
+const sessionPlan = (overrides: Record<string, unknown> = {}) => ({
+  tier: 'P1',
+  source: 'placement',
+  limit: 2,
+  items: [
+    { microKpId: 'kp-bool', name: '布尔代数基本运算', hasLevel: true },
+    { microKpId: 'kp-kmap', name: '卡诺图化简', hasLevel: false },
+  ],
+  deferred: 0,
+  ...overrides,
+});
+
+describe('票 04：本档上限卡——上限来自接口，前端不写死 2/3/4', () => {
+  it('deferred=0：一行「一次最多推进 N 个新知识点」，没有「下次会话再开」', async () => {
+    // 5 不是任何档位的真值：如果前端写死了 2/3/4，这条断言必红。
+    stubSessionPlan(sessionPlan({ tier: 'P3', limit: 5 }));
+    renderSidebar();
+
+    expect(await screen.findByText('一次最多推进 5 个新知识点')).toBeInTheDocument();
+    expect(screen.queryByText(/下次会话再开/)).not.toBeInTheDocument();
+  });
+
+  it('deferred>0：追加「还有 N 个，下次会话再开」', async () => {
+    stubSessionPlan(sessionPlan({ tier: 'P3', limit: 5, deferred: 3 }));
+    renderSidebar();
+
+    expect(await screen.findByText('一次最多推进 5 个新知识点')).toBeInTheDocument();
+    expect(screen.getByText('还有 3 个，下次会话再开')).toBeInTheDocument();
+  });
+
+  it('接口失败：降级为「—」占位，不红错', async () => {
+    server.use(
+      http.get(
+        '*/api/v1/tier/session-plan',
+        () => HttpResponse.json({ code: 'INTERNAL', message: '读不到' }, { status: 500 }),
+      ),
+    );
+    renderSidebar();
+
+    // 等一次微任务让 query 真的失败，否则「没有句子」可能是请求还没回来（恒真）。
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    const card = document.querySelector('[data-study-session-limit]') as HTMLElement;
+    expect(card).not.toBeNull();
+    expect(card.textContent).toContain('—');
+    expect(screen.queryByText(/一次最多推进/)).not.toBeInTheDocument();
+  });
+});
+
 describe('票 02：右栏档位卡——档位是测量结果，不是设置项', () => {
   it("source='fallback'：说「还没定级，先按完整样例档教」，不说「你的水平是 P1」", async () => {
     stubTier(tierOverview({ tier: 'P1', source: 'fallback', label: '完整样例' }));
