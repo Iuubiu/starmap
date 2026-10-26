@@ -373,15 +373,21 @@ export const handlers = [
   // -------------------------------------------------------------------------
 
   /**
-   * 提交一轮。
+   * 提交一轮（流式）。
+   *
+   * 前端提交走的是 `POST /agent/turns/stream`（见 `api/queries/agent.ts`），
+   * 响应是 `text/event-stream`。**桩必须真的发事件流**：用
+   * `HttpResponse.json` 打桩时前端在 `content-type` 那道判断上就把它当错误体，
+   * 于是 mutation 永远失败、卡片永远不出现，而报错却是「找不到某段文案」——
+   * 查起来像实现缺东西，实际是桩的媒体类型不对。
    *
    * 默认给一张**关卡卡**（最普通的一种）。要测降级、追问等分支时，用
    * `server.use(...)` 在单个测试里覆盖这条 —— 不要在这里堆一堆按输入分叉
    * 的 if：那会让「默认行为」本身变成需要读代码才知道的东西。
    */
-  http.post('*/api/v1/agent/turns', async ({ request }) => {
+  http.post('*/api/v1/agent/turns/stream', async ({ request }) => {
     const body = (await request.json()) as { utterance?: string };
-    return HttpResponse.json(makeTurn({ utterance: body.utterance ?? '' }));
+    return sseTurn(makeTurn({ utterance: body.utterance ?? '' }));
   }),
 
   http.get('*/api/v1/agent/turns/:turnId/evidence', ({ params }) =>
@@ -753,4 +759,21 @@ function makeTurn(overrides: { turnId?: string; utterance?: string } = {}) {
     ],
     createdAt: '2026-10-20T04:00:00.000Z',
   };
+}
+
+/**
+ * 把一个回合响应包成 SSE 事件流。
+ *
+ * 事件形状由 `AgentStreamEventSchema` 定（`packages/api-contract/src/domains/agent.ts`）：
+ * `stage` / `token` / `done` / `error` 四种，帧与帧之间用**空行**分隔。
+ * 这里只发 `done`：`stage` 与 `token` 是「等待期间有东西可看」的体验层，
+ * 它们缺了不影响最终卡片，而组件测试断言的是最终状态。
+ *
+ * 想测阶段推进或逐字涌现的用例，自己拼帧再用 `HttpResponse.text` 返回即可 ——
+ * 不要给这个函数加参数开关，那会让「默认桩发什么」又变成要读代码才知道的事。
+ */
+export function sseTurn(response: unknown) {
+  return HttpResponse.text(`data: ${JSON.stringify({ type: 'done', response })}\n\n`, {
+    headers: { 'content-type': 'text/event-stream; charset=utf-8' },
+  });
 }
