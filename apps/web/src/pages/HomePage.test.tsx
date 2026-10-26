@@ -549,7 +549,7 @@ describe('初始焦点来自地址栏', () => {
   });
 
   it('票 03：/?kp= 带进来的点在右栏「正在学」卡里有名字与关卡入口', async () => {
-    // 默认桩：/nodes 列表含 kp-bool，/nodes/:id 带 source.pageLabel 与一个关卡。
+    // 默认桩：/nodes 列表含 kp-bool，/nodes/:id 带 ancestors/source 与一个关卡。
     renderHome('/?kp=kp-bool');
 
     expect(await screen.findByRole('heading', { name: '正在学' })).toBeInTheDocument();
@@ -559,11 +559,13 @@ describe('初始焦点来自地址栏', () => {
     expect(
       await screen.findByText('布尔代数基本运算', { selector: '[data-study-now] .sm-study-kp' }),
     ).toBeInTheDocument();
-    // 来源行与关卡入口由卡内 useNodeDetail 自取。
+    // 来源行与关卡入口由卡内 useNodeDetail 自取。票 08 起主行是章节路径，
+    // 书名页码降为悬浮（title）——页面级只钉「两行都在卡里」，拼法细节在
+    // NowLearningCard 的组件测试里。
+    const path = screen.getByText('第 1 章 逻辑代数 · 第 1.2 节 布尔恒等式');
+    expect(path).toBeInTheDocument();
+    expect(path).toHaveAttribute('title');
     expect(await screen.findByRole('button', { name: '打开关卡' })).toBeInTheDocument();
-    expect(
-      screen.getByText('「辐射探测与测量（Knoll 第4版 2010）」第 12 页'),
-    ).toBeInTheDocument();
   });
 
   it('焦点点不在节点列表那一页里时，仍按 id 单独取名字（展示位由 03 接回）', async () => {
@@ -574,8 +576,17 @@ describe('初始焦点来自地址栏', () => {
       http.get('*/api/v1/nodes/:id', ({ params }) => {
         detailCalls.push(String(params.id));
         return HttpResponse.json({
-          node: { microKpId: params.id, name: '触发器与锁存器', state: 'unseen', percent: null, depth: 2 },
+          node: {
+            microKpId: params.id,
+            name: '触发器与锁存器',
+            state: 'unseen',
+            percent: null,
+            depth: 2,
+            sourceTitle: null,
+            page: null,
+          },
           levels: [],
+          ancestors: [],
         });
       }),
     );

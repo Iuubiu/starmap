@@ -13,7 +13,9 @@
  * 5. 票 02 起：右栏档位卡的两态文案——fallback 不许说「你的水平是 P1」，
  *    卡里不许出现任何切换档位的控件。
  * 6. 票 03 起：右栏「正在学」卡——名字回到侧栏（细条时代的「名字不在这里
- *    出现」口径随之作废），pageLabel 整句透传，关卡入口两态。
+ *    出现」口径随之作废），关卡入口两态。票 08 起来源行升级为「章 · 节」
+ *    路径（ancestors join，分隔符是前端文案），pageLabel 降为悬浮；
+ *    无祖先时沿用 pageLabel，手工 kp 两样都没有就整行不渲染。
  * 7. 票 06 起：档位卡 why 行显示服务端拼好的 `basis` 整句（透传，前端不拼）；
  *    连对行从门槛卡删除，三行变两行。
  */
@@ -560,7 +562,15 @@ const stubNodeDetail = (body: Record<string, unknown>) => {
 
 /** 一份完整的 NodeDetailResponse 形状（抄漏字段会让「透传」断言失焦）。 */
 const nodeDetail = (overrides: Record<string, unknown> = {}) => ({
-  node: { microKpId: 'kp-bool', name: '布尔代数基本运算', state: 'familiar', percent: 0.66, depth: 1 },
+  node: {
+    microKpId: 'kp-bool',
+    name: '布尔代数基本运算',
+    state: 'familiar',
+    percent: 0.66,
+    depth: 1,
+    sourceTitle: '辐射探测与测量（Knoll 第4版 2010）',
+    page: 12,
+  },
   levels: [
     {
       levelId: 'lv-bool-laws',
@@ -571,6 +581,8 @@ const nodeDetail = (overrides: Record<string, unknown> = {}) => ({
     },
   ],
   reasons: [],
+  // 票 08：章节路径（根在前、不含自身）。默认给两级，钉住「 · 」join。
+  ancestors: ['第 1 章 逻辑代数', '第 1.2 节 布尔恒等式'],
   source: {
     sourceId: 'knoll-4e-2010',
     title: '辐射探测与测量（Knoll 第4版 2010）',
@@ -589,16 +601,32 @@ describe('票 03：右栏「正在学」卡——名字回到侧栏，细条时�
     expect(screen.getByText('还没选知识点：先在下面说一句你想学什么')).toBeInTheDocument();
   });
 
-  it('选定后：名 / pageLabel / 打开关卡三者都在，pageLabel 是服务端整句透传', async () => {
+  it('选定后：来源行是「章 · 节」路径（08），pageLabel 降为悬浮提示', async () => {
     renderSidebar({ microKpId: 'kp-bool' });
 
     // 名字来自调用方的解析链（microKpName），卡里不再自己解析一遍。
     expect(screen.getByText('布尔代数基本运算')).toBeInTheDocument();
-    // 来源行是服务端拼好的 pageLabel，前端不拼「书名 · 页码」。
+    /*
+     * 票 08：主行是 ancestors 的 join(' · ')——分隔符是前端文案（契约注释
+     * 写明），两级路径必须拼成一句而不是两行。书名页码降为悬浮（title），
+     * 不再占一整行。
+     */
+    const path = await screen.findByText('第 1 章 逻辑代数 · 第 1.2 节 布尔恒等式');
+    expect(path).toHaveAttribute('title', '「辐射探测与测量（Knoll 第4版 2010）」第 12 页');
+    // pageLabel 不再是可见文本（悬浮不是次行）
+    expect(
+      screen.queryByText('「辐射探测与测量（Knoll 第4版 2010）」第 12 页'),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '打开关卡' })).toBeInTheDocument();
+  });
+
+  it('ancestors 为空但有 source（真实书的无父节点）：沿用 pageLabel 当来源行', async () => {
+    stubNodeDetail(nodeDetail({ ancestors: [] }));
+    renderSidebar({ microKpId: 'kp-bool' });
+
     expect(
       await screen.findByText('「辐射探测与测量（Knoll 第4版 2010）」第 12 页'),
     ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '打开关卡' })).toBeInTheDocument();
   });
 
   it('「打开关卡」跳关卡页路由，「去地图选」跳地图（票 07 前唯一切换方式）', async () => {
@@ -623,8 +651,8 @@ describe('票 03：右栏「正在学」卡——名字回到侧栏，细条时�
     expect(screen.queryByRole('button', { name: '打开关卡' })).not.toBeInTheDocument();
   });
 
-  it('无 source 的手工知识点：pageLabel 位降级为空，名字与关卡入口照常，不报错', async () => {
-    stubNodeDetail(nodeDetail({ source: null }));
+  it('无 source 且无祖先的手工知识点：来源位降级为空，名字与关卡入口照常，不报错', async () => {
+    stubNodeDetail(nodeDetail({ source: null, ancestors: [] }));
     renderSidebar({ microKpId: 'kp-bool' });
 
     expect(await screen.findByRole('button', { name: '打开关卡' })).toBeInTheDocument();
@@ -632,5 +660,7 @@ describe('票 03：右栏「正在学」卡——名字回到侧栏，细条时�
     // 降级 = 什么都不渲染，而不是渲染「来源：—」这种占位句子。
     expect(screen.queryByText(/第 12 页/)).not.toBeInTheDocument();
     expect(screen.queryByText(/来源/)).not.toBeInTheDocument();
+    // 章节路径也不出现（空数组不是「第 0 章」之类的东西）
+    expect(screen.queryByText(/第 1 章/)).not.toBeInTheDocument();
   });
 });

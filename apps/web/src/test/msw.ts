@@ -87,6 +87,9 @@ export const handlers = [
         state: 'familiar',
         percent: 0.66,
         depth: 1,
+        // 票 07：NodeState 的书名与印刷页码（列表/详情同形，null=手工知识点）
+        sourceTitle: '辐射探测与测量（Knoll 第4版 2010）',
+        page: 12,
       },
       levels: [
         {
@@ -98,6 +101,11 @@ export const handlers = [
         },
       ],
       reasons: ['已建立基础，还没有稳定，适合做变式练习。'],
+      /*
+       * 票 08：章节路径（根在前、不含自身）。默认给两级路径，让「章 · 节」
+       * 主行有东西可渲染；无祖先（手工 kp）与空数组的降级用 server.use 覆盖。
+       */
+      ancestors: ['第 1 章 逻辑代数', '第 1.2 节 布尔恒等式'],
       // 票 18 验收 6：详情页读 `source`。默认桩给一个有来源的样本 ——
       // 真库里 `kp-bool` 是示例知识点（source 为 null），但默认桩刻意不沿用
       // 那个事实：无来源分支的渲染在 NodeDetailPage.test.tsx 里单独覆盖，

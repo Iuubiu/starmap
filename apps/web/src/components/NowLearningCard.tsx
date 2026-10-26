@@ -13,9 +13,18 @@
  *
  * 名字由调用方传进来（沿用 `nodeItems.find(...)?.name ?? node.name ?? id`
  * 的解析链，首页已经算好）；卡内只自调 `useNodeDetail` 取**详情才有**的
- * 两样：`source.pageLabel`（服务端拼好的整句，前端不拼「书名 · 页码」）
- * 与 `levels`（关卡入口）。与页面已有的同名请求共用 react-query 缓存，
+ * 三样：`ancestors`（章节路径，票 08）、`source.pageLabel`（服务端拼好的
+ * 整句）与 `levels`（关卡入口）。与页面已有的同名请求共用 react-query 缓存，
  * 不会发两次。
+ *
+ * ## 来源行的两态（票 08）
+ *
+ * - 有 `ancestors`（非空数组）→ 主行显示「章 · 节 · …」：`join(' · ')` 的
+ *   分隔符是**前端文案**（契约注释写明：哪几级、什么顺序是数据，分隔符不同
+ *   行宽下可能换），拼法只允许存在这一处。书名页码整句降为悬浮（title）。
+ * - `ancestors` 为空但有 `source` → 沿用 pageLabel 当来源行（旧形态）。
+ * - 手工 kp（ancestors 空且无 source）→ 整行不渲染，不是「来源：—」——
+ *   「—」会让人以为有一本没读到的书，而真相是这本就是手工写的示例点。
  *
  * ## 关卡入口的两态
  *
@@ -23,12 +32,7 @@
  * `HomePage` 算 `focusedLevelId` 的口径一致）；空 → 只提示
  * 「还没有关卡，说一句让我生成」—— **不自动生成**：生成是一次昂贵的
  * 服务端动作，入口在学习者自己嘴里，替他点下去就是替他做了决定。
- *
- * 无 source 的手工知识点（kp-bool 等 3 个）没有 `source` 字段：来源行
- * 降级为整行不渲染，不是渲染「来源：—」——「—」会让人以为有一本没读到
- * 的书，而真相是这本就是手工写的示例点。
- */
-import { Button, Caption1, Card, Text } from '@fluentui/react-components';
+ */import { Button, Caption1, Card, Text } from '@fluentui/react-components';
 import { useNavigate } from 'react-router';
 import { useNodeDetail } from '../api/queries';
 
@@ -47,6 +51,12 @@ export function NowLearningCard({ microKpId, microKpName }: NowLearningCardProps
   const { payload } = useNodeDetail(microKpId);
   const level = payload?.levels[0];
   const pageLabel = payload?.source?.pageLabel;
+  /*
+   * 票 08：章节路径是来源行的主形态。join(' · ') 只在这里拼一次——
+   * 分隔符是前端文案，将来换行宽想改「、」或换行，改这一处。
+   */
+  const ancestors = payload?.ancestors;
+  const pathLine = ancestors && ancestors.length > 0 ? ancestors.join(' · ') : null;
 
   return (
     <Card className="sm-glass sm-study-card" data-study-now>
@@ -58,10 +68,18 @@ export function NowLearningCard({ microKpId, microKpName }: NowLearningCardProps
         {microKpName}
       </Text>
       {/*
-       * 来源行只在有 source 时渲染（手工知识点降级为空）。
-       * 详情还在路上时也不渲染：占位句子会比晚到的真句子更吵。
+       * 来源行两态（票 08）：有章节路径 → 「章 · 节」为主行、书名页码整句
+       * 降为悬浮；没有路径但有 source → 沿用 pageLabel 行。两样都没有
+       * （手工知识点）不渲染，详情在路上时也不渲染——占位句子会比晚到的
+       * 真句子更吵。
        */}
-      {pageLabel ? <Caption1 className="sm-study-kp">{pageLabel}</Caption1> : null}
+      {pathLine ? (
+        <Caption1 className="sm-study-kp" title={pageLabel ?? undefined}>
+          {pathLine}
+        </Caption1>
+      ) : pageLabel ? (
+        <Caption1 className="sm-study-kp">{pageLabel}</Caption1>
+      ) : null}
       {/*
        * 详情没回来前关卡位留空（既不出按钮也不出「还没有关卡」——
        * 那句话在有关卡的知识点上会闪一下然后变成按钮，像撤回说过的话）。
