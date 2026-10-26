@@ -1,6 +1,6 @@
 # 07 · 知识点搜索：按名字或页码
 
-Status: claimed
+Status: resolved
 Spec: `../spec.md` §2 T7
 
 ## 输入
@@ -36,3 +36,4 @@ Spec: `../spec.md` §2 T7
 ## Comments
 
 - 2026-10-26（席位 D）：**契约+后端半边完成**（提交 b3f2d53）。`NodeStateSchema` 加 `sourceTitle`/`page`（必填但可为 null——null=手工知识点；不带 pageLabel 句子，列表是给索引的数据）。后端列表 `LEFT JOIN sources`（27 行 PK 小表，查询数不增，「查询次数不随节点数增长」守卫测试仍绿；比 sources 读进 Map 再省一次往返）；`source_id` 有而书名/页码缺时复用详情的 `sourceOf` 抛 500（与详情同一数据缺陷纪律）。测试：nodes 套件 20 用例（新增 3 条：两态+page 对账 / 两本书同名「吸收律」消歧 / 坏来源行 500），apps/api 全量 45 文件 522 用例绿，`pnpm contract:check` 绿。前端索引模块、「换个知识点」入口、200ms 探针留给后续席位。
+- 2026-10-26（席位 E）：**前端接线完成**（提交 f05ce97）。做了什么：`graph/kp-index.ts` 可复用索引（纯数字按页码精确命中、否则名字子串、sourceTitle 消歧、顺序稳定、上限 50）+ `useAllNodes` 只读 hook（enabled 门控，沿 nextCursor 翻全部分页）+ NowLearningCard「换个知识点」弹层（输入即筛、空结果「没找到这个知识点」、点选 navigate('/?kp=')接回地址栏焦点链）。数字：性能探针 @4030 合成节点——名字子串 0.01ms / 页码 0.13ms / 50 连查 0.18ms（断言阈值 200ms 防 CI 抖动）；「不发网络请求」msw 计数：建索引 1 次、连续筛选 0 次；web 全量 890/890 绿，tsc --noEmit 绿。卡点：浏览器层 200ms 实测（判据 3 的另一半）留给合并后的统一视觉实测（2560×1440 基准）。
