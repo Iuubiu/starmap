@@ -1,6 +1,6 @@
 # 06 · 档位判定依据句（契约→后端→前端）
 
-Status: claimed
+Status: resolved
 Spec: `../spec.md` §2 T6
 
 ## 输入
@@ -32,3 +32,4 @@ Spec: `../spec.md` §2 T6
 ## Comments
 
 - 2026-10-26（席位 D）：**契约+后端半边完成**（提交 9b811d9）。`TierOverviewResponseSchema` 加 `basis` / `basisAttempts` / `basisVariants` / `basisStreak`；后端回放证据窗＝自上次定级/重评以来的 attempts（`counts_toward_mastery=true` 最近 N 条），三个数字同窗，连对分母取本档 `masteryRule.consecutiveCorrect`（P3 是 1，有专测）。fallback 引导句「定级后这里会写判定依据」+ 三字段 0。测试：tier 套件 22 用例（新增 4 条：fallback 引导句 / 回放数字与整句 / P3 分母 / 零证据报 0），apps/api 全量 45 文件 516 用例绿，`pnpm contract:check` 绿（462 文件同步）。三个数字全部算得出来，无「宁缺毋滥」删项。前端接线（档位卡 why 行）留给后续席位。
+- 2026-10-26（席位 E）：**前端接线完成**（提交 383f941）。做了什么：TierCard 来源行下新增 why 行整句透传 `basis`（两态都由服务端给）；同步触发票 05 预留动作——StudySidebar 门槛卡删除连对行、三行变两行（`progressRowsFromView` 按 key 过滤服务端 gates 的 streak，旧路径 `progressRows` 同步两行），msw 默认 tier 桩补四个 basis 字段。数字：StudySidebar 40/40、HomePage/LevelPageTier/PlacementPage/SessionPlanCard 62/62 定向绿。卡点：`gateHistory` prop 与 `trailingCorrect` 无界面消费方但保留——删 prop 要动 HomePage（本票边界外），注释已改口径，拆链留给后续清理票。
