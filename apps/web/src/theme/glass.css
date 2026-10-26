@@ -699,12 +699,13 @@
 }
 
 /*
- * 票 83：Composer（唯一输入条）。
+ * 票 83 起：Composer（唯一输入条）；票 01 按 B5 定版成一整块。
  *
- * 三层由里到外：`.sm-composer-box`（大圆角玻璃框）→ 里面 `.sm-composer-row`
- * （＋ / 档位 / 模型 / 麦克风 / 圆形发送）→ 框下 `.sm-composer-toolbar`。
- * 工具条**只在聚焦时可见**，用 `:focus-within` 而不是 JS 状态：焦点是浏览器的
- * 事实，抄进 React state 就多一份真相，键盘用户按 Tab 进来的那一瞬间会闪。
+ * 结构由里到外：`.sm-composer-box`（大圆角玻璃框）→ 里面 `.sm-composer-row`
+ * （＋ / 模型 / 麦克风 / 圆形发送）。曾经的另外两层已按 B5 移除：框下
+ * `.sm-composer-toolbar`（连 `:focus-within` 显隐一起删）与框内档位
+ * `.sm-composer-chip`（档位是测量结果，展示归右栏档位卡）。
+ * `.sm-composer-context` 暂为 v2 首页的知识点条保留。
  */
 .sm-composer {
   display: flex;
@@ -764,20 +765,6 @@
   min-height: 32px;
 }
 
-.sm-composer-chip {
-  display: inline-flex;
-  align-items: center;
-  /* 票 87：样例 `.perm` / `.pill` 是 29.19px 高、`5px 10px` 内边距、8px 圆角。
-     取 29px（差 0.19px，亚像素级），内边距改成 `5px 10px` 以保住同样的内容基线。 */
-  height: 29px;
-  padding: 5px 10px;
-  border-radius: 8px;
-  background-color: var(--sm-glass-fill-soft);
-  color: var(--sm-text-secondary);
-  font-size: 12px;
-  font-weight: 600;
-}
-
 .sm-composer-grow {
   flex: 1 1 auto;
 }
@@ -812,23 +799,6 @@
   outline-offset: 2px;
 }
 
-.sm-composer-toolbar {
-  display: flex;
-  align-items: center;
-  /* 票 87：样例 `.tools` 是 `margin:8px 4px 0; padding:9px 14px; border-radius:12px;
-     gap:16px`，撑出 38px 高。可见性仍由 `:focus-within` 控制（票 83 的决定，不在本票范围）。 */
-  gap: 16px;
-  margin: 8px 4px 0;
-  padding: 9px 14px;
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity var(--sm-glass-dur-fast) var(--sm-glass-ease);
-}
-
-.sm-composer:focus-within .sm-composer-toolbar {
-  opacity: 1;
-}
-
 /* 票 87：样例 `.plus`/`.mic` 是 30×30、9px 圆角、#F4F6FA 底；
    Fluent 的 shape="circular" size="small" 给的是 24×24 圆形，用元素+属性选择器压过去。 */
 .sm-composer-row > button[aria-label='添加内容'],
@@ -838,34 +808,6 @@
   min-width: 30px;
   border-radius: 9px;
   background-color: var(--sm-glass-fill-soft);
-}
-
-.sm-composer-tool {
-  display: inline-flex;
-  align-items: center;
-  /* 票 87：样例里工具项没有自己的底与固定高，38px 由 `.tools` 的 `9px` 上下内边距撑出。
-     所以这里去掉 28px 固定高与 `0 10px` 内边距，让父级决定高度。 */
-  gap: 6px;
-  padding: 0;
-  border: 0;
-  border-radius: var(--sm-liquid-r-pill);
-  background: transparent;
-  color: var(--sm-text-secondary);
-  font: inherit;
-  /* 票 87：工具条 38px = 9+9+20，行高按样例 12.5px/20px 给足 */
-  font-size: 12.5px;
-  line-height: 20px;
-  cursor: pointer;
-}
-
-.sm-composer-tool:hover {
-  background-color: var(--sm-glass-fill-soft);
-  color: var(--sm-text-primary);
-}
-
-.sm-composer-tool:focus-visible {
-  outline: 2px solid var(--sm-border-focus);
-  outline-offset: 2px;
 }
 
 .sm-composer-hint {

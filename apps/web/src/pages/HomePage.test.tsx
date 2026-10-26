@@ -130,6 +130,19 @@ describe('首页不是聊天界面', () => {
     expect(html).not.toContain('消息流');
   });
 
+  it('输入区按 B5 收成一整块：没有知识点细条、没有框下工具条', async () => {
+    const { container } = renderHome();
+    expect(await screen.findByLabelText('这一轮想说的话')).toBeInTheDocument();
+    /*
+     * 知识点细条已按 B5 摘除（票 01），名字展示由票 03 的右栏「正在学」卡接回。
+     * 这里断言类名而不是文案：「当前知识点」「去地图选」都可能随 03 回到页面上
+     * （03 要在「正在学」卡里保留「去地图选」入口），而 `.sm-composer-context`
+     * 属于 Composer 的 context 插槽，只会跟着首页的传参出现或消失。
+     */
+    expect(container.querySelector('.sm-composer-context')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('输入区工具')).not.toBeInTheDocument();
+  });
+
   it('提交一句话后，中央出现且只出现一张卡', async () => {
     const user = userEvent.setup();
     const { container } = renderHome();
@@ -535,23 +548,29 @@ describe('初始焦点来自地址栏', () => {
     expect(seen[1]!.microKpId).toBe('kp-bool');
   });
 
-  it('焦点点不在节点列表那一页里时，徽标显示名字而不是裸 id', async () => {
+  it('焦点点不在节点列表那一页里时，仍按 id 单独取名字（展示位由 03 接回）', async () => {
     // 节点列表接口只回两条（`kp-bool` / `kp-kmap`），`kp-far` 不在其中 ——
     // 这正是真实库的情形：`?kp=` 带进来的点可能落在列表前 N 条之外。
+    const detailCalls: string[] = [];
     server.use(
-      http.get('*/api/v1/nodes/:id', ({ params }) =>
-        HttpResponse.json({
+      http.get('*/api/v1/nodes/:id', ({ params }) => {
+        detailCalls.push(String(params.id));
+        return HttpResponse.json({
           node: { microKpId: params.id, name: '触发器与锁存器', state: 'unseen', percent: null, depth: 2 },
           levels: [],
-        }),
-      ),
+        });
+      }),
     );
 
     renderHome('/?kp=kp-far');
 
-    // 徽标里必须是名字。裸 id 对学习者是一串无意义的字符串，
-    // 而「未选定」是错的 —— 学生刚从地图上选了这个点。
-    await waitFor(() => expect(screen.getByText('触发器与锁存器')).toBeTruthy());
+    /*
+     * 名字解析链仍在：列表里没有的点会单独 GET /nodes/:id 取名字。
+     * 名字的**展示位**（原输入框上方那枚徽标）已按 B5 摘除（票 01），
+     * 由票 03 的右栏「正在学」卡接回；这里先钉住两件不受摘除影响的事：
+     * 解析照常发生、裸 id 不进 DOM。
+     */
+    await waitFor(() => expect(detailCalls).toContain('kp-far'));
     expect(screen.queryByText('kp-far')).toBeNull();
   });
 });

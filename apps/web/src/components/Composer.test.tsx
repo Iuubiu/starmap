@@ -1,10 +1,11 @@
 /**
- * Composer（票 83）：唯一输入条的组件测试。
+ * Composer（票 83 起为唯一输入条）：组件测试。
  *
  * 重点不在「渲染出来了」，而在三条**行为契约**：
- * 1. 三层都在（框、框内底行、框下工具条）—— 工具条的显隐由 CSS
- *    `:focus-within` 负责，jsdom 不算样式，所以这里只断言结构存在，
- *    淡入淡出交给 `zz-layout-2560` 的真实浏览器探针。
+ * 1. B5 的形状（票 01 定版）：输入区一整块 —— 框与框内底行在，
+ *    框下工具条与档位 chip 不在。工具条显隐曾经由 CSS `:focus-within`
+ *    负责，jsdom 不算样式，所以现在断言的是「结构彻底不存在」，
+ *    不存在的东西淡入淡出也无从谈起。
  * 2. Enter 提交、Shift+Enter 换行、输入法选词时 Enter 不提交。
  * 3. 提交中与空文本时发送按钮禁用 —— 一条都不能漏，否则同一句话会发两轮。
  */
@@ -31,7 +32,7 @@ function renderComposer(overrides: Partial<Parameters<typeof Composer>[0]> = {})
   return { ...view, onChange, onSubmit };
 }
 
-describe('Composer：三层结构', () => {
+describe('Composer：一整块输入区（B5）', () => {
   it('输入框带占位文案与可访问名', () => {
     renderComposer({ placeholder: '说一句你想学什么' });
     const input = screen.getByLabelText('这一轮想说的话');
@@ -39,25 +40,26 @@ describe('Composer：三层结构', () => {
     expect(input).toHaveAttribute('placeholder', '说一句你想学什么');
   });
 
-  it('框内底行有 ＋ / 档位 / 模型 / 麦克风 / 圆形发送', () => {
-    renderComposer({ tierLabel: 'P2' });
+  it('框内底行有 ＋ / 模型 / 麦克风 / 圆形发送，没有档位 chip', () => {
+    renderComposer();
     expect(screen.getByRole('button', { name: '添加内容' })).toBeInTheDocument();
-    expect(screen.getByLabelText('当前档位 P2')).toHaveTextContent('P2');
     expect(screen.getByRole('button', { name: '选择模型（当前 默认模型）' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '语音输入' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '提交这一轮' })).toBeInTheDocument();
+    /* B5：档位是测量结果，展示归右栏档位卡，输入条上不出现（票 01） */
+    expect(screen.queryByLabelText(/当前档位/)).not.toBeInTheDocument();
   });
 
-  it('框下工具条是四件事：期刊下载器 / 文件 / 插件 / 视图切换', () => {
+  it('框下工具条已按 B5 移除：期刊下载器 / 文件 / 插件 / 视图切换都不在', () => {
     renderComposer();
-    const toolbar = screen.getByLabelText('输入区工具');
-    expect(toolbar).toBeInTheDocument();
+    expect(screen.queryByLabelText('输入区工具')).not.toBeInTheDocument();
     for (const label of ['期刊下载器', '文件', '插件', '视图切换']) {
-      expect(screen.getByRole('button', { name: label })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: label })).not.toBeInTheDocument();
     }
   });
 
   it('context 与 hint 是插槽：传了才渲染', () => {
+    /* context 插槽暂为 v2 首页（HomeV2 的知识点条）保留；v1 两页已不再传（票 01）。 */
     const { rerender } = renderComposer({ context: <span>当前知识点 A</span> });
     expect(screen.getByText('当前知识点 A')).toBeInTheDocument();
 

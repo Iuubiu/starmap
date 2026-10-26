@@ -9,19 +9,22 @@
  * 行为就不一样 —— 而学生根本不知道自己在哪一页。
  *
  * 所以这里收成**一个实现**：`pages/HomePage.tsx` 与 `pages/LearningPage.tsx`
- * 都只引用它。谁要是再写第二条输入条，`zz-layout-2560` 探针里的
- * 「全仓只有一个 Composer」这条断言会红。
+ * 都只引用它。谁要是再写第二条输入条，全仓就出现了两个输入条实现，
+ * 行为漂移的问题原样回来。
  *
- * ## 三层结构（票面对应的可测形状）
+ * ## 形状：B5 的一整块（票 01 定版，spec §0）
  *
- * 1. **大圆角输入框**：`textarea` 本身无边框、铺满宽度，圆角来自
- *    `.sm-composer-box`（玻璃填充）。
- * 2. **框内底行**：`＋` / 档位 chip / 模型 ▾ / 麦克风 / 圆形发送。
- *    这一行是「关于这一轮怎么发」的控件，住在框里，所以框是三层里最高的。
- * 3. **框下工具条**：期刊下载器 / 文件 / 插件 / 视图切换。它只在聚焦时
- *    出现 —— **用 CSS `:focus-within`，不是 JS 状态**。理由：焦点是浏览器的
- *    事实，把它抄进 React state 就有两份真相，而且键盘用户按 Tab 进来的
- *    那一瞬间 JS 还没跑完，工具条会闪一下再出现。
+ * 输入区是一整块：`textarea` 本身无边框、铺满宽度，圆角来自
+ * `.sm-composer-box`（玻璃填充）；框内底行是「关于这一轮怎么发」的控件
+ * （＋ / 模型 ▾ / 麦克风 / 圆形发送）。曾经的另外两层已按 B5 移除：
+ *
+ * - **框下工具条**（期刊下载器/文件/插件/视图切换）：预览两版都没有，
+ *   且当时无真实行为（spec §3），连 `:focus-within` 的显隐 CSS 一起删了。
+ * - **框内档位 chip**：档位是测量结果，不该出现在输入条上（用户裁定），
+ *   展示归右栏档位卡（票 02/T2）。
+ *
+ * `context` 插槽暂为 v2 首页（HomeV2 的知识点条）保留；v1 两页已不再传，
+ * 知识点名字的展示由右栏「正在学」卡接回（票 03/T3）。
  *
  * ## 为什么不用 Fluent 的 Textarea
  *
@@ -33,23 +36,11 @@
 import { Button } from '@fluentui/react-components';
 import {
   Add24Regular,
-  ArrowDownload24Regular,
-  Attach24Regular,
   ChevronDown16Regular,
-  Grid24Regular,
   Mic24Regular,
-  PlugConnected24Regular,
   Send24Filled,
 } from '@fluentui/react-icons';
 import { useId, type KeyboardEvent, type ReactNode } from 'react';
-
-/** 工具条上的四件事。文案与图标放在一处，探针按键名找得到。 */
-const TOOLBAR_ACTIONS = [
-  { key: 'journal', label: '期刊下载器', Icon: ArrowDownload24Regular },
-  { key: 'file', label: '文件', Icon: Attach24Regular },
-  { key: 'plugin', label: '插件', Icon: PlugConnected24Regular },
-  { key: 'view', label: '视图切换', Icon: Grid24Regular },
-] as const;
 
 export interface ComposerProps {
   /** 受控文本 */
@@ -64,11 +55,14 @@ export interface ComposerProps {
   busy?: boolean;
   /** 契约上限（`utterance` 2000 字）。不传则不限制 */
   maxLength?: number;
-  /** 档位 chip 的文字，如 `P1` */
+  /**
+   * 已废弃（票 01 按 B5 移除档位 chip）：传了也不渲染。
+   * 字段暂留是为了 v2 首页的既有传参能过 typecheck，v2 收口时一并删除。
+   */
   tierLabel?: string;
   /** 模型选择器的文字 */
   modelLabel?: string;
-  /** 输入框上方的上下文（首页的「当前知识点」行）。不传则整行不渲染 */
+  /** 输入框上方的上下文（v2 首页的知识点条）。不传则整行不渲染 */
   context?: ReactNode;
   /** 输入框下方的提示（字数、错误条）。不传则不渲染 */
   hint?: ReactNode;
@@ -85,7 +79,6 @@ export function Composer({
   ariaLabel = '这一轮想说的话',
   busy = false,
   maxLength,
-  tierLabel = 'P1',
   modelLabel = '默认模型',
   context,
   hint,
@@ -135,9 +128,6 @@ export function Composer({
             icon={<Add24Regular />}
             aria-label="添加内容"
           />
-          <span className="sm-composer-chip" aria-label={`当前档位 ${tierLabel}`}>
-            {tierLabel}
-          </span>
           <Button
             appearance="subtle"
             size="small"
@@ -165,15 +155,6 @@ export function Composer({
             <Send24Filled />
           </button>
         </div>
-      </div>
-
-      <div className="sm-composer-toolbar" aria-label="输入区工具">
-        {TOOLBAR_ACTIONS.map(({ key, label, Icon }) => (
-          <button type="button" key={key} className="sm-composer-tool">
-            <Icon />
-            <span>{label}</span>
-          </button>
-        ))}
       </div>
 
       {hint ? (

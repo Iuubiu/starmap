@@ -27,7 +27,6 @@
  */
 import { useMemo, useRef, useState } from 'react';
 import {
-  Badge,
   Body1,
   Button,
   Caption1,
@@ -42,7 +41,7 @@ import {
   makeStyles,
   tokens,
 } from '@fluentui/react-components';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 import {
   useAgentTurn,
   useAgentTurns,
@@ -258,7 +257,6 @@ const UTTERANCE_MAX = 2000;
 
 export function HomePage() {
   const styles = useStyles();
-  const navigate = useNavigate();
 
   /**
    * 初始焦点：`/?kp=<microKpId>`。
@@ -632,25 +630,7 @@ export function HomePage() {
           ariaLabel="这一轮想说的话"
           busy={submit.isPending}
           maxLength={UTTERANCE_MAX}
-          tierLabel={learnerTier}
           modelLabel="默认模型"
-          context={
-            <>
-              <Caption1 className={styles.subtle}>当前知识点</Caption1>
-              {focusedKpId ? (
-                <Badge appearance="tint" color="brand">
-                  {nodeItems.find((n) => n.microKpId === focusedKpId)?.name ??
-                    focusedNode.payload?.node.name ??
-                    focusedKpId}
-                </Badge>
-              ) : (
-                <Badge appearance="outline">未选定</Badge>
-              )}
-              <Button appearance="subtle" size="small" onClick={() => navigate('/map')}>
-                去地图选
-              </Button>
-            </>
-          }
           hint={
             utterance.length > UTTERANCE_MAX * 0.8 ? (
               <Text size={200} className={styles.counter}>

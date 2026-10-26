@@ -358,7 +358,6 @@ export function LearningPage() {
             onSubmit={submitDraft}
             placeholder="说一句你想学什么，比如「我想学布尔代数」"
             ariaLabel="这一轮想说的话"
-            tierLabel="新会话"
             modelLabel="默认模型"
           />
         </div>
