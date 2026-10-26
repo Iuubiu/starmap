@@ -4309,6 +4309,10 @@
     "NodeDetailResponse":
       "additionalProperties": false
       "properties":
+        "ancestors":
+          "items":
+            "type": "string"
+          "type": "array"
         "levels":
           "items":
             "additionalProperties": false
@@ -4399,6 +4403,7 @@
         - "levels"
         - "reasons"
         - "source"
+        - "ancestors"
       "type": "object"
     "NodeListResponse":
       "additionalProperties": false

@@ -362,4 +362,48 @@ describe('NodesController（集成）', () => {
     // 清场：后面的用例会遍历全部节点，留着它会让那个循环也 500
     await db.query(`DELETE FROM ${schema.name}.knowledge_points WHERE id = 'kp-broken-source'`);
   });
+
+  // ---------------------------------------------------------------------------
+  // 票 08：章节路径 ancestors（根在前，不含自身）
+  // ---------------------------------------------------------------------------
+
+  it('三级祖先链根在前返回，不含自身', async () => {
+    const db = app.get(DatabaseService);
+    // 章(0) → 节(1) → 小节(2) → 叶(3)：层级跨度越大，顺序写反（叶在前）越藏不住。
+    await db.query(
+      `INSERT INTO ${schema.name}.knowledge_points (id, module_id, parent_id, name, is_leaf, depth, ordinal)
+       VALUES ('kp-ch',  'm-a', NULL,      '第 1 章 逻辑代数', false, 0, 1),
+              ('kp-sec', 'm-a', 'kp-ch',   '第 1.2 节 布尔恒等式', false, 1, 1),
+              ('kp-sub', 'm-a', 'kp-sec',  '第 1.2.1 小节 吸收律', false, 2, 1),
+              ('kp-deep','m-a', 'kp-sub',  '吸收律的证明', true, 3, 1)`,
+    );
+
+    const res = await request(app.getHttpServer()).get('/api/v1/nodes/kp-deep').expect(200);
+    expect(res.body.ancestors).toEqual([
+      '第 1 章 逻辑代数',
+      '第 1.2 节 布尔恒等式',
+      '第 1.2.1 小节 吸收律',
+    ]);
+    // 自身名字不在路径里：「正在学」卡第二行是「我在哪」，不是把名字念两遍。
+    expect(res.body.ancestors).not.toContain('吸收律的证明');
+    assertMatchesContract('/api/v1/nodes/{microKpId}', 'get', 200, res.body);
+  });
+
+  it('一级父节点（现有种子 kp-noise）返回单元素路径', async () => {
+    const res = await request(app.getHttpServer()).get('/api/v1/nodes/kp-noise').expect(200);
+    expect(res.body.ancestors).toEqual(['前置放大器']);
+  });
+
+  it('手工 kp（parent 为 NULL，depth 0）路径为空数组，不报错', async () => {
+    const db = app.get(DatabaseService);
+    await db.query(
+      `INSERT INTO ${schema.name}.knowledge_points (id, module_id, name, is_leaf, depth, ordinal)
+       VALUES ('kp-orphan', 'm-a', '无父的手工点', true, 0, 20)`,
+    );
+    const res = await request(app.getHttpServer()).get('/api/v1/nodes/kp-orphan').expect(200);
+    // 空数组是合法态（字段在、值为 []），不是字段缺失 —— 前端据此降级显示
+    // pageLabel，而不是拿到 undefined 去拼「undefined · undefined」。
+    expect(res.body.ancestors).toEqual([]);
+    assertMatchesContract('/api/v1/nodes/{microKpId}', 'get', 200, res.body);
+  });
 });

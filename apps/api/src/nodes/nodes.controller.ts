@@ -254,6 +254,23 @@ export class NodesController {
       reasons.push('掌握度较高，可以直接进入复验或跳读。');
     }
 
+    // 章节路径（票 08）：递归 CTE 沿 parent_id 一路走到根。`depth` 升序就是
+    // 「根在前」——链上每级 depth 严格 +1（schema 由迁移保证），不需要在 JS
+    // 里再排一遍。`WHERE id <> $1` 摘掉自身：路径回答「我在哪」，不重复念名字。
+    // 手工 kp（parent 为 NULL）只有起始行，摘掉后自然是空数组，不是错误。
+    const chain = await this.db.query<{ name: string; depth: number }>(
+      `WITH RECURSIVE up AS (
+         SELECT id, name, parent_id, depth FROM knowledge_points WHERE id = $1
+         UNION ALL
+         SELECT kp.id, kp.name, kp.parent_id, kp.depth
+           FROM knowledge_points kp
+          JOIN up ON kp.id = up.parent_id
+       )
+       SELECT name, depth FROM up WHERE id <> $1 ORDER BY depth ASC`,
+      [microKpId],
+    );
+    const ancestors = chain.map((row) => row.name);
+
     return NodeDetailResponseSchema.parse({
       node: {
         microKpId: row.id,
@@ -263,6 +280,7 @@ export class NodesController {
         depth: row.depth,
       },
       source: sourceOf(row),
+      ancestors,
       levels: levels.map((l) => ({
         levelId: l.id,
         microKpId,

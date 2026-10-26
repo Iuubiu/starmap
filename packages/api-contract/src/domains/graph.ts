@@ -87,6 +87,21 @@ export const NodeDetailResponseSchema = z.object({
    * `nodes.controller.test.ts` 有一条 count 断言专门守这件事。
    */
   source: NodeSourceSchema.nullable(),
+  /**
+   * 章节路径（票 08）：从根到直接父级的祖先名，**根在前、不含自身**，
+   * 如 `['第 1 章 逻辑代数', '第 1.2 节 布尔恒等式']`。
+   *
+   * **必填，空数组是合法态**：手工种的示例知识点没有父级，此时是 `[]`
+   * 而不是字段缺失——与上面 `source` 的必填可为 null 同一条理由：可选字段
+   * （`ancestors?:`）会让前端少写一个 `?.` 就在运行时拿到 `undefined`，
+   * 页面把「我在哪」渲染成空白或 `undefined · undefined`，而没人会发现。
+   *
+   * 为什么是 `string[]` 而不是 `string`（拼好的「章 · 节」）：分隔符是前端
+   * 文案（不同行宽下可能换成换行），而「哪几级、什么顺序」是数据。这与
+   * `pageLabel` 的分工相反但同一条原则：拼法只允许存在一处——pageLabel 的
+   * 拼法在服务端只有一处、此处路径的组装在前端只有一处。
+   */
+  ancestors: z.array(z.string()),
 });
 
 /**
