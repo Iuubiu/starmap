@@ -82,3 +82,16 @@ content/embeddings/
 # 演示版与录制产物：只在本地，不入库（用户要求）
 .scratch/demo/
 .scratch/qa/
+
+# ── 2026-10-26 GitHub 同步前的剥离边界 ──
+# git filter-repo 已把这些从全部历史移除（5.32 GiB → 320 MiB）；这里防回流。
+# 依据 README 的分发政策：教材 PDF / 论文 / 课程视频 / 切片文本是版权材料，不入库。
+资源库/
+content/videos/
+content/*/chunks.jsonl
+# 大体积实验产物与本机备份（dump 里是内容库整库导出）
+.scratch/t82/
+.scratch/nuke/
+.scratch/video-work/
+.scratch/**/*.dump
+.scratch/**/chunks.jsonl
