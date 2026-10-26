@@ -1,6 +1,6 @@
 # 03 · 右栏「正在学」卡
 
-Status: pending（依赖 01 同批合入、02/04/05 批次合入后开工）
+Status: resolved
 Spec: `../spec.md` §2 T3
 
 ## 输入
@@ -32,3 +32,15 @@ Spec: `../spec.md` §2 T3
 
 StudySidebar 头注释与测试口径写着「知识点名不在侧栏重复出现」——那是细条存在时的决定，
 本票落地后一并改注释与口径。
+
+## Comments
+
+- 做了什么：新建 `NowLearningCard`（名 / pageLabel 整句透传 / 关卡入口两态 / 去地图选）
+  挂在 StudySidebar 最顶（B5 顺序：正在学→档位→进度→上限）；HomePage 传 `focusedKpId`，
+  卡内自调 `useNodeDetail` 取 pageLabel 与 levels（与页面详情请求同 key 去重）；
+  「知识点名不在侧栏出现」的旧注释与测试口径一并作废；顺手做了席位 A 移交的清理
+  （Composer 删 tierLabel/context 两个废弃 prop，v2 细条随之消失，单独一笔 a32ab62）。
+- 数字：StudySidebar 38/38、HomePage 22/22、全量 63 文件 869/869 绿，typecheck 绿；
+  新增 7 条用例（未选引导句 / 名+pageLabel+关卡按钮 / 两个路由跳转 / levels 空 / source null
+  降级 / 首页 ?kp= 集成）。代码：fdc1d49、a32ab62。
+- 卡点：无。2560 实测留待合并后统一实测。
