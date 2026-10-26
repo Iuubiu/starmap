@@ -255,7 +255,14 @@ function Row({ row, gatePassed = false }: { row: ProgressRow; gatePassed?: boole
               : `本关 ${row.value} ${row.unit ?? ''}，阈值 ${row.target}`
         }
       >
-        {row.value === null ? '证据不足' : `${row.value} / ${row.target}`}
+        {/*
+         * 票 05：数值带单位（mockup「5 / 8 题」「2 / 3 组」）。单位只来自
+         * `KpProgressView.gates[].unit`（服务端给），前端不写「题/组」词典——
+         * 旧回退路径（progressRows）没有 unit，就不硬凑一个。
+         */}
+        {row.value === null
+          ? '证据不足'
+          : `${row.value} / ${row.target}${row.unit ? ` ${row.unit}` : ''}`}
       </span>
     </div>
   );

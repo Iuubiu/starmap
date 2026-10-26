@@ -349,6 +349,45 @@ describe('票 89：进度读接口（前端不硬编码阈值、不做除法）'
     );
     expect(passed).toEqual(['success', 'success', 'success']);
   });
+
+  describe('票 05：数值带单位渲染对齐 mockup（单位来自接口，前端不写死）', () => {
+    const renderWithProgress = (progress: KpProgressView) => {
+      const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+      return render(
+        <FluentProvider theme={webLightTheme}>
+          <QueryClientProvider client={client}>
+            <StudySidebar microKpName={progress.name} progress={progress} onAsk={() => undefined} />
+          </QueryClientProvider>
+        </FluentProvider>,
+      );
+    };
+
+    it('作答/变式/连对的数值带单位（mockup：作答 5 / 8 题、变式 2 / 3 组）', () => {
+      renderWithProgress(view);
+      expect(screen.getByText('8 / 8 题')).toBeInTheDocument();
+      expect(screen.getByText('3 / 3 组')).toBeInTheDocument();
+      expect(screen.getByText('1 / 2 题')).toBeInTheDocument();
+    });
+
+    it('连对行保留（票 06 未落地，不得删行）', () => {
+      renderWithProgress(view);
+      expect(document.querySelector('[data-study-row="连对"]')).not.toBeNull();
+      expect(document.querySelectorAll('[data-study-row]')).toHaveLength(3);
+    });
+
+    it('单位是透传不是前端词典：接口给「次/套」就显示「次/套」', () => {
+      renderWithProgress({
+        ...view,
+        gates: view.gates.map((gate) => ({
+          ...gate,
+          unit: gate.unit === '题' ? '次' : '套',
+        })),
+      });
+      expect(screen.getByText('8 / 8 次')).toBeInTheDocument();
+      expect(screen.getByText('3 / 3 套')).toBeInTheDocument();
+      expect(screen.queryByText('8 / 8 题')).not.toBeInTheDocument();
+    });
+  });
 });
 
 /** 局部覆盖 `GET /api/v1/tier/session-plan`（默认桩在 test/msw.ts，是 P1/limit2/deferred0）。 */
