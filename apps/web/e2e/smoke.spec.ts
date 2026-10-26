@@ -89,10 +89,15 @@ test('知识地图显示后端真实知识点', async ({ page }) => {
   await expect(cards.first()).toHaveAccessibleName(/[\u4e00-\u9fff]/);
 });
 
-test('顶栏显示数据库时间（证明后端连上了真库）', async ({ page }) => {
-  await page.goto('/');
-  // 顶栏是个壳，挂在哪个路由下都会渲染 —— 用 `/`（智能体主页）验证这一点。
-  await expect(page.getByText(/数据库 \d{2}:\d{2}:\d{2}/)).toBeVisible();
+test('后端连上了真库（/health 返回数据库时钟）', async ({ request }) => {
+  // 曾经断言旧 AppShell 顶栏的「数据库 HH:MM:SS」状态条；2026-10-26 统一外壳
+  // 后旧壳删除、V2Shell 不带状态条。这条用例的本意是「后端连着真库」，
+  // 由 /health 的 dbNow 直接证明，不再依赖某个壳的 UI 元素。
+  const res = await request.get('/api/v1/health');
+  expect(res.ok()).toBeTruthy();
+  const body = (await res.json()) as { data?: { dbNow?: string }; dbNow?: string };
+  const dbNow = body.data?.dbNow ?? body.dbNow;
+  expect(dbNow).toMatch(/\d{2}:\d{2}:\d{2}/);
 });
 
 test('从知识地图点进知识点详情', async ({ page }) => {
@@ -203,8 +208,11 @@ test('不存在的关卡返回 404，不是 500', async ({ request }) => {
 
 
 test('侧栏导航能切换到数据库页', async ({ page }) => {
+  // 统一外壳后导航是 V2Shell 左轨按钮（aria-label），不再是旧 AppShell 的 tab。
+  // `/` 带首访门：没有 profileDone 标记会落在无壳的 /welcome（那里没有导航），
+  // 先放行再测导航本身。
+  await page.addInitScript(() => window.localStorage.setItem('profileDone', '1'));
   await page.goto('/');
-  // 统一外壳后导航是 V2Shell 左轨按钮（aria-label），不再是旧 AppShell 的 tab
   await page.getByRole('button', { name: '数据库' }).click();
   await expect(page).toHaveURL(/\/database/);
 });
