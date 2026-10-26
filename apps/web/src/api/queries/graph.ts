@@ -3,10 +3,12 @@
  *
  * 归属泳道：graph-dev。加 hook 就往这里加，不要改 `queries/index.ts`。
  */
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getGetRecommendationsQueryKey,
   getGetGraphQueryKey,
+  listNodes,
   redirectRecommendation,
   useGetGraph,
   useGetNode,
@@ -18,6 +20,7 @@ import type {
   ListNodesParams,
   NodeDetailResponse,
   NodeListResponse,
+  NodeListResponseItemsItem,
   RecommendationListResponse,
   RedirectRequest,
   RedirectResponse,
@@ -26,6 +29,51 @@ import type {
 export function useNodeList(params?: ListNodesParams) {
   const query = useListNodes(params);
   return { ...query, payload: query.data?.data as NodeListResponse | undefined };
+}
+
+/**
+ * **全量**节点列表（票 07 搜索索引的数据源）。
+ *
+ * `GET /nodes` 每页最多 200 条（契约 `limit` max），库里约 4030 个节点，
+ * 一个 queryFn 里沿 `nextCursor` 顺序翻完——索引必须完整：半份索引搜不到
+ * 的点会被当成「不存在」，而学习者无法分辨「没这本书」与「还没翻到那页」。
+ *
+ * ## 为什么 `enabled` 由调用方传
+ *
+ * 4030 个节点 ≈ 21 个串行请求。挂「正在学」卡的页面并不都要搜索——只有
+ * 学习者真的打开「换个知识点」弹层时才值得付这 21 个请求。调用方传
+ * `useAllNodes(popoverOpen)`，关着的弹层一个请求都不发；打开过一次后
+ * react-query 缓存接管（staleTime 与 `useGraph` 同为 60 秒，理由同源：
+ * id/name/书名/页码近乎静态，失效靠导航节奏而不是靠时间猜）。
+ *
+ * ## 为什么 key 不用生成的 `getListNodesQueryKey()`
+ *
+ * 那个 key 带单页参数（`{limit}` / `{cursor}`），而这里是「翻完全部页」的
+ * 聚合查询——落同一个 key 会让「第一页」与「全部页」互相污染缓存。独立
+ * key + 一段说明，读的人不用翻 msw 也能看出这不是又一个分页查询。
+ */
+export function useAllNodes(enabled: boolean) {
+  const query = useQuery({
+    queryKey: ['/api/v1/nodes', 'all-pages'],
+    queryFn: async (): Promise<NodeListResponseItemsItem[]> => {
+      const items: NodeListResponseItemsItem[] = [];
+      let cursor: string | undefined;
+      do {
+        // `customFetch` 在 !res.ok 时直接 throw，运行时 data 恒为成功体——
+        // 生成的联合类型里 ApiError 分支不可达，这里收窄一次（同文件
+        // useNodeList 的 `as NodeListResponse` 先例）。
+        const page = (await listNodes(cursor ? { cursor } : undefined)).data as NodeListResponse;
+        items.push(...page.items);
+        cursor = page.nextCursor ?? undefined;
+      } while (cursor);
+      return items;
+    },
+    enabled,
+    staleTime: 60_000,
+  });
+  // 稳定引用：空数组每次渲染都是新的会让 useMemo 建的索引反复重建
+  const items = useMemo(() => query.data ?? [], [query.data]);
+  return { ...query, items };
 }
 
 export function useNodeDetail(microKpId: string | undefined) {

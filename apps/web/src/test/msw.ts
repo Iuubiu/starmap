@@ -21,9 +21,30 @@ export const handlers = [
 
   http.get('*/api/v1/nodes', () =>
     HttpResponse.json({
+      /*
+       * 票 07：NodeState 带书名与印刷页码（重名消歧 + 页码搜）。默认桩给
+       * 一真一 null 两态——kp-kmap 的 null 路径（手工知识点）在列表里
+       * 也要有样本，否则「没有书名的点」只有覆盖桩才能测到。
+       */
       items: [
-        { microKpId: 'kp-bool', name: '布尔代数基本运算', state: 'familiar', percent: 0.66, depth: 1 },
-        { microKpId: 'kp-kmap', name: '卡诺图化简', state: 'unseen', percent: null, depth: 1 },
+        {
+          microKpId: 'kp-bool',
+          name: '布尔代数基本运算',
+          state: 'familiar',
+          percent: 0.66,
+          depth: 1,
+          sourceTitle: '电子技术基础·数字部分（康华光 第5版）',
+          page: 12,
+        },
+        {
+          microKpId: 'kp-kmap',
+          name: '卡诺图化简',
+          state: 'unseen',
+          percent: null,
+          depth: 1,
+          sourceTitle: null,
+          page: null,
+        },
       ],
       nextCursor: null,
     }),

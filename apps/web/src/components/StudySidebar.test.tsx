@@ -20,9 +20,9 @@
  *    连对行从门槛卡删除，三行变两行。
  */
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { MemoryRouter, Route, Routes } from 'react-router';
+import { MemoryRouter, Route, Routes, useSearchParams } from 'react-router';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 import { server } from '../test/msw';
@@ -113,6 +113,16 @@ function unlock(overrides: Partial<UnlockState> = {}): UnlockState {
  * `retry: false` 是刻意的：msw 里用 server.use 打的错桩如果触发 react-query
  * 默认的三次退避重试，单测会多等几秒才见到错误分支。
  */
+/**
+ * 地址栏探针（票 07）：「换个知识点」点选后断言的是**真的路由跳转**
+ * （`/?kp=<id>`），不是 mock navigate 的调用次数。探针文本刻意带前缀，
+ * 不与卡片里的知识点名撞。
+ */
+function LocationProbe() {
+  const [searchParams] = useSearchParams();
+  return <div>探针kp:{searchParams.get('kp') ?? '无'}</div>;
+}
+
 function renderSidebar(overrides: Partial<Parameters<typeof StudySidebar>[0]> = {}) {
   const onAsk = vi.fn();
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -129,7 +139,15 @@ function renderSidebar(overrides: Partial<Parameters<typeof StudySidebar>[0]> = 
       <QueryClientProvider client={client}>
         <MemoryRouter initialEntries={['/']}>
           <Routes>
-            <Route path="/" element={<StudySidebar {...props} />} />
+            <Route
+              path="/"
+              element={
+                <>
+                  <LocationProbe />
+                  <StudySidebar {...props} />
+                </>
+              }
+            />
             <Route path="/level/:levelId" element={<div>关卡页占位</div>} />
             <Route path="/map" element={<div>地图占位</div>} />
           </Routes>
@@ -662,5 +680,157 @@ describe('票 03：右栏「正在学」卡——名字回到侧栏，细条时�
     expect(screen.queryByText(/来源/)).not.toBeInTheDocument();
     // 章节路径也不出现（空数组不是「第 0 章」之类的东西）
     expect(screen.queryByText(/第 1 章/)).not.toBeInTheDocument();
+  });
+});
+
+/** 局部覆盖 `GET /api/v1/nodes`（默认桩在 test/msw.ts，含 sourceTitle/page）。 */
+const stubNodes = (items: unknown[]) => {
+  server.use(http.get('*/api/v1/nodes', () => HttpResponse.json({ items, nextCursor: null })));
+};
+
+describe('票 07：「换个知识点」——本地索引搜索，输入即筛不发请求', () => {
+  it('名字子串命中，重名靠书名消歧；点选后地址栏变 /?kp=<id>（接回焦点链）', async () => {
+    stubNodes([
+      {
+        microKpId: 'kp-bool',
+        name: '布尔代数基本运算',
+        state: 'familiar',
+        percent: 0.66,
+        depth: 1,
+        sourceTitle: '电子技术基础·数字部分（康华光 第5版）',
+        page: 12,
+      },
+      {
+        microKpId: 'kp-absorb-kang',
+        name: '吸收律',
+        state: 'unseen',
+        percent: null,
+        depth: 2,
+        sourceTitle: '电子技术基础·数字部分（康华光 第5版）',
+        page: 45,
+      },
+      {
+        microKpId: 'kp-absorb-knoll',
+        name: '吸收律',
+        state: 'unseen',
+        percent: null,
+        depth: 2,
+        sourceTitle: '辐射探测与测量（Knoll 第4版 2010）',
+        page: 210,
+      },
+    ]);
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    fireEvent.click(await screen.findByRole('button', { name: '换个知识点' }));
+    fireEvent.change(await screen.findByLabelText('搜索知识点'), {
+      target: { value: '吸收律' },
+    });
+
+    // 两本书同名「吸收律」，各带书名可区分（判据 1）
+    const knoll = await screen.findByRole('button', { name: '吸收律 · 辐射探测与测量（Knoll 第4版 2010）' });
+    expect(
+      screen.getByRole('button', { name: '吸收律 · 电子技术基础·数字部分（康华光 第5版）' }),
+    ).toBeInTheDocument();
+
+    // 点选一条：真的路由跳转（探针），弹层收起（判据的「接回现有地址栏焦点链」）
+    fireEvent.click(knoll);
+    expect(await screen.findByText('探针kp:kp-absorb-knoll')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByLabelText('搜索知识点')).not.toBeInTheDocument());
+  });
+
+  it('纯数字输入按页码命中（默认桩：kp-bool 是第 12 页）', async () => {
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    fireEvent.click(await screen.findByRole('button', { name: '换个知识点' }));
+    fireEvent.change(await screen.findByLabelText('搜索知识点'), {
+      target: { value: '12' },
+    });
+
+    expect(
+      await screen.findByRole('button', { name: /布尔代数基本运算/ }),
+    ).toBeInTheDocument();
+  });
+
+  it('查无此点：显示「没找到这个知识点」，不是空白面板', async () => {
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    fireEvent.click(await screen.findByRole('button', { name: '换个知识点' }));
+    fireEvent.change(await screen.findByLabelText('搜索知识点'), {
+      target: { value: '不存在的知识点' },
+    });
+
+    expect(await screen.findByText('没找到这个知识点')).toBeInTheDocument();
+  });
+
+  it('输入即筛不发网络请求（msw 计数：建索引 1 次，筛选 0 次）', async () => {
+    let calls = 0;
+    server.use(
+      http.get('*/api/v1/nodes', () => {
+        calls += 1;
+        return HttpResponse.json({
+          items: [
+            {
+              microKpId: 'kp-bool',
+              name: '布尔代数基本运算',
+              state: 'familiar',
+              percent: 0.66,
+              depth: 1,
+              sourceTitle: '电子技术基础·数字部分（康华光 第5版）',
+              page: 12,
+            },
+            {
+              microKpId: 'kp-kmap',
+              name: '卡诺图化简',
+              state: 'unseen',
+              percent: null,
+              depth: 1,
+              sourceTitle: '电子技术基础·数字部分（康华光 第5版）',
+              page: 34,
+            },
+          ],
+          nextCursor: null,
+        });
+      }),
+    );
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    // 弹层没打开时不取数（enabled 门：不给每个页面白背 21 个请求）
+    await screen.findByRole('button', { name: '打开关卡' });
+    expect(calls).toBe(0);
+
+    fireEvent.click(await screen.findByRole('button', { name: '换个知识点' }));
+    await screen.findByLabelText('搜索知识点');
+    await waitFor(() => expect(calls).toBe(1));
+
+    // 连续输入两个字：索引已在内存，一次网络请求都不多发（判据 3 的组件半边）
+    const input = screen.getByLabelText('搜索知识点');
+    fireEvent.change(input, { target: { value: '卡诺' } });
+    expect(await screen.findByRole('button', { name: /卡诺图化简/ })).toBeInTheDocument();
+    fireEvent.change(input, { target: { value: '卡诺图' } });
+    await screen.findByRole('button', { name: /卡诺图化简/ });
+    expect(calls).toBe(1);
+  });
+
+  it('索引还在建立时输入：提示「正在建立索引」，不误报「没找到」', async () => {
+    let release: (() => void) | undefined;
+    server.use(
+      http.get('*/api/v1/nodes', async () => {
+        await new Promise<void>((resolve) => {
+          release = resolve;
+        });
+        return HttpResponse.json({ items: [], nextCursor: null });
+      }),
+    );
+    renderSidebar({ microKpId: 'kp-bool' });
+
+    fireEvent.click(await screen.findByRole('button', { name: '换个知识点' }));
+    fireEvent.change(await screen.findByLabelText('搜索知识点'), {
+      target: { value: '吸收律',
+      },
+    });
+
+    expect(await screen.findByText('正在建立索引…')).toBeInTheDocument();
+    expect(screen.queryByText('没找到这个知识点')).not.toBeInTheDocument();
+    release?.();
   });
 });
