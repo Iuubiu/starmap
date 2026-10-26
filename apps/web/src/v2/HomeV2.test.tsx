@@ -117,6 +117,11 @@ describe('HomeV2（t96：外壳已抽到 V2Shell）', () => {
     expect(await screen.findByText(tierOverviewBody.basis)).toBeTruthy();
     expect(await screen.findByText(/一次最多推进 3 个新知识点/)).toBeTruthy();
     expect(await screen.findByText(/还有 1 个，下次会话再开/)).toBeTruthy();
+    /* Rail 的「正在学」块在学习页隐藏（showKpProgress={false}）：同一栏里
+       两个「正在学」一个跟地址栏焦点、一个按掌握度自选，必然打架。
+       其他页面不受影响（默认 true）。 */
+    expect(screen.getAllByText('正在学')).toHaveLength(1);
+    expect(screen.queryByText('按掌握度最高挑出')).toBeNull();
 
     // 外壳归 V2Shell：页面自己不能再渲染一套。
     expect(container.querySelector('.v2-shell')).toBeNull();

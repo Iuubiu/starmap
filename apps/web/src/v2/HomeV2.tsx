@@ -234,7 +234,7 @@ export function HomeV2() {
             但学科进度/正在学/已掌握这三块是跨页共用的，各页自己再写一遍
             就会像之前那样出现两套数字）。 */}
         <h2>学习档案</h2>
-        <Rail />
+        <Rail showKpProgress={false} />
         <div className="v2-archive">
           {/* 票 09 集成：学习档案四卡与 StudySidebar 同源（正在学/档位/进度/上限），
               冷启动没有 kp 时「正在学」卡也挂——搜索与地图入口是第一秒就该有的。 */}

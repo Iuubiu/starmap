@@ -250,13 +250,14 @@ function KpProgress({ kpId, name, source }: { kpId: string; name: string; source
   );
 }
 
-export function Rail(): React.JSX.Element {
+export function Rail({ showKpProgress = true }: { showKpProgress?: boolean }): React.JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
   const spec = PAGES[location.pathname] ?? { title: '', quick: [] };
   const [params] = useSearchParams();
   const kpFromUrl = params.get('kp');
   const { dash, failed } = useDashboard();
+  const hideKp = !showKpProgress;
 
   /* 用户要求「精确展示单个知识点的进度」：URL 上带了 ?kp= 就以它为准
      （从知识地图/详情页点进来时会带），否则退回到「掌握度最高的在学节点」。
@@ -299,7 +300,13 @@ export function Rail(): React.JSX.Element {
         )}
       </div>
 
-      {focus ? <KpProgress kpId={focus.microKpId} name={focus.name} source={focusSource} /> : null}
+      {/*
+       * 学习页传 showKpProgress={false}：那里的「正在学」由学习档案的
+       * NowLearningCard 承担（跟地址栏 ?kp= 焦点、带搜索/关卡入口）。
+       * 本块的选点是「按掌握度最高挑出」，两个「正在学」同栏必然打架。
+       * 其他页面（非聊天页）仍默认显示——那里它是唯一的知识点进度。
+       */}
+      {!hideKp && focus ? <KpProgress kpId={focus.microKpId} name={focus.name} source={focusSource} /> : null}
 
       <h3>已掌握的知识点</h3>
       {dash === null ? (
