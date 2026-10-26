@@ -22,9 +22,9 @@
  *   且当时无真实行为（spec §3），连 `:focus-within` 的显隐 CSS 一起删了。
  * - **框内档位 chip**：档位是测量结果，不该出现在输入条上（用户裁定），
  *   展示归右栏档位卡（票 02/T2）。
- *
- * `context` 插槽暂为 v2 首页（HomeV2 的知识点条）保留；v1 两页已不再传，
- * 知识点名字的展示由右栏「正在学」卡接回（票 03/T3）。
+ * - **知识点细条 `context` 插槽与 `tierLabel` prop**：票 01 标废弃、票 03
+ *   收口删除。v2 首页的细条随之消失——知识点身份的展示位是右栏「正在学」卡
+ *   （票 03/T3），输入区保持一整块。
  *
  * ## 为什么不用 Fluent 的 Textarea
  *
@@ -55,15 +55,8 @@ export interface ComposerProps {
   busy?: boolean;
   /** 契约上限（`utterance` 2000 字）。不传则不限制 */
   maxLength?: number;
-  /**
-   * 已废弃（票 01 按 B5 移除档位 chip）：传了也不渲染。
-   * 字段暂留是为了 v2 首页的既有传参能过 typecheck，v2 收口时一并删除。
-   */
-  tierLabel?: string;
   /** 模型选择器的文字 */
   modelLabel?: string;
-  /** 输入框上方的上下文（v2 首页的知识点条）。不传则整行不渲染 */
-  context?: ReactNode;
   /** 输入框下方的提示（字数、错误条）。不传则不渲染 */
   hint?: ReactNode;
   /** 页面级的额外类名（首页用来把输入条吸在底部） */
@@ -80,7 +73,6 @@ export function Composer({
   busy = false,
   maxLength,
   modelLabel = '默认模型',
-  context,
   hint,
   className,
   autoFocus = false,
@@ -104,8 +96,6 @@ export function Composer({
   return (
     <div className={className ? `sm-composer ${className}` : 'sm-composer'}>
       <div className="sm-composer-box">
-        {/* 上下文条属于输入框内部的一行：下方用横线与输入区隔开，不另起一栏 */}
-        {context ? <div className="sm-composer-context">{context}</div> : null}
         <textarea
           className="sm-composer-input"
           value={value}

@@ -11,6 +11,8 @@
  */
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { Composer } from './Composer';
 
@@ -58,10 +60,9 @@ describe('Composer：一整块输入区（B5）', () => {
     }
   });
 
-  it('context 与 hint 是插槽：传了才渲染', () => {
-    /* context 插槽暂为 v2 首页（HomeV2 的知识点条）保留；v1 两页已不再传（票 01）。 */
-    const { rerender } = renderComposer({ context: <span>当前知识点 A</span> });
-    expect(screen.getByText('当前知识点 A')).toBeInTheDocument();
+  it('hint 是插槽：传了才渲染', () => {
+    const { rerender } = renderComposer();
+    expect(screen.queryByText('还能写 12 字')).not.toBeInTheDocument();
 
     rerender(
       <FluentProvider theme={webLightTheme}>
@@ -69,7 +70,17 @@ describe('Composer：一整块输入区（B5）', () => {
       </FluentProvider>,
     );
     expect(screen.getByText('还能写 12 字')).toBeInTheDocument();
-    expect(screen.queryByText('当前知识点 A')).not.toBeInTheDocument();
+  });
+
+  it('票 01 收尾：tierLabel 与 context 两个 prop 已彻底删除，不能复活', () => {
+    /* 席位 A 在票 01 标废弃、本票（03）收口：v2 首页细条随之消失（B5 意图）。
+       prop 删了以后「传了也不渲染」无从在 DOM 层断言（typecheck 会拦），
+       所以像 auto-open.test.ts 一样钉源码：剥注释后接口与渲染都不许再出现。 */
+    const source = readFileSync(resolve(process.cwd(), 'src/components/Composer.tsx'), 'utf8');
+    const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+    expect(code).not.toMatch(/tierLabel/);
+    expect(code).not.toMatch(/context/);
+    expect(code).not.toMatch(/sm-composer-context/);
   });
 });
 

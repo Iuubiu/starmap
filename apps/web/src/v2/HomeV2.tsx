@@ -214,21 +214,18 @@ export function HomeV2() {
           {latest?.trace && <TracePanel trace={latest.trace as TraceShape} />}
         </div>
 
+        {/*
+          * 票 03 收口：Composer 的 context 插槽与 tierLabel 已删除（B5 定版，
+          * 输入区一整块）。v2 首页的知识点细条随之消失——知识点身份的展示位
+          * 是 v1 右栏的「正在学」卡；v2 自己的右栏仍有「本知识点进度」一行带名字。
+          */}
         <Composer
           className="v2-composer"
           value={draft}
           onChange={setDraft}
           onSubmit={send}
           busy={submit.isPending}
-          tierLabel={tierLabel}
           modelLabel="DeepSeek V4"
-          context={
-            <span className="kpbar">
-              <span className="dot" aria-hidden="true" />
-              <span className="kpname">{kpName ?? '未选定知识点'}</span>
-              {!kpName && <span className="kphint">去知识地图选一个，或直接说你卡在哪一步</span>}
-            </span>
-          }
         />
 
       </main>
