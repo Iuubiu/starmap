@@ -57,15 +57,19 @@ export const NO_LEVEL_HINT = '还没有关卡，说一句让我生成';
 export const KP_NOT_FOUND = '没找到这个知识点';
 
 export interface NowLearningCardProps {
-  /** 当前知识点 id；调用方只在该有值时挂这张卡 */
-  microKpId: string;
-  /** 解析链算好的名字（调用方传，卡内不重复解析） */
-  microKpName: string;
+  /**
+   * 当前知识点 id。null = 还没选（HomeV2 冷启动的常态）：卡仍然渲染——
+   * 「换个知识点」搜索与「去地图选」是冷启动就该有的入口，不该等先有对象。
+   * StudySidebar 侧维持条件挂载（那里的引导句住在进度卡里，不在这里重复）。
+   */
+  microKpId: string | null;
+  /** 解析链算好的名字（调用方传，卡内不重复解析）；null = 还没选 */
+  microKpName: string | null;
 }
 
 export function NowLearningCard({ microKpId, microKpName }: NowLearningCardProps) {
   const navigate = useNavigate();
-  const { payload } = useNodeDetail(microKpId);
+  const { payload } = useNodeDetail(microKpId ?? undefined);
   const level = payload?.levels[0];
   const pageLabel = payload?.source?.pageLabel;
   /*
@@ -80,37 +84,44 @@ export function NowLearningCard({ microKpId, microKpName }: NowLearningCardProps
       <Text weight="semibold" as="h3">
         正在学
       </Text>
-      {/* mockup 里名字是这张卡的主文（16px 半粗），比 Caption 系的说明行重一档 */}
-      <Text weight="semibold" className="sm-study-kp">
-        {microKpName}
-      </Text>
-      {/*
-       * 来源行两态（票 08）：有章节路径 → 「章 · 节」为主行、书名页码整句
-       * 降为悬浮；没有路径但有 source → 沿用 pageLabel 行。两样都没有
-       * （手工知识点）不渲染，详情在路上时也不渲染——占位句子会比晚到的
-       * 真句子更吵。
-       */}
-      {pathLine ? (
-        <Caption1 className="sm-study-kp" title={pageLabel ?? undefined}>
-          {pathLine}
-        </Caption1>
-      ) : pageLabel ? (
-        <Caption1 className="sm-study-kp">{pageLabel}</Caption1>
-      ) : null}
-      {/*
-       * 详情没回来前关卡位留空（既不出按钮也不出「还没有关卡」——
-       * 那句话在有关卡的知识点上会闪一下然后变成按钮，像撤回说过的话）。
-       */}
-      {payload === undefined ? null : level ? (
-        <Button
-          size="small"
-          appearance="secondary"
-          onClick={() => navigate(`/level/${encodeURIComponent(level.levelId)}`)}
-        >
-          打开关卡
-        </Button>
+      {/* null 态：没有对象可展示，只给一句引导；搜索与地图入口照常在卡底 */}
+      {microKpName === null || microKpId === null ? (
+        <Caption1 className="sm-study-note">还没选知识点：说一句你想学什么，或按名字找一个。</Caption1>
       ) : (
-        <Caption1 className="sm-study-note">{NO_LEVEL_HINT}</Caption1>
+        <>
+          {/* mockup 里名字是这张卡的主文（16px 半粗），比 Caption 系的说明行重一档 */}
+          <Text weight="semibold" className="sm-study-kp">
+            {microKpName}
+          </Text>
+          {/*
+           * 来源行两态（票 08）：有章节路径 → 「章 · 节」为主行、书名页码整句
+           * 降为悬浮；没有路径但有 source → 沿用 pageLabel 行。两样都没有
+           * （手工知识点）不渲染，详情在路上时也不渲染——占位句子会比晚到的
+           * 真句子更吵。
+           */}
+          {pathLine ? (
+            <Caption1 className="sm-study-kp" title={pageLabel ?? undefined}>
+              {pathLine}
+            </Caption1>
+          ) : pageLabel ? (
+            <Caption1 className="sm-study-kp">{pageLabel}</Caption1>
+          ) : null}
+          {/*
+           * 详情没回来前关卡位留空（既不出按钮也不出「还没有关卡」——
+           * 那句话在有关卡的知识点上会闪一下然后变成按钮，像撤回说过的话）。
+           */}
+          {payload === undefined ? null : level ? (
+            <Button
+              size="small"
+              appearance="secondary"
+              onClick={() => navigate(`/level/${encodeURIComponent(level.levelId)}`)}
+            >
+              打开关卡
+            </Button>
+          ) : (
+            <Caption1 className="sm-study-note">{NO_LEVEL_HINT}</Caption1>
+          )}
+        </>
       )}
       {/* 票 07：按名字/页码搜本地索引切换知识点；「去地图选」仍是另一个入口 */}
       <KpSwitcher />

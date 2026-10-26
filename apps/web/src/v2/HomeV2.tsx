@@ -9,9 +9,14 @@
  * 版式取自样例的四个硬数字：左轨 48 · 会话列 200 · 内容列 920 居中 · 日志列 300。
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router';
 import { useAgentTurns, useSubmitTurn } from '../api/queries/agent';
+import { useTierOverview } from '../api/queries/tier';
 import { ArtifactCard } from '../agent/ArtifactCard';
 import { Composer } from '../components/Composer';
+import { NowLearningCard } from '../components/NowLearningCard';
+import { SessionLimitCard } from '../components/SessionLimitCard';
+import { TierCard } from '../components/TierCard';
 import { Rail } from './Rail';
 import { currentSessionId } from '../agent/session';
 import type { AgentTurnResponse } from '../api/generated/model';
@@ -24,17 +29,21 @@ export function HomeV2() {
   const [sessionId, setSessionId] = useState(() => currentSessionId());
   const [draft, setDraft] = useState('');
   const [sent, setSent] = useState<string>('');
+  /*
+   * 知识点焦点来自地址栏 `?kp=`（「换个知识点」搜索与详情页「问助手」共用这条链）。
+   * 用 useSearchParams 而不是挂载时读一次：同一路由内导航（搜索选点）不会重挂
+   * 组件，只读一次的话右栏会一直停在旧知识点上。
+   */
+  const [searchParams] = useSearchParams();
+  const kpId = searchParams.get('kp');
   const [kpName, setKpName] = useState<string | null>(null);
-  const [kpId, setKpId] = useState<string | null>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get('kp');
-    setKpId(id);
-    if (!id) {
+    if (!kpId) {
       setKpName(null);
       return;
     }
     let alive = true;
-    fetch(`/api/v1/nodes/${encodeURIComponent(id)}`)
+    fetch(`/api/v1/nodes/${encodeURIComponent(kpId)}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((json: { node?: { name?: string } } | null) => {
         if (alive && json?.node?.name) setKpName(json.node.name);
@@ -43,7 +52,7 @@ export function HomeV2() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [kpId]);
 
   /*
    * 本知识点进度（票 89）。三个数字全部来自 `GET /api/v1/mastery/kp/:id`：
@@ -118,6 +127,14 @@ export function HomeV2() {
     listRef.current?.scrollTo?.({ top: listRef.current.scrollHeight });
   }, [rows.length, latest]);
 
+  /*
+   * 提交回合带的档位必须是真的当前档位（票 12 纪律），不能写死 P2。
+   * useTierOverview 与右栏 TierCard 共用 react-query 缓存，不会发两次；
+   * 接口没回来前回落 P1（与 HomePage 的两显式写法一致）。
+   */
+  const { payload: tierOverview } = useTierOverview();
+  const submitTier = tierOverview?.tier ?? 'P1';
+
   /* 右栏的「建议」「常用指令」都走这一个出口：点了就等于学生自己说了一句话。
      不在右栏另写一套提交逻辑，否则两处行为迟早不一致。 */
   const sendText = (raw: string) => {
@@ -127,31 +144,13 @@ export function HomeV2() {
     setDraft('');
     setStages([]);
     setLive('');
-    submit.mutate({ utterance: text, microKpId: '', tier: 'P2' });
+    submit.mutate({ utterance: text, microKpId: '', tier: submitTier });
   };
 
   const send = () => sendText(draft);
 
-  /* 右栏「学习档案」用的三个数：档位取真实 placement，作答/变式暂无接口时显示 0
-     （宁可显示 0 也不编造数字——这是本项目一以贯之的规矩）。 */
-  /* 档位与进度必须是真数据（用户 m38601 之后的自查）。
-     档位读 GET /api/v1/placement；作答/变式目前**没有接口**，因此显示「—」而不是 0 ——
-     显示 0 会让人以为「做了 0 题」，而真相是「这个数还没接上」。 */
-  const [tier, setTier] = useState<string | null>(null);
-  useEffect(() => {
-    let alive = true;
-    fetch('/api/v1/placement')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((json: { status?: string; tier?: string } | null) => {
-        if (!alive || !json) return;
-        setTier(json.tier ?? null);
-      })
-      .catch(() => undefined);
-    return () => {
-      alive = false;
-    };
-  }, []);
-  const tierLabel = tier ?? '—';
+  /* 档位卡的展示（pill/来源两态/basis 判定依据句）由 TierCard 自取数渲染；
+     本页不再自己读 /placement——两个来源迟早说两套话（票 09 集成）。 */
   return (
     <>
       <main className="v2-main">
@@ -237,14 +236,10 @@ export function HomeV2() {
         <h2>学习档案</h2>
         <Rail />
         <div className="v2-archive">
-          <div className="card">
-            <div className="tier">
-              当前档位 <b>{tierLabel}</b>
-            </div>
-            <div className="why">
-              档位是作答证据的测量结果，不能自选；想改档只能多做题。
-            </div>
-          </div>
+          {/* 票 09 集成：学习档案四卡与 StudySidebar 同源（正在学/档位/进度/上限），
+              冷启动没有 kp 时「正在学」卡也挂——搜索与地图入口是第一秒就该有的。 */}
+          <NowLearningCard microKpId={kpId} microKpName={kpName} />
+          <TierCard />
           <div className="card" data-kp-progress>
             <div className="metric">
               <b>本知识点进度</b>
@@ -252,38 +247,41 @@ export function HomeV2() {
             </div>
             {progress === null ? (
               <div className="why">
-                {kpId ? '正在读进度…' : '还没选知识点：去知识地图点一个，或在地址后面加 ?kp=<知识点 id>。'}
+                {kpId ? '正在读进度…' : '还没选知识点：去知识地图点一个，或用上面「换个知识点」按名字找。'}
               </div>
             ) : (
               <>
-                {progress.gates.map((gate) => (
-                  <div
-                    className="gate"
-                    key={gate.key}
-                    data-gate={gate.key}
-                    data-reached={gate.reached ? 'true' : 'false'}
-                  >
-                    <span className="gate-label">{gate.label}</span>
-                    <span className="gate-track" aria-hidden>
-                      {/* 宽度直接用服务端算好的比例：前端不做除法 */}
-                      <i
-                        className="gate-fill"
-                        data-tone={progress.gatePassed ? 'success' : 'neutral'}
-                        style={{ width: `${Math.round(gate.ratio * 100)}%` }}
-                      />
-                    </span>
-                    <span
-                      className="gate-value"
-                      title={
-                        gate.cumulative > gate.target
-                          ? `本关累计 ${gate.cumulative} ${gate.unit}，已到线（阈值 ${gate.target}）`
-                          : `本关 ${gate.value} ${gate.unit}，阈值 ${gate.target}`
-                      }
+                {progress.gates
+                  /* 票 06 起连对进档位卡的 basis 句，进度卡只剩作答/变式两行 */
+                  .filter((gate) => gate.key !== 'streak')
+                  .map((gate) => (
+                    <div
+                      className="gate"
+                      key={gate.key}
+                      data-gate={gate.key}
+                      data-reached={gate.reached ? 'true' : 'false'}
                     >
-                      {gate.value} / {gate.target}
-                    </span>
-                  </div>
-                ))}
+                      <span className="gate-label">{gate.label}</span>
+                      <span className="gate-track" aria-hidden>
+                        {/* 宽度直接用服务端算好的比例：前端不做除法 */}
+                        <i
+                          className="gate-fill"
+                          data-tone={progress.gatePassed ? 'success' : 'neutral'}
+                          style={{ width: `${Math.round(gate.ratio * 100)}%` }}
+                        />
+                      </span>
+                      <span
+                        className="gate-value"
+                        title={
+                          gate.cumulative > gate.target
+                            ? `本关累计 ${gate.cumulative} ${gate.unit}，已到线（阈值 ${gate.target}）`
+                            : `本关 ${gate.value} ${gate.unit}，阈值 ${gate.target}`
+                        }
+                      >
+                        {gate.value} / {gate.target} {gate.unit}
+                      </span>
+                    </div>
+                  ))}
                 <div className="why">
                   {progress.gatePassed
                     ? `本关判定已达标${progress.gateEvaluatedAt ? `（${new Date(progress.gateEvaluatedAt).toLocaleDateString('zh-CN')}）` : ''}`
@@ -292,6 +290,7 @@ export function HomeV2() {
               </>
             )}
           </div>
+          <SessionLimitCard />
         </div>
         <h2>学习日志</h2>
         <h3>实时建议</h3>

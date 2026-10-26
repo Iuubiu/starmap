@@ -26,6 +26,7 @@ import { MemoryRouter, Route, Routes, useSearchParams } from 'react-router';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 import { server } from '../test/msw';
+import { NowLearningCard } from './NowLearningCard';
 import type { GateHistoryResponse, MasteryView, UnlockState } from '../api/queries';
 import type { KpProgressView } from '@starmap/api-contract';
 import {
@@ -617,6 +618,33 @@ describe('票 03：右栏「正在学」卡——名字回到侧栏，细条时�
     expect(screen.queryByRole('heading', { name: '正在学' })).not.toBeInTheDocument();
     // 判据 1：引导句沿用，且全文只出现一次（getByText 多匹配会直接抛错）。
     expect(screen.getByText('还没选知识点：先在下面说一句你想学什么')).toBeInTheDocument();
+  });
+
+  /*
+   * HomeV2 集成态（票 09）：线上首页冷启动没有 kp，但「换个知识点」搜索
+   * 必须从第一秒就可用——否则「按名字找点」只对已经选了点的人存在。
+   * StudySidebar 的条件挂载维持不变；直接挂卡时 null 是合法输入。
+   */
+  it('null 态直接挂卡（HomeV2 集成）：引导句 + 搜索/地图入口在，名字与关卡位不出现', () => {
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    render(
+      <FluentProvider theme={webLightTheme}>
+        <QueryClientProvider client={client}>
+          <MemoryRouter>
+            <NowLearningCard microKpId={null} microKpName={null} />
+          </MemoryRouter>
+        </QueryClientProvider>
+      </FluentProvider>,
+    );
+
+    expect(screen.getByRole('heading', { name: '正在学' })).toBeInTheDocument();
+    expect(screen.getByText(/说一句你想学什么/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '换个知识点' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '去地图选' })).toBeInTheDocument();
+    // 没有可展示的对象：名字位、来源位、关卡位一律不渲染，也不出现占位句子。
+    expect(screen.queryByText('布尔代数基本运算')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '打开关卡' })).not.toBeInTheDocument();
+    expect(screen.queryByText('还没有关卡，说一句让我生成')).not.toBeInTheDocument();
   });
 
   it('选定后：来源行是「章 · 节」路径（08），pageLabel 降为悬浮提示', async () => {
