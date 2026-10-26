@@ -78,3 +78,7 @@ content/embeddings/
 # 探针/救援临时产物
 .scratch/salvage/
 .scratch/*.bak-*
+
+# 演示版与录制产物：只在本地，不入库（用户要求）
+.scratch/demo/
+.scratch/qa/
